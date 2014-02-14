@@ -84,23 +84,23 @@ class UploadAlbumController extends REST {
 	    $this->debug("createAlbum", "currentUserId : " . $currentUser->getId(), null);
 	    $album = new Album();
 	    $album->setActive(true);
-	    $album->setCommentCounter(0);
+	    $album->setCommentcounter(0);
 	    $album->setCounter(0);
 	    $album->setCover(DEFALBUMCOVER);
 	    $album->setDescription($this->request['description']);
 	    if (isset($this->request['featuring']) && is_array($this->request['featuring']) && count($this->request['featuring']) > 0) {
 		$album->setFeaturing($this->request['featuring']);
 	    }
-	    $album->setFromUser($currentUser->getId());
-	    $album->setImageCounter(0);
+	    $album->setFromuser($currentUser->getId());
+	    $album->setImagecounter(0);
 	    if (isset($this->request['city']) && !is_null($this->request['city'])) {
 		$infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
 		$parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
 		$album->setLocation($parseGeoPoint);
 	    }
-	    $album->setLoveCounter(0);
+	    $album->setLovecounter(0);
 	    $album->setLovers(array());
-	    $album->setShareCounter(0);
+	    $album->setSharecounter(0);
 	    $album->setTag(array());
 	    $album->setThumbnailCover(DEFALBUMTHUMB);
 	    $album->setTitle($this->request['albumTitle']);
@@ -203,11 +203,11 @@ class UploadAlbumController extends REST {
     }
 
     /**
-     * \fn	createActivity($fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null)
+     * \fn	createActivity($fromuser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null)
      * \brief   funzione per creazione activity per questo controller
-     * \param   $fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null
+     * \param   $fromuser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null
      */
-    private function createActivity($fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null) {
+    private function createActivity($fromuser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	require_once CLASSES_DIR . 'activityParse.class.php';
 	$activity = new Activity();
@@ -215,7 +215,7 @@ class UploadAlbumController extends REST {
 	$activity->setAlbum($albumId);
 	$activity->setCounter(0);
 	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
+	$activity->setFromuser($fromuser);
 	$activity->setImage($imageId);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);
@@ -317,7 +317,7 @@ class UploadAlbumController extends REST {
 		$image = new Image();
 		$image->setActive(true);
 		$image->setAlbum($albumId);
-		$image->setCommentCounter(0);
+		$image->setCommentcounter(0);
 		$image->setCounter(0);
 		$image->setDescription($imgInfo['description']);
 		if (isset($imgInfo['featuring']) && is_array($imgInfo['featuring']) && count($imgInfo['featuring']) > 0) {
@@ -326,11 +326,11 @@ class UploadAlbumController extends REST {
 		    $image->setFeaturing(null);
 		}
 		$image->setFilePath($imgMoved['image']);
-		$image->setFromUser($currentUser->getId());
+		$image->setFromuser($currentUser->getId());
 		$image->setLocation(null);
-		$image->setLoveCounter(0);
+		$image->setLovecounter(0);
 		$image->setLovers(array());
-		$image->setShareCounter(0);
+		$image->setSharecounter(0);
 		$image->setTag(null);
 		$image->setThumbnail($imgMoved['thumbnail']);
 		$pImage = new ImageParse();
@@ -361,7 +361,7 @@ class UploadAlbumController extends REST {
 		return $resActivity;
 	    }
 	    //aggiorno il contatore del album
-	    $resIncr = $pAlbum->incrementAlbum($albumId, "imageCounter", 1);
+	    $resIncr = $pAlbum->incrementAlbum($albumId, "imagecounter", 1);
 	    if ($resIncr instanceof Error) {
 		$this->debug("addImageToAlbum", " return ----------------------------------", null);
 		return $resIncr;
@@ -433,7 +433,7 @@ class UploadAlbumController extends REST {
 		$retObj = array();
 		$retObj["thumbnail"] = $this->getAlbumThumbnailURL(sessionChecker(), $album->getThumbnail());
 		$retObj["title"] = $album->getTitle();
-		$retObj["images"] = $album->getImageCounter();
+		$retObj["images"] = $album->getImagecounter();
 		$retObj["albumId"] = $album->getId();
 		$albumList[] = $retObj;
 	    }

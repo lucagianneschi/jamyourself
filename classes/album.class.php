@@ -20,20 +20,20 @@
 class Album {
 
     private $id;
-    private $createdAt;
-    private $updatedAt;
+    private $createdat;
+    private $updatedat;
     private $active;
-    private $commentCounter;
+    private $commentcounter;
     private $counter;
     private $cover;
     private $description;
-    private $fromUser;
+    private $fromuser;
     private $image;
-    private $imageCounter;
+    private $imagecounter;
     private $latitude;
     private $longitude;
-    private $loveCounter;
-    private $shareCounter;
+    private $lovecounter;
+    private $sharecounter;
     private $tag;
     private $thumbnail;
     private $title;
@@ -48,21 +48,21 @@ class Album {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
+     * \fn	DateTime getCreatedat()
      * \brief	Return the Album creation date
      * \return	DateTime
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function getCreatedat() {
+	return $this->createdat;
     }
 
     /**
-     * \fn	DateTime getUpdatedAt()
+     * \fn	DateTime getUpdatedat()
      * \brief	Return the Album modification date
      * \return	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function getUpdatedat() {
+	return $this->updatedat;
     }
 
     /**
@@ -75,12 +75,12 @@ class Album {
     }
 
     /**
-     * \fn	getCommentCounter()
+     * \fn	getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
      * \return	int
      */
-    public function getCommentCounter() {
-	return $this->commentCounter;
+    public function getCommentcounter() {
+	return $this->commentcounter;
     }
 
     /**
@@ -111,12 +111,12 @@ class Album {
     }
 
     /**
-     * \fn	getFromUser()
+     * \fn	getFromuser()
      * \brief	Return the id value for the fromUser
      * \return	int
      */
-    public function getFromUser() {
-	return $this->fromUser;
+    public function getFromuser() {
+	return $this->fromuser;
     }
 
     /**
@@ -129,12 +129,12 @@ class Album {
     }
 
     /**
-     * \fn	int getImageCounter()
+     * \fn	int getImagecounter()
      * \brief	Return the image counter value (number of images)
      * \return	int
      */
-    public function getImageCounter() {
-	return $this->imageCounter;
+    public function getImagecounter() {
+	return $this->imagecounter;
     }
 
     /**
@@ -156,21 +156,21 @@ class Album {
     }
 
     /**
-     * \fn	getLoveCounter()
+     * \fn	getLovecounter()
      * \brief	Return the int value of loveCounter, counting the love action on the album
      * \return	int
      */
-    public function getLoveCounter() {
-	return $this->loveCounter;
+    public function getLovecounter() {
+	return $this->lovecounter;
     }
 
     /**
-     * \fn	getShareCounter()
+     * \fn	getSharecounter()
      * \brief	Return the counter for sharing action
      * \return	int
      */
-    public function getShareCounter() {
-	return $this->shareCounter;
+    public function getSharecounter() {
+	return $this->sharecounter;
     }
 
     /**
@@ -210,21 +210,21 @@ class Album {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
+     * \fn	void setCreatedat($createdat)
      * \brief	Sets the Album creation date
      * \param	DateTime
      */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
+    public function setCreatedat($createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn		void setUpdatedAt($updatedAt)
+     * \fn		void setUpdatedat($updatedat)
      * \brief	Sets the Album modification date
      * \param	DateTime
      */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
+    public function setUpdatedat($updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
@@ -237,12 +237,12 @@ class Album {
     }
 
     /**
-     * \fn	void setCommentCounter($commentCounter)
+     * \fn	void setCommentcounter($commentcounter)
      * \brief	Sets the commnetCounter value
      * \param	int
      */
-    public function setCommentCounter($commentCounter) {
-	$this->commentCounter = $commentCounter;
+    public function setCommentcounter($commentcounter) {
+	$this->commentcounter = $commentcounter;
     }
 
     /**
@@ -273,12 +273,12 @@ class Album {
     }
 
     /**
-     * \fn	setFromUser($fromUser))
+     * \fn	setFromuser($fromuser))
      * \brief	Sets the fromUser value, int id
      * \param	int
      */
-    public function setFromUser($fromUser) {
-	$this->fromUser = $fromUser;
+    public function setFromuser($fromuser) {
+	$this->fromuser = $fromuser;
     }
 
     /**
@@ -291,12 +291,12 @@ class Album {
     }
 
     /**
-     * \fn	void setImageCounter($imageCounter)
+     * \fn	void setImagecounter($imagecounter)
      * \brief	Sets the imagetCounter value
      * \param	int
      */
-    public function setImageCounter($imageCounter) {
-	$this->imageCounter = $imageCounter;
+    public function setImagecounter($imagecounter) {
+	$this->imagecounter = $imagecounter;
     }
 
     /**
@@ -318,21 +318,21 @@ class Album {
     }
 
     /**
-     * \fn	void setLoveCounter($loveCounter)
+     * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the loveCounter value
      * \param	int
      */
-    public function setLoveCounter($loveCounter) {
-	$this->loveCounter = $loveCounter;
+    public function setLovecounter($lovecounter) {
+	$this->lovecounter = $lovecounter;
     }
 
     /**
-     * \fn	void setCounter($shareCounter)
-     * \brief	Sets the shareCounter value
+     * \fn	void setCounter($sharecounter)
+     * \brief	Sets the sharecounter value
      * \param	int
      */
-    public function setShareCounter($shareCounter) {
-	$this->shareCounter = $shareCounter;
+    public function setSharecounter($sharecounter) {
+	$this->sharecounter = $sharecounter;
     }
 
     /**
@@ -370,20 +370,20 @@ class Album {
     public function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[createdat] => ' . $this->getCreatedat()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedat] => ' . $this->getUpdatedat()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
-	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
+	$string .= '[commentcounter] => ' . $this->getCommentcounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
-	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
+	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	$string .= '[image] => ' . $this->getImage() . '<br />';
-	$string .= '[imageCounter] => ' . $this->getImageCounter() . '<br />';
+	$string .= '[imagecounter] => ' . $this->getImagecounter() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
-	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
+	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
+	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
 	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';

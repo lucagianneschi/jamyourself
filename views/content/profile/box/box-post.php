@@ -56,13 +56,13 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 		    if ($postCounter > 0) {
 			foreach ($posts as $key => $value) {
 			    $post_objectId = $value->getId();
-			    $post_createdAt = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
-			    $post_fromUser_objectId = $value->getFromUser()->getId();
-			    $post_fromUser_profileThumbnail = $value->getFromUser()->getThumbnail();
-			    $post_fromUser_username = $value->getFromUser()->getUsername();
-			    $post_fromUser_type = $value->getFromUser()->getType();
+			    $post_createdAt = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
+			    $post_fromUser_objectId = $value->getFromuser()->getId();
+			    $post_fromUser_profileThumbnail = $value->getFromuser()->getThumbnail();
+			    $post_fromUser_username = $value->getFromuser()->getUsername();
+			    $post_fromUser_type = $value->getFromuser()->getType();
 			    $post_text = $value->getText();
-			    $post_loveCounter = $value->getLoveCounter();
+			    $post_loveCounter = $value->getLovecounter();
 			    $post_commentCounter = $value->getCommentCounter();
 			    if (in_array($currentUser->getId(), $value->getLovers())) {
 				$css_love = '_love orange';

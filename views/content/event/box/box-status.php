@@ -41,9 +41,9 @@ if (in_array($currentUser->getId(), $event->getLovers())) {
 		<a class="note grey" onclick="share()"><?php echo $views['share']; ?></a>
 	    </div>
 	    <div class="small-5 columns propriety ">					
-		<a class="icon-propriety <?php echo $css_love; ?>"><?php echo $event->getLoveCounter(); ?></a>
+		<a class="icon-propriety <?php echo $css_love; ?>"><?php echo $event->getLovecounter(); ?></a>
 		<a id="commentCounter" class="icon-propriety _comment"><?php echo $event->getCommentCounter(); ?></a>
-		<a class="icon-propriety _share"><?php echo $event->getShareCounter(); ?></a>
+		<a class="icon-propriety _share"><?php echo $event->getSharecounter(); ?></a>
 	    </div>	
 	</div>		
     </div>

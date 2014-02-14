@@ -35,7 +35,7 @@ if (count($posts) == 0) {
         <br /><br />
         <p class="grey"><?php echo $views['stream']['last_post']; ?></p>
         <h5 style="margin-top:0"><?php echo $post->getText(); ?></h5>
-	<?php echo ucwords(strftime("%A %d %B %Y - %H:%M", $post->getCreatedAt()->getTimestamp())); ?>
+	<?php echo ucwords(strftime("%A %d %B %Y - %H:%M", $post->getCreatedat()->getTimestamp())); ?>
         <br />
     </div>
     <?php

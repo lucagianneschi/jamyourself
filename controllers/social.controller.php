@@ -31,7 +31,7 @@ class SocialController extends REST {
 
     /**
      * \fn		addShare()
-     * \brief   increment the shareCounter of an object
+     * \brief   increment the sharecounter of an object
      * \todo
      */
     public function addShare() {
@@ -52,7 +52,7 @@ class SocialController extends REST {
 	    }
 
 	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $fromUser = $_SESSION['currentUser'];
+	    $fromuser = $_SESSION['currentUser'];
 
 	    $classType = $this->request['classType'];
 	    $id = $this->request['id'];
@@ -60,11 +60,11 @@ class SocialController extends REST {
 
 	    require_once CLASSES_DIR . 'activity.class.php';
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $read = $fromUser->getId() == $toUserObjectId ? true : false;
+	    $read = $fromuser->getId() == $toUserObjectId ? true : false;
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setCounter(0);
-	    $activity->setFromUser($fromUser->getId());
+	    $activity->setFromuser($fromuser->getId());
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
 	    $activity->setRead($read);
@@ -74,49 +74,49 @@ class SocialController extends REST {
 		case 'Album':
 		    require_once CLASSES_DIR . 'albumParse.class.php';
 		    $albumParse = new AlbumParse();
-		    $res = $albumParse->incrementAlbum($id, 'shareCounter', 1);
+		    $res = $albumParse->incrementAlbum($id, 'sharecounter', 1);
 		    $activity->setAlbum($id);
 		    $activity->setType('SHAREDALBUM');
 		    break;
 		case 'AlbumReview':
 		    require_once CLASSES_DIR . 'commentParse.class.php';
 		    $commentParse = new CommentParse();
-		    $res = $commentParse->incrementComment($id, 'shareCounter', 1);
+		    $res = $commentParse->incrementComment($id, 'sharecounter', 1);
 		    $activity->setComment($id);
 		    $activity->setType('SHAREDALBUMREVIEW');
 		    break;
 		case 'Event':
 		    require_once CLASSES_DIR . 'eventParse.class.php';
 		    $eventParse = new EventParse();
-		    $res = $eventParse->incrementEvent($id, 'shareCounter', 1);
+		    $res = $eventParse->incrementEvent($id, 'sharecounter', 1);
 		    $activity->setEvent($id);
 		    $activity->setType('SHAREDEVENT');
 		    break;
 		case 'EventReview':
 		    require_once CLASSES_DIR . 'commentParse.class.php';
 		    $commentParse = new CommentParse();
-		    $res = $commentParse->incrementComment($id, 'shareCounter', 1);
+		    $res = $commentParse->incrementComment($id, 'sharecounter', 1);
 		    $activity->setComment($id);
 		    $activity->setType('SHAREDEVENTREVIEW');
 		    break;
 		case 'Image':
 		    require_once CLASSES_DIR . 'imageParse.class.php';
 		    $imageParse = new ImageParse();
-		    $res = $imageParse->incrementImage($id, 'shareCounter', 1);
+		    $res = $imageParse->incrementImage($id, 'sharecounter', 1);
 		    $activity->setImage($id);
 		    $activity->setType('SHAREDIMAGE');
 		    break;
 		case 'Record':
 		    require_once CLASSES_DIR . 'recordParse.class.php';
 		    $recordParse = new RecordParse();
-		    $res = $recordParse->incrementRecord($id, 'shareCounter', 1);
+		    $res = $recordParse->incrementRecord($id, 'sharecounter', 1);
 		    $activity->setRecord($id);
 		    $activity->setType('SHAREDRECORD');
 		    break;
 		case 'Song':
 		    require_once CLASSES_DIR . 'songParse.class.php';
 		    $songParse = new SongParse();
-		    $res = $songParse->incrementSong($id, 'shareCounter', 1);
+		    $res = $songParse->incrementSong($id, 'sharecounter', 1);
 		    $activity->setSong($id);
 		    $activity->setType('SHAREDSONG');
 		    break;
@@ -192,7 +192,7 @@ class SocialController extends REST {
 	    $activity->setComment(null);
 	    $activity->setCounter(0);
 	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUser->getId());
+	    $activity->setFromuser($currentUser->getId());
 	    $activity->setImage(null);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
@@ -266,7 +266,7 @@ class SocialController extends REST {
 	    $activity->setComment(null);
 	    $activity->setCounter(0);
 	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUser->getId());
+	    $activity->setFromuser($currentUser->getId());
 	    $activity->setImage(null);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
@@ -328,7 +328,7 @@ class SocialController extends REST {
 	    $activity->setComment(null);
 	    $activity->setCounter(0);
 	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUser->getId());
+	    $activity->setFromuser($currentUser->getId());
 	    $activity->setImage(null);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);

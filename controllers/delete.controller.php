@@ -54,7 +54,7 @@ class DeleteController extends REST {
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setCounter(0);
-	    $activity->setFromUser($currentUser->getId());
+	    $activity->setFromuser($currentUser->getId());
 	    $activity->setRead(true);
 	    $activity->setStatus("A");
 	    switch ($classType) {
@@ -64,7 +64,7 @@ class DeleteController extends REST {
 		    if ($act instanceof Error) {
 			$this->response(array('status' => $controllers['NOACTIVITFORDELETE']), 503);
 		    }
-		    if ($currentUser->getId() == $act->getFromUser()) {
+		    if ($currentUser->getId() == $act->getFromuser()) {
 			$res = $activityParse->deleteActivity($id);
 			$activity->setType("DELETEDACTIVITY");
 		    } else {
@@ -78,7 +78,7 @@ class DeleteController extends REST {
 		    if ($album instanceof Error) {
 			$this->response(array('status' => $controllers['NOALBUMFORDELETE']), 503);
 		    }
-		    if ($currentUser->getId() == $album->getFromUser()) {
+		    if ($currentUser->getId() == $album->getFromuser()) {
 			$res = $albumParse->deleteAlbum($id);
 			$activity->setAlbum($id);
 			$activity->setType("DELETEDALBUM");
@@ -93,7 +93,7 @@ class DeleteController extends REST {
 		    if ($comment instanceof Error) {
 			$this->response(array('status' => $controllers['NOCOMMENTFORDELETE']), 503);
 		    }
-		    if ($currentUser->getId() == $comment->getFromUser()) {
+		    if ($currentUser->getId() == $comment->getFromuser()) {
 			$res = $commentParse->deleteComment($id);
 			$activity->setComment($id);
 			$activity->setType("DELETEDCOMMENT");
@@ -108,7 +108,7 @@ class DeleteController extends REST {
 		    if ($event instanceof Error) {
 			$this->response(array('status' => $controllers['NOEVENTFORDELETE']), 503);
 		    }
-		    if ($currentUser->getId() == $event->getFromUser()) {
+		    if ($currentUser->getId() == $event->getFromuser()) {
 			$res = $eventParse->deleteEvent($id);
 			$activity->setEvent($id);
 			$activity->setType("DELETEDEVENT");
@@ -123,7 +123,7 @@ class DeleteController extends REST {
 		    if ($image instanceof Error) {
 			$this->response(array('status' => $controllers['NOIMAGEFORDELETE']), 503);
 		    }
-		    if ($currentUser->getId() == $image->getFromUser()) {
+		    if ($currentUser->getId() == $image->getFromuser()) {
 			$res = $imageParse->deleteImage($id);
 			$activity->setImage($id);
 			$activity->setType("DELETEDIMAGE");
@@ -138,7 +138,7 @@ class DeleteController extends REST {
 		    if ($playlist instanceof Error) {
 			$this->response(array($controllers['NOPLAYLISTFORDELETE']), 503);
 		    }
-		    if ($currentUser->getId() == $playlist->getFromUser()) {
+		    if ($currentUser->getId() == $playlist->getFromuser()) {
 			$res = $playlistParse->deletePlaylist($id);
 			$activity->setPlaylist($id);
 			$activity->setType("DELETEDPLAYLIST");
@@ -153,7 +153,7 @@ class DeleteController extends REST {
 		    if ($record instanceof Error) {
 			$this->response(array('status' => $controllers['NORECORDFORDELETE']), 503);
 		    }
-		    if ($currentUser->getId() == $record->getFromUser()) {
+		    if ($currentUser->getId() == $record->getFromuser()) {
 			$res = $recordParse->deleteRecord($id);
 			$activity->setRecord($id);
 			$activity->setType("DELETEDRECORD");
@@ -168,7 +168,7 @@ class DeleteController extends REST {
 		    if ($song instanceof Error) {
 			$this->response(array('status' => $controllers['NOSONGFORDELETE']), 503);
 		    }
-		    if ($currentUser->getId() == $song->getFromUser()) {
+		    if ($currentUser->getId() == $song->getFromuser()) {
 			$res = $songParse->deleteSong($id);
 			$activity->setSong($id);
 			$activity->setType("DELETEDSONG");
@@ -208,7 +208,7 @@ class DeleteController extends REST {
 		    if ($video instanceof Error) {
 			$this->response(array('status' => $controllers['NOVIDEOFORDELETE']), 503);
 		    }
-		    if ($currentUser->getId() == $video->getFromUser()) {
+		    if ($currentUser->getId() == $video->getFromuser()) {
 			$res = $videoParse->deleteVideo($id);
 			$activity->setType("DELETEDVIDEO");
 			$activity->setVideo($id);

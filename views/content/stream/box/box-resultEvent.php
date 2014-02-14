@@ -60,24 +60,24 @@ if (is_null($eventBox->error)) {
 		    ?><div class="rsContent"> <?php } ?>
 	    	<div id="<?php echo $value->getId(); ?>">
 	    	    <div class="box ">
-	    		<a href="profile.php?user=<?php echo $value->getFromUser()->getId() ?>">
+	    		<a href="profile.php?user=<?php echo $value->getFromuser()->getId() ?>">
 	    		    <div class="row line">
 	    			<div class="small-1 columns ">
 	    			    <div class="icon-header">
 	    				<!--THUMB FROMUSER-->
 					    <?php
 					    $fileManagerService = new FileManagerService();
-					    $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromUser()->getId(), $value->getFromUser()->getThumbnail());
+					    $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromuser()->getId(), $value->getFromuser()->getThumbnail());
 					    ?>
-	    				<img src="<?php echo $pathPictureThumbFromUser; ?>" onerror="this.src='<?php echo DEFAVATARJAMMER; ?>'" alt="<?php echo $value->getFromUser()->getUsername(); ?>">
+	    				<img src="<?php echo $pathPictureThumbFromUser; ?>" onerror="this.src='<?php echo DEFAVATARJAMMER; ?>'" alt="<?php echo $value->getFromuser()->getUsername(); ?>">
 	    			    </div>
 	    			</div>
 	    			<div class="small-5 columns">
 	    			    <div class="text grey" style="margin-bottom: 0px;">
-	    				<strong><?php echo $value->getFromUser()->getUsername(); ?></strong>
+	    				<strong><?php echo $value->getFromuser()->getUsername(); ?></strong>
 	    			    </div>
 	    			    <div class="note orange">
-	    				<strong><?php echo $value->getFromUser()->getType(); ?></strong>
+	    				<strong><?php echo $value->getFromuser()->getType(); ?></strong>
 	    			    </div>
 	    			</div>
 	    			<div class="small-6 columns propriety">
@@ -92,7 +92,7 @@ if (is_null($eventBox->error)) {
 	    				    <div class="row">
 	    					<div class="small-2 columns ">
 							<?php
-							$pathEventThumb = $fileManagerService->getEventPhotoPath($value->getFromUser()->getId(), $value->getThumbnail());
+							$pathEventThumb = $fileManagerService->getEventPhotoPath($value->getFromuser()->getId(), $value->getThumbnail());
 							?>
 	    					    <div class="coverThumb"><img src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $value->getTitle(); ?>"></div>						
 	    					</div>

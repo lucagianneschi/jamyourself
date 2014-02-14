@@ -43,18 +43,18 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    if ($reviewCounter > 0) {
 		$indice = 1;
 		foreach ($reviews as $key => $value) {
-		    $review_user_objectId = $value->getFromUser()->getId();
-		    $review_user_thumbnail = $value->getFromUser()->getThumbnail();
-		    $review_user_username = $value->getFromUser()->getUsername();
-		    $review_user_type = $value->getFromUser()->getType();
+		    $review_user_objectId = $value->getFromuser()->getId();
+		    $review_user_thumbnail = $value->getFromuser()->getThumbnail();
+		    $review_user_username = $value->getFromuser()->getUsername();
+		    $review_user_type = $value->getFromuser()->getType();
 		    $review_objectId = $value->getId();
-		    $review_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
+		    $review_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
 		    $review_title = $value->getTitle();
 		    $review_text = $value->getText();
 		    $review_rating = $value->getVote();
-		    $review_counter_love = $value->getLoveCounter();
+		    $review_counter_love = $value->getLovecounter();
 		    $review_counter_comment = $value->getCommentCounter();
-		    $review_counter_share = $value->getShareCounter();
+		    $review_counter_share = $value->getSharecounter();
 		    if (in_array($currentUser->getId(), $value->getLovers())) {
 			$css_love = '_love orange';
 			$text_love = $views['unlove'];

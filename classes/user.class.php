@@ -20,8 +20,8 @@
 class User {
 
     private $id;
-    private $createdAt;
-    private $updatedAt;
+    private $createdat;
+    private $updatedat;
     private $password;
     private $active;
     private $address;
@@ -29,35 +29,35 @@ class User {
     private $background;
     private $birthDay;
     private $city;
-    private $collaborationCounter;
+    private $collaborationcounter;
     private $country;
     private $description;
     private $email;
     private $facebookId;
     private $fbPage;
     private $firstname;
-    private $followersCounter;
-    private $followingCounter;
-    private $friendshipCounter;
-    private $googlePlusPage;
-    private $jammerCounter;
-    private $jammerType;
+    private $followerscounter;
+    private $followingcounter;
+    private $friendshipcounter;
+    private $googlepluspage;
+    private $jammercounter;
+    private $jammertype;
     private $lastname;
     private $latitude;
     private $level;
-    private $levelValue;
+    private $levelvalue;
     private $longitude;
     private $premium;
-    private $premiumExpirationDate;
+    private $premiumexpirationdate;
     private $thumbnail;
     private $settings;
     private $sex;
-    private $twitterPage;
+    private $twitterpage;
     private $type;
     private $username;
-    private $venueCounter;
+    private $venuecounter;
     private $website;
-    private $youtubeChannel;
+    private $youtubechannel;
 
     /**
      * \fn	void __construct($type)
@@ -84,21 +84,21 @@ class User {
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
+     * \fn		DateTime getCreatedat()
      * \brief	Return the User creation date
      * \return	DateTime
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function getCreatedat() {
+	return $this->createdat;
     }
 
     /**
-     * \fn		DateTime getUpdatedAt()
+     * \fn		DateTime getUpdatedat()
      * \brief	Return the User modification date
      * \return	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function getUpdatedat() {
+	return $this->updatedat;
     }
 
     /**
@@ -156,12 +156,12 @@ class User {
     }
 
     /**
-     * \fn		number getCollaborationCounter()
+     * \fn		number getCollaborationcounter()
      * \brief	Return the number of User in collaboration with
      * \return	number
      */
-    public function getCollaborationCounter() {
-	return $this->collaborationCounter;
+    public function getCollaborationcounter() {
+	return $this->collaborationcounter;
     }
 
     /**
@@ -223,17 +223,17 @@ class User {
      * \brief	Return the number of User followed
      * \return	number
      */
-    public function getFollowersCounter() {
-	return $this->followersCounter;
+    public function getFollowerscounter() {
+	return $this->followerscounter;
     }
 
     /**
-     * \fn		number getFollowingCounter()
+     * \fn		number getFollowingcounter()
      * \brief	Return the number of User followed
      * \return	number
      */
-    public function getFollowingCounter() {
-	return $this->followingCounter;
+    public function getFollowingcounter() {
+	return $this->followingcounter;
     }
 
     /**
@@ -241,35 +241,35 @@ class User {
      * \brief	Return the number of User in friendship relation
      * \return	number
      */
-    public function getFriendshipCounter() {
-	return $this->friendshipCounter;
+    public function getFriendshipcounter() {
+	return $this->friendshipcounter;
     }
 
     /**
-     * \fn		string getGooglePlusPage()
+     * \fn		string getGooglepluspage()
      * \brief	Return the googlePlus page link of the User
      * \return	string
      */
-    public function getGooglePlusPage() {
-	return $this->googlePlusPage;
+    public function getGooglepluspage() {
+	return $this->googlepluspage;
     }
 
     /**
-     * \fn		number getJammerCounter()
+     * \fn		number getJammercounter()
      * \brief	Return the jammer counter, number of Jammer in collaboration
      * \return	number
      */
-    public function getJammerCounter() {
-	return $this->jammerCounter;
+    public function getJammercounter() {
+	return $this->jammercounter;
     }
 
     /**
-     * \fn		string getJammerType()
+     * \fn		string getJammertype()
      * \brief	Return the jammer type of the User
      * \return	string
      */
-    public function getJammerType() {
-	return $this->jammerType;
+    public function getJammertype() {
+	return $this->jammertype;
     }
 
     /**
@@ -300,12 +300,12 @@ class User {
     }
 
     /**
-     * \fn		number getLevelValue()
+     * \fn		number getLevelvalue()
      * \brief	Return the level value of the User
      * \return	number
      */
-    public function getLevelValue() {
-	return $this->levelValue;
+    public function getLevelvalue() {
+	return $this->levelvalue;
     }
 
     /**
@@ -336,12 +336,12 @@ class User {
     }
 
     /**
-     * \fn		DateTime getPremiumExpirationDate()
+     * \fn		DateTime getPremiumexpirationdate()
      * \brief	Return the expiration date of the premium account of the User
      * \return	DateTime
      */
-    public function getPremiumExpirationDate() {
-	return $this->premiumExpirationDate;
+    public function getPremiumexpirationdate() {
+	return $this->premiumexpirationdate;
     }
 
     /**
@@ -372,12 +372,12 @@ class User {
     }
 
     /**
-     * \fn		string getTwitterPage()
+     * \fn		string getTwitterpage()
      * \brief	Return the twitter page link of the User
      * \return	string
      */
-    public function getTwitterPage() {
-	return $this->twitterPage;
+    public function getTwitterpage() {
+	return $this->twitterpage;
     }
 
     /**
@@ -399,12 +399,12 @@ class User {
     }
 
     /**
-     * \fn		number getVenueCounter()
+     * \fn		number getVenuecounter()
      * \brief	Return venue counter, number of venue in collaboration
      * \return	number
      */
-    public function getVenueCounter() {
-	return $this->venueCounter;
+    public function getVenuecounter() {
+	return $this->venuecounter;
     }
 
     /**
@@ -417,12 +417,12 @@ class User {
     }
 
     /**
-     * \fn		string getYoutubeChannel()
+     * \fn		string getYoutubechannel()
      * \brief	Return the youtube channel link of the User
      * \return	string
      */
-    public function getYoutubeChannel() {
-	return $this->youtubeChannel;
+    public function getYoutubechannel() {
+	return $this->youtubechannel;
     }
 
     /**
@@ -435,21 +435,21 @@ class User {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
+     * \fn	void setCreatedat($createdat)
      * \brief	Sets the User creation date
      * \param	DateTime
      */
-    public function setUpdatedAt(DateTime $updatedAt) {
-	$this->updatedAt = $updatedAt;
+    public function setUpdatedat(DateTime $updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
-     * \fn	void setUpdatedAt($updatedAt)
+     * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the User modification date
      * \param	DateTime
      */
-    public function setCreatedAt(DateTime $createdAt) {
-	$this->createdAt = $createdAt;
+    public function setCreatedat(DateTime $createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
@@ -507,12 +507,12 @@ class User {
     }
 
     /**
-     * \fn	void setLevel($collaborationCounter)
-     * \brief	Sets the collaborationCounter of the User
+     * \fn	void setLevel($collaborationcounter)
+     * \brief	Sets the collaborationcounter of the User
      * \param	number
      */
-    public function setCollaborationCounter($collaborationCounter) {
-	$this->collaborationCounter = $collaborationCounter;
+    public function setCollaborationcounter($collaborationcounter) {
+	$this->collaborationcounter = $collaborationcounter;
     }
 
     /**
@@ -570,57 +570,57 @@ class User {
     }
 
     /**
-     * \fn	void setFollowersCounter($followersCounter)
-     * \brief	Sets the followersCounter of the User
+     * \fn	void setFollowerscounter($followerscounter)
+     * \brief	Sets the followerscounter of the User
      * \param	number
      */
-    public function setFollowersCounter($followersCounter) {
-	$this->followersCounter = $followersCounter;
+    public function setFollowerscounter($followerscounter) {
+	$this->followerscounter = $followerscounter;
     }
 
     /**
-     * \fn	void setFollowingCounter($followingCounter)
-     * \brief	Sets the followingCounter of the User
+     * \fn	void setFollowingcounter($followingcounter)
+     * \brief	Sets the followingcounter of the User
      * \param	number
      */
-    public function setFollowingCounter($followingCounter) {
-	$this->followingCounter = $followingCounter;
+    public function setFollowingcounter($followingcounter) {
+	$this->followingcounter = $followingcounter;
     }
 
     /**
-     * \fn	void setFriendshipCounter($friendshipCounter)
-     * \brief	Sets the friendshipCounter of the User
+     * \fn	void setFriendshipcounter($friendshipcounter)
+     * \brief	Sets the friendshipcounter of the User
      * \param	number
      */
-    public function setFriendshipCounter($friendshipCounter) {
-	$this->friendshipCounter = $friendshipCounter;
+    public function setFriendshipcounter($friendshipcounter) {
+	$this->friendshipcounter = $friendshipcounter;
     }
 
     /**
-     * \fn	void setGooglePlusPage($googlePlusPage)
+     * \fn	void setGooglepluspage($googlepluspage)
      * \brief	Sets the google plus page link of the User
      * \param	string
      */
-    public function setGooglePlusPage($googlePlusPage) {
-	$this->googlePlusPage = $googlePlusPage;
+    public function setGooglepluspage($googlepluspage) {
+	$this->googlepluspage = $googlepluspage;
     }
 
     /**
-     * \fn	void setJammerCounter($jammerCounter)
+     * \fn	void setJammercounter($jammercounter)
      * \brief	Sets the jammer counter 
      * \param	number
      */
-    public function setJammerCounter($jammerCounter) {
-	$this->jammerCounter = $jammerCounter;
+    public function setJammercounter($jammercounter) {
+	$this->jammercounter = $jammercounter;
     }
 
     /**
-     * \fn	void setJammerType($jammerType)
+     * \fn	void setJammertype($jammertype)
      * \brief	Sets the jammer type of the User
      * \param	string
      */
-    public function setJammerType($jammerType) {
-	$this->jammerType = $jammerType;
+    public function setJammertype($jammertype) {
+	$this->jammertype = $jammertype;
     }
 
     /**
@@ -651,12 +651,12 @@ class User {
     }
 
     /**
-     * \fn		void setLevelValue($levelValue)
+     * \fn		void setLevelvalue($levelvalue)
      * \brief	Sets the level value of the User
      * \param	number
      */
-    public function setLevelValue($levelValue) {
-	$this->view = $levelValue;
+    public function setLevelvalue($levelvalue) {
+	$this->view = $levelvalue;
     }
 
     /**
@@ -696,12 +696,12 @@ class User {
     }
 
     /**
-     * \fn		void setPremiumExpirationDate($premiumExpirationDate)
+     * \fn		void setPremiumexpirationdate($premiumexpirationdate)
      * \brief	Sets the expiration date of the User Premium account
      * \param	DateTime
      */
-    public function setPremiumExpirationDate($premiumExpirationDate) {
-	$this->premiumExpirationDate = $premiumExpirationDate;
+    public function setPremiumexpirationdate($premiumexpirationdate) {
+	$this->premiumexpirationdate = $premiumexpirationdate;
     }
 
     /**
@@ -732,12 +732,12 @@ class User {
     }
 
     /**
-     * \fn	void setTwitterPage($twitterPage)
+     * \fn	void setTwitterpage($twitterpage)
      * \brief	Sets the twitter page link of the User
      * \param	string
      */
-    public function setTwitterPage($twitterPage) {
-	$this->twitterPage = $twitterPage;
+    public function setTwitterpage($twitterpage) {
+	$this->twitterpage = $twitterpage;
     }
 
     /**
@@ -759,12 +759,12 @@ class User {
     }
 
     /**
-     * \fn	void setVenueCounter($venueCounter)
+     * \fn	void setVenuecounter($venuecounter)
      * \brief	Sets the venue counter 
      * \param	number
      */
-    public function setVenueCounter($venueCounter) {
-	$this->venueCounter = $venueCounter;
+    public function setVenuecounter($venuecounter) {
+	$this->venuecounter = $venuecounter;
     }
 
     /**
@@ -777,12 +777,12 @@ class User {
     }
 
     /**
-     * \fn	void setYoutubeChannel($youtubeChannel)
+     * \fn	void setYoutubechannel($youtubechannel)
      * \brief	Sets the youtube channel link of the User
      * \param	string
      */
-    public function setYoutubeChannel($youtubeChannel) {
-	$this->youtubeChannel = $youtubeChannel;
+    public function setYoutubechannel($youtubechannel) {
+	$this->youtubechannel = $youtubechannel;
     }
 
     /**
@@ -793,48 +793,48 @@ class User {
     public function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[createdat] => ' . $this->getCreatedat()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedat] => ' . $this->getUpdatedat()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[address] => ' . $this->getAddress() . '<br />';
 	$string .= '[avatar] => ' . $this->getAvatar() . '<br />';
 	$string .= '[background] => ' . $this->getBackground() . '<br />';
 	$string .= '[birthDay] => ' . $this->getBirthDay() . '<br />';
 	$string .= '[city] => ' . $this->getCity() . '<br />';
-	$string .= '[collaborationCounter] => ' . $this->getCollaborationCounter() . '<br />';
+	$string .= '[collaborationcounter] => ' . $this->getCollaborationcounter() . '<br />';
 	$string .= '[country] => ' . $this->getCountry() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	$string .= '[email] => ' . $this->getEmail() . '<br />';
 	$string .= '[facebookId] => ' . $this->getFacebookId() . '<br />';
 	$string .= '[fbPage] => ' . $this->getFbPage() . '<br />';
 	$string .= '[firstname] => ' . $this->getFirstname() . '<br />';
-	$string .= '[followersCounter] => ' . $this->getFollowersCounter() . '<br />';
-	$string .= '[followingCounter] => ' . $this->getFollowingCounter() . '<br />';
-	$string .= '[friendshipCounter] => ' . $this->getFriendshipCounter() . '<br />';
-	$string .= '[googlePlusPage] => ' . $this->getGooglePlusPage() . '<br />';
-	$string .= '[jammerCounter] => ' . $this->getJammerCounter() . '<br />';
-	$string .= '[jammerType] => ' . $this->getJammerType() . '<br />';
+	$string .= '[followerscounter] => ' . $this->getFollowerscounter() . '<br />';
+	$string .= '[followingcounter] => ' . $this->getFollowingcounter() . '<br />';
+	$string .= '[friendshipcounter] => ' . $this->getFriendshipcounter() . '<br />';
+	$string .= '[googlepluspage] => ' . $this->getGooglepluspage() . '<br />';
+	$string .= '[jammercounter] => ' . $this->getJammercounter() . '<br />';
+	$string .= '[jammertype] => ' . $this->getJammertype() . '<br />';
 	$string .= '[lastname] => ' . $this->getLastname() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[level] => ' . $this->getLevel() . '<br />';
-	$string .= '[levelValue] => ' . $this->getLevelValue() . '<br />';
+	$string .= '[levelvalue] => ' . $this->getLevelvalue() . '<br />';
 	$string .= '[password] => ' . $this->getPassword() . '<br />';
 	$string .= '[premium] => ' . $this->getPremium() . '<br />';
-	if ($this->getPremiumExpirationDate() != null) {
-	    $string .= '[premiumExpirationDate] => ' . $this->getPremiumExpirationDate()->format('d-m-Y H:i:s') . '<br />';
+	if ($this->getPremiumexpirationdate() != null) {
+	    $string .= '[premiumexpirationdate] => ' . $this->getPremiumexpirationdate()->format('d-m-Y H:i:s') . '<br />';
 	} else {
-	    $string .= '[premiumExpirationDate] => NULL<br />';
+	    $string .= '[premiumexpirationdate] => NULL<br />';
 	}
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[settings] => ' . $this->getSettings() . '<br />';
 	$string .= '[sex] => ' . $this->getSex() . '<br />';
-	$string .= '[twitterPage] => ' . $this->getTwitterPage() . '<br />';
+	$string .= '[twitterpage] => ' . $this->getTwitterpage() . '<br />';
 	$string .= '[type] => ' . $this->getType() . '<br />';
 	$string .= '[username] => ' . $this->getUsername() . '<br />';
-	$string .= '[venueCounter] => ' . $this->getVenueCounter() . '<br />';
+	$string .= '[venuecounter] => ' . $this->getVenuecounter() . '<br />';
 	$string .= '[website] => ' . $this->getWebsite() . '<br />';
-	$string .= '[youtubeChannel] => ' . $this->getYoutubeChannel() . '<br />';
+	$string .= '[youtubechannel] => ' . $this->getYoutubechannel() . '<br />';
 	return $string;
     }
 

@@ -67,12 +67,12 @@ class PlayerController extends REST {
     }
 
     /**
-     * \fn	createActivity($type, $fromUser, $recordId, $songId)
+     * \fn	createActivity($type, $fromuser, $recordId, $songId)
      * \brief   create activity for playslitControlelr
-     * \param   $type, $fromUser, $recordId, $songId
+     * \param   $type, $fromuser, $recordId, $songId
      * \return  $activity     
      */
-    private function createActivity($fromUser, $recordId, $songId) {
+    private function createActivity($fromuser, $recordId, $songId) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	$activity = new Activity();
 	$activity->setActive(true);
@@ -80,7 +80,7 @@ class PlayerController extends REST {
 	$activity->setComment(null);
 	$activity->setCounter(0);
 	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
+	$activity->setFromuser($fromuser);
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);

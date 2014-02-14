@@ -111,7 +111,7 @@ class SignupController extends REST {
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new Activity();
 	    $activity->setActive(true);
-	    $activity->setFromUser($user->getId());
+	    $activity->setFromuser($user->getId());
 	    $activity->setRead(true);
 	    $activity->setStatus("A");
 	    $activity->setType("SIGNEDUP");
@@ -291,7 +291,7 @@ class SignupController extends REST {
 	require_once CLASSES_DIR . 'playlistParse.class.php';
 	$playlist = new Playlist();
 	$playlist->setActive(true);
-	$playlist->setFromUser($userId);
+	$playlist->setFromuser($userId);
 	$playlist->setName(DEF_PLAY);
 	$playlist->setSongsArray(array());
 	$playlist->setUnlimited(false);
@@ -310,9 +310,9 @@ class SignupController extends REST {
 	$album = new Album();
 	$album->setActive(true);
 	$album->setCounter(0);
-	$album->setFromUser($userId);
-	$album->setLoveCounter(0);
-	$album->setShareCounter(0);
+	$album->setFromuser($userId);
+	$album->setLovecounter(0);
+	$album->setSharecounter(0);
 	$album->setTitle(DEF_ALBUM);
 	$pAlbum = new AlbumParse();
 	return $pAlbum->saveAlbum($album);
@@ -329,10 +329,10 @@ class SignupController extends REST {
 	$record = new Record();
 	$record->setActive(true);
 	$record->setDuration(0);
-	$record->setFromUser($userId);
-	$record->setLoveCounter(0);
+	$record->setFromuser($userId);
+	$record->setLovecounter(0);
 	$record->setReviewCounter(0);
-	$record->setShareCounter(0);
+	$record->setSharecounter(0);
 	$record->setTitle(DEF_REC);
 	$record->setYear(date("Y"));
 	$pRecord = new RecordParse();

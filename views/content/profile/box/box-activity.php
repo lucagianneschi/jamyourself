@@ -245,7 +245,7 @@ if (isset($data['eventInfo']['id']) && $data['eventInfo']['id'] != '') {
 				    <div class="row " style="margin-bottom: 10px;">
 					<div  class="small-12 columns ">
 					    <span class="text grey-dark" style="cursor:pointer"><?php echo $value->getTitle(); ?></span>
-					    <span class="text grey"> - <?php echo $value->getImageCounter(); ?> <?php echo $views['activity']['photos']; ?> </span>
+					    <span class="text grey"> - <?php echo $value->getImagecounter(); ?> <?php echo $views['activity']['photos']; ?> </span>
 					</div>
 				    </div>
 				    <div class="row ">
@@ -255,7 +255,7 @@ if (isset($data['eventInfo']['id']) && $data['eventInfo']['id'] != '') {
 						#TODO
 						//questa è una relazione, quindi la devo includere con una whereRelatedTo
 						/*
-						  $counterPhoto = $value->getImageCounter() > 4 ? 4 : $value->getImageCounter();
+						  $counterPhoto = $value->getImagecounter() > 4 ? 4 : $value->getImagecounter();
 						  for ($i = 1; $i < $counterPhoto; $i++) {
 						  ?>
 						  <li><img src="../media/<?php echo $data['albumInfo']['imageArray'][$i]?>" onerror="this.src='<?php echo DEFIMAGE; ?>'"></li>

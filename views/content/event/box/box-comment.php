@@ -28,7 +28,7 @@ $commentBox->init($id, 'Event', $limit, $skip);
 if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
     $comments = $commentBox->commentArray;
-    $commentCounter = count($comments);
+    $commentcounter = count($comments);
     ?>
     <div class="row" id="social-Comment <?php echo $id; ?>">
         <div  class="large-12 columns">
@@ -56,24 +56,24 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
     		</div>
 
 		    <?php
-		    $comment_limit_count = $commentCounter > $limit ? $limit : $commentCounter;
-		    $comment_other = $comment_limit_count >= $commentCounter ? 0 : ($commentCounter - $comment_limit_count);
-		    if ($commentCounter > 0) {
+		    $comment_limit_count = $commentcounter > $limit ? $limit : $commentcounter;
+		    $comment_other = $comment_limit_count >= $commentcounter ? 0 : ($commentcounter - $comment_limit_count);
+		    if ($commentcounter > 0) {
 			$indice = 1;
 			foreach ($comments as $key => $value) {
-			    $comment_user_objectId = $value->getFromUser()->getId();
-			    $comment_user_thumbnail = $value->getFromUser()->getThumbnail();
-			    $comment_user_username = $value->getFromUser()->getUsername();
-			    $comment_user_type = $value->getFromUser()->getType();
+			    $comment_user_objectId = $value->getFromuser()->getId();
+			    $comment_user_thumbnail = $value->getFromuser()->getThumbnail();
+			    $comment_user_username = $value->getFromuser()->getUsername();
+			    $comment_user_type = $value->getFromuser()->getType();
 			    $comment_objectId = $value->getId();
-			    $comment_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
+			    $comment_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
 			    $comment_text = $value->getText();
 			    #TODO
 			    //$comment_rating = $value->getRating();
-			    $comment_counter_love = $value->getLoveCounter();
+			    $comment_counter_love = $value->getLovecounter();
 			    $comment_counter_comment = $value->getCommentCounter();
-			    $comment_counter_share = $value->getShareCounter();
-			    switch ($value->getFromUser()->getType()) {
+			    $comment_counter_share = $value->getSharecounter();
+			    switch ($value->getFromuser()->getType()) {
 				case 'JAMMER':
 				    $defaultThum = DEFTHUMBJAMMER;
 				    break;
@@ -159,14 +159,14 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 			<div class="row otherSet">
 			    <div class="large-12 colums">
 				<?php
-				$nextToShow = ($commentCounter - $limit > $commentToShow) ? $commentToShow : $commentCounter - $limit;
+				$nextToShow = ($commentcounter - $limit > $commentToShow) ? $commentToShow : $commentcounter - $limit;
 				?>
 				<div class="text" onclick="loadBoxComment(<?php echo $limit + $commentToShow; ?>, 0);">Other <?php echo $nextToShow; ?> Comment</div>	
 			    </div>
 			</div>
 			<?php
 		    }
-		    if ($commentCounter == 0) {
+		    if ($commentcounter == 0) {
 			?>
 			<div class="box">	
 			    <div class="row">

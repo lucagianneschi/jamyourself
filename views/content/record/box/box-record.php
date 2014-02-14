@@ -61,8 +61,8 @@ if (isset($_SESSION['currentUser']))
 			'title' => $value->getTitle(),
 			'artist' => $_POST['username'],
 			'mp3' => $pathSong,
-			'love' => $value->getLoveCounter(),
-			'share' => $value->getShareCounter(),
+			'love' => $value->getLovecounter(),
+			'share' => $value->getSharecounter(),
 			'pathCover' => $pathCoverRecord
 		    ));
 		    ?>
@@ -89,8 +89,8 @@ if (isset($_SESSION['currentUser']))
 					    <!--a class="note white" onclick="setCounter(this, '<?php echo $record_objectId ?>', 'Song')"><?php echo $views['share']; ?></a-->        
 					</div>
 					<div class="small-5 columns propriety ">                                        
-					    <a class="icon-propriety _unlove grey" ><?php echo $value->getLoveCounter() ?></a>
-					    <!--a class="icon-propriety _share" ><?php echo $value->getShareCounter(); ?></a-->                        
+					    <a class="icon-propriety _unlove grey" ><?php echo $value->getLovecounter() ?></a>
+					    <!--a class="icon-propriety _share" ><?php echo $value->getSharecounter(); ?></a-->                        
 					</div>
 				    </div>                
 				</div>

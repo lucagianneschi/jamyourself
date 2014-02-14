@@ -90,17 +90,17 @@ class UploadRecordController extends REST {
 	    $record->setDuration(0);
 	    if (isset($newRecord->albumFeaturing) && !is_null($newRecord->albumFeaturing) && count($newRecord->albumFeaturing) > 0)
 		$record->setFeaturing($newRecord->albumFeaturing);
-	    $record->setFromUser($userId);
+	    $record->setFromuser($userId);
 	    $record->setGenre($this->getTags($newRecord->tags));
 	    $record->setLabel($newRecord->label);
 	    $infoLocation = GeocoderService::getCompleteLocationInfo($newRecord->city);
 	    $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
 	    $record->setLocation($parseGeoPoint);
 	    $record->setCity($infoLocation['city']);
-	    $record->setLoveCounter(0);
+	    $record->setLovecounter(0);
 	    $record->setLovers(array());
 	    $record->setReviewCounter(0);
-	    $record->setShareCounter(0);
+	    $record->setSharecounter(0);
 	    $record->setTitle($newRecord->recordTitle);
 	    $record->setYear($newRecord->year);
 	    $savedRecord = $pRecord->saveRecord($record);
@@ -197,16 +197,16 @@ class UploadRecordController extends REST {
 			    $song->setFeaturing(array());
 			}
 			$song->setFilePath($element->src);
-			$song->setFromUser($currentUser->getId());
+			$song->setFromuser($currentUser->getId());
 			$song->setGenre($element->tags);
 			$song->setLocation(null);
 			$song->setLovers(array());
-			$song->setLoveCounter(0);
+			$song->setLovecounter(0);
 			$position++;
 			$song->setPosition($position);
 			$song->setRecord($recordId);
 			$song->setCounter(0);
-			$song->setShareCounter(0);
+			$song->setSharecounter(0);
 			$song->setTitle($element->title);
 			$savedSong = $pSong->saveSong($song);
 			if ($savedSong instanceof Error) {
@@ -354,11 +354,11 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	createActivity($fromUser, $recordId, $type = 'RECORDCREATED', $songId = null)
+     * \fn	createActivity($fromuser, $recordId, $type = 'RECORDCREATED', $songId = null)
      * \brief   funzione per creazione activity per questo controller
-     * \param   $fromUser, $recordId, $type = 'RECORDUPLOADED', $songId = null
+     * \param   $fromuser, $recordId, $type = 'RECORDUPLOADED', $songId = null
      */
-    private function createActivity($fromUser, $recordId, $type = 'RECORDCREATED', $songId = null) {
+    private function createActivity($fromuser, $recordId, $type = 'RECORDCREATED', $songId = null) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	require_once CLASSES_DIR . 'activityParse.class.php';
 	$activity = new Activity();
@@ -366,7 +366,7 @@ class UploadRecordController extends REST {
 	$activity->setAlbum(null);
 	$activity->setCounter(0);
 	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
+	$activity->setFromuser($fromuser);
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);

@@ -148,12 +148,12 @@ class PlaylistController extends REST {
     }
 
     /**
-     * \fn	createActivity($type, $fromUser, $playlistId, $songId)
+     * \fn	createActivity($type, $fromuser, $playlistId, $songId)
      * \brief   create activity for playslitControlelr
-     * \param   $type, $fromUser, $playlistId, $songId
+     * \param   $type, $fromuser, $playlistId, $songId
      * \return  $activity     
      */
-    private function createActivity($type, $fromUser, $playlistId, $songId) {
+    private function createActivity($type, $fromuser, $playlistId, $songId) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	$activity = new Activity();
 	$activity->setActive(true);
@@ -161,7 +161,7 @@ class PlaylistController extends REST {
 	$activity->setComment(null);
 	$activity->setCounter(0);
 	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
+	$activity->setFromuser($fromuser);
 	$activity->setImage(null);
 	$activity->setPlaylist($playlistId);
 	$activity->setQuestion(null);

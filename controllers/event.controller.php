@@ -54,8 +54,8 @@ class EventController extends REST {
 	    $id = $this->request['id'];
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userParse = new UserParse();
-	    $toUser = $userParse->getUser($toUserId);
-	    if ($toUser instanceof Error) {
+	    $touser = $userParse->getUser($toUserId);
+	    if ($touser instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
 	    }
 	    require_once CLASSES_DIR . 'activityParse.class.php';
@@ -256,8 +256,8 @@ class EventController extends REST {
 	    }
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userParse = new UserParse();
-	    $toUser = $userParse->getUser($toUserId);
-	    if (!relationChecker($currentUser->getId(), $currentUser->getType(), $toUserId, $toUser->getType())) {
+	    $touser = $userParse->getUser($toUserId);
+	    if (!relationChecker($currentUser->getId(), $currentUser->getType(), $toUserId, $touser->getType())) {
 		$this->response(array('status' => $controllers['NOTINRELATION']), 503);
 	    }
 	    $activity = $this->createActivity("INVITED", $toUserId, $currentUser->getId(), 'P', $eventId, false);
@@ -267,7 +267,7 @@ class EventController extends REST {
 	    if ($resActivity instanceof Error) {
 		$this->response(array('status' => $controllers['NOACSAVE']), 503);
 	    } else {
-		sendMailForNotification($toUser->getEmail(), $controllers['INVITATIONMAILSBJ'], file_get_contents(STDHTML_DIR . $mail_files['EVENTINVITATION']));
+		sendMailForNotification($touser->getEmail(), $controllers['INVITATIONMAILSBJ'], file_get_contents(STDHTML_DIR . $mail_files['EVENTINVITATION']));
 		$this->response(array($controllers['INVITATIONSENT']), 200);
 	    }
 	} catch (Exception $e) {
@@ -288,7 +288,7 @@ class EventController extends REST {
 	$activity->setComment(null);
 	$activity->setCounter(0);
 	$activity->setEvent($eventId);
-	$activity->setFromUser($currentUserId);
+	$activity->setFromuser($currentUserId);
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);

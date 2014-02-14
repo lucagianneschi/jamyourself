@@ -48,20 +48,20 @@ class ElementList {
 class MessageInfo {
 
     public $activityId;
-    public $createdAt;
+    public $createdat;
     public $id;
     public $read;
     public $send;
     public $text;
 
     /**
-     * \fn	__construct($createdAt, $id, $send, $text)
+     * \fn	__construct($createdat, $id, $send, $text)
      * \brief	construct for the MessageInfo class
-     * \param	$createdAt, $id, $send, $text, $title
+     * \param	$createdat, $id, $send, $text, $title
      */
-    function __construct($activityId, $createdAt, $id, $read, $send, $text) {
+    function __construct($activityId, $createdat, $id, $read, $send, $text) {
 	is_null($activityId) ? $this->activityId = null : $this->activityId = $activityId;
-	is_null($createdAt) ? $this->createdAt = null : $this->createdAt = $createdAt;
+	is_null($createdat) ? $this->createdat = null : $this->createdat = $createdat;
 	is_null($id) ? $this->id = null : $this->id = $id;
 	is_null($read) ? $this->read = false : $this->read = $read;
 	is_null($send) ? $this->send = 'S' : $this->send = $send;
@@ -114,7 +114,7 @@ class MessageBox {
 	$activityP->whereNotEqualTo('status', 'D');
 	$activityP->whereInclude('fromUser,toUser,comment');
 	$activityP->setLimit(MAX);
-	$activityP->orderByDescending('createdAt');
+	$activityP->orderByDescending('createdat');
 	$activities = $activityP->getActivities();
 	if ($activities instanceof Error) {
 	    $this->errorManagement($activities->getErrorMessage());
@@ -124,10 +124,10 @@ class MessageBox {
 	    return;
 	} else {
 	    foreach ($activities as $act) {
-		if (!is_null($act->getFromUser()) && !is_null($act->getToUser()) && !is_null($act->getComment())) {
-		    $send = ($act->getComment()->getFromUser() == $currentUserId) ? 'S' : 'R';
-		    if (($send == 'S' && $act->getComment()->getFromUser() == $act->getFromUser()->getId()) || ($send == 'R' && $act->getComment()->getToUser() == $act->getFromUser()->getId())) {
-			$user = ($act->getFromUser()->getId() == $currentUserId) ? $act->getToUser() : $act->getFromUser();
+		if (!is_null($act->getFromuser()) && !is_null($act->getTouser()) && !is_null($act->getComment())) {
+		    $send = ($act->getComment()->getFromuser() == $currentUserId) ? 'S' : 'R';
+		    if (($send == 'S' && $act->getComment()->getFromuser() == $act->getFromuser()->getId()) || ($send == 'R' && $act->getComment()->getTouser() == $act->getFromuser()->getId())) {
+			$user = ($act->getFromuser()->getId() == $currentUserId) ? $act->getTouser() : $act->getFromuser();
 			$userId = $user->getId();
 			$thumbnail = $user->getThumbnail();
 			$type = $user->getType();
@@ -173,7 +173,7 @@ class MessageBox {
 	$messageP->where('type', 'M');
 	$messageP->where('active', true);
 	$messageP->whereInclude('fromUser,toUser');
-	$messageP->orderByDescending('createdAt');
+	$messageP->orderByDescending('createdat');
 	$messageP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitMessagesForMessagePage);
 	$messageP->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
 	$messages = $messageP->getComments();
@@ -187,7 +187,7 @@ class MessageBox {
 	    $messagesArray = array();
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    foreach ($messages as $message) {
-		if (!is_null($message->getFromUser())) {
+		if (!is_null($message->getFromuser())) {
 		    $activity = new ActivityParse();
 		    $activity->wherePointer('comment', 'Comment', $message->getId());
 		    $activity->whereNotEqualTo('status', 'D');
@@ -199,14 +199,14 @@ class MessageBox {
 			return;
 		    } elseif (!is_null($msg)) {
 			foreach ($msg as $value) {
-			    $send = ($message->getFromUser()->getId() == $currentUserId) ? 'S' : 'R';
-			    if (($send == 'S' && $message->getFromUser()->getId() == $value->getFromUser()->getId()) || ($send == 'R' && $message->getToUser()->getId() == $value->getFromUser()->getId())) {
+			    $send = ($message->getFromuser()->getId() == $currentUserId) ? 'S' : 'R';
+			    if (($send == 'S' && $message->getFromuser()->getId() == $value->getFromuser()->getId()) || ($send == 'R' && $message->getTouser()->getId() == $value->getFromuser()->getId())) {
 				$activityId = $value->getId();
-				$createdAt = $message->getCreatedAt();
+				$createdat = $message->getCreatedat();
 				$messageId = $message->getId();
 				$read = $value->getRead();
 				$text = $message->getText();
-				$messageInfo = new MessageInfo($activityId, $createdAt, $messageId, $read, $send, $text);
+				$messageInfo = new MessageInfo($activityId, $createdat, $messageId, $read, $send, $text);
 				array_push($messagesArray, $messageInfo);
 			    }
 			}

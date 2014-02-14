@@ -20,26 +20,26 @@
 class Comment {
 
     private $id;
-    private $createdAt;
-    private $updatedAt;
+    private $createdat;
+    private $updatedat;
     private $active;
     private $album;
     private $comment;
-    private $commentCounter;
+    private $commentcounter;
     private $counter;
     private $event;
-    private $fromUser;
+    private $fromuser;
     private $image;
     private $latitude;
     private $longitude;
-    private $loveCounter;
+    private $lovecounter;
     private $record;
-    private $shareCounter;
+    private $sharecounter;
     private $song;
     private $tag;
     private $title;
     private $text;
-    private $toUser;
+    private $touser;
     private $type;
     private $video;
     private $vote;
@@ -54,21 +54,21 @@ class Comment {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
+     * \fn	DateTime getCreatedat()
      * \brief	Return the Comment creation date
      * \return	DateTime
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function getCreatedat() {
+	return $this->createdat;
     }
 
     /**
-     * \fn	DateTime getUpdatedAt()
+     * \fn	DateTime getUpdatedat()
      * \brief	Return the Comment modification date
      * \return	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function getUpdatedat() {
+	return $this->updatedat;
     }
 
     /**
@@ -103,8 +103,8 @@ class Comment {
      * \brief	Return the comment counter value (number of comments)
      * \return	int
      */
-    public function getCommentCounter() {
-	return $this->commentCounter;
+    public function getCommentcounter() {
+	return $this->commentcounter;
     }
 
     /**
@@ -126,12 +126,12 @@ class Comment {
     }
 
     /**
-     * \fn	getFromUser()
+     * \fn	getFromuser()
      * \brief	Return the id value for the fromUser
      * \return	int
      */
-    public function getFromUser() {
-	return $this->fromUser;
+    public function getFromuser() {
+	return $this->fromuser;
     }
 
     /**
@@ -162,12 +162,12 @@ class Comment {
     }
 
     /**
-     * \fn	int getLoveCounter()
+     * \fn	int getLovecounter()
      * \brief	Return the int value of loveCounter, counting the love action on the comment
      * \return	int
      */
-    public function getLoveCounter() {
-	return $this->loveCounter;
+    public function getLovecounter() {
+	return $this->lovecounter;
     }
 
     /**
@@ -180,12 +180,12 @@ class Comment {
     }
 
     /**
-     * \fn	int getShareCounter()
+     * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
      * \return	int
      */
-    public function getShareCounter() {
-	return $this->shareCounter;
+    public function getSharecounter() {
+	return $this->sharecounter;
     }
 
     /**
@@ -225,12 +225,12 @@ class Comment {
     }
 
     /**
-     * \fn	getToUser()
+     * \fn	getTouser()
      * \brief	Return the toUser value, id
      * \return	int
      */
-    public function getToUser() {
-	return $this->toUser;
+    public function getTouser() {
+	return $this->touser;
     }
 
     /**
@@ -270,21 +270,21 @@ class Comment {
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
+     * \fn		void setCreatedat($createdat)
      * \brief	Sets the Comment creation date
      * \param	DateTime
      */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
+    public function setCreatedat($createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn		void setUpdatedAt($updatedAt)
+     * \fn		void setUpdatedat($updatedat)
      * \brief	Sets the Comment modification date
      * \param	DateTime
      */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
+    public function setUpdatedat($updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
@@ -315,12 +315,12 @@ class Comment {
     }
 
     /**
-     * \fn		void setCommentCounter($commentCounter)
+     * \fn		void setCommentcounter($commentcounter)
      * \brief	Sets the commnetCounter value
      * \param	int
      */
-    public function setCommentCounter($commentCounter) {
-	$this->commentCounter = $commentCounter;
+    public function setCommentcounter($commentcounter) {
+	$this->commentcounter = $commentcounter;
     }
 
     /**
@@ -342,12 +342,12 @@ class Comment {
     }
 
     /**
-     * \fn	void setFromUser($fromUser))
+     * \fn	void setFromuser($fromuser))
      * \brief	Sets the fromUser value,pointer to ParseUser
      * \param	int
      */
-    public function setFromUser($fromUser) {
-	$this->fromUser = $fromUser;
+    public function setFromuser($fromuser) {
+	$this->fromuser = $fromuser;
     }
 
     /**
@@ -378,12 +378,12 @@ class Comment {
     }
 
     /**
-     * \fn	void setLoveCounter($loveCounter)
+     * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the loveCounter value
      * \param	int
      */
-    public function setLoveCounter($loveCounter) {
-	$this->loveCounter = $loveCounter;
+    public function setLovecounter($lovecounter) {
+	$this->lovecounter = $lovecounter;
     }
 
     /**
@@ -396,12 +396,12 @@ class Comment {
     }
 
     /**
-     * \fn		void setCounter($shareCounter)
-     * \brief	Sets the shareCounter value
+     * \fn		void setCounter($sharecounter)
+     * \brief	Sets the sharecounter value
      * \param	int
      */
-    public function setShareCounter($shareCounter) {
-	$this->shareCounter = $shareCounter;
+    public function setSharecounter($sharecounter) {
+	$this->sharecounter = $sharecounter;
     }
 
     /**
@@ -441,12 +441,12 @@ class Comment {
     }
 
     /**
-     * \fn	void setToUser($toUser)
+     * \fn	void setToUser($touser)
      * \brief	Sets the toUser id value
      * \param	int
      */
-    public function setToUser($toUser) {
-	$this->toUser = $toUser;
+    public function setToUser($touser) {
+	$this->touser = $touser;
     }
 
     /**
@@ -484,26 +484,26 @@ class Comment {
     public function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[createdat] => ' . $this->getCreatedat()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedat] => ' . $this->getUpdatedat()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[album] => ' . $this->getAlbum() . '<br />';
 	$string .= '[comment] => ' . $this->getComment() . '<br />';
-	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
+	$string .= '[commentcounter] => ' . $this->getCommentcounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[event] => ' . $this->getEvent() . '<br />';
-	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
+	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	$string .= '[image] => ' . $this->getImage() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
-	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
+	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
 	$string .= '[record] => ' . $this->getRecord() . '<br />';
-	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
+	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
 	$string .= '[song] => ' . $this->getSong() . '<br />';
 	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[text] => ' . $this->getText() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
-	$string .= '[toUser] => ' . $this->getToUser() . '<br />';
+	$string .= '[touser] => ' . $this->getTouser() . '<br />';
 	$string .= '[type] => ' . $this->getType() . '<br />';
 	$string .= '[video] => ' . $this->getVideo() . '<br />';
 	$string .= '[vote] => ' . $this->getVote() . '<br />';

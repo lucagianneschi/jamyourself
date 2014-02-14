@@ -102,11 +102,11 @@ $_SESSION['playlist']['songs'] = array();
 	    $index = 0;
 	    foreach ($playlist->tracklist as $key => $value) {
 		$id = $value->getId();
-		$author_name = $value->getFromUser()->getUsername();
-		$author_objectId = $value->getFromUser()->getId();
+		$author_name = $value->getFromuser()->getUsername();
+		$author_objectId = $value->getFromuser()->getId();
 		$title = $value->getTitle();
-		$loveCounter = $value->getLoveCounter();
-		$shareCounter = $value->getShareCounter();
+		$lovecounter = $value->getLovecounter();
+		$sharecounter = $value->getSharecounter();
 		$recordObjectId = $value->getRecord()->getId();
 		$fileManagerService = new FileManagerService();
 		array_push($_SESSION['playlist']['songs'], $id);
@@ -119,8 +119,8 @@ $_SESSION['playlist']['songs'] = array();
 		    'title' => $value->getTitle(),
 		    'artist' => $author_name,
 		    'mp3' => $fileManagerService->getSongPath($author_objectId, $value->getFilePath()),
-		    'love' => $value->getLoveCounter(),
-		    'share' => $value->getShareCounter(),
+		    'love' => $value->getLovecounter(),
+		    'share' => $value->getSharecounter(),
 		    'pathCover' => $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnail())
 		));
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
@@ -138,8 +138,8 @@ $_SESSION['playlist']['songs'] = array();
 			    title: "<?php echo $title ?>",
 			    artist: "<?php echo $author_name ?>",
 			    mp3: "<?php echo $fileManagerService->getSongPath($author_objectId, $value->getFilePath()) ?>",
-			    love: "<?php echo $value->getLoveCounter() ?>",
-			    share: "<?php echo $value->getShareCounter() ?>",
+			    love: "<?php echo $value->getLovecounter() ?>",
+			    share: "<?php echo $value->getSharecounter() ?>",
 			    pathCover: "<?php echo $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnail()) ?>",
 			});
 			var index = '<?php echo $index ?>';
@@ -171,12 +171,12 @@ $_SESSION['playlist']['songs'] = array();
 			    <div class="row track-propriety" >
 				<div class="box-propriety album-single-propriety">
 				    <div class="small-6 columns ">
-					<a class="note white" onclick="love(this, 'Song', '<?php echo $value->getId(); ?>', '<?php echo $value->getFromUser(); ?>')"><?php echo $track_text_love; ?></a>
+					<a class="note white" onclick="love(this, 'Song', '<?php echo $value->getId(); ?>', '<?php echo $value->getFromuser(); ?>')"><?php echo $track_text_love; ?></a>
 					<!--a class="note white" onclick="share()"><?php echo $views['share']; ?></a-->
 				    </div>
 				    <div class="small-6 columns propriety ">					
-					<a class="icon-propriety <?php echo $track_css_love ?>" ><?php echo $value->getLoveCounter(); ?></a>
-					<!--a class="icon-propriety _share" ><?php echo $value->getShareCounter(); ?></a-->
+					<a class="icon-propriety <?php echo $track_css_love ?>" ><?php echo $value->getLovecounter(); ?></a>
+					<!--a class="icon-propriety _share" ><?php echo $value->getSharecounter(); ?></a-->
 				    </div>
 				</div>		
 			    </div>

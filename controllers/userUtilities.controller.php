@@ -32,11 +32,11 @@ require_once CONTROLLERS_DIR . 'restController.php';
 class UserUtilitiesController extends REST {
 
     /**
-     * \fn      createActivity($type, $fromUser)
+     * \fn      createActivity($type, $fromuser)
      * \brief   private function to create ad hoc activity
-     * \param   $type, $fromUser
+     * \param   $type, $fromuser
      */
-    private function createActivity($type, $fromUser) {
+    private function createActivity($type, $fromuser) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	$activity = new Activity();
 	$activity->setActive(true);
@@ -44,7 +44,7 @@ class UserUtilitiesController extends REST {
 	$activity->setComment(null);
 	$activity->setCounter(0);
 	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
+	$activity->setFromuser($fromuser);
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);

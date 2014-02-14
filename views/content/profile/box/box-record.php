@@ -83,9 +83,9 @@ if (is_null($recordBox->error)) {
 			    $record_title = $value->getTitle();
 			    $record_data = $value->getYear();
 			    $record_songCounter = $value->getSongCounter();
-			    $record_love = $value->getLoveCounter();
+			    $record_love = $value->getLovecounter();
 			    $record_comment = $value->getCommentCounter();
-			    $record_share = $value->getShareCounter();
+			    $record_share = $value->getSharecounter();
 			    $record_review = $value->getReviewCounter();
 			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 				$css_love = '_love orange';
@@ -162,10 +162,10 @@ if (is_null($recordBox->error)) {
 		$recordSingle_title = $value->getTitle();
 		$recordSingle_data = $value->getYear();
 		$recordSinle_songCounter = $value->getSongCounter();
-		$recordSingle_fromUser_objectId = $value->getFromUser();
-		$recordSingle_love = $value->getLoveCounter();
+		$recordSingle_fromUser_objectId = $value->getFromuser();
+		$recordSingle_love = $value->getLovecounter();
 		$recordSingle_comment = $value->getCommentCounter();
-		$recordSingle_share = $value->getShareCounter();
+		$recordSingle_share = $value->getSharecounter();
 		$recordSingle_review = $value->getReviewCounter();
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 		    $recordSingle_css_love = '_love orange';

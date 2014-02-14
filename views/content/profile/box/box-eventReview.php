@@ -62,26 +62,26 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				foreach ($reviews as $key => $value) {
 				    $eventReview_objectId = $value->getId();
 				    if ($type == 'SPOTTER') {
-					$eventReview_user_objectId = $value->getEvent()->getFromUser()->getId();
-					$eventReview_user_thumbnail = $value->getEvent()->getFromUser()->getThumbnail();
-					$eventReview_user_username = $value->getEvent()->getFromUser()->getUsername();
-					$eventReview_user_type = $value->getEvent()->getFromUser()->getType();
+					$eventReview_user_objectId = $value->getEvent()->getFromuser()->getId();
+					$eventReview_user_thumbnail = $value->getEvent()->getFromuser()->getThumbnail();
+					$eventReview_user_username = $value->getEvent()->getFromuser()->getUsername();
+					$eventReview_user_type = $value->getEvent()->getFromuser()->getType();
 				    } else {
-					$eventReview_user_objectId = $value->getFromUser()->getId();
-					$eventReview_user_thumbnail = $value->getFromUser()->getThumbnail();
-					$eventReview_user_username = $value->getFromUser()->getUsername();
-					$eventReview_user_type = $value->getFromUser()->getType();
+					$eventReview_user_objectId = $value->getFromuser()->getId();
+					$eventReview_user_thumbnail = $value->getFromuser()->getThumbnail();
+					$eventReview_user_username = $value->getFromuser()->getUsername();
+					$eventReview_user_type = $value->getFromuser()->getType();
 				    }
 				    $eventReview_thumbnailCover = $value->getEvent()->getThumbnail();
 				    $event_objectId = $value->getEvent()->getId();
 				    $eventReview_title = $value->getTitle();
 				    #TODO
 				    //$eventReview_rating = $value->getRating();
-				    $eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
+				    $eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
 				    $eventReview_text = $value->getText();
-				    $eventReview_love = $value->getLoveCounter();
+				    $eventReview_love = $value->getLovecounter();
 				    $eventReview_comment = $value->getCommentCounter();
-				    $eventReview_share = $value->getShareCounter();
+				    $eventReview_share = $value->getSharecounter();
 				    if (in_array($currentUser->getId(), $value->getLovers())) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];

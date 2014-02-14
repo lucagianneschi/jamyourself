@@ -61,7 +61,7 @@ class PostController extends REST {
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-	    $fromUser = $_SESSION['currentUser'];
+	    $fromuser = $_SESSION['currentUser'];
 	    $toUserObjectId = $this->request['toUser'];
 	    $post = $_REQUEST['post'];
 	    if (strlen($post) < $this->config->minPostSize) {
@@ -73,16 +73,16 @@ class PostController extends REST {
 	    $cmt->setActive(true);
 	    $cmt->setAlbum(null);
 	    $cmt->setComment(null);
-	    $cmt->setCommentCounter(0);
+	    $cmt->setCommentcounter(0);
 	    $cmt->setCounter(0);
 	    $cmt->setEvent(null);
-	    $cmt->setFromUser($fromUser->getId());
+	    $cmt->setFromuser($fromuser->getId());
 	    $cmt->setImage(null);
 	    $cmt->setLocation(null);
-	    $cmt->setLoveCounter(0);
+	    $cmt->setLovecounter(0);
 	    $cmt->setLovers(array());
 	    $cmt->setRecord(null);
-	    $cmt->setShareCounter(0);
+	    $cmt->setSharecounter(0);
 	    $cmt->setSong(null);
 	    $cmt->setTag(array());
 	    $cmt->setTitle(null);
@@ -104,7 +104,7 @@ class PostController extends REST {
 		$activity->setComment($resCmt->getId());
 		$activity->setCounter(0);
 		$activity->setEvent(null);
-		$activity->setFromUser($fromUser->getId());
+		$activity->setFromuser($fromuser->getId());
 		$activity->setImage(null);
 		$activity->setPlaylist(null);
 		$activity->setQuestion(null);

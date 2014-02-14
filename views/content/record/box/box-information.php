@@ -25,9 +25,9 @@ $year = $record->getYear();
 $label = $record->getLabel();
 $buylink = $record->getBuylink();
 $description = $record->getDescription();
-$fromUserObjectId = $record->getFromUser()->getId();
-$fromUserThumbnail = $record->getFromUser()->getThumbnail();
-$fromUserUsername = $record->getfromUser()->getUsername();
+$fromUserObjectId = $record->getFromuser()->getId();
+$fromUserThumbnail = $record->getFromuser()->getThumbnail();
+$fromUserUsername = $record->getFromuser()->getUsername();
 
 $css_city = (!isset($city) || $city == '') ? 'no-display' : '';
 $css_year = (!isset($year) || $year == '') ? 'no-display' : '';

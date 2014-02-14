@@ -20,13 +20,13 @@
 class Playlist {
 
     private $id;
-    private $createdAt;
-    private $updatedAt;
+    private $createdat;
+    private $updatedat;
     private $active;
-    private $fromUser;
+    private $fromuser;
     private $name;
-    private $songCounter;
-    private $songs;
+    private $songcounter;
+    private $song;
     private $unlimited;
 
     /**
@@ -39,21 +39,21 @@ class Playlist {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
+     * \fn	DateTime getCreatedat()
      * \brief	Return the Playlist creation date
      * \return	DateTime
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function getCreatedat() {
+	return $this->createdat;
     }
 
     /**
-     * \fn	DateTime getUpdatedAt()
+     * \fn	DateTime getUpdatedat()
      * \brief	Return the Playlist modification date
      * \return	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function getUpdatedat() {
+	return $this->updatedat;
     }
 
     /**
@@ -66,12 +66,12 @@ class Playlist {
     }
 
     /**
-     * \fn	getFromUser()
+     * \fn	getFromuser()
      * \brief	Return the id value for the fromUser
      * \return	int
      */
-    public function getFromUser() {
-	return $this->fromUser;
+    public function getFromuser() {
+	return $this->fromuser;
     }
 
     /**
@@ -84,21 +84,21 @@ class Playlist {
     }
 
     /**
-     * \fn	int getSongCounter()
+     * \fn	int getsongcounter()
      * \brief	Return the song counter value (number of songs)
      * \return	int
      */
-    public function getSongCounter() {
-	return $this->songCounter;
+    public function getSongcounter() {
+	return $this->songcounter;
     }
 
     /**
-     * \fn	getSongs()
+     * \fn	getSong()
      * \brief	Return an array of object of istances of the Song class
      * \return	int
      */
-    public function getSongs() {
-	return $this->songs;
+    public function getSong() {
+	return $this->song;
     }
 
     /**
@@ -120,21 +120,21 @@ class Playlist {
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
+     * \fn		void setCreatedat($createdat)
      * \brief	Sets the Playlist creation date
      * \param	DateTime
      */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
+    public function setCreatedat($createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn		void setUpdatedAt($updatedAt)
+     * \fn		void setUpdatedat($updatedat)
      * \brief	Sets the Playlist modification date
      * \param	DateTime
      */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
+    public function setUpdatedat($updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
@@ -147,12 +147,12 @@ class Playlist {
     }
 
     /**
-     * \fn	void setFromUser($fromUser))
+     * \fn	void setFromuser($fromuser))
      * \brief	Sets the fromUser value
      * \param	int
      */
-    public function setFromUser($fromUser) {
-	$this->fromUser = $fromUser;
+    public function setFromuser($fromuser) {
+	$this->fromuser = $fromuser;
     }
 
     /**
@@ -165,21 +165,21 @@ class Playlist {
     }
 
     /**
-     * \fn	void  setSongCounter($songCounter)
-     * \brief	Sets the songCounter value
+     * \fn	void  setsongcounter($songcounter)
+     * \brief	Sets the songcounter value
      * \param	int
      */
-    public function setSongCounter($songCounter) {
-	$this->songCounter = $songCounter;
+    public function setSongcounter($songcounter) {
+	$this->songcounter = $songcounter;
     }
 
     /**
-     * \fn	void setSongs($songs)
-     * \brief	Sets the songs value,array of pointer to Song
+     * \fn	void setSong($song)
+     * \brief	Sets the song value,array of pointer to Song
      * \param	int
      */
-    public function setSongs($songs) {
-	$this->songs = $songs;
+    public function setSong($song) {
+	$this->song = $song;
     }
 
     /**
@@ -199,13 +199,13 @@ class Playlist {
     public function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[createdat] => ' . $this->getCreatedat()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedat] => ' . $this->getUpdatedat()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
-	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
+	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	$string .= '[name] => ' . $this->getName() . '<br />';
-	$string .= '[songCounter] => ' . $this->getSongCounter() . '<br />';
-	$string .= '[songs] => ' . $this->getSongs() . '<br />';
+	$string .= '[songcounter] => ' . $this->getSongcounterongcounter() . '<br />';
+	$string .= '[song] => ' . $this->getSong() . '<br />';
 	$string .= '[unlimited] => ' . $this->getUnlimited() . '<br />';
 	return $string;
     }

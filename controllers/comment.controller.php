@@ -60,7 +60,7 @@ class CommentController extends REST {
 	    } elseif (!isset($this->request['classType'])) {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
 	    }
-	    $fromUser = $_SESSION['currentUser'];
+	    $fromuser = $_SESSION['currentUser'];
 	    $toUserObjectId = $this->request['toUser'];
 	    $comment = $this->request['comment'];
 	    $classType = $this->request['classType'];
@@ -76,12 +76,12 @@ class CommentController extends REST {
 	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $cmt = new Comment();
 	    $cmt->setActive(true);
-	    $cmt->setCommentCounter(0);
-	    $cmt->setFromUser($fromUser->getId());
+	    $cmt->setCommentcounter(0);
+	    $cmt->setFromuser($fromuser->getId());
 	    $cmt->setLocation(null);
-	    $cmt->setLoveCounter(0);
+	    $cmt->setLovecounter(0);
 	    $cmt->setLovers(array());
-	    $cmt->setShareCounter(0);
+	    $cmt->setSharecounter(0);
 	    $cmt->setTag(array());
 	    $cmt->setTitle(null);
 	    $cmt->setText($comment);
@@ -91,7 +91,7 @@ class CommentController extends REST {
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setCounter(0);
-	    $activity->setFromUser($fromUser->getId());
+	    $activity->setFromuser($fromuser->getId());
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
 	    $activity->setRead(false);

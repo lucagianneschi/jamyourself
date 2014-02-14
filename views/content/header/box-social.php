@@ -132,7 +132,7 @@ if (isset($userObjectId)) {
 		if ($index % 4 == 0) {
 		    ?><div class="rsContent">	<?php
 		}
-		$createdAd = $value->createdAt->format('d/m/Y H:i');
+		$createdAd = $value->createdat->format('d/m/Y H:i');
 		$user_objectId = $value->fromUserInfo->id;
 		$user_thumb = $value->fromUserInfo->thumbnail;
 		$user_username = $value->fromUserInfo->username;

@@ -61,20 +61,20 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 			    if ($reviewCounter > 0) {
 				foreach ($reviews as $key => $value) {
 				    $recordReview_objectId = $value->getId();
-				    $recordReview_user_objectId = $value->getFromUser()->getId();
-				    $recordReview_user_thumbnail = $value->getFromUser()->getThumbnail();
-				    $recordReview_user_username = $value->getFromUser()->getUsername();
-				    $recordReview_user_type = $value->getFromUser()->getType();
+				    $recordReview_user_objectId = $value->getFromuser()->getId();
+				    $recordReview_user_thumbnail = $value->getFromuser()->getThumbnail();
+				    $recordReview_user_username = $value->getFromuser()->getUsername();
+				    $recordReview_user_type = $value->getFromuser()->getType();
 				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnail();
 				    $recordObjectId = $value->getRecord()->getId();
 				    $recordReview_title = $value->getRecord()->getTitle();
-				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
+				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
 				    #TODO
 				    //$recordReview_rating = $value->getRecord()->getRating();
 				    $recordReview_text = $value->getText();
-				    $recordReview_love = $value->getLoveCounter();
+				    $recordReview_love = $value->getLovecounter();
 				    $recordReview_comment = $value->getCommentCounter();
-				    $recordReview_share = $value->getShareCounter();
+				    $recordReview_share = $value->getSharecounter();
 				    if (in_array($currentUser->getId(), $value->getLovers())) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];

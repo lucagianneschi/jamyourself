@@ -20,8 +20,8 @@
 class Question {
 
     private $id;
-    private $createdAt;
-    private $updatedAt;
+    private $createdat;
+    private $updatedat;
     private $answer;
     private $mailFrom;
     private $mailTo;
@@ -40,21 +40,21 @@ class Question {
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
+     * \fn		DateTime getCreatedat()
      * \brief	Return the Question creation date
      * \return	DateTime
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function getCreatedat() {
+	return $this->createdat;
     }
 
     /**
-     * \fn		DateTime getUpdatedAt()
+     * \fn		DateTime getUpdatedat()
      * \brief	Return the Question modification date
      * \return	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function getUpdatedat() {
+	return $this->updatedat;
     }
 
     /**
@@ -130,21 +130,21 @@ class Question {
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
+     * \fn		void setCreatedat($createdat)
      * \brief	Sets the Question creation date
      * \param	DateTime
      */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
+    public function setCreatedat($createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn		void setUpdatedAt($updatedAt)
+     * \fn		void setUpdatedat($updatedat)
      * \brief	Sets the Question modification date
      * \param	DateTime
      */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
+    public function setUpdatedat($updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
@@ -218,8 +218,8 @@ class Question {
     public function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[createdat] => ' . $this->getCreatedat()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedat] => ' . $this->getUpdatedat()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[answer] => ' . $this->getAnswer() . '<br />';
 	$string .= '[mailFrom] => ' . $this->getMailFrom() . '<br />';
 	$string .= '[mailTo] => ' . $this->getMailTo() . '<br />';

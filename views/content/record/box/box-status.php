@@ -54,9 +54,9 @@ if (is_array($record->getLovers()) && in_array($currentUser->getId(), $record->g
 		<a class="note grey" onclick="share()"><?php echo $views['share']; ?></a>
 	    </div>
 	    <div class="small-5 columns propriety ">					
-		<a class="icon-propriety <?php echo $css_love; ?>"><?php echo $record->getLoveCounter(); ?></a>
+		<a class="icon-propriety <?php echo $css_love; ?>"><?php echo $record->getLovecounter(); ?></a>
 		<a id="commentCounter" class="icon-propriety _comment"><?php echo $record->getCommentCounter(); ?></a>
-		<a class="icon-propriety _share"><?php echo $record->getShareCounter(); ?></a>
+		<a class="icon-propriety _share"><?php echo $record->getSharecounter(); ?></a>
 	    </div>	
 	</div>		
     </div>

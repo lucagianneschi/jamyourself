@@ -20,16 +20,16 @@
 class Video {
 
     private $id;
-    private $createdAt;
-    private $updatedAt;
+    private $createdat;
+    private $updatedat;
     private $active;
     private $author;
     private $counter;
     private $cover;
     private $description;
     private $duration;
-    private $fromUser;
-    private $loveCounter;
+    private $fromuser;
+    private $lovecounter;
     private $tag;
     private $thumbnail;
     private $title;
@@ -45,21 +45,21 @@ class Video {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
+     * \fn	DateTime getCreatedat()
      * \brief	Return the Video creation date
      * \return	DateTime
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function getCreatedat() {
+	return $this->createdat;
     }
 
     /**
-     * \fn	DateTime getUpdatedAt()
+     * \fn	DateTime getUpdatedat()
      * \brief	Return the Video modification date
      * \return	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function getUpdatedat() {
+	return $this->updatedat;
     }
 
     /**
@@ -117,21 +117,21 @@ class Video {
     }
 
     /**
-     * \fn	int getFromUser()
+     * \fn	int getFromuser()
      * \brief	Return the id value for the fromUser
      * \return	int
      */
-    public function getFromUser() {
-	return $this->fromUser;
+    public function getFromuser() {
+	return $this->fromuser;
     }
 
     /**
-     * \fn	int getLoveCounter()
+     * \fn	int getLovecounter()
      * \brief	Return the int value of loveCounter, counting the love action on the video
      * \return	int
      */
-    public function getLoveCounter() {
-	return $this->loveCounter;
+    public function getLovecounter() {
+	return $this->lovecounter;
     }
 
     /**
@@ -180,21 +180,21 @@ class Video {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
+     * \fn	void setCreatedat($createdat)
      * \brief	Sets the Video creation date
      * \param	DateTime
      */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
+    public function setCreatedat($createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn	void setUpdatedAt($updatedAt)
+     * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the Video modification date
      * \param	DateTime
      */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
+    public function setUpdatedat($updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
@@ -252,21 +252,21 @@ class Video {
     }
 
     /**
-     * \fn	void setFromUser($fromUser))
+     * \fn	void setFromuser($fromuser))
      * \brief	Sets the fromUser value
      * \param	int
      */
-    public function setFromUser($fromUser) {
-	$this->fromUser = $fromUser;
+    public function setFromuser($fromuser) {
+	$this->fromuser = $fromuser;
     }
 
     /**
-     * \fn	void setLoveCounter($loveCounter)
+     * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the loveCounter value
      * \param	int
      */
-    public function setLoveCounter($loveCounter) {
-	$this->loveCounter = $loveCounter;
+    public function setLovecounter($lovecounter) {
+	$this->lovecounter = $lovecounter;
     }
 
     /**
@@ -313,16 +313,16 @@ class Video {
     public function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[createdat] => ' . $this->getCreatedat()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedat] => ' . $this->getUpdatedat()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[author] => ' . $this->getAuthor() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	$string .= '[duration] => ' . $this->getDuration() . '<br />';
-	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
-	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
+	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
+	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
 	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';

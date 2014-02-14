@@ -235,74 +235,74 @@ function rollbackEventController($activityId, $operation, $userId = null, $event
 }
 
 /**
- * \fn	rollbackLoveController($classType, $id, $operation, $fromUser)
+ * \fn	rollbackLoveController($classType, $id, $operation, $fromuser)
  * \brief   rollback for LoveController
- * \param   $id dell'oggetto su cui fare rollback della love, $classType, operation (love or unlove), $fromUser
+ * \param   $id dell'oggetto su cui fare rollback della love, $classType, operation (love or unlove), $fromuser
  */
-function rollbackLoveController($classType, $id, $operation, $fromUser) {
+function rollbackLoveController($classType, $id, $operation, $fromuser) {
     global $controllers;
     switch ($classType) {
 	case 'Album':
 	    require_once CLASSES_DIR . 'albumParse.class.php';
 	    $albumParse = new AlbumParse();
 	    if ($operation == 'increment') {
-		$res = $albumParse->incrementAlbum($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $albumParse->incrementAlbum($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $albumParse->decrementAlbum($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $albumParse->decrementAlbum($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Comment':
 	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $commentParse = new CommentParse();
 	    if ($operation == 'increment') {
-		$res = $commentParse->incrementComment($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $commentParse->incrementComment($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $commentParse->decrementComment($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $commentParse->decrementComment($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Event':
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventParse = new EventParse();
 	    if ($operation == 'increment') {
-		$res = $eventParse->incrementEvent($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $eventParse->incrementEvent($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $eventParse->decrementEvent($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $eventParse->decrementEvent($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Image':
 	    require_once CLASSES_DIR . 'imageParse.class.php';
 	    $imageParse = new ImageParse();
 	    if ($operation == 'increment') {
-		$res = $imageParse->incrementImage($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $imageParse->incrementImage($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $imageParse->decrementImage($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $imageParse->decrementImage($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Record':
 	    require_once CLASSES_DIR . 'recordParse.class.php';
 	    $recordParse = new RecordParse();
 	    if ($operation == 'increment') {
-		$res = $recordParse->incrementRecord($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $recordParse->incrementRecord($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $recordParse->decrementRecord($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $recordParse->decrementRecord($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Song':
 	    require_once CLASSES_DIR . 'songParse.class.php';
 	    $songParse = new SongParse();
 	    if ($operation == 'increment') {
-		$res = $songParse->incrementSong($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $songParse->incrementSong($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $songParse->decrementSong($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $songParse->decrementSong($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Video':
 	    require_once CLASSES_DIR . 'videoParse.class.php';
 	    $videoParse = new VideoParse();
 	    if ($operation == 'increment') {
-		$res = $videoParse->incrementVideo($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $videoParse->incrementVideo($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $videoParse->decrementVideo($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		$res = $videoParse->decrementVideo($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
     }
@@ -447,37 +447,37 @@ function rollbackSocialController($classType, $id) {
 	case 'Album':
 	    require_once CLASSES_DIR . 'albumParse.class.php';
 	    $albumParse = new AlbumParse();
-	    $res = $albumParse->decrementAlbum($id, 'shareCounter', 1);
+	    $res = $albumParse->decrementAlbum($id, 'sharecounter', 1);
 	    break;
 	case 'AlbumReview':
 	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $commentParse = new CommentParse();
-	    $res = $commentParse->decrementComment($id, 'shareCounter', 1);
+	    $res = $commentParse->decrementComment($id, 'sharecounter', 1);
 	    break;
 	case 'Event':
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventParse = new EventParse();
-	    $res = $eventParse->decrementEvent($id, 'shareCounter', 1);
+	    $res = $eventParse->decrementEvent($id, 'sharecounter', 1);
 	    break;
 	case 'EventReview':
 	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $commentParse = new CommentParse();
-	    $res = $commentParse->decrementComment($id, 'shareCounter', 1);
+	    $res = $commentParse->decrementComment($id, 'sharecounter', 1);
 	    break;
 	case 'Image':
 	    require_once CLASSES_DIR . 'imageParse.class.php';
 	    $imageParse = new ImageParse();
-	    $res = $imageParse->decrementImage($id, 'shareCounter', 1);
+	    $res = $imageParse->decrementImage($id, 'sharecounter', 1);
 	    break;
 	case 'Record':
 	    require_once CLASSES_DIR . 'recordParse.class.php';
 	    $recordParse = new RecordParse();
-	    $res = $recordParse->decrementRecord($id, 'shareCounter', 1);
+	    $res = $recordParse->decrementRecord($id, 'sharecounter', 1);
 	    break;
 	case 'Song':
 	    require_once CLASSES_DIR . 'songParse.class.php';
 	    $songParse = new SongParse();
-	    $res = $songParse->decrementSong($id, 'shareCounter', 1);
+	    $res = $songParse->decrementSong($id, 'sharecounter', 1);
 	    break;
     }
     $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];

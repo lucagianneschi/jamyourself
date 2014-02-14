@@ -91,13 +91,13 @@ $fileManagerService = new FileManagerService();
     		    <div class="row" style="margin-bottom: 10px">
     			<div  class="small-6 columns">
     			    <a class="note grey " onclick="love(this, 'Image', '<?php echo $value->getId(); ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
-    			    <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getId(); ?>', '<?php echo $value->getFromUser()->getId(); ?>', 'Image', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
+    			    <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getId(); ?>', '<?php echo $value->getFromuser()->getId(); ?>', 'Image', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
     			    <a class="note grey" onclick="share(this, '<?php echo $value->getId(); ?>', 'profile-Image')"><?php echo $views['share']; ?></a>
     			</div>
     			<div  class="small-6 columns propriety">
-    			    <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getLoveCounter(); ?></a>
+    			    <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getLovecounter(); ?></a>
     			    <a class="icon-propriety _comment"><?php echo $value->getCommentCounter(); ?></a>
-    			    <a class="icon-propriety _share"><?php echo $value->getShareCounter(); ?></a>	
+    			    <a class="icon-propriety _share"><?php echo $value->getSharecounter(); ?></a>	
     			</div>
     		    </div>
     		    <div class="row">

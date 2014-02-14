@@ -21,10 +21,10 @@ $description = $event->getDescription();
 $eventDate = $event->getEventDate()->format('l j F Y - H:i');
 $lat = $event->getLocation()->lat;
 $lon = $event->getLocation()->long;
-$fromUserObjectId = $event->getFromUser()->getId();
-$fromUserThumbnail = $event->getFromUser()->getThumbnail();
-$fromUserUsername = $event->getFromUser()->getUsername();
-switch ($event->getFromUser()->getType()) {
+$fromUserObjectId = $event->getFromuser()->getId();
+$fromUserThumbnail = $event->getFromuser()->getThumbnail();
+$fromUserUsername = $event->getFromuser()->getUsername();
+switch ($event->getFromuser()->getType()) {
     case 'JAMMER':
 	$defaultThum = DEFTHUMBJAMMER;
 	break;

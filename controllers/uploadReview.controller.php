@@ -59,7 +59,7 @@ class UploadReviewController extends REST {
 	    } else {
 		$this->reviewed = $revieBox->mediaInfo[0];
 		$this->reviewedFeaturing = getRelatedUsers($this->reviewedId, "featuring", $this->reviewedClassType);
-		$this->reviewedFromUser = $this->reviewed->getFromUser();
+		$this->reviewedFromUser = $this->reviewed->getFromuser();
 		if ($this->reviewedFeaturing instanceof Error) {
 		    die("Errore");
 		}
@@ -110,8 +110,8 @@ class UploadReviewController extends REST {
 	    } elseif ($this->reviewed instanceof Error || is_null($this->reviewed)) {
 		$this->response(array("status" => $controllers['nodata']), 406);
 	    }
-	    $toUser = $this->reviewed->getFromUser();
-	    if ($toUser->getId() == $currentUser->getId()) {
+	    $touser = $this->reviewed->getFromuser();
+	    if ($touser->getId() == $currentUser->getId()) {
 		$this->response(array("status" => $controllers['NOSELFREVIEW']), 403);
 	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
@@ -120,17 +120,17 @@ class UploadReviewController extends REST {
 	    $review->setActive(true);
 	    $review->setAlbum(null);
 	    $review->setCounter(0);
-	    $review->setFromUser($currentUser->getId());
+	    $review->setFromuser($currentUser->getId());
 	    $review->setImage(null);
 	    $review->setLocation(null);
-	    $review->setLoveCounter(0);
+	    $review->setLovecounter(0);
 	    $review->setLovers(array());
-	    $review->setShareCounter(0);
+	    $review->setSharecounter(0);
 	    $review->setSong(null);
 	    $review->setTag(array());
 	    $review->setTitle(null);
 	    $review->setText($reviewRequest->review);
-	    $review->setToUser($toUser->getId());
+	    $review->setToUser($touser->getId());
 	    $review->setVideo(null);
 	    $review->setVote($rating);
 	    switch ($this->reviewedClassType) {
@@ -152,12 +152,12 @@ class UploadReviewController extends REST {
 		    break;
 	    }
 	    require_once CONTROLLERS_DIR . "utilsController.php";
-	    sendMailForNotification($toUser->getEmail(), $subject, $html);
+	    sendMailForNotification($touser->getEmail(), $subject, $html);
 	    $commentParse = new CommentParse();
 	    $resRev = $commentParse->saveComment($review);
 	    if ($resRev instanceof Error) {
 		$this->response(array("status" => $controllers['NOSAVEDREVIEW']), 503);
-	    } elseif ($this->saveActivityForNewReview($type, $toUser->getId()) instanceof Error) {
+	    } elseif ($this->saveActivityForNewReview($type, $touser->getId()) instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
 		$message = rollbackUploadReviewController($resRev->getId());
 		$this->response(array('status' => $message), 503);
@@ -169,11 +169,11 @@ class UploadReviewController extends REST {
     }
 
     /**
-     * \fn	saveActivityForNewReview($type, $toUser)
+     * \fn	saveActivityForNewReview($type, $touser)
      * \brief   funzione per il salvataggio dell'activity connessa all'inserimento della review
      * \todo    differenziare il caso event o record
      */
-    private function saveActivityForNewReview($type, $toUser) {
+    private function saveActivityForNewReview($type, $touser) {
 	require_once CLASSES_DIR . 'user.class.php';
 	require_once CLASSES_DIR . 'activity.class.php';
 	require_once CLASSES_DIR . 'activityParse.class.php';
@@ -181,11 +181,11 @@ class UploadReviewController extends REST {
 	$activity = new Activity();
 	$activity->setActive(true);
 	$activity->setCounter(0);
-	$activity->setFromUser($currentUser->getId());
+	$activity->setFromuser($currentUser->getId());
 	$activity->setRead(false);
 	$activity->setStatus('A');
 	$activity->setType($type);
-	$activity->setToUser($toUser);
+	$activity->setToUser($touser);
 	if ($type == "NEWEVENTREVIEW") {
 	    $activity->setEvent($this->reviewed->getId());
 	    $activity->setRecord(null);

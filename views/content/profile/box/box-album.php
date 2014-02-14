@@ -64,10 +64,10 @@ if (is_null($albumBox->error)) {
 				$album_thumbnailCover = $value->getThumbnail();
 				$album_objectId = $value->getId();
 				$album_title = $value->getTitle();
-				$album_imageCounter = $value->getImageCounter();
-				$album_love = $value->getLoveCounter();
+				$album_imageCounter = $value->getImagecounter();
+				$album_love = $value->getLovecounter();
 				$album_comment = $value->getCommentCounter();
-				$album_share = $value->getShareCounter();
+				$album_share = $value->getSharecounter();
 				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['id'], album_thumbnailCover);
 				if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 				    $css_love = '_love orange';
@@ -119,12 +119,12 @@ if (is_null($albumBox->error)) {
 	    <?php
 	    foreach ($albums as $key => $value) {
 		$album_objectId = $value->getId();
-		$album_user_objectId = $value->getFromUser()->getId();
+		$album_user_objectId = $value->getFromuser()->getId();
 		$album_title = $value->getTitle();
-		$album_imageCounter = $value->getImageCounter();
-		$album_love = $value->getLoveCounter();
+		$album_imageCounter = $value->getImagecounter();
+		$album_love = $value->getLovecounter();
 		$album_comment = $value->getCommentCounter();
-		$album_share = $value->getShareCounter();
+		$album_share = $value->getSharecounter();
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 		    $css_love = '_love orange';
 		    $text_love = $views['unlove'];

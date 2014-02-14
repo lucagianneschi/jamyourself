@@ -20,21 +20,21 @@
 class Song {
 
     private $id;
-    private $createdAt;
-    private $updatedAt;
+    private $createdat;
+    private $updatedat;
     private $active;
-    private $commentCounter;
+    private $commentcounter;
     private $counter;
     private $duration;
-    private $fromUser;
+    private $fromuser;
     private $genre;
     private $latitude;
     private $longitude;
-    private $loveCounter;
+    private $lovecounter;
     private $path;
     private $position;
     private $record;
-    private $shareCounter;
+    private $sharecounter;
     private $title;
 
     /**
@@ -47,21 +47,21 @@ class Song {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
+     * \fn	DateTime getCreatedat()
      * \brief	Return the Song creation date
      * \return	DateTime
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function getCreatedat() {
+	return $this->createdat;
     }
 
     /**
-     * \fn	DateTime getUpdatedAt()
+     * \fn	DateTime getUpdatedat()
      * \brief	Return the Song modification date
      * \return	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function getUpdatedat() {
+	return $this->updatedat;
     }
 
     /**
@@ -78,8 +78,8 @@ class Song {
      * \brief	Return the comment counter value (number of comments)
      * \return	int
      */
-    public function getCommentCounter() {
-	return $this->commentCounter;
+    public function getCommentcounter() {
+	return $this->commentcounter;
     }
 
     /**
@@ -101,12 +101,12 @@ class Song {
     }
 
     /**
-     * \fn	int getFromUser()
+     * \fn	int getFromuser()
      * \brief	Return the id value for the fromUser
      * \return	int
      */
-    public function getFromUser() {
-	return $this->fromUser;
+    public function getFromuser() {
+	return $this->fromuser;
     }
 
     /**
@@ -137,12 +137,12 @@ class Song {
     }
 
     /**
-     * \fn	int getLoveCounter()
+     * \fn	int getLovecounter()
      * \brief	Return the loveCounter value, number of users who love the song
      * \return	int
      */
-    public function getLoveCounter() {
-	return $this->loveCounter;
+    public function getLovecounter() {
+	return $this->lovecounter;
     }
 
     /**
@@ -173,12 +173,12 @@ class Song {
     }
 
     /**
-     * \fn	int getShareCounter()
+     * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
      * \return	int
      */
-    public function getShareCounter() {
-	return $this->shareCounter;
+    public function getSharecounter() {
+	return $this->sharecounter;
     }
 
     /**
@@ -200,21 +200,21 @@ class Song {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
+     * \fn	void setCreatedat($createdat)
      * \brief	Sets the Song creation date
      * \param	DateTime
      */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
+    public function setCreatedat($createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn	void setUpdatedAt($updatedAt)
+     * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the Song modification date
      * \param	DateTime
      */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
+    public function setUpdatedat($updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
@@ -227,12 +227,12 @@ class Song {
     }
 
     /**
-     * \fn	void setCommentCounter($commentCounter)
+     * \fn	void setCommentcounter($commentcounter)
      * \brief	Sets the commnetCounter value
      * \param	int
      */
-    public function setCommentCounter($commentCounter) {
-	$this->commentCounter = $commentCounter;
+    public function setCommentcounter($commentcounter) {
+	$this->commentcounter = $commentcounter;
     }
 
     /**
@@ -254,12 +254,12 @@ class Song {
     }
 
     /**
-     * \fn	void setFromUser($fromUser)
+     * \fn	void setFromuser($fromuser)
      * \brief	Sets the fromUser id  value
      * \param	string
      */
-    public function setFromUser($fromUser) {
-	$this->fromUser = $fromUser;
+    public function setFromuser($fromuser) {
+	$this->fromuser = $fromuser;
     }
 
     /**
@@ -290,12 +290,12 @@ class Song {
     }
 
     /**
-     * \fn	void setLoveCounter($loveCounter)
+     * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the LoveCounter  value
      * \param	int
      */
-    public function setLoveCounter($loveCounter) {
-	$this->loveCounter = $loveCounter;
+    public function setLovecounter($lovecounter) {
+	$this->lovecounter = $lovecounter;
     }
 
     /**
@@ -326,12 +326,12 @@ class Song {
     }
 
     /**
-     * \fn	void setCounter($shareCounter)
-     * \brief	Sets the shareCounter value
+     * \fn	void setCounter($sharecounter)
+     * \brief	Sets the sharecounter value
      * \param	int
      */
-    public function setShareCounter($shareCounter) {
-	$this->shareCounter = $shareCounter;
+    public function setSharecounter($sharecounter) {
+	$this->sharecounter = $sharecounter;
     }
 
     /**
@@ -351,21 +351,21 @@ class Song {
     public function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[createdat] => ' . $this->getCreatedat()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedat] => ' . $this->getUpdatedat()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
-	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
+	$string .= '[commentcounter] => ' . $this->getCommentcounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[duration] => ' . $this->getDuration() . '<br />';
-	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
+	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	$string .= '[genre] => ' . $this->getGenre() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
-	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
+	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
 	$string .= '[path] => ' . $this->getPath() . '<br />';
 	$string .= '[position] => ' . $this->getPosition() . '<br />';
 	$string .= '[record] => ' . $this->getRecord() . '<br />';
-	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
+	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	return $string;
     }

@@ -111,12 +111,12 @@ class MessageController extends REST {
 	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $message = new Comment();
 	    $message->setActive(true);
-	    $message->setCommentCounter(0);
-	    $message->setFromUser($currentUser->getId());
+	    $message->setCommentcounter(0);
+	    $message->setFromuser($currentUser->getId());
 	    $message->setLocation(null);
-	    $message->setLoveCounter(0);
+	    $message->setLovecounter(0);
 	    $message->setLovers(array());
-	    $message->setShareCounter(0);
+	    $message->setSharecounter(0);
 	    $message->setTag(array());
 	    $message->setText($text);
 	    $message->setTitle(null);
@@ -161,7 +161,7 @@ class MessageController extends REST {
     }
 
     /**
-     * \fn	createActivity($fromUser,$toUser)
+     * \fn	createActivity($fromuser,$touser)
      * \brief   private function to delete activity class instance
      * \param   $id
      */
@@ -176,11 +176,11 @@ class MessageController extends REST {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
-	    $toUser = $this->request['toUser'];
+	    $touser = $this->request['toUser'];
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new ActivityParse();
 	    $activity->wherePointer('fromUser', '_User', $currentUser->getId());
-	    $activity->wherePointer('toUser', '_User', $toUser);
+	    $activity->wherePointer('toUser', '_User', $touser);
 	    $activity->where('type', 'MESSAGESENT');
 	    $activity->where('status', 'A');
 	    $activity->where('active', true);
@@ -247,11 +247,11 @@ class MessageController extends REST {
     }
 
     /**
-     * \fn	createActivity($fromUser,$toUser,$message)
+     * \fn	createActivity($fromuser,$touser,$message)
      * \brief   private function to create activity class instance
-     * \param   $fromUser,$toUser
+     * \param   $fromuser,$touser
      */
-    private function createActivity($fromUser, $toUser, $status, $message, $type, $read = false) {
+    private function createActivity($fromuser, $touser, $status, $message, $type, $read = false) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	$activity = new Activity();
 	$activity->setActive(true);
@@ -259,7 +259,7 @@ class MessageController extends REST {
 	$activity->setComment($message);
 	$activity->setCounter(0);
 	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
+	$activity->setFromuser($fromuser);
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);
@@ -267,7 +267,7 @@ class MessageController extends REST {
 	$activity->setRecord(null);
 	$activity->setSong(null);
 	$activity->setStatus($status);
-	$activity->setToUser($toUser);
+	$activity->setToUser($touser);
 	$activity->setType($type);
 	$activity->setVideo(null);
 	return $activity;

@@ -110,10 +110,10 @@ if (is_null($eventBox->error)) {
 				    $event_location = $value->getCity() . ' - ' . $value->getAddress();
 			    }
 
-			    $event_love = $value->getLoveCounter();
+			    $event_love = $value->getLovecounter();
 			    $event_comment = $value->getCommentCounter();
 			    $event_review = $value->getReviewCounter();
-			    $event_share = $value->getShareCounter();
+			    $event_share = $value->getSharecounter();
 			    $pathCoverEvent = $fileManagerService->getEventPhotoPath($_POST['id'], $event_thumbnail);
 			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 				$css_love = '_love orange';
