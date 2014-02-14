@@ -168,7 +168,7 @@ class Image {
      * \return	int
      */
     public function getTag() {
-	return $this->tags;
+	return $this->tag;
     }
 
     /**
@@ -312,7 +312,7 @@ class Image {
      * \param	int
      */
     public function setTag($tag) {
-	$this->tags = $tag;
+	$this->tag = $tag;
     }
 
     /**

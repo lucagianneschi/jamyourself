@@ -203,7 +203,7 @@ class Comment {
      * \return	int
      */
     public function getTag() {
-	return $this->tags;
+	return $this->tag;
     }
 
     /**
@@ -419,7 +419,7 @@ class Comment {
      * \param	int
      */
     public function setTag($tag) {
-	$this->tags = $tag;
+	$this->tag = $tag;
     }
 
     /**

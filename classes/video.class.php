@@ -140,7 +140,7 @@ class Video {
      * \return	int
      */
     public function getTag() {
-	return $this->tags;
+	return $this->tag;
     }
 
     /**
@@ -275,7 +275,7 @@ class Video {
      * \param	int
      */
     public function setTag($tag) {
-	$this->tags = $tag;
+	$this->tag = $tag;
     }
 
     /**

@@ -179,7 +179,7 @@ class Album {
      * \return	int
      */
     public function getTag() {
-	return $this->tags;
+	return $this->tag;
     }
 
     /**
@@ -341,7 +341,7 @@ class Album {
      * \param	array
      */
     public function setTag($tag) {
-	$this->tags = $tag;
+	$this->tag = $tag;
     }
 
     /**
