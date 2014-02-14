@@ -180,19 +180,11 @@ class Playlist {
     public function __toString() {
 	$string = '';
 	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-	if (is_null($this->getActive())) {
-	    $string .= '[active] => NULL<br />';
-	} else {
-	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
-	}
-	$string.= '[fromUser] => ' . $this->getFromUser() . '<br />';
-	$string.= '[name] => ' . $this->getName() . '<br />';
+	$string .= '[active] => ' . $this->getActive() . '<br />';
+	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
+	$string .= '[name] => ' . $this->getName() . '<br />';
 	$string .= '[songs] => ' . $this->getSongs() . '<br />';
-	if ($this->getUnlimited() === null) {
-	    $string .= '[unlimited] => NULL<br />';
-	} else {
-	    $this->getUnlimited() ? $string .= '[unlimited] => 1<br />' : $string .= '[unlimited] => 0<br />';
-	}
+	$string .= '[unlimited] => ' . $this->getUnlimited() . '<br />';
 	if ($this->getCreatedAt() != null) {
 	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
 	} else {

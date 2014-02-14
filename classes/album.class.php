@@ -111,7 +111,7 @@ class Album {
     }
 
     /**
-     * \fn		int getImageCounter()
+     * \fn	int getImageCounter()
      * \brief	Return the image counter value (number of images)
      * \return	int
      */
@@ -370,11 +370,7 @@ class Album {
     public function __toString() {
 	$string = '';
 	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-	if (is_null($this->getActive())) {
-	    $string .= '[active] => NULL<br />';
-	} else {
-	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
-	}
+	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[cover] => ' . $this->getCover() . '<br />';

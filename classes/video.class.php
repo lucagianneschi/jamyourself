@@ -294,11 +294,7 @@ class Video {
     public function __toString() {
 	$string = '';
 	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-	if (is_null($this->getActive())) {
-	    $string .= '[active] => NULL<br />';
-	} else {
-	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
-	}
+	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[author] => ' . $this->getAuthor() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
