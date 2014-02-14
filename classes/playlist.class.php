@@ -26,6 +26,7 @@ class Playlist {
     private $fromuser;
     private $name;
     private $songcounter;
+    private $songs;
     private $unlimited;
 
     /**
@@ -80,6 +81,15 @@ class Playlist {
      */
     public function getName() {
 	return $this->name;
+    }
+
+    /**
+     * \fn	int getsongs()
+     * \brief	Return the song counter value (number of songs)
+     * \return	int
+     */
+    public function getSongs() {
+	return $this->songs;
     }
 
     /**
@@ -155,6 +165,15 @@ class Playlist {
     }
 
     /**
+     * \fn	void  setSongs($songs)
+     * \brief	Sets the songs value
+     * \param	int
+     */
+    public function setSongs($songs) {
+	$this->songs = $songs;
+    }
+
+    /**
      * \fn	void  setsongcounter($songcounter)
      * \brief	Sets the songcounter value
      * \param	int
@@ -186,6 +205,7 @@ class Playlist {
 	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	$string .= '[name] => ' . $this->getName() . '<br />';
 	$string .= '[songcounter] => ' . $this->getSongcounter() . '<br />';
+	$string .= '[songs] => ' . $this->getSongs() . '<br />';
 	$string .= '[unlimited] => ' . $this->getUnlimited() . '<br />';
 	return $string;
     }
