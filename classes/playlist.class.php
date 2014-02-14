@@ -26,7 +26,6 @@ class Playlist {
     private $fromuser;
     private $name;
     private $songcounter;
-    private $song;
     private $unlimited;
 
     /**
@@ -90,15 +89,6 @@ class Playlist {
      */
     public function getSongcounter() {
 	return $this->songcounter;
-    }
-
-    /**
-     * \fn	getSong()
-     * \brief	Return an array of object of istances of the Song class
-     * \return	int
-     */
-    public function getSong() {
-	return $this->song;
     }
 
     /**
@@ -174,15 +164,6 @@ class Playlist {
     }
 
     /**
-     * \fn	void setSong($song)
-     * \brief	Sets the song value,array of pointer to Song
-     * \param	int
-     */
-    public function setSong($song) {
-	$this->song = $song;
-    }
-
-    /**
      * \fn	void setUnlimited($unlimited)
      * \brief	Sets the unlimited value
      * \param	BOOL
@@ -204,8 +185,7 @@ class Playlist {
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	$string .= '[name] => ' . $this->getName() . '<br />';
-	$string .= '[songcounter] => ' . $this->getSongcounterongcounter() . '<br />';
-	$string .= '[song] => ' . $this->getSong() . '<br />';
+	$string .= '[songcounter] => ' . $this->getSongcounter() . '<br />';
 	$string .= '[unlimited] => ' . $this->getUnlimited() . '<br />';
 	return $string;
     }
