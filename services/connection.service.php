@@ -51,9 +51,9 @@ class ConnectionService {
      * \return	true
      */
     public function disconnect() {
-	if ($this->attiva) {
+	if ($this->active) {
 	    if (mysqli_close()) {
-		$this->attiva = false;
+		$this->active = false;
 		return true;
 	    } else {
 		return false;
