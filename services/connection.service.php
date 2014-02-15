@@ -11,7 +11,7 @@
  *  \par		Commenti:
  *  \warning
  *  \bug
- *  \todo
+ *  \todo		inserire dati connessione DB corretti
  *
  */
 
