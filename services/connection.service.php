@@ -23,6 +23,7 @@ class ConnectionService {
     private $database = "database";
     private $active = false;
     private $error = null;
+    private $connection = null;
 
     /**
      * \fn	connect()
@@ -31,8 +32,8 @@ class ConnectionService {
      */
     public function connect() {
 	if (!$this->active) {
-	    mysqli_connect($this->host, $this->user, $this->password, $this->database);
-	    if (mysqli_connect_errno()) {
+	    $this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
+	    if (mysqli_connect_errno($this->connection)) {
 		$this->error = mysqli_connect_error();
 		exit();
 	    } else {
@@ -46,13 +47,13 @@ class ConnectionService {
     }
 
     /**
-     * \fn	disconnect()
+     * \fn	disconnect($connection)
      * \brief	disconnet from the database
      * \return	true
      */
     public function disconnect() {
 	if ($this->active) {
-	    if (mysqli_close()) {
+	    if (mysqli_close($this->connection)) {
 		$this->active = false;
 		return true;
 	    } else {
