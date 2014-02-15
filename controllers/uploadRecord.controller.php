@@ -19,7 +19,6 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
@@ -586,9 +585,7 @@ class UploadRecordController extends REST {
      * \return  TRUE id MP3 is saved in the correct folder, FALSE eighter
      */
     private function saveMp3($userId, $songId) {
-	$this->debug("saveMp3", "Params => userId => " . $userId . " - songId => " . $songId, null);
 	if (file_exists(CACHE_DIR . $songId)) {
-	    $this->debug("saveMp3", "file " . CACHE_DIR . $songId . " exists", null);
 	    if (!is_null($userId) && !is_null($songId)) {
 		$oldName = CACHE_DIR . $songId;
 		$fileManager = new FileManagerService();
@@ -597,29 +594,12 @@ class UploadRecordController extends REST {
 		if (!$res_rename) {
 		    return false;
 		}
-		$this->debug("saveMp3", "renaming  - file \"" . CACHE_DIR . $songId . "\" not exists", null);
 		return $res_rename;
 	    }
 	} else {
-	    $this->debug("saveMp3", "ERROR - file \"" . CACHE_DIR . $songId . "\" not exists", null);
 	    return false;
 	}
     }
-
-    /**
-     * \fn	private function debug($function, $msg, $complexObject)
-     * \brief   funzione per il salvataggio di dati nel debug
-     * param   $function, $msg, $complexObject
-     */
-    private function debug($function, $msg, $complexObject) {
-	$path = "uploadRecord.controller/";
-	$file = date("Ymd"); //today
-	if (isset($complexObject) && !is_null($complexObject)) {
-	    $msg = $msg . " " . var_export($complexObject, true);
-	}
-	debug($path, $file, $function . " | " . $msg);
-    }
-
 }
 
 ?>

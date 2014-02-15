@@ -22,7 +22,6 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CONTROLLERS_DIR . 'utilsController.php';
-require_once SERVICES_DIR . 'debug.service.php';
 
 /**
  * \brief	RelationController class
@@ -447,7 +446,6 @@ class RelationController extends REST {
 
 	    #TODO
 	    sendMailForNotification($toUser->getEmail(), $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile)); //devi prima richiamare lo user
-	    debug('', 'debug.txt', '6');
 	    $this->response(array($controllers['RELSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);

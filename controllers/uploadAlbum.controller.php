@@ -57,31 +57,19 @@ class UploadAlbumController extends REST {
      */
     public function createAlbum() {
 	try {
-	    $this->debug("createAlbum", "START ---------------------------------------------------------------------------------------", null);
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
-		$this->debug("createAlbum", "param error : " . $controllers['NOPOSTREQUEST'], null);
-		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
 	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->debug("createAlbum", "param error : " . $controllers['USERNOSES'], null);
-		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response($controllers['USERNOSES'], 402);
 	    } elseif (!isset($this->request['albumTitle']) || is_null($this->request['albumTitle']) || !(strlen($this->request['albumTitle']) > 0)) {
-		$this->debug("createAlbum", "param error : " . $controllers['NOALBUMTITLE'] . " - checking request['albumTitle'] => ", $this->request['albumTitle']);
-		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array('status' => $controllers['NOALBUMTITLE']), 403);
 	    } elseif (!isset($this->request['description']) || is_null($this->request['description']) || !(strlen($this->request['description']) > 0)) {
-		$this->debug("createAlbum", "param error : " . $controllers['NOALBUMDESCRIPTION'] . " - checking request['description'] => ", $this->request['description']);
-		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array('status' => $controllers['NOALBUMDESCRIPTION']), 404);
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
-		$this->debug("createAlbum", "param error : " . $controllers['NOALBUMIMAGES'] . " - checking request['images'] => ", $this->request['images']);
-		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 406);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
-	    $this->debug("createAlbum", "currentUserId : " . $currentUser->getObjectId(), null);
 	    $album = new Album();
 	    $album->setActive(true);
 	    $album->setCommentCounter(0);
@@ -106,40 +94,25 @@ class UploadAlbumController extends REST {
 	    $album->setTitle($this->request['albumTitle']);
 	    $albumParse = new AlbumParse();
 	    $albumSaved = $albumParse->saveAlbum($album);
-	    $this->debug("createAlbum", "saving album => : ", $album);
 	    if ($albumSaved instanceof Error) {
-		$this->debug("createAlbum", "saving album !!! ERROR !!! => : ", $albumSaved);
-		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array('status' => $controllers['ALBUMNOTSAVED']), 407);
 	    }
 	    $albumId = $albumSaved->getObjectId();
-	    $this->debug("createAlbum", "saving album SAVED  with objectId : " . $albumId, null);
-	    $this->debug("createAlbum", "creating activity for album...", null);
 	    $resActivity = $this->createActivity($currentUser->getObjectId(), $albumId);
 	    if ($resActivity instanceof Error) {
-		$this->debug("createAlbum", "creating activity for album... ERROR => ", $resActivity);
 		rollbackUploadAlbumController($albumId, "Album");
-		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array("status" => $controllers['ALBUMNOTSAVED']), 409);
 	    }
-	    $this->debug("createAlbum", "creating activity for album... OK - activityId => " . $resActivity->getObjectId(), null);
-	    $this->debug("createAlbum", "foreach saving images - start here", null);
 	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUser);
 
 	    if (count($errorImages) == count($this->request['images'])) {
 		//nessuna immagine salvata, ma album creato
-		$this->debug("createAlbum", "inside foreach | - END - result => " . $controllers['ALBUMSAVENOIMGSAVED'], null);
-		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array("status" => $controllers['ALBUMSAVENOIMGSAVED'], "id" => $albumSaved->getObjectId()), 200);
 	    } elseif (count($errorImages) > 0) {
 		//immagini salvate, ma non tutte....
-		$this->debug("createAlbum", "inside foreach | - END - result => " . $controllers['ALBUMSAVEDWITHERRORS'] . " | errorImages => ", $errorImages);
-		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array("status" => $controllers['ALBUMSAVEDWITHERRORS'], "id" => $albumSaved->getObjectId()), 200);
 	    } else {
 		//tutto OK
-		$this->debug("createAlbum", "inside foreach | - END - result => " . $controllers['ALBUMSAVED'], null);
-		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array("status" => $controllers['ALBUMSAVED'], "id" => $albumSaved->getObjectId()), 200);
 	    }
 	} catch (Exception $e) {
@@ -149,55 +122,37 @@ class UploadAlbumController extends REST {
 
     public function updateAlbum() {
 	try {
-	    $this->debug("updateAlbum", "START", null);
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
-		$this->debug("updateAlbum", "param error : " . $controllers['NOPOSTREQUEST'], null);
-		$this->debug("updateAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
 	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->debug("updateAlbum", "param error : " . $controllers['USERNOSES'], null);
-		$this->debug("updateAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response($controllers['USERNOSES'], 402);
 	    } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
-		$this->debug("updateAlbum", "param error : " . $controllers['NOALBUMID'] . " - checking request['albumId'] => ", $this->request['albumId']);
-		$this->debug("updateAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array('status' => $controllers['NOALBUMID']), 403);
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
-		$this->debug("updateAlbum", "param error : " . $controllers['NOALBUMIMAGES'] . " - checking request['images'] => ", $this->request['images']);
-		$this->debug("updateAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 404);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
 	    $albumParse = new AlbumParse();
 	    $albumId = $this->request['albumId'];
-	    $this->debug("updateAlbum", "Album Id : " . $this->request['albumId'] . " ....", null);
 	    $album = $albumParse->getAlbum($albumId);
 	    if ($album instanceof Error) {
-		$this->debug("updateAlbum", "Updating Album Id : " . $this->request['albumId'] . " .... ERROR - NO ALBUM FOUND", null);
-		$this->debug("updateAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array('status' => $controllers['NOALBUMFOUNDED']), 405);
 	    }
 	    //ora devo aggiungere tutte le foto
-	    $this->debug("updateAlbum", "foreach saving images - start here", null);
-
 	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUser);
 
 	    if (count($errorImages) == count($this->request['images'])) {
 		//nessuna immagine salvata
 		$this->response(array("status" => $controllers['NOIMAGESAVED'], "id" => $albumId), 200);
-		$this->debug("updateAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 	    } elseif (count($errorImages) > 0) {
 		//immagini salvate, ma non tutte....
-		$this->debug("updateAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array("status" => $controllers['IMAGESSAVEDWITHERRORS'], "id" => $albumId), 200);
 	    } else {
 		//tutto OK
-		$this->debug("updateAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array("status" => $controllers['IMAGESSAVED'], "id" => $albumId), 200);
 	    }
 	} catch (Exception $e) {
-	    $this->debug("updateAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
@@ -302,18 +257,12 @@ class UploadAlbumController extends REST {
 //    private function saveImage($src, $description, $featuringArray, $albumId) {
     private function saveImage($imgInfo, $albumId) {
 	try {
-	    $this->debug("saveImage", "START --------------------------------------------------------------", null);
 	    $currentUser = $_SESSION['currentUser'];
 	    $cachedFile = CACHE_DIR . $imgInfo['src'];
-	    $this->debug("saveImage", "cachedFile => " . $cachedFile, null);
 	    if (!file_exists($cachedFile)) {
-		$this->debug("saveImage", "cachedFile => " . $cachedFile . " NOT EXISTS", null);
-		$this->debug("saveImage", "RETURN --------------------------------------------------------------", null);
 		return null;
 	    } else {
-		$this->debug("saveImage", "moving file...", null);
 		$imgMoved = $this->moveFile($currentUser->getObjectId(), $albumId, $imgInfo['src']);
-		$this->debug("saveImage", "moving file... result => ", $imgMoved);
 		$image = new Image();
 		$image->setActive(true);
 		$image->setAlbum($albumId);
@@ -334,11 +283,9 @@ class UploadAlbumController extends REST {
 		$image->setTags(null);
 		$image->setThumbnail($imgMoved['thumbnail']);
 		$pImage = new ImageParse();
-		$this->debug("saveImage", "RETURN --------------------------------------------------------------", null);
 		return $pImage->saveImage($image);
 	    }
 	} catch (Exception $e) {
-	    $this->debug("saveImage", "RETURN --------------------------------------------------------------", null);
 	    return $e;
 	}
     }
@@ -350,33 +297,26 @@ class UploadAlbumController extends REST {
 	    //aggiorno la relazione album/image
 	    $res = $pAlbum->updateField($albumId, 'images', array($imageId), true, 'add', 'Image');
 	    if ($res instanceof Error) {
-		$this->debug("addImageToAlbum", " return ----------------------------------", null);
 		return $res;
 	    }
 	    //creo l'activity specifica 
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $resActivity = $this->createActivity($currentUser->getObjectId(), $albumId, "IMAGEADDEDTOALBUM", $imageId);
 	    if ($resActivity instanceof Error) {
-		$this->debug("addImageToAlbum", " return ----------------------------------", null);
 		return $resActivity;
 	    }
 	    //aggiorno il contatore del album
 	    $resIncr = $pAlbum->incrementAlbum($albumId, "imageCounter", 1);
 	    if ($resIncr instanceof Error) {
-		$this->debug("addImageToAlbum", " return ----------------------------------", null);
 		return $resIncr;
 	    }
-	    $this->debug("addImageToAlbum", " return ----------------------------------", null);
 	    return true;
 	} catch (Exception $e) {
-	    $this->debug("addImageToAlbum", " return ----------------------------------", null);
 	    return $e;
 	}
     }
 
     private function moveFile($userId, $albumId, $fileInCache) {
-	$this->debug("moveFile", "START ---------------------------------------", null);
-	$this->debug("moveFile", "params : => userId => " . $userId . ", albumId => " . $albumId . ", fileInCache => " . $fileInCache, null);
 	if (file_exists(CACHE_DIR . $fileInCache)) {
 	    if (!is_null($userId) && !is_null($albumId) && !is_null($fileInCache)) {
 
@@ -401,16 +341,12 @@ class UploadAlbumController extends REST {
 		//cancello il vecchio file
 		unlink(CACHE_DIR . $fileInCache);
 		if ($res_1 && $res_2) {
-		    $this->debug("moveFile", " return ----------------------------------", null);
 		    return array("image" => $jpg, "thumbnail" => $thumbnail);
 		} else {
-		    $this->debug("moveFile", " return ----------------------------------", null);
 		    return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
 		}
 	    }
 	} else {
-	    $this->debug("moveFile", " FILE NOT FOUND IN CACHE", null);
-	    $this->debug("moveFile", " return ----------------------------------", null);
 	    return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
 	}
     }
@@ -462,43 +398,32 @@ class UploadAlbumController extends REST {
 	$errorImages = array();
 	if (!is_null($imagesList) && is_array($imagesList) && count($imagesList) > 0) {
 	    foreach ($imagesList as $image) {
-		$this->debug("saveImagesList", "inside foreach | saveImage( image ) => ", $image);
 		$resImage = $this->saveImage($image, $albumId);
 		if ($resImage instanceof Error || $resImage instanceof Exception || is_null($resImage)) {
 		    array_push($errorImages, $image);
-		    $this->debug("saveImagesList", "inside foreach | saveImage( image ) => !!! ERROR !!! resImage => ", $resImage);
 		} else {
-		    $this->debug("saveImagesList", "inside foreach | saveImage( image ) => OK", null);
 		    //se l'immagine è quella scelta come cover:
 		    if ($image['isCover'] == "true") {
-			$this->debug("saveImagesList", "inside foreach | SETTING AS COVER", null);
 			$copyImagesInfo = $this->createAlbumCoverFiles($currentUser->getObjectId(), $albumId, $resImage->getFilePath(), $resImage->getThumbnail());
-			$this->debug("saveImagesList", "inside foreach | SETTING AS COVER - updating DB FOR cover params: albumId => updateField(" . $albumId . ", cover," . $copyImagesInfo["cover"] . ")", null);
 			$albumParseUpdate = new AlbumParse();
 			$resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $resImage->getFilePath());
 			if ($resUpdateCover instanceof Error) {
-			    $this->debug("saveImagesList", "inside foreach | SETTING AS COVER - updating DB... => !!! ERROR !!! resUpdateCover => ", $resUpdateCover);
 			    array_push($errorImages, $image);
 			    continue;
 			}
-			$this->debug("saveImagesList", "inside foreach | SETTING AS COVER - updating DB FOR cover params: albumId => updateField(" . $albumId . ", thumbnailCover," . $copyImagesInfo["thumbnail"] . ")", null);
 			$resUpdateThumb = $albumParseUpdate->updateField($albumId, "thumbnailCover", $resImage->getThumbnail());
 			if ($resUpdateThumb instanceof Error) {
-			    $this->debug("saveImagesList", "inside foreach | SETTING AS COVER - updating DB... => !!! ERROR !!! resUpdateThumb => ", $resUpdateThumb);
 			    array_push($errorImages, $image);
 			    continue;
 			}
 		    }
 		    //in ogni caso:
-		    $this->debug("saveImagesList", "inside foreach | - updating DB FOR relation... paramms = albumSavedId => " . $albumId . " , imageId => " . $resImage->getObjectid() . " ....", null);
 		    $resRelation = $this->addImageToAlbum($albumId, $resImage->getObjectid());
 		    if ($resRelation instanceof Error || $resRelation instanceof Exception || is_null($resRelation)) {
 			array_push($errorImages, $image);
-			$this->debug("saveImagesList", "inside foreach | - updating DB FOR relation... paramms = albumSavedId => " . $albumId . " , imageId => " . $resImage->getObjectid() . " .... !!! ERROR !!!! | resRelation => ", $resRelation);
 			rollbackUploadAlbumController($resImage->getObjectId(), "Image");
 			continue;
 		    }
-		    $this->debug("saveImagesList", "inside foreach | - updating DB FOR relation... paramms = albumSavedId => " . $albumId . " , imageId => " . $resImage->getObjectid() . " .... OK", null);
 		}
 	    }
 	}
@@ -525,17 +450,6 @@ class UploadAlbumController extends REST {
 	}
 	return true;
     }
-
-    private function debug($function, $msg, $complexObject) {
-	$path = "uploadAlbum.controller/";
-	$file = date("Ymd"); //today
-	if (isset($complexObject) && !is_null($complexObject)) {
-	    $msg = $msg . " " . var_export($complexObject, true);
-	}
-	require_once SERVICES_DIR . 'debug.service.php';
-	debug($path, $file, $function . " | " . $msg);
-    }
-
 }
 
 ?>
