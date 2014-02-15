@@ -3,7 +3,6 @@
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'cropImage.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
 require_once SERVICES_DIR . 'mp3.service.php';
 
 class UploadController extends REST {
@@ -15,21 +14,17 @@ class UploadController extends REST {
 
     public function uploadImage() {
 	try {
-	    $this->debug("uploadImage", "START");
 	    $this->setHeader();
 
 // imposto limite di tempo di esecuzione
 	    if ($this->config->timeLimit > 0) {
-		$this->debug("uploadImage", "time_limit is : " . $this->config->timeLimit);
 		@set_time_limit($this->config->timeLimit);
 	    }
 
 	    $targetDir = CACHE_DIR;
-	    $this->debug("uploadImage", "targetDir is : " . $targetDir);
 
 // creao la directory di destinazione se non esiste
 	    if (!file_exists($targetDir)) {
-		$this->debug("uploadImage", "targetDir does not exists.. creating.");
 		@mkdir($targetDir);
 	    }
 
@@ -48,34 +43,27 @@ class UploadController extends REST {
 
 
 	    $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
-	    $this->debug("uploadImage", "filePath is: " . $filePath);
 
 // Chunking might be enabled
 	    $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
 	    $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
 
-	    $this->debug("uploadImage", "chunk  is: " . $chunk . " of " . $chunks . " chunks");
-
 // Apro il file temporaneo
 	    if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
-		$this->debug("uploadImage", "ERROR: Failed to open output stream - END");
 		die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
 	    }
 
 	    if (!empty($_FILES)) {
 		if ($_FILES["file"]["error"] || !is_uploaded_file($_FILES["file"]["tmp_name"])) {
-		    $this->debug("uploadImage", "ERROR: Failed to move uploaded file - END");
 		    die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
 		}
 
 		// Read binary input stream and append it to temp file
 		if (!$in = @fopen($_FILES["file"]["tmp_name"], "rb")) {
-		    $this->debug("uploadImage", "ERROR: Failed to open input stream - END");
 		    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
 		}
 	    } else {
 		if (!$in = @fopen("php://input", "rb")) {
-		    $this->debug("uploadImage", "ERROR: Failed to open input stream - END");
 		    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
 		}
 	    }
@@ -90,13 +78,10 @@ class UploadController extends REST {
 // Verifico che il file sia stato caricato
 	    if (!$chunks || $chunk == $chunks - 1) {
 		// Strip the temp .part suffix off 
-		$this->debug("uploadImage", "Renaming {$filePath}.part in : " . $filePath);
 		rename("{$filePath}.part", $filePath);
 
-		$this->debug("uploadImage", "file size is : " . filesize($filePath) . " - MAX_IMG_UPLOAD_FILE_SIZE : " . MAX_IMG_UPLOAD_FILE_SIZE);
 
 		if (filesize($filePath) > MAX_IMG_UPLOAD_FILE_SIZE) {
-		    $this->debug("uploadImage", "ERROR: File is too big - END");
 		    unlink($filePath);
 		    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "File is too big."}, "id" : "id"}');
 		}
@@ -107,7 +92,6 @@ class UploadController extends REST {
 		$randomName = CACHE_DIR . DIRECTORY_SEPARATOR . $fileName;
 		$resRename = rename($filePath, $randomName);
 		if (!$resRename) {
-		    $this->debug("uploadImage", "ERROR: Error renaming file - END");
 		    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Error renaming file."}, "id" : "id"}');
 		}
 
@@ -117,13 +101,11 @@ class UploadController extends REST {
 //calcolo le proporzioni da mostrare a video
 		$prop = $this->calculateNewProperties($imgWidth, $imgHeight);
 // Restituisco successo    
-		$this->debug("uploadImage", "Returning : src : " . $fileName . ", width : " . $prop['width'] . ",height : " . $prop['height'] . " - END");
 		die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "width" : "' . $prop['width'] . '","height" : "' . $prop['height'] . '" }');
 	    } else {
 		die('{"jsonrpc" : "2.0"}');
 	    }
 	} catch (Exception $e) {
-	    $this->debug("uploadImage", "Exception : " . var_export($e, true));
 	}
     }
 
@@ -200,7 +182,6 @@ class UploadController extends REST {
 // Verifico che il file sia stato caricato
 	    if (!$chunks || $chunk == $chunks - 1) {
 		// Strip the temp .part suffix off 
-		$this->debug("uploadImage", "Renaming {$filePath}.part in : " . $filePath);
 		rename("{$filePath}.part", $filePath);
 
 		if (filesize($filePath) > MAX_MP3_UPLOAD_FILE_SIZE) {
@@ -213,7 +194,6 @@ class UploadController extends REST {
 		$randomName = CACHE_DIR . DIRECTORY_SEPARATOR . $fileName;
 		$resRename = rename($filePath, $randomName);
 		if (!$resRename) {
-		    $this->debug("uploadImage", "ERROR: Error renaming file - END");
 		    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Error renaming file."}, "id" : "id"}');
 		}
 
@@ -296,13 +276,6 @@ class UploadController extends REST {
 	    return array(0, 0);
 	}
     }
-
-    private function debug($function, $msg) {
-	$path = "upload.controller/";
-	$file = date("Ymd"); //today
-	debug($path, $file, $function . " | " . $msg);
-    }
-
 }
 
 ?>
