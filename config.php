@@ -17,7 +17,6 @@ require_once 'path.php';
 /** \def MANTAINANCE_MODE('MANTAINANCE_MODE', 0)
  *  Define the Maintenance Mode state
  */
-#def
 define('MANTAINANCE_MODE', 0);
 
 /** \def ('SERVER_NAME', 'www.jamyourself.com')
