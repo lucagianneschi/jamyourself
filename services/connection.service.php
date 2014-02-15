@@ -38,12 +38,9 @@ class ConnectionService {
 		exit();
 	    } else {
 		$this->active = true;
-		return true;
 	    }
-	} else {
-	    $this->active = true;
-	    return true;
 	}
+	return true;
     }
 
     /**
@@ -53,13 +50,10 @@ class ConnectionService {
      */
     public function disconnect() {
 	if ($this->active) {
-	    if (mysqli_close($this->connection)) {
-		$this->active = false;
-		return true;
-	    } else {
-		return false;
-	    }
+	    mysqli_close($this->connection);
+	    $this->active = false;
 	}
+	return true;
     }
 
 }
