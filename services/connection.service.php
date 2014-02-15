@@ -22,6 +22,7 @@ class ConnectionService {
     private $password = "password";
     private $database = "database";
     private $active = false;
+    private $error = null;
 
     /**
      * \fn	connect()
@@ -32,7 +33,7 @@ class ConnectionService {
 	if (!$this->active) {
 	    mysqli_connect($this->host, $this->user, $this->password, $this->database);
 	    if (mysqli_connect_errno()) {
-		echo "Errore:" . mysqli_connect_error();
+		$this->error = mysqli_connect_error();
 		exit();
 	    } else {
 		$this->active = true;
