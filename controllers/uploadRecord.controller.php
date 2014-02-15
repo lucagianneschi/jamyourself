@@ -19,7 +19,6 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
@@ -84,8 +83,8 @@ class UploadRecordController extends REST {
 	    require_once CONTROLLERS_DIR . "utilsController.php";
 	    $imgInfo = getCroppedImages($newRecord);
 	    $record->setCover($imgInfo['picture']);
-	    $record->setThumbnailCover($imgInfo['thumbnail']);
-	    $record->setSongCounter(0);
+	    $record->setThumbnail($imgInfo['thumbnail']);
+	    $record->setSongcounter(0);
 	    $record->setDescription($newRecord->description);
 	    $record->setDuration(0);
 	    if (isset($newRecord->albumFeaturing) && !is_null($newRecord->albumFeaturing) && count($newRecord->albumFeaturing) > 0)
@@ -99,7 +98,7 @@ class UploadRecordController extends REST {
 	    $record->setCity($infoLocation['city']);
 	    $record->setLovecounter(0);
 	    $record->setLovers(array());
-	    $record->setReviewCounter(0);
+	    $record->setReviewcounter(0);
 	    $record->setSharecounter(0);
 	    $record->setTitle($newRecord->recordTitle);
 	    $record->setYear($newRecord->year);
@@ -196,7 +195,7 @@ class UploadRecordController extends REST {
 			} else {
 			    $song->setFeaturing(array());
 			}
-			$song->setFilePath($element->src);
+			$song->setPath($element->src);
 			$song->setFromuser($currentUser->getId());
 			$song->setGenre($element->tags);
 			$song->setLocation(null);
@@ -327,7 +326,7 @@ class UploadRecordController extends REST {
 //                return false;
 //            }
 	    //aggiorno la relazione record/song
-	    $res = $pRecord->updateField($recordId, 'tracklist', array($song->getObjectid()), true, 'add', 'Song');
+	    $res = $pRecord->updateField($recordId, 'tracklist', array($song->getId()), true, 'add', 'Song');
 	    if ($res instanceof Error) {
 		return $res;
 	    }
@@ -374,7 +373,7 @@ class UploadRecordController extends REST {
 	$activity->setRecord($recordId);
 	$activity->setSong($songId);
 	$activity->setStatus('A');
-	$activity->setToUser(null);
+	$activity->setTouser(null);
 	$activity->setType($type);
 	$activity->setVideo(null);
 	$pActivity = new ActivityParse();
@@ -586,9 +585,7 @@ class UploadRecordController extends REST {
      * \return  TRUE id MP3 is saved in the correct folder, FALSE eighter
      */
     private function saveMp3($userId, $songId) {
-	$this->debug("saveMp3", "Params => userId => " . $userId . " - songId => " . $songId, null);
 	if (file_exists(CACHE_DIR . $songId)) {
-	    $this->debug("saveMp3", "file " . CACHE_DIR . $songId . " exists", null);
 	    if (!is_null($userId) && !is_null($songId)) {
 		$oldName = CACHE_DIR . $songId;
 		$fileManager = new FileManagerService();
@@ -597,29 +594,12 @@ class UploadRecordController extends REST {
 		if (!$res_rename) {
 		    return false;
 		}
-		$this->debug("saveMp3", "renaming  - file \"" . CACHE_DIR . $songId . "\" not exists", null);
 		return $res_rename;
 	    }
 	} else {
-	    $this->debug("saveMp3", "ERROR - file \"" . CACHE_DIR . $songId . "\" not exists", null);
 	    return false;
 	}
     }
-
-    /**
-     * \fn	private function debug($function, $msg, $complexObject)
-     * \brief   funzione per il salvataggio di dati nel debug
-     * param   $function, $msg, $complexObject
-     */
-    private function debug($function, $msg, $complexObject) {
-	$path = "uploadRecord.controller/";
-	$file = date("Ymd"); //today
-	if (isset($complexObject) && !is_null($complexObject)) {
-	    $msg = $msg . " " . var_export($complexObject, true);
-	}
-	debug($path, $file, $function . " | " . $msg);
-    }
-
 }
 
 ?>

@@ -114,7 +114,7 @@ class UploadEventController extends REST {
 	    $event->setLovecounter(0);
 	    $event->setLovers(array());
 	    $event->setRefused(null);
-	    $event->setReviewCounter(0);
+	    $event->setReviewcounter(0);
 	    $event->setSharecounter(0);
 	    $event->setTag($this->request['tags']);
 	    $event->setGenre($this->request['music']);
@@ -167,7 +167,7 @@ class UploadEventController extends REST {
 	$activity->setRecord(null);
 	$activity->setSong(null);
 	$activity->setStatus("A");
-	$activity->setToUser(null);
+	$activity->setTouser(null);
 	$activity->setType("EVENTCREATED");
 	$activity->setVideo(null);
 	return $activity;

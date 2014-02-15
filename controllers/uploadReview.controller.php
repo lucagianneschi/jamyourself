@@ -130,7 +130,7 @@ class UploadReviewController extends REST {
 	    $review->setTag(array());
 	    $review->setTitle(null);
 	    $review->setText($reviewRequest->review);
-	    $review->setToUser($touser->getId());
+	    $review->setTouser($touser->getId());
 	    $review->setVideo(null);
 	    $review->setVote($rating);
 	    switch ($this->reviewedClassType) {
@@ -185,7 +185,7 @@ class UploadReviewController extends REST {
 	$activity->setRead(false);
 	$activity->setStatus('A');
 	$activity->setType($type);
-	$activity->setToUser($touser);
+	$activity->setTouser($touser);
 	if ($type == "NEWEVENTREVIEW") {
 	    $activity->setEvent($this->reviewed->getId());
 	    $activity->setRecord(null);

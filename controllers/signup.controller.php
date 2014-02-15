@@ -297,7 +297,7 @@ class SignupController extends REST {
 	$record->setDuration(0);
 	$record->setFromuser($userId);
 	$record->setLovecounter(0);
-	$record->setReviewCounter(0);
+	$record->setReviewcounter(0);
 	$record->setSharecounter(0);
 	$record->setTitle(DEF_REC);
 	$record->setYear(date("Y"));
