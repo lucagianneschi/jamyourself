@@ -441,11 +441,11 @@ class Comment {
     }
 
     /**
-     * \fn	void setToUser($touser)
+     * \fn	void setTouser($touser)
      * \brief	Sets the toUser id value
      * \param	int
      */
-    public function setToUser($touser) {
+    public function setTouser($touser) {
 	$this->touser = $touser;
     }
 
