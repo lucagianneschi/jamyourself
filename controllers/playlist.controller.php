@@ -169,7 +169,7 @@ class PlaylistController extends REST {
 	$activity->setRecord(null);
 	$activity->setSong($songId);
 	$activity->setStatus('A');
-	$activity->setToUser(null);
+	$activity->setTouser(null);
 	$activity->setType($type);
 	$activity->setVideo(null);
 	return $activity;

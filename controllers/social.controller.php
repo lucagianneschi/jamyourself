@@ -69,7 +69,7 @@ class SocialController extends REST {
 	    $activity->setQuestion(null);
 	    $activity->setRead($read);
 	    $activity->setStatus('A');
-	    $activity->setToUser($toUserObjectId);
+	    $activity->setTouser($toUserObjectId);
 	    switch ($classType) {
 		case 'Album':
 		    require_once CLASSES_DIR . 'albumParse.class.php';
@@ -200,7 +200,7 @@ class SocialController extends REST {
 	    $activity->setRead(true);
 	    $activity->setSong(null);
 	    $activity->setStatus('A');
-	    $activity->setToUser(null);
+	    $activity->setTouser(null);
 	    $activity->setType('ACCOUNTLINKED');
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
@@ -274,7 +274,7 @@ class SocialController extends REST {
 	    $activity->setRead(true);
 	    $activity->setSong(null);
 	    $activity->setStatus('A');
-	    $activity->setToUser(null);
+	    $activity->setTouser(null);
 	    $activity->setType('SOCIALLOGGEDIN');
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
@@ -336,7 +336,7 @@ class SocialController extends REST {
 	    $activity->setRead(true);
 	    $activity->setSong(null);
 	    $activity->setStatus('A');
-	    $activity->setToUser(null);
+	    $activity->setTouser(null);
 	    $activity->setType('SOCIALLOGGEDIN');
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();

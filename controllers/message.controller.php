@@ -119,7 +119,7 @@ class MessageController extends REST {
 	    $message->setTag(array());
 	    $message->setText($text);
 	    $message->setTitle(null);
-	    $message->setToUser($toUserId);
+	    $message->setTouser($toUserId);
 	    $message->setType('M');
 	    $message->setVideo(null);
 	    $message->setVote(null);
@@ -266,7 +266,7 @@ class MessageController extends REST {
 	$activity->setRecord(null);
 	$activity->setSong(null);
 	$activity->setStatus($status);
-	$activity->setToUser($touser);
+	$activity->setTouser($touser);
 	$activity->setType($type);
 	$activity->setVideo(null);
 	return $activity;

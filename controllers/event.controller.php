@@ -296,7 +296,7 @@ class EventController extends REST {
 	$activity->setRead($read);
 	$activity->setSong(null);
 	$activity->setStatus($status);
-	$activity->setToUser($toUserId);
+	$activity->setTouser($toUserId);
 	$activity->setType($type);
 	$activity->setVideo(null);
 	return $activity;

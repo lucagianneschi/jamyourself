@@ -185,7 +185,7 @@ class DeleteController extends REST {
 			$userParse = new UserParse();
 			$res = $userParse->deleteUser($id);
 			$activity->setType("DELETEDUSER");
-			$activity->setToUser($id);
+			$activity->setTouser($id);
 			$mail = mailService();
 			$mail->AddAddress($currentUser->getEmail());
 			$mail->Subject = $controllers['SBJ'];

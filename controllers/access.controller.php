@@ -49,7 +49,7 @@ class AccessController extends REST {
 	$activity->setRead(true);
 	$activity->setSong(null);
 	$activity->setStatus('A');
-	$activity->setToUser(null);
+	$activity->setTouser(null);
 	$activity->setType($type);
 	$activity->setVideo(null);
 	return $activity;

@@ -87,7 +87,7 @@ class PostController extends REST {
 	    $cmt->setTag(array());
 	    $cmt->setTitle(null);
 	    $cmt->setText($post);
-	    $cmt->setToUser($toUserObjectId);
+	    $cmt->setTouser($toUserObjectId);
 	    $cmt->setType('P');
 	    $cmt->setVideo(null);
 	    $cmt->setVote(null);
@@ -112,7 +112,7 @@ class PostController extends REST {
 		$activity->setRecord(null);
 		$activity->setSong(null);
 		$activity->setStatus('A');
-		$activity->setToUser($toUserObjectId);
+		$activity->setTouser($toUserObjectId);
 		$activity->setType('POSTED');
 		$activity->setVideo(null);
 		$activityParse = new ActivityParse();

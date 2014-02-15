@@ -79,7 +79,7 @@ class LoveController extends REST {
 	    $activity->setQuestion(null);
 	    $activity->setRead(false);
 	    $activity->setStatus("A");
-	    $activity->setToUser($toUserObjectId);
+	    $activity->setTouser($toUserObjectId);
 	    switch ($classType) {
 		case 'Album':
 		    require_once CLASSES_DIR . 'albumParse.class.php';
@@ -202,7 +202,7 @@ class LoveController extends REST {
 	    $activity->setQuestion(null);
 	    $activity->setRead(true);
 	    $activity->setStatus("A");
-	    $activity->setToUser($toUserObjectId);
+	    $activity->setTouser($toUserObjectId);
 	    switch ($classType) {
 		case 'Album':
 		    require_once CLASSES_DIR . 'albumParse.class.php';

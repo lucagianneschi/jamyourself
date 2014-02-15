@@ -88,7 +88,7 @@ class PlayerController extends REST {
 	$activity->setRecord($recordId);
 	$activity->setSong($songId);
 	$activity->setStatus('A');
-	$activity->setToUser(null);
+	$activity->setTouser(null);
 	$activity->setType("SONGLISTENED");
 	$activity->setVideo(null);
 	return $activity;

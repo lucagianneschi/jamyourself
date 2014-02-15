@@ -84,7 +84,7 @@ class CommentController extends REST {
 	    $cmt->setTag(array());
 	    $cmt->setTitle(null);
 	    $cmt->setText($comment);
-	    $cmt->setToUser($toUserObjectId);
+	    $cmt->setTouser($toUserObjectId);
 	    $cmt->setType('C');
 	    $cmt->setVote(null);
 	    $activity = new Activity();
@@ -95,7 +95,7 @@ class CommentController extends REST {
 	    $activity->setQuestion(null);
 	    $activity->setRead(false);
 	    $activity->setStatus('A');
-	    $activity->setToUser($toUserObjectId);
+	    $activity->setTouser($toUserObjectId);
 	    switch ($classType) {
 		case 'Album':
 		    require_once CLASSES_DIR . 'albumParse.class.php';

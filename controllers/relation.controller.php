@@ -463,7 +463,7 @@ class RelationController extends REST {
 	require_once CLASSES_DIR . 'activity.class.php';
 	$activity = new Activity();
 	$activity->setType($type);
-	$activity->setToUser($toUserId);
+	$activity->setTouser($toUserId);
 	$activity->setFromuser($currentUserId);
 	$activity->setStatus($status);
 	$activity->setRead(false);
