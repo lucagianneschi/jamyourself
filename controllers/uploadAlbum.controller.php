@@ -361,8 +361,7 @@ class UploadAlbumController extends REST {
 
 	require_once BOXES_DIR . "album.box.php";
 	$albumBox = new AlbumBox();
-	$albumBox->initForUploadAlbumPage();
-
+	$albumBox->init($_SESSION['currentUser'], $limit = 10, $skip = 0, $upload = true);
 	$albumList = array();
 	if (is_null($albumBox->error) && count($albumBox->albumArray) > 0) {
 	    foreach ($albumBox->albumArray as $album) {
