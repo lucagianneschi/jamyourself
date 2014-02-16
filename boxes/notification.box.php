@@ -51,8 +51,8 @@ class ActionCounterBox {
  */
 class ActionListBox {
 
-    public $actions;
-    public $error;
+    public $actions = array();
+    public $error = null;
 
     /**
      * \fn	init()
@@ -76,8 +76,8 @@ class ActionListBox {
  */
 class EventListBox {
 
-    public $error;
-    public $events;
+    public $error = null;
+    public $events = array();
 
     /**
      * \fn	__construct()
@@ -156,8 +156,8 @@ class MessageCounterBox {
  */
 class MessageListBox {
 
-    public $error;
-    public $messages;
+    public $error = null;
+    public $messages = array();
 
     /**
      * \fn	__construct()
@@ -213,8 +213,8 @@ class RelationCounterBox {
  */
 class RelationListBox {
 
-    public $error;
-    public $relations;
+    public $error = null;
+    public $relations = array();
 
     /**
      * \fn	__construct()

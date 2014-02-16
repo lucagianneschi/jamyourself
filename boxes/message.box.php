@@ -78,9 +78,9 @@ class MessageInfo {
 class MessageBox {
 
     public $config;
-    public $error;
-    public $messageArray;
-    public $userInfoArray;
+    public $error = null;
+    public $messageArray = array();
+    public $userInfoArray = array();
 
     /**
      * \fn	__construct()

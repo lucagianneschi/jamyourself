@@ -26,9 +26,9 @@ require_once SERVICES_DIR . 'debug.service.php';
  */
 class StreamBox {
 
-    public $activitiesArray;
+    public $activitiesArray = array();
     public $config;
-    public $error;
+    public $error = null;
 
     /**
      * \fn	__construct()

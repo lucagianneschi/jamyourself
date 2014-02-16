@@ -28,8 +28,8 @@ require_once SERVICES_DIR . 'connection.service.php';
 class PlaylistInfoBox {
 
     public $config;
-    public $error;
-    public $playlists;
+    public $error = null;
+    public $playlists = array();
 
     /**
      * \fn	__construct()
@@ -62,8 +62,8 @@ class PlaylistInfoBox {
 class PlaylistSongBox {
 
     public $config;
-    public $error;
-    public $tracklist;
+    public $error = null;
+    public $tracklist = array();
 
     /**
      * \fn	__construct()
