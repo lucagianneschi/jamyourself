@@ -52,8 +52,21 @@ class StreamBox {
 	    return;
 	}
 	$currentUser = $_SESSION['currentUser'];
-	$this->error = null;
-	$this->activitiesArray = array();
+	$connectionService = new ConnectionService();
+	$connectionService->connect();
+	if (!$connectionService->active) {
+	    $this->error = $connectionService->error;
+	    return;
+	} else {
+	    $sql = "SELECT * FROM event WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    $connectionService->disconnect();
+	    if (!$results) {
+		return;
+	    } else {
+		$this->eventArray = $results;
+	    }
+	}
     }
 
     /**
@@ -77,17 +90,6 @@ class StreamBox {
 	}
 	$actArray = array_merge($sharedActivities, $specificActivities);
 	return $actArray;
-    }
-
-    /**
-     * \fn	errorManagement($errorMessage = null)
-     * \brief	set values in case of error or nothing to send to the view
-     * \param	$errorMessage
-     */
-    private function errorManagement($errorMessage = null) {
-	$this->activitiesArray = array();
-	$this->config = null;
-	$this->error = $errorMessage;
     }
 
 }
