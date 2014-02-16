@@ -29,7 +29,7 @@ class PlaylistInfoBox {
 
     public $config;
     public $error = null;
-    public $playlists = array();
+    public $playlistArray = array();
 
     /**
      * \fn	__construct()
@@ -48,8 +48,23 @@ class PlaylistInfoBox {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    $this->error = ONLYIFLOGGEDIN;
 	    return;
+	}
+	$connectionService = new ConnectionService();
+	$connectionService->connect();
+	if (!$connectionService->active) {
+	    $this->error = $connectionService->error;
+	    return;
+	} else {
+	    $sql = "SELECT * FROM playlist WHERE user=" . $currentUserId . " LIMIT " . 0 . ", " . 1;
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    $connectionService->disconnect();
+	    if (!$results) {
+		return;
+	    } else {
+		$this->playlistArray = $results;
+	    }
 	}
     }
 
@@ -63,7 +78,7 @@ class PlaylistSongBox {
 
     public $config;
     public $error = null;
-    public $tracklist = array();
+    public $songArray = array();
 
     /**
      * \fn	__construct()
@@ -82,10 +97,11 @@ class PlaylistSongBox {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    $this->error = ONLYIFLOGGEDIN;
 	    return;
 	}
     }
 
 }
+
 ?>
