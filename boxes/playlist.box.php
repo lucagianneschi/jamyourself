@@ -19,6 +19,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'connection.service.php';
 
 /**
  * \brief	PlaylistInfoBox class 
