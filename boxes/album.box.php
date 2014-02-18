@@ -119,6 +119,7 @@ class AlbumBox {
 		$image->setAlbum($row['album']);
 		$image->setCommentcounter($row['commentcounter']);
 		$image->setCounter($row['counter']);
+		$image->setCreatedat($row['createdat']);
 		$image->setDescription($row['description']);
 		$image->setFromuser($row['fromuser']);
 		$image->setImagecounter($row['imagecounter']);
