@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo			
+ * \todo
  *
  */
 
@@ -22,8 +22,8 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'connection.service.php';
 
 /**
- * \brief	EventBox class 
- * \details	box class to pass info to the view 
+ * \brief	EventBox class
+ * \details	box class to pass info to the view
  */
 class EventBox {
 
@@ -44,7 +44,7 @@ class EventBox {
 	} else {
 	    $sql = "SELECT <tutti i campi>
                       FROM event e, user_event ue
-                     WHERE ua.id_event = " . $id . "
+                     WHERE ue.id_event = " . $id . "
                      LIMIT " . 0 . ", " . 1;
 	    $results = mysqli_query($connectionService->connection, $sql);
 	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -90,12 +90,20 @@ class EventBox {
     }
 
     /**
-     * \fn	initForPersonalPage($id)
+     * \fn	init($id)
      * \brief	Init EventBox instance for Personal Page
      * \param	$id for user that owns the page
      * \todo    inserire orderby
      */
-    public function initForPersonalPage($id, $limit = 3, $skip = 0) {
+    public function init($id, $limit = 3, $skip = 0, $upload = false) {
+	if ($upload == true) {
+	    require_once SERVICES_DIR . 'utils.service.php';
+	    $currentUserId = sessionChecker();
+	    if (is_null($currentUserId)) {
+		$this->error = ONLYIFLOGGEDIN;
+		return;
+	    }
+	}
 	$connectionService = new ConnectionService();
 	$connectionService->connect();
 	if (!$connectionService->active) {
@@ -104,8 +112,8 @@ class EventBox {
 	} else {
 	    $sql = "SELECT <tutti i campi>
                       FROM event e, user_event ue
-                     WHERE ua.id_user = " . $id . "
-                       AND ua.id_event = e.id
+                     WHERE ue.id_user = " . $id . "
+                       AND ue.id_event = e.id
                      LIMIT " . $skip . ", " . $limit;
 	    $results = mysqli_query($connectionService->connection, $sql);
 	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
