@@ -54,7 +54,7 @@ class PostBox {
 		$rows[] = $row;
 	    $posts = array();
 	    foreach ($rows as $row) {
-		require_once 'album.class.php';
+		require_once 'comment.class.php';
 		$post = new Comment();
 		$post->setId($row['id']);
 		$post->setActive($row['active']);
