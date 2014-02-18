@@ -27,17 +27,8 @@ require_once SERVICES_DIR . 'debug.service.php';
  */
 class RecordBox {
 
-    public $config;
     public $error = null;
     public $recordArray = array();
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "recordBox.config.json"), false);
-    }
 
     /**
      * \fn	initForMediaPage($id)
@@ -52,9 +43,43 @@ class RecordBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT * FROM record WHERE id=" . $id . " LIMIT " . 0 . ", " . 1;
+	    $sql = "SELECT <tutti i campi>
+                      FROM record r, user_record ur
+                     WHERE ur.id_record = " . $id . "
+                     LIMIT " . 0 . ", " . 1;
 	    $results = mysqli_query($connectionService->connection, $sql);
-	    $connectionService->disconnect();
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $records = array();
+	    foreach ($rows as $row) {
+		require_once 'record.class.php';
+		$record = new Record();
+		$record->setId($row['id']);
+		$record->setActive($row['active']);
+		$record->setBuylink($row['buylink']);
+		$record->setCity($row['city']);
+		$record->setCommentcounter($row['commentcounter']);
+		$record->setCounter($row['counter']);
+		$record->setCover($row['cover']);
+		$record->setCreatedat($row['createdat']);
+		$record->setDescription($row['description']);
+		$record->setDuration($row['duration']);
+		$record->setFromuser($row['fromuser']);
+		$record->setGenre($row['genre']);
+		$record->setLabel($row['label']);
+		$record->setLatitude($row['locationlat']);
+		$record->setLongitude($row['locationlon']);
+		$record->setLovecounter($row['lovecounter']);
+		$record->setReviewCounter($row['reviewCounter']);
+		$record->setSharecounter($row['sharecounter']);
+		$record->setSongCounter($row['songCounter']);
+		$record->setThumbnail($row['thumbnail']);
+		$record->setTitle($row['title']);
+		$record->setTracklist($row['tracklist']);
+		$record->setUpdatedat($row['updatedat']);
+		$record->setYear($row['year']);
+		$records[$row['id']] = $record;
+	    }
 	    if (!$results) {
 		return;
 	    } else {
@@ -64,21 +89,64 @@ class RecordBox {
     }
 
     /**
-     * \fn	initForPersonalPage($id)
+     * \fn	init($id)
      * \brief	init for recordBox for personal Page
      * \param	$id of the user who owns the page
      * \todo	
      */
-    public function initForPersonalPage($id, $limit = 3, $skip = 0) {
+    public function init($id, $limit = 3, $skip = 0, $upload = false) {
+	if ($upload == true) {
+	    require_once SERVICES_DIR . 'utils.service.php';
+	    $currentUserId = sessionChecker();
+	    if (is_null($currentUserId)) {
+		$this->error = ONLYIFLOGGEDIN;
+		return;
+	    }
+	}
 	$connectionService = new ConnectionService();
 	$connectionService->connect();
 	if (!$connectionService->active) {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
+	    $sql = "SELECT <tutti i campi>
+                      FROM record r, user_record ur
+                     WHERE ur.id_user = " . $id . "
+                       AND ur.id_record = r.id
+                     LIMIT " . $skip . ", " . $limit;
 	    $results = mysqli_query($connectionService->connection, $sql);
-	    $connectionService->disconnect();
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $records = array();
+	    foreach ($rows as $row) {
+		require_once 'record.class.php';
+		$record = new Record();
+		$record->setId($row['id']);
+		$record->setActive($row['active']);
+		$record->setBuylink($row['buylink']);
+		$record->setCity($row['city']);
+		$record->setCommentcounter($row['commentcounter']);
+		$record->setCounter($row['counter']);
+		$record->setCover($row['cover']);
+		$record->setCreatedat($row['createdat']);
+		$record->setDescription($row['description']);
+		$record->setDuration($row['duration']);
+		$record->setFromuser($row['fromuser']);
+		$record->setGenre($row['genre']);
+		$record->setLabel($row['label']);
+		$record->setLatitude($row['locationlat']);
+		$record->setLongitude($row['locationlon']);
+		$record->setLovecounter($row['lovecounter']);
+		$record->setReviewCounter($row['reviewCounter']);
+		$record->setSharecounter($row['sharecounter']);
+		$record->setSongCounter($row['songCounter']);
+		$record->setThumbnail($row['thumbnail']);
+		$record->setTitle($row['title']);
+		$record->setTracklist($row['tracklist']);
+		$record->setUpdatedat($row['updatedat']);
+		$record->setYear($row['year']);
+		$records[$row['id']] = $record;
+	    }
 	    if (!$results) {
 		return;
 	    } else {
@@ -97,26 +165,10 @@ class RecordBox {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    $this->error = ONLYIFLOGGEDIN ;
-	    return;
-	}
-
-    }
-
-    /**
-     * \fn	initForUploadRecordPage($id)
-     * \brief	init for recordBox for upload record page
-     * \param	$id of the user who owns the record
-     */
-    public function initForUploadRecordPage() {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
 	    $this->error = ONLYIFLOGGEDIN;
 	    return;
 	}
     }
-
 
 }
 
