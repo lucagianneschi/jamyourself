@@ -8,11 +8,11 @@ CREATE TABLE `jamdatabase`.`album` (
   `commentcounter` INTEGER,
   `counter` INTEGER,
   `cover` VARCHAR(100),
-  `description` VARCHAR(1000),
+  `description` TEXT,
   `fromuser` INTEGER,
   `imagecounter` INTEGER,
-  `latitude` LONG,
-  `longitude` LONG,
+  `locationlat` FLOAT,
+  `locationlon` FLOAT,
   `lovecounter` INTEGER,
   `sharecounter` INTEGER,
   `thumbnail` VARCHAR(100),
@@ -31,7 +31,7 @@ CREATE TABLE `jamdatabase`.`album_tag` (
 ENGINE = InnoDB;
 
 CREATE TABLE `jamdatabase`.`badge` (
-  `id` INTEGER,
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `badge` VARCHAR(100),
   INDEX `i_badge_id`(`id`)
 )
@@ -47,8 +47,8 @@ CREATE TABLE `jamdatabase`.`comment` (
   `event` INTEGER,
   `fromuser` INTEGER,
   `image` INTEGER,
-  `latitude` LONG,
-  `longitude` LONG,
+  `latitude` FLOAT,
+  `FLOATitude` FLOAT,
   `lovecounter` INTEGER,
   `record` INTEGER,
   `song` INTEGER,
@@ -81,12 +81,12 @@ CREATE TABLE `jamdatabase`.`event` (
   `commentcounter` INTEGER,
   `counter` INTEGER,
   `cover` VARCHAR(100),
-  `description` VARCHAR(1000),
+  `description` TEXT,
   `eventdate` DATETIME,
   `fromuser` INTEGER,
   `invitedcounter` INTEGER,
-  `latitude` LONG,
-  `longitude` LONG,
+  `latitude` FLOAT,
+  `FLOATitude` FLOAT,
   `locationname` VARCHAR(100),
   `lovecounter` INTEGER,
   `refusedcounter` INTEGER,
@@ -107,16 +107,24 @@ CREATE TABLE `jamdatabase`.`event_tag` (
 )
 ENGINE = InnoDB;
 
+CREATE TABLE `jamdatabase`.`genre` (
+  `id` INTEGER,
+  `genre` VARCHAR(100),
+  INDEX `i_genre_id`(`id`)
+)
+ENGINE = InnoDB;
+
 CREATE TABLE `jamdatabase`.`image` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `active` INTEGER,
   `album` INTEGER,
   `commentcounter` INTEGER,
   `counter` INTEGER,
-  `description` VARCHAR(1000),
+  `description` TEXT,
+  `filepath` VARCHAR(100),
   `fromuser` INTEGER,
-  `latitude` LONG,
-  `longitude` LONG,
+  `locationlat` FLOAT,
+  `locationlon` FLOAT,
   `lovecounter` INTEGER,
   `path` VARCHAR(100),
   `sharecounter` INTEGER,
@@ -134,22 +142,15 @@ CREATE TABLE `jamdatabase`.`image_tag` (
 )
 ENGINE = InnoDB;
 
-CREATE TABLE `jamdatabase`.`jammertype` (
-  `id` INTEGER,
-  `jammertype` VARCHAR(100),
-  INDEX `i_jammertype_id`(`id`)
-)
-ENGINE = InnoDB;
-
 CREATE TABLE `jamdatabase`.`localtype` (
-  `id` INTEGER,
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `localtype` VARCHAR(100),
   INDEX `i_localtype_id`(`id`)
 )
 ENGINE = InnoDB;
 
 CREATE TABLE `jamdatabase`.`music` (
-  `id` INTEGER,
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `music` VARCHAR(100),
   INDEX `i_music_id`(`id`)
 )
@@ -176,12 +177,12 @@ CREATE TABLE `jamdatabase`.`record` (
   `commentcounter` INTEGER,
   `counter` INTEGER,
   `cover` VARCHAR(100),
-  `description` VARCHAR(1000),
+  `description` TEXT,
   `duration` INTEGER,
   `fromuser` INTEGER,
   `label` VARCHAR(100),
-  `latitude` LONG,
-  `longitude` LONG,
+  `locationlat` FLOAT,
+  `locationlon` FLOAT,
   `lovecounter` INTEGER,
   `reviewcounter` INTEGER,
   `sharecounter` INTEGER,
@@ -216,8 +217,8 @@ CREATE TABLE `jamdatabase`.`song` (
   `counter` INTEGER,
   `duration` INTEGER,
   `fromuser` INTEGER,
-  `latitude` LONG,
-  `longitude` LONG,
+  `latitude` FLOAT,
+  `FLOATitude` FLOAT,
   `lovecounter` INTEGER,
   `path` VARCHAR(100),
   `position` INTEGER,
@@ -239,6 +240,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE `jamdatabase`.`user` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `objectid` VARCHAR(10),
   `username` VARCHAR(100),
   `password` VARCHAR(100),
   `active` INTEGER,
@@ -248,7 +250,7 @@ CREATE TABLE `jamdatabase`.`user` (
   `city` VARCHAR(100),
   `collaborationcounter` INTEGER,
   `country` VARCHAR(100),
-  `description` VARCHAR(1000),
+  `description` TEXT,
   `email` VARCHAR(100),
   `facebookid` VARCHAR(100),
   `facebookpage` VARCHAR(100),
@@ -256,8 +258,8 @@ CREATE TABLE `jamdatabase`.`user` (
   `followerscounter` INTEGER,
   `followingcounter` INTEGER,
   `friendshipcounter` INTEGER,
-  `latitude` LONG,
-  `longitude` LONG,
+  `locationlat` FLOAT,
+  `locationlon` FLOAT,
   `googlepluspage` VARCHAR(100),
   `jammercounter` INTEGER,
   `jammertype` VARCHAR(100),
@@ -364,7 +366,7 @@ CREATE TABLE `jamdatabase`.`video` (
   `active` INTEGER,
   `author` VARCHAR(100),
   `counter` VARCHAR(100),
-  `description` VARCHAR(1000),
+  `description` TEXT,
   `duration` INTEGER,
   `fromuser` INTEGER,
   `lovecounter` INTEGER,
