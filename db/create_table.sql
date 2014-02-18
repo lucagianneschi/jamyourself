@@ -19,7 +19,7 @@ CREATE TABLE `jamdatabase`.`album` (
   `title` VARCHAR(100),
   `created` DATETIME,
   `updated` DATETIME,
-  INDEX `i_album_id`(`id`)
+  UNIQUE INDEX `i_album_id`(`id`)
 )
 ENGINE = InnoDB;
 
@@ -60,7 +60,7 @@ CREATE TABLE `jamdatabase`.`comment` (
   `vote` INTEGER,
   `created` DATETIME,
   `updated` DATETIME,
-  INDEX `i_comment_id`(`id`)
+  UNIQUE INDEX `i_comment_id`(`id`)
 )
 ENGINE = InnoDB;
 
@@ -96,7 +96,7 @@ CREATE TABLE `jamdatabase`.`event` (
   `title` VARCHAR(100),
   `created` DATETIME,
   `updated` DATETIME,
-  INDEX `i_event_id`(`id`)
+  UNIQUE INDEX `i_event_id`(`id`)
 )
 ENGINE = InnoDB;
 
@@ -123,7 +123,7 @@ CREATE TABLE `jamdatabase`.`image` (
   `thumbnail` VARCHAR(100),
   `created` DATETIME,
   `updated` DATETIME,
-  INDEX `i_image_id`(`id`)
+  UNIQUE INDEX `i_image_id`(`id`)
 )
 ENGINE = InnoDB;
 
@@ -164,7 +164,7 @@ CREATE TABLE `jamdatabase`.`playlist` (
   `unlimited` INTEGER,
   `created` DATETIME,
   `updated` DATETIME,
-  INDEX `i_playlist_id`(`id`)
+  UNIQUE INDEX `i_playlist_id`(`id`)
 )
 ENGINE = InnoDB;
 
@@ -191,7 +191,7 @@ CREATE TABLE `jamdatabase`.`record` (
   `year` INTEGER,
   `created` DATETIME,
   `updated` DATETIME,
-  INDEX `i_record_id`(`id`)
+  UNIQUE INDEX `i_record_id`(`id`)
 )
 ENGINE = InnoDB;
 
@@ -226,7 +226,7 @@ CREATE TABLE `jamdatabase`.`song` (
   `title` VARCHAR(100),
   `created` DATETIME,
   `updated` DATETIME,
-  INDEX `i_song_id`(`id`)
+  UNIQUE INDEX `i_song_id`(`id`)
 )
 ENGINE = InnoDB;
 
@@ -277,8 +277,8 @@ CREATE TABLE `jamdatabase`.`user` (
   `youtubechannel` VARCHAR(100),
   `created` DATETIME,
   `updated` DATETIME,
-  INDEX `i_user_id`(`id`),
-  INDEX `i_user_username`(`username`)
+  UNIQUE INDEX `i_user_id`(`id`),
+  UNIQUE INDEX `i_user_username`(`username`)
 )
 ENGINE = InnoDB;
 
@@ -372,7 +372,7 @@ CREATE TABLE `jamdatabase`.`video` (
   `title` VARCHAR(100),
   `created` DATETIME,
   `updated` DATETIME,
-  INDEX `i_video_id`(`id`)
+  UNIQUE INDEX `i_video_id`(`id`)
 )
 ENGINE = InnoDB;
 
