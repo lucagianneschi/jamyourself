@@ -27,7 +27,9 @@ if (is_null($userInfoBox->error)) {
     <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
     <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
         <head>
-    	<title>Jamyourself</title>
+	<title><?php echo $views['metatag']['profile']['title'] . $user->getUsername() ?></title>
+	<meta name="description" content="<?php echo $views['metatag']['profile']['description'] ?>">
+	<meta name="keywords" content="<?php echo $views['metatag']['profile']['keywords'] ?>">
     	<!-------------------------- METADATI --------------------------->
 	    <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
         </head>

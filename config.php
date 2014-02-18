@@ -319,11 +319,6 @@ define('DEFAULTQUERY', 100);
  */
 define('PLAYLISTLIMIT', 20);
 
-/** \def  'HOME_TITLE', 'Jamyourself: Meritocratic Social Music Discovering'
- *  Home page title
- */
-define('HOME_TITLE', 'Jamyourself: Meritocratic Social Music Discovering');
-
 /** \def  'LOCATIONNOTFOUND', 'Location Not Found'
  *  Error String for Location
  */
