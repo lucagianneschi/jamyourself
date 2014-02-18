@@ -577,7 +577,7 @@ $views = array(
 	    'keywords' => ' '
 	),
 	'home' => array(
-	    'title' => ' ',
+	    'title' => 'Jamyourself: Meritocratic Social Music Discovering',
 	    'description' => ' ',
 	    'keywords' => ' '
 	),
