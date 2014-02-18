@@ -27,17 +27,8 @@ require_once SERVICES_DIR . 'connection.service.php';
  */
 class EventBox {
 
-    public $config;
     public $error = null;
     public $eventArray = array();
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "eventBox.config.json"), false);
-    }
 
     /**
      * \fn	initForMediaPage($id)
@@ -51,9 +42,45 @@ class EventBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT * FROM event WHERE id=" . $id . " LIMIT " . 0 . ", " . 1;
+	    $sql = "SELECT <tutti i campi>
+                      FROM event e, user_event ue
+                     WHERE ua.id_event = " . $id . "
+                     LIMIT " . 0 . ", " . 1;
 	    $results = mysqli_query($connectionService->connection, $sql);
-	    $connectionService->disconnect();
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $events = array();
+	    foreach ($rows as $row) {
+		require_once 'event.class.php';
+		$event = new Event();
+		$event->setId($row['id']);
+		$event->setActive($row['active']);
+		$event->setAddress($row['address']);
+		$event->setAttendeecounter($row['attendeecounter']);
+		$event->setCancelledcounter($row['cancelledcounter']);
+		$event->setCity($row['city']);
+		$event->setCommentcounter($row['commentcounter']);
+		$event->setCounter($row['counter']);
+		$event->setCover($row['cover']);
+		$event->setCreatedat($row['createdat']);
+		$event->setDescription($row['description']);
+		$event->setEventdate($row['eventdate']);
+		$event->setFromuser($row['fromuser']);
+		$event->setGenre($row['genre']);
+		$event->setInvitedCounter($row['invitedCounter']);
+		$event->setLatitude($row['locationlat']);
+		$event->setLocationname($row['locationname']);
+		$event->setLongitude($row['locationlong']);
+		$event->setLovecounter($row['lovecounter']);
+		$event->setRefusedcounter($row['refusedcounter']);
+		$event->setReviewcounter($row['reviewcounter']);
+		$event->setSharecounter($row['sharecounter']);
+		$event->setTag($row['tag']);
+		$event->setThumbnail($row['thumbnail']);
+		$event->setTitle($row['title']);
+		$event->setUpdatedat($row['updatedat']);
+		$events[$row['id']] = $event;
+	    }
 	    if (!$results) {
 		return;
 	    } else {
@@ -75,8 +102,46 @@ class EventBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT * FROM event WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
+	    $sql = "SELECT <tutti i campi>
+                      FROM event e, user_event ue
+                     WHERE ua.id_user = " . $id . "
+                       AND ua.id_event = e.id
+                     LIMIT " . $skip . ", " . $limit;
 	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $events = array();
+	    foreach ($rows as $row) {
+		require_once 'event.class.php';
+		$event = new Event();
+		$event->setId($row['id']);
+		$event->setActive($row['active']);
+		$event->setAddress($row['address']);
+		$event->setAttendeecounter($row['attendeecounter']);
+		$event->setCancelledcounter($row['cancelledcounter']);
+		$event->setCity($row['city']);
+		$event->setCommentcounter($row['commentcounter']);
+		$event->setCounter($row['counter']);
+		$event->setCover($row['cover']);
+		$event->setCreatedat($row['createdat']);
+		$event->setDescription($row['description']);
+		$event->setEventdate($row['eventdate']);
+		$event->setFromuser($row['fromuser']);
+		$event->setGenre($row['genre']);
+		$event->setInvitedCounter($row['invitedCounter']);
+		$event->setLatitude($row['locationlat']);
+		$event->setLocationname($row['locationname']);
+		$event->setLongitude($row['locationlong']);
+		$event->setLovecounter($row['lovecounter']);
+		$event->setRefusedcounter($row['refusedcounter']);
+		$event->setReviewcounter($row['reviewcounter']);
+		$event->setSharecounter($row['sharecounter']);
+		$event->setTag($row['tag']);
+		$event->setThumbnail($row['thumbnail']);
+		$event->setTitle($row['title']);
+		$event->setUpdatedat($row['updatedat']);
+		$events[$row['id']] = $event;
+	    }
 	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
@@ -100,8 +165,6 @@ class EventBox {
 	    return;
 	}
     }
-
-
 
 }
 
