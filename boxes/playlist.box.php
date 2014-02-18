@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
- * \version		0.2
+ * \version		0.3
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
