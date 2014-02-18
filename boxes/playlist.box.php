@@ -27,17 +27,8 @@ require_once SERVICES_DIR . 'connection.service.php';
  */
 class PlaylistInfoBox {
 
-    public $config;
     public $error = null;
     public $playlistArray = array();
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "playlistBox.config.json"), false);
-    }
 
     /**
      * \fn	init()
@@ -57,9 +48,19 @@ class PlaylistInfoBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT * FROM playlist WHERE user=" . $currentUserId . " LIMIT " . 0 . ", " . 1;
+	    $sql = "SELECT <tutti i campi>
+                      FROM album a, user_album ua
+                     WHERE ua.id_user = " . $id . "
+                       AND ua.id_album = a.id
+                     LIMIT " . $skip . ", " . $limit;
 	    $results = mysqli_query($connectionService->connection, $sql);
-	    $connectionService->disconnect();
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $playlists = array();
+	    foreach ($rows as $row) {
+		require_once 'playlist.box.php';
+		$playlist = new Playlist();
+	    }
 	    if (!$results) {
 		return;
 	    } else {
@@ -76,32 +77,48 @@ class PlaylistInfoBox {
  */
 class PlaylistSongBox {
 
-    public $config;
     public $error = null;
     public $songArray = array();
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "playlistBox.config.json"), false);
-    }
 
     /**
      * \fn	init($playlistId, $sonsArray)
      * \brief	Init PlaylistSongBox instance
      * \return	playlistSongBox
      */
-    public function init($playlistId, $sonsArray) {
+    public function init($id) {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    $this->error = ONLYIFLOGGEDIN;
 	    return;
 	}
+	$connectionService = new ConnectionService();
+	$connectionService->connect();
+	if (!$connectionService->active) {
+	    $this->error = $connectionService->error;
+	    return;
+	} else {
+	    $sql = "SELECT <tutti i campi>
+                      FROM album a, user_album ua
+                     WHERE ua.id_user = " . $id . "
+                       AND ua.id_album = a.id
+                     LIMIT " . 0 . ", " . 20;
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $songs = array();
+	    foreach ($rows as $row) {
+		require_once 'song.box.php';
+		$song = new Song();
+		
+	    }
+	    if (!$results) {
+		return;
+	    } else {
+		$this->songArray = $songs;
+	    }
+	}
     }
 
 }
-
 ?>
