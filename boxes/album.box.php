@@ -62,6 +62,7 @@ class AlbumBox {
 		$rows[] = $row;
 	    $albums = array();
 	    foreach ($rows as $row) {
+		require_once 'album.class.php';
 		$album = new Album();
 		$album->setId($row['id']);
 		$album->setActive($row['active']);
@@ -111,6 +112,7 @@ class AlbumBox {
 		$rows[] = $row;
 	    $images = array();
 	    foreach ($rows as $row) {
+		require_once 'image.class.php';
 		$image = new Image();
 		$image->setId($row['id']);
 		$image->setActive($row['active']);
