@@ -102,8 +102,33 @@ class AlbumBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT * FROM image WHERE album=" . $id . " LIMIT " . $skip . ", " . $limit;
+	    $sql = "SELECT <tutti i campi>
+                      FROM image a, user_album ua
+                     WHERE ua.id_album = " . $id . "
+                     LIMIT " . $skip . ", " . $limit;
 	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $images = array();
+	    foreach ($rows as $row) {
+		$image = new Image();
+		$image->setId($row['id']);
+		$image->setActive($row['active']);
+		$image->setAlbum($row['album']);
+		$image->setCommentcounter($row['commentcounter']);
+		$image->setCounter($row['counter']);
+		$image->setDescription($row['description']);
+		$image->setFromuser($row['fromuser']);
+		$image->setImagecounter($row['imagecounter']);
+		$image->setLatitude($row['locationlat']);
+		$image->setLongitude($row['locationlon']);
+		$image->setLovecounter($row['lovecounter']);
+		$image->getPath($row['filapath']);
+		$image->setSharecounter($row['sharecounter']);
+		$image->setThumbnail($row['thumbnail']);
+		$image->setUpdatedat($row['updatedat']);
+		$images[$row['id']] = $image;
+	    }
 	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
