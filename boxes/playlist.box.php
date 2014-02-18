@@ -61,6 +61,7 @@ class PlaylistInfoBox {
 		require_once 'playlist.box.php';
 		$playlist = new Playlist();
 	    }
+	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
 	    } else {
@@ -110,8 +111,8 @@ class PlaylistSongBox {
 	    foreach ($rows as $row) {
 		require_once 'song.box.php';
 		$song = new Song();
-		
 	    }
+	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
 	    } else {
@@ -121,4 +122,5 @@ class PlaylistSongBox {
     }
 
 }
+
 ?>

@@ -81,6 +81,7 @@ class EventBox {
 		$event->setUpdatedat($row['updatedat']);
 		$events[$row['id']] = $event;
 	    }
+	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
 	    } else {

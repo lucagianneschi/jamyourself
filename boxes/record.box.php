@@ -80,6 +80,7 @@ class RecordBox {
 		$record->setYear($row['year']);
 		$records[$row['id']] = $record;
 	    }
+	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
 	    } else {
@@ -147,6 +148,7 @@ class RecordBox {
 		$record->setYear($row['year']);
 		$records[$row['id']] = $record;
 	    }
+	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
 	    } else {
