@@ -4,7 +4,7 @@
  * \author		Luca Gianneschi
  * \version		0.3
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box Post
  * \details		Recupera gli ultimi post attivi
@@ -27,17 +27,8 @@ require_once SERVICES_DIR . 'connection.service.php';
  */
 class PostBox {
 
-    public $config;
-    public $error;
-    public $postArray;
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "postBox.config.json"), false);
-    }
+    public $error = null;
+    public $postArray = array();
 
     /**
      * \fn	init($id)
@@ -46,10 +37,56 @@ class PostBox {
      * \return	postBox
      * \todo
      */
-    public function init($id, $limit = null, $skip = null) {
-	$this->config = null;
-	$this->error = null;
-	$this->postArray = array();
+    public function init($id, $limit = 5, $skip = 0) {
+	$connectionService = new ConnectionService();
+	$connectionService->connect();
+	if (!$connectionService->active) {
+	    $this->error = $connectionService->error;
+	    return;
+	} else {
+	    $sql = "SELECT <tutti i campi>
+                      FROM album a, user_album ua
+                     WHERE ua.id_user = " . $id . "
+                       AND ua.id_album = a.id
+                     LIMIT " . $skip . ", " . $limit;
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $posts = array();
+	    foreach ($rows as $row) {
+		require_once 'album.class.php';
+		$post = new Comment();
+		$post->setId($row['id']);
+		$post->setActive($row['active']);
+		$post->setAlbum($row['album']);
+		$post->setComment($row['post']);
+		$post->setCommentcounter($row['commentcounter']);
+		$post->setCounter($row['counter']);
+		$post->setFromuser($row['fromuser']);
+		$post->setImage($row['image']);
+		$post->setLatitude($row['locationlat']);
+		$post->setLongitude($row['locationlon']);
+		$post->setLovecounter($row['lovecounter']);
+		$post->setRecord($row['record']);
+		$post->setSong($row['song']);
+		$post->setSharecounter($row['sharecounter']);
+		$post->setTag($row['tag']);
+		$post->setText($row['text']);
+		$post->setTitle($row['title']);
+		$post->setTouser($row['touser']);
+		$post->setType($row['type']);
+		$post->setUpdatedat($row['updatedat']);
+		$post->setVideo($row['video']);
+		$post->setVote($row['vote']);
+		$posts[$row['id']] = $post;
+	    }
+	    $connectionService->disconnect();
+	    if (!$results) {
+		return;
+	    } else {
+		$this->postArray = $posts;
+	    }
+	}
     }
 
     /**
