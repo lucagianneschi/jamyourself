@@ -71,8 +71,8 @@ class AlbumBox {
 		$album->setDescription($row['description']);
 		$album->setFromuser($row['fromuser']);
 		$album->setImagecounter($row['imagecounter']);
-		$album->setLatitude($row['latitude']);
-		$album->setLongitude($row['longitude']);
+		$album->setLatitude($row['locationlat']);
+		$album->setLongitude($row['locationlon']);
 		$album->setLovecounter($row['lovecounter']);
 		$album->setSharecounter($row['sharecounter']);
 		$album->setThumbnail($row['thumbnail']);
