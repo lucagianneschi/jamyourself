@@ -38,29 +38,38 @@ class AlbumBox {
      * \todo    inserire orderby
      */
     public function init($id, $limit = 3, $skip = 0, $upload = false) {
-	if ($upload == true) {
-	    require_once SERVICES_DIR . 'utils.service.php';
-	    $currentUserId = sessionChecker();
-	    if (is_null($currentUserId)) {
-		$this->error = ONLYIFLOGGEDIN;
-		return;
-	    }
-	}
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT * FROM album WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->albumArray = $results;
-	    }
-	}
+        if ($upload == true) {
+            require_once SERVICES_DIR . 'utils.service.php';
+            $currentUserId = sessionChecker();
+            if (is_null($currentUserId)) {
+            $this->error = ONLYIFLOGGEDIN;
+            return;
+            }
+        }
+        $connectionService = new ConnectionService();
+        $connectionService->connect();
+        if (!$connectionService->active) {
+            $this->error = $connectionService->error;
+            return;
+        } else {
+            $sql = "SELECT <tutti i campi>                      FROM album a, user_album ua                     WHERE ua.id_user = " . $id . "                       AND ua.id_album = a.id                     LIMIT " . $skip . ", " . $limit;
+            $results = mysqli_query($connectionService->connection, $sql);
+            while($row = mysqli_fetch_array($results, MYSQLI_ASSOC)) $rows[] = $row;
+            $albums = array();
+            foreach ($rows as $row) {
+                $album = new Album();
+                $album->setId($row['id']);
+                $album->setActive($row['active']);
+                //...
+                $albums[$row['id']] = $album;
+            }
+            $connectionService->disconnect();
+            if (!$results) {
+                return;
+            } else {
+                $this->albumArray = $albums;
+            }
+        }
     }
 
     /**
