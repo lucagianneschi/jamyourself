@@ -15,15 +15,13 @@ $uploadEventController->init();
 <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
 
     <head>
-
-        <title>Jamyourself</title>
+	<title><?php echo $views['metatag']['uploadEvent']['title'] ?></title>
+	<meta name="description" content="<?php echo $views['metatag']['uploadEvent']['description'] ?>">
+	<meta name="keywords" content="<?php echo $views['metatag']['uploadEvent']['keywords'] ?>">
         <!-------------------------- METADATI --------------------------->
 	<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
-
     </head>
-
     <body>
-
         <!-------------------------- HEADER --------------------------->
 	<?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
 

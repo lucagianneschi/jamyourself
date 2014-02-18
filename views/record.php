@@ -22,7 +22,9 @@ if (is_null($recordBox->error) && !empty($recordBox->recordArray)) {
     <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
     <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
         <head>
-    	<title>Jamyourself</title>
+	<title><?php echo $views['metatag']['record']['title'] . $record->getTitle() ?></title>
+	<meta name="description" content="<?php echo $views['metatag']['record']['description'] ?>">
+	<meta name="keywords" content="<?php echo $views['metatag']['record']['keywords'] ?>">
     	<!-------------------------- METADATI --------------------------->
 	    <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
         </head>
