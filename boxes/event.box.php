@@ -32,6 +32,100 @@ class EventBox {
     public $fromUser = null;
 
     /**
+     * \fn	init($id)
+     * \brief	Init EventBox instance for Personal Page
+     * \param	$id for user that owns the page
+     * \todo    inserire orderby
+     */
+    public function init($id, $limit = 3, $skip = 0, $upload = false) {
+	if ($upload == true) {
+	    require_once SERVICES_DIR . 'utils.service.php';
+	    $currentUserId = sessionChecker();
+	    if (is_null($currentUserId)) {
+		$this->error = ONLYIFLOGGEDIN;
+		return;
+	    }
+	}
+	$connectionService = new ConnectionService();
+	$connectionService->connect();
+	if (!$connectionService->active) {
+	    $this->error = $connectionService->error;
+	    return;
+	} else {
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               address,
+		               attendeecounter,
+		               cancelledcounter,
+		               city,
+		               commentcounter,
+		               counter,
+		               cover,
+		               description,
+		               eventdate,
+		               fromuser,
+		               genre,
+		               invitedcounter,
+		               latitude,
+		               longitude,
+		               locationname,
+		               lovecounter,
+		               reviewcounter,
+		               refusedcounter,
+		               sharecounter,
+		               tag,
+		               thumbnail,
+		               title
+                      FROM event e, user_event ue
+                     WHERE ue.id_event = " . $id . "
+                     LIMIT " . $skip . ", " . $limit;
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $events = array();
+	    foreach ($rows as $row) {
+		require_once 'event.class.php';
+		$event = new Event();
+		$event->setId($row['id']);
+		$event->setActive($row['active']);
+		$event->setAddress($row['address']);
+		$event->setAttendeecounter($row['attendeecounter']);
+		$event->setCancelledcounter($row['cancelledcounter']);
+		$event->setCity($row['city']);
+		$event->setCommentcounter($row['commentcounter']);
+		$event->setCounter($row['counter']);
+		$event->setCover($row['cover']);
+		$event->setCreatedat($row['createdat']);
+		$event->setDescription($row['description']);
+		$event->setEventdate($row['eventdate']);
+		$event->setFromuser($row['fromuser']);
+		$event->setGenre($row['genre']);
+		$event->setInvitedCounter($row['invitedCounter']);
+		$event->setLatitude($row['locationlat']);
+		$event->setLocationname($row['locationname']);
+		$event->setLongitude($row['locationlong']);
+		$event->setLovecounter($row['lovecounter']);
+		$event->setRefusedcounter($row['refusedcounter']);
+		$event->setReviewcounter($row['reviewcounter']);
+		$event->setSharecounter($row['sharecounter']);
+		$event->setTag($row['tag']);
+		$event->setThumbnail($row['thumbnail']);
+		$event->setTitle($row['title']);
+		$event->setUpdatedat($row['updatedat']);
+		$events[$row['id']] = $event;
+	    }
+	    $connectionService->disconnect();
+	    if (!$results) {
+		return;
+	    } else {
+		$this->eventArray = $results;
+	    }
+	}
+    }
+
+    /**
      * \fn	initForMediaPage($id)
      * \brief	Init EventBox instance for Media Page
      * \param	$id for event
@@ -110,100 +204,6 @@ class EventBox {
 		$event->setLatitude($row['latitude']);
 		$event->setLocationname($row['locationname']);
 		$event->setLongitude($row['longitude']);
-		$event->setLovecounter($row['lovecounter']);
-		$event->setRefusedcounter($row['refusedcounter']);
-		$event->setReviewcounter($row['reviewcounter']);
-		$event->setSharecounter($row['sharecounter']);
-		$event->setTag($row['tag']);
-		$event->setThumbnail($row['thumbnail']);
-		$event->setTitle($row['title']);
-		$event->setUpdatedat($row['updatedat']);
-		$events[$row['id']] = $event;
-	    }
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->eventArray = $results;
-	    }
-	}
-    }
-
-    /**
-     * \fn	init($id)
-     * \brief	Init EventBox instance for Personal Page
-     * \param	$id for user that owns the page
-     * \todo    inserire orderby
-     */
-    public function init($id, $limit = 3, $skip = 0, $upload = false) {
-	if ($upload == true) {
-	    require_once SERVICES_DIR . 'utils.service.php';
-	    $currentUserId = sessionChecker();
-	    if (is_null($currentUserId)) {
-		$this->error = ONLYIFLOGGEDIN;
-		return;
-	    }
-	}
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT id,
-		               createdat,
-		               updatedat,
-		               active,
-		               address,
-		               attendeecounter,
-		               cancelledcounter,
-		               city,
-		               commentcounter,
-		               counter,
-		               cover,
-		               description,
-		               eventdate,
-		               fromuser,
-		               genre,
-		               invitedcounter,
-		               latitude,
-		               longitude,
-		               locationname,
-		               lovecounter,
-		               reviewcounter,
-		               refusedcounter,
-		               sharecounter,
-		               tag,
-		               thumbnail,
-		               title
-                      FROM event e, user_event ue
-                     WHERE ue.id_event = " . $id . "
-                     LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows[] = $row;
-	    $events = array();
-	    foreach ($rows as $row) {
-		require_once 'event.class.php';
-		$event = new Event();
-		$event->setId($row['id']);
-		$event->setActive($row['active']);
-		$event->setAddress($row['address']);
-		$event->setAttendeecounter($row['attendeecounter']);
-		$event->setCancelledcounter($row['cancelledcounter']);
-		$event->setCity($row['city']);
-		$event->setCommentcounter($row['commentcounter']);
-		$event->setCounter($row['counter']);
-		$event->setCover($row['cover']);
-		$event->setCreatedat($row['createdat']);
-		$event->setDescription($row['description']);
-		$event->setEventdate($row['eventdate']);
-		$event->setFromuser($row['fromuser']);
-		$event->setGenre($row['genre']);
-		$event->setInvitedCounter($row['invitedCounter']);
-		$event->setLatitude($row['locationlat']);
-		$event->setLocationname($row['locationname']);
-		$event->setLongitude($row['locationlong']);
 		$event->setLovecounter($row['lovecounter']);
 		$event->setRefusedcounter($row['refusedcounter']);
 		$event->setReviewcounter($row['reviewcounter']);
