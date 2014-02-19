@@ -9,7 +9,7 @@
  *  \brief     English strings for views
  *  \warning
  *  \bug
- *  \todo      messaggio riga 279  
+ *  \todo      messaggio riga 279
  */
 $views = array(
     'prev' => 'Previous',
@@ -570,6 +570,68 @@ $views = array(
 	'notfeaturing' => 'There are not featuring',
 	'write' => 'Write here your review',
 	'your_rating' => 'Your Rating'
+    ),
+    'metatag' => array(
+	'404' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'event' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'home' => array(
+	    'title' => 'Jamyourself: Meritocratic Social Music Discovering',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'message' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'profile' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'record' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'signup' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'stream' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'uploadAlbum' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'uploadEvent' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'uploadRecord' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'uploadReview' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	)
     )
 );
 ?>

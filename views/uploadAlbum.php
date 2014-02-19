@@ -15,15 +15,12 @@ $uploadAlbumController->init();
 <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
 
     <head>
-
-        <title>Jamyourself</title>
+	<title><?php echo $views['metatag']['uploadAlbum']['title'] ?></title>
+	<meta name="description" content="<?php echo $views['metatag']['uploadAlbum']['description'] ?>">
+	<meta name="keywords" content="<?php echo $views['metatag']['uploadAlbum']['keywords'] ?>">
         <!-------------------------- METADATI --------------------------->
-	<?php
-	require_once(VIEWS_DIR . "content/general/meta.php");
-	?>
-
+	<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
     </head>
-
     <body>
 
         <!-------------------------- HEADER --------------------------->

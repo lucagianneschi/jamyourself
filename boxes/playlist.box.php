@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
- * \version		0.2
+ * \version		0.3
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
@@ -27,17 +27,8 @@ require_once SERVICES_DIR . 'connection.service.php';
  */
 class PlaylistInfoBox {
 
-    public $config;
     public $error = null;
     public $playlistArray = array();
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "playlistBox.config.json"), false);
-    }
 
     /**
      * \fn	init()
@@ -57,13 +48,33 @@ class PlaylistInfoBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT * FROM playlist WHERE user=" . $currentUserId . " LIMIT " . 0 . ", " . 1;
+	    $sql = "SELECT <tutti i campi>
+                      FROM album a, user_album ua
+                     WHERE ua.id_user = " . $currentUserId . "
+                       AND ua.id_album = a.id
+                     LIMIT " . 0 . ", " . 1;
 	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $playlists = array();
+	    foreach ($rows as $row) {
+		require_once 'playlist.class.php';
+		$playlist = new Playlist();
+		$playlist->setId($row['id']);
+		$playlist->setActive($row['active']);
+		$playlist->setCreatedat($row['createdat']);
+		$playlist->setFromuser($row['fromuser']);
+		$playlist->setName($row['name']);
+		$playlist->setSongcounter($row['songcounter']);
+		$playlist->setSongs($row['songs']);
+		$playlist->setUnlimited($row['unlimited']);
+		$playlist->setUpdatedat($row['updatedat']);
+	    }
 	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
 	    } else {
-		$this->playlistArray = $results;
+		$this->playlistArray = $playlists;
 	    }
 	}
     }
@@ -76,29 +87,63 @@ class PlaylistInfoBox {
  */
 class PlaylistSongBox {
 
-    public $config;
     public $error = null;
     public $songArray = array();
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "playlistBox.config.json"), false);
-    }
 
     /**
      * \fn	init($playlistId, $sonsArray)
      * \brief	Init PlaylistSongBox instance
      * \return	playlistSongBox
      */
-    public function init($playlistId, $sonsArray) {
+    public function init($id) {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    $this->error = ONLYIFLOGGEDIN;
 	    return;
+	}
+	$connectionService = new ConnectionService();
+	$connectionService->connect();
+	if (!$connectionService->active) {
+	    $this->error = $connectionService->error;
+	    return;
+	} else {
+	    $sql = "SELECT <tutti i campi>
+                      FROM album a, user_album ua
+                     WHERE ua.id_user = " . $id . "
+                       AND ua.id_album = a.id
+                     LIMIT " . 0 . ", " . 20;
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $songs = array();
+	    foreach ($rows as $row) {
+		require_once 'song.class.php';
+		$song = new Song();
+		$song->setId($row['id']);
+		$song->setActive($row['active']);
+		$song->setCommentcounter($row['commentcounter']);
+		$song->setCounter($row['counter']);
+		$song->setCreatedat($row['createdat']);
+		$song->setDuration($row['duration']);
+		$song->setFromuser($row['fromuser']);
+		$song->setGenre($row['genre']);
+		$song->setLatitude($row['locationlat']);
+		$song->setLongitude($row['locationlon']);
+		$song->getLovecounter($row['lovecounter']);
+		$song->setPath($row['path']);
+		$song->setPosition($row['position']);
+		$song->setRecord($row['record']);
+		$song->setSharecounter($row['sharecounter']);
+		$song->setTitle($row['title']);
+		$song->setUpdatedat($row['updatedat']);
+	    }
+	    $connectionService->disconnect();
+	    if (!$results) {
+		return;
+	    } else {
+		$this->songArray = $songs;
+	    }
 	}
     }
 

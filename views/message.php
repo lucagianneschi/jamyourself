@@ -18,8 +18,9 @@ $user = $_GET['user'];
 <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
 
     <head>
-
-        <title>Jamyourself</title>
+	<title><?php echo $views['metatag']['message']['title'] . $user->getUsername() ?></title>
+	<meta name="description" content="<?php echo $views['metatag']['message']['description'] ?>">
+	<meta name="keywords" content="<?php echo $views['metatag']['message']['keywords'] ?>">
         <!-------------------------- METADATI --------------------------->
 	<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
 
