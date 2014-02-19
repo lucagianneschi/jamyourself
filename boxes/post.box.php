@@ -44,7 +44,30 @@ class PostBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT <tutti i campi>
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               album,
+		               comment,
+		               commentcounter,
+		               counter,
+		               event,
+		               fromuser,
+		               image,
+		               latitude,
+		               longitude,
+		               lovecounter,
+		               record,
+		               sharecounter,
+		               song,
+		               tag,
+		               title,
+		               text,
+		               touser,
+		               type,
+		               video,
+		               vote
                       FROM album a, user_album ua
                      WHERE ua.id_user = " . $id . "
                        AND ua.id_album = a.id
