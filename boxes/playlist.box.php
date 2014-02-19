@@ -96,7 +96,6 @@ class PlaylistInfoBox {
 class PlaylistSongBox {
 
     public $error = null;
-    public $fromUser = null;
     public $songArray = array();
 
     /**
@@ -160,11 +159,11 @@ class PlaylistSongBox {
 		$resUser = mysqli_query($connectionService->connection, $sql);
 		$row_user = mysqli_fetch_array($resUser, MYSQLI_ASSOC);
 		require_once 'user.class.php';
-		$user = new User($row_user['type']);
-		$user->setId($row_user['id']);
-		$user->setThumbnail($row_user['thumbnail']);
-		$user->setUsername($row_user['username']);
-		$this->fromUser = $user;
+		$fromuser = new User($row_user['type']);
+		$fromuser->setId($row_user['id']);
+		$fromuser->setThumbnail($row_user['thumbnail']);
+		$fromuser->setUsername($row_user['username']);
+		$song->setFromuser($fromuser);
 		$song->setGenre($row['genre']);
 		$song->setLatitude($row['latitude']);
 		$song->setLongitude($row['longitude']);

@@ -28,7 +28,6 @@ require_once SERVICES_DIR . 'debug.service.php';
 class RecordBox {
 
     public $error = null;
-    public $fromUser = null;
     public $recordArray = array();
 
     /**
@@ -187,11 +186,11 @@ class RecordBox {
 		$res = mysqli_query($connectionService->connection, $sql);
 		$row_user = mysqli_fetch_array($res, MYSQLI_ASSOC);
 		require_once 'user.class.php';
-		$user = new User($row_user['type']);
-		$user->setId($row_user['id']);
-		$user->setThumbnail($row_user['thumbnail']);
-		$user->setUsername($row_user['username']);
-		$this->fromUser = $user;
+		$fromuser = new User($row_user['type']);
+		$fromuser->setId($row_user['id']);
+		$fromuser->setThumbnail($row_user['thumbnail']);
+		$fromuser->setUsername($row_user['username']);
+		$record->setFromuser($fromuser);
 		$record->setGenre($row['genre']);
 		$sql = "SELECT tag
                           FROM record_genre
@@ -289,7 +288,20 @@ class RecordBox {
 		$song->setCounter($row['counter']);
 		$song->setCreatedat($row['createdat']);
 		$song->setDuration($row['duration']);
-		$song->setFromuser($row['fromuser']);
+		$sql = "SELECT id,
+			       username,
+			       thumbnail,
+			       type
+                          FROM user
+                         WHERE id = " . $row['fromuser'];
+		$res = mysqli_query($connectionService->connection, $sql);
+		$row_user = mysqli_fetch_array($res, MYSQLI_ASSOC);
+		require_once 'user.class.php';
+		$fromuser = new User($row_user['type']);
+		$fromuser->setId($row_user['id']);
+		$fromuser->setThumbnail($row_user['thumbnail']);
+		$fromuser->setUsername($row_user['username']);
+		$$song->setFromuser($fromuser);
 		$song->setGenre($row['genre']);
 		$song->setLatitude($row['latitude']);
 		$song->setLongitude($row['longitude']);

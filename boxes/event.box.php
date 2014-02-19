@@ -29,7 +29,6 @@ class EventBox {
 
     public $error = null;
     public $eventArray = array();
-    public $fromUser = null;
 
     /**
      * \fn	init($id)
@@ -194,11 +193,11 @@ class EventBox {
 		$res = mysqli_query($connectionService->connection, $sql);
 		$row_user = mysqli_fetch_array($res, MYSQLI_ASSOC);
 		require_once 'user.class.php';
-		$user = new User($row_user['type']);
-		$user->setId($row_user['id']);
-		$user->setThumbnail($row_user['thumbnail']);
-		$user->setUsername($row_user['username']);
-		$this->fromUser = $user;
+		$fromuser = new User($row_user['type']);
+		$fromuser->setId($row_user['id']);
+		$fromuser->setThumbnail($row_user['thumbnail']);
+		$fromuser->setUsername($row_user['username']);
+		$event->setFromuser($fromuser);
 		$event->setGenre($row['genre']);
 		$event->setInvitedCounter($row['invitedCounter']);
 		$event->setLatitude($row['latitude']);
