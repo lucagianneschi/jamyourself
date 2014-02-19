@@ -48,11 +48,19 @@ class PlaylistInfoBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT <tutti i campi>
-                      FROM album a, user_album ua
-                     WHERE ua.id_user = " . $currentUserId . "
-                       AND ua.id_album = a.id
-                     LIMIT " . 0 . ", " . 1;
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               fromuser,
+		               name,
+		               songcounter,
+		               songs,
+		               unlimited
+               FROM album a, user_album ua
+               WHERE ua.id_user = " . $currentUserId . "
+               AND ua.id_album = a.id
+               LIMIT " . 0 . ", " . 1;
 	    $results = mysqli_query($connectionService->connection, $sql);
 	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 		$rows[] = $row;
@@ -108,11 +116,27 @@ class PlaylistSongBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT <tutti i campi>
-                      FROM album a, user_album ua
-                     WHERE ua.id_user = " . $id . "
-                       AND ua.id_album = a.id
-                     LIMIT " . 0 . ", " . 20;
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               commentcounter,
+		               counter,
+		               duration,
+		               fromuser,
+		               genre,
+		               latitude,
+		               longitude,
+		               lovecounter,
+		               path,
+		               position,
+		               record,
+		               sharecounter,
+		               title
+                 FROM album a, user_album ua
+                WHERE ua.id_user = " . $id . "
+                  AND ua.id_album = a.id
+                LIMIT " . 0 . ", " . 20;
 	    $results = mysqli_query($connectionService->connection, $sql);
 	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 		$rows[] = $row;
@@ -128,8 +152,8 @@ class PlaylistSongBox {
 		$song->setDuration($row['duration']);
 		$song->setFromuser($row['fromuser']);
 		$song->setGenre($row['genre']);
-		$song->setLatitude($row['locationlat']);
-		$song->setLongitude($row['locationlon']);
+		$song->setLatitude($row['latitude']);
+		$song->setLongitude($row['longitude']);
 		$song->getLovecounter($row['lovecounter']);
 		$song->setPath($row['path']);
 		$song->setPosition($row['position']);
