@@ -29,6 +29,7 @@ class EventBox {
 
     public $error = null;
     public $eventArray = array();
+    public $fromUser = null;
 
     /**
      * \fn	initForMediaPage($id)
@@ -90,7 +91,20 @@ class EventBox {
 		$event->setCreatedat($row['createdat']);
 		$event->setDescription($row['description']);
 		$event->setEventdate($row['eventdate']);
-		$event->setFromuser($row['fromuser']);
+		$sql = "SELECT id,
+			       username,
+			       thumbnail,
+			       type
+                          FROM user
+                         WHERE id = " . $row['fromuser'];
+		$res = mysqli_query($connectionService->connection, $sql);
+		$row_user = mysqli_fetch_array($res, MYSQLI_ASSOC);
+		require_once 'user.class.php';
+		$user = new User($row_user['type']);
+		$user->setId($row_user['id']);
+		$user->setThumbnail($row_user['thumbnail']);
+		$user->setUsername($row_user['username']);
+		$this->fromUser = $user;
 		$event->setGenre($row['genre']);
 		$event->setInvitedCounter($row['invitedCounter']);
 		$event->setLatitude($row['latitude']);

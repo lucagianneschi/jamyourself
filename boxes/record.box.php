@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		
+ * \todo
  *
  */
 if (!defined('ROOT_DIR'))
@@ -22,19 +22,20 @@ require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 
 /**
- * \brief	RecordBox class 
+ * \brief	RecordBox class
  * \details	box class to pass info to the view for personal page, media page & uploadRecord page
  */
 class RecordBox {
 
     public $error = null;
+    public $fromUser = null;
     public $recordArray = array();
 
     /**
      * \fn	initForMediaPage($id)
      * \brief	init for Media Page
      * \param	$id of the record to display in Media Page
-     * \todo    
+     * \todo
      */
     public function initForMediaPage($id) {
 	$connectionService = new ConnectionService();
@@ -87,8 +88,32 @@ class RecordBox {
 		$record->setCreatedat($row['createdat']);
 		$record->setDescription($row['description']);
 		$record->setDuration($row['duration']);
-		$record->setFromuser($row['fromuser']);
+		$sql = "SELECT id,
+			       username,
+			       thumbnail,
+			       type
+                          FROM user
+                         WHERE id = " . $row['fromuser'];
+		$res = mysqli_query($connectionService->connection, $sql);
+		$row_user = mysqli_fetch_array($res, MYSQLI_ASSOC);
+		require_once 'user.class.php';
+		$user = new User($row_user['type']);
+		$user->setId($row_user['id']);
+		$user->setThumbnail($row_user['thumbnail']);
+		$user->setUsername($row_user['username']);
+		$this->fromUser = $user;
 		$record->setGenre($row['genre']);
+		$sql = "SELECT tag
+                          FROM record_genre
+                         WHERE id = " . $row['id'];
+		$results = mysqli_query($connectionService->connection, $sql);
+		while ($row_genre = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		    $rows_genre[] = $row_genre;
+		$genres = array();
+		foreach ($rows_genre as $row_genre) {
+		    $genres[] = $row_genre;
+		}
+		$record->setGenre($genres);
 		$record->setLabel($row['label']);
 		$record->setLatitude($row['locationlat']);
 		$record->setLongitude($row['locationlon']);
@@ -116,7 +141,7 @@ class RecordBox {
      * \fn	init($id)
      * \brief	init for recordBox for personal Page
      * \param	$id of the user who owns the page
-     * \todo	
+     * \todo
      */
     public function init($id, $limit = 3, $skip = 0, $upload = false) {
 	if ($upload == true) {
