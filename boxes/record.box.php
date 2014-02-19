@@ -43,10 +43,33 @@ class RecordBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT <tutti i campi>
-                      FROM record r, user_record ur
-                     WHERE ur.id_record = " . $id . "
-                     LIMIT " . 0 . ", " . 1;
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               buylink,
+		               city,
+		               commentcounter,
+		               counter,
+		               cover,
+		               description,
+		               duration,
+		               fromuser,
+		               genre,
+		               label,
+		               latitude,
+		               longitude,
+		               lovecounter,
+		               reviewCounter,
+		               sharecounter,
+		               songCounter,
+		               thumbnail,
+		               title,
+		               tracklist,
+		               year
+                 FROM record r, user_record ur
+                WHERE ur.id_record = " . $id . "
+                LIMIT " . 0 . ", " . 1;
 	    $results = mysqli_query($connectionService->connection, $sql);
 	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 		$rows[] = $row;
@@ -110,11 +133,33 @@ class RecordBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT <tutti i campi>
-                      FROM record r, user_record ur
-                     WHERE ur.id_user = " . $id . "
-                       AND ur.id_record = r.id
-                     LIMIT " . $skip . ", " . $limit;
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               buylink,
+		               city,
+		               commentcounter,
+		               counter,
+		               cover,
+		               description,
+		               duration,
+		               fromuser,
+		               genre,
+		               label,
+		               latitude,
+		               longitude,
+		               lovecounter,
+		               reviewCounter,
+		               sharecounter,
+		               songCounter,
+		               thumbnail,
+		               title,
+		               tracklist,
+		               year
+                 FROM record r, user_record ur
+                WHERE ur.id_record = " . $id . "
+                LIMIT " . 0 . ", " . 1;
 	    $results = mysqli_query($connectionService->connection, $sql);
 	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 		$rows[] = $row;
@@ -135,8 +180,8 @@ class RecordBox {
 		$record->setFromuser($row['fromuser']);
 		$record->setGenre($row['genre']);
 		$record->setLabel($row['label']);
-		$record->setLatitude($row['locationlat']);
-		$record->setLongitude($row['locationlon']);
+		$record->setLatitude($row['latitude']);
+		$record->setLongitude($row['longitude']);
 		$record->setLovecounter($row['lovecounter']);
 		$record->setReviewCounter($row['reviewCounter']);
 		$record->setSharecounter($row['sharecounter']);
