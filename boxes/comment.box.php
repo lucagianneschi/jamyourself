@@ -44,11 +44,34 @@ class CommentBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT <tutti i campi>
-                      FROM album a, user_album ua
-                     WHERE ua.id_user = " . $id . "
-                       AND ua.id_album = a.id
-                     LIMIT " . $skip . ", " . $limit;
+	    $sql = "SELECT     id,
+		               createdat,
+		               updatedat,
+		               active,
+		               album,
+		               comment,
+		               commentcounter,
+		               counter,
+		               event,
+		               fromuser,
+		               image,
+		               latitude,
+		               longitude,
+		               lovecounter,
+		               record,
+		               sharecounter,
+		               song,
+		               tag,
+		               title,
+		               text,
+		               touser,
+		               type,
+		               video,
+		               vote
+                  FROM album a, user_album ua
+                 WHERE ua.id_user = " . $id . "
+                   AND ua.id_album = a.id
+                 LIMIT " . $skip . ", " . $limit;
 	    $results = mysqli_query($connectionService->connection, $sql);
 	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 		$rows[] = $row;
@@ -64,8 +87,8 @@ class CommentBox {
 		$comment->setCounter($row['counter']);
 		$comment->setFromuser($row['fromuser']);
 		$comment->setImage($row['image']);
-		$comment->setLatitude($row['locationlat']);
-		$comment->setLongitude($row['locationlon']);
+		$comment->setLatitude($row['latitude']);
+		$comment->setLongitude($row['longitude']);
 		$comment->setLovecounter($row['lovecounter']);
 		$comment->setRecord($row['record']);
 		$comment->setSong($row['song']);
