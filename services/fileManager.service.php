@@ -108,7 +108,7 @@ class FileManagerService {
      */
     public function getEventPhotoURL($userId, $photoId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
-	$url = SERVER_NAME . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->eventsPhotosFolder . "/" . $photoId;
+	$url = $this->getDomainName() . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->eventsPhotosFolder . "/" . $photoId;
 	if (file_exists($path)) {
 	    return $url;
 	} else {
@@ -137,7 +137,7 @@ class FileManagerService {
      */
     public function getPhotoURL($userId, $photoId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder . DIRECTORY_SEPARATOR . $photoId;
-	$url = SERVER_NAME . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->photosFolder . "/" . $photoId;
+	$url = $this->getDomainName() . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->photosFolder . "/" . $photoId;
 	if (file_exists($path)) {
 	    return $url;
 	} else {
@@ -166,7 +166,7 @@ class FileManagerService {
      */
     public function getRecordPhotoURL($userId, $photoId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
-	$url = SERVER_NAME . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->recordsPhotosFolder . "/" . $photoId;
+	$url = $this->getDomainName() . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->recordsPhotosFolder . "/" . $photoId;
 
 	if (file_exists($path)) {
 	    return $url;
@@ -196,7 +196,7 @@ class FileManagerService {
      */
     public function getSongURL($userId, $songId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder . DIRECTORY_SEPARATOR . $songId;
-	$url = SERVER_NAME . "/" . $this->usersFolder . "/" . $userId . "/" . $this->songsFolder . "/" . $songId;
+	$url = $this->getDomainName() . "/" . $this->usersFolder . "/" . $userId . "/" . $this->songsFolder . "/" . $songId;
 
 	if (file_exists($path)) {
 	    return $url;
@@ -295,6 +295,15 @@ class FileManagerService {
 	    return true;
 	else
 	    return $this->createSongsDir($userId);
+    }
+    
+        /**
+     * \fn	getDomainName()
+     * \brief   get domain name
+     * \return  domain name
+     */
+    public function getDomainName(){
+        return $_SERVER['SERVER_NAME'];
     }
 
 }
