@@ -331,7 +331,7 @@ class SignupController extends REST {
 	    $user->setSex($userJSON->sex);
 	    $birthday = json_decode(json_encode($userJSON->birthday), false);
 	    if (strlen($birthday->year) > 0 && strlen($birthday->month) > 0 && strlen($birthday->day) > 0) {
-		$user->setBirthDay($birthday->day . "-" . $birthday->month . "-" . $birthday->year);
+		$user->setBirthday($birthday->day . "-" . $birthday->month . "-" . $birthday->year);
 	    }
 	    return $user;
 	}
