@@ -171,7 +171,6 @@ class AlbumBox {
                 $image->setLovecounter($row_image['lovecounter']);
                 $image->getPath($row_image['path']);
                 $image->setSharecounter($row_image['sharecounter']);
-                
                 $sql = "SELECT tag
                           FROM image_tag
                          WHERE id = " . $row_image['id'];
@@ -183,7 +182,6 @@ class AlbumBox {
                     $tags[] = $row_tag;
                 }
                 $image->setTag($row_tag);
-                
                 $image->setThumbnail($row_image['thumbnail']);
                 $image->setCreatedat($row_image['createdat']);
                 $image->setUpdatedat($row_image['updatedat']);
