@@ -91,7 +91,6 @@ class AlbumBox {
                 $album->setLongitude($row_album['longitude']);
                 $album->setLovecounter($row_album['lovecounter']);
                 $album->setSharecounter($row_album['sharecounter']);
-                
                 $sql = "SELECT tag
                           FROM album_tag
                          WHERE id = " . $row_album['id'];
@@ -103,7 +102,6 @@ class AlbumBox {
                     $tags[] = $row_tag;
                 }
                 $album->setTag($row_tag);
-                
                 $album->setThumbnail($row_album['thumbnail']);
                 $album->setTitle($row_album['title']);
                 $album->setCreatedat($row_album['createdat']);
