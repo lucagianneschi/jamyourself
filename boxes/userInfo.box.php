@@ -67,8 +67,8 @@ class UserInfoBox {
                            lastname,
                            level,
                            levelvalue,
-                           locationlat,
-                           locationlon,
+                           latitude,
+                           longitude,
                            members,
                            premium,
                            premiumexpirationdate,
@@ -93,7 +93,7 @@ class UserInfoBox {
             $user->setAddress($row['address']);
             $user->setAvatar($row['avatar']);
             $user->setBackground($row['background']);
-            $user->setBirthDay($row['birthday']);
+            $user->setBirthday($row['birthday']);
             $user->setCity($row['city']);
             $user->setCollaborationcounter($row['collaborationcounter']);
             $user->setCountry($row['country']);
@@ -112,8 +112,8 @@ class UserInfoBox {
             $user->setLastname($row['lastname']);
             $user->setLevel($row['level']);
             $user->setLevelvalue($row['levelvalue']);
-            $user->setLatitude($row['locationlat']);
-            $user->setLongitude($row['locationlon']);
+            $user->setLatitude($row['latitude']);
+            $user->setLongitude($row['longitude']);
             $user->setMembers($row['members']);
             $user->setPremium($row['premium']);
             $user->setPremiumexpirationdate($row['premiumexpirationdate']);
