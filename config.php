@@ -20,11 +20,6 @@ require_once 'path.php';
 #def
 define('MANTAINANCE_MODE', 0);
 
-/** \def ('SERVER_NAME', 'www.jamyourself.com')
- *  Define the server name for stating URL
- */
-define('SERVER_NAME', 'www.jamyourself.com');
-
 /** \def ('BOXES_DIR', ROOT_DIR . 'boxes/')
  *  Define the boxes directory, php files for queries
  */
