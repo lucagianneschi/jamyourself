@@ -42,7 +42,32 @@ class EventBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT <tutti i campi>
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               address,
+		               attendeecounter,
+		               cancelledcounter,
+		               city,
+		               commentcounter,
+		               counter,
+		               cover,
+		               description,
+		               eventdate,
+		               fromuser,
+		               genre,
+		               invitedcounter,
+		               latitude,
+		               longitude,
+		               locationname,
+		               lovecounter,
+		               reviewcounter,
+		               refusedcounter,
+		               sharecounter,
+		               tag,
+		               thumbnail,
+		               title
                       FROM event e, user_event ue
                      WHERE ue.id_event = " . $id . "
                      LIMIT " . 0 . ", " . 1;
@@ -68,9 +93,9 @@ class EventBox {
 		$event->setFromuser($row['fromuser']);
 		$event->setGenre($row['genre']);
 		$event->setInvitedCounter($row['invitedCounter']);
-		$event->setLatitude($row['locationlat']);
+		$event->setLatitude($row['latitude']);
 		$event->setLocationname($row['locationname']);
-		$event->setLongitude($row['locationlong']);
+		$event->setLongitude($row['longitude']);
 		$event->setLovecounter($row['lovecounter']);
 		$event->setRefusedcounter($row['refusedcounter']);
 		$event->setReviewcounter($row['reviewcounter']);
@@ -111,10 +136,34 @@ class EventBox {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $sql = "SELECT <tutti i campi>
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               address,
+		               attendeecounter,
+		               cancelledcounter,
+		               city,
+		               commentcounter,
+		               counter,
+		               cover,
+		               description,
+		               eventdate,
+		               fromuser,
+		               genre,
+		               invitedcounter,
+		               latitude,
+		               longitude,
+		               locationname,
+		               lovecounter,
+		               reviewcounter,
+		               refusedcounter,
+		               sharecounter,
+		               tag,
+		               thumbnail,
+		               title
                       FROM event e, user_event ue
-                     WHERE ue.id_user = " . $id . "
-                       AND ue.id_event = e.id
+                     WHERE ue.id_event = " . $id . "
                      LIMIT " . $skip . ", " . $limit;
 	    $results = mysqli_query($connectionService->connection, $sql);
 	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
