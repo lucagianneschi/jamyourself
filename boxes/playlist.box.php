@@ -50,9 +50,9 @@ class PlaylistInfoBox {
 	} else {
 	    $sql = "SELECT <tutti i campi>
                       FROM album a, user_album ua
-                     WHERE ua.id_user = " . $id . "
+                     WHERE ua.id_user = " . $currentUserId . "
                        AND ua.id_album = a.id
-                     LIMIT " . $skip . ", " . $limit;
+                     LIMIT " . 0 . ", " . 1;
 	    $results = mysqli_query($connectionService->connection, $sql);
 	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 		$rows[] = $row;
@@ -74,7 +74,7 @@ class PlaylistInfoBox {
 	    if (!$results) {
 		return;
 	    } else {
-		$this->playlistArray = $results;
+		$this->playlistArray = $playlists;
 	    }
 	}
     }
