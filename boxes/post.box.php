@@ -85,6 +85,19 @@ class PostBox {
 		$post->setComment($row['post']);
 		$post->setCommentcounter($row['commentcounter']);
 		$post->setCounter($row['counter']);
+		$sql = "SELECT id,
+			       username,
+			       thumbnail,
+			       type
+                          FROM user
+                         WHERE id = " . $row['fromuser'];
+		$res = mysqli_query($connectionService->connection, $sql);
+		$row_user = mysqli_fetch_array($res, MYSQLI_ASSOC);
+		require_once 'user.class.php';
+		$fromuser = new User($row_user['type']);
+		$fromuser->setId($row_user['id']);
+		$fromuser->setThumbnail($row_user['thumbnail']);
+		$fromuser->setUsername($row_user['username']);
 		$post->setFromuser($row['fromuser']);
 		$post->setImage($row['image']);
 		$post->setLatitude($row['locationlat']);
