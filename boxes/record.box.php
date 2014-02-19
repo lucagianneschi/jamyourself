@@ -32,6 +32,96 @@ class RecordBox {
     public $recordArray = array();
 
     /**
+     * \fn	init($id)
+     * \brief	init for recordBox for personal Page
+     * \param	$id of the user who owns the page
+     * \todo
+     */
+    public function init($id, $limit = 3, $skip = 0, $upload = false) {
+	if ($upload == true) {
+	    require_once SERVICES_DIR . 'utils.service.php';
+	    $currentUserId = sessionChecker();
+	    if (is_null($currentUserId)) {
+		$this->error = ONLYIFLOGGEDIN;
+		return;
+	    }
+	}
+	$connectionService = new ConnectionService();
+	$connectionService->connect();
+	if (!$connectionService->active) {
+	    $this->error = $connectionService->error;
+	    return;
+	} else {
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               buylink,
+		               city,
+		               commentcounter,
+		               counter,
+		               cover,
+		               description,
+		               duration,
+		               fromuser,
+		               genre,
+		               label,
+		               latitude,
+		               longitude,
+		               lovecounter,
+		               reviewCounter,
+		               sharecounter,
+		               songCounter,
+		               thumbnail,
+		               title,
+		               tracklist,
+		               year
+                 FROM record r, user_record ur
+                WHERE ur.id_record = " . $id . "
+                LIMIT " . $skip . ", " . $limit;
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $records = array();
+	    foreach ($rows as $row) {
+		require_once 'record.class.php';
+		$record = new Record();
+		$record->setId($row['id']);
+		$record->setActive($row['active']);
+		$record->setBuylink($row['buylink']);
+		$record->setCity($row['city']);
+		$record->setCommentcounter($row['commentcounter']);
+		$record->setCounter($row['counter']);
+		$record->setCover($row['cover']);
+		$record->setCreatedat($row['createdat']);
+		$record->setDescription($row['description']);
+		$record->setDuration($row['duration']);
+		$record->setFromuser($row['fromuser']);
+		$record->setGenre($row['genre']);
+		$record->setLabel($row['label']);
+		$record->setLatitude($row['latitude']);
+		$record->setLongitude($row['longitude']);
+		$record->setLovecounter($row['lovecounter']);
+		$record->setReviewCounter($row['reviewCounter']);
+		$record->setSharecounter($row['sharecounter']);
+		$record->setSongCounter($row['songCounter']);
+		$record->setThumbnail($row['thumbnail']);
+		$record->setTitle($row['title']);
+		$record->setTracklist($row['tracklist']);
+		$record->setUpdatedat($row['updatedat']);
+		$record->setYear($row['year']);
+		$records[$row['id']] = $record;
+	    }
+	    $connectionService->disconnect();
+	    if (!$results) {
+		return;
+	    } else {
+		$this->recordArray = $results;
+	    }
+	}
+    }
+
+    /**
      * \fn	initForMediaPage($id)
      * \brief	init for Media Page
      * \param	$id of the record to display in Media Page
@@ -138,96 +228,6 @@ class RecordBox {
     }
 
     /**
-     * \fn	init($id)
-     * \brief	init for recordBox for personal Page
-     * \param	$id of the user who owns the page
-     * \todo
-     */
-    public function init($id, $limit = 3, $skip = 0, $upload = false) {
-	if ($upload == true) {
-	    require_once SERVICES_DIR . 'utils.service.php';
-	    $currentUserId = sessionChecker();
-	    if (is_null($currentUserId)) {
-		$this->error = ONLYIFLOGGEDIN;
-		return;
-	    }
-	}
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT id,
-		               createdat,
-		               updatedat,
-		               active,
-		               buylink,
-		               city,
-		               commentcounter,
-		               counter,
-		               cover,
-		               description,
-		               duration,
-		               fromuser,
-		               genre,
-		               label,
-		               latitude,
-		               longitude,
-		               lovecounter,
-		               reviewCounter,
-		               sharecounter,
-		               songCounter,
-		               thumbnail,
-		               title,
-		               tracklist,
-		               year
-                 FROM record r, user_record ur
-                WHERE ur.id_record = " . $id . "
-                LIMIT " . 0 . ", " . 1;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows[] = $row;
-	    $records = array();
-	    foreach ($rows as $row) {
-		require_once 'record.class.php';
-		$record = new Record();
-		$record->setId($row['id']);
-		$record->setActive($row['active']);
-		$record->setBuylink($row['buylink']);
-		$record->setCity($row['city']);
-		$record->setCommentcounter($row['commentcounter']);
-		$record->setCounter($row['counter']);
-		$record->setCover($row['cover']);
-		$record->setCreatedat($row['createdat']);
-		$record->setDescription($row['description']);
-		$record->setDuration($row['duration']);
-		$record->setFromuser($row['fromuser']);
-		$record->setGenre($row['genre']);
-		$record->setLabel($row['label']);
-		$record->setLatitude($row['latitude']);
-		$record->setLongitude($row['longitude']);
-		$record->setLovecounter($row['lovecounter']);
-		$record->setReviewCounter($row['reviewCounter']);
-		$record->setSharecounter($row['sharecounter']);
-		$record->setSongCounter($row['songCounter']);
-		$record->setThumbnail($row['thumbnail']);
-		$record->setTitle($row['title']);
-		$record->setTracklist($row['tracklist']);
-		$record->setUpdatedat($row['updatedat']);
-		$record->setYear($row['year']);
-		$records[$row['id']] = $record;
-	    }
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->recordArray = $results;
-	    }
-	}
-    }
-
-    /**
      * \fn	init($genre = null, $limit = null, $skip = null)
      * \brief	Init RecordFilter instance for TimeLine
      * \param	$genre = null, $limit = null, $skip = null
@@ -239,6 +239,73 @@ class RecordBox {
 	if (is_null($currentUserId)) {
 	    $this->error = ONLYIFLOGGEDIN;
 	    return;
+	}
+    }
+
+    /**
+     * \fn	initForTracklist($id)
+     * \brief	init for Tracklist
+     * \param	$id of the record to display 
+     * \todo
+     */
+    public function initForTracklist($id) {
+	$connectionService = new ConnectionService();
+	$connectionService->connect();
+	if (!$connectionService->active) {
+	    $this->error = $connectionService->error;
+	    return;
+	} else {
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               commentcounter,
+		               counter,
+		               duration,
+		               fromuser,
+		               genre,
+		               latitude,
+		               longitude,
+		               lovecounter,
+		               path,
+		               position,
+		               record,
+		               sharecounter,
+		               title
+                 FROM album a, user_album ua
+                WHERE ua.id_user = " . $id . "
+                  AND ua.id_album = a.id
+                LIMIT " . 0 . ", " . 50;
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $songs = array();
+	    foreach ($rows as $row) {
+		require_once 'song.class.php';
+		$song = new Song();
+		$song->setId($row['id']);
+		$song->setActive($row['active']);
+		$song->setCommentcounter($row['commentcounter']);
+		$song->setCounter($row['counter']);
+		$song->setCreatedat($row['createdat']);
+		$song->setDuration($row['duration']);
+		$song->setFromuser($row['fromuser']);
+		$song->setGenre($row['genre']);
+		$song->setLatitude($row['latitude']);
+		$song->setLongitude($row['longitude']);
+		$song->getLovecounter($row['lovecounter']);
+		$song->setPath($row['path']);
+		$song->setPosition($row['position']);
+		$song->setSharecounter($row['sharecounter']);
+		$song->setTitle($row['title']);
+		$song->setUpdatedat($row['updatedat']);
+	    }
+	    $connectionService->disconnect();
+	    if (!$results) {
+		return;
+	    } else {
+		$this->songArray = $songs;
+	    }
 	}
     }
 
