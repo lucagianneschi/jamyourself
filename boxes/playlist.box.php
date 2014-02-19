@@ -58,8 +58,17 @@ class PlaylistInfoBox {
 		$rows[] = $row;
 	    $playlists = array();
 	    foreach ($rows as $row) {
-		require_once 'playlist.box.php';
+		require_once 'playlist.class.php';
 		$playlist = new Playlist();
+		$playlist->setId($row['id']);
+		$playlist->setActive($row['active']);
+		$playlist->setCreatedat($row['createdat']);
+		$playlist->setFromuser($row['fromuser']);
+		$playlist->setName($row['name']);
+		$playlist->setSongcounter($row['songcounter']);
+		$playlist->setSongs($row['songs']);
+		$playlist->setUnlimited($row['unlimited']);
+		$playlist->setUpdatedat($row['updatedat']);
 	    }
 	    $connectionService->disconnect();
 	    if (!$results) {
@@ -109,8 +118,25 @@ class PlaylistSongBox {
 		$rows[] = $row;
 	    $songs = array();
 	    foreach ($rows as $row) {
-		require_once 'song.box.php';
+		require_once 'song.class.php';
 		$song = new Song();
+		$song->setId($row['id']);
+		$song->setActive($row['active']);
+		$song->setCommentcounter($row['commentcounter']);
+		$song->setCounter($row['counter']);
+		$song->setCreatedat($row['createdat']);
+		$song->setDuration($row['duration']);
+		$song->setFromuser($row['fromuser']);
+		$song->setGenre($row['genre']);
+		$song->setLatitude($row['locationlat']);
+		$song->setLongitude($row['locationlon']);
+		$song->getLovecounter($row['lovecounter']);
+		$song->setPath($row['path']);
+		$song->setPosition($row['position']);
+		$song->setRecord($row['record']);
+		$song->setSharecounter($row['sharecounter']);
+		$song->setTitle($row['title']);
+		$song->setUpdatedat($row['updatedat']);
 	    }
 	    $connectionService->disconnect();
 	    if (!$results) {
