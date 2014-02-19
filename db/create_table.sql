@@ -47,8 +47,8 @@ CREATE TABLE `jamdatabase`.`comment` (
   `event` INTEGER,
   `fromuser` INTEGER,
   `image` INTEGER,
-  `latitude` FLOAT,
-  `FLOATitude` FLOAT,
+  `locationlat` FLOAT,
+  `locationlon` FLOAT,
   `lovecounter` INTEGER,
   `record` INTEGER,
   `song` INTEGER,
@@ -85,8 +85,8 @@ CREATE TABLE `jamdatabase`.`event` (
   `eventdate` DATETIME,
   `fromuser` INTEGER,
   `invitedcounter` INTEGER,
-  `latitude` FLOAT,
-  `FLOATitude` FLOAT,
+  `locationlat` FLOAT,
+  `locationlon` FLOAT,
   `locationname` VARCHAR(100),
   `lovecounter` INTEGER,
   `refusedcounter` INTEGER,
@@ -108,7 +108,7 @@ CREATE TABLE `jamdatabase`.`event_tag` (
 ENGINE = InnoDB;
 
 CREATE TABLE `jamdatabase`.`genre` (
-  `id` INTEGER,
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `genre` VARCHAR(100),
   INDEX `i_genre_id`(`id`)
 )
@@ -216,11 +216,11 @@ CREATE TABLE `jamdatabase`.`song` (
   `commentcounter` INTEGER,
   `counter` INTEGER,
   `duration` INTEGER,
+  `filepath` VARCHAR(100),
   `fromuser` INTEGER,
-  `latitude` FLOAT,
-  `FLOATitude` FLOAT,
+  `locationlat` FLOAT,
+  `locationlon` FLOAT,
   `lovecounter` INTEGER,
-  `path` VARCHAR(100),
   `position` INTEGER,
   `record` INTEGER,
   `sharecounter` INTEGER,
@@ -375,13 +375,6 @@ CREATE TABLE `jamdatabase`.`video` (
   `created` DATETIME,
   `updated` DATETIME,
   UNIQUE INDEX `i_video_id`(`id`)
-)
-ENGINE = InnoDB;
-
-CREATE TABLE `jamdatabase`.`video_genre` (
-  `id_video` INTEGER,
-  `id_genre` INTEGER,
-  INDEX `i_video_genre_id`(`id_video`)
 )
 ENGINE = InnoDB;
 
