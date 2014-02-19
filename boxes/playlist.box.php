@@ -96,6 +96,7 @@ class PlaylistInfoBox {
 class PlaylistSongBox {
 
     public $error = null;
+    public $fromUser = null;
     public $songArray = array();
 
     /**
@@ -150,14 +151,35 @@ class PlaylistSongBox {
 		$song->setCounter($row['counter']);
 		$song->setCreatedat($row['createdat']);
 		$song->setDuration($row['duration']);
-		$song->setFromuser($row['fromuser']);
+		$sql = "SELECT id,
+			       username,
+			       thumbnail,
+			       type
+                          FROM user
+                         WHERE id = " . $row['fromuser'];
+		$resUser = mysqli_query($connectionService->connection, $sql);
+		$row_user = mysqli_fetch_array($resUser, MYSQLI_ASSOC);
+		require_once 'user.class.php';
+		$user = new User($row_user['type']);
+		$user->setId($row_user['id']);
+		$user->setThumbnail($row_user['thumbnail']);
+		$user->setUsername($row_user['username']);
+		$this->fromUser = $user;
 		$song->setGenre($row['genre']);
 		$song->setLatitude($row['latitude']);
 		$song->setLongitude($row['longitude']);
 		$song->getLovecounter($row['lovecounter']);
 		$song->setPath($row['path']);
 		$song->setPosition($row['position']);
-		$song->setRecord($row['record']);
+		$sql = "SELECT tag
+                          FROM record
+                         WHERE id = " . $row['record'];
+		$resRec = mysqli_query($connectionService->connection, $sql);
+		$row_record = mysqli_fetch_array($resRec, MYSQLI_ASSOC);
+		require_once 'record.class.php';
+		$record = new Record();
+		$record->setThumbnail($row_record['thumbnail']);
+		$record->setTitle($row_record['title']);
 		$song->setSharecounter($row['sharecounter']);
 		$song->setTitle($row['title']);
 		$song->setUpdatedat($row['updatedat']);
