@@ -27,7 +27,7 @@ class User {
     private $address;
     private $avatar;
     private $background;
-    private $birthDay;
+    private $birthday;
     private $city;
     private $collaborationcounter;
     private $country;
@@ -138,12 +138,12 @@ class User {
     }
 
     /**
-     * \fn		string getBirthDay()
+     * \fn		string getBirthday()
      * \brief	Return the birthday of the User represented by a string with format YYYY-MM-DD
      * \return	string
      */
-    public function getBirthDay() {
-	return $this->birthDay;
+    public function getBirthday() {
+	return $this->birthday;
     }
 
     /**
@@ -489,12 +489,12 @@ class User {
     }
 
     /**
-     * \fn	string setBirthDay($birthDay)
+     * \fn	string setBirthday($birthday)
      * \brief	Sets the birthday of the User represented by a string with format YYYY-MM-DD
      * \param	string
      */
-    public function setBirthDay($birthDay) {
-	$this->birthDay = $birthDay;
+    public function setBirthday($birthday) {
+	$this->birthday = $birthday;
     }
 
     /**
@@ -799,7 +799,7 @@ class User {
 	$string .= '[address] => ' . $this->getAddress() . '<br />';
 	$string .= '[avatar] => ' . $this->getAvatar() . '<br />';
 	$string .= '[background] => ' . $this->getBackground() . '<br />';
-	$string .= '[birthDay] => ' . $this->getBirthDay() . '<br />';
+	$string .= '[birthday] => ' . $this->getBirthday() . '<br />';
 	$string .= '[city] => ' . $this->getCity() . '<br />';
 	$string .= '[collaborationcounter] => ' . $this->getCollaborationcounter() . '<br />';
 	$string .= '[country] => ' . $this->getCountry() . '<br />';
