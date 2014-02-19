@@ -37,69 +37,102 @@ class UserInfoBox {
      * \return  instance of UserInfoBox
      */
     public function init($id) {
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT <tutti i campi>
+        $connectionService = new ConnectionService();
+        $connectionService->connect();
+        if (!$connectionService->active) {
+            $this->error = $connectionService->error;
+            return;
+        } else {
+            $sql = "SELECT id,
+                           active,
+                           address,
+                           avatar,
+                           background,
+                           birthday,
+                           city,
+                           collaborationcounter,
+                           country,
+                           createdat,
+                           description,
+                           email,
+                           facebookid,
+                           facebookpage,
+                           firstname,
+                           followerscounter,
+                           followingcounter,
+                           friendshipcounter,
+                           googlepluspage,
+                           jammercounter,
+                           jammertype,
+                           lastname,
+                           level,
+                           levelvalue,
+                           locationlat,
+                           locationlon,
+                           members,
+                           premium,
+                           premiumexpirationdate,
+                           settings,
+                           sex,
+                           thumbnail,
+                           twitterpage,
+                           type,
+                           updatedat,
+                           username,
+                           venuecounter,
+                           website,
+                           youtubechannel
                       FROM user
-                     WHERE ua.id_user = " . $id . "
-                     LIMIT " . 0 . ", " . 1;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows[] = $row;
-	    foreach ($rows as $row) {
-		require_once 'user.class.php';
-		$user = new User($row['type']);
-		$user->setId($row['id']);
-		$user->setActive($row['active']);
-		$user->setAddress($row['address']);
-		$user->setAvatar($row['avatar']);
-		$user->setBackground($row['background']);
-		$user->setBirthDay($row['birthDay']);
-		$user->setCity($row['city']);
-		$user->setCollaborationcounter($row['collaborationcounter']);
-		$user->setCountry($row['country']);
-		$user->setCreatedat($row['createdat']);
-		$user->setDescription($row['description']);
-		$user->setEmail($row['email']);
-		$user->setFacebookId($row['facebookId']);
-		$user->setFbPage($row['fbPage']);
-		$user->setFirstname($row['firstname']);
-		$user->setFollowerscounter($row['followerscounter']);
-		$user->setFollowingcounter($row['followingcounter']);
-		$user->setFriendshipcounter($row['friendshipcounter']);
-		$user->setGooglepluspage($row['googlepluspage']);
-		$user->setJammercounter($row['jammercounter']);
-		$user->setJammertype($row['jammertype']);
-		$user->setLastname($row['lastname']);
-		$user->setLatitude($row['locationlat']);
-		$user->setLevel($row['level']);
-		$user->setLevelvalue($row['levelvalue']);
-		$user->setLongitude($row['locationlon']);
-		$user->setMembers($row['members']);
-		$user->setPremium($row['premium']);
-		$user->setPremiumexpirationdate($row['premiumexpirationdate']);
-		$user->setSettings($row['settings']);
-		$user->setSex($row['sex']);
-		$user->setThumbnail($row['thumbnail']);
-		$user->setTwitterpage($row['twitterpage']);
-		$user->setType($row['type']);
-		$user->setUpdatedat($row['updatedat']);
-		$user->setUsername($row['username']);
-		$user->setVenuecounter($row['venuecounter']);
-		$user->setWebsite($row['website']);
-		$user->setYoutubechannel($row['youtubechannel']);
-	    }
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->user = $user;
-	    }
-	}
+                     WHERE id = " . $id;
+            $results = mysqli_query($connectionService->connection, $sql);
+            $row = mysqli_fetch_array($results, MYSQLI_ASSOC);
+            require_once 'user.class.php';
+            $user = new User($row['type']);
+            $user->setId($row['id']);
+            $user->setActive($row['active']);
+            $user->setAddress($row['address']);
+            $user->setAvatar($row['avatar']);
+            $user->setBackground($row['background']);
+            $user->setBirthDay($row['birthday']);
+            $user->setCity($row['city']);
+            $user->setCollaborationcounter($row['collaborationcounter']);
+            $user->setCountry($row['country']);
+            $user->setCreatedat($row['createdat']);
+            $user->setDescription($row['description']);
+            $user->setEmail($row['email']);
+            $user->setFacebookId($row['facebookid']);
+            $user->setFbPage($row['facebookpage']);
+            $user->setFirstname($row['firstname']);
+            $user->setFollowerscounter($row['followerscounter']);
+            $user->setFollowingcounter($row['followingcounter']);
+            $user->setFriendshipcounter($row['friendshipcounter']);
+            $user->setGooglepluspage($row['googlepluspage']);
+            $user->setJammercounter($row['jammercounter']);
+            $user->setJammertype($row['jammertype']);
+            $user->setLastname($row['lastname']);
+            $user->setLevel($row['level']);
+            $user->setLevelvalue($row['levelvalue']);
+            $user->setLatitude($row['locationlat']);
+            $user->setLongitude($row['locationlon']);
+            $user->setMembers($row['members']);
+            $user->setPremium($row['premium']);
+            $user->setPremiumexpirationdate($row['premiumexpirationdate']);
+            $user->setSettings($row['settings']);
+            $user->setSex($row['sex']);
+            $user->setThumbnail($row['thumbnail']);
+            $user->setTwitterpage($row['twitterpage']);
+            $user->setUpdatedat($row['updatedat']);
+            $user->setUsername($row['username']);
+            $user->setVenuecounter($row['venuecounter']);
+            $user->setWebsite($row['website']);
+            $user->setYoutubechannel($row['youtubechannel']);
+            $connectionService->disconnect();
+            if (!$results) {
+                return;
+            } else {
+                $this->user = $user;
+            }
+        }
     }
 
 }
