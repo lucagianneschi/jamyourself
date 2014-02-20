@@ -115,7 +115,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $fromuser->setId($row_album['id_u']);
 	    $fromuser->setThumbnail($row_album['thumbnail_u']);
 	    $fromuser->setUsername($row_album['username']);
-	    $album->setFromuser($row_album['fromuser']);
+	    $album->setFromuser($fromuser);
 	    $album->setImagecounter($row_album['imagecounter']);
 	    $album->setLatitude($row_album['latitude']);
 	    $album->setLongitude($row_album['longitude']);
@@ -214,31 +214,31 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	if (!$results) {
 	    return $results->error;
 	}
-	while ($row_event = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows_event[] = $row_event;
+	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	    $rows[] = $row;
 	$events = array();
-	foreach ($rows_event as $row_event) {
+	foreach ($rows as $row) {
 	    require_once 'event.class.php';
 	    $event = new Event();
-	    $event->setId($row_event['id_e']);
-	    $event->setActive($row_event['active']);
-	    $event->setAddress($row_event['address']);
-	    $event->setAttendeecounter($row_event['attendeecounter']);
-	    $event->setCancelledcounter($row_event['cancelledcounter']);
-	    $event->setCity($row_event['city']);
-	    $event->setCommentcounter($row_event['commentcounter']);
-	    $event->setCounter($row_event['counter']);
-	    $event->setCover($row_event['cover']);
-	    $event->setDescription($row_event['description']);
-	    $event->setEventdate($row_event['eventdate']);
-	    $fromuser = new User($row_event['type']);
-	    $fromuser->setId($row_event['id_u']);
-	    $fromuser->setThumbnail($row_event['thumbnail_u']);
-	    $fromuser->setUsername($row_event['username']);
-	    $event->setFromuser($row_event['fromuser']);
+	    $event->setId($row['id_e']);
+	    $event->setActive($row['active']);
+	    $event->setAddress($row['address']);
+	    $event->setAttendeecounter($row['attendeecounter']);
+	    $event->setCancelledcounter($row['cancelledcounter']);
+	    $event->setCity($row['city']);
+	    $event->setCommentcounter($row['commentcounter']);
+	    $event->setCounter($row['counter']);
+	    $event->setCover($row['cover']);
+	    $event->setDescription($row['description']);
+	    $event->setEventdate($row['eventdate']);
+	    $fromuser = new User($row['type']);
+	    $fromuser->setId($row['id_u']);
+	    $fromuser->setThumbnail($row['thumbnail_u']);
+	    $fromuser->setUsername($row['username']);
+	    $event->setFromuser($fromuser);
 	    $sql = "SELECT tag
                           FROM event_genre
-                         WHERE id = " . $row_event['genre'];
+                         WHERE id = " . $row['genre'];
 	    $results_genre = mysqli_query($connectionService->connection, $sql);
 	    if (!$results_genre) {
 		return $results_genre->error;
@@ -249,18 +249,18 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	    foreach ($rows_genre as $row_genre) {
 		$genres[] = $row_genre;
 	    }
-	    $event->setGenre($row_event['genre']);
-	    $event->setInvitedCounter($row_event['invitedCounter']);
-	    $event->setLatitude($row_event['latitude']);
-	    $event->setLocationname($row_event['locationname']);
-	    $event->setLongitude($row_event['longitude']);
-	    $event->setLovecounter($row_event['lovecounter']);
-	    $event->setRefusedcounter($row_event['refusedcounter']);
-	    $event->setReviewcounter($row_event['reviewcounter']);
-	    $event->setSharecounter($row_event['sharecounter']);
+	    $event->setGenre($genres);
+	    $event->setInvitedCounter($row['invitedCounter']);
+	    $event->setLatitude($row['latitude']);
+	    $event->setLocationname($row['locationname']);
+	    $event->setLongitude($row['longitude']);
+	    $event->setLovecounter($row['lovecounter']);
+	    $event->setRefusedcounter($row['refusedcounter']);
+	    $event->setReviewcounter($row['reviewcounter']);
+	    $event->setSharecounter($row['sharecounter']);
 	    $sql = "SELECT tag
                           FROM event_tag
-                         WHERE id = " . $row_event['id'];
+                         WHERE id = " . $row['id'];
 	    $results = mysqli_query($connectionService->connection, $sql);
 	    if (!$results) {
 		return $results->error;
@@ -272,11 +272,11 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 		$tags[] = $row_tag;
 	    }
 	    $event->setTag($tags);
-	    $event->setThumbnail($row_event['thumbnail_e']);
-	    $event->setTitle($row_event['title']);
-	    $event->setCreatedat($row_event['createdat']);
-	    $event->setUpdatedat($row_event['updatedat']);
-	    $events[$row_event['id']] = $event;
+	    $event->setThumbnail($row['thumbnail_e']);
+	    $event->setTitle($row['title']);
+	    $event->setCreatedat($row['createdat']);
+	    $event->setUpdatedat($row['updatedat']);
+	    $events[$row['id']] = $event;
 	}
 	$connectionService->disconnect();
 	return $events;
@@ -310,6 +310,7 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 		           p.songs,
 		           p.unlimited,
 			   u.id id_u,
+			   u.username
 		     FROM playlist p, user u
                      WHERE p.id = " . $id . "
                        AND p.fromuser = u.id
@@ -341,7 +342,10 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 	    $playlist->setId($row['id']);
 	    $playlist->setActive($row['active']);
 	    $playlist->setCreatedat($row['createdat']);
-	    $playlist->setFromuser($row['fromuser']);
+	    $fromuser = new User($row['type']);
+	    $fromuser->setId($row['id_u']);
+	    $fromuser->setUsername($row['username']);
+	    $playlist->setFromuser($fromuser);
 	    $playlist->setName($row['name']);
 	    $playlist->setSongcounter($row['songcounter']);
 	    $playlist->setUnlimited($row['unlimited']);
@@ -354,7 +358,88 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 }
 
 function selectRecords($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    //TODO
+    $connectionService = new ConnectionService();
+    $connectionService->connect();
+    if (!$connectionService->active) {
+	$this->error = $connectionService->error;
+	return;
+    } else {
+	$sql = "SELECT r.id id_r,
+                           r.active,
+                           r.buylink,
+                           r.city,
+                           r.commentcounter,
+                           r.counter,
+                           r.cover,
+                           r.description,
+                           r.duration,
+                           r.fromuser,
+                           r.genre,
+                           r.label,
+                           r.latitude,
+                           r.longitude,
+                           r.lovecounter,
+                           r.reviewCounter,
+                           r.sharecounter,
+                           r.songCounter,
+                           r.thumbnail,
+                           r.title,
+                           r.tracklist,
+                           r.year,
+                           r.createdat,
+                           r.updatedat,
+                           u.id id_u,
+                           u.username,
+                           u.thumbnail thumbnail_u,
+                           u.type
+                      FROM record r, user u
+                     WHERE r.id = " . $id . "
+                       AND r.fromuser = u.id
+		       AND r.active = 1";
+	$results = mysqli_query($connectionService->connection, $sql);
+	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	    $rows[] = $row;
+	$records = array();
+	foreach ($rows as $row) {
+	    require_once 'record.class.php';
+	    $record = new Record();
+	    $record->setId($row['id']);
+	    $record->setActive($row['active']);
+	    $record->setBuylink($row['buylink']);
+	    $record->setCity($row['city']);
+	    $record->setCommentcounter($row['commentcounter']);
+	    $record->setCounter($row['counter']);
+	    $record->setCover($row['cover']);
+	    $record->setDescription($row['description']);
+	    $record->setDuration($row['duration']);
+	    $fromuser = new User($row['type']);
+	    $fromuser->setId($row['id_u']);
+	    $fromuser->setThumbnail($row['thumbnail_u']);
+	    $fromuser->setUsername($row['username']);
+	    $record->setFromuser($fromuser);
+	    $record->setGenre($row['genre']);
+	    $record->setLabel($row['label']);
+	    $record->setLatitude($row['latitude']);
+	    $record->setLongitude($row['longitude']);
+	    $record->setLovecounter($row['lovecounter']);
+	    $record->setReviewCounter($row['reviewCounter']);
+	    $record->setSharecounter($row['sharecounter']);
+	    $record->setSongCounter($row['songCounter']);
+	    $record->setThumbnail($row['thumbnail']);
+	    $record->setTitle($row['title']);
+	    $record->setTracklist($row['tracklist']);
+	    $record->setYear($row['year']);
+	    $record->setCreatedat($row['createdat']);
+	    $record->setUpdatedat($row['updatedat']);
+	    $records[$row['id']] = $record;
+	}
+	$connectionService->disconnect();
+	if (!$results) {
+	    return;
+	} else {
+	    $this->recordArray = $results;
+	}
+    }
 }
 
 function selectSongs($id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -364,7 +449,7 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 	$this->error = $connectionService->error;
 	return;
     } else {
-	    $sql = "SELECT     s.id id_s,
+	$sql = "SELECT     s.id id_s,
 		               s.createdat,
 		               s.updatedat,
 		               s.active,
@@ -414,35 +499,36 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 	    $rows[] = $row;
 	$songs = array();
 	foreach ($rows as $row) {
-	    	require_once 'record.class.php';
-		require_once 'song.class.php';
-		require_once 'user.class.php';
-		$song = new Song();
-		$song->setId($row['id']);
-		$song->setActive($row['active']);
-		$song->setCommentcounter($row['commentcounter']);
-		$song->setCounter($row['counter']);
-		$song->setCreatedat($row['createdat']);
-		$song->setDuration($row['duration']);
-		$fromuser = new User($row['type']);
-		$fromuser->setId($row['id_u']);
-		$fromuser->setThumbnail($row['thumbnail_u']);
-		$fromuser->setType($row['type']);
-		$fromuser->setUsername($row['username']);
-		$song->setFromuser($fromuser);
-		$song->setGenre($row['genre']);
-		$song->setLatitude($row['latitude']);
-		$song->setLongitude($row['longitude']);
-		$song->getLovecounter($row['lovecounter']);
-		$song->setPath($row['path']);
-		$song->setPosition($row['position']);
-		$record = new Record();
-		$record->setThumbnail($row['thumbnail_r']);
-		$record->setTitle($row['title_r']);
-		$song->setSharecounter($row['sharecounter']);
-		$song->setTitle($row['title_s']);
-		$song->setUpdatedat($row['updatedat']);
-		$songs[$row['id']] = $song;
+	    require_once 'record.class.php';
+	    require_once 'song.class.php';
+	    require_once 'user.class.php';
+	    $song = new Song();
+	    $song->setId($row['id']);
+	    $song->setActive($row['active']);
+	    $song->setCommentcounter($row['commentcounter']);
+	    $song->setCounter($row['counter']);
+	    $song->setCreatedat($row['createdat']);
+	    $song->setDuration($row['duration']);
+	    $fromuser = new User($row['type']);
+	    $fromuser->setId($row['id_u']);
+	    $fromuser->setThumbnail($row['thumbnail_u']);
+	    $fromuser->setType($row['type']);
+	    $fromuser->setUsername($row['username']);
+	    $song->setFromuser($fromuser);
+	    $song->setGenre($row['genre']);
+	    $song->setLatitude($row['latitude']);
+	    $song->setLongitude($row['longitude']);
+	    $song->getLovecounter($row['lovecounter']);
+	    $song->setPath($row['path']);
+	    $song->setPosition($row['position']);
+	    $record = new Record();
+	    $record->setId($row['id_r']);
+	    $record->setThumbnail($row['thumbnail_r']);
+	    $record->setTitle($row['title_r']);
+	    $song->setSharecounter($row['sharecounter']);
+	    $song->setTitle($row['title_s']);
+	    $song->setUpdatedat($row['updatedat']);
+	    $songs[$row['id']] = $song;
 	}
 	$connectionService->disconnect();
 	return $songs;
