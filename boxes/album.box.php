@@ -59,74 +59,11 @@ class AlbumBox {
      * \todo    inserire orderby
      */
     public function initForDetail($id, $limit = 15, $skip = 0) {
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT id,
-                           active,
-                           album,
-                           commentcounter,
-                           counter,
-                           description,
-                           fromuser,
-                           latitude,
-                           longitude,
-                           lovecounter,
-                           path,
-                           sharecounter,
-                           thumbnail,
-                           createdat,
-                           updatedat
-                      FROM image
-                     WHERE album = " . $id . "
-                  ORDER BY created DESC
-                     LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    while ($row_image = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows_image[] = $row_image;
-	    $images = array();
-	    foreach ($rows_image as $row_image) {
-		require_once 'image.class.php';
-		$image = new Image();
-		$image->setId($row_image['id']);
-		$image->setActive($row_image['active']);
-		$image->setAlbum($row_image['album']);
-		$image->setCommentcounter($row_image['commentcounter']);
-		$image->setCounter($row_image['counter']);
-		$image->setDescription($row_image['description']);
-		$image->setFromuser($row_image['fromuser']);
-		$image->setImagecounter($row_image['imagecounter']);
-		$image->setLatitude($row_image['latitude']);
-		$image->setLongitude($row_image['longitude']);
-		$image->setLovecounter($row_image['lovecounter']);
-		$image->getPath($row_image['path']);
-		$image->setSharecounter($row_image['sharecounter']);
-		$sql = "SELECT tag
-                          FROM image_tag
-                         WHERE id = " . $row_image['id'];
-		$results = mysqli_query($connectionService->connection, $sql);
-		while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		    $rows_tag[] = $row_tag;
-		$tags = array();
-		foreach ($rows_tag as $row_tag) {
-		    $tags[] = $row_tag;
-		}
-		$image->setTag($row_tag);
-		$image->setThumbnail($row_image['thumbnail']);
-		$image->setCreatedat($row_image['createdat']);
-		$image->setUpdatedat($row_image['updatedat']);
-		$images[$row_image['id']] = $image;
-	    }
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->imageArray = $images;
-	    }
+	$images = selectImages(null, array('album' => $id), array('createad' => 'DESC'), $limit, $skip);
+	if ($images instanceof Error) {
+	    $this->error = $images->getErrorMessage();
 	}
+	$this->imageArray = $images;
     }
 
 }
