@@ -176,7 +176,6 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
                            e.description,
                            e.eventdate,
                            e.fromuser,
-                           e.genre,
                            e.invitedcounter,
                            e.latitude,
                            e.longitude,
