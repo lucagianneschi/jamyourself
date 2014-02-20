@@ -38,91 +38,99 @@ class PostBox {
      * \todo
      */
     public function init($id, $limit = 5, $skip = 0) {
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT id,
-		               createdat,
-		               updatedat,
-		               active,
-		               album,
-		               comment,
-		               commentcounter,
-		               counter,
-		               event,
-		               fromuser,
-		               image,
-		               latitude,
-		               longitude,
-		               lovecounter,
-		               record,
-		               sharecounter,
-		               song,
-		               tag,
-		               title,
-		               text,
-		               touser,
-		               type,
-		               video,
-		               vote
-                      FROM album a, user_album ua
-                     WHERE ua.id_user = " . $id . "
-                       AND ua.id_album = a.id
+        $connectionService = new ConnectionService();
+        $connectionService->connect();
+        if (!$connectionService->active) {
+            $this->error = $connectionService->error;
+            return;
+        } else {
+            $sql = "SELECT c.id id_c,
+                           c.active,
+                           c.album,
+                           c.comment,
+                           c.commentcounter,
+                           c.counter,
+                           c.event,
+                           c.fromuser,
+                           c.image,
+                           c.latitude,
+                           c.longitude,
+                           c.lovecounter,
+                           c.record,
+                           c.sharecounter,
+                           c.song,
+                           c.tag,
+                           c.title,
+                           c.text,
+                           c.touser,
+                           c.type type_c,
+                           c.video,
+                           c.vote,
+                           c.createdat,
+                           c.updatedat,
+                           u.id id_u,
+                           u.username,
+                           u.thumbnail,
+                           u.type type_u
+                      FROM comment c, user u
+                     WHERE c.fromuser = " . $id . "
+                       AND c.fromuser = u.id
+                  ORDER BY createdat DESC
                      LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows[] = $row;
-	    $posts = array();
-	    foreach ($rows as $row) {
-		require_once 'comment.class.php';
-		$post = new Comment();
-		$post->setId($row['id']);
-		$post->setActive($row['active']);
-		$post->setAlbum($row['album']);
-		$post->setComment($row['post']);
-		$post->setCommentcounter($row['commentcounter']);
-		$post->setCounter($row['counter']);
-		$sql = "SELECT id,
-			       username,
-			       thumbnail,
-			       type
-                          FROM user
-                         WHERE id = " . $row['fromuser'];
-		$res = mysqli_query($connectionService->connection, $sql);
-		$row_user = mysqli_fetch_array($res, MYSQLI_ASSOC);
-		require_once 'user.class.php';
-		$fromuser = new User($row_user['type']);
-		$fromuser->setId($row_user['id']);
-		$fromuser->setThumbnail($row_user['thumbnail']);
-		$fromuser->setUsername($row_user['username']);
-		$post->setFromuser($row['fromuser']);
-		$post->setImage($row['image']);
-		$post->setLatitude($row['locationlat']);
-		$post->setLongitude($row['locationlon']);
-		$post->setLovecounter($row['lovecounter']);
-		$post->setRecord($row['record']);
-		$post->setSong($row['song']);
-		$post->setSharecounter($row['sharecounter']);
-		$post->setTag($row['tag']);
-		$post->setText($row['text']);
-		$post->setTitle($row['title']);
-		$post->setTouser($row['touser']);
-		$post->setType($row['type']);
-		$post->setUpdatedat($row['updatedat']);
-		$post->setVideo($row['video']);
-		$post->setVote($row['vote']);
-		$posts[$row['id']] = $post;
-	    }
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->postArray = $posts;
-	    }
-	}
+            $results = mysqli_query($connectionService->connection, $sql);
+            while ($row_comment = mysqli_fetch_array($results, MYSQLI_ASSOC))
+                $rows[] = $row_comment;
+            $posts = array();
+            foreach ($rows as $row_comment) {
+                require_once 'comment.class.php';
+                require_once 'user.class.php';
+                $post = new Comment();
+                $post->setId($row_comment['id_c']);
+                $post->setActive($row_comment['active']);
+                $post->setAlbum($row_comment['album']);
+                $post->setComment($row_comment['post']);
+                $post->setCommentcounter($row_comment['commentcounter']);
+                $post->setCounter($row_comment['counter']);
+                $fromuser = new User($row_comment['type_u']);
+                $fromuser->setId($row_comment['id_u']);
+                $fromuser->setThumbnail($row_comment['thumbnail']);
+                $fromuser->setUsername($row_comment['username']);
+                $post->setFromuser($fromuser);
+                $post->setImage($row_comment['image']);
+                $post->setLatitude($row_comment['locationlat']);
+                $post->setLongitude($row_comment['locationlon']);
+                $post->setLovecounter($row_comment['lovecounter']);
+                $post->setRecord($row_comment['record']);
+                $post->setSong($row_comment['song']);
+                $post->setSharecounter($row_comment['sharecounter']);
+                $sql = "SELECT tag
+                          FROM comment_tag
+                         WHERE id = " . $row_comment['id_c'];
+                $results = mysqli_query($connectionService->connection, $sql);
+                while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
+                    $rows_tag[] = $row_tag;
+                $tags = array();
+                foreach ($rows_tag as $row_tag) {
+                    $tags[] = $row_tag;
+                }
+                $post->setTag($row_tag);
+                $post->setText($row_comment['text']);
+                $post->setTitle($row_comment['title']);
+                $post->setTouser($row_comment['touser']);
+                $post->setType($row_comment['type_c']);
+                $post->setVideo($row_comment['video']);
+                $post->setVote($row_comment['vote']);
+                $post->setCreatedat($row_comment['createdat']);
+                $post->setUpdatedat($row_comment['updatedat']);
+                $posts[$row_comment['id']] = $post;
+            }
+            $connectionService->disconnect();
+            if (!$results) {
+                return;
+            } else {
+                $this->postArray = $posts;
+            }
+        }
     }
 
     /**
@@ -133,9 +141,9 @@ class PostBox {
      * \todo
      */
     public function initForStream($id, $limit) {
-	$this->config = null;
-	$this->error = null;
-	$this->postArray = array();
+        $this->config = null;
+        $this->error = null;
+        $this->postArray = array();
     }
 
 }
