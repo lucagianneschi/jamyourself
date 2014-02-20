@@ -19,7 +19,6 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'connection.service.php';
 
 /**
  * \brief	PlaylistInfoBox class 
@@ -42,49 +41,11 @@ class PlaylistInfoBox {
 	    $this->error = ONLYIFLOGGEDIN;
 	    return;
 	}
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT id,
-		               createdat,
-		               updatedat,
-		               active,
-		               fromuser,
-		               name,
-		               songcounter,
-		               songs,
-		               unlimited
-               FROM album a, user_album ua
-               WHERE ua.id_user = " . $currentUserId . "
-               AND ua.id_album = a.id
-               LIMIT " . 0 . ", " . 1;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows[] = $row;
-	    $playlists = array();
-	    foreach ($rows as $row) {
-		require_once 'playlist.class.php';
-		$playlist = new Playlist();
-		$playlist->setId($row['id']);
-		$playlist->setActive($row['active']);
-		$playlist->setCreatedat($row['createdat']);
-		$playlist->setFromuser($row['fromuser']);
-		$playlist->setName($row['name']);
-		$playlist->setSongcounter($row['songcounter']);
-		$playlist->setSongs($row['songs']);
-		$playlist->setUnlimited($row['unlimited']);
-		$playlist->setUpdatedat($row['updatedat']);
-	    }
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->playlistArray = $playlists;
-	    }
+	$playlists = selectPlaylists(null, array('fromuser' => $currentUserId));
+	if ($playlists instanceof Error) {
+	    $this->error = $playlists->getErrorMessage();
 	}
+	$this->playlistArray = $playlists;
     }
 
 }
