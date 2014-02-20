@@ -38,21 +38,19 @@ class EventBox {
      * \todo    inserire orderby
      */
     public function init($id, $limit = 3, $skip = 0, $upload = false) {
-        if ($upload == true) {
-            require_once SERVICES_DIR . 'utils.service.php';
-            $currentUserId = sessionChecker();
-            if (is_null($currentUserId)) {
-                $this->error = ONLYIFLOGGEDIN;
-                return;
-            }
-        }
-        
-        $mysql = new MySQL();
-        $events = selectEvents($id, null, array('createdat' => 'DESC'), $limit, $skip);
-        $eventArray = $events;
-        if ($events instanceof Error) {
-            $this->error = //TODO
-        }
+	if ($upload == true) {
+	    require_once SERVICES_DIR . 'utils.service.php';
+	    $currentUserId = sessionChecker();
+	    if (is_null($currentUserId)) {
+		$this->error = ONLYIFLOGGEDIN;
+		return;
+	    }
+	}
+	$events = selectEvents($id, null, array('createdat' => 'DESC'), $limit, $skip);
+	if ($events instanceof Error) {
+	    $this->error = $events->getErrorMessage();
+	}
+	$this->eventArray = $events;
     }
 
     /**
@@ -61,13 +59,13 @@ class EventBox {
      * \param	$id for event
      */
     public function initForMediaPage($id) {
-        $connectionService = new ConnectionService();
-        $connectionService->connect();
-        if (!$connectionService->active) {
-            $this->error = $connectionService->error;
-            return;
-        } else {
-            $sql = "SELECT e.id id_e,
+	$connectionService = new ConnectionService();
+	$connectionService->connect();
+	if (!$connectionService->active) {
+	    $this->error = $connectionService->error;
+	    return;
+	} else {
+	    $sql = "SELECT e.id id_e,
                            e.active,
                            e.address,
                            e.attendeecounter,
@@ -99,53 +97,53 @@ class EventBox {
                       FROM event e, user u
                      WHERE e.id = " . $id . "
                        AND e.fromuser = u.id";
-            $results = mysqli_query($connectionService->connection, $sql);
-            while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-                $rows[] = $row;
-            $events = array();
-            foreach ($rows as $row) {
-                require_once 'event.class.php';
-                require_once 'user.class.php';
-                $event = new Event();
-                $event->setId($row['id_e']);
-                $event->setActive($row['active']);
-                $event->setAddress($row['address']);
-                $event->setAttendeecounter($row['attendeecounter']);
-                $event->setCancelledcounter($row['cancelledcounter']);
-                $event->setCity($row['city']);
-                $event->setCommentcounter($row['commentcounter']);
-                $event->setCounter($row['counter']);
-                $event->setCover($row['cover']);
-                $event->setCreatedat($row['createdat']);
-                $event->setDescription($row['description']);
-                $event->setEventdate($row['eventdate']);
-                $fromuser = new User($row_user['type']);
-                $fromuser->setId($row_user['id_u']);
-                $fromuser->setThumbnail($row_user['thumbnail_u']);
-                $fromuser->setUsername($row_user['username']);
-                $event->setFromuser($fromuser);
-                $event->setGenre($row['genre']);
-                $event->setInvitedCounter($row['invitedCounter']);
-                $event->setLatitude($row['latitude']);
-                $event->setLocationname($row['locationname']);
-                $event->setLongitude($row['longitude']);
-                $event->setLovecounter($row['lovecounter']);
-                $event->setRefusedcounter($row['refusedcounter']);
-                $event->setReviewcounter($row['reviewcounter']);
-                $event->setSharecounter($row['sharecounter']);
-                $event->setTag($row['tag']);
-                $event->setThumbnail($row['thumbnail_e']);
-                $event->setTitle($row['title']);
-                $event->setUpdatedat($row['updatedat']);
-                $events[$row['id_e']] = $event;
-            }
-            $connectionService->disconnect();
-            if (!$results) {
-                return;
-            } else {
-                $this->eventArray = $results;
-            }
-        }
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $events = array();
+	    foreach ($rows as $row) {
+		require_once 'event.class.php';
+		require_once 'user.class.php';
+		$event = new Event();
+		$event->setId($row['id_e']);
+		$event->setActive($row['active']);
+		$event->setAddress($row['address']);
+		$event->setAttendeecounter($row['attendeecounter']);
+		$event->setCancelledcounter($row['cancelledcounter']);
+		$event->setCity($row['city']);
+		$event->setCommentcounter($row['commentcounter']);
+		$event->setCounter($row['counter']);
+		$event->setCover($row['cover']);
+		$event->setCreatedat($row['createdat']);
+		$event->setDescription($row['description']);
+		$event->setEventdate($row['eventdate']);
+		$fromuser = new User($row_user['type']);
+		$fromuser->setId($row_user['id_u']);
+		$fromuser->setThumbnail($row_user['thumbnail_u']);
+		$fromuser->setUsername($row_user['username']);
+		$event->setFromuser($fromuser);
+		$event->setGenre($row['genre']);
+		$event->setInvitedCounter($row['invitedCounter']);
+		$event->setLatitude($row['latitude']);
+		$event->setLocationname($row['locationname']);
+		$event->setLongitude($row['longitude']);
+		$event->setLovecounter($row['lovecounter']);
+		$event->setRefusedcounter($row['refusedcounter']);
+		$event->setReviewcounter($row['reviewcounter']);
+		$event->setSharecounter($row['sharecounter']);
+		$event->setTag($row['tag']);
+		$event->setThumbnail($row['thumbnail_e']);
+		$event->setTitle($row['title']);
+		$event->setUpdatedat($row['updatedat']);
+		$events[$row['id_e']] = $event;
+	    }
+	    $connectionService->disconnect();
+	    if (!$results) {
+		return;
+	    } else {
+		$this->eventArray = $results;
+	    }
+	}
     }
 
     /**
@@ -155,12 +153,12 @@ class EventBox {
      * \todo    reimplementare $tags al momento in cui vengono implementati nella vista stream
      */
     public function initForStream($lat = null, $long = null, $city = null, $country = null, $tags = null, $eventDate = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = 'loveCounter') {
-        require_once SERVICES_DIR . 'utils.service.php';
-        $currentUserId = sessionChecker();
-        if (is_null($currentUserId)) {
-            $this->error = ONLYIFLOGGEDIN;
-            return;
-        }
+	require_once SERVICES_DIR . 'utils.service.php';
+	$currentUserId = sessionChecker();
+	if (is_null($currentUserId)) {
+	    $this->error = ONLYIFLOGGEDIN;
+	    return;
+	}
     }
 
 }
