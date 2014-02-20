@@ -353,10 +353,119 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 	    $playlists[$row['id']] = $playlist;
 	}
 	$connectionService->disconnect();
-	return $playlist;
+	return $playlists;
     }
 }
 
+/**
+ * \fn	    selectPosts($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \brief   Select on Post Class
+ * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * \todo    
+ */
+function selectPosts($id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $connectionService = new ConnectionService();
+    $connectionService->connect();
+    if (!$connectionService->active) {
+	$this->error = $connectionService->error;
+	return;
+    } else {
+	$sql = "SELECT	   p.id id_p,
+                           p.active,
+                           p.commentcounter,
+                           p.counter,
+                           p.fromuser,
+                           p.latitude,
+                           p.longitude,
+                           p.lovecounter,
+                           p.sharecounter,
+                           p.tag,
+                           p.text,
+                           p.touser,
+                           p.type type_c,
+                           p.vote,
+                           p.createdat,
+                           p.updatedat,
+                           u.id id_u,
+                           u.username,
+                           u.thumbnail,
+                           u.type type_u
+                      FROM comment c, user u
+                     WHERE p.fromuser = " . $id . "
+                       AND p.fromuser = u.id
+		       AND p.type = 'C'
+                  ORDER BY createdat DESC
+                     LIMIT " . $skip . ", " . $limit;
+	if (!is_null($where)) {
+	    foreach ($where as $key => $value)
+		$sql .= " AND " . $key . " = '" . $value . "'";
+	}
+	if (!is_null($order)) {
+	    $sql .= " ORDER BY ";
+	    foreach ($order as $key => $value)
+		$sql .= " " . $key . " " . $value . ",";
+	}
+	if (!is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $skip . ", " . $limit;
+	} elseif (is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $limit;
+	}
+	$results = mysqli_query($connectionService->connection, $sql);
+	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	    $rows[] = $row;
+	$posts = array();
+	foreach ($rows as $row) {
+	    require_once 'comment.class.php';
+	    require_once 'user.class.php';
+	    $post = new Comment();
+	    $post->setId($row['id_p']);
+	    $post->setActive($row['active']);
+	    $post->setCommentcounter($row['commentcounter']);
+	    $post->setCounter($row['counter']);
+	    $fromuser = new User($row['type_u']);
+	    $fromuser->setId($row['id_u']);
+	    $fromuser->setThumbnail($row['thumbnail_u']);
+	    $fromuser->setUsername($row['username']);
+	    $post->setFromuser($fromuser);
+	    $post->setLatitude($row['latitude']);
+	    $post->setLongitude($row['longitude']);
+	    $post->setLovecounter($row['lovecounter']);
+	    $post->setSharecounter($row['sharecounter']);
+	    $sql = "SELECT tag
+                          FROM comment_tag
+                         WHERE id = " . $row['id_c'];
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows_tag[] = $row_tag;
+	    $tags = array();
+	    foreach ($rows_tag as $row_tag) {
+		$tags[] = $row_tag;
+	    }
+	    $post->setTag($tags);
+	    $post->setText($row['text']);
+	    $post->setTitle($row['title']);
+	    $post->setTouser($row['touser']);
+	    $post->setType($row['type_c']);
+	    $post->setVote($row['vote']);
+	    $post->setCreatedat($row['createdat']);
+	    $post->setUpdatedat($row['updatedat']);
+	    $posts[$row['id']] = $post;
+	}
+	$connectionService->disconnect();
+	if (!$results) {
+	    return;
+	} else {
+	    return $posts;
+	}
+    }
+}
+
+/**
+ * \fn	    selectRecords($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \brief   Select on Post Class
+ * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * \todo    
+ */
 function selectRecords($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
@@ -396,6 +505,20 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
                      WHERE r.id = " . $id . "
                        AND r.fromuser = u.id
 		       AND r.active = 1";
+	if (!is_null($where)) {
+	    foreach ($where as $key => $value)
+		$sql .= " AND " . $key . " = '" . $value . "'";
+	}
+	if (!is_null($order)) {
+	    $sql .= " ORDER BY ";
+	    foreach ($order as $key => $value)
+		$sql .= " " . $key . " " . $value . ",";
+	}
+	if (!is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $skip . ", " . $limit;
+	} elseif (is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $limit;
+	}
 	$results = mysqli_query($connectionService->connection, $sql);
 	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	    $rows[] = $row;
@@ -437,7 +560,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	if (!$results) {
 	    return;
 	} else {
-	    $this->recordArray = $results;
+	    return $records;
 	}
     }
 }
