@@ -17,19 +17,19 @@ $thumbnail = "";
 switch ($uploadReviewController->reviewedClassType) {
     case "Record":
 	$tagGenere = $uploadReviewController->reviewed->getGenre();
-	$thumbnail = $uploadReviewController->reviewed->getThumbnailCover();
+	$thumbnail = $uploadReviewController->reviewed->getThumbnail();
 	break;
     case "Event" :
-	$tagGenere = implode(",", $uploadReviewController->reviewed->getTags());
+	$tagGenere = implode(",", $uploadReviewController->reviewed->getTag());
 	$thumbnail = $uploadReviewController->reviewed->getThumbnail();
 	break;
 }
 $rating = "3";
-$authorObjectId = $uploadReviewController->reviewedFromUser->getObjectId();
-$authorThumbnail = $uploadReviewController->reviewedFromUser->getProfileThumbnail();
+$authorObjectId = $uploadReviewController->reviewedFromUser->getId();
+$authorThumbnail = $uploadReviewController->reviewedFromUser->getThumbnail();
 $author = $uploadReviewController->reviewedFromUser->getUsername();
 
-if ($authorObjectId == $currentUser->getObjectId()) {
+if ($authorObjectId == $currentUser->getId()) {
     header('Location: stream.php');
 } else {
     ?>
@@ -38,8 +38,9 @@ if ($authorObjectId == $currentUser->getObjectId()) {
     <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
 
         <head>
-
-    	<title>Jamyourself</title>
+	<title><?php echo $views['metatag']['uploadReview']['title'] ?></title>
+	<meta name="description" content="<?php echo $views['metatag']['uploadReview']['description'] ?>">
+	<meta name="keywords" content="<?php echo $views['metatag']['uploadReview']['keywords'] ?>">
     	<!-------------------------- METADATI --------------------------->
 	    <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
 

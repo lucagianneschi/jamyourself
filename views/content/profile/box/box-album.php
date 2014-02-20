@@ -2,7 +2,7 @@
 /*
  * box album
  * box chiamato tramite load con:
- * data: {data: data, typeUser: objectId}
+ * data: {data: data, typeUser: id}
  * 
  * box per tutti gli utenti
  */
@@ -21,7 +21,7 @@ session_start();
 $objectIdUser = $_POST['objectIdUser'];
 
 $albumBox = new AlbumBox();
-$albumBox->init($_POST['objectId']);
+$albumBox->init($_POST['id']);
 if (is_null($albumBox->error)) {
     if (isset($_SESSION['currentUser']))
 	$currentUser = $_SESSION['currentUser'];
@@ -61,15 +61,15 @@ if (is_null($albumBox->error)) {
 			<div class="box royalSlider rsMinW" id="albumSlide">						
 			    <?php
 			    foreach ($albums as $key => $value) {
-				$album_thumbnailCover = $value->getThumbnailCover();
-				$album_objectId = $value->getObjectId();
+				$album_thumbnailCover = $value->getThumbnail();
+				$album_objectId = $value->getId();
 				$album_title = $value->getTitle();
-				$album_imageCounter = $value->getImageCounter();
-				$album_love = $value->getLoveCounter();
+				$album_imageCounter = $value->getImagecounter();
+				$album_love = $value->getLovecounter();
 				$album_comment = $value->getCommentCounter();
-				$album_share = $value->getShareCounter();
-				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['objectId'], album_thumbnailCover);
-				if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+				$album_share = $value->getSharecounter();
+				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['id'], album_thumbnailCover);
+				if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 				    $css_love = '_love orange';
 				    $text_love = $views['unlove'];
 				} else {
@@ -83,7 +83,7 @@ if (is_null($albumBox->error)) {
 				    ?>									
 					<div class="row" style="margin-left: 0px; margin-right: 0px;">
 					<?php } ?>	
-	    			    <div class="small-6 columns box-coveralbum <?php echo $album_objectId; ?>" onclick="loadBoxAlbumDetail('<?php echo $_POST['objectId'] ?>', '<?php echo $album_objectId; ?>',<?php echo $album_imageCounter; ?>, 30, 0)">
+	    			    <div class="small-6 columns box-coveralbum <?php echo $album_objectId; ?>" onclick="loadBoxAlbumDetail('<?php echo $_POST['id'] ?>', '<?php echo $album_objectId; ?>',<?php echo $album_imageCounter; ?>, 30, 0)">
 	    				<img class="albumcover" src="<?php echo $pathCoverAlbum; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'" alt="<?php echo $album_title; ?>"/>  
 	    				<div class="text white breakOffTest"><?php echo $album_title; ?></div>
 	    				<div class="row">
@@ -118,14 +118,14 @@ if (is_null($albumBox->error)) {
     	<!----------------------------------------- ALBUM PHOTO SINGLE ------------------------------>	
 	    <?php
 	    foreach ($albums as $key => $value) {
-		$album_objectId = $value->getObjectId();
-		$album_user_objectId = $value->getFromUser()->getObjectId();
+		$album_objectId = $value->getId();
+		$album_user_objectId = $value->getFromuser()->getId();
 		$album_title = $value->getTitle();
-		$album_imageCounter = $value->getImageCounter();
-		$album_love = $value->getLoveCounter();
+		$album_imageCounter = $value->getImagecounter();
+		$album_love = $value->getLovecounter();
 		$album_comment = $value->getCommentCounter();
-		$album_share = $value->getShareCounter();
-		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+		$album_share = $value->getSharecounter();
+		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 		    $css_love = '_love orange';
 		    $text_love = $views['unlove'];
 		} else {
@@ -144,10 +144,10 @@ if (is_null($albumBox->error)) {
 			    <!----------------------------------------- ALBUM DETAIL--------------------------->			
 			    <div id='box-albumDetail'></div>
 			    <script type="text/javascript">
-				    function loadBoxAlbumDetail(userId, objectId, countImage, limit, skip) {
+				    function loadBoxAlbumDetail(userId, id, countImage, limit, skip) {
 					var json_data = {};
 					json_data.userId = userId;
-					json_data.objectId = objectId;
+					json_data.id = id;
 					json_data.countImage = countImage;
 					json_data.limit = limit;
 					json_data.skip = skip;
@@ -158,12 +158,12 @@ if (is_null($albumBox->error)) {
 					    beforeSend: function(xhr) {
 						//spinner.show();
 						$("#albumSlide").fadeOut(100, function() {
-						    $('#' + objectId).fadeIn(100);
+						    $('#' + id).fadeIn(100);
 						    if (skip == 0)
-							goSpinnerBox('#' + objectId + ' #box-albumDetail', '');
+							goSpinnerBox('#' + id + ' #box-albumDetail', '');
 						    else {
-							$('#' + objectId + ' #box-albumDetail .otherObject').addClass('no-display');
-							goSpinnerBox('#' + objectId + ' #box-albumDetail .spinnerDetail', '');
+							$('#' + id + ' #box-albumDetail .otherObject').addClass('no-display');
+							goSpinnerBox('#' + id + ' #box-albumDetail .spinnerDetail', '');
 						    }
 						});
 						console.log('Sono partito box-albumDetail');
@@ -171,21 +171,21 @@ if (is_null($albumBox->error)) {
 					}).done(function(message, status, xhr) {
 					    //spinner.hide();
 					    if (skip > 0) {
-						$('#' + objectId + ' #box-albumDetail .otherObject').addClass('no-display');
-						$('#' + objectId + ' #box-albumDetail .spinnerDetail').addClass('no-display');
+						$('#' + id + ' #box-albumDetail .otherObject').addClass('no-display');
+						$('#' + id + ' #box-albumDetail .spinnerDetail').addClass('no-display');
 					    }
 
 					    else {
-						$("#" + objectId + " #box-albumDetail").html('');
+						$("#" + id + " #box-albumDetail").html('');
 					    }
 					    $('#albumBottonSlide').addClass('no-display');
-					    $(message).appendTo("#" + objectId + " #box-albumDetail");
+					    $(message).appendTo("#" + id + " #box-albumDetail");
 					    lightBoxPhoto('photo-colorbox-group');
 					    addthis.init();
 					    addthis.toolbox(".addthis_toolbox");
 					    //    rsi_album.updateSliderSize(true);
 
-					    //	$("#"+objectId+" #box-albumDetail").html(message);
+					    //	$("#"+id+" #box-albumDetail").html(message);
 					    code = xhr.status;
 					    //console.log("Code: " + code + " | Message: " + message);
 					    //gestione visualizzazione box detail								
@@ -223,7 +223,7 @@ if (is_null($albumBox->error)) {
 			    <div class="addthis_toolbox">
 				<div class="hover_menu">
 				    <div class="addthis_toolbox addthis_default_style"
-					 addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Album&objectId=&imgPath=<?php echo $thumbImage ?>"
+					 addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Album&id=&imgPath=<?php echo $thumbImage ?>"
 					 addThis:title="<?php echo $paramsImage['title']; ?>"
 					 onclick="addShare('<?php echo $objectIdUser; ?>', 'Album', '<?php echo $album_objectId; ?>')">
 					<a class="addthis_button_twitter"></a>

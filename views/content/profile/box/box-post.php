@@ -16,7 +16,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 session_start();
 
 $postBox = new PostBox();
-$postBox->init($_POST['objectId']);
+$postBox->init($_POST['id']);
 
 if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
@@ -34,14 +34,14 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 
     		<div class="row  ">
     		    <div  class="large-12 columns ">
-    			  <form action="" class="box-write" onsubmit="sendPost('<?php echo $_POST['objectId']; ?>', $('#post').val());
+    			  <form action="" class="box-write" onsubmit="sendPost('<?php echo $_POST['id']; ?>', $('#post').val());
     				  return false;">    			    
     			    <div class="row">
     				<div class="small-9 columns ">
     				    <input id="post" type="text" class="post inline" placeholder="<?php echo $views['post']['write']; ?>" />
     				</div>
     				<div class="small-3 columns ">
-    				    <input type="button" id="button-post" class="post-button inline" value="<?php echo $views['post_button']; ?>" onclick="sendPost('<?php echo $_POST['objectId']; ?>', $('#post').val())" />
+    				    <input type="button" id="button-post" class="post-button inline" value="<?php echo $views['post_button']; ?>" onclick="sendPost('<?php echo $_POST['id']; ?>', $('#post').val())" />
     				</div>
     			    </div>
     			</form>
@@ -55,16 +55,16 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 		    <?php
 		    if ($postCounter > 0) {
 			foreach ($posts as $key => $value) {
-			    $post_objectId = $value->getObjectId();
-			    $post_createdAt = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
-			    $post_fromUser_objectId = $value->getFromUser()->getObjectId();
-			    $post_fromUser_profileThumbnail = $value->getFromUser()->getProfileThumbnail();
-			    $post_fromUser_username = $value->getFromUser()->getUsername();
-			    $post_fromUser_type = $value->getFromUser()->getType();
+			    $post_objectId = $value->getId();
+			    $post_createdAt = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
+			    $post_fromUser_objectId = $value->getFromuser()->getId();
+			    $post_fromUser_profileThumbnail = $value->getFromuser()->getThumbnail();
+			    $post_fromUser_username = $value->getFromuser()->getUsername();
+			    $post_fromUser_type = $value->getFromuser()->getType();
 			    $post_text = $value->getText();
-			    $post_loveCounter = $value->getLoveCounter();
+			    $post_loveCounter = $value->getLovecounter();
 			    $post_commentCounter = $value->getCommentCounter();
-			    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+			    if (in_array($currentUser->getId(), $value->getLovers())) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {
@@ -124,7 +124,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 	    			<div class="row">
 	    			    <div class="box-propriety">
 	    				<div class="small-5 columns ">
-	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
+	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
 	    				    <a class="note grey" onclick="loadBoxOpinion('<?php echo $post_objectId; ?>', '<?php echo $post_fromUser_objectId; ?>', 'Comment', '#<?php echo $post_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 	    				</div>
 	    				<div class="small-5 columns propriety ">

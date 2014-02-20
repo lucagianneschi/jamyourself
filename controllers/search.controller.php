@@ -21,6 +21,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+ 
 
 /**
  * \brief	SearchController class 
@@ -32,7 +33,7 @@ class SearchController extends REST {
 
     function __construct() {
 	parent::__construct();
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/search.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "searchController.config.json"), false);
     }
 
     /**
@@ -67,7 +68,7 @@ class SearchController extends REST {
 	    $activity->setComment(null);
 	    $activity->setCounter(0);
 	    $activity->setEvent(null);
-	    $activity->setFromUser(null);
+	    $activity->setFromuser(null);
 	    $activity->setImage(null);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
@@ -75,7 +76,7 @@ class SearchController extends REST {
 	    $activity->setRecord(null);
 	    $activity->setSong(null);
 	    $activity->setStatus('A');
-	    $activity->setToUser(null);
+	    $activity->setTouser(null);
 	    $activity->setType('SEARCH');
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();

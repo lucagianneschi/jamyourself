@@ -21,6 +21,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+ 
 
 /**
  * \brief	PlayerController class 
@@ -52,7 +53,7 @@ class PlayerController extends REST {
 	    if ($song instanceof Error) {
 		$this->response(array('status' => $controllers['ERRORSONGINFO']), 503);
 	    }
-	    $activity = $this->createActivity($currentUser->getObjectId(), $song->getRecord(), $songId);
+	    $activity = $this->createActivity($currentUser->getId(), $song->getRecord(), $songId);
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);
@@ -66,12 +67,12 @@ class PlayerController extends REST {
     }
 
     /**
-     * \fn	createActivity($type, $fromUser, $recordId, $songId)
+     * \fn	createActivity($type, $fromuser, $recordId, $songId)
      * \brief   create activity for playslitControlelr
-     * \param   $type, $fromUser, $recordId, $songId
+     * \param   $type, $fromuser, $recordId, $songId
      * \return  $activity     
      */
-    private function createActivity($fromUser, $recordId, $songId) {
+    private function createActivity($fromuser, $recordId, $songId) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	$activity = new Activity();
 	$activity->setActive(true);
@@ -79,7 +80,7 @@ class PlayerController extends REST {
 	$activity->setComment(null);
 	$activity->setCounter(0);
 	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
+	$activity->setFromuser($fromuser);
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);
@@ -87,7 +88,7 @@ class PlayerController extends REST {
 	$activity->setRecord($recordId);
 	$activity->setSong($songId);
 	$activity->setStatus('A');
-	$activity->setToUser(null);
+	$activity->setTouser(null);
 	$activity->setType("SONGLISTENED");
 	$activity->setVideo(null);
 	return $activity;

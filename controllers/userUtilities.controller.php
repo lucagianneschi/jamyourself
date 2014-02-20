@@ -20,6 +20,7 @@ if (!defined('ROOT_DIR'))
 
 
 require_once ROOT_DIR . 'config.php';
+ 
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
@@ -31,11 +32,11 @@ require_once CONTROLLERS_DIR . 'restController.php';
 class UserUtilitiesController extends REST {
 
     /**
-     * \fn      createActivity($type, $fromUser)
+     * \fn      createActivity($type, $fromuser)
      * \brief   private function to create ad hoc activity
-     * \param   $type, $fromUser
+     * \param   $type, $fromuser
      */
-    private function createActivity($type, $fromUser) {
+    private function createActivity($type, $fromuser) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	$activity = new Activity();
 	$activity->setActive(true);
@@ -43,7 +44,7 @@ class UserUtilitiesController extends REST {
 	$activity->setComment(null);
 	$activity->setCounter(0);
 	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
+	$activity->setFromuser($fromuser);
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);
@@ -51,7 +52,7 @@ class UserUtilitiesController extends REST {
 	$activity->setRead(true);
 	$activity->setSong(null);
 	$activity->setStatus('A');
-	$activity->setToUser(null);
+	$activity->setTouser(null);
 	$activity->setType($type);
 	$activity->setVideo(null);
 	return $activity;
@@ -77,7 +78,7 @@ class UserUtilitiesController extends REST {
 	    if ($user instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUNDFORPASSRESET']), 503);
 	    }
-	    $activity = $this->createActivity('PASSWORDRESETREQUEST', $user->getObjectId());
+	    $activity = $this->createActivity('PASSWORDRESETREQUEST', $user->getId());
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
 	    $res = $activityParse->saveActivity($activity);
@@ -109,11 +110,11 @@ class UserUtilitiesController extends REST {
 	    $settings = $this->request['setting'];
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userP = new UserParse();
-	    $res = $userP->updateField($currentUser->getObjectId(), 'settings', array($settings));
+	    $res = $userP->updateField($currentUser->getId(), 'settings', array($settings));
 	    if ($res instanceof Error) {
 		$this->response(array('status' => $controllers['NOSETTINGUPDATE']), 503);
 	    }
-	    $activity = $this->createActivity("USERSETTINGSUPDATED", $currentUser->getObjectId());
+	    $activity = $this->createActivity("USERSETTINGSUPDATED", $currentUser->getId());
 	    $activityParse = new ActivityParse();
 	    $resAct = $activityParse->saveActivity($activity);
 	    if ($resAct instanceof Error) {

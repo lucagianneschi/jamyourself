@@ -74,7 +74,7 @@ class UploadRecordController extends REST {
 	    }
 	    $newRecord = json_decode(json_encode($record), false);
 	    $user = $_SESSION['currentUser'];
-	    $userId = $user->getObjectId();
+	    $userId = $user->getId();
 	    $pRecord = new RecordParse();
 	    $record = new Record();
 	    $record->setActive(true);
@@ -83,48 +83,48 @@ class UploadRecordController extends REST {
 	    require_once CONTROLLERS_DIR . "utilsController.php";
 	    $imgInfo = getCroppedImages($newRecord);
 	    $record->setCover($imgInfo['picture']);
-	    $record->setThumbnailCover($imgInfo['thumbnail']);
-	    $record->setSongCounter(0);
+	    $record->setThumbnail($imgInfo['thumbnail']);
+	    $record->setSongcounter(0);
 	    $record->setDescription($newRecord->description);
 	    $record->setDuration(0);
 	    if (isset($newRecord->albumFeaturing) && !is_null($newRecord->albumFeaturing) && count($newRecord->albumFeaturing) > 0)
 		$record->setFeaturing($newRecord->albumFeaturing);
-	    $record->setFromUser($userId);
+	    $record->setFromuser($userId);
 	    $record->setGenre($this->getTags($newRecord->tags));
 	    $record->setLabel($newRecord->label);
 	    $infoLocation = GeocoderService::getCompleteLocationInfo($newRecord->city);
 	    $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
 	    $record->setLocation($parseGeoPoint);
 	    $record->setCity($infoLocation['city']);
-	    $record->setLoveCounter(0);
+	    $record->setLovecounter(0);
 	    $record->setLovers(array());
-	    $record->setReviewCounter(0);
-	    $record->setShareCounter(0);
+	    $record->setReviewcounter(0);
+	    $record->setSharecounter(0);
 	    $record->setTitle($newRecord->recordTitle);
 	    $record->setYear($newRecord->year);
 	    $savedRecord = $pRecord->saveRecord($record);
 	    if ($savedRecord instanceof Error) {
 		$this->response(array("status" => $controllers['RECORDCREATEERROR']), 503);
 	    }
-	    $resFSCreation = $this->createFolderForRecord($userId, $savedRecord->getObjectId());
+	    $resFSCreation = $this->createFolderForRecord($userId, $savedRecord->getId());
 	    if ($resFSCreation instanceof Exception || !$resFSCreation) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackUploadRecordController($savedRecord->getObjectId(), "Record");
+		$message = rollbackUploadRecordController($savedRecord->getId(), "Record");
 		$this->response(array("status" => $message), 503);
 	    }
 	    $filemanager = new FileManagerService();
 	    $imageSrc = $filemanager->getRecordPhotoPath($userId, $savedRecord->getCover());
-	    $thumbSrc = $filemanager->getRecordPhotoPath($userId, $savedRecord->getThumbnailCover());
+	    $thumbSrc = $filemanager->getRecordPhotoPath($userId, $savedRecord->getThumbnail());
 	    //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE         
 	    if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
-		rename(CACHE_DIR . $savedRecord->getThumbnailCover(), $thumbSrc);
+		rename(CACHE_DIR . $savedRecord->getThumbnail(), $thumbSrc);
 		rename(CACHE_DIR . $savedRecord->getCover(), $imageSrc);
 	    }
 	    unset($_SESSION['currentUserFeaturingArray']);
-	    $pActivity = $this->createActivity($userId, $savedRecord->getObjectId());
+	    $pActivity = $this->createActivity($userId, $savedRecord->getId());
 	    if ($pActivity instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackUploadRecordController($savedRecord->getObjectId(), "Record");
+		$message = rollbackUploadRecordController($savedRecord->getId(), "Record");
 		$this->response(array("status" => $message), 503);
 	    }
 	    return $savedRecord;
@@ -158,7 +158,7 @@ class UploadRecordController extends REST {
 	    $record = null;
 	    if (!isset($this->request['recordId']) || is_null($this->request['recordId']) || strlen($this->request['recordId']) == 0) {
 		$record = $this->createRecord($this->request['record']);
-		$recordId = $record->getObjectId();
+		$recordId = $record->getId();
 	    } elseif (isset($this->request['recordId'])) {
 		$recordId = $this->request['recordId'];
 	    }
@@ -195,17 +195,17 @@ class UploadRecordController extends REST {
 			} else {
 			    $song->setFeaturing(array());
 			}
-			$song->setFilePath($element->src);
-			$song->setFromUser($currentUser->getObjectId());
+			$song->setPath($element->src);
+			$song->setFromuser($currentUser->getId());
 			$song->setGenre($element->tags);
 			$song->setLocation(null);
 			$song->setLovers(array());
-			$song->setLoveCounter(0);
+			$song->setLovecounter(0);
 			$position++;
 			$song->setPosition($position);
 			$song->setRecord($recordId);
 			$song->setCounter(0);
-			$song->setShareCounter(0);
+			$song->setSharecounter(0);
 			$song->setTitle($element->title);
 			$savedSong = $pSong->saveSong($song);
 			if ($savedSong instanceof Error) {
@@ -216,9 +216,9 @@ class UploadRecordController extends REST {
 			    //cancello l'mp3 dalla cache
 			    unlink(CACHE_DIR . $element->src);
 			} else {
-			    if (!$this->saveMp3($currentUser->getObjectId(), $recordId, $song->getFilePath()) || $this->createActivity($currentUser->getObjectId(), $recordId, "SONGUPLOADED", $savedSong->getObjectId()) instanceof Error) {
+			    if (!$this->saveMp3($currentUser->getId(), $recordId, $song->getFilePath()) || $this->createActivity($currentUser->getId(), $recordId, "SONGUPLOADED", $savedSong->getId()) instanceof Error) {
 				require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-				rollbackUploadRecordController($savedSong->getObjectId(), "Song");
+				rollbackUploadRecordController($savedSong->getId(), "Song");
 				$songErrorList[] = $element;
 				$position--;
 			    } else {
@@ -226,12 +226,12 @@ class UploadRecordController extends REST {
 				$resAddRelation = $this->addSongToRecord($record, $savedSong);
 				if ($resAddRelation instanceof Error || $resAddRelation instanceof Exception || !$resAddRelation) {
 				    //errore creazione relazione fra record e song
-				    rollbackUploadRecordController($savedSong->getObjectId(), "Song");
+				    rollbackUploadRecordController($savedSong->getId(), "Song");
 				    $songErrorList[] = $element;
 				    $position--;
 				} else {
 				    //tutto bene
-				    $element->id = $savedSong->getObjectId();
+				    $element->id = $savedSong->getId();
 				    $songSavedList[] = $element;
 				}
 			    }
@@ -245,7 +245,7 @@ class UploadRecordController extends REST {
 		$this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList, "id" => $recordId), 200);
 	    } else {
 		foreach ($songErrorList as $toRemove) {
-		    $this->deleteMp3($currentUser->getObjectId(), $toRemove->src);
+		    $this->deleteMp3($currentUser->getId(), $toRemove->src);
 		}
 		if (count($songSavedList) == 0) {
 		    //nessuna canzone salvata => tutti errori  
@@ -314,7 +314,7 @@ class UploadRecordController extends REST {
 	try {
 	    $currentUser = $_SESSION['currentUser'];
 	    $pRecord = new RecordParse();
-	    $recordId = $record->getObjectId();
+	    $recordId = $record->getId();
 
 	    //recupero la tracklist
 //            $tracklist = $record->getTracklist();
@@ -326,13 +326,13 @@ class UploadRecordController extends REST {
 //                return false;
 //            }
 	    //aggiorno la relazione record/song
-	    $res = $pRecord->updateField($recordId, 'tracklist', array($song->getObjectid()), true, 'add', 'Song');
+	    $res = $pRecord->updateField($recordId, 'tracklist', array($song->getId()), true, 'add', 'Song');
 	    if ($res instanceof Error) {
 		return $res;
 	    }
 	    //creo l'activity specifica 
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $resActivity = $this->createActivity($currentUser->getObjectId(), $recordId, "SONGADDEDTORECORD", $song->getObjectId());
+	    $resActivity = $this->createActivity($currentUser->getId(), $recordId, "SONGADDEDTORECORD", $song->getId());
 	    if ($resActivity instanceof Error) {
 		return $resActivity;
 	    }
@@ -353,11 +353,11 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	createActivity($fromUser, $recordId, $type = 'RECORDCREATED', $songId = null)
+     * \fn	createActivity($fromuser, $recordId, $type = 'RECORDCREATED', $songId = null)
      * \brief   funzione per creazione activity per questo controller
-     * \param   $fromUser, $recordId, $type = 'RECORDUPLOADED', $songId = null
+     * \param   $fromuser, $recordId, $type = 'RECORDUPLOADED', $songId = null
      */
-    private function createActivity($fromUser, $recordId, $type = 'RECORDCREATED', $songId = null) {
+    private function createActivity($fromuser, $recordId, $type = 'RECORDCREATED', $songId = null) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	require_once CLASSES_DIR . 'activityParse.class.php';
 	$activity = new Activity();
@@ -365,7 +365,7 @@ class UploadRecordController extends REST {
 	$activity->setAlbum(null);
 	$activity->setCounter(0);
 	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
+	$activity->setFromuser($fromuser);
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);
@@ -373,7 +373,7 @@ class UploadRecordController extends REST {
 	$activity->setRecord($recordId);
 	$activity->setSong($songId);
 	$activity->setStatus('A');
-	$activity->setToUser(null);
+	$activity->setTouser(null);
 	$activity->setType($type);
 	$activity->setVideo(null);
 	$pActivity = new ActivityParse();
@@ -480,7 +480,7 @@ class UploadRecordController extends REST {
 		$secs = floor($seconds % 60);
 		$duration = $hours == 0 ? $mins . ":" . $secs : $hours . ":" . $mins . ":" . $secs;
 		$genre = $song->getGenre();
-		$returnInfo[] = json_encode(array("title" => $song->getTitle(), "duration" => $duration, "genre" => $genre, "id" => $song->getObjectId()));
+		$returnInfo[] = json_encode(array("title" => $song->getTitle(), "duration" => $duration, "genre" => $genre, "id" => $song->getId()));
 	    }
 	    $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo, "count" => count($songsList)), 200);
 	} catch (Exception $e) {
@@ -514,16 +514,16 @@ class UploadRecordController extends REST {
 	    }
 	    $currentUser = $_SESSION['currentUser'];
 	    $recordBox = new RecordBox();
-	    $recordBox->initForUploadRecordPage($currentUser->getObjectId());
+	    $recordBox->initForUploadRecordPage($currentUser->getId());
 	    $recordIdList = array();
 	    $fileManager = new FileManagerService();
 	    if (is_null($recordBox->error) && count($recordBox->recordArray) > 0) {
 		foreach ($recordBox->recordArray as $record) {
 		    $retObj = array();
-		    $retObj["thumbnail"] = $fileManager->getRecordPhotoURL($currentUser->getObjectId(), $record->getThumbnailCover());
+		    $retObj["thumbnail"] = $fileManager->getRecordPhotoURL($currentUser->getId(), $record->getThumbnail());
 		    $retObj["title"] = $record->getTitle();
 		    $retObj["songs"] = $record->getSongCounter();
-		    $retObj["recordId"] = $record->getObjectId();
+		    $retObj["recordId"] = $record->getId();
 		    $recordIdList[] = $retObj;
 		}
 	    }
@@ -544,7 +544,7 @@ class UploadRecordController extends REST {
 	    $currentUser = $_SESSION['currentUser'];
 	    require_once CLASSES_DIR . 'recordParse.class.php';
 	    $pRecord = new RecordParse();
-	    $recordId = $record->getObjectId();
+	    $recordId = $record->getId();
 //            $tracklist = $record->getTracklist();
 //            if (is_null($tracklist) || !in_array($songId, $tracklist)) {
 //                return false;
@@ -552,13 +552,13 @@ class UploadRecordController extends REST {
 //            if (count($tracklist) == 0) {
 //                return false;
 //            }
-	    $res = $pRecord->updateField($recordId, 'tracklist', array($song->getObjectId()), true, 'remove', 'Song');
+	    $res = $pRecord->updateField($recordId, 'tracklist', array($song->getId()), true, 'remove', 'Song');
 	    if ($res instanceof Error) {
 		return $res;
 	    }
 
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $resActivity = $this->createActivity($currentUser->getObjectId(), $recordId, "SONGREMOVEDFROMRECORD", $song->getObjectId());
+	    $resActivity = $this->createActivity($currentUser->getId(), $recordId, "SONGREMOVEDFROMRECORD", $song->getId());
 	    if ($resActivity instanceof Error) {
 		return $resActivity;
 	    }

@@ -18,7 +18,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once PARSE_DIR . 'parse.php';
+
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 
@@ -85,7 +85,7 @@ function sendMailForNotification($address, $subject, $html) {
 function getFeaturingArray() {
     if (isset($_SESSION['currentUser'])) {
 	$currentUser = $_SESSION['currentUser'];
-	$currentUserId = $currentUser->getObjectId();
+	$currentUserId = $currentUser->getId();
 	$userArray = null;
 	switch ($currentUser->getType()) {
 	    case "SPOTTER":
@@ -114,7 +114,7 @@ function getFeaturingArray() {
 	    foreach ($userArray as $user) {
 		require_once CLASSES_DIR . "user.class.php";
 		$username = $user->getUsername();
-		$userId = $user->getObjectId();
+		$userId = $user->getId();
 		$userType = $user->getType();
 		array_push($userArrayInfo, array("id" => $userId, "text" => $username, 'type' => $userType));
 	    }

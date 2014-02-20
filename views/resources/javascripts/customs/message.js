@@ -317,7 +317,7 @@ function sendMessage(box, toUser, toUserType, message, num) {
 
 function readMessage(activityId) {
     var json_message = {};
-    json_message.objectId = activityId;
+    json_message.id = activityId;
     json_message.request = 'read';
     $.ajax({
 	type: "POST",

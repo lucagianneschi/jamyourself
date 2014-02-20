@@ -9,7 +9,7 @@ class UploadController extends REST {
 
     function __construct() {
 	parent::__construct();
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/upload.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "uploadController.config.json"), false);
     }
 
     public function uploadImage() {

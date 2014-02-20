@@ -21,6 +21,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+ 
 require_once SERVICES_DIR . 'eventChecker.service.php';
 
 /**
@@ -41,25 +42,25 @@ class EventController extends REST {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['objectId'])) {
+	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    } elseif (!isset($this->request['toUserId'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
-	    } elseif (!isset($this->request['objectId'])) {
+	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOACTIVITYID']), 403);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
 	    $toUserId = $this->request['toUserId'];
-	    $objectId = $this->request['objectId'];
+	    $id = $this->request['id'];
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userParse = new UserParse();
-	    $toUser = $userParse->getUser($toUserId);
-	    if ($toUser instanceof Error) {
+	    $touser = $userParse->getUser($toUserId);
+	    if ($touser instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
 	    }
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
-	    $activityP->where('objectId', $objectId);
+	    $activityP->where('id', $id);
 	    $activityP->whereInclude('event');
 	    $activityP->setLimit(1);
 	    $res = $activityP->getActivities();
@@ -67,19 +68,19 @@ class EventController extends REST {
 		$this->response(array('status' => $controllers['ACTNOTFOUND']), 403);
 	    } elseif (is_null($res->getEvent())) {
 		$this->response(array('status' => $controllers['NOEVENTFOUND']), 503);
-	    } elseif ((checkUserInEventRelation($currentUser->getObjectId(), $res->getEvent()->getObjectId(), 'invited') == true) ||
-		    (checkUserInEventRelation($currentUser->getObjectId(), $res->getEvent()->getObjectId(), 'refused') == true) ||
-		    (checkUserInEventRelation($currentUser->getObjectId(), $res->getEvent()->getObjectId(), 'attendee') == true)) {
+	    } elseif ((checkUserInEventRelation($currentUser->getId(), $res->getEvent()->getId(), 'invited') == true) ||
+		    (checkUserInEventRelation($currentUser->getId(), $res->getEvent()->getId(), 'refused') == true) ||
+		    (checkUserInEventRelation($currentUser->getId(), $res->getEvent()->getId(), 'attendee') == true)) {
 		$this->response(array('status' => $controllers['NOAVAILABLEACCEPTINVITATION']), 503);
 	    }
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventP = new EventParse();
-	    $event = $eventP->updateField($event->getObjectId(), 'attendee', $currentUser->getObjectId(), true, 'add', '_User');
-	    $statusUpdate = $activityP->updateField($objectId, 'status', 'A');
-	    $readUpdate = $activityP->updateField($objectId, 'read', true);
+	    $event = $eventP->updateField($event->getId(), 'attendee', $currentUser->getId(), true, 'add', '_User');
+	    $statusUpdate = $activityP->updateField($id, 'status', 'A');
+	    $readUpdate = $activityP->updateField($id, 'read', true);
 	    if ($statusUpdate instanceof Error || $readUpdate instanceof Error || $event instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackEventManagementController($objectId, 'acceptInvitation', $currentUser->getObjectId(), $event->getObjectId());
+		$message = rollbackEventManagementController($id, 'acceptInvitation', $currentUser->getId(), $event->getId());
 		$this->response(array('status' => $message), 503);
 	    }
 	    $this->response(array($controllers['INVITATIONACCEPTED']), 200);
@@ -100,29 +101,29 @@ class EventController extends REST {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['objectId'])) {
+	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    } elseif (!isset($this->request['toUserId'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
-	    $eventId = $this->request['objectId'];
-	    if (checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'attendee') == true) {
+	    $eventId = $this->request['id'];
+	    if (checkUserInEventRelation($currentUser->getId(), $eventId, 'attendee') == true) {
 		$this->response(array('status' => $controllers['NOAVAILABLEACCEPTINVITATION']), 503);
 	    }
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventP = new EventParse();
-	    $event = $eventP->updateField($eventId, 'attendee', $currentUser->getObjectId(), true, 'add', '_User');
+	    $event = $eventP->updateField($eventId, 'attendee', $currentUser->getId(), true, 'add', '_User');
 	    if ($event instanceof Error) {
 		$this->response(array('status' => $controllers['ERRORUPDATINGEVENTATTENDEE']), 503);
 	    }
-	    $activity = $this->createActivity("INVITED", null, $currentUser->getObjectId(), 'A', $eventId, true);
+	    $activity = $this->createActivity("INVITED", null, $currentUser->getId(), 'A', $eventId, true);
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
 	    $activitySave = $activityP->saveActivity($activity);
 	    if ($activitySave instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackEventManagementController(null, 'declineInvitation', $currentUser->getObjectId(), $eventId);
+		$message = rollbackEventManagementController(null, 'declineInvitation', $currentUser->getId(), $eventId);
 		$this->response(array('status' => $message), 503);
 	    }
 	    $this->response(array($controllers['DIRECTATTENDEE']), 200);
@@ -143,14 +144,14 @@ class EventController extends REST {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['objectId'])) {
+	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
-	    $objectId = $this->request['objectId'];
+	    $id = $this->request['id'];
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
-	    $activityP->where('objectId', $objectId);
+	    $activityP->where('id', $id);
 	    $activityP->whereInclude('event');
 	    $activityP->setLimit(1);
 	    $resAct = $activityP->getActivities();
@@ -161,12 +162,12 @@ class EventController extends REST {
 	    }
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventP = new EventParse();
-	    $resAdd = $eventP->updateField($resAct->getEvent()->getObjectId(), 'refused', $currentUser->getObjectId(), true, 'add', '_User');
-	    $resStatus = $activityP->updateField($objectId, 'status', 'R');
-	    $resRead = $activityP->updateField($objectId, 'read', true);
+	    $resAdd = $eventP->updateField($resAct->getEvent()->getId(), 'refused', $currentUser->getId(), true, 'add', '_User');
+	    $resStatus = $activityP->updateField($id, 'status', 'R');
+	    $resRead = $activityP->updateField($id, 'read', true);
 	    if ($resStatus instanceof Error || $resRead instanceof Error || $resAdd instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackEventManagementController($objectId, 'declineInvitation', $resAct->getEvent()->getObjectId(), $resAct->getEvent());
+		$message = rollbackEventManagementController($id, 'declineInvitation', $resAct->getEvent()->getId(), $resAct->getEvent());
 		$this->response(array('status' => $message), 503);
 	    }
 	    $this->response(array('INVITATIONDECLINED'), 200);
@@ -187,14 +188,14 @@ class EventController extends REST {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($this->request['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['objectId'])) {
+	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOACTIVITYID']), 403);
 	    }
 	    $currentUser = $this->request['currentUser'];
-	    $objectId = $this->request['objectId'];
+	    $id = $this->request['id'];
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
-	    $activityParse->where('objectId', $objectId);
+	    $activityParse->where('id', $id);
 	    $activityParse->whereInclude('event');
 	    $activityParse->setLimit(1);
 	    $res = $activityParse->getActivities();
@@ -205,17 +206,17 @@ class EventController extends REST {
 	    }
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventParse = new EventParse();
-	    $attendeeRemove = $eventParse->updateField($res->getEvent()->getObjectId(), 'attendee', array($currentUser->getObjectId()), true, 'remove', '_User');
+	    $attendeeRemove = $eventParse->updateField($res->getEvent()->getId(), 'attendee', array($currentUser->getId()), true, 'remove', '_User');
 	    if ($attendeeRemove instanceof Error) {
 		$this->response(array('status' => $controllers['ERRORREMOVING']), 403);
 	    }
-	    $refusedAdd = $eventParse->updateField($res->getEvent()->getObjectId(), 'refused', array($currentUser->getObjectId()), true, 'add', '_User');
+	    $refusedAdd = $eventParse->updateField($res->getEvent()->getId(), 'refused', array($currentUser->getId()), true, 'add', '_User');
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $activityParse1 = new ActivityParse();
-	    $resUpdate = $activityParse1->updateField($objectId, 'status', 'D');
+	    $resUpdate = $activityParse1->updateField($id, 'status', 'D');
 	    if ($resUpdate instanceof Error || $refusedAdd instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackEventManagementController($objectId, 'removeAttendee');
+		$message = rollbackEventManagementController($id, 'removeAttendee');
 		$this->response(array('status' => $message), 503);
 	    }
 	    $this->response(array('status' => $controllers['NOEVENTFOUND']), 403);
@@ -245,28 +246,28 @@ class EventController extends REST {
 	    $currentUser = $_SESSION['currentUser'];
 	    $toUserId = $this->request['toUser'];
 	    $eventId = $this->request['eventId'];
-	    if ($currentUser->getObjectId() == $toUserId) {
+	    if ($currentUser->getId() == $toUserId) {
 		$this->response(array('status' => $controllers['SELF']), 503);
 	    }
-	    if ((checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'invited') == true) ||
-		    (checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'refused') == true) ||
-		    (checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'attendee') == true)) {
+	    if ((checkUserInEventRelation($currentUser->getId(), $eventId, 'invited') == true) ||
+		    (checkUserInEventRelation($currentUser->getId(), $eventId, 'refused') == true) ||
+		    (checkUserInEventRelation($currentUser->getId(), $eventId, 'attendee') == true)) {
 		$this->response(array('status' => $controllers['NOAVAILABLEFORINVITATION']), 503);
 	    }
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userParse = new UserParse();
-	    $toUser = $userParse->getUser($toUserId);
-	    if (!relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUser->getType())) {
+	    $touser = $userParse->getUser($toUserId);
+	    if (!relationChecker($currentUser->getId(), $currentUser->getType(), $toUserId, $touser->getType())) {
 		$this->response(array('status' => $controllers['NOTINRELATION']), 503);
 	    }
-	    $activity = $this->createActivity("INVITED", $toUserId, $currentUser->getObjectId(), 'P', $eventId, false);
+	    $activity = $this->createActivity("INVITED", $toUserId, $currentUser->getId(), 'P', $eventId, false);
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);
 	    if ($resActivity instanceof Error) {
 		$this->response(array('status' => $controllers['NOACSAVE']), 503);
 	    } else {
-		sendMailForNotification($toUser->getEmail(), $controllers['INVITATIONMAILSBJ'], file_get_contents(STDHTML_DIR . $mail_files['EVENTINVITATION']));
+		sendMailForNotification($touser->getEmail(), $controllers['INVITATIONMAILSBJ'], file_get_contents(STDHTML_DIR . $mail_files['EVENTINVITATION']));
 		$this->response(array($controllers['INVITATIONSENT']), 200);
 	    }
 	} catch (Exception $e) {
@@ -287,7 +288,7 @@ class EventController extends REST {
 	$activity->setComment(null);
 	$activity->setCounter(0);
 	$activity->setEvent($eventId);
-	$activity->setFromUser($currentUserId);
+	$activity->setFromuser($currentUserId);
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);
@@ -295,7 +296,7 @@ class EventController extends REST {
 	$activity->setRead($read);
 	$activity->setSong(null);
 	$activity->setStatus($status);
-	$activity->setToUser($toUserId);
+	$activity->setTouser($toUserId);
 	$activity->setType($type);
 	$activity->setVideo(null);
 	return $activity;

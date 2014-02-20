@@ -266,7 +266,7 @@ require_once ROOT_DIR . 'config.php';
 					var genres = new Array();
 					function loadBoxResultEvent() {
 
-					    json_data.tags = getTags();
+					    json_data.tags = getTag();
 					    json_data.latitude = json_data.location.latitude;
 					    json_data.longitude = json_data.location.longitude;
 					    json_data.city = json_data.location.city;
@@ -311,7 +311,7 @@ require_once ROOT_DIR . 'config.php';
 					    });
 					}
 
-					function getTags() {
+					function getTag() {
 					    tags = new Array();
 					    try {
 						$.each($("#tag-event :checkbox"), function() {
@@ -382,10 +382,10 @@ require_once ROOT_DIR . 'config.php';
 		    }
                 </script>
                 <script type="text/javascript">
-		    function loadBoxOpinion(objectId, toUser, classBox, box, limit, skip) {
+		    function loadBoxOpinion(id, toUser, classBox, box, limit, skip) {
 			if ($(box).hasClass('no-display')) {
 			    var json_data = {};
-			    json_data.objectId = objectId;
+			    json_data.id = id;
 			    json_data.toUser = toUser;
 			    json_data.classBox = classBox;
 			    json_data.box = box;
@@ -399,7 +399,7 @@ require_once ROOT_DIR . 'config.php';
 				beforeSend: function(xhr) {
 				    //spinner.show();											
 				    //goSpinnerBox(box, '');
-				    console.log('Sono partito loadBoxOpinion(' + objectId + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
+				    console.log('Sono partito loadBoxOpinion(' + id + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
 				}
 			    })
 				    .done(function(message, status, xhr) {

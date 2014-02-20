@@ -19,8 +19,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
-$objectId = $_POST['objectId'];
-$inviteds = getRelatedUsers($objectId, 'invited', 'Event', false, 10, 0);
+$id = $_POST['id'];
+$inviteds = getRelatedUsers($id, 'invited', 'Event', false, 10, 0);
 $invitedsCounter = count($inviteds);
 
 if ($invitedsCounter > 0) {
@@ -47,14 +47,14 @@ if ($invitedsCounter > 0) {
 		}
 		?>
 		<div  class="small-6 columns">
-		    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-			<div class="row " id="featuring_<?php echo $value->getObjectId(); ?>">
+		    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getId(); ?>'">
+			<div class="row " id="featuring_<?php echo $value->getId(); ?>">
 			    <div  class="small-3 columns ">
 				<div class="icon-header">
 				    <!-- THUMB USER-->
 				    <?php
 				    $fileManagerService = new FileManagerService();
-				    $thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+				    $thumbPath = $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail());
 				    ?>
 				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?>">
 				</div>

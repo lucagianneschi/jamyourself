@@ -37,7 +37,7 @@ class SignupController extends REST {
 
     function __construct() {
 	parent::__construct();
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/signup.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "signupController.config.json"), false);
 	$this->userValidator = new ValidateNewUserService($this->config);
     }
 
@@ -102,27 +102,27 @@ class SignupController extends REST {
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new Activity();
 	    $activity->setActive(true);
-	    $activity->setFromUser($user->getObjectId());
+	    $activity->setFromuser($user->getId());
 	    $activity->setRead(true);
 	    $activity->setStatus("A");
 	    $activity->setType("SIGNEDUP");
 	    $pActivity = new ActivityParse();
 	    $pActivity->saveActivity($activity);
 	    $_SESSION['currentUser'] = $user;
-	    $this->createFileSystemStructure($user->getObjectId(), $user->getType());
-	    $this->createImageDefaultAlbum($user->getObjectId());
-	    $this->createDefaultPlaylist($user->getObjectId());
+	    $this->createFileSystemStructure($user->getId(), $user->getType());
+	    $this->createImageDefaultAlbum($user->getId());
+	    $this->createDefaultPlaylist($user->getId());
 	    if ($user->getType() == "JAMMER") {
-		$this->createRecordDefaultAlbum($user->getObjectId());
+		$this->createRecordDefaultAlbum($user->getId());
 	    }
-	    if (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
+	    if (!is_null($user->getThumbnail()) && strlen($user->getThumbnail()) > 0 && strlen($user->getAvatar()) && !is_null($user->getAvatar())) {
 		$res_1 = false;
 		$res_2 = false;
-		$src_img = CACHE_DIR . $user->getProfilePicture();
-		$src_thumb = CACHE_DIR . $user->getProfileThumbnail();
+		$src_img = CACHE_DIR . $user->getAvatar();
+		$src_thumb = CACHE_DIR . $user->getThumbnail();
 		$fileManager = new FileManagerService();
-		$dest_img = $fileManager->getPhotoPath($user->getObjectId(), $user->getProfilePicture());
-		$dest_thumb = $fileManager->getPhotoPath($user->getObjectId(), $user->getProfileThumbnail());
+		$dest_img = $fileManager->getPhotoPath($user->getId(), $user->getAvatar());
+		$dest_thumb = $fileManager->getPhotoPath($user->getId(), $user->getThumbnail());
 		if (file_exists($src_img)) {
 		    $res_1 = rename($src_img, $dest_img);
 		}
@@ -257,7 +257,7 @@ class SignupController extends REST {
 	require_once CLASSES_DIR . 'playlistParse.class.php';
 	$playlist = new Playlist();
 	$playlist->setActive(true);
-	$playlist->setFromUser($userId);
+	$playlist->setFromuser($userId);
 	$playlist->setName(DEF_PLAY);
 	$playlist->setSongsArray(array());
 	$playlist->setUnlimited(false);
@@ -276,9 +276,9 @@ class SignupController extends REST {
 	$album = new Album();
 	$album->setActive(true);
 	$album->setCounter(0);
-	$album->setFromUser($userId);
-	$album->setLoveCounter(0);
-	$album->setShareCounter(0);
+	$album->setFromuser($userId);
+	$album->setLovecounter(0);
+	$album->setSharecounter(0);
 	$album->setTitle(DEF_ALBUM);
 	$pAlbum = new AlbumParse();
 	return $pAlbum->saveAlbum($album);
@@ -295,10 +295,10 @@ class SignupController extends REST {
 	$record = new Record();
 	$record->setActive(true);
 	$record->setDuration(0);
-	$record->setFromUser($userId);
-	$record->setLoveCounter(0);
-	$record->setReviewCounter(0);
-	$record->setShareCounter(0);
+	$record->setFromuser($userId);
+	$record->setLovecounter(0);
+	$record->setReviewcounter(0);
+	$record->setSharecounter(0);
 	$record->setTitle(DEF_REC);
 	$record->setYear(date("Y"));
 	$pRecord = new RecordParse();
@@ -331,7 +331,7 @@ class SignupController extends REST {
 	    $user->setSex($userJSON->sex);
 	    $birthday = json_decode(json_encode($userJSON->birthday), false);
 	    if (strlen($birthday->year) > 0 && strlen($birthday->month) > 0 && strlen($birthday->day) > 0) {
-		$user->setBirthDay($birthday->day . "-" . $birthday->month . "-" . $birthday->year);
+		$user->setBirthday($birthday->day . "-" . $birthday->month . "-" . $birthday->year);
 	    }
 	    return $user;
 	}

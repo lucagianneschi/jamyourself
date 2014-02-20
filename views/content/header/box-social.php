@@ -17,7 +17,7 @@ $typeNotification = $_POST['typeNotification'];
 if (!isset($userObjectId)) {
     if (isset($_SESSION['currentUser'])) {
 	$userType = $currentUser->getType();
-	$userObjectId = $currentUser->getObjectId();
+	$userObjectId = $currentUser->getId();
 	$typeNotification = 'notification';
     }
 }
@@ -132,8 +132,8 @@ if (isset($userObjectId)) {
 		if ($index % 4 == 0) {
 		    ?><div class="rsContent">	<?php
 		}
-		$createdAd = $value->createdAt->format('d/m/Y H:i');
-		$user_objectId = $value->fromUserInfo->objectId;
+		$createdAd = $value->createdat->format('d/m/Y H:i');
+		$user_objectId = $value->fromUserInfo->id;
 		$user_thumb = $value->fromUserInfo->thumbnail;
 		$user_username = $value->fromUserInfo->username;
 		switch ($value->fromUserInfo->type) {
@@ -149,7 +149,7 @@ if (isset($userObjectId)) {
 		}
 
 		$text = $value->text;
-		$objectId = $value->objectId;
+		$id = $value->id;
 		switch ($value->type) {
 		    case 'M':
 			$css_icon = '_message-small';
@@ -173,7 +173,7 @@ if (isset($userObjectId)) {
 	    			<!-- THUMB USER-->
 				    <?php
 				    $fileManagerService = new FileManagerService();
-				    $thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+				    $thumbPath = $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail());
 				    ?>
 	    			<img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $user_username; ?>">
 	    		    </div>
@@ -181,14 +181,14 @@ if (isset($userObjectId)) {
 	    		<div  class="large-11 columns">
 	    		    <div class="row">
 	    			<div  class="large-7 columns" style="padding-right: 0px;">
-	    			    <a class="icon-small <?php echo $css_icon ?> text grey inline"></a><strong id="<?php echo $user_objectId ?>"><?php echo $user_username ?></strong><span id="<?php echo $objectId ?>"> <?php echo $text ?></span>
+	    			    <a class="icon-small <?php echo $css_icon ?> text grey inline"></a><strong id="<?php echo $user_objectId ?>"><?php echo $user_username ?></strong><span id="<?php echo $id ?>"> <?php echo $text ?></span>
 	    			    <br>									
 	    			    <span class="note grey-light inline notification-note"><?php echo $createdAd ?></span>
 	    			</div>
 
 	    			<div  class="large-5 columns " style="text-align: right;">
-	    			    <a class="btn-confirm decline" onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');"><?php echo $views['header']['decline'] ?></a>
-	    			    <a class="btn-confirm accept" onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');"><?php echo $views['header']['accept'] ?></a>&nbsp;&nbsp;
+	    			    <a class="btn-confirm decline" onclick="declineRelation('<?php echo $id; ?>', '<?php echo $user_objectId; ?>');"><?php echo $views['header']['decline'] ?></a>
+	    			    <a class="btn-confirm accept" onclick="acceptRelation('<?php echo $id; ?>', '<?php echo $user_objectId; ?>');"><?php echo $views['header']['accept'] ?></a>&nbsp;&nbsp;
 	    			</div>	
 	    		    </div>
 	    		</div>

@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  *  \author		Maria Laura Fresu
- *  \version		1.0
+ *  \version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -19,36 +19,52 @@
 
 class Image {
 
-    private $objectId;
+    private $id;
+    private $createdat;
+    private $updatedat;
     private $active;
     private $album;
-    private $commentCounter;
+    private $commentcounter;
     private $counter;
     private $description;
-    private $featuring;
-    private $filePath;
-    private $fromUser;
-    private $location;
-    private $loveCounter;
-    private $lovers;
-    private $shareCounter;
-    private $tags;
+    private $fromuser;
+    private $latitude;
+    private $longitude;
+    private $lovecounter;
+    private $path;
+    private $sharecounter;
+    private $tag;
     private $thumbnail;
-    private $createdAt;
-    private $updatedAt;
-    private $ACL;
 
     /**
-     * \fn		string getObjectId()
-     * \brief	Return the objectId value
-     * \return	string
+     * \fn	int getId()
+     * \brief	Return the id value
+     * \return	int
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
     }
 
     /**
-     * \fn		BOOL getActive()
+     * \fn	DateTime getCreatedat()
+     * \brief	Return the Image creation date
+     * \return	DateTime
+     */
+    public function getCreatedat() {
+	return $this->createdat;
+    }
+
+    /**
+     * \fn	DateTime getUpdatedat()
+     * \brief	Return the Image modification date
+     * \return	DateTime
+     */
+    public function getUpdatedat() {
+	return $this->updatedat;
+    }
+
+    /**
+     * \fn	BOOL getActive()
      * \brief	Return the active value
      * \return	BOOL
      */
@@ -57,25 +73,25 @@ class Image {
     }
 
     /**
-     * \fn		string getAlbum()
+     * \fn	int getAlbum()
      * \brief	Return the album value
-     * \return	string
+     * \return	int
      */
     public function getAlbum() {
 	return $this->album;
     }
 
     /**
-     * \fn		int getCommentCounter()
+     * \fn	int getCommentCounter()
      * \brief	Return the comment counter value (number of comments)
      * \return	int
      */
-    public function getCommentCounter() {
-	return $this->commentCounter;
+    public function getCommentcounter() {
+	return $this->commentcounter;
     }
 
     /**
-     * \fn		int getCounter()
+     * \fn	int getCounter()
      * \brief	Return the counter value
      * \return	int
      */
@@ -84,7 +100,7 @@ class Image {
     }
 
     /**
-     * \fn		string getDescription()
+     * \fn	string getDescription()
      * \brief	Return the description value
      * \return	string
      */
@@ -93,79 +109,70 @@ class Image {
     }
 
     /**
-     * \fn		array getFeaturing()
-     * \brief	Return the featuring value, array of objectId to _User istances
-     * \return	array
+     * \fn	int getFromuser()
+     * \brief	Return the id value for the fromUser
+     * \return	int
      */
-    public function getFeaturing() {
-	return $this->featuring;
+    public function getFromuser() {
+	return $this->fromuser;
     }
 
     /**
-     * \fn		string getFilePath()
-     * \brief	Return the filePath value, file path
-     * \return	string
+     * \fn	getLatitude()
+     * \brief	Return the latitude value
+     * \return	latitude
      */
-    public function getFilePath() {
-	return $this->filePath;
+    public function getLatitude() {
+	return $this->latitude;
     }
 
     /**
-     * \fn		string getFromUser()
-     * \brief	Return the objectId value for the fromUser
-     * \return	string
+     * \fn	getLongitude()
+     * \brief	Return the longitude value
+     * \return	long
      */
-    public function getFromUser() {
-	return $this->fromUser;
+    public function getLongitude() {
+	return $this->longitude;
     }
 
     /**
-     * \fn		geopoint getLocation()
-     * \brief	Return the location value
-     * \return	geopoint
-     */
-    public function getLocation() {
-	return $this->location;
-    }
-
-    /**
-     * \fn		int getLoveCounter()
+     * \fn	int getLovecounter()
      * \brief	Return the int value of loveCounter, counting the love action on the image
      * \return	int
      */
-    public function getLoveCounter() {
-	return $this->loveCounter;
+    public function getLovecounter() {
+	return $this->lovecounter;
     }
 
     /**
-     * \fn		array  getLovers()
-     * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the image
+     * \fn	string getPath()
+     * \brief	Return the path value
      * \return	string
      */
-    public function getLovers() {
-	return $this->lovers;
+    public function getPath() {
+	return $this->path;
     }
 
     /**
-     * \fn		int getShareCounter()
+     * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
      * \return	int
      */
-    public function getShareCounter() {
-	return $this->shareCounter;
+    public function getSharecounter() {
+	return $this->sharecounter;
     }
 
     /**
-     * \fn		array getTags()
-     * \brief	Return the tags value, array of string to categorize the image
-     * \return	array
+     * \fn	getTag()
+     * \brief	Return the tags value
+     * \return	int
      */
-    public function getTags() {
-	return $this->tags;
+    public function getTag() {
+	return $this->tag;
     }
 
     /**
-     * \fn		string getThumbnail()
+     * \fn	string getThumbnail()
      * \brief	Return the thumbnail value, path for the thumnail
      * \return	string
      */
@@ -174,43 +181,34 @@ class Image {
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
-     * \brief	Return the Image creation date
-     * \return	DateTime
+     * \fn	void setId($id)
+     * \brief	Sets the id value
+     * \param	int
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function setId($id) {
+	$this->id = $id;
     }
 
     /**
-     * \fn		DateTime getUpdatedAt()
-     * \brief	Return the Image modification date
-     * \return	DateTime
+     * \fn	void setCreatedat($createdat)
+     * \brief	Sets the Image creation date
+     * \param	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function setCreatedat($createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn		parseACL getACL()
-     * \brief	Return the parseACL object representing the Image ACL 
-     * \return	parseACL
+     * \fn	void setUpdatedat($updatedat)
+     * \brief	Sets the Image modification date
+     * \param	DateTime
      */
-    public function getACL() {
-	return $this->ACL;
+    public function setUpdatedat($updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
-     * \fn		void setObjectId($objectId)
-     * \brief	Sets the objectId value
-     * \param	string
-     */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
-    }
-
-    /**
-     * \fn		void setActive($active)
+     * \fn	void setActive($active)
      * \brief	Sets the active value
      * \param	BOOL
      */
@@ -219,25 +217,25 @@ class Image {
     }
 
     /**
-     * \fn		void setAlbum($album)
-     * \brief	Sets the album value,pointer to ParseAlbum
-     * \param	string
+     * \fn	void setAlbum($album)
+     * \brief	Sets the album value
+     * \param	int
      */
     public function setAlbum($album) {
 	$this->album = $album;
     }
 
     /**
-     * \fn		void setCommentCounter($commentCounter)
-     * \brief	Sets the commnetCounter value
+     * \fn	void setCommentcounter($commentcounter)
+     * \brief	Sets the commentCounter value
      * \param	int
      */
-    public function setCommentCounter($commentCounter) {
-	$this->commentCounter = $commentCounter;
+    public function setCommentcounter($commentcounter) {
+	$this->commentcounter = $commentcounter;
     }
 
     /**
-     * \fn		void setCounter($counter)
+     * \fn	void setCounter($counter)
      * \brief	Sets the counter value
      * \param	int
      */
@@ -246,7 +244,7 @@ class Image {
     }
 
     /**
-     * \fn		void setDescription($description)
+     * \fn	void setDescription($description)
      * \brief	Sets the description value
      * \param	string
      */
@@ -255,75 +253,66 @@ class Image {
     }
 
     /**
-     * \fn		void setFeaturing($featuring)
-     * \brief	Sets the featuring value,array of pointer to ParseUser
-     * \param	array
+     * \fn	void setFromuser($fromuser))
+     * \brief	Sets the fromUser value
+     * \param	int
      */
-    public function setFeaturing($featuring) {
-	$this->featuring = $featuring;
+    public function setFromuser($fromuser) {
+	$this->fromuser = $fromuser;
     }
 
     /**
-     * \fn		void setFilePath($filePath)
-     * \brief	Sets the filePath value
-     * \param	string
+     * \fn	void setLatitude($latitude)
+     * \brief	Sets the latitude value
+     * \param	$longitude
      */
-    public function setFilePath($filePath) {
-	$this->filePath = $filePath;
+    public function setLatitude($latitude) {
+	$this->latitude = $latitude;
     }
 
     /**
-     * \fn		void setFromUser($fromUser))
-     * \brief	Sets the fromUser value,pointer to ParseUser
-     * \param	string
+     * \fn	void setLongitude($longitude)
+     * \brief	Sets the longitude value
+     * \param	$longitude
      */
-    public function setFromUser($fromUser) {
-	$this->fromUser = $fromUser;
+    public function setLongitude($longitude) {
+	$this->longitude = $longitude;
     }
 
     /**
-     * \fn		void setLocation($location)
-     * \brief	Sets the location value
-     * \param	parseGeopoint
-     */
-    public function setLocation($location) {
-	$this->location = $location;
-    }
-
-    /**
-     * \fn		void setLoveCounter($loveCounter)
+     * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the loveCounter value
      * \param	int
      */
-    public function setLoveCounter($loveCounter) {
-	$this->loveCounter = $loveCounter;
+    public function setLovecounter($lovecounter) {
+	$this->lovecounter = $lovecounter;
     }
 
     /**
-     * \fn		void setLovers($lovers)
-     * \brief	Sets the lovers value,array of pointer to ParseUser
-     * \param	array
+     * \fn	void setpath($pPath)
+     * \brief	Sets the path value
+     * \param	string
      */
-    public function setLovers($lovers) {
-	$this->lovers = $lovers;
+    public function setPath($path) {
+	$this->path = $path;
     }
 
     /**
-     * \fn		void setCounter($shareCounter)
-     * \brief	Sets the shareCounter value
+     * \fn	void setCounter($sharecounter)
+     * \brief	Sets the sharecounter value
      * \param	int
      */
-    public function setShareCounter($shareCounter) {
-	$this->shareCounter = $shareCounter;
+    public function setSharecounter($sharecounter) {
+	$this->sharecounter = $sharecounter;
     }
 
     /**
-     * \fn		void setTags($tags)
-     * \brief	Sets the tags value,array of strings
-     * \param	array
+     * \fn	void setTag($tag)
+     * \brief	Sets the tags value
+     * \param	int
      */
-    public function setTags($tags) {
-	$this->tags = $tags;
+    public function setTag($tag) {
+	$this->tag = $tag;
     }
 
     /**
@@ -336,99 +325,28 @@ class Image {
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
-     * \brief	Sets the Image creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn		void setUpdatedAt($updatedAt)
-     * \brief	Sets the Image modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Image ACL
-     * \param	parseACL
-     */
-    public function setACL($ACL) {
-	$this->ACL = $ACL;
-    }
-
-    /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Image ACL
-     * \param	parseACL
+     * \fn	string __toString()
+     * \brief	Return a printable string representing the Image object
+     * \return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$string .= '[createdat] => ' . $this->getCreatedat()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedat] => ' . $this->getUpdatedat()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
-	$string.= '[album] => ' . $this->getAlbum() . '<br />';
-	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
+	$string .= '[album] => ' . $this->getAlbum() . '<br />';
+	$string .= '[commentcounter] => ' . $this->getCommentcounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
-	if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
-	    foreach ($this->getFeaturing() as $user) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[featuring] => ' . $user . '<br />';
-	    }
-	}
-	$string .= '[filePath] => ' . $this->getFilePath() . '<br />';
-	$fromUser = $this->getFromUser();
-	if ($fromUser != null) {
-	    $string.= '[fromUser] => ' . $fromUser . '<br />';
-	}
-	;
-	if (($parseGeoPoint = $this->getLocation()) != null) {
-	    $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
-	}
-	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-	if ($this->getLovers() != null && count($this->getLovers() > 0)) {
-	    foreach ($this->getLovers() as $lover) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[lover] => ' . $lover . '<br />';
-	    }
-	}
-	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-	if ($this->getTags() != null && count($this->getTags() > 0)) {
-	    foreach ($this->getTags() as $tag) {
-		$string.= '&nbsp&nbsp&nbsp&nbsp&nbsp';
-		$string.= '[tag] => ' . $tag . '<br />';
-	    }
-	}
+	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
+	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
+	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
+	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
+	$string .= '[path] => ' . $this->getPath() . '<br />';
+	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
+	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
-	if ($this->getACL() != null) {
-	    foreach ($this->getACL()->acl as $key => $acl) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[ACL] => ' . $key . '<br />';
-		foreach ($acl as $access => $value) {
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-		}
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[ACL] => NULL<br />';
-	}
 	return $string;
     }
 

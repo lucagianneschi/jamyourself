@@ -83,7 +83,7 @@ class UploadEventController extends REST {
 		$this->response(array('status' => $controllers['NOEVENTADDRESS']), 400);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
-	    $userId = $currentUser->getObjectId();
+	    $userId = $currentUser->getId();
 	    require_once CLASSES_DIR . 'event.class.php';
 	    $event = new Event();
 	    $event->setActive(true);
@@ -98,7 +98,7 @@ class UploadEventController extends REST {
 	    if (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
 		$event->setFeaturing($this->request['jammers']);
 	    }
-	    $event->setFromUser($userId);
+	    $event->setFromuser($userId);
 	    $imgInfo = getCroppedImages($this->request);
 	    $event->setImage($imgInfo['picture']);
 	    $event->setThumbnail($imgInfo['thumbnail']);
@@ -111,12 +111,12 @@ class UploadEventController extends REST {
 	    $event->setLocation($parseGeoPoint);
 	    $event->setAddress($infoLocation["address"] . ", " . $infoLocation['number']);
 	    $event->setCity($infoLocation["city"]);
-	    $event->setLoveCounter(0);
+	    $event->setLovecounter(0);
 	    $event->setLovers(array());
 	    $event->setRefused(null);
-	    $event->setReviewCounter(0);
-	    $event->setShareCounter(0);
-	    $event->setTags($this->request['tags']);
+	    $event->setReviewcounter(0);
+	    $event->setSharecounter(0);
+	    $event->setTag($this->request['tags']);
 	    $event->setGenre($this->request['music']);
 	    $event->setTitle($this->request['title']);
 	    require_once CLASSES_DIR . 'eventParse.class.php';
@@ -133,33 +133,33 @@ class UploadEventController extends REST {
 		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $eventSave->getImage(), $imageSrc);
 	    }
 	    unset($_SESSION['currentUserFeaturingArray']);
-	    $activity = $this->createActivity($userId, $eventSave->getObjectId());
+	    $activity = $this->createActivity($userId, $eventSave->getId());
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
 	    $activitySave = $activityP->saveActivity($activity);
 	    if ($activitySave instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackUploadEventController($eventSave->getObjectId());
+		$message = rollbackUploadEventController($eventSave->getId());
 		$this->response(array('status' => $message), 503);
 	    }
-	    $this->response(array('status' => $controllers['EVENTCREATED'], "id" => $eventSave->getObjectId()), 200);
+	    $this->response(array('status' => $controllers['EVENTCREATED'], "id" => $eventSave->getId()), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
 
     /**
-     * \fn	createActivity($fromUser, $eventId)
+     * \fn	createActivity($fromuser, $eventId)
      * \brief   funzione per la creazione dell'activity legata alla creazione dell'event
      */
-    private function createActivity($fromUser, $eventId) {
+    private function createActivity($fromuser, $eventId) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	$activity = new Activity();
 	$activity->setActive(true);
 	$activity->setAlbum(null);
 	$activity->setCounter(0);
 	$activity->setEvent($eventId);
-	$activity->setFromUser($fromUser);
+	$activity->setFromuser($fromuser);
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);
@@ -167,7 +167,7 @@ class UploadEventController extends REST {
 	$activity->setRecord(null);
 	$activity->setSong(null);
 	$activity->setStatus("A");
-	$activity->setToUser(null);
+	$activity->setTouser(null);
 	$activity->setType("EVENTCREATED");
 	$activity->setVideo(null);
 	return $activity;

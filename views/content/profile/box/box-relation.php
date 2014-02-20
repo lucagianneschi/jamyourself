@@ -12,13 +12,13 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
-$objectId = $_POST['objectId'];
+$id = $_POST['id'];
 $relation = $_POST['relation'];
 $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
 $tot = intval($_POST['tot']);
 
-$arrayRelation = getRelatedUsers($objectId, $relation, '_User', false, $limit, $skip);
+$arrayRelation = getRelatedUsers($id, $relation, '_User', false, $limit, $skip);
 
 if ($relation == 'friendship')
     $rel = 'friends';
@@ -52,16 +52,16 @@ if ($arrayRelation instanceof Error) {
 		break;
 	}
 	$fileManagerService = new FileManagerService();
-	$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+	$pathPicture = $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail());
 	if ($index % 3 == 0) {
 	    ?> <div class="row">	<?php } ?>
 	    <div class="small-4 columns">
-		<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+		<a href="profile.php?user=<?php echo $value->getId(); ?>">
 		    <div class="box-membre">
 			<div class="row">
 			    <div  class="small-3 columns hide-for-medium-down">
 				<div class="icon-header">
-				    <img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
+				    <img src="<?php echo $pathPicture . $value->getThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 				</div>
 			    </div>
 			    <div  class="small-9 columns">

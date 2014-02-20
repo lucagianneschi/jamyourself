@@ -20,6 +20,8 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
+require_once SERVICES_DIR . 'connection.service.php';
+
 /**
  * \brief	ElementList
  * \details	contains info for message to be displayed in Message Page
@@ -48,21 +50,21 @@ class ElementList {
 class MessageInfo {
 
     public $activityId;
-    public $createdAt;
-    public $objectId;
+    public $createdat;
+    public $id;
     public $read;
     public $send;
     public $text;
 
     /**
-     * \fn	__construct($createdAt, $objectId, $send, $text)
+     * \fn	__construct($createdat, $id, $send, $text)
      * \brief	construct for the MessageInfo class
-     * \param	$createdAt, $objectId, $send, $text, $title
+     * \param	$createdat, $id, $send, $text, $title
      */
-    function __construct($activityId, $createdAt, $objectId, $read, $send, $text) {
+    function __construct($activityId, $createdat, $id, $read, $send, $text) {
 	is_null($activityId) ? $this->activityId = null : $this->activityId = $activityId;
-	is_null($createdAt) ? $this->createdAt = null : $this->createdAt = $createdAt;
-	is_null($objectId) ? $this->objectId = null : $this->objectId = $objectId;
+	is_null($createdat) ? $this->createdat = null : $this->createdat = $createdat;
+	is_null($id) ? $this->id = null : $this->id = $id;
 	is_null($read) ? $this->read = false : $this->read = $read;
 	is_null($send) ? $this->send = 'S' : $this->send = $send;
 	is_null($text) ? $this->text = null : $this->text = $text;
@@ -77,22 +79,22 @@ class MessageInfo {
 class MessageBox {
 
     public $config;
-    public $error;
-    public $messageArray;
-    public $userInfoArray;
+    public $error = null;
+    public $messageArray = array();
+    public $userInfoArray = array();
 
     /**
      * \fn	__construct()
      * \brief	class construct to import config file
      */
     function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/message.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "messageBox.config.json"), false);
     }
 
     /**
-     * \fn	initForUserList($objectId, $otherId, $limit, $skip)
+     * \fn	initForUserList($id, $otherId, $limit, $skip)
      * \brief	Init MessageBox instance for Message Page, left column
-     * \param	$objectId for user that owns the page $limit, $skip
+     * \param	$id for user that owns the page $limit, $skip
      * \todo    
      * \return	MessageBox, error in case of error
      */
@@ -105,8 +107,8 @@ class MessageBox {
 	require_once CLASSES_DIR . 'activity.class.php';
 	require_once CLASSES_DIR . 'activityParse.class.php';
 	$userList = array();
-	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)),
-	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)));
+	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $currentUserId)),
+	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $currentUserId)));
 	$activityP = new ActivityParse();
 	$activityP->whereOr($value);
 	$activityP->where('type', 'MESSAGESENT');
@@ -114,7 +116,7 @@ class MessageBox {
 	$activityP->whereNotEqualTo('status', 'D');
 	$activityP->whereInclude('fromUser,toUser,comment');
 	$activityP->setLimit(MAX);
-	$activityP->orderByDescending('createdAt');
+	$activityP->orderByDescending('createdat');
 	$activities = $activityP->getActivities();
 	if ($activities instanceof Error) {
 	    $this->errorManagement($activities->getErrorMessage());
@@ -124,12 +126,12 @@ class MessageBox {
 	    return;
 	} else {
 	    foreach ($activities as $act) {
-		if (!is_null($act->getFromUser()) && !is_null($act->getToUser()) && !is_null($act->getComment())) {
-		    $send = ($act->getComment()->getFromUser() == $currentUserId) ? 'S' : 'R';
-		    if (($send == 'S' && $act->getComment()->getFromUser() == $act->getFromUser()->getObjectId()) || ($send == 'R' && $act->getComment()->getToUser() == $act->getFromUser()->getObjectId())) {
-			$user = ($act->getFromUser()->getObjectId() == $currentUserId) ? $act->getToUser() : $act->getFromUser();
-			$userId = $user->getObjectId();
-			$thumbnail = $user->getProfileThumbnail();
+		if (!is_null($act->getFromuser()) && !is_null($act->getTouser()) && !is_null($act->getComment())) {
+		    $send = ($act->getComment()->getFromuser() == $currentUserId) ? 'S' : 'R';
+		    if (($send == 'S' && $act->getComment()->getFromuser() == $act->getFromuser()->getId()) || ($send == 'R' && $act->getComment()->getTouser() == $act->getFromuser()->getId())) {
+			$user = ($act->getFromuser()->getId() == $currentUserId) ? $act->getTouser() : $act->getFromuser();
+			$userId = $user->getId();
+			$thumbnail = $user->getThumbnail();
 			$type = $user->getType();
 			$username = $user->getUsername();
 			$userInfo = new UserInfo($userId, $thumbnail, $type, $username);
@@ -150,9 +152,9 @@ class MessageBox {
     }
 
     /**
-     * \fn	initForMessageList($objectId, $otherId, $limit, $skip)
+     * \fn	initForMessageList($id, $otherId, $limit, $skip)
      * \brief	Init MessageBox instance for Message Page, right column
-     * \param	$objectId for user that owns the page, $otherId the id if the user who the currentUser is messaging with, $limit, $skip
+     * \param	$id for user that owns the page, $otherId the id if the user who the currentUser is messaging with, $limit, $skip
      * \todo    
      * \return	MessageBox, error in case of error
      */
@@ -166,14 +168,14 @@ class MessageBox {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'commentParse.class.php';
 	$compoundQuery = array(
-	    array('objectId' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)), 'className' => 'Comment'), 'key' => 'objectId'))),
-	    array('objectId' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)), 'className' => 'Comment'), 'key' => 'objectId'))));
+	    array('id' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $currentUserId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $otherId)), 'className' => 'Comment'), 'key' => 'id'))),
+	    array('id' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $otherId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $currentUserId)), 'className' => 'Comment'), 'key' => 'id'))));
 	$messageP = new CommentParse();
 	$messageP->whereOr($compoundQuery);
 	$messageP->where('type', 'M');
 	$messageP->where('active', true);
 	$messageP->whereInclude('fromUser,toUser');
-	$messageP->orderByDescending('createdAt');
+	$messageP->orderByDescending('createdat');
 	$messageP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitMessagesForMessagePage);
 	$messageP->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
 	$messages = $messageP->getComments();
@@ -187,26 +189,26 @@ class MessageBox {
 	    $messagesArray = array();
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    foreach ($messages as $message) {
-		if (!is_null($message->getFromUser())) {
+		if (!is_null($message->getFromuser())) {
 		    $activity = new ActivityParse();
-		    $activity->wherePointer('comment', 'Comment', $message->getObjectId());
+		    $activity->wherePointer('comment', 'Comment', $message->getId());
 		    $activity->whereNotEqualTo('status', 'D');
 		    $activity->where('active', true);
-		    $activity->whereInclude('objectId,fromUser');
+		    $activity->whereInclude('id,fromUser');
 		    $msg = $activity->getActivities();
 		    if ($msg instanceof Error) {
 			$this->errorManagement($msg->getErrorMessage());
 			return;
 		    } elseif (!is_null($msg)) {
 			foreach ($msg as $value) {
-			    $send = ($message->getFromUser()->getObjectId() == $currentUserId) ? 'S' : 'R';
-			    if (($send == 'S' && $message->getFromUser()->getObjectId() == $value->getFromUser()->getObjectId()) || ($send == 'R' && $message->getToUser()->getObjectId() == $value->getFromUser()->getObjectId())) {
-				$activityId = $value->getObjectId();
-				$createdAt = $message->getCreatedAt();
-				$messageId = $message->getObjectId();
+			    $send = ($message->getFromuser()->getId() == $currentUserId) ? 'S' : 'R';
+			    if (($send == 'S' && $message->getFromuser()->getId() == $value->getFromuser()->getId()) || ($send == 'R' && $message->getTouser()->getId() == $value->getFromuser()->getId())) {
+				$activityId = $value->getId();
+				$createdat = $message->getCreatedat();
+				$messageId = $message->getId();
 				$read = $value->getRead();
 				$text = $message->getText();
-				$messageInfo = new MessageInfo($activityId, $createdAt, $messageId, $read, $send, $text);
+				$messageInfo = new MessageInfo($activityId, $createdat, $messageId, $read, $send, $text);
 				array_push($messagesArray, $messageInfo);
 			    }
 			}

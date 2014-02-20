@@ -18,11 +18,11 @@ require_once CLASSES_DIR . 'userParse.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 session_start();
 
-$objectId = $_POST['objectId'];
+$id = $_POST['id'];
 $type = $_POST['type'];
 
 $reviewBox = new ReviewBox();
-$reviewBox->initForPersonalPage($objectId, $type, 'Record');
+$reviewBox->initForPersonalPage($id, $type, 'Record');
 if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
     $reviews = $reviewBox->reviewArray;
@@ -60,22 +60,22 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 			    <?php
 			    if ($reviewCounter > 0) {
 				foreach ($reviews as $key => $value) {
-				    $recordReview_objectId = $value->getObjectId();
-				    $recordReview_user_objectId = $value->getFromUser()->getObjectId();
-				    $recordReview_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
-				    $recordReview_user_username = $value->getFromUser()->getUsername();
-				    $recordReview_user_type = $value->getFromUser()->getType();
-				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnailCover();
-				    $recordObjectId = $value->getRecord()->getObjectId();
+				    $recordReview_objectId = $value->getId();
+				    $recordReview_user_objectId = $value->getFromuser()->getId();
+				    $recordReview_user_thumbnail = $value->getFromuser()->getThumbnail();
+				    $recordReview_user_username = $value->getFromuser()->getUsername();
+				    $recordReview_user_type = $value->getFromuser()->getType();
+				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnail();
+				    $recordObjectId = $value->getRecord()->getId();
 				    $recordReview_title = $value->getRecord()->getTitle();
-				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
+				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
 				    #TODO
 				    //$recordReview_rating = $value->getRecord()->getRating();
 				    $recordReview_text = $value->getText();
-				    $recordReview_love = $value->getLoveCounter();
+				    $recordReview_love = $value->getLovecounter();
 				    $recordReview_comment = $value->getCommentCounter();
-				    $recordReview_share = $value->getShareCounter();
-				    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+				    $recordReview_share = $value->getSharecounter();
+				    if (in_array($currentUser->getId(), $value->getLovers())) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 				    } else {
@@ -97,7 +97,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						}
 						$fileManagerService = new FileManagerService();
 						$pathUser = $fileManagerService->getPhotoPath($eventReview_user_objectId, $recordReview_user_thumbnail);
-						$pathRecord = $fileManagerService->getPhotoPath($currentUser->getObjectId(), $recordReview_thumbnailCover);
+						$pathRecord = $fileManagerService->getPhotoPath($currentUser->getId(), $recordReview_thumbnailCover);
 						?>
 						<a href="profile.php?user=<?php echo $recordReview_user_objectId ?>">	
 						    <div class="row">

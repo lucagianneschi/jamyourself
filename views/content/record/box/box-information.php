@@ -19,15 +19,15 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
-$objectId = $record->getObjectId();
+$id = $record->getId();
 $city = $record->getCity();
 $year = $record->getYear();
 $label = $record->getLabel();
 $buylink = $record->getBuylink();
 $description = $record->getDescription();
-$fromUserObjectId = $record->getFromUser()->getObjectId();
-$fromUserThumbnail = $record->getFromUser()->getProfileThumbnail();
-$fromUserUsername = $record->getfromUser()->getUsername();
+$fromUserObjectId = $record->getFromuser()->getId();
+$fromUserThumbnail = $record->getFromuser()->getThumbnail();
+$fromUserUsername = $record->getFromuser()->getUsername();
 
 $css_city = (!isset($city) || $city == '') ? 'no-display' : '';
 $css_year = (!isset($year) || $year == '') ? 'no-display' : '';
@@ -97,7 +97,7 @@ $thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumb
 	    <script type="text/javascript">
 		    function loadBoxInformationFeaturing() {
 			var json_data = {};
-			json_data.objectId = '<?php echo $objectId; ?>';
+			json_data.id = '<?php echo $id; ?>';
 			$.ajax({
 			    type: "POST",
 			    url: "content/record/box/box-informationFeaturing.php",

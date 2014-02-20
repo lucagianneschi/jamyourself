@@ -176,9 +176,9 @@ if ($_GET["type"] == 'Record') {
 									$defaultThum = DEFTHUMBVENUE;
 									break;
 								}
-								$featuringThumbnail = $featuringUser->getProfileThumbnail();
+								$featuringThumbnail = $featuringUser->getThumbnail();
 								$featuringUsername = $featuringUser->getUsername();
-								$featuringUserId = $featuringUser->getObjectId();
+								$featuringUserId = $featuringUser->getId();
 								?>
 								<a href="profile.php?user=<?php echo $featuringUserId ?>">
 								    <div class="box-membre" id="<?php echo $featuringUserId ?>">

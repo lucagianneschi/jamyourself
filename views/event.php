@@ -10,19 +10,22 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'event.box.php';
 
-$objectId = '';
+$id = '';
 if (isset($_GET['event']))
-    $objectId = $_GET['event'];
+    $id = $_GET['event'];
 $eventBox = new EventBox();
-$eventBox->initForMediaPage($objectId);
+$eventBox->initForMediaPage($id);
 if (is_null($eventBox->error) && !empty($eventBox->eventArray)) {
-    $event = $eventBox->eventArray[$objectId];
+    $event = $eventBox->eventArray[$id];
     ?>
     <!DOCTYPE html>
     <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
     <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
         <head>
-    	<title>Jamyourself</title>
+    	<title><?php echo $views['metatag']['event']['title'] . $event->getTitle() ?></title>
+	<meta name="description" content="<?php echo $views['metatag']['event']['description'] ?>">
+	<meta name="keywords" content="<?php echo $views['metatag']['event']['keywords'] ?>">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     	<!-------------------------- METADATI --------------------------->
 	    <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
         </head>

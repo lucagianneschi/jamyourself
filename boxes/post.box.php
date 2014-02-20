@@ -2,12 +2,12 @@
 
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
- * \version		1.0
+ * \version		0.3
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box Post
- * \details		Recupera gli ultimi 3 post attivi (valido per ogni tipologia di utente)
+ * \details		Recupera gli ultimi post attivi
  * \par			Commenti:
  * \warning
  * \bug
@@ -19,8 +19,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once CLASSES_DIR . 'comment.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
+require_once SERVICES_DIR . 'connection.service.php';
 
 /**
  * \brief	PostBox class 
@@ -28,91 +27,123 @@ require_once CLASSES_DIR . 'commentParse.class.php';
  */
 class PostBox {
 
-    public $config;
-    public $error;
-    public $postArray;
+    public $error = null;
+    public $postArray = array();
 
     /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/post.config.json"), false);
-    }
-
-    /**
-     * \fn	init($objectId)
+     * \fn	init($id)
      * \brief	Init PostBox instance for Personal Page
-     * \param	$objectId for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
+     * \param	$id for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
      * \return	postBox
      * \todo
      */
-    public function init($objectId, $limit = null, $skip = null) {
-	$info = array();
-	$post = new CommentParse();
-	$post->wherePointer('toUser', '_User', $objectId);
-	$post->where('type', 'P');
-	$post->where('active', true);
-	$post->whereInclude('fromUser');
-	$post->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitForPersonalPage);
-	$post->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-	$post->orderByDescending('createdAt');
-	$posts = $post->getComments();
-	if ($posts instanceof Error) {
-	    $this->config = null;
-	    $this->error = $posts->getErrorMessage();
-	    $this->postArray = array();
-	    return;
-	} elseif (is_null($posts)) {
-	    $this->config = null;
-	    $this->error = null;
-	    $this->postArray = array();
-	    return;
-	} else {
-	    foreach ($posts as $post) {
-		if (!is_null($post->getFromUser()))
-		    array_push($info, $post);
-	    }
-	    $this->error = null;
-	    $this->postArray = $info;
-	}
+    public function init($id, $limit = 5, $skip = 0) {
+        $connectionService = new ConnectionService();
+        $connectionService->connect();
+        if (!$connectionService->active) {
+            $this->error = $connectionService->error;
+            return;
+        } else {
+            $sql = "SELECT c.id id_c,
+                           c.active,
+                           c.album,
+                           c.comment,
+                           c.commentcounter,
+                           c.counter,
+                           c.event,
+                           c.fromuser,
+                           c.image,
+                           c.latitude,
+                           c.longitude,
+                           c.lovecounter,
+                           c.record,
+                           c.sharecounter,
+                           c.song,
+                           c.tag,
+                           c.title,
+                           c.text,
+                           c.touser,
+                           c.type type_c,
+                           c.video,
+                           c.vote,
+                           c.createdat,
+                           c.updatedat,
+                           u.id id_u,
+                           u.username,
+                           u.thumbnail,
+                           u.type type_u
+                      FROM comment c, user u
+                     WHERE c.fromuser = " . $id . "
+                       AND c.fromuser = u.id
+                  ORDER BY createdat DESC
+                     LIMIT " . $skip . ", " . $limit;
+            $results = mysqli_query($connectionService->connection, $sql);
+            while ($row_comment = mysqli_fetch_array($results, MYSQLI_ASSOC))
+                $rows[] = $row_comment;
+            $posts = array();
+            foreach ($rows as $row_comment) {
+                require_once 'comment.class.php';
+                require_once 'user.class.php';
+                $post = new Comment();
+                $post->setId($row_comment['id_c']);
+                $post->setActive($row_comment['active']);
+                $post->setAlbum($row_comment['album']);
+                $post->setComment($row_comment['post']);
+                $post->setCommentcounter($row_comment['commentcounter']);
+                $post->setCounter($row_comment['counter']);
+                $fromuser = new User($row_comment['type_u']);
+                $fromuser->setId($row_comment['id_u']);
+                $fromuser->setThumbnail($row_comment['thumbnail']);
+                $fromuser->setUsername($row_comment['username']);
+                $post->setFromuser($fromuser);
+                $post->setImage($row_comment['image']);
+                $post->setLatitude($row_comment['locationlat']);
+                $post->setLongitude($row_comment['locationlon']);
+                $post->setLovecounter($row_comment['lovecounter']);
+                $post->setRecord($row_comment['record']);
+                $post->setSong($row_comment['song']);
+                $post->setSharecounter($row_comment['sharecounter']);
+                $sql = "SELECT tag
+                          FROM comment_tag
+                         WHERE id = " . $row_comment['id_c'];
+                $results = mysqli_query($connectionService->connection, $sql);
+                while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
+                    $rows_tag[] = $row_tag;
+                $tags = array();
+                foreach ($rows_tag as $row_tag) {
+                    $tags[] = $row_tag;
+                }
+                $post->setTag($row_tag);
+                $post->setText($row_comment['text']);
+                $post->setTitle($row_comment['title']);
+                $post->setTouser($row_comment['touser']);
+                $post->setType($row_comment['type_c']);
+                $post->setVideo($row_comment['video']);
+                $post->setVote($row_comment['vote']);
+                $post->setCreatedat($row_comment['createdat']);
+                $post->setUpdatedat($row_comment['updatedat']);
+                $posts[$row_comment['id']] = $post;
+            }
+            $connectionService->disconnect();
+            if (!$results) {
+                return;
+            } else {
+                $this->postArray = $posts;
+            }
+        }
     }
 
     /**
-     * \fn	initForPersonalPage($objectId, $limit, $skip, $currentUserId)
+     * \fn	initForPersonalPage($id, $limit, $skip, $currentUserId)
      * \brief	Init PostBox instance for Personal Page
-     * \param	$objectId for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
+     * \param	$id for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
      * \return	postBox
      * \todo
      */
-    public function initForStream($objectId, $limit) {
-	$info = array();
-	$post = new CommentParse();
-	$post->wherePointer('toUser', '_User', $objectId);
-	$post->wherePointer('fromUser', '_User', $objectId);
-	$post->where('type', 'P');
-	$post->where('active', true);
-	$post->setLimit($limit);
-	$post->orderByDescending('createdAt');
-	$posts = $post->getComments();
-	if ($posts instanceof Error) {
-	    $this->config = null;
-	    $this->error = $posts->getErrorMessage();
-	    $this->postArray = array();
-	    return;
-	} elseif (is_null($posts)) {
-	    $this->config = null;
-	    $this->error = null;
-	    $this->postArray = array();
-	    return;
-	} else {
-	    foreach ($posts as $post) {
-		if (!is_null($post->getFromUser()))
-		    array_push($info, $post);
-	    }
-	    $this->error = null;
-	    $this->postArray = $info;
-	}
+    public function initForStream($id, $limit) {
+        $this->config = null;
+        $this->error = null;
+        $this->postArray = array();
     }
 
 }

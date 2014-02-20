@@ -21,7 +21,7 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 } elseif (!is_null($playlist->error)) {
     echo $playlist->error;
 }
-$_SESSION['playlist']['objectId'] = $playlist->objectId;
+$_SESSION['playlist']['id'] = $playlist->id;
 $_SESSION['playlist']['songs'] = array();
 ?>
 
@@ -101,29 +101,29 @@ $_SESSION['playlist']['songs'] = array();
 	if (count($playlist->tracklist) > 0) {
 	    $index = 0;
 	    foreach ($playlist->tracklist as $key => $value) {
-		$objectId = $value->getObjectId();
-		$author_name = $value->getFromUser()->getUsername();
-		$author_objectId = $value->getFromUser()->getObjectId();
+		$id = $value->getId();
+		$author_name = $value->getFromuser()->getUsername();
+		$author_objectId = $value->getFromuser()->getId();
 		$title = $value->getTitle();
-		$loveCounter = $value->getLoveCounter();
-		$shareCounter = $value->getShareCounter();
-		$recordObjectId = $value->getRecord()->getObjectId();
+		$lovecounter = $value->getLovecounter();
+		$sharecounter = $value->getSharecounter();
+		$recordObjectId = $value->getRecord()->getId();
 		$fileManagerService = new FileManagerService();
-		array_push($_SESSION['playlist']['songs'], $objectId);
+		array_push($_SESSION['playlist']['songs'], $id);
 		if ($value->getDuration() >= 3600)
 		    $hoursminsandsecs = date('H:i:s', $value->getDuration());
 		else
 		    $hoursminsandsecs = date('i:s', $value->getDuration());
 		$song = json_encode(array(
-		    'objectId' => $value->getObjectId(),
+		    'id' => $value->getId(),
 		    'title' => $value->getTitle(),
 		    'artist' => $author_name,
 		    'mp3' => $fileManagerService->getSongPath($author_objectId, $value->getFilePath()),
-		    'love' => $value->getLoveCounter(),
-		    'share' => $value->getShareCounter(),
-		    'pathCover' => $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnailCover())
+		    'love' => $value->getLovecounter(),
+		    'share' => $value->getSharecounter(),
+		    'pathCover' => $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnail())
 		));
-		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 		    $track_css_love = '_love orange';
 		    $track_text_love = $views['unlove'];
 		} else {
@@ -134,24 +134,24 @@ $_SESSION['playlist']['songs'] = array();
 		<script>
 		    $(document).ready(function() {
 			myPlaylist.add({
-			    objectId: "<?php echo $objectId ?>",
+			    id: "<?php echo $id ?>",
 			    title: "<?php echo $title ?>",
 			    artist: "<?php echo $author_name ?>",
 			    mp3: "<?php echo $fileManagerService->getSongPath($author_objectId, $value->getFilePath()) ?>",
-			    love: "<?php echo $value->getLoveCounter() ?>",
-			    share: "<?php echo $value->getShareCounter() ?>",
-			    pathCover: "<?php echo $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnailCover()) ?>",
+			    love: "<?php echo $value->getLovecounter() ?>",
+			    share: "<?php echo $value->getSharecounter() ?>",
+			    pathCover: "<?php echo $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnail()) ?>",
 			});
 			var index = '<?php echo $index ?>';
 			if (index == '0') {
 			    $('.title-player').html("<?php echo $title ?>");
 			    $('#duration-player').html("<?php echo $hoursminsandsecs ?>");
-			    $('#header-box-thum img').attr('src', "<?php echo $pathCover . $value->getRecord()->getThumbnailCover() ?>");
+			    $('#header-box-thum img').attr('src', "<?php echo $pathCover . $value->getRecord()->getThumbnail() ?>");
 			}
 		    });
 
 		</script>						
-		<div class="row" id="pl_<?php echo $objectId ?>"> 
+		<div class="row" id="pl_<?php echo $id ?>"> 
 		    <div class="small-12 columns">
 			<div class="track">
 			    <div class="row">
@@ -171,12 +171,12 @@ $_SESSION['playlist']['songs'] = array();
 			    <div class="row track-propriety" >
 				<div class="box-propriety album-single-propriety">
 				    <div class="small-6 columns ">
-					<a class="note white" onclick="love(this, 'Song', '<?php echo $value->getObjectId(); ?>', '<?php echo $value->getFromUser(); ?>')"><?php echo $track_text_love; ?></a>
+					<a class="note white" onclick="love(this, 'Song', '<?php echo $value->getId(); ?>', '<?php echo $value->getFromuser(); ?>')"><?php echo $track_text_love; ?></a>
 					<!--a class="note white" onclick="share()"><?php echo $views['share']; ?></a-->
 				    </div>
 				    <div class="small-6 columns propriety ">					
-					<a class="icon-propriety <?php echo $track_css_love ?>" ><?php echo $value->getLoveCounter(); ?></a>
-					<!--a class="icon-propriety _share" ><?php echo $value->getShareCounter(); ?></a-->
+					<a class="icon-propriety <?php echo $track_css_love ?>" ><?php echo $value->getLovecounter(); ?></a>
+					<!--a class="icon-propriety _share" ><?php echo $value->getSharecounter(); ?></a-->
 				    </div>
 				</div>		
 			    </div>

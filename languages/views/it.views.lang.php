@@ -219,6 +219,12 @@ $views = array(
 	'optadd3' => 'Carica le tue foto',
 	'search' => 'Cerca persone, musica o eventi',
 	'song' => 'Aggiungi brani alla tua playlist',
+	'messageforlist' => 'sent you a message',
+	'eventforlist' => 'invited you to an event',
+	'friendshipforlist' => 'want to be your friend',
+	'collaborationforlist' => 'want to collaborate with you',
+	'followingforlist' => 'is now following you',
+	'objnotfound' => 'Object not found',
 	'accept' => 'Accept',
 	'decline' => 'Decline',
 	'radio' => array(
@@ -564,6 +570,68 @@ $views = array(
 	'notfeaturing' => 'There are not featuring',
 	'write' => 'Write here your review',
 	'your_rating' => 'Your Rating'
+    ),
+    'metatag' => array(
+	'404' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'event' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'home' => array(
+	    'title' => 'Jamyourself: Meritocratic Social Music Discovering',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'message' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'profile' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'record' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'signup' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'stream' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'uploadAlbum' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'uploadEvent' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'uploadRecord' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	),
+	'uploadReview' => array(
+	    'title' => ' ',
+	    'description' => ' ',
+	    'keywords' => ' '
+	)
     )
 );
 ?>

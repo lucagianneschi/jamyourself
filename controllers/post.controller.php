@@ -23,6 +23,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+ 
 
 /**
  * \brief	PostController class 
@@ -38,7 +39,7 @@ class PostController extends REST {
      */
     function __construct() {
 	parent::__construct();
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/post.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "postController.config.json"), false);
     }
 
     /**
@@ -60,7 +61,7 @@ class PostController extends REST {
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-	    $fromUser = $_SESSION['currentUser'];
+	    $fromuser = $_SESSION['currentUser'];
 	    $toUserObjectId = $this->request['toUser'];
 	    $post = $_REQUEST['post'];
 	    if (strlen($post) < $this->config->minPostSize) {
@@ -72,21 +73,21 @@ class PostController extends REST {
 	    $cmt->setActive(true);
 	    $cmt->setAlbum(null);
 	    $cmt->setComment(null);
-	    $cmt->setCommentCounter(0);
+	    $cmt->setCommentcounter(0);
 	    $cmt->setCounter(0);
 	    $cmt->setEvent(null);
-	    $cmt->setFromUser($fromUser->getObjectId());
+	    $cmt->setFromuser($fromuser->getId());
 	    $cmt->setImage(null);
 	    $cmt->setLocation(null);
-	    $cmt->setLoveCounter(0);
+	    $cmt->setLovecounter(0);
 	    $cmt->setLovers(array());
 	    $cmt->setRecord(null);
-	    $cmt->setShareCounter(0);
+	    $cmt->setSharecounter(0);
 	    $cmt->setSong(null);
-	    $cmt->setTags(array());
+	    $cmt->setTag(array());
 	    $cmt->setTitle(null);
 	    $cmt->setText($post);
-	    $cmt->setToUser($toUserObjectId);
+	    $cmt->setTouser($toUserObjectId);
 	    $cmt->setType('P');
 	    $cmt->setVideo(null);
 	    $cmt->setVote(null);
@@ -100,10 +101,10 @@ class PostController extends REST {
 		$activity = new Activity();
 		$activity->setActive(true);
 		$activity->setAlbum(null);
-		$activity->setComment($resCmt->getObjectId());
+		$activity->setComment($resCmt->getId());
 		$activity->setCounter(0);
 		$activity->setEvent(null);
-		$activity->setFromUser($fromUser->getObjectId());
+		$activity->setFromuser($fromuser->getId());
 		$activity->setImage(null);
 		$activity->setPlaylist(null);
 		$activity->setQuestion(null);
@@ -111,14 +112,14 @@ class PostController extends REST {
 		$activity->setRecord(null);
 		$activity->setSong(null);
 		$activity->setStatus('A');
-		$activity->setToUser($toUserObjectId);
+		$activity->setTouser($toUserObjectId);
 		$activity->setType('POSTED');
 		$activity->setVideo(null);
 		$activityParse = new ActivityParse();
 		$resActivity = $activityParse->saveActivity($activity);
 		if ($resActivity instanceof Error) {
 		    require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		    $message = rollbackPostController($resCmt->getObjectId());
+		    $message = rollbackPostController($resCmt->getId());
 		    $this->response(array('status' => $message), 503);
 		}
 	    }

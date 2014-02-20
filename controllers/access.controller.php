@@ -29,11 +29,11 @@ require_once CONTROLLERS_DIR . 'restController.php';
 class AccessController extends REST {
 
     /**
-     * \fn      createActivity($type, $fromUser)
+     * \fn      createActivity($type, $fromuser)
      * \brief   private function to create ad hoc activity
-     * \param   $type, $fromUser
+     * \param   $type, $fromuser
      */
-    private function createActivity($type, $fromUser) {
+    private function createActivity($type, $fromuser) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	$activity = new Activity();
 	$activity->setActive(true);
@@ -41,7 +41,7 @@ class AccessController extends REST {
 	$activity->setComment(null);
 	$activity->setCounter(0);
 	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
+	$activity->setFromuser($fromuser);
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);
@@ -49,7 +49,7 @@ class AccessController extends REST {
 	$activity->setRead(true);
 	$activity->setSong(null);
 	$activity->setStatus('A');
-	$activity->setToUser(null);
+	$activity->setTouser(null);
 	$activity->setType($type);
 	$activity->setVideo(null);
 	return $activity;
@@ -74,14 +74,14 @@ class AccessController extends REST {
 	    if ($resLogin instanceof Error) {
 		$this->response(array('status' => $resLogin->getErrorMessage()), 406);
 	    }
-	    $activity = $this->createActivity('LOGGEDIN', $resLogin->getObjectId());
+	    $activity = $this->createActivity('LOGGEDIN', $resLogin->getId());
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
 	    $activityParse->saveActivity($activity);
 	    $_SESSION['currentUser'] = $resLogin;
 	    require_once BOXES_DIR . 'notification.box.php';
 	    $notificationBox = new NotificationBox();
-	    $notificationBox->initForCounter($resLogin->getObjectId(), $resLogin->getType());
+	    $notificationBox->initForCounter($resLogin->getId(), $resLogin->getType());
 	    $_SESSION['invitationCounter'] = $notificationBox->invitationCounter;
 	    $_SESSION['messageCounter'] = $notificationBox->messageCounter;
 	    $_SESSION['relationCounter'] = $notificationBox->relationCounter;
@@ -105,7 +105,7 @@ class AccessController extends REST {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
-	    $currentUserId = $currentUser->getObjectId();
+	    $currentUserId = $currentUser->getId();
 	    session_unset();
 	    session_destroy();
 	    $activity = $this->createActivity('LOGGEDOUT', $currentUserId);

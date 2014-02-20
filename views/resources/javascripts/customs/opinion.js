@@ -1,8 +1,8 @@
-function sendOpinion(toUser, comment, objectId, classType, box, limit, skip) {
+function sendOpinion(toUser, comment, id, classType, box, limit, skip) {
     var json_comment = {};
     json_comment.toUser = toUser;
     json_comment.comment = comment;
-    json_comment.objectId = objectId;
+    json_comment.id = id;
     json_comment.classType = classType;
     json_comment.request = 'comment';
 
@@ -17,7 +17,7 @@ function sendOpinion(toUser, comment, objectId, classType, box, limit, skip) {
 	    .done(function(response, status, xhr) {
 	$(box).prev().removeClass('box-commentSpace');
 	$(box).addClass('no-display');
-	loadBoxOpinion(objectId, toUser, classType, box, limit, skip);
+	loadBoxOpinion(id, toUser, classType, box, limit, skip);
 	message = $.parseJSON(xhr.responseText).status;
 	code = xhr.status;
 	console.log("Code: " + code + " | Message: " + message);

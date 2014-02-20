@@ -17,7 +17,6 @@ require_once 'path.php';
 /** \def MANTAINANCE_MODE('MANTAINANCE_MODE', 0)
  *  Define the Maintenance Mode state
  */
-#def
 define('MANTAINANCE_MODE', 0);
 
 /** \def ('BOXES_DIR', ROOT_DIR . 'boxes/')
@@ -49,11 +48,6 @@ define('DEBUG_DIR', ROOT_DIR . 'debug/');
  *  Define the languages directory, for translating php files
  */
 define('LANGUAGES_DIR', ROOT_DIR . 'languages/');
-
-/** \def ('PARSE_DIR', ROOT_DIR . 'parse/')
- *  Define the parse libraty directory
- */
-define('PARSE_DIR', ROOT_DIR . 'parse/');
 
 /** \def ('SERVICES_DIR', ROOT_DIR . 'services/');
  *  Define the services directory, php files for cleaner code
@@ -319,11 +313,6 @@ define('DEFAULTQUERY', 100);
  *  Playlist limit for standard users 
  */
 define('PLAYLISTLIMIT', 20);
-
-/** \def  'HOME_TITLE', 'Jamyourself: Meritocratic Social Music Discovering'
- *  Home page title
- */
-define('HOME_TITLE', 'Jamyourself: Meritocratic Social Music Discovering');
 
 /** \def  'LOCATIONNOTFOUND', 'Location Not Found'
  *  Error String for Location

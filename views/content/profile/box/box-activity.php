@@ -1,7 +1,7 @@
 <?php
 /* box le activity
  * box chiamato tramite ajax con:
- * data: {currentUser: objectId},
+ * data: {currentUser: id},
  * data-type: html,
  * type: POST o GET
  *
@@ -19,19 +19,19 @@ require_once BOXES_DIR . 'activity.box.php';
 $type = $_POST['type'];
 
 $activityRecordBox = ActivityRecordBox();
-$activityRecordBox->init($_POST['objectId']);
+$activityRecordBox->init($_POST['id']);
 if (is_null($activityRecordBox->error)) {
     $activitiesRecord = $activityRecordBox->recordArray;
 }
 
 $activityAlbumBox = ActivityAlbumBox();
-$activityAlbumBox->init($_POST['objectId']);
+$activityAlbumBox->init($_POST['id']);
 if (is_null($activityAlbumBox->error)) {
     $albums = $activityAlbumBox->albumArray;
 }
 
 $activityEventBox = ActivityEventBox();
-$activityEventBox->init($_POST['objectId']);
+$activityEventBox->init($_POST['id']);
 if (is_null($activityEventBox->error)) {
     $activitiesEvent = $activityEventBox->eventArray;
 }
@@ -49,7 +49,7 @@ $titleLastALbum = $type == 'JAMMER' ? 'Last album updated' : 'Last listening';
 
 $location = '';
 
-if (isset($dataActivityEvent['objectId']) && $dataActivityEvent['objectId'] != '') {
+if (isset($dataActivityEvent['id']) && $dataActivityEvent['id'] != '') {
     if ($type == 'JAMMER')
 	$location = $dataActivityEvent['locationName'] . ' ';
 
@@ -63,7 +63,7 @@ if (isset($dataActivityEvent['objectId']) && $dataActivityEvent['objectId'] != '
     $event_eventDate = $event_eventDate_DateTime->format('l j F - H:i');
 }
 
-if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '') {
+if (isset($data['eventInfo']['id']) && $data['eventInfo']['id'] != '') {
     if (isset($data['eventInfo']['city']) && $data['eventInfo']['city'] != '')
 	$location = $location . $data['eventInfo']['city'] . ' ';
 
@@ -89,9 +89,9 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
     			<div  class="large-12 columns ">
     			    <div class="text orange"><?php echo $views['activity']['lastalbum']; ?></div>
 				<?php
-				if (isset($dataActivityRecord['objectId']) && $dataActivityRecord['objectId'] != '') {
+				if (isset($dataActivityRecord['id']) && $dataActivityRecord['id'] != '') {
 				    ?>	
-				    <div class="row " id="activity_<?php $dataActivityRecord['objectId'] ?>">								
+				    <div class="row " id="activity_<?php $dataActivityRecord['id'] ?>">								
 					<div  class="small-3 columns ">
 					    <img class="album-thumb" src="../media/<?php echo $dataActivityRecord['thumbnailCover'] ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'">
 					</div>
@@ -128,9 +128,9 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
     			<div  class="large-12 columns ">
     			    <div class="text orange"><?php echo $views['activity']['lastevent']; ?></div>
 				<?php
-				if (isset($dataActivityEvent['objectId']) && $dataActivityEvent['objectId'] != '') {
+				if (isset($dataActivityEvent['id']) && $dataActivityEvent['id'] != '') {
 				    ?>
-				    <div class="row " id="activity_<?php $dataActivityEvent['objectId'] ?>">
+				    <div class="row " id="activity_<?php $dataActivityEvent['id'] ?>">
 					<div  class="small-3 columns ">
 					    <img class="album-thumb" src="../media/<?php echo $dataActivityEvent['thumbnail'] ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'">
 					</div>
@@ -169,9 +169,9 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				if (count($activitiesRecord) > 0) {
 				    foreach ($activitiesRecord as $key => $value) {
 					?>
-	    			    <div class="row " id="activity_<?php $value->getObjectId(); ?>">								
+	    			    <div class="row " id="activity_<?php $value->getId(); ?>">								
 	    				<div  class="small-3 columns ">
-	    				    <img class="album-thumb" src="../media/<?php echo $value->getRecord()->getThumbnailCover(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'">
+	    				    <img class="album-thumb" src="../media/<?php echo $value->getRecord()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'">
 	    				</div>
 	    				<div  class="small-9 columns box-info">
 	    				    <div class="sottotitle grey-dark"><?php echo $value->getRecord()->getTitle(); ?></div>
@@ -204,7 +204,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				if (count($activitiesEvent) > 0) {
 				    foreach ($activitiesEvent as $key => $value) {
 					?>
-	    			    <div class="row " id="activity_<?php $value->getObjectId(); ?>">
+	    			    <div class="row " id="activity_<?php $value->getId(); ?>">
 	    				<div  class="small-3 columns ">
 	    				    <img class="album-thumb" src="../media/<?php echo $value->getEvent()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'">
 	    				</div>
@@ -245,7 +245,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    <div class="row " style="margin-bottom: 10px;">
 					<div  class="small-12 columns ">
 					    <span class="text grey-dark" style="cursor:pointer"><?php echo $value->getTitle(); ?></span>
-					    <span class="text grey"> - <?php echo $value->getImageCounter(); ?> <?php echo $views['activity']['photos']; ?> </span>
+					    <span class="text grey"> - <?php echo $value->getImagecounter(); ?> <?php echo $views['activity']['photos']; ?> </span>
 					</div>
 				    </div>
 				    <div class="row ">
@@ -255,7 +255,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 						#TODO
 						//questa è una relazione, quindi la devo includere con una whereRelatedTo
 						/*
-						  $counterPhoto = $value->getImageCounter() > 4 ? 4 : $value->getImageCounter();
+						  $counterPhoto = $value->getImagecounter() > 4 ? 4 : $value->getImagecounter();
 						  for ($i = 1; $i < $counterPhoto; $i++) {
 						  ?>
 						  <li><img src="../media/<?php echo $data['albumInfo']['imageArray'][$i]?>" onerror="this.src='<?php echo DEFIMAGE; ?>'"></li>
@@ -296,7 +296,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<?php
-					if (isset($dataActivityRelation['jammersCollaborators' . '0']['objectId']) && isset($dataActivityRelation['jammersCollaborators' . '0']['objectId']) != '') {
+					if (isset($dataActivityRelation['jammersCollaborators' . '0']['id']) && isset($dataActivityRelation['jammersCollaborators' . '0']['id']) != '') {
 					    switch ($dataActivityRelation['jammersCollaborators' . '0']['type']) {
 						case 'JAMMER':
 						    $defaultThum = DEFTHUMBJAMMER;
@@ -310,7 +310,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 					    }
 					    ?>
 	    				<div  class="small-6 columns">
-	    				    <div class="box-membre" id='jammersCollaborators_<?php echo $dataActivityRelation['jammersCollaborators' . '0']['objectId'] ?>'>
+	    				    <div class="box-membre" id='jammersCollaborators_<?php echo $dataActivityRelation['jammersCollaborators' . '0']['id'] ?>'>
 	    					<div class="row ">
 	    					    <div  class="small-3 columns ">
 	    						<div class="icon-header">
@@ -326,7 +326,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 	    				</div>
 					    <?php
 					}
-					if (isset($dataActivityRelation['jammersCollaborators' . '1']['objectId']) && isset($dataActivityRelation['jammersCollaborators' . '1']['objectId']) != '') {
+					if (isset($dataActivityRelation['jammersCollaborators' . '1']['id']) && isset($dataActivityRelation['jammersCollaborators' . '1']['id']) != '') {
 					    switch ($dataActivityRelation['jammersCollaborators' . '1']['type']) {
 						case 'JAMMER':
 						    $defaultThum = DEFTHUMBJAMMER;
@@ -340,7 +340,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 					    }
 					    ?>
 	    				<div  class="small-6 columns">
-	    				    <div class="box-membre" id='jammersCollaborators_<?php echo $dataActivityRelation['jammersCollaborators' . '1']['objectId'] ?>'>
+	    				    <div class="box-membre" id='jammersCollaborators_<?php echo $dataActivityRelation['jammersCollaborators' . '1']['id'] ?>'>
 	    					<div class="row ">
 	    					    <div  class="small-3 columns ">
 	    						<div class="icon-header">
@@ -380,7 +380,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<?php
-					if (isset($dataActivityRelation['venuesCollaborators' . '0']['objectId']) && isset($dataActivityRelation['venuesCollaborators' . '0']['objectId']) != '') {
+					if (isset($dataActivityRelation['venuesCollaborators' . '0']['id']) && isset($dataActivityRelation['venuesCollaborators' . '0']['id']) != '') {
 					    switch ($dataActivityRelation['venuesCollaborators' . '0']['type']) {
 						case 'JAMMER':
 						    $defaultThum = DEFTHUMBJAMMER;
@@ -394,7 +394,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 					    }
 					    ?>
 	    				<div  class="small-6 columns">
-	    				    <div class="box-membre" id='venuesCollaborators_<?php echo $dataActivityRelation['venuesCollaborators' . '0']['objectId'] ?>'>
+	    				    <div class="box-membre" id='venuesCollaborators_<?php echo $dataActivityRelation['venuesCollaborators' . '0']['id'] ?>'>
 	    					<div class="row ">
 	    					    <div  class="small-3 columns ">
 	    						<div class="icon-header">
@@ -410,7 +410,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 	    				</div>
 					    <?php
 					}
-					if (isset($dataActivityRelation['venuesCollaborators' . '1']['objectId']) && isset($dataActivityRelation['venuesCollaborators' . '1']['objectId']) != '') {
+					if (isset($dataActivityRelation['venuesCollaborators' . '1']['id']) && isset($dataActivityRelation['venuesCollaborators' . '1']['id']) != '') {
 					    switch ($dataActivityRelation['venuesCollaborators' . '1']['type']) {
 						case 'JAMMER':
 						    $defaultThum = DEFTHUMBJAMMER;
@@ -424,7 +424,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 					    }
 					    ?>
 	    				<div  class="small-6 columns">
-	    				    <div class="box-membre" id='venuesCollaborators_<?php echo $dataActivityRelation['venuesCollaborators' . '1']['objectId'] ?>'>
+	    				    <div class="box-membre" id='venuesCollaborators_<?php echo $dataActivityRelation['venuesCollaborators' . '1']['id'] ?>'>
 	    					<div class="row ">
 	    					    <div  class="small-3 columns ">
 	    						<div class="icon-header">
@@ -468,7 +468,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<?php
-					if (isset($dataActivityRelation['friendship' . '0']['objectId']) && isset($dataActivityRelation['friendship' . '0']['objectId']) != '') {
+					if (isset($dataActivityRelation['friendship' . '0']['id']) && isset($dataActivityRelation['friendship' . '0']['id']) != '') {
 					    switch ($dataActivityRelation['friendship' . '0']['type']) {
 						case 'JAMMER':
 						    $defaultThum = DEFTHUMBJAMMER;
@@ -482,7 +482,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 					    }
 					    ?>
 	    				<div  class="small-6 columns">
-	    				    <div class="box-membre" id='friendship_<?php echo $dataActivityRelation['friendship' . '0']['objectId'] ?>'>
+	    				    <div class="box-membre" id='friendship_<?php echo $dataActivityRelation['friendship' . '0']['id'] ?>'>
 	    					<div class="row ">
 	    					    <div  class="small-3 columns ">
 	    						<div class="icon-header">
@@ -497,7 +497,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 	    				</div>
 					    <?php
 					}
-					if (isset($dataActivityRelation['friendship' . '1']['objectId']) && isset($dataActivityRelation['friendship' . '1']['objectId']) != '') {
+					if (isset($dataActivityRelation['friendship' . '1']['id']) && isset($dataActivityRelation['friendship' . '1']['id']) != '') {
 					    switch ($dataActivityRelation['friendship' . '1']['type']) {
 						case 'JAMMER':
 						    $defaultThum = DEFTHUMBJAMMER;
@@ -511,7 +511,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 					    }
 					    ?>
 	    				<div  class="small-6 columns">
-	    				    <div class="box-membre" id='friendship_<?php echo $dataActivityRelation['friendship' . '1']['objectId'] ?>'>
+	    				    <div class="box-membre" id='friendship_<?php echo $dataActivityRelation['friendship' . '1']['id'] ?>'>
 	    					<div class="row ">
 	    					    <div  class="small-3 columns ">
 	    						<div class="icon-header">
@@ -550,7 +550,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<?php
-					if (isset($dataActivityRelation['following' . '0']['objectId']) && isset($dataActivityRelation['following' . '0']['objectId']) != '') {
+					if (isset($dataActivityRelation['following' . '0']['id']) && isset($dataActivityRelation['following' . '0']['id']) != '') {
 					    switch ($dataActivityRelation['following' . '0']['type']) {
 						case 'JAMMER':
 						    $defaultThum = DEFTHUMBJAMMER;
@@ -564,7 +564,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 					    }
 					    ?>
 	    				<div  class="small-6 columns">
-	    				    <div class="box-membre" id='following_<?php echo $dataActivityRelation['following' . '0']['objectId'] ?>'>
+	    				    <div class="box-membre" id='following_<?php echo $dataActivityRelation['following' . '0']['id'] ?>'>
 	    					<div class="row ">
 	    					    <div  class="small-3 columns ">
 	    						<div class="icon-header">
@@ -580,7 +580,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 	    				</div>
 					    <?php
 					}
-					if (isset($dataActivityRelation['following' . '1']['objectId']) && isset($dataActivityRelation['following' . '1']['objectId']) != '') {
+					if (isset($dataActivityRelation['following' . '1']['id']) && isset($dataActivityRelation['following' . '1']['id']) != '') {
 					    switch ($dataActivityRelation['following' . '1']['type']) {
 						case 'JAMMER':
 						    $defaultThum = DEFTHUMBJAMMER;
@@ -594,7 +594,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 					    }
 					    ?>
 	    				<div  class="small-6 columns">
-	    				    <div class="box-membre" id='following_<?php echo $dataActivityRelation['following' . '1']['objectId'] ?>'>
+	    				    <div class="box-membre" id='following_<?php echo $dataActivityRelation['following' . '1']['id'] ?>'>
 	    					<div class="row ">
 	    					    <div  class="small-3 columns ">
 	    						<div class="icon-header">

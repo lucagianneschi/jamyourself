@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
- * \version		0.2
+ * \version		0.3
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
@@ -19,6 +19,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'connection.service.php';
 
 /**
  * \brief	PlaylistInfoBox class 
@@ -26,17 +27,8 @@ require_once ROOT_DIR . 'config.php';
  */
 class PlaylistInfoBox {
 
-    public $config;
-    public $error;
-    public $playlists;
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
-    }
+    public $error = null;
+    public $playlistArray = array();
 
     /**
      * \fn	init()
@@ -44,30 +36,54 @@ class PlaylistInfoBox {
      * \return	playlistInfoBox
      */
     public function init() {
+	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    $this->error = ONLYIFLOGGEDIN;
 	    return;
 	}
-	require_once CLASSES_DIR . 'playlist.class.php';
-	require_once CLASSES_DIR . 'playlistParse.class.php';
-	$playlist = new PlaylistParse();
-	$playlist->wherePointer('fromUser', '_User', $currentUserId);
-	$playlist->where('active', true);
-	$playlist->orderByDescending('createdAt');
-	$playlist->setLimit($this->config->limitForPlaylist);
-	$playlists = $playlist->getPlaylists();
-	if ($playlists instanceof Error) {
-	    $this->error = $playlists->getErrorMessage();
-	    $this->playlists = array();
-	    return;
-	} elseif (is_null($playlists)) {
-	    $this->error = null;
-	    $this->playlists = array();
+	$connectionService = new ConnectionService();
+	$connectionService->connect();
+	if (!$connectionService->active) {
+	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    $this->error = null;
-	    $this->playlists = $playlists;
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               fromuser,
+		               name,
+		               songcounter,
+		               songs,
+		               unlimited
+               FROM album a, user_album ua
+               WHERE ua.id_user = " . $currentUserId . "
+               AND ua.id_album = a.id
+               LIMIT " . 0 . ", " . 1;
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $playlists = array();
+	    foreach ($rows as $row) {
+		require_once 'playlist.class.php';
+		$playlist = new Playlist();
+		$playlist->setId($row['id']);
+		$playlist->setActive($row['active']);
+		$playlist->setCreatedat($row['createdat']);
+		$playlist->setFromuser($row['fromuser']);
+		$playlist->setName($row['name']);
+		$playlist->setSongcounter($row['songcounter']);
+		$playlist->setSongs($row['songs']);
+		$playlist->setUnlimited($row['unlimited']);
+		$playlist->setUpdatedat($row['updatedat']);
+	    }
+	    $connectionService->disconnect();
+	    if (!$results) {
+		return;
+	    } else {
+		$this->playlistArray = $playlists;
+	    }
 	}
     }
 
@@ -79,64 +95,103 @@ class PlaylistInfoBox {
  */
 class PlaylistSongBox {
 
-    public $config;
-    public $error;
-    public $tracklist;
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
-    }
+    public $error = null;
+    public $songArray = array();
 
     /**
      * \fn	init($playlistId, $sonsArray)
      * \brief	Init PlaylistSongBox instance
      * \return	playlistSongBox
      */
-    public function init($playlistId, $sonsArray) {
+    public function init($id) {
+	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    $this->error = ONLYIFLOGGEDIN;
 	    return;
 	}
-	require_once CLASSES_DIR . 'song.class.php';
-	require_once CLASSES_DIR . 'songParse.class.php';
-	$song = new SongParse();
-	$song->whereRelatedTo('songs', 'Playlist', $playlistId);
-	$song->where('active', true);
-	$song->setLimit($this->config->limitForTracklist);
-	$song->whereInclude('fromUser,record');
-	$songs = $song->getSongs();
-	if ($songs instanceof Error) {
-	    $this->error = $songs->getErrorMessage();
-	    $this->tracklist = array();
-	    return;
-	} elseif (is_null($songs)) {
-	    $this->error = null;
-	    $this->tracklist = array();
+	$connectionService = new ConnectionService();
+	$connectionService->connect();
+	if (!$connectionService->active) {
+	    $this->error = $connectionService->error;
 	    return;
 	} else {
-	    foreach ($sonsArray as $value) {
-		$orderSongs[$value] = $songs[$value];
+	    $sql = "SELECT id,
+		               createdat,
+		               updatedat,
+		               active,
+		               commentcounter,
+		               counter,
+		               duration,
+		               fromuser,
+		               genre,
+		               latitude,
+		               longitude,
+		               lovecounter,
+		               path,
+		               position,
+		               record,
+		               sharecounter,
+		               title
+                 FROM album a, user_album ua
+                WHERE ua.id_user = " . $id . "
+                  AND ua.id_album = a.id
+                LIMIT " . 0 . ", " . 20;
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows[] = $row;
+	    $songs = array();
+	    foreach ($rows as $row) {
+		require_once 'song.class.php';
+		$song = new Song();
+		$song->setId($row['id']);
+		$song->setActive($row['active']);
+		$song->setCommentcounter($row['commentcounter']);
+		$song->setCounter($row['counter']);
+		$song->setCreatedat($row['createdat']);
+		$song->setDuration($row['duration']);
+		$sql = "SELECT id,
+			       username,
+			       thumbnail,
+			       type
+                          FROM user
+                         WHERE id = " . $row['fromuser'];
+		$resUser = mysqli_query($connectionService->connection, $sql);
+		$row_user = mysqli_fetch_array($resUser, MYSQLI_ASSOC);
+		require_once 'user.class.php';
+		$fromuser = new User($row_user['type']);
+		$fromuser->setId($row_user['id']);
+		$fromuser->setThumbnail($row_user['thumbnail']);
+		$fromuser->setUsername($row_user['username']);
+		$song->setFromuser($fromuser);
+		$song->setGenre($row['genre']);
+		$song->setLatitude($row['latitude']);
+		$song->setLongitude($row['longitude']);
+		$song->getLovecounter($row['lovecounter']);
+		$song->setPath($row['path']);
+		$song->setPosition($row['position']);
+		$sql = "SELECT tag
+                          FROM record
+                         WHERE id = " . $row['record'];
+		$resRec = mysqli_query($connectionService->connection, $sql);
+		$row_record = mysqli_fetch_array($resRec, MYSQLI_ASSOC);
+		require_once 'record.class.php';
+		$record = new Record();
+		$record->setThumbnail($row_record['thumbnail']);
+		$record->setTitle($row_record['title']);
+		$song->setSharecounter($row['sharecounter']);
+		$song->setTitle($row['title']);
+		$song->setUpdatedat($row['updatedat']);
 	    }
-	    if (is_null($orderSongs)) {
-		$this->error = null;
-		$this->tracklist = array();
+	    $connectionService->disconnect();
+	    if (!$results) {
 		return;
 	    } else {
-		$tracklist = array();
-		$this->error = null;
-		foreach ($orderSongs as $song) {
-		    if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
-			array_push($tracklist, $song);
-		}
+		$this->songArray = $songs;
 	    }
-	    $this->tracklist = $tracklist;
 	}
     }
 
 }
+
 ?>
