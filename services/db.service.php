@@ -55,24 +55,30 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	$error->setErrormessage($connectionService->error);
 	return $error;
     } else {
-	$sql = "SELECT id,
-                           active,
-                           commentcounter,
-                           counter,
-                           cover,
-                           description,
-                           fromuser,
-                           imagecounter,
-                           latitude,
-                           longitude,
-                           lovecounter,
-                           sharecounter,
-                           thumbnail,
-                           title,
-                           createdat,
-                           updatedat
-                      FROM album
-                     WHERE id = " . $id . "active = 1";
+	$sql = "SELECT	   a.id id_a,
+                           a.active,
+                           a.commentcounter,
+                           a.counter,
+                           a.cover,
+                           a.description,
+                           a.fromuser,
+                           a.imagecounter,
+                           a.latitude,
+                           a.longitude,
+                           a.lovecounter,
+                           a.sharecounter,
+                           a.thumbnail,
+                           a.title,
+                           a.createdat,
+                           a.updatedat,
+	                   u.id id_u,
+                           u.username,
+                           u.thumbnail thumbnail_u,
+                           u.type
+                      FROM album a, user u
+                     WHERE a.id = " . $id . "
+                       AND a.fromuser = u.id
+		       AND a.active = 1";
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value)
 		$sql .= " AND " . $key . " = '" . $value . "'";
@@ -105,6 +111,10 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $album->setCounter($row_album['counter']);
 	    $album->setCover($row_album['cover']);
 	    $album->setDescription($row_album['description']);
+	    $fromuser = new User($row_album['type']);
+	    $fromuser->setId($row_album['id_u']);
+	    $fromuser->setThumbnail($row_album['thumbnail_u']);
+	    $fromuser->setUsername($row_album['username']);	    
 	    $album->setFromuser($row_album['fromuser']);
 	    $album->setImagecounter($row_album['imagecounter']);
 	    $album->setLatitude($row_album['latitude']);
@@ -154,33 +164,39 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
     if (!$connectionService->active) {
 	return $connectionService->error;
     } else {
-	$sql = "SELECT id,
-                           active,
-                           address,
-                           attendeecounter,
-                           cancelledcounter,
-                           city,
-                           commentcounter,
-                           counter,
-                           cover,
-                           description,
-                           eventdate,
-                           fromuser,
-                           genre,
-                           invitedcounter,
-                           latitude,
-                           longitude,
-                           locationname,
-                           lovecounter,
-                           reviewcounter,
-                           refusedcounter,
-                           sharecounter,
-                           thumbnail,
-                           title,
-                           createdat,
-                           updatedat
-                      FROM event
-                     WHERE id = " . $id . "active = 1";
+	$sql = "SELECT e.id id_e,
+                           e.active,
+                           e.address,
+                           e.attendeecounter,
+                           e.cancelledcounter,
+                           e.city,
+                           e.commentcounter,
+                           e.counter,
+                           e.cover,
+                           e.description,
+                           e.eventdate,
+                           e.fromuser,
+                           e.genre,
+                           e.invitedcounter,
+                           e.latitude,
+                           e.longitude,
+                           e.locationname,
+                           e.lovecounter,
+                           e.reviewcounter,
+                           e.refusedcounter,
+                           e.sharecounter,
+                           e.thumbnail thumbnail_e,
+                           e.title,
+                           e.createdat,
+                           e.updatedat,
+                           u.id id_u,
+                           u.username,
+                           u.thumbnail thumbnail_u,
+                           u.type
+                      FROM event e, user u
+                     WHERE e.id = " . $id . "
+                       AND e.fromuser = u.id
+		       AND e.active = 1";
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value)
 		$sql .= " AND " . $key . " = '" . $value . "'";
@@ -204,8 +220,9 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	$events = array();
 	foreach ($rows_event as $row_event) {
 	    require_once 'event.class.php';
+	    
 	    $event = new Event();
-	    $event->setId($row_event['id']);
+	    $event->setId($row_event['id_e']);
 	    $event->setActive($row_event['active']);
 	    $event->setAddress($row_event['address']);
 	    $event->setAttendeecounter($row_event['attendeecounter']);
@@ -216,6 +233,10 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	    $event->setCover($row_event['cover']);
 	    $event->setDescription($row_event['description']);
 	    $event->setEventdate($row_event['eventdate']);
+	    $fromuser = new User($row_event['type']);
+	    $fromuser->setId($row_event['id_u']);
+	    $fromuser->setThumbnail($row_event['thumbnail_u']);
+	    $fromuser->setUsername($row_event['username']);
 	    $event->setFromuser($row_event['fromuser']);
 	    $sql = "SELECT tag
                           FROM event_genre
