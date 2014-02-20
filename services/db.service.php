@@ -67,7 +67,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
                            a.longitude,
                            a.lovecounter,
                            a.sharecounter,
-                           a.thumbnail,
+                           a.thumbnail thumbnail_a,
                            a.title,
                            a.createdat,
                            a.updatedat,
@@ -114,7 +114,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $fromuser = new User($row_album['type']);
 	    $fromuser->setId($row_album['id_u']);
 	    $fromuser->setThumbnail($row_album['thumbnail_u']);
-	    $fromuser->setUsername($row_album['username']);	    
+	    $fromuser->setUsername($row_album['username']);
 	    $album->setFromuser($row_album['fromuser']);
 	    $album->setImagecounter($row_album['imagecounter']);
 	    $album->setLatitude($row_album['latitude']);
@@ -137,7 +137,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 		$tags[] = $row_tag;
 	    }
 	    $album->setTag($row_tag);
-	    $album->setThumbnail($row_album['thumbnail']);
+	    $album->setThumbnail($row_album['thumbnail_a']);
 	    $album->setTitle($row_album['title']);
 	    $album->setCreatedat($row_album['createdat']);
 	    $album->setUpdatedat($row_album['updatedat']);
@@ -164,7 +164,7 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
     if (!$connectionService->active) {
 	return $connectionService->error;
     } else {
-	$sql = "SELECT e.id id_e,
+	$sql = "SELECT     e.id id_e,
                            e.active,
                            e.address,
                            e.attendeecounter,
@@ -219,7 +219,6 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	$events = array();
 	foreach ($rows_event as $row_event) {
 	    require_once 'event.class.php';
-	    
 	    $event = new Event();
 	    $event->setId($row_event['id_e']);
 	    $event->setActive($row_event['active']);
@@ -273,7 +272,7 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 		$tags[] = $row_tag;
 	    }
 	    $event->setTag($tags);
-	    $event->setThumbnail($row_event['thumbnail']);
+	    $event->setThumbnail($row_event['thumbnail_e']);
 	    $event->setTitle($row_event['title']);
 	    $event->setCreatedat($row_event['createdat']);
 	    $event->setUpdatedat($row_event['updatedat']);
@@ -288,8 +287,70 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
     //TODO
 }
 
+/**
+ * \fn	    selectPlaylists($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \brief   Select on Playlist Class
+ * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * \todo    
+ */
 function selectPlaylists($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    //TODO
+    $connectionService = new ConnectionService();
+    $connectionService->connect();
+    if (!$connectionService->active) {
+	$this->error = $connectionService->error;
+	return;
+    } else {
+	$sql = "SELECT     p.id id_p,
+		           p.createdat,
+		           p.updatedat,
+		           p.active,
+		           p.fromuser,
+		           p.name,
+		           p.songcounter,
+		           p.songs,
+		           p.unlimited,
+			   u.id id_u,
+		     FROM playlist p, user u
+                     WHERE p.id = " . $id . "
+                       AND p.fromuser = u.id
+		       AND p.active = 1";
+	if (!is_null($where)) {
+	    foreach ($where as $key => $value)
+		$sql .= " AND " . $key . " = '" . $value . "'";
+	}
+	if (!is_null($order)) {
+	    $sql .= " ORDER BY ";
+	    foreach ($order as $key => $value)
+		$sql .= " " . $key . " " . $value . ",";
+	}
+	if (!is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $skip . ", " . $limit;
+	} elseif (is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $limit;
+	}
+	$results = mysqli_query($connectionService->connection, $sql);
+	if (!$results) {
+	    return $results->error;
+	}
+	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	    $rows[] = $row;
+	$playlists = array();
+	foreach ($rows as $row) {
+	    require_once 'playlist.class.php';
+	    $playlist = new Playlist();
+	    $playlist->setId($row['id']);
+	    $playlist->setActive($row['active']);
+	    $playlist->setCreatedat($row['createdat']);
+	    $playlist->setFromuser($row['fromuser']);
+	    $playlist->setName($row['name']);
+	    $playlist->setSongcounter($row['songcounter']);
+	    $playlist->setUnlimited($row['unlimited']);
+	    $playlist->setUpdatedat($row['updatedat']);
+	    $playlists[$row['id']] = $playlist;
+	}
+	$connectionService->disconnect();
+	return $playlist;
+    }
 }
 
 function selectRecords($id = null, $where = null, $order = null, $limit = null, $skip = null) {
