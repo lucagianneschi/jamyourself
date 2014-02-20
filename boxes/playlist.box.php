@@ -63,96 +63,21 @@ class PlaylistSongBox {
      * \fn	init($playlistId, $sonsArray)
      * \brief	Init PlaylistSongBox instance
      * \return	playlistSongBox
+     * \todo	terminare funzione prendere songs che stanno dentro la playlist
      */
-    public function init($id) {
+    public function init() {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    $this->error = ONLYIFLOGGEDIN;
 	    return;
 	}
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT id,
-		               createdat,
-		               updatedat,
-		               active,
-		               commentcounter,
-		               counter,
-		               duration,
-		               fromuser,
-		               genre,
-		               latitude,
-		               longitude,
-		               lovecounter,
-		               path,
-		               position,
-		               record,
-		               sharecounter,
-		               title
-                 FROM album a, user_album ua
-                WHERE ua.id_user = " . $id . "
-                  AND ua.id_album = a.id
-                LIMIT " . 0 . ", " . 20;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows[] = $row;
-	    $songs = array();
-	    foreach ($rows as $row) {
-		require_once 'song.class.php';
-		$song = new Song();
-		$song->setId($row['id']);
-		$song->setActive($row['active']);
-		$song->setCommentcounter($row['commentcounter']);
-		$song->setCounter($row['counter']);
-		$song->setCreatedat($row['createdat']);
-		$song->setDuration($row['duration']);
-		$sql = "SELECT id,
-			       username,
-			       thumbnail,
-			       type
-                          FROM user
-                         WHERE id = " . $row['fromuser'];
-		$resUser = mysqli_query($connectionService->connection, $sql);
-		$row_user = mysqli_fetch_array($resUser, MYSQLI_ASSOC);
-		require_once 'user.class.php';
-		$fromuser = new User($row_user['type']);
-		$fromuser->setId($row_user['id']);
-		$fromuser->setThumbnail($row_user['thumbnail']);
-		$fromuser->setUsername($row_user['username']);
-		$song->setFromuser($fromuser);
-		$song->setGenre($row['genre']);
-		$song->setLatitude($row['latitude']);
-		$song->setLongitude($row['longitude']);
-		$song->getLovecounter($row['lovecounter']);
-		$song->setPath($row['path']);
-		$song->setPosition($row['position']);
-		$sql = "SELECT tag
-                          FROM record
-                         WHERE id = " . $row['record'];
-		$resRec = mysqli_query($connectionService->connection, $sql);
-		$row_record = mysqli_fetch_array($resRec, MYSQLI_ASSOC);
-		require_once 'record.class.php';
-		$record = new Record();
-		$record->setThumbnail($row_record['thumbnail']);
-		$record->setTitle($row_record['title']);
-		$song->setSharecounter($row['sharecounter']);
-		$song->setTitle($row['title']);
-		$song->setUpdatedat($row['updatedat']);
-	    }
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->songArray = $songs;
-	    }
+	$songs = selectSongs($id, $where, $order, $limit, $skip);
+	if ($songs instanceof Error) {
+	    $this->error = $songs->getErrorMessage();
 	}
+	$this->songArray = $songs;
     }
 
 }
-
 ?>
