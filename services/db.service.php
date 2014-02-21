@@ -803,7 +803,6 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
                            i.lovecounter,
 			   i.path,
                            i.sharecounter,
-			   i.tag,
 			   i.thumbnail thumbnail_i,
 			   a.id ia_a,
 			   a.cover,
@@ -813,7 +812,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
                            u.username,
                            u.thumbnail thumbnail_u,
                            u.type
-                      FROM image r, user u, album a
+                      FROM image i, user u, album a
                      WHERE i.active = 1
                        AND i.fromuser = u.id
 		       AND i.fromuser = a.fromuser";
@@ -915,7 +914,6 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 		           p.fromuser,
 		           p.name,
 		           p.songcounter,
-		           p.songs,
 		           p.unlimited,
 			   u.id id_u,
 			   u.username
@@ -1112,7 +1110,6 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
                            r.description,
                            r.duration,
                            r.fromuser,
-                           r.genre,
                            r.label,
                            r.latitude,
                            r.longitude,
@@ -1122,7 +1119,6 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
                            r.songCounter,
                            r.thumbnail thumbnail_r,
                            r.title,
-                           r.tracklist,
                            r.year,
                            r.createdat,
                            r.updatedat,
@@ -1240,7 +1236,6 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 		               s.counter,
 		               s.duration,
 		               s.fromuser,
-		               s.genre,
 		               s.latitude,
 		               s.longitude,
 		               s.lovecounter,
@@ -1256,7 +1251,7 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 			       r.id id_r,
 			       r.thumbnail thumbnail_r,
 			       r.title title_r
-                 FROM song s, user u, record r,
+                 FROM song s, user u, record r
                 WHERE s.active  = 1
                   AND s.fromuser = u.id";
 	if (!is_null($id)) {
@@ -1364,10 +1359,8 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
                            levelvalue,
                            latitude,
                            longitude,
-                           members,
                            premium,
                            premiumexpirationdate,
-                           settings,
                            sex,
                            thumbnail,
                            twitterpage,
@@ -1479,7 +1472,6 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
 			       v.cover,
 		               v.duration,
 		               v.fromuser,
-		               v.genre,
 		               v.lovecounter,
 			       v.thumbnail thumbnail_v,
 			       v.title title_v,
@@ -1487,7 +1479,7 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
 			       u.id id_u,
 			       u.thumbnail thumbnail_u,
 			       u.type,
-			       u.username,
+			       u.username
                  FROM video v, user u
                 WHERE v.active = 1
                   AND v.fromuser = u.id";
