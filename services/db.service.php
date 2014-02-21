@@ -109,7 +109,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	foreach ($rows_album as $row) {
 	    require_once 'album.class.php';
 	    $album = new Album();
-	    $album->setId($row['id']);
+	    $album->setId($row['id_a']);
 	    $album->setActive($row['active']);
 	    $album->setCommentcounter($row['commentcounter']);
 	    $album->setCounter($row['counter']);
@@ -145,7 +145,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $album->setTitle($row['title']);
 	    $album->setCreatedat($row['createdat']);
 	    $album->setUpdatedat($row['updatedat']);
-	    $albums[$row['id']] = $album;
+	    $albums[$row['id_a']] = $album;
 	}
 	$connectionService->disconnect();
 	return $albums;
@@ -402,8 +402,8 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $album->setTag($tags_album);
 	    $album->setThumbnail($row['thumbnail_a']);
 	    $album->setTitle($row['title']);
-	    $album->setCreatedat($row['createdat']);
-	    $album->setUpdatedat($row['updatedat']);
+	    $album->setCreatedat($row['createdat_a']);
+	    $album->setUpdatedat($row['updatedat_a']);
 	    $comment->setAlbum($album);
 	    $comment->setComment($comment);
 	    $comment->setCommentcounter($row['commentcounter_cmt']);
@@ -450,7 +450,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $event->setSharecounter($row['sharecounter_e']);
 	    $sql = "SELECT tag
                           FROM event_tag
-                         WHERE id = " . $row['id'];
+                         WHERE id = " . $row['id_e'];
 	    $results_tag_event = mysqli_query($connectionService->connection, $sql);
 	    if (!$results_tag_event) {
 		$error = new Error();
@@ -572,7 +572,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $comment->setSong($song);
 	    $sql = "SELECT tag
                           FROM comment_tag
-                         WHERE id = " . $row['id_cmt'];
+                         WHERE id = " . $row['id_s'];
 	    $results_tag_song = mysqli_query($connectionService->connection, $sql);
 	    if (!$results_tag_song) {
 		$error = new Error();
@@ -849,7 +849,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    require_once 'album.class.php';
 	    require_once 'image.class.php';
 	    $image = new Image();
-	    $image->setId($row['id']);
+	    $image->setId($row['id_i']);
 	    $image->setCreatedat($row['createdat']);
 	    $image->setUpdatedat($row['updatedat']);
 	    $image->setActive($row['active']);
@@ -953,7 +953,7 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 	foreach ($rows as $row) {
 	    require_once 'playlist.class.php';
 	    $playlist = new Playlist();
-	    $playlist->setId($row['id']);
+	    $playlist->setId($row['id_p']);
 	    $playlist->setActive($row['active']);
 	    $playlist->setCreatedat($row['createdat']);
 	    $fromuser = new User($row['type']);
@@ -997,7 +997,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
                            p.tag,
                            p.text,
                            p.touser,
-                           p.type type_c,
+                           p.type type_p,
                            p.vote,
                            p.createdat,
                            p.updatedat,
@@ -1073,7 +1073,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $post->setText($row['text']);
 	    $post->setTitle($row['title']);
 	    $post->setTouser($row['touser']);
-	    $post->setType($row['type_c']);
+	    $post->setType($row['type_p']);
 	    $post->setVote($row['vote']);
 	    $post->setCreatedat($row['createdat']);
 	    $post->setUpdatedat($row['updatedat']);
@@ -1120,7 +1120,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
                            r.reviewCounter,
                            r.sharecounter,
                            r.songCounter,
-                           r.thumbnail,
+                           r.thumbnail thumbnail_r,
                            r.title,
                            r.tracklist,
                            r.year,
@@ -1164,7 +1164,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	foreach ($rows as $row) {
 	    require_once 'record.class.php';
 	    $record = new Record();
-	    $record->setId($row['id']);
+	    $record->setId($row['id_r']);
 	    $record->setActive($row['active']);
 	    $record->setBuylink($row['buylink']);
 	    $record->setCity($row['city']);
@@ -1201,7 +1201,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    $record->setReviewCounter($row['reviewCounter']);
 	    $record->setSharecounter($row['sharecounter']);
 	    $record->setSongCounter($row['songCounter']);
-	    $record->setThumbnail($row['thumbnail']);
+	    $record->setThumbnail($row['thumbnail_r']);
 	    $record->setTitle($row['title']);
 	    $record->setTracklist($row['tracklist']);
 	    $record->setYear($row['year']);
@@ -1292,7 +1292,7 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 	    require_once 'song.class.php';
 	    require_once 'user.class.php';
 	    $song = new Song();
-	    $song->setId($row['id']);
+	    $song->setId($row['id_s']);
 	    $song->setActive($row['active']);
 	    $song->setCommentcounter($row['commentcounter']);
 	    $song->setCounter($row['counter']);
@@ -1557,7 +1557,7 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
 	    $video->setTitle($row['title_v']);
 	    $video->setURL($row['URL']);
 	    $video->setUpdatedat($row['updatedat']);
-	    $videos[$row['id']] = $video;
+	    $videos[$row['id_v']] = $video;
 	}
 	$connectionService->disconnect();
 	return $videos;
