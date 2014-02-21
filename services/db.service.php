@@ -565,6 +565,12 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
     }
 }
 
+/**
+ * \fn	    selectSongs($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \brief   Select on Post Class
+ * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * \todo    
+ */
 function selectSongs($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
@@ -658,8 +664,127 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
     }
 }
 
+/**
+ * \fn	    selectUsers($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \brief   Select on Post Class
+ * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * \todo    
+ */
 function selectUsers($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    //TODO
+    $connectionService = new ConnectionService();
+    $connectionService->connect();
+    if (!$connectionService->active) {
+	$this->error = $connectionService->error;
+	return;
+    } else {
+	$sql = "SELECT     id,
+                           active,
+                           address,
+                           avatar,
+                           background,
+                           birthday,
+                           city,
+                           collaborationcounter,
+                           country,
+                           createdat,
+                           description,
+                           email,
+                           facebookid,
+                           facebookpage,
+                           firstname,
+                           followerscounter,
+                           followingcounter,
+                           friendshipcounter,
+                           googlepluspage,
+                           jammercounter,
+                           jammertype,
+                           lastname,
+                           level,
+                           levelvalue,
+                           latitude,
+                           longitude,
+                           members,
+                           premium,
+                           premiumexpirationdate,
+                           settings,
+                           sex,
+                           thumbnail,
+                           twitterpage,
+                           type,
+                           updatedat,
+                           username,
+                           venuecounter,
+                           website,
+                           youtubechannel
+                      FROM user
+                     WHERE id = " . $id;
+	if (!is_null($where)) {
+	    foreach ($where as $key => $value)
+		$sql .= " AND " . $key . " = '" . $value . "'";
+	}
+	if (!is_null($order)) {
+	    $sql .= " ORDER BY ";
+	    foreach ($order as $key => $value)
+		$sql .= " " . $key . " " . $value . ",";
+	}
+	if (!is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $skip . ", " . $limit;
+	} elseif (is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $limit;
+	}
+	$results = mysqli_query($connectionService->connection, $sql);
+	if (!$results) {
+	    return $results->error;
+	}
+	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	    $rows[] = $row;
+	$users = array();
+	foreach ($rows as $row) {
+	    require_once 'user.class.php';
+	    $user = new User($row['type']);
+	    $user->setId($row['id']);
+	    $user->setActive($row['active']);
+	    $user->setAddress($row['address']);
+	    $user->setAvatar($row['avatar']);
+	    $user->setBackground($row['background']);
+	    $user->setBirthday($row['birthday']);
+	    $user->setCity($row['city']);
+	    $user->setCollaborationcounter($row['collaborationcounter']);
+	    $user->setCountry($row['country']);
+	    $user->setCreatedat($row['createdat']);
+	    $user->setDescription($row['description']);
+	    $user->setEmail($row['email']);
+	    $user->setFacebookId($row['facebookid']);
+	    $user->setFbPage($row['facebookpage']);
+	    $user->setFirstname($row['firstname']);
+	    $user->setFollowerscounter($row['followerscounter']);
+	    $user->setFollowingcounter($row['followingcounter']);
+	    $user->setFriendshipcounter($row['friendshipcounter']);
+	    $user->setGooglepluspage($row['googlepluspage']);
+	    $user->setJammercounter($row['jammercounter']);
+	    $user->setJammertype($row['jammertype']);
+	    $user->setLastname($row['lastname']);
+	    $user->setLevel($row['level']);
+	    $user->setLevelvalue($row['levelvalue']);
+	    $user->setLatitude($row['latitude']);
+	    $user->setLongitude($row['longitude']);
+	    $user->setMembers($row['members']);
+	    $user->setPremium($row['premium']);
+	    $user->setPremiumexpirationdate($row['premiumexpirationdate']);
+	    $user->setSettings($row['settings']);
+	    $user->setSex($row['sex']);
+	    $user->setThumbnail($row['thumbnail']);
+	    $user->setTwitterpage($row['twitterpage']);
+	    $user->setUpdatedat($row['updatedat']);
+	    $user->setUsername($row['username']);
+	    $user->setVenuecounter($row['venuecounter']);
+	    $user->setWebsite($row['website']);
+	    $user->setYoutubechannel($row['youtubechannel']);
+	    $users[$row['id']] = $user;
+	}
+	$connectionService->disconnect();
+	return $users;
+    }
 }
 
 function selectVideos($id = null, $where = null, $order = null, $limit = null, $skip = null) {
