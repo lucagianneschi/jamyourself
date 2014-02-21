@@ -55,31 +55,33 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	$error->setErrormessage($connectionService->error);
 	return $error;
     } else {
-	$sql = "SELECT	   a.id id_a,
-                           a.active,
-                           a.commentcounter,
-                           a.counter,
-                           a.cover,
-                           a.description,
-                           a.fromuser,
-                           a.imagecounter,
-                           a.latitude,
-                           a.longitude,
-                           a.lovecounter,
-                           a.sharecounter,
-                           a.thumbnail thumbnail_a,
-                           a.title,
-                           a.createdat,
-                           a.updatedat,
-	                   u.id id_u,
-                           u.username,
-                           u.thumbnail thumbnail_u,
-                           u.type
-                      FROM album a, user u
-                     WHERE a.id = " . $id . "
-                       AND a.fromuser = u.id
-		       AND a.active = 1";
-	if (!is_null($where)) {
+	$sql = "SELECT a.id id_a,
+                   a.active,
+                   a.commentcounter,
+                   a.counter,
+                   a.cover,
+                   a.description,
+                   a.fromuser,
+                   a.imagecounter,
+                   a.latitude,
+                   a.longitude,
+                   a.lovecounter,
+                   a.sharecounter,
+                   a.thumbnail thumbnail_a,
+                   a.title,
+                   a.createdat,
+                   a.updatedat,
+                   u.id id_u,
+                   u.username,
+                   u.thumbnail thumbnail_u,
+                   u.type
+              FROM album a, user u
+             WHERE a.active = 1
+               AND a.fromuser = u.id";
+	if (!is_null($id)) {
+        $sql .= " AND a.id = " . $id . "";
+    }
+    if (!is_null($where)) {
 	    foreach ($where as $key => $value)
 		$sql .= " AND " . $key . " = '" . $value . "'";
 	}
@@ -155,7 +157,71 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
  * \todo    
  */
 function selectComments($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    //TODO
+    $sql = "SELECT cmt.id id_cmt,
+                   cmt.active,
+                   cmt.album,
+                   cmt.comment,
+                   cmt.commentcounter,
+                   cmt.counter,
+                   cmt.event,
+                   cmt.fromuser,
+                   cmt.image,
+                   cmt.latitude,
+                   cmt.longitude,
+                   cmt.lovecounter,
+                   cmt.record,
+                   cmt.sharecounter,
+                   cmt.text,
+                   cmt.title,
+                   cmt.touser,
+                   cmt.type,
+                   cmt.vote,
+                   cmt.createdat,
+                   cmt.updatedat,
+                   a.id id_a,
+                   #a...
+                   c.id id_c,
+                   #c...
+                   e.id id_e,
+                   #e...
+                   i.id id_i,
+                   #i...
+                   r.id id_r,
+                   #r...
+                   fu.id id_fu,
+                   fu.username username_fu,
+                   fu.thumbnail thumbnail_fu,
+                   fu.type type_fu,
+                   tu.id id_tu,
+                   tu.username username tu,
+                   tu.thumbnail thumbnail_tu,
+                   tu.type type tu
+              FROM comment cmt,
+                   LEFT JOIN album a   ON (a.id = cmt.album)
+                   LEFT JOIN comment c ON (c.id = cmt.comment)
+                   LEFT JOIN event e   ON (e.id = cmt.event)
+                   LEFT JOIN image i   ON (i.id = cmt.image)
+                   LEFT JOIN record r  ON (r.id = cmt.record)
+                   LEFT JOIN user fu   ON (fu.id = cmt.fromuser)
+                   LEFT JOIN user tu   ON (tu.id = cmt.touser)
+             WHERE cmt.active = 1";
+    if (!is_null($id)) {
+        $sql .= " AND c.id = " . $id . "";
+    }
+    if (!is_null($where)) {
+	    foreach ($where as $key => $value)
+		$sql .= " AND " . $key . " = '" . $value . "'";
+	}
+	if (!is_null($order)) {
+	    $sql .= " ORDER BY ";
+	    foreach ($order as $key => $value)
+            $sql .= " " . $key . " " . $value . ",";
+	}
+	if (!is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $skip . ", " . $limit;
+	} elseif (is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $limit;
+	}
 }
 
 /**
