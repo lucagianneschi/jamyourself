@@ -148,6 +148,12 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
     }
 }
 
+/**
+ * \fn	    selectEvents($id, $where = null, $order = null, $limit = null, $skip = null)
+ * \brief   Select on Event Class
+ * \param   $id, $where = null, $order = null, $limit = null, $skip = null
+ * \todo    
+ */
 function selectComments($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     //TODO
 }
@@ -283,6 +289,12 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
     }
 }
 
+/**
+ * \fn	    selectImages($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \brief   Select on Post Class
+ * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * \todo    
+ */
 function selectImages($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     //TODO
 }
@@ -393,7 +405,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
                       FROM comment c, user u
                      WHERE p.fromuser = " . $id . "
                        AND p.fromuser = u.id
-		       AND p.type = 'C'
+		       AND p.type = 'P'
                   ORDER BY createdat DESC
                      LIMIT " . $skip . ", " . $limit;
 	if (!is_null($where)) {
@@ -771,6 +783,7 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $user->setMembers($row['members']);
 	    $user->setPremium($row['premium']);
 	    $user->setPremiumexpirationdate($row['premiumexpirationdate']);
+	    //TODO --> recuperare settings
 	    $user->setSettings($row['settings']);
 	    $user->setSex($row['sex']);
 	    $user->setThumbnail($row['thumbnail']);
@@ -787,6 +800,12 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
     }
 }
 
+/**
+ * \fn	    selectVideos($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \brief   Select on Post Class
+ * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * \todo    
+ */
 function selectVideos($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
