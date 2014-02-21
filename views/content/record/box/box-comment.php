@@ -71,7 +71,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 			    #TODO
 			    //$comment_rating = $value->getRating();
 			    $comment_counter_love = $value->getLovecounter();
-			    $comment_counter_comment = $value->getCommentCounter();
+			    $comment_counter_comment = $value->getCommentcounter();
 			    $comment_counter_share = $value->getSharecounter();
 
 			    if (in_array($currentUser->getId(), $value->getLovers())) {

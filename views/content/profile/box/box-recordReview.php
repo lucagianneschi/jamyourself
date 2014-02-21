@@ -73,7 +73,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    //$recordReview_rating = $value->getRecord()->getRating();
 				    $recordReview_text = $value->getText();
 				    $recordReview_love = $value->getLovecounter();
-				    $recordReview_comment = $value->getCommentCounter();
+				    $recordReview_comment = $value->getCommentcounter();
 				    $recordReview_share = $value->getSharecounter();
 				    if (in_array($currentUser->getId(), $value->getLovers())) {
 					$css_love = '_love orange';

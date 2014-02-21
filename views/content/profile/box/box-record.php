@@ -84,9 +84,9 @@ if (is_null($recordBox->error)) {
 			    $record_data = $value->getYear();
 			    $record_songCounter = $value->getSongCounter();
 			    $record_love = $value->getLovecounter();
-			    $record_comment = $value->getCommentCounter();
+			    $record_comment = $value->getCommentcounter();
 			    $record_share = $value->getSharecounter();
-			    $record_review = $value->getReviewCounter();
+			    $record_review = $value->getReviewcounter();
 			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
@@ -164,9 +164,9 @@ if (is_null($recordBox->error)) {
 		$recordSinle_songCounter = $value->getSongCounter();
 		$recordSingle_fromUser_objectId = $value->getFromuser();
 		$recordSingle_love = $value->getLovecounter();
-		$recordSingle_comment = $value->getCommentCounter();
+		$recordSingle_comment = $value->getCommentcounter();
 		$recordSingle_share = $value->getSharecounter();
-		$recordSingle_review = $value->getReviewCounter();
+		$recordSingle_review = $value->getReviewcounter();
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 		    $recordSingle_css_love = '_love orange';
 		    $recordSingle_text_love = $views['unlove'];

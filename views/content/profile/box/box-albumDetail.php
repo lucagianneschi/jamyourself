@@ -96,7 +96,7 @@ $fileManagerService = new FileManagerService();
     			</div>
     			<div  class="small-6 columns propriety">
     			    <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getLovecounter(); ?></a>
-    			    <a class="icon-propriety _comment"><?php echo $value->getCommentCounter(); ?></a>
+    			    <a class="icon-propriety _comment"><?php echo $value->getCommentcounter(); ?></a>
     			    <a class="icon-propriety _share"><?php echo $value->getSharecounter(); ?></a>	
     			</div>
     		    </div>

@@ -99,7 +99,7 @@ class Record {
     }
 
     /**
-     * \fn	int getCommentCounter()
+     * \fn	int getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
      * \return	int
      */
@@ -198,11 +198,11 @@ class Record {
     }
 
     /**
-     * \fn	int getReviewCounter()
+     * \fn	int getReviewcounter()
      * \brief	Return the review counter value (number of review)
      * \return	int
      */
-    public function getReviewCounter() {
+    public function getReviewcounter() {
 	return $this->reviewCounter;
     }
 
@@ -500,7 +500,7 @@ class Record {
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[lovecounter] .= > ' . $this->getLovecounter() . '<br/>';
-	$string .= '[reviewCounter] => ' . $this->getReviewCounter() . '<br />';
+	$string .= '[reviewCounter] => ' . $this->getReviewcounter() . '<br />';
 	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
 	$string .= '[songCounter] => ' . $this->getSongCounter() . '<br />';
 	$string .= '[thumbnailCover] .= > ' . $this->getThumbnail() . '<br/>';

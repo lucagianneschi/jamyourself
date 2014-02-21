@@ -15,7 +15,7 @@ if (in_array($currentUser->getId(), $event->getLovers())) {
 <div id="social-status">
     <!-- div class="row">
 	    <div class="small-8 columns">
-		    <h3><strong><?php echo $event->getReviewCounter(); ?> <?php echo $views['review']; ?></strong></h3>
+		    <h3><strong><?php echo $event->getReviewcounter(); ?> <?php echo $views['review']; ?></strong></h3>
 	    </div>
 	    <div class="small-4 columns">
 		    <p class="grey" style="float: right;">Spotter Rating</p>		
@@ -42,7 +42,7 @@ if (in_array($currentUser->getId(), $event->getLovers())) {
 	    </div>
 	    <div class="small-5 columns propriety ">					
 		<a class="icon-propriety <?php echo $css_love; ?>"><?php echo $event->getLovecounter(); ?></a>
-		<a id="commentCounter" class="icon-propriety _comment"><?php echo $event->getCommentCounter(); ?></a>
+		<a id="commentCounter" class="icon-propriety _comment"><?php echo $event->getCommentcounter(); ?></a>
 		<a class="icon-propriety _share"><?php echo $event->getSharecounter(); ?></a>
 	    </div>	
 	</div>		

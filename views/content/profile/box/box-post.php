@@ -63,7 +63,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 			    $post_fromUser_type = $value->getFromuser()->getType();
 			    $post_text = $value->getText();
 			    $post_loveCounter = $value->getLovecounter();
-			    $post_commentCounter = $value->getCommentCounter();
+			    $post_commentCounter = $value->getCommentcounter();
 			    if (in_array($currentUser->getId(), $value->getLovers())) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];

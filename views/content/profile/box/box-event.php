@@ -13,15 +13,13 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'event.box.php';
-require_once CLASSES_DIR . 'userParse.class.php';
-require_once BOXES_DIR . 'utilsBox.php';
+require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 if (session_id() == '')
     session_start();
 
 $eventBox = new EventBox();
-$eventBox->initForPersonalPage($_POST['id']);
-
+$eventBox->init($_POST['id']);
 $typeUser = $_POST['typeUser'];
 
 if (is_null($eventBox->error)) {
@@ -67,12 +65,13 @@ if (is_null($eventBox->error)) {
 				?><div class="rsContent">	<?php
 			    }
 			    $event_thumbnail = $value->getThumbnail();
-			    $event_objectId = $value->getId();
+			    $event_id = $value->getId();
 			    $event_locationName = $value->getLocationName();
 			    $event_title = $value->getTitle();
 			    $event_featuring = "";
-
-			    $featurings = getRelatedUsers($event_objectId, 'featuring', 'Event', false, 6, 0);
+				
+			    //TODO RECUPERARE FEATURING
+			    $featurings = array();
 			    //	$featuringsCounter = count($featurings);
 			    $indexFeat = 0;
 			    foreach ($featurings as $key1 => $feat) {
@@ -111,8 +110,8 @@ if (is_null($eventBox->error)) {
 			    }
 
 			    $event_love = $value->getLovecounter();
-			    $event_comment = $value->getCommentCounter();
-			    $event_review = $value->getReviewCounter();
+			    $event_comment = $value->getCommentcounter();
+			    $event_review = $value->getReviewcounter();
 			    $event_share = $value->getSharecounter();
 			    $pathCoverEvent = $fileManagerService->getEventPhotoPath($_POST['id'], $event_thumbnail);
 			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
@@ -124,8 +123,8 @@ if (is_null($eventBox->error)) {
 			    }
 			    ?>
 	    		    <!----------------------------------- SINGLE Event ------------------------------------>
-	    		    <a href="event.php?event=<?php echo $event_objectId ?>">
-	    			<div class="box-element" id='<?php echo $event_objectId ?>'>
+	    		    <a href="event.php?event=<?php echo $event_id ?>">
+	    			<div class="box-element" id='<?php echo $event_id ?>'>
 	    			    <div class="row">
 	    				<div class="small-4 columns" >
 	    				    <img class="eventcover" src="<?php echo $pathCoverEvent; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB ?>'" alt="<?php echo $event_title ?>">
@@ -180,10 +179,10 @@ if (is_null($eventBox->error)) {
 	    					<div class="box-propriety ">					
 	    					    <div class="small-7 columns no-display">
 	    						<a class="icon-propriety _menu-small note orange "> <?php echo $views['event']['calendar'] ?></a>	
-	    						<a class="note grey " onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $text_love ?></a>
-	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['comm'] ?></a>
-	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['share'] ?></a>
-	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['review'] ?></a>	
+	    						<a class="note grey " onclick="setCounter(this, '<?php echo $event_id; ?>', 'Event')"><?php echo $text_love ?></a>
+	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_id; ?>', 'Event')"><?php echo $views['comm'] ?></a>
+	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_id; ?>', 'Event')"><?php echo $views['share'] ?></a>
+	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_id; ?>', 'Event')"><?php echo $views['review'] ?></a>	
 	    					    </div>
 	    					    <div class="small-5 columns propriety " style="position: absolute;bottom: 0px;right: 0px;">					
 	    						<a class="icon-propriety <?php echo $css_love ?>"><?php echo $event_love ?></a>
