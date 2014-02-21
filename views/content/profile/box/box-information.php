@@ -53,24 +53,24 @@ function noDisplay($dato) {
 	    <!-- a class="ico-label white breakOff<?php echo $information_note; ?>"><?php echo $user->getMusic(); ?></a -->
 		</div>
 		<div class="small-6 columns">
-		    <div class="row <?php echo noDisplay($user->getFbPage()); ?>">
+		    <div class="row <?php echo noDisplay($user->getFacebookpage()); ?>">
 			<div class="small-12 columns">
-			    <a style="max-width: 210px;" href="<?php echo $user->getFbPage(); ?>"  class="ico-label _facebook breakOff" ><?php echo $user->getFbPage(); ?></a>
+			    <a style="max-width: 210px;" href="<?php echo $user->getFacebookpage(); ?>"  class="ico-label _facebook breakOff" ><?php echo $user->getFacebookpage(); ?></a>
 			</div>
 		    </div>
-		    <div class="row <?php echo noDisplay($user->getTwitterPage()); ?>">
+		    <div class="row <?php echo noDisplay($user->getTwitterpage()); ?>">
 			<div class="small-12 columns">
-			    <a style="max-width: 210px;" href="<?php echo $user->getTwitterPage(); ?>" class="ico-label _twitter breakOff"><?php echo $user->getTwitterPage(); ?></a>
+			    <a style="max-width: 210px;" href="<?php echo $user->getTwitterpage(); ?>" class="ico-label _twitter breakOff"><?php echo $user->getTwitterpage(); ?></a>
 			</div>	
 		    </div>
-		    <div class="row  <?php echo noDisplay($user->getGooglePlusPage()); ?>">
+		    <div class="row  <?php echo noDisplay($user->getGooglepluspage()); ?>">
 			<div class="small-12 columns">
-			    <a style="max-width: 210px;" href="<?php echo $user->getGooglePlusPage(); ?>" class="ico-label _google breakOff"><?php echo $user->getGooglePlusPage(); ?></a>
+			    <a style="max-width: 210px;" href="<?php echo $user->getGooglepluspage(); ?>" class="ico-label _google breakOff"><?php echo $user->getGooglepluspage(); ?></a>
 			</div>	
 		    </div>
-		    <div class="row  <?php echo noDisplay($user->getYoutubeChannel()); ?>">
+		    <div class="row  <?php echo noDisplay($user->getYoutubechannel()); ?>">
 			<div class="small-12 columns">
-			    <a style="max-width: 210px;" href="<?php echo $user->getYoutubeChannel(); ?>" class="ico-label _youtube breakOff"><?php echo $user->getYoutubeChannel(); ?></a>
+			    <a style="max-width: 210px;" href="<?php echo $user->getYoutubechannel(); ?>" class="ico-label _youtube breakOff"><?php echo $user->getYoutubechannel(); ?></a>
 			</div>	
 		    </div>
 		    <div class="row  <?php echo noDisplay($user->getWebsite()); ?>">

@@ -21,7 +21,7 @@ require_once SERVICES_DIR . 'relationChecker.service.php';
 $currentUser = $_SESSION['currentUser'];
 
 $level = $user->getLevel();
-$levelValue = $user->getLevelValue();
+$levelValue = $user->getLevelvalue();
 $type = $user->getType();
 $id = $user->getId();
 
@@ -29,7 +29,6 @@ $currentUserType = $currentUser->getType();
 $currentUser = $currentUser->getId();
 $badge = $user->getBadge();
 $noBadge = 10 - count($badge);
-
 $css_message = '';
 $css_relation = 'no-display';
 if (!relationChecker($currentUser, $currentUserType, $id, $type)) {

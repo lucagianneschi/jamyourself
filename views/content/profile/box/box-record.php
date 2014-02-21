@@ -22,7 +22,7 @@ if (session_id() == '')
     session_start();
 
 $recordBox = new RecordBox();
-$recordBox->initForPersonalPage($_POST['id']);
+$recordBox->init($_POST['id']);
 
 if (is_null($recordBox->error)) {
     if (isset($_SESSION['currentUser']))
@@ -59,7 +59,7 @@ if (is_null($recordBox->error)) {
 		    ?>
     	    </div>
     	</div>	
-    	<!---------------------------- LISTA ALBUM --------------------------------------------->
+    	<!---------------------------- LISTA RECORD --------------------------------------------->
     	<div class="box" id="record-list">
 
 		<?php
@@ -72,17 +72,17 @@ if (is_null($recordBox->error)) {
 			</div>
 		    </div>
 		    <div id="recordSlide" class="royalSlider rsMinW">
-			<!---------------------------- PRIMO ALBUM ----------------------------------------------->					
+			<!---------------------------- PRIMO RECORD ----------------------------------------------->					
 			<?php
 			foreach ($records as $key => $value) {
 			    if ($index % 3 == 0) {
 				?><div class="rsContent">	<?php
 			    }
-			    $record_thumbnailCover = $value->getThumbnail();
-			    $record_objectId = $value->getId();
+			    $record_thumbnail = $value->getThumbnail();
+			    $record_id = $value->getId();
 			    $record_title = $value->getTitle();
 			    $record_data = $value->getYear();
-			    $record_songCounter = $value->getSongCounter();
+			    $record_songCounter = $value->getSongcounter();
 			    $record_love = $value->getLovecounter();
 			    $record_comment = $value->getCommentcounter();
 			    $record_share = $value->getSharecounter();
@@ -99,18 +99,18 @@ if (is_null($recordBox->error)) {
 				$textData = $views['record']['recorded'];
 			    }
 			    ?>
-	    		    <div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>" >
-	    			<!------------------ CODICE ALBUM: $record_objectId - inserire anche nel paramatro della funzione albumSelect ------------------------------------>
+	    		    <div id="<?php echo $record_id ?>" class="box-element <?php echo 'record_' . $record_id; ?>" >
+	    			<!------------------ CODICE ALBUM: $record_id - inserire anche nel paramatro della funzione albumSelect ------------------------------------>
 	    			<div class="row">
 	    			    <div class="small-4 columns">
-	    				<a href="record.php?record=<?php echo $record_objectId ?>">
-	    				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['id'], $record_thumbnailCover); ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" alt="<?php echo $record_title ?>">
+	    				<a href="record.php?record=<?php echo $record_id ?>">
+	    				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['id'], $record_thumbnail); ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" alt="<?php echo $record_title ?>">
 	    				</a>
 	    			    </div>
 	    			    <div class="small-8 columns" style="height: 134px;">						
 	    				<div class="row">
 	    				    <div class="large-12 columns">
-	    					<a href="record.php?record=<?php echo $record_objectId ?>">
+	    					<a href="record.php?record=<?php echo $record_id ?>">
 	    					    <div class="sottotitle white breakOffTest" ><?php echo $record_title ?></div>
 	    					</a>
 	    				    </div>
@@ -122,7 +122,7 @@ if (is_null($recordBox->error)) {
 	    				</div>
 	    				<div class="row">
 	    				    <div class="small-5 columns">
-	    					<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $_POST['id'] ?>', '<?php echo $record_objectId ?>', '<?php echo $pathCoverRecord . $record_thumbnailCover ?>')"><?php echo $views['record']['PLAY']; ?></a></div>
+	    					<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $_POST['id'] ?>', '<?php echo $record_id ?>', '<?php echo $pathCoverRecord . $record_thumbnail ?>')"><?php echo $views['record']['PLAY']; ?></a></div>
 	    				    </div>
 	    				    <div class="small-7 columns" style="position: absolute;bottom: 0px;right: 0px;">
 	    					<div class="row propriety">
@@ -154,15 +154,15 @@ if (is_null($recordBox->error)) {
 		<?php } ?>		
     	</div>	
 
-    	<!---------------------------- ALBUM SINGOLO --------------------------------------------->
+    	<!---------------------------- RECORD SINGOLO --------------------------------------------->
 	    <?php
 	    foreach ($records as $key => $value) {
 		$recordSingle_thumbnailCover = $value->getThumbnail();
-		$recordSingle_objectId = $value->getId();
+		$recordSingle_id = $value->getId();
 		$recordSingle_title = $value->getTitle();
 		$recordSingle_data = $value->getYear();
-		$recordSinle_songCounter = $value->getSongCounter();
-		$recordSingle_fromUser_objectId = $value->getFromuser();
+		$recordSinle_songCounter = $value->getSongcounter();
+		$recordSingle_fromUser_id = $value->getFromuser();
 		$recordSingle_love = $value->getLovecounter();
 		$recordSingle_comment = $value->getCommentcounter();
 		$recordSingle_share = $value->getSharecounter();
@@ -179,8 +179,8 @@ if (is_null($recordBox->error)) {
 		    $textData = $views['record']['recorded'];
 		}
 		?>
-		<div class="box no-display <?php echo $recordSingle_objectId ?>" >
-		    <div class="row" onclick="recordSelectNext('<?php echo $recordSingle_objectId ?>')">
+		<div class="box no-display <?php echo $recordSingle_id ?>" >
+		    <div class="row" onclick="recordSelectNext('<?php echo $recordSingle_id ?>')">
 			<div class="large-12 columns" style="border-bottom: 1px solid #303030;padding-bottom: 5px;">					
 			    <a class="ico-label _back_page text white" onclick="loadBoxRecord()"><?php echo $views['next']; ?></a>
 			</div>
@@ -188,14 +188,14 @@ if (is_null($recordBox->error)) {
 		    <div class="box-info-element">
 			<div class="row">
 			    <div class="small-4 columns">
-				<a href="record.php?record=<?php echo $recordSingle_objectId; ?>">
+				<a href="record.php?record=<?php echo $recordSingle_id; ?>">
 				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['id'], $recordSingle_thumbnailCover); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" alt="<?php echo $recordSingle_title ?>">
 				</a>
 			    </div>
 			    <div class="small-8 columns">						
 				<div class="row">
 				    <div class="large-12 colums">
-					<a href="record.php?record=<?php echo $recordSingle_objectId ?>">
+					<a href="record.php?record=<?php echo $recordSingle_id ?>">
 					    <div class="sottotitle white breakOffTest"><?php echo $recordSingle_title ?></div>
 					</a>
 				    </div>
@@ -255,10 +255,10 @@ if (is_null($recordBox->error)) {
 			<div class="row album-single-propriety">
 			    <div class="box-propriety">
 				<div class="small-6 columns ">
-				    <a class="note white" onclick="love(this, 'Record', '<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>')"><?php echo $recordSingle_text_love; ?></a>
-				    <a class="note white" onclick="loadBoxOpinion('<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>', 'Record', '.<?php echo $recordSingle_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
-				    <a class="note white" onclick="share(this, '<?php echo $recordSingle_objectId ?>', 'profile-Record')"><?php echo $views['share']; ?></a>
-				    <a class="note white" onclick="location.href = 'uploadReview.php?rewiewId=<?php echo $recordSingle_objectId ?>&type=Record'"><?php echo $views['review']; ?></a>	
+				    <a class="note white" onclick="love(this, 'Record', '<?php echo $recordSingle_id; ?>', '<?php echo $recordSingle_fromUser_id; ?>')"><?php echo $recordSingle_text_love; ?></a>
+				    <a class="note white" onclick="loadBoxOpinion('<?php echo $recordSingle_id; ?>', '<?php echo $recordSingle_fromUser_id; ?>', 'Record', '.<?php echo $recordSingle_id; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
+				    <a class="note white" onclick="share(this, '<?php echo $recordSingle_id ?>', 'profile-Record')"><?php echo $views['share']; ?></a>
+				    <a class="note white" onclick="location.href = 'uploadReview.php?rewiewId=<?php echo $recordSingle_id ?>&type=Record'"><?php echo $views['review']; ?></a>	
 				</div>
 				<div class="small-6 columns propriety ">					
 				    <a class="icon-propriety <?php echo $recordSingle_css_love ?>" ><?php echo $recordSingle_love ?></a>
