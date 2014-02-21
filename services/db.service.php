@@ -788,7 +788,93 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 }
 
 function selectVideos($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    //TODO
+    $connectionService = new ConnectionService();
+    $connectionService->connect();
+    if (!$connectionService->active) {
+	$this->error = $connectionService->error;
+	return;
+    } else {
+	$sql = "SELECT         v.id id_v,
+		               v.createdat,
+		               v.updatedat,
+		               v.active,
+			       v.author,
+		               v.counter,
+			       v.cover,
+		               v.duration,
+		               v.fromuser,
+		               v.genre,
+		               v.lovecounter,
+			       v.thumbnail thumbnail_v,
+			       v.title title_v,
+			       v.URL,
+			       u.id id_u,
+			       u.thumbnail thumbnail_u,
+			       u.type,
+			       u.username,
+                 FROM video v, user u
+                WHERE v.id  = " . $id . "
+                  AND v.fromuser = u.id
+                LIMIT " . $skip . ", " . $limit;
+	if (!is_null($where)) {
+	    foreach ($where as $key => $value)
+		$sql .= " AND " . $key . " = '" . $value . "'";
+	}
+	if (!is_null($order)) {
+	    $sql .= " ORDER BY ";
+	    foreach ($order as $key => $value)
+		$sql .= " " . $key . " " . $value . ",";
+	}
+	if (!is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $skip . ", " . $limit;
+	} elseif (is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $limit;
+	}
+	$results = mysqli_query($connectionService->connection, $sql);
+	if (!$results) {
+	    return $results->error;
+	}
+	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	    $rows[] = $row;
+	$videos = array();
+	foreach ($rows as $row) {
+	    require_once 'video.class.php';
+	    $video = new Video();
+	    $video->setId($row['id_v']);
+	    $video->setActive($row['active']);
+	    $video->setAuthor($row['author']);
+	    $video->setCounter($row['counter']);
+	    $video->setCover($row['cover']);
+	    $video->setCreatedat($row['createdat']);
+	    $video->setDescription($row['description']);
+	    $video->setDuration($row['duration']);
+	    $fromuser = new User($row['type']);
+	    $fromuser->setId($row['id_u']);
+	    $fromuser->setThumbnail($row['thumbnail_u']);
+	    $fromuser->setType($row['type']);
+	    $fromuser->setUsername($row['username']);
+	    $video->setFromuser($fromuser);
+	    $video->setLovecounter($row['lovecounter']);
+	    $sql = "SELECT tag
+                          FROM comment_tag
+                         WHERE id = " . $row['id_c'];
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows_tag[] = $row_tag;
+	    $tags = array();
+	    foreach ($rows_tag as $row_tag) {
+		$tags[] = $row_tag;
+	    }
+	    $video->setTag($tags);
+	    $video->setThumbnail($row['thumbnail_v']);
+	    $video->setTitle($row['title_v']);
+	    $video->setURL($row['URL']);
+	    $video->setUpdatedat($row['updatedat']);
+	    $videos[$row['id']] = $video;
+	}
+	$connectionService->disconnect();
+	return $videos;
+    }
 }
 
 ?>
