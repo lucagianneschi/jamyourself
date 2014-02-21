@@ -246,7 +246,7 @@ class UploadAlbumController extends REST {
 	    foreach ($imagesList as $image) {
 // info utili
 // mi serve: id, src, 
-		$returnInfo[] = json_encode(array("id" => $image->getId(), "src" => $image->getFilePath()));
+		$returnInfo[] = json_encode(array("id" => $image->getId(), "src" => $image->getPath()));
 	    }
 	    $this->response(array("status" => $controllers['COUNTALBUMOK'], "imageList" => $returnInfo, "count" => count($imagesList)), 200);
 	} catch (Exception $e) {
@@ -403,9 +403,9 @@ class UploadAlbumController extends REST {
 		} else {
 		    //se l'immagine è quella scelta come cover:
 		    if ($image['isCover'] == "true") {
-			$copyImagesInfo = $this->createAlbumCoverFiles($currentUser->getId(), $albumId, $resImage->getFilePath(), $resImage->getThumbnail());
+			$copyImagesInfo = $this->createAlbumCoverFiles($currentUser->getId(), $albumId, $resImage->getPath(), $resImage->getThumbnail());
 			$albumParseUpdate = new AlbumParse();
-			$resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $resImage->getFilePath());
+			$resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $resImage->getPath());
 			if ($resUpdateCover instanceof Error) {
 			    array_push($errorImages, $image);
 			    continue;

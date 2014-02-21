@@ -55,7 +55,7 @@ if (isset($_SESSION['currentUser']))
 		    }
 		    $fileManagerService = new FileManagerService();
 		    $pathCoverRecord = $fileManagerService->getRecordPhotoPath($userId, $value->getRecord()->getThumbnail());
-		    $pathSong = $fileManagerService->getSongPath($userId, $value->getFilePath());
+		    $pathSong = $fileManagerService->getSongPath($userId, $value->getPath());
 		    $song = json_encode(array(
 			'id' => $value->getId(),
 			'title' => $value->getTitle(),
@@ -72,7 +72,7 @@ if (isset($_SESSION['currentUser']))
 				<div class="row">
 				    <div class="small-9 columns ">                                        
 					<a class="ico-label _play-large text breakOffTest jpPlay" onclick="playSong('<?php echo $value->getId(); ?>', '<?php echo $pathCoverRecord ?>')"><span class="songTitle"><?php echo $record_title ?></span></a>
-					<input type="hidden" name="song" value="<?php echo $pathSong . $value->getFilePath(); ?>" />
+					<input type="hidden" name="song" value="<?php echo $pathSong . $value->getPath(); ?>" />
 				    </div>
 				    <div class="small-3 columns track-propriety align-right" style="padding-right: 20px;">                                        
 					<a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['addplaylist']; ?></a>

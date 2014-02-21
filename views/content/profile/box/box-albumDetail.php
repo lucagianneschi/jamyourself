@@ -81,10 +81,10 @@ $fileManagerService = new FileManagerService();
 		$text_love = $views['love'];
 	    }
 	    ?>				 	
-    	<div id="<?php echo $value->getId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($id, $value->getFilePath()); ?>">
+    	<div id="<?php echo $value->getId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($id, $value->getPath()); ?>">
     	    <div class="row " style="max-width: none;">
     		<div class="large-12 columns lightbox-photo-box">
-    		    <div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="<?php echo $pathImage . $value->getFilePath(); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt/></div>
+    		    <div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="<?php echo $pathImage . $value->getPath(); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt/></div>
     		    <div class="row">
     			<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
     		    </div>
@@ -107,10 +107,9 @@ $fileManagerService = new FileManagerService();
 				    <div class="text grey"><?php echo $value->getDescription(); ?></div>		
 				    <?php
 				}
-				if ($value->getLocation() instanceof parseGeoPoint) {
-				    $location = $value->getLocation();
-				    $lat = $location->lat;
-				    $lng = $location->long;
+				if ($value->getLatitude() && $value->getLongitude()) {
+				    $lat = $value->getLatitude();
+				    $lng = $value->getLongitude();
 				    $geocode = new GeocoderService();
 				    $addressCode = $geocode->getAddress($lat, $lng);
 				    if (count($addressCode) > 0) {
@@ -136,14 +135,14 @@ $fileManagerService = new FileManagerService();
     			    <!---------------------------------------- SHARE ---------------------------------------------------->
     			</div>
 			    <?php
-			    //	$paramsImage = getShareParameters('Image', '', $value->getFilePath());
+			    //	$paramsImage = getShareParameters('Image', '', $value->getPath());
 			    ?>		    			    
     		    </div>
     		    <!-- AddThis Button BEGIN -->
     		    <div class="addthis_toolbox">
     			<div class="hover_menu">
     			    <div class="addthis_toolbox addthis_default_style"
-    				 addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image&id=&imgPath=<?php echo $value->getFilePath(); ?>"
+    				 addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image&id=&imgPath=<?php echo $value->getPath(); ?>"
     				 addThis:title="<?php //echo $paramsImage['title'];       ?>"
     				 onclick="addShare('<?php echo $objectIdUser; ?>', 'Image', '<?php echo $value->getId(); ?>')">
     				<a class="addthis_button_twitter"></a>

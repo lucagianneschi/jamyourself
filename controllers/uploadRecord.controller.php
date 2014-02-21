@@ -216,7 +216,7 @@ class UploadRecordController extends REST {
 			    //cancello l'mp3 dalla cache
 			    unlink(CACHE_DIR . $element->src);
 			} else {
-			    if (!$this->saveMp3($currentUser->getId(), $recordId, $song->getFilePath()) || $this->createActivity($currentUser->getId(), $recordId, "SONGUPLOADED", $savedSong->getId()) instanceof Error) {
+			    if (!$this->saveMp3($currentUser->getId(), $recordId, $song->getPath()) || $this->createActivity($currentUser->getId(), $recordId, "SONGUPLOADED", $savedSong->getId()) instanceof Error) {
 				require_once CONTROLLERS_DIR . 'rollBackUtils.php';
 				rollbackUploadRecordController($savedSong->getId(), "Song");
 				$songErrorList[] = $element;
