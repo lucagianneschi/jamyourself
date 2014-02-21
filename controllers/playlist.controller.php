@@ -22,7 +22,6 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
  
-
 /**
  * \brief	PlaylistController class 
  * \details	controller di gestione playlist
@@ -60,9 +59,8 @@ class PlaylistController extends REST {
 	    $playlistId = $_SESSION['playlist']['id'];
 	    $songId = $this->request['songId'];
 	    $currentUser = $_SESSION['currentUser'];
-	    require_once CLASSES_DIR . 'playlistParse.class.php';
-	    $playlistP = new PlaylistParse();
-	    $playlist = $playlistP->getPlaylist($playlistId);
+	    require_once CLASSES_DIR . 'playlist.class.php';
+	    $playlist = selectPlaylists($playlistId);
 	    if ($playlist instanceof Error) {
 		$this->response(array('status' => $controllers['NOPLAYLIST']), 503);
 	    } elseif (in_array($songId, $playlist->getSongsArray())) {
@@ -148,31 +146,13 @@ class PlaylistController extends REST {
     }
 
     /**
-     * \fn	createActivity($type, $fromuser, $playlistId, $songId)
+     * \fn	createActivity()
      * \brief   create activity for playslitControlelr
      * \param   $type, $fromuser, $playlistId, $songId
      * \return  $activity     
      */
-    private function createActivity($type, $fromuser, $playlistId, $songId) {
-	require_once CLASSES_DIR . 'activity.class.php';
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setAlbum(null);
-	$activity->setComment(null);
-	$activity->setCounter(0);
-	$activity->setEvent(null);
-	$activity->setFromuser($fromuser);
-	$activity->setImage(null);
-	$activity->setPlaylist($playlistId);
-	$activity->setQuestion(null);
-	$activity->setRead(true);
-	$activity->setRecord(null);
-	$activity->setSong($songId);
-	$activity->setStatus('A');
-	$activity->setTouser(null);
-	$activity->setType($type);
-	$activity->setVideo(null);
-	return $activity;
+    private function createActivity() {
+	return;
     }
 
 }

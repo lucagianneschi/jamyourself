@@ -21,7 +21,6 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
- 
 require_once SERVICES_DIR . 'eventChecker.service.php';
 
 /**
@@ -52,9 +51,8 @@ class EventController extends REST {
 	    $currentUser = $_SESSION['currentUser'];
 	    $toUserId = $this->request['toUserId'];
 	    $id = $this->request['id'];
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $userParse = new UserParse();
-	    $touser = $userParse->getUser($toUserId);
+	    require_once CLASSES_DIR . 'user.class.php';
+	    $touser = selectUsers($toUserId);
 	    if ($touser instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
 	    }
@@ -281,25 +279,7 @@ class EventController extends REST {
      * \param   $type, $toUserId, $currentUserId, $status, $eventId, $read
      */
     private function createActivity($type, $toUserId, $currentUserId, $status, $eventId, $read) {
-	require_once CLASSES_DIR . 'activity.class.php';
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setAlbum(null);
-	$activity->setComment(null);
-	$activity->setCounter(0);
-	$activity->setEvent($eventId);
-	$activity->setFromuser($currentUserId);
-	$activity->setImage(null);
-	$activity->setPlaylist(null);
-	$activity->setQuestion(null);
-	$activity->setRecord(null);
-	$activity->setRead($read);
-	$activity->setSong(null);
-	$activity->setStatus($status);
-	$activity->setTouser($toUserId);
-	$activity->setType($type);
-	$activity->setVideo(null);
-	return $activity;
+	return;
     }
 
 }

@@ -44,7 +44,6 @@ class CommentController extends REST {
      */
     public function comment() {
 	global $controllers;
-
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
@@ -69,10 +68,9 @@ class CommentController extends REST {
 	    } elseif (strlen($comment) > $this->config->maxCommentSize) {
 		$this->response(array('status' => $controllers['LONGCOMMENT'] . strlen($comment)), 406);
 	    }
-	    require_once CLASSES_DIR . 'activity.class.php';
-	    require_once CLASSES_DIR . 'activityParse.class.php';
+
 	    require_once CLASSES_DIR . 'comment.class.php';
-	    require_once CLASSES_DIR . 'commentParse.class.php';
+
 	    $cmt = new Comment();
 	    $cmt->setActive(true);
 	    $cmt->setCommentcounter(0);
@@ -87,15 +85,7 @@ class CommentController extends REST {
 	    $cmt->setTouser($toUserObjectId);
 	    $cmt->setType('C');
 	    $cmt->setVote(null);
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setCounter(0);
-	    $activity->setFromuser($fromuser->getId());
-	    $activity->setPlaylist(null);
-	    $activity->setQuestion(null);
-	    $activity->setRead(false);
-	    $activity->setStatus('A');
-	    $activity->setTouser($toUserObjectId);
+	    
 	    switch ($classType) {
 		case 'Album':
 		    require_once CLASSES_DIR . 'albumParse.class.php';
