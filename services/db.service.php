@@ -296,7 +296,101 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
  * \todo    
  */
 function selectImages($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    //TODO
+    $connectionService = new ConnectionService();
+    $connectionService->connect();
+    if (!$connectionService->active) {
+	$this->error = $connectionService->error;
+	return;
+    } else {
+	$sql = "SELECT     i.id id_i,
+	                   i.createdat,
+                           i.updatedat,
+                           i.active,
+                           i.commentcounter,
+                           i.counter,
+                           i.description,
+                           i.fromuser,
+                           i.genre,
+                           i.latitude,
+                           i.longitude,
+                           i.lovecounter,
+			   i.path,
+                           i.sharecounter,
+			   i.tag,
+			   i.thumbnail thumbnail_i,
+			   a.id ia_a,
+			   a.cover,
+			   a.title,
+			   a.fromuser,
+                           u.id id_u,
+                           u.username,
+                           u.thumbnail thumbnail_u,
+                           u.type
+                      FROM image r, user u, album a
+                     WHERE i.id = " . $id . "
+                       AND i.fromuser = u.id
+		       AND i.fromuser = a.fromuser
+		       AND i.active = 1";
+	if (!is_null($where)) {
+	    foreach ($where as $key => $value)
+		$sql .= " AND " . $key . " = '" . $value . "'";
+	}
+	if (!is_null($order)) {
+	    $sql .= " ORDER BY ";
+	    foreach ($order as $key => $value)
+		$sql .= " " . $key . " " . $value . ",";
+	}
+	if (!is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $skip . ", " . $limit;
+	} elseif (is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $limit;
+	}
+	$results = mysqli_query($connectionService->connection, $sql);
+	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	    $rows[] = $row;
+	$images = array();
+	foreach ($rows as $row) {
+	    require_once 'album.class.php';
+	    require_once 'image.class.php';
+	    $image = new Image();
+	    $image->setId($row['id']);
+	    $image->setCreatedat($row['createdat']);
+	    $image->setUpdatedat($row['updatedat']);
+	    $image->setActive($row['active']);
+	    $album = new Album();
+	    $album->setTitle($row['title']);
+	    $album->setCover($row['cover']);
+	    $image->setAlbum($album);
+	    $image->setCommentcounter($row['commentcounter']);
+	    $image->setCounter($row['counter']);
+	    $image->setDescription($row['description']);
+	    $fromuser = new User($row['type']);
+	    $fromuser->setId($row['id_u']);
+	    $fromuser->setThumbnail($row['thumbnail_u']);
+	    $fromuser->setUsername($row['username']);
+	    $image->setFromuser($fromuser);
+	    $image->setLatitude($row['latitude']);
+	    $image->setLongitude($row['longitude']);
+	    $image->setLovecounter($row['lovecounter']);
+	    $image->setPath($row['path']);
+	    $image->setSharecounter($row['sharecounter']);
+	    $sql = "SELECT tag
+                          FROM image_tag
+                         WHERE id = " . $row['id_i'];
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows_tag[] = $row_tag;
+	    $tags = array();
+	    foreach ($rows_tag as $row_tag) {
+		$tags[] = $row_tag;
+	    }
+	    $image->setTag($tags);
+	    $image->setThumbnail($row['thumbnail_i']);
+	    $images[$row['id']] = $image;
+	}
+	$connectionService->disconnect();
+	return $images;
+    }
 }
 
 /**
