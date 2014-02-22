@@ -36,7 +36,7 @@ class ReviewEventBox {
      * \param   $className, $limit, $skip,$currentUserId
      * \todo        
      */
-    public function initForMediaPage($id, $className, $limit = 3, $skip = 0) {
+    public function initForMediaPage($id, $limit = 3, $skip = 0) {
 	
     }
 
@@ -93,7 +93,7 @@ class ReviewRecordBox {
      * \param   $className, $limit, $skip,$currentUserId
      * \todo        
      */
-    public function initForMediaPage($id, $className, $limit = 3, $skip = 0) {
+    public function initForMediaPage($id, $limit = 3, $skip = 0) {
 	
     }
 
@@ -104,7 +104,7 @@ class ReviewRecordBox {
      * \param	    $type, $className
      * \todo        fare la query per il proprietario dell'event
      */
-    function initForPersonalPage($id, $type, $limit = 3, $skip = 0, $upload = false) {
+    function initForPersonalPage($id, $type, $limit = 3, $skip = 0) {
 	if ($type == 'SPOTTER') {
 	    $reviews = selectReviewRecord(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	} else {
