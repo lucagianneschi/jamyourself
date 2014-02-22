@@ -1003,7 +1003,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
                            u.username,
                            u.thumbnail,
                            u.type type_u
-                      FROM comment c, user u
+                      FROM comment p, user u
                      WHERE p.active = 1
                        AND p.fromuser = u.id
 		       AND p.type = 'P'";
@@ -1213,6 +1213,215 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	}
     }
 }
+
+/**
+ * \fn	    selectReviewEvent($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \brief   Select on Post Class
+ * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * \todo    
+ */
+function selectReviewEvent($id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $connectionService = new ConnectionService();
+    $connectionService->connect();
+    if (!$connectionService->active) {
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
+    } else {
+	$sql = "SELECT	   rw.id id_rw,
+                           rw.active,
+                           rw.commentcounter,
+                           rw.counter,
+                           rw.fromuser,
+                           rw.latitude,
+                           rw.longitude,
+                           rw.lovecounter,
+                           rw.sharecounter,
+                           rw.tag,
+                           rw.text,
+                           rw.touser,
+                           rw.type type_p,
+                           rw.vote,
+                           rw.createdat,
+                           rw.updatedat,
+                           fu.id id_fu,
+                           fu.username username_fu,
+                           fu.thumbnail thumbnail_fu,
+                           fu.type type_fu,
+			   e.id id_e,
+                           e.active active_e,
+                           e.address,
+                           e.attendeecounter,
+                           e.cancelledcounter,
+                           e.city,
+                           e.commentcounter commentcounter_e,
+                           e.counter counter_e,
+                           e.cover,
+                           e.description,
+                           e.eventdate,
+                           e.fromuser fromuser_e,
+                           e.invitedcounter,
+                           e.latitude latitude_e,
+                           e.longitude longitude_e,
+                           e.locationname,
+                           e.lovecounter lovecounter_e,
+                           e.reviewcounter,
+                           e.refusedcounter,
+                           e.sharecounter sharecounter_e,
+                           e.thumbnail thumbnail_e,
+                           e.title,
+                           e.createdat,
+                           e.updatedat,
+                           u.id id_u,
+                           u.username,
+                           u.thumbnail thumbnail_u,
+                           u.type type_u
+                      FROM comment rw, user u, event e
+                     WHERE rw.active = 1
+                       AND rw.fromuser = fu.id
+		       AND rw.type = 'RE'";
+	if (!is_null($id)) {
+	    $sql .= " AND a.id = " . $id . "";
+	}
+	if (!is_null($where)) {
+	    foreach ($where as $key => $value) {
+		$sql .= " AND " . $key . " = '" . $value . "'";
+	    }
+	}
+	if (!is_null($order)) {
+	    $sql .= " ORDER BY ";
+	    foreach ($order as $key => $value) {
+		$sql .= " " . $key . " " . $value . ",";
+	    }
+	}
+	if (!is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $skip . ", " . $limit;
+	} elseif (is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $limit;
+	}
+	$results = mysqli_query($connectionService->connection, $sql);
+	if (!$results) {
+	    $error = new Error();
+	    $error->setErrormessage($results->error);
+	    return $error;
+	}
+	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	    $rows[] = $row;
+	$reviewEvents = array();
+	foreach ($rows as $row) {
+	    require_once 'comment.class.php';
+	    require_once 'event.class.php';
+	    require_once 'user.class.php';
+	    $reviewEvent = new Comment();
+	    $reviewEvent->setId($row['id_rw']);
+	    $reviewEvent->setActive($row['active_rw']);
+	    $reviewEvent->setCommentcounter($row['commentcounter_rw']);
+	    $reviewEvent->setCounter($row['counter_rw']);
+	    $event = new Event();
+	    $event->setId($row['id_e']);
+	    $event->setActive($row['active_e']);
+	    $event->setAddress($row['address']);
+	    $event->setAttendeecounter($row['attendeecounter']);
+	    $event->setCancelledcounter($row['cancelledcounter']);
+	    $event->setCity($row['city']);
+	    $event->setCommentcounter($row['commentcounter_e']);
+	    $event->setCounter($row['counter_e']);
+	    $event->setCover($row['cover']);
+	    $event->setDescription($row['description']);
+	    $event->setEventdate($row['eventdate']);
+	    $sql = "SELECT genre
+                          FROM event_genre
+                         WHERE id = " . $row['genre'];
+	    $results_genre = mysqli_query($connectionService->connection, $sql);
+	    if (!$results_genre) {
+		$error = new Error();
+		$error->setErrormessage($results_genre->error);
+		return $error;
+	    }
+	    while ($row_genre = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows_genre[] = $row_genre;
+	    $genres = array();
+	    foreach ($rows_genre as $row_genre) {
+		$genres[] = $row_genre;
+	    }
+	    $event->setGenre($genres);
+	    $event->setInvitedCounter($row['invitedCounter']);
+	    $event->setLatitude($row['latitude_e']);
+	    $event->setLocationname($row['locationname']);
+	    $event->setLongitude($row['longitude_e']);
+	    $event->setLovecounter($row['lovecounter']);
+	    $event->setRefusedcounter($row['refusedcounter']);
+	    $event->setReviewcounter($row['reviewcounter']);
+	    $event->setSharecounter($row['sharecounter_e']);
+	    $sql = "SELECT tag
+                          FROM event_tag
+                         WHERE id = " . $row['id'];
+	    $results_event = mysqli_query($connectionService->connection, $sql);
+	    if (!$results) {
+		$error = new Error();
+		$error->setErrormessage($results_event->error);
+		return $error;
+	    }
+	    while ($row_tag = mysqli_fetch_array($results_event, MYSQLI_ASSOC))
+		$rows_tag[] = $row_tag;
+	    $tags_event = array();
+	    foreach ($rows_tag as $row_tag) {
+		$tags_event[] = $row_tag;
+	    }
+	    $event->setTag($tags_event);
+	    $event->setThumbnail($row['thumbnail_e']);
+	    $event->setTitle($row['title']);
+	    $event->setCreatedat($row['createdat_e']);
+	    $event->setUpdatedat($row['updatedat_e']);
+	    $reviewEvent->setEvent($event);
+	    $fromuser = new User($row['type_fu']);
+	    $fromuser->setId($row['id_fu']);
+	    $fromuser->setThumbnail($row['thumbnail_fu']);
+	    $fromuser->setUsername($row['username_fu']);
+	    $reviewEvent->setFromuser($fromuser);
+	    $reviewEvent->setLatitude($row['latitude_rw']);
+	    $reviewEvent->setLongitude($row['longitude_rw']);
+	    $reviewEvent->setLovecounter($row['lovecounter_rw']);
+	    $reviewEvent->setSharecounter($row['sharecounter_rw']);
+	    $sql = "SELECT tag
+                          FROM comment_tag
+                         WHERE id = " . $row['id_rw'];
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    if (!$results) {
+		$error = new Error();
+		$error->setErrormessage($results->error);
+		return $error;
+	    }
+	    while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows_tag[] = $row_tag;
+	    $tags = array();
+	    foreach ($rows_tag as $row_tag) {
+		$tags[] = $row_tag;
+	    }
+	    $reviewEvent->setTag($tags);
+	    $reviewEvent->setText($row['text']);
+	    $reviewEvent->setTitle($row['title']);
+	    $touser = new User($row['type_u']);
+	    $touser->setId($row['id_u']);
+	    $touser->setThumbnail($row['thumbnail_u']);
+	    $touser->setUsername($row['username_u']);
+	    $reviewEvent->setTouser($touser);
+	    $reviewEvent->setType($row['type_rw']);
+	    $reviewEvent->setVote($row['vote']);
+	    $reviewEvent->setCreatedat($row['createdat_rw']);
+	    $reviewEvent->setUpdatedat($row['updatedat_rw']);
+	    $reviewEvents[$row['id_rw']] = $reviewEvent;
+	}
+	$connectionService->disconnect();
+	if (!$results) {
+	    return;
+	} else {
+	    return $posts;
+	}
+    }
+}
+
+
 
 /**
  * \fn	    selectSongs($id = null, $where = null, $order = null, $limit = null, $skip = null)
