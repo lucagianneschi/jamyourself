@@ -6,8 +6,8 @@
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
- *  \brief		Servizio commessione DB
- *  \details		Servizio commessione DB
+ *  \brief		Servizio  DB
+ *  \details		Servizio esecuzione principali query
  *  \par		Commenti:
  *  \warning
  *  \bug
