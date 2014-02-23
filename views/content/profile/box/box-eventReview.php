@@ -22,8 +22,8 @@ session_start();
 $id = $_POST['id'];
 $type = $_POST['type'];
 
-$reviewBox = new ReviewBox();
-$reviewBox->initForPersonalPage($id, $type, 'Event');
+$reviewBox = new ReviewEventBox();
+$reviewBox->init($id, $type);
 if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
     $reviews = $reviewBox->reviewArray;

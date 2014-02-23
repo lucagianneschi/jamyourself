@@ -15,14 +15,15 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-require_once BOXES_DIR . 'utilsBox.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once BOXES_DIR . 'record.box.php';
+require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
 if (session_id() == '')
     session_start();
 $userId = $_POST['userId'];
-$tracklist = tracklistGenerator($_POST['id']);
+$recordBox = new RecordBox();
+$tracklist = $recordBox->initForTracklist($_POST['id']);
 if (isset($_SESSION['currentUser']))
     $currentUser = $_SESSION['currentUser'];
 ?>
@@ -40,12 +41,10 @@ if (isset($_SESSION['currentUser']))
 		    $record_objectId = $value->getId();
 		    $record_title = $value->getTitle();
 		    $record_duration = $value->getDuration();
-
 		    if ($value->getDuration() >= 3600)
 			$hoursminsandsecs = date('H:i:s', $value->getDuration());
 		    else
 			$hoursminsandsecs = date('i:s', $value->getDuration());
-
 		    $css_addPlayList = "";
 		    $css_removePlayList = "";
 		    if (is_array($_SESSION['playlist']['songs']) && in_array($value->getId(), $_SESSION['playlist']['songs'])) {

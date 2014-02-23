@@ -16,7 +16,7 @@ $limit = (int) $_POST['limit'];
 $skip = (int) $_POST['skip'];
 
 $comment = new CommentBox();
-$comment->init($id, $class, $limit, $skip);
+$comment->init($id, $limit, $skip);
 $countComment = count($comment->commentArray);
 
 if ($countComment > 0) {
@@ -102,7 +102,7 @@ if ($countComment > 0) {
         <div class="row  ">
             <div  class="large-12 columns ">
 		<form action="" class="box-write" onsubmit="sendOpinion('<?php echo $touser; ?>', $('#comment<?php echo $class . '_' . $id; ?>').val(), '<?php echo $id; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', '10', 0);
-			  return false;">
+			return false;">
                     <div class="">
                         <div class="row  ">
                             <div  class="small-9 columns ">

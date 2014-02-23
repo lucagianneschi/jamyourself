@@ -24,7 +24,7 @@ $skip = $_POST['skip'];
 $commentToShow = 3;
 
 $commentBox = new CommentBox();
-$commentBox->init($id, 'Event', $limit, $skip);
+$commentBox->init($id, $limit, $skip);
 if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
     $comments = $commentBox->commentArray;

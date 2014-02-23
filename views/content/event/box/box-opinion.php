@@ -16,9 +16,8 @@ $limit = (int) $_POST['limit'];
 $skip = (int) $_POST['skip'];
 
 $comment = new CommentBox();
-$comment->init($id, $class, $limit, $skip);
+$comment->init($id, $limit, $skip);
 $countComment = count($comment->commentArray);
-
 if ($countComment > 0) {
     /*
       ?>

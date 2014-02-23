@@ -18,7 +18,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once VIEWS_DIR . 'utilities/share.php';
 require_once BOXES_DIR . 'album.box.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
 
 $userId = $_POST['userId'];
 $id = $_POST['id'];

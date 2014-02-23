@@ -14,15 +14,15 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'review.box.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 session_start();
 
 $id = $_POST['id'];
 $type = $_POST['type'];
 
-$reviewBox = new ReviewBox();
-$reviewBox->initForPersonalPage($id, $type, 'Record');
+$reviewBox = new ReviewRecordBox();
+$reviewBox->init($id, $type);
 if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
     $reviews = $reviewBox->reviewArray;

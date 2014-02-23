@@ -18,7 +18,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 $id = $event->getId();
 $city = $event->getCity();
 $description = $event->getDescription();
-$eventDate = $event->getEventDate()->format('l j F Y - H:i');
+$eventDate = $event->getEventdate()->format('l j F Y - H:i');
 $lat = $event->getLatitude();
 $lon = $event->getLongitude();
 $fromUserObjectId = $event->getFromuser()->getId();

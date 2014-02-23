@@ -20,9 +20,9 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 
 if (session_id() == '')
     session_start();
-$recordObjectId = $_POST['id'];
+$recordId = $_POST['id'];
 $recordBox = new RecordBox();
-$songs = $recordBox->initForTracklist($recordObjectId);
+$songs = $recordBox->initForTracklist($recordId);
 $pathCover = $_POST['pathCover'];
 $userId = $_POST['userId'];
 $fileManagerService = new FileManagerService();

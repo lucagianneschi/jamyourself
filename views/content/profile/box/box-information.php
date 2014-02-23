@@ -118,10 +118,8 @@ function noDisplay($dato) {
 	}
 	// su utente e' tipo venue allora viene mostrato il section del map
 	if ($type == 'VENUE') {
-	    if ($user->getGeoCoding() instanceof parseGeoPoint) {
-		$lat = $user->getGeoCoding()->lat;
-		$lng = $user->getGeoCoding()->long;
-	    }
+		$lat = $user->getLatitude();
+		$lng = $user->getLongitude();
 	    ?>
     	<!--------------------------------------- MAP --------------------------------------->
     	<section id="profile_map_venue" > 

@@ -24,7 +24,7 @@ foreach ($event->getGenre() as $key => $value) {
     $space = ', ';
 }
 $fileManagerService = new FileManagerService();
-$pathImage = $fileManagerService->getEventPhotoPath($event->getFromuser()->getId(), $event->getImage());
+$pathImage = $fileManagerService->getEventPhotoPath($event->getFromuser()->getId(), $event->getCover());
 ?>
 <div class="row" id="profile-userInfo">
     <div class="large-12 columns">
