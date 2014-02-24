@@ -25,7 +25,7 @@ require_once SERVICES_DIR . 'connection.service.php';
  * \fn	    query($sql)
  * \brief   Execute generic query
  * \param   $ql string for query
- * \todo    
+ * \todo
  */
 function query($sql) {
     $connectionService = new ConnectionService();
@@ -45,7 +45,7 @@ function query($sql) {
  * \fn	    selectAlbums($id, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Album Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo    
+ * \todo
  */
 function selectAlbums($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
@@ -318,7 +318,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 		   v.lovecounter lovecounter_v,
 		   v.thumbnail thumbnail_v,
 		   v.title title_v,
-		   v.URL,       
+		   v.URL,
                    fu.id id_fu,
                    fu.username username_fu,
                    fu.thumbnail thumbnail_fu,
@@ -638,7 +638,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
  * \fn	    selectEvents($id, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Event Class
  * \param   $id, $where = null, $order = null, $limit = null, $skip = null
- * \todo    
+ * \todo
  */
 function selectEvents($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
@@ -781,7 +781,7 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
  * \fn	    selectImages($id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo    
+ * \todo
  */
 function selectImages($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
@@ -893,10 +893,135 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 }
 
 /**
+ * \fn	    selectMessages($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \brief   Select on Comment Class, messages
+ * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * \todo
+ */
+function selectMessages($id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $connectionService = new ConnectionService();
+    $connectionService->connect();
+    if (!$connectionService->active) {
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
+	return;
+    } else {
+	$sql = "SELECT	   m.id id_m,
+                           m.active,
+                           m.commentcounter,
+                           m.counter,
+                           m.fromuser,
+                           m.latitude,
+                           m.longitude,
+                           m.lovecounter,
+                           m.sharecounter,
+                           m.tag,
+                           m.text,
+                           m.touser,
+                           m.type type_p,
+                           m.vote,
+                           m.createdat,
+                           m.updatedat,
+                           fu.id id_fu,
+                           fu.username username_u,
+                           fu.thumbnail thumbnail_u,
+                           fu.type type_u
+			   tu.id id_tu,
+                           tu.username username_tu,
+                           tu.thumbnail thumbnail_tu,
+                           tu.type type_tu
+                      FROM comment m, user u
+                     WHERE m.active = 1
+		       AND m.type = 'M'
+                       AND m.fromuser = id_fu
+		        OR m.touser = id_fu";
+	if (!is_null($id)) {
+	    $sql .= " AND a.id = " . $id . "";
+	}
+	if (!is_null($where)) {
+	    foreach ($where as $key => $value) {
+		$sql .= " AND " . $key . " = '" . $value . "'";
+	    }
+	}
+	if (!is_null($order)) {
+	    $sql .= " ORDER BY ";
+	    foreach ($order as $key => $value) {
+		$sql .= " " . $key . " " . $value . ",";
+	    }
+	}
+	if (!is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $skip . ", " . $limit;
+	} elseif (is_null($skip) && !is_null($limit)) {
+	    $sql .= " LIMIT " . $limit;
+	}
+	$results = mysqli_query($connectionService->connection, $sql);
+	if (!$results) {
+	    $error = new Error();
+	    $error->setErrormessage($results->error);
+	    return $error;
+	}
+	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	    $rows[] = $row;
+	$messages = array();
+	foreach ($rows as $row) {
+	    require_once 'comment.class.php';
+	    require_once 'user.class.php';
+	    $message = new Comment();
+	    $message->setId($row['id_m']);
+	    $message->setActive($row['active']);
+	    $message->setCommentcounter($row['commentcounter']);
+	    $message->setCounter($row['counter']);
+	    $fromuser = new User($row['type_fu']);
+	    $fromuser->setId($row['id_fu']);
+	    $fromuser->setThumbnail($row['thumbnail_fu']);
+	    $fromuser->setUsername($row['username_fu']);
+	    $fromuser->setType($row['type_fu']);
+	    $message->setFromuser($fromuser);
+	    $message->setLatitude($row['latitude']);
+	    $message->setLongitude($row['longitude']);
+	    $message->setLovecounter($row['lovecounter']);
+	    $message->setSharecounter($row['sharecounter']);
+	    $sql = "SELECT tag
+                          FROM comment_tag
+                         WHERE id = " . $row['id_m'];
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    if (!$results) {
+		$error = new Error();
+		$error->setErrormessage($results->error);
+		return $error;
+	    }
+	    while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows_tag[] = $row_tag;
+	    $tags = array();
+	    foreach ($rows_tag as $row_tag) {
+		$tags[] = $row_tag;
+	    }
+	    $message->setTag($tags);
+	    $message->setText($row['text']);
+	    $message->setTitle($row['title']);
+	    $touser = new User($row['type_tu']);
+	    $touser->setId($row['id_tu']);
+	    $touser->setThumbnail($row['thumbnail_tu']);
+	    $touser->setUsername($row['username_tu']);
+	    $touser->setType($row['type_tu']);
+	    $message->setTouser($touser);
+	    $message->setType($row['type_m']);
+	    $message->setVote($row['vote']);
+	    $message->setCreatedat($row['createdat']);
+	    $message->setUpdatedat($row['updatedat']);
+	    $messages[$row['id']] = $message;
+	}
+	$connectionService->disconnect();
+	return $messages;
+    }
+}
+
+/**
  * \fn	    selectPlaylists($id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Playlist Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo    
+ * \todo
  */
 function selectPlaylists($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
@@ -919,7 +1044,7 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 			   u.username
 		     FROM playlist p, user u
                      WHERE p.active = 1
-                       AND p.fromuser = u.id";
+                       AND p.fromuser = id_u";
 	if (!is_null($id)) {
 	    $sql .= " AND a.id = " . $id . "";
 	}
@@ -973,7 +1098,7 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
  * \fn	    selectPosts($id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo    
+ * \todo
  */
 function selectPosts($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
@@ -1002,7 +1127,11 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
                            u.id id_u,
                            u.username,
                            u.thumbnail,
-                           u.type type_u
+                           u.type type_u,
+			   fu.id id_fu,
+                           fu.username username_fu,
+                           fu.thumbnail thumbnail_fu,
+                           fu.type type_fu
                       FROM comment p, user u
                      WHERE p.active = 1
                        AND p.fromuser = u.id
@@ -1070,7 +1199,11 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $post->setTag($tags);
 	    $post->setText($row['text']);
 	    $post->setTitle($row['title']);
-	    $post->setTouser($row['touser']);
+	    $touser = new User($row['type_fu']);
+	    $touser->setId($row['id_fu']);
+	    $touser->setThumbnail($row['thumbnail_fu']);
+	    $touser->setUsername($row['username_fu']);
+	    $post->setFromuser($touser);
 	    $post->setType($row['type_p']);
 	    $post->setVote($row['vote']);
 	    $post->setCreatedat($row['createdat']);
@@ -1078,11 +1211,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $posts[$row['id']] = $post;
 	}
 	$connectionService->disconnect();
-	if (!$results) {
-	    return;
-	} else {
-	    return $posts;
-	}
+	return $posts;
     }
 }
 
@@ -1090,7 +1219,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
  * \fn	    selectRecords($id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo    
+ * \todo
  */
 function selectRecords($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
@@ -1206,11 +1335,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    $records[$row['id']] = $record;
 	}
 	$connectionService->disconnect();
-	if (!$results) {
-	    return;
-	} else {
-	    return $records;
-	}
+	return $records;
     }
 }
 
@@ -1218,7 +1343,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
  * \fn	    selectReviewEvent($id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Comment Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo    
+ * \todo
  */
 function selectReviewEvent($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
@@ -1413,11 +1538,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $reviewEvents[$row['id_rw']] = $reviewEvent;
 	}
 	$connectionService->disconnect();
-	if (!$results) {
-	    return;
-	} else {
-	    return $reviewEvents;
-	}
+	return $reviewEvents;
     }
 }
 
@@ -1425,7 +1546,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
  * \fn	    selectReviewRecord($id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Comment Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo    
+ * \todo
  */
 function selectReviewRecord($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
@@ -1529,7 +1650,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $reviewRecord->setFromuser($fromuser);
 	    $reviewRecord->setLatitude($row['latitude_rw']);
 	    $reviewRecord->setLongitude($row['longitude_rw']);
-	    $reviewRecord->setLovecounter($row['lovecounter_rw']); 
+	    $reviewRecord->setLovecounter($row['lovecounter_rw']);
 	    $record = new Record();
 	    $record->setId($row['id_r']);
 	    $record->setActive($row['active_r']);
@@ -1600,11 +1721,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $reviewRecords[$row['id_rw']] = $reviewRecord;
 	}
 	$connectionService->disconnect();
-	if (!$results) {
-	    return;
-	} else {
-	    return $reviewRecords;
-	}
+	return $reviewRecords;
     }
 }
 
@@ -1612,7 +1729,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
  * \fn	    selectSongs($id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo    
+ * \todo
  */
 function selectSongs($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
@@ -1718,7 +1835,7 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
  * \fn	    selectUsers($id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo    
+ * \todo
  */
 function selectUsers($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
@@ -1847,7 +1964,7 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
  * \fn	    selectVideos($id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo    
+ * \todo
  */
 function selectVideos($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
