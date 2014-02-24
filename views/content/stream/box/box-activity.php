@@ -144,7 +144,7 @@ if (is_null($streamBox->error)) {
                                 </div>
                                 <div class="small-5 columns propriety ">			
                                     <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getAlbum()->getLovecounter(); ?></a>
-                                    <a class="icon-propriety _comment"><?php echo $value->getAlbum()->getCommentCounter(); ?></a>
+                                    <a class="icon-propriety _comment"><?php echo $value->getAlbum()->getCommentcounter(); ?></a>
                                     <a class="icon-propriety _share"><?php echo $value->getAlbum()->getSharecounter(); ?></a>
                                 </div>
                             </div>
@@ -253,7 +253,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getAlbum()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getAlbum()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getAlbum()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getAlbum()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -312,7 +312,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getImage()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getImage()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getImage()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getImage()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -371,7 +371,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getEvent()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getEvent()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getEvent()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getEvent()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -434,7 +434,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getComment()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getComment()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getComment()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getComment()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -481,7 +481,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getComment()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getComment()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getComment()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getComment()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -540,7 +540,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getRecord()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getRecord()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getRecord()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getRecord()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -601,7 +601,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getComment()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getComment()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getComment()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getComment()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -656,7 +656,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getVideo()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getVideo()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getVideo()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getVideo()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -713,7 +713,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getEvent()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getEvent()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getEvent()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getEvent()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -852,7 +852,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getImage()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getImage()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getImage()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getImage()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -908,7 +908,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getImage()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getImage()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getImage()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getImage()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -967,7 +967,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getEvent()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getEvent()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getEvent()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getEvent()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -1062,7 +1062,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getEvent()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getEvent()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getEvent()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getEvent()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -1145,7 +1145,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getRecord()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getRecord()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getRecord()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getRecord()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -1187,7 +1187,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getComment()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getComment()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getComment()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getComment()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -1246,7 +1246,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getRecord()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getRecord()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getRecord()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getRecord()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -1310,7 +1310,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getSong()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getSong()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getSong()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getSong()->getSharecounter(); ?></a>
                         </div>
                     </div>
@@ -1374,7 +1374,7 @@ if (is_null($streamBox->error)) {
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getSong()->getLovecounter(); ?></a>
-                            <a class="icon-propriety _comment"><?php echo $value->getSong()->getCommentCounter(); ?></a>
+                            <a class="icon-propriety _comment"><?php echo $value->getSong()->getCommentcounter(); ?></a>
                             <a class="icon-propriety _share"><?php echo $value->getSong()->getSharecounter(); ?></a>
                         </div>
                     </div>

@@ -15,20 +15,18 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-require_once BOXES_DIR . 'utilsBox.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once BOXES_DIR .'record.box.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
 if (session_id() == '')
     session_start();
-
-$recordObjectId = $_POST['id'];
-$songs = tracklistGenerator($recordObjectId);
+$recordId = $_POST['id'];
+$recordBox = new RecordBox();
+$songs = $recordBox->initForTracklist($recordId);
 $pathCover = $_POST['pathCover'];
 $userId = $_POST['userId'];
 $fileManagerService = new FileManagerService();
-
-debug("", 'debug.txt', json_encode($songs));
+//debug("", 'debug.txt', json_encode($songs));
 if (isset($_SESSION['currentUser']))
     $currentUser = $_SESSION['currentUser'];
 $indice = 0;
@@ -52,7 +50,7 @@ if (is_array($songs) && count($songs) > 0) {
 	    'id' => $value->getId(),
 	    'title' => $value->getTitle(),
 	    'artist' => $_POST['username'],
-	    'mp3' => $fileManagerService->getSongURL($userId, $value->getFilePath()),
+	    'mp3' => $fileManagerService->getSongURL($userId, $value->getPath()),
 	    'love' => $value->getLovecounter(),
 	    'share' => $value->getSharecounter(),
 	    'pathCover' => $fileManagerService->getPhotoPath($userId, $_POST['pathCover'])
@@ -70,7 +68,7 @@ if (is_array($songs) && count($songs) > 0) {
 		<div class="row">
 		    <div class="small-9 columns ">					
 			<a class="ico-label _play-large text breakOffTest jpPlay" onclick="playSong('<?php echo $value->getId(); ?>', '<?php echo $pathCover ?>')"><?php echo $indice + 1; ?>. <span class="songTitle"><?php echo $value->getTitle(); ?></span></a>
-			<input type="hidden" name="song" value="<?php echo $fileManagerService->getSongURL($userId, $value->getFilePath()); ?>" />
+			<input type="hidden" name="song" value="<?php echo $fileManagerService->getSongURL($userId, $value->getPath()); ?>" />
 		    </div>					
 		    <div class="small-3 columns track-propriety align-right" style="padding-right: 15px;">					
 			<a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['addplaylist']; ?></a>

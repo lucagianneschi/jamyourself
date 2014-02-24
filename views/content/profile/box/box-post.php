@@ -11,7 +11,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'post.box.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 session_start();
 
@@ -63,7 +63,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 			    $post_fromUser_type = $value->getFromuser()->getType();
 			    $post_text = $value->getText();
 			    $post_loveCounter = $value->getLovecounter();
-			    $post_commentCounter = $value->getCommentCounter();
+			    $post_commentCounter = $value->getCommentcounter();
 			    if (in_array($currentUser->getId(), $value->getLovers())) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];

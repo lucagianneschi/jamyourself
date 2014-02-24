@@ -99,7 +99,7 @@ class Comment {
     }
 
     /**
-     * \fn	int getCommentCounter()
+     * \fn	int getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
      * \return	int
      */

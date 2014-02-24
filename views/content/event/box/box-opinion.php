@@ -6,6 +6,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'comment.box.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 $id = $_POST['id'];
 $touser = $_POST['toUser'];
@@ -15,15 +16,14 @@ $limit = (int) $_POST['limit'];
 $skip = (int) $_POST['skip'];
 
 $comment = new CommentBox();
-$comment->init($id, $class, $limit, $skip);
+$comment->init($id, $limit, $skip);
 $countComment = count($comment->commentArray);
-
 if ($countComment > 0) {
     /*
       ?>
       <script type="text/javascript">
       objectCmt = $('<?php echo $box; ?>').prev().find("a._comment");
-      $(objectCmt).text(<?php echo current($comment->commentArray)->getComment()->getCommentCounter(); ?>);
+      $(objectCmt).text(<?php echo current($comment->commentArray)->getComment()->getCommentcounter(); ?>);
       console.log('Ho girato e ho prodotto: ' + $.parseJSON(parent) + ' | ' + $.parseJSON(objectCmt));
       </script>
       <?php
@@ -55,7 +55,10 @@ if ($countComment > 0) {
 			    <div  class="small-1 columns ">
 				<div class="icon-header">
 				    <!-- THUMB USER-->
-				    <?php $thumbPath = USERS_DIR . $value->getFromuser()->getId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $value->getFromuser()->getThumbnail(); ?>
+				    <?php
+				    $fileManagerService = new FileManagerService();
+				    $thumbPath = $fileManagerService->getPhotoPath($value->getFromuser()->getId(), $value->getFromuser()->getThumbnail());
+				    ?>
 				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum ?>'" alt ="<?php echo $value->getFromuser()->getUsername(); ?>">
 				</div>
 			    </div>
@@ -92,14 +95,13 @@ if ($countComment > 0) {
     	<div class="box-singole-comment">
     	    <div class="row"><div  class="large-12 columns"><p class="grey"><?php echo $views['comment']['nodata']; ?></p></div></div>
     	</div>	
-
 	    <?php
 	}
 	?>
         <div class="row  ">
             <div  class="large-12 columns ">
 		<form action="" class="box-write" onsubmit="sendOpinion('<?php echo $touser; ?>', $('#comment<?php echo $class . '_' . $id; ?>').val(), '<?php echo $id; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', '10', 0);
-			  return false;">
+			return false;">
                     <div class="">
                         <div class="row  ">
                             <div  class="small-9 columns ">

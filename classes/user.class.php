@@ -33,8 +33,8 @@ class User {
     private $country;
     private $description;
     private $email;
-    private $facebookId;
-    private $fbPage;
+    private $facebookid;
+    private $facebookpage;
     private $firstname;
     private $followerscounter;
     private $followingcounter;
@@ -196,8 +196,8 @@ class User {
      * \brief	Return the facebook id of the User
      * \return	string
      */
-    public function getFacebookId() {
-	return $this->facebookId;
+    public function getFacebookid() {
+	return $this->facebookid;
     }
 
     /**
@@ -205,8 +205,8 @@ class User {
      * \brief	Return the facebook page link of the User
      * \return	string
      */
-    public function getFbPage() {
-	return $this->fbPage;
+    public function getFacebookpage() {
+	return $this->facebookpage;
     }
 
     /**
@@ -543,21 +543,21 @@ class User {
     }
 
     /**
-     * \fn	string setFacebookId($facebookId)
+     * \fn	string setFacebookid($facebookId)
      * \brief	Sets the facebook id of the User
      * \param	string
      */
-    public function setFacebookId($facebookId) {
-	$this->facebookId = $facebookId;
+    public function setFacebookid($facebookid) {
+	$this->facebookid = $facebookid;
     }
 
     /**
-     * \fn	void setFbPage($fbPage)
+     * \fn	void setFacebookpage($facebookpage)
      * \brief	Sets the facebook page link of the User
      * \param	string
      */
-    public function setFbPage($fbPage) {
-	$this->fbPage = $fbPage;
+    public function setFacebookpage($facebookpage) {
+	$this->facebookpage = $facebookpage;
     }
 
     /**
@@ -805,8 +805,8 @@ class User {
 	$string .= '[country] => ' . $this->getCountry() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	$string .= '[email] => ' . $this->getEmail() . '<br />';
-	$string .= '[facebookId] => ' . $this->getFacebookId() . '<br />';
-	$string .= '[fbPage] => ' . $this->getFbPage() . '<br />';
+	$string .= '[facebookid] => ' . $this->getFacebookid() . '<br />';
+	$string .= '[facebookpage] => ' . $this->getFacebookpage() . '<br />';
 	$string .= '[firstname] => ' . $this->getFirstname() . '<br />';
 	$string .= '[followerscounter] => ' . $this->getFollowerscounter() . '<br />';
 	$string .= '[followingcounter] => ' . $this->getFollowingcounter() . '<br />';

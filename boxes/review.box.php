@@ -1,14 +1,14 @@
 <?php
 
-/* ! \par                Info Generali:
- * \author                Luca Gianneschi
- * \version                1.0
+/* ! \par               Info Generali:
+ * \author              Luca Gianneschi
+ * \version             0.3
  * \date                2013
- * \copyright                Jamyourself.com 2013
- * \par                        Info Classe:
- * \brief                box caricamento review event
- * \details                Recupera le informazioni sulla review dell'event, le inserisce in un array da passare alla view
- * \par                        Commenti:
+ * \copyright           Jamyourself.com 2013
+ * \par                 Info Classe:
+ * \brief               box caricamento review event e record
+ * \details             Recupera le informazioni sulla review dell'event, le inserisce in un array da passare alla view
+ * \par                 Commenti:
  * \warning
  * \bug
  * \todo                
@@ -18,18 +18,15 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'connection.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'db.service.php';
 
 /**
- * \brief        ReviewBox class
- * \details        box class to pass info to the view
+ * \brief        ReviewEventBox class
+ * \details      box class to pass info to the view
  */
-class ReviewBox {
+class ReviewEventBox {
 
-    public $config;
     public $error = null;
-    public $mediaInfo = null;
     public $reviewArray = array();
 
     /**
@@ -39,83 +36,99 @@ class ReviewBox {
      * \param   $className, $limit, $skip,$currentUserId
      * \todo        
      */
-    public function initForMediaPage($id, $className, $limit = 3, $skip = 0) {
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $classNameString = strtolower($className);
-	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->mediaInfo = $results;
-		$this->reviewArray = $results;
-	    }
-	}
+    public function initForMediaPage($id, $limit = 3, $skip = 0) {
+	
     }
 
     /**
      * \fn        initForPersonalPage($id, $type, $className)
      * \brief        Init ReviewBox instance for Personal Page
      * \param        $id of the user who owns the page, $type of user, $className Record or Event class
-     * \param   $type, $className
+     * \param	    $type, $className
+     * \todo        fare la query per il proprietario dell'event
      */
-    function initForPersonalPage($id, $type, $className, $limit = 3, $skip = 0) {
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
+    function init($id, $type, $limit = 3, $skip = 0) {
+	if ($type == 'SPOTTER') {
+	    $reviews = selectReviewEvent(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	} else {
-
-	    $classNameString = strtolower($className);
-	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->mediaInfo = $results;
-		$this->reviewArray = $results;
-	    }
+	    //TODO
+	    $reviews = selectReviewEvent(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	}
+	if ($reviews instanceof Error) {
+	    $this->error = $reviews->getErrorMessage();
+	}
+	$this->reviewArray = $reviews;
     }
 
     /**
-     * \fn        initForUploadReviewPage($id, $className)
-     * \brief        Init REviewBox instance for Upload Review Page
-     * \param        $id for the event or record, $className Record or Event
+     * \fn        initForUploadReviewPage($id)
+     * \brief     Init REviewBox instance for Upload Review Page
+     * \param     $id for the event or record, $className Record or Event
      * \todo    
      */
-    public function initForUploadReviewPage($id, $className) {
+    public function initForUploadReviewPage($id) {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
 	}
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
+    }
 
-	    $classNameString = strtolower($className);
-	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->mediaInfo = $results;
-		$this->reviewArray = $results;
-	    }
+}
+
+/**
+ * \brief        ReviewRecordBox class
+ * \details      box class to pass info to the view
+ */
+class ReviewRecordBox {
+
+    public $error = null;
+    public $reviewArray = array();
+
+    /**
+     * \fn        initForMediaPage($id, $className, $limit, $skip)
+     * \brief        Init ReviewBox instance for Media Page
+     * \param        $id of the review to display information, Event or Record class
+     * \param   $className, $limit, $skip,$currentUserId
+     * \todo        
+     */
+    public function initForMediaPage($id, $limit = 3, $skip = 0) {
+	
+    }
+
+    /**
+     * \fn        initForPersonalPage($id, $type, $className)
+     * \brief        Init ReviewBox instance for Personal Page
+     * \param        $id of the user who owns the page, $type of user, $className Record or Event class
+     * \param	    $type, $className
+     * \todo        fare la query per il proprietario dell'event
+     */
+    function initForPersonalPage($id, $type, $limit = 3, $skip = 0) {
+	if ($type == 'SPOTTER') {
+	    $reviews = selectReviewRecord(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	} else {
+	    //TODO
+	    $reviews = selectReviewRecord(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	}
+	if ($reviews instanceof Error) {
+	    $this->error = $reviews->getErrorMessage();
+	}
+	$this->reviewArray = $reviews;
+    }
+
+    /**
+     * \fn        initForUploadReviewPage($id)
+     * \brief        Init REviewBox instance for Upload Review Page
+     * \param        $id for the event or record, $className Record or Event
+     * \todo    
+     */
+    public function initForUploadReviewPage($id) {
+	require_once SERVICES_DIR . 'utils.service.php';
+	$currentUserId = sessionChecker();
+	if (is_null($currentUserId)) {
+	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    return;
 	}
     }
 

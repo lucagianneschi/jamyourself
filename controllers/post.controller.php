@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  * \author		Daniele Caldelli
- * \version		1.0
+ * \version		0.3
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
@@ -21,9 +21,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CLASSES_DIR . 'comment.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
- 
 
 /**
  * \brief	PostController class 
@@ -43,13 +41,12 @@ class PostController extends REST {
     }
 
     /**
-     * \fn		post()
+     * \fn	post()
      * \brief   save a post an the related activity
-     * \todo    usare la sessione
+     * \todo    salvare il post sul db relazionale
      */
     public function post() {
 	global $controllers;
-
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
@@ -78,9 +75,10 @@ class PostController extends REST {
 	    $cmt->setEvent(null);
 	    $cmt->setFromuser($fromuser->getId());
 	    $cmt->setImage(null);
+	    $cmt->setLatitude(null);
+	    $cmt->setLongitude(null);
 	    $cmt->setLocation(null);
 	    $cmt->setLovecounter(0);
-	    $cmt->setLovers(array());
 	    $cmt->setRecord(null);
 	    $cmt->setSharecounter(0);
 	    $cmt->setSong(null);
@@ -91,38 +89,8 @@ class PostController extends REST {
 	    $cmt->setType('P');
 	    $cmt->setVideo(null);
 	    $cmt->setVote(null);
-	    $commentParse = new CommentParse();
-	    $resCmt = $commentParse->saveComment($cmt);
-	    if ($resCmt instanceof Error) {
-		$this->response(array('status' => $resCmt->getMessageError()), 503);
-	    } else {
-		require_once CLASSES_DIR . 'activity.class.php';
-		require_once CLASSES_DIR . 'activityParse.class.php';
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAlbum(null);
-		$activity->setComment($resCmt->getId());
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromuser($fromuser->getId());
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRead(false);
-		$activity->setRecord(null);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setTouser($toUserObjectId);
-		$activity->setType('POSTED');
-		$activity->setVideo(null);
-		$activityParse = new ActivityParse();
-		$resActivity = $activityParse->saveActivity($activity);
-		if ($resActivity instanceof Error) {
-		    require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		    $message = rollbackPostController($resCmt->getId());
-		    $this->response(array('status' => $message), 503);
-		}
-	    }
+	    //SALVO
+
 	    $this->response(array('status' => $controllers['POSTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);

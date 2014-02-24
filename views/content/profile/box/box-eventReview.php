@@ -22,8 +22,8 @@ session_start();
 $id = $_POST['id'];
 $type = $_POST['type'];
 
-$reviewBox = new ReviewBox();
-$reviewBox->initForPersonalPage($id, $type, 'Event');
+$reviewBox = new ReviewEventBox();
+$reviewBox->init($id, $type);
 if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
     $reviews = $reviewBox->reviewArray;
@@ -80,7 +80,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
 				    $eventReview_text = $value->getText();
 				    $eventReview_love = $value->getLovecounter();
-				    $eventReview_comment = $value->getCommentCounter();
+				    $eventReview_comment = $value->getCommentcounter();
 				    $eventReview_share = $value->getSharecounter();
 				    if (in_array($currentUser->getId(), $value->getLovers())) {
 					$css_love = '_love orange';

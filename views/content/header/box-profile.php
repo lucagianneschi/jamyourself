@@ -118,7 +118,7 @@ $_SESSION['playlist']['songs'] = array();
 		    'id' => $value->getId(),
 		    'title' => $value->getTitle(),
 		    'artist' => $author_name,
-		    'mp3' => $fileManagerService->getSongPath($author_objectId, $value->getFilePath()),
+		    'mp3' => $fileManagerService->getSongPath($author_objectId, $value->getPath()),
 		    'love' => $value->getLovecounter(),
 		    'share' => $value->getSharecounter(),
 		    'pathCover' => $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnail())
@@ -137,7 +137,7 @@ $_SESSION['playlist']['songs'] = array();
 			    id: "<?php echo $id ?>",
 			    title: "<?php echo $title ?>",
 			    artist: "<?php echo $author_name ?>",
-			    mp3: "<?php echo $fileManagerService->getSongPath($author_objectId, $value->getFilePath()) ?>",
+			    mp3: "<?php echo $fileManagerService->getSongPath($author_objectId, $value->getPath()) ?>",
 			    love: "<?php echo $value->getLovecounter() ?>",
 			    share: "<?php echo $value->getSharecounter() ?>",
 			    pathCover: "<?php echo $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnail()) ?>",
@@ -157,8 +157,8 @@ $_SESSION['playlist']['songs'] = array();
 			    <div class="row">
 				<div class="small-9 columns ">					
 				    <a style="padding: 0 0px 0 15px !important;" class="ico-label text breakOffTest jpPlay" onclick='playSongPlayList(<?php echo $song; ?>, true)'><span class="songTitle"><?php echo $value->getTitle(); ?></span><span class="note">&nbsp;&nbsp;&nbsp;by <?php echo $author_name ?></span></a>
-				    <!--input type="hidden" name="song" value="<?php echo $fileManagerService->getSongPath($author_objectId, $value->getFilePath()) ?>" /-->
-				    <input type="hidden" name="song" value="<?php echo $fileManagerService->getSongPath($author_objectId, $value->getFilePath()) ?>" />
+				    <!--input type="hidden" name="song" value="<?php echo $fileManagerService->getSongPath($author_objectId, $value->getPath()) ?>" /-->
+				    <input type="hidden" name="song" value="<?php echo $fileManagerService->getSongPath($author_objectId, $value->getPath()) ?>" />
 				    <input type="hidden" name="index" value="<?php echo $index ?>" />
 				</div>					
 				<div class="small-3 columns track-propriety align-right" style="padding-right: 15px;">	

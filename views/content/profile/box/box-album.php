@@ -15,7 +15,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'album.box.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
 session_start();
 
 $objectIdUser = $_POST['objectIdUser'];
@@ -61,14 +61,14 @@ if (is_null($albumBox->error)) {
 			<div class="box royalSlider rsMinW" id="albumSlide">						
 			    <?php
 			    foreach ($albums as $key => $value) {
-				$album_thumbnailCover = $value->getThumbnail();
-				$album_objectId = $value->getId();
+				$album_thumbnail = $value->getThumbnail();
+				$album_id = $value->getId();
 				$album_title = $value->getTitle();
 				$album_imageCounter = $value->getImagecounter();
 				$album_love = $value->getLovecounter();
-				$album_comment = $value->getCommentCounter();
+				$album_comment = $value->getCommentcounter();
 				$album_share = $value->getSharecounter();
-				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['id'], album_thumbnailCover);
+				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['id'], $album_thumbnail);
 				if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 				    $css_love = '_love orange';
 				    $text_love = $views['unlove'];
@@ -83,7 +83,7 @@ if (is_null($albumBox->error)) {
 				    ?>									
 					<div class="row" style="margin-left: 0px; margin-right: 0px;">
 					<?php } ?>	
-	    			    <div class="small-6 columns box-coveralbum <?php echo $album_objectId; ?>" onclick="loadBoxAlbumDetail('<?php echo $_POST['id'] ?>', '<?php echo $album_objectId; ?>',<?php echo $album_imageCounter; ?>, 30, 0)">
+	    			    <div class="small-6 columns box-coveralbum <?php echo $album_id; ?>" onclick="loadBoxAlbumDetail('<?php echo $_POST['id'] ?>', '<?php echo $album_id; ?>',<?php echo $album_imageCounter; ?>, 30, 0)">
 	    				<img class="albumcover" src="<?php echo $pathCoverAlbum; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'" alt="<?php echo $album_title; ?>"/>  
 	    				<div class="text white breakOffTest"><?php echo $album_title; ?></div>
 	    				<div class="row">
@@ -118,12 +118,12 @@ if (is_null($albumBox->error)) {
     	<!----------------------------------------- ALBUM PHOTO SINGLE ------------------------------>	
 	    <?php
 	    foreach ($albums as $key => $value) {
-		$album_objectId = $value->getId();
+		$album_id = $value->getId();
 		$album_user_objectId = $value->getFromuser()->getId();
 		$album_title = $value->getTitle();
 		$album_imageCounter = $value->getImagecounter();
 		$album_love = $value->getLovecounter();
-		$album_comment = $value->getCommentCounter();
+		$album_comment = $value->getCommentcounter();
 		$album_share = $value->getSharecounter();
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 		    $css_love = '_love orange';
@@ -134,7 +134,7 @@ if (is_null($albumBox->error)) {
 		}
 		?>
 		<div class="profile-singleAlbum">
-		    <div id="<?php echo $album_objectId; ?>" class='no-display box-singleAlbum'>
+		    <div id="<?php echo $album_id; ?>" class='no-display box-singleAlbum'>
 			<div class="box" >
 			    <div class="row box-album" style="border-bottom: 1px solid #303030;margin-bottom: 20px;">
 				<div class="large-12 columns" >					
@@ -203,9 +203,9 @@ if (is_null($albumBox->error)) {
 			    <div class="row album-single-propriety">
 				<div class="box-propriety">
 				    <div class="small-6 columns">
-					<a class="note grey" onclick="love(this, 'Album', '<?php echo $album_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
-					<a class="note grey" onclick="loadBoxOpinion('<?php echo $album_objectId; ?>', '<?php echo $album_user_objectId; ?>', 'Album', '#<?php echo $album_objectId; ?> .albumOpinion.box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
-					<a class="note grey" onclick="share(this, '<?php echo $album_objectId; ?>', 'profile-singleAlbum')"><?php echo $views['share']; ?></a>
+					<a class="note grey" onclick="love(this, 'Album', '<?php echo $album_id; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
+					<a class="note grey" onclick="loadBoxOpinion('<?php echo $album_id; ?>', '<?php echo $album_user_objectId; ?>', 'Album', '#<?php echo $album_id; ?> .albumOpinion.box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
+					<a class="note grey" onclick="share(this, '<?php echo $album_id; ?>', 'profile-singleAlbum')"><?php echo $views['share']; ?></a>
 				    </div>
 				    <div class="small-6 columns propriety ">					
 					<a class="icon-propriety <?php echo $css_love ?>"><?php echo $album_love; ?></a>
@@ -217,7 +217,7 @@ if (is_null($albumBox->error)) {
 
 			    <!---------------------------------------- SHARE ------------------------------------------------->
 			    <?php
-			    //		$paramsAlbum = getShareParameters('Album', $album_objectId, $thumbImage);
+			    //		$paramsAlbum = getShareParameters('Album', $album_id, $thumbImage);
 			    ?>
 			    <!-- AddThis Button BEGIN -->
 			    <div class="addthis_toolbox">
@@ -225,7 +225,7 @@ if (is_null($albumBox->error)) {
 				    <div class="addthis_toolbox addthis_default_style"
 					 addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Album&id=&imgPath=<?php echo $thumbImage ?>"
 					 addThis:title="<?php echo $paramsImage['title']; ?>"
-					 onclick="addShare('<?php echo $objectIdUser; ?>', 'Album', '<?php echo $album_objectId; ?>')">
+					 onclick="addShare('<?php echo $objectIdUser; ?>', 'Album', '<?php echo $album_id; ?>')">
 					<a class="addthis_button_twitter"></a>
 					<a class="addthis_button_facebook"></a>
 					<a class="addthis_button_google_plusone_share"></a>

@@ -14,7 +14,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'comment.box.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
 session_start();
 
 $id = $_POST['id'];
@@ -24,7 +24,7 @@ $skip = $_POST['skip'];
 $commentToShow = 3;
 
 $commentBox = new CommentBox();
-$commentBox->init($id, 'Event', $limit, $skip);
+$commentBox->init($id, $limit, $skip);
 if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
     $comments = $commentBox->commentArray;
@@ -71,7 +71,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 			    #TODO
 			    //$comment_rating = $value->getRating();
 			    $comment_counter_love = $value->getLovecounter();
-			    $comment_counter_comment = $value->getCommentCounter();
+			    $comment_counter_comment = $value->getCommentcounter();
 			    $comment_counter_share = $value->getSharecounter();
 			    switch ($value->getFromuser()->getType()) {
 				case 'JAMMER':
