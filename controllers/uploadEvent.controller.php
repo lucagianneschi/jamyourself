@@ -23,9 +23,9 @@ require_once CLASSES_DIR . 'userParse.class.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CONTROLLERS_DIR . 'utilsController.php';
 require_once BOXES_DIR . "utilsBox.php";
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'utils.service.php';
 
 /**
  * \brief	UploadEventController class 
@@ -104,11 +104,10 @@ class UploadEventController extends REST {
 	    $event->setThumbnail($imgInfo['thumbnail']);
 	    $event->setInvited(null);
 	    $event->setLocationName($this->request['venue']);
-
 	    require_once SERVICES_DIR . 'geocoder.service.php';
 	    $infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
-	    $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
-	    $event->setLocation($parseGeoPoint);
+	    $event->setLatitude($infoLocation["latitude"]);
+	    $event->setLongitude($infoLocation["longitude"]);
 	    $event->setAddress($infoLocation["address"] . ", " . $infoLocation['number']);
 	    $event->setCity($infoLocation["city"]);
 	    $event->setLovecounter(0);

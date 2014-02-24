@@ -72,6 +72,69 @@ function encode_string($string) {
 }
 
 /**
+ * \fn	    filterFeaturingByValue($array, $value)
+ * \brief   filtra featuind per tipo
+ * \param   $array, $value
+ * \return  $newarray
+ * \todo    
+ */
+function filterFeaturingByValue($array, $value) {
+    $newarray = array();
+    if (is_array($array) && count($array) > 0) {
+	foreach ($array as $key) {
+	    if (stripos($key['text'], $value) !== false) {
+		$newarray[] = $key;
+	    }
+	}
+    }
+    return $newarray;
+}
+
+/**
+ * \fn	    getCroppedImages($decoded)
+ * \brief   funzione per recupero immagini dopo crop
+ * \param   $decoded
+ * \todo   check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+ */
+function getCroppedImages($decoded) {
+//in caso di anomalie ---> default
+    if (is_array($decoded)) {
+	$decoded = json_decode(json_encode($decoded), false);
+    }
+
+    if (!isset($decoded->crop) || is_null($decoded->crop) ||
+	    !isset($decoded->image) || is_null($decoded->image)) {
+	return array("picture" => null, "thumbnail" => null);
+    }
+
+//recupero i dati per effettuare l'editing
+    $cropInfo = json_decode(json_encode($decoded->crop), false);
+
+    if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
+	    !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
+	    !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
+	    !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
+	return array("picture" => null, "thumbnail" => null);
+    }
+    $cacheDir = CACHE_DIR;
+    $cacheImg = $cacheDir . $decoded->image;
+    require_once SERVICES_DIR . 'cropImage.service.php';
+//Preparo l'oggetto per l'editign della foto
+    $cis = new CropImageService();
+
+//gestione dell'immagine di profilo
+    $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, PROFILE_IMG_SIZE);
+    $coverUrl = $cacheDir . $coverId;
+
+//gestione del thumbnail
+    $thumbId = $cis->cropImage($coverUrl, 0, 0, PROFILE_IMG_SIZE, PROFILE_IMG_SIZE, THUMBNAIL_IMG_SIZE);
+//CANCELLAZIONE DELLA VECCHIA IMMAGINE
+    unlink($cacheImg);
+//RETURN        
+    return array('picture' => $coverId, 'thumbnail' => $thumbId);
+}
+
+/**
  * \fn	    sendMailForNotification($address, $subject, $html)
  * \brief   invia mail ad utente
  * \param   $address, $subject, $html
@@ -109,4 +172,5 @@ function sessionChecker() {
     }
     return $currentUserId;
 }
+
 ?>

@@ -32,6 +32,7 @@ require_once BOXES_DIR . "record.box.php";
 require_once BOXES_DIR . "utilsBox.php";
 require_once SERVICES_DIR . 'mp3.service.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'utils.service.php';
 
 /**
  * \brief	UploadRecordController class 

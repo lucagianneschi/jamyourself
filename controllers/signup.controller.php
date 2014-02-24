@@ -26,6 +26,7 @@ require_once SERVICES_DIR . 'recaptcha.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'utils.service.php';
 
 define("CAPTCHA_PUBLIC_KEY", "6Lei6NYSAAAAAENpHWBBkHtd0ZbfAdRAtKMcvlaQ");
 define("CAPTCHA_PRIVATE_KEY", "6Lei6NYSAAAAAOXsGrRhJxUqdFGt03jcqaABdJMn");
@@ -591,7 +592,6 @@ class SignupController extends REST {
 	$user->setEmail($decoded->email);
 	$user->setPassword($decoded->password);
 	$user->setDescription($decoded->description);
-	require_once CONTROLLERS_DIR . "utilsController.php";
 	$imgInfo = getCroppedImages($decoded);
 	$user->setSettings($this->defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['picture']));
 	$user->setProfilePicture($imgInfo['picture']);
