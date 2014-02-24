@@ -17,7 +17,7 @@
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'db.service.php';
 
 /**
  * \brief	ActionsCounterBox 
@@ -26,7 +26,7 @@ require_once SERVICES_DIR . 'connection.service.php';
  */
 class ActionCounterBox {
 
-    public $counter;
+    public $counter = 0;
 
     /**
      * \fn	init()
@@ -59,7 +59,7 @@ class ActionListBox {
      * \brief	Init ActionListBox instance
      * \return	actionsListBox
      */
-    public function init() {
+    public function init($limit, $skip) {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
@@ -80,18 +80,10 @@ class EventListBox {
     public $events = array();
 
     /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "notificationBox.config.json"), false);
-    }
-
-    /**
      * \fn	init()
      * \brief	class for quering events for header
      */
-    public function init() {
+    public function init($limit, $skip) {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
@@ -108,7 +100,7 @@ class EventListBox {
  */
 class InvitedCounterBox {
 
-    public $counter;
+    public $counter = 0;
 
     /**
      * \fn	init()
@@ -132,7 +124,7 @@ class InvitedCounterBox {
  */
 class MessageCounterBox {
 
-    public $counter;
+    public $counter = 0;
 
     /**
      * \fn	init()
@@ -160,19 +152,11 @@ class MessageListBox {
     public $messages = array();
 
     /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "notificationBox.config.json"), false);
-    }
-
-    /**
      * \fn	init()
      * \brief	Init MessageListBox instance
      * \return	messageListBox
      */
-    public function init() {
+    public function init($limit, $skip) {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
@@ -189,7 +173,7 @@ class MessageListBox {
  */
 class RelationCounterBox {
 
-    public $counter;
+    public $counter = 0;
 
     /**
      * \fn	init()
@@ -217,19 +201,11 @@ class RelationListBox {
     public $relations = array();
 
     /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "notificationBox.config.json"), false);
-    }
-
-    /**
      * \fn	init()
      * \brief	Init RelationListBox instance
      * \return	relationListBox 
      */
-    public function init($type) {
+    public function init($type, $limit, $skip) {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
