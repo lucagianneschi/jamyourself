@@ -23,6 +23,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CONTROLLERS_DIR . 'utilsController.php';
+require_once SERVICES_DIR . 'utils.service.php';
 
 /**
  * \brief	CommentController class 
@@ -68,9 +69,7 @@ class CommentController extends REST {
 	    } elseif (strlen($comment) > $this->config->maxCommentSize) {
 		$this->response(array('status' => $controllers['LONGCOMMENT'] . strlen($comment)), 406);
 	    }
-
 	    require_once CLASSES_DIR . 'comment.class.php';
-
 	    $cmt = new Comment();
 	    $cmt->setActive(true);
 	    $cmt->setCommentcounter(0);
@@ -85,72 +84,65 @@ class CommentController extends REST {
 	    $cmt->setTouser($toUserObjectId);
 	    $cmt->setType('C');
 	    $cmt->setVote(null);
-	    
 	    switch ($classType) {
 		case 'Album':
-		    require_once CLASSES_DIR . 'albumParse.class.php';
-		    $albumParse = new AlbumParse();
-		    $res = $albumParse->incrementAlbum($id, 'commentCounter', 1);
+		    require_once CLASSES_DIR . 'album.class.php';
+		    $album = new Album();
+		    $album->setId($id);
 		    $cmt->setAlbum($id);
-		    $activity->setAlbum($id);
-		    $activity->setType('COMMENTEDONALBUM');
+		    //$res = $albumParse->incrementAlbum($id, 'commentCounter', 1);s
+		    //$activity->setType('COMMENTEDONALBUM');
 		    break;
 		case 'Comment':
-		    require_once CLASSES_DIR . 'commentParse.class.php';
-		    $commentParse = new CommentParse();
-		    $comment = $commentParse->getComment($id);
+		    $comment = selectComments($id);
 		    if ($comment instanceOf Error) {
 			$this->response(array('status' => $comment->getErrorMessage()), 503);
 		    }
-		    $res = $commentParse->incrementComment($id, 'commentCounter', 1);
+		    //$res = $commentParse->incrementComment($id, 'commentCounter', 1);
 		    $cmt->setComment($id);
 		    $activity->setComment($id);
-		    switch ($comment->getType()) {
-			case 'P':
-			    $activity->setType('COMMENTEDONPOST');
-			    break;
-			case 'RE':
-			    $activity->setType('COMMENTEDONEVENTREVIEW');
-			    break;
-			case 'RR':
-			    $activity->setType('COMMENTEDONRECORDREVIEW');
-			    break;
-		    }
+//		    switch ($comment->getType()) {
+//			case 'P':
+//			    $activity->setType('COMMENTEDONPOST');
+//			    break;
+//			case 'RE':
+//			    $activity->setType('COMMENTEDONEVENTREVIEW');
+//			    break;
+//			case 'RR':
+//			    $activity->setType('COMMENTEDONRECORDREVIEW');
+//			    break;
+//		    }
 		    break;
 		case 'Event':
-		    require_once CLASSES_DIR . 'eventParse.class.php';
-		    $eventParse = new EventParse();
-		    $res = $eventParse->incrementEvent($id, 'commentCounter', 1);
+		    require_once CLASSES_DIR . 'event.class.php';
+		    $event = new Event();
+		    //$res = $eventParse->incrementEvent($id, 'commentCounter', 1);
 		    $cmt->setEvent($id);
-		    $activity->setEvent($id);
-		    $activity->setType('COMMENTEDONEVENT');
+		    //$activity->setType('COMMENTEDONEVENT');
 		    break;
 		case 'Image':
-		    require_once CLASSES_DIR . 'imageParse.class.php';
-		    $imageParse = new ImageParse();
+		    require_once CLASSES_DIR . 'image.class.php';
+		    $image = new Image();
 		    $res = $imageParse->incrementImage($id, 'commentCounter', 1);
 		    $cmt->setImage($id);
-		    $activity->setImage($id);
-		    $activity->setType('COMMENTEDONIMAGE');
+		    //$activity->setType('COMMENTEDONIMAGE');
 		    break;
 		case 'Record':
-		    require_once CLASSES_DIR . 'recordParse.class.php';
-		    $recordParse = new RecordParse();
+		    require_once CLASSES_DIR . 'record.class.php';
+		    $record = new Record();
 		    $res = $recordParse->incrementRecord($id, 'commentCounter', 1);
 		    $cmt->setRecord($id);
-		    $activity->setRecord($id);
-		    $activity->setType('COMMENTEDONRECORD');
+		    //$activity->setType('COMMENTEDONRECORD');
 		    break;
 		case 'Video':
-		    require_once CLASSES_DIR . 'videoParse.class.php';
-		    $videoParse = new VideoParse();
+		    require_once CLASSES_DIR . 'video.class.php';
+		    $video = new Video();
 		    $res = $videoParse->incrementVideo($id, 'commentCounter', 1);
 		    $cmt->setVideo($id);
-		    $activity->setVideo($id);
-		    $activity->setType('COMMENTEDONVIDEO');
+		    //$activity->setType('COMMENTEDONVIDEO');
 		    break;
 	    }
-	    $commentParse = new CommentParse();
+	    //SALVO
 	    $resCmt = $commentParse->saveComment($cmt);
 	    if ($resCmt instanceof Error) {
 		$this->response(array('status' => $resCmt->getErrorMessage()), 503);
@@ -164,9 +156,8 @@ class CommentController extends REST {
 		}
 	    }
 	    global $mail_files;
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $userParse = new UserParse();
-	    $user = $userParse->getUser($toUserObjectId);
+	    require_once CLASSES_DIR . 'user.class.php';
+	    $user = selectUsers($toUserObjectId);
 	    $address = $user->getEmail();
 	    $subject = $controllers['SBJCOMMENT'];
 	    $html = $mail_files['COMMENTEMAIL'];

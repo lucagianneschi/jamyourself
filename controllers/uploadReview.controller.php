@@ -151,7 +151,7 @@ class UploadReviewController extends REST {
 		    $html = $mail_files['RECORDREVIEWEMAIL'];
 		    break;
 	    }
-	    require_once CONTROLLERS_DIR . "utilsController.php";
+	    require_once SERVICES_DIR . 'utils.service.php';
 	    sendMailForNotification($touser->getEmail(), $subject, $html);
 	    $commentParse = new CommentParse();
 	    $resRev = $commentParse->saveComment($review);

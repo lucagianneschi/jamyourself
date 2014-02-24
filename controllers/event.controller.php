@@ -22,6 +22,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'eventChecker.service.php';
+require_once SERVICES_DIR . 'utils.service.php';
 
 /**
  * \brief	EventController class 
