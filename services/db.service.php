@@ -1015,7 +1015,7 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
                            m.longitude,
                            m.lovecounter,
                            m.sharecounter,
-                           m.tag,
+                           m.id_tag,
                            m.text,
                            m.touser,
                            m.type type_p,
@@ -1025,16 +1025,17 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
                            fu.id id_fu,
                            fu.username username_u,
                            fu.thumbnail thumbnail_u,
-                           fu.type type_u
-			   tu.id id_tu,
+                           fu.type type_u,
+			   			   tu.id id_tu,
                            tu.username username_tu,
                            tu.thumbnail thumbnail_tu,
                            tu.type type_tu
-                      FROM comment m, user u
-                     WHERE m.active = 1
-		       AND m.type = 'M'
-                       AND m.fromuser = id_fu
-		        OR m.touser = id_fu";
+                      FROM comment m, user fu, user tu, comment_tag mt                
+                      WHERE m.active = 1
+		       			AND m.type = 'M'
+                       	AND (m.fromuser = fu.id
+		       			OR m.touser = fu.id)
+		       			AND mt.id_comment = id_m";
 	if (!is_null($id)) {
 	    $sql .= " AND a.id = " . $id . "";
 	}
