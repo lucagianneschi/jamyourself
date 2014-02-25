@@ -22,6 +22,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'relationChecker.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
+require_once SERVICES_DIR . 'insert.service.php';
 
 /**
  * \brief	MessageController class 
@@ -41,127 +42,7 @@ class MessageController extends REST {
     }
 
     /**
-     * \fn	read()
-     * \brief   update activity for the current read message
-     * \todo    testare
-     */
-    public function read() {
-	global $controllers;
-	try {
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['id'])) {
-		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
-	    }
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $id = $this->request['id'];
-	    $activityP = new ActivityParse();
-	    $activity = $activityP->getActivity($id);
-	    if ($activity instanceof Error) {
-		$this->response(array('status' => $controllers['NOACTFORREADMESS']), 503);
-	    } elseif ($activity->getRead() != false) {
-		$this->response(array('status' => $controllers['ALREADYREAD']), 503);
-	    } else {
-		$res = $activityP->updateField($id, 'read', true);
-		$res1 = $activityP->updateField($id, 'status', 'A');
-	    }
-	    if ($res instanceof Error || $res1 instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackMessageController($id, 'readMessage');
-		$this->response(array('status' => $message), 503);
-	    }
-	    $this->response(array($controllers['MESSAGEREAD']), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
-    }
-
-    /**
-     * \fn	message()
-     * \brief   save a message an the related activity
-     * \todo    testare, possibilità di invio a utenti multipli, controllo della relazione
-     */
-    public function message() {
-	global $controllers;
-	try {
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['toUser'])) {
-		$this->response(array('status' => $controllers['NOTOUSER']), 403);
-	    } elseif (!isset($this->request['toUserType'])) {
-		$this->response(array('status' => $controllers['NOTOUSERTYPE']), 403);
-	    } elseif (!isset($this->request['message'])) {
-		$this->response(array('status' => $controllers['NOMESSAGE']), 403);
-	    }
-	    $currentUser = $_SESSION['currentUser'];
-	    $toUserId = $this->request['toUser'];
-	    $toUserType = $this->request['toUserType'];
-	    if (!relationChecker($currentUser->getId(), $currentUser->getType(), $toUserId, $toUserType)) {
-		$this->response(array('status' => $controllers['NOSPAM']), 401);
-	    }
-	    $text = $this->request['message'];
-	    if (strlen($text) < $this->config->minMessageSize) {
-		$this->response(array('status' => $controllers['SHORTMESSAGE'] . strlen($text)), 406);
-	    }
-	    require_once CLASSES_DIR . 'comment.class.php';
-	    require_once CLASSES_DIR . 'commentParse.class.php';
-	    $message = new Comment();
-	    $message->setActive(true);
-	    $message->setCommentcounter(0);
-	    $message->setFromuser($currentUser->getId());
-	    $message->setLocation(null);
-	    $message->setLovecounter(0);
-	    $message->setLovers(array());
-	    $message->setSharecounter(0);
-	    $message->setTag(array());
-	    $message->setText($text);
-	    $message->setTitle(null);
-	    $message->setTouser($toUserId);
-	    $message->setType('M');
-	    $message->setVideo(null);
-	    $message->setVote(null);
-	    $commentParse = new CommentParse();
-	    $resCmt = $commentParse->saveComment($message);
-	    if ($resCmt instanceof Error) {
-		$this->response(array('status' => 'NOSAVEMESS'), 503);
-	    }
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $toActivity = $this->createActivity($currentUser->getId(), $toUserId, 'P', $resCmt->getId(), 'MESSAGESENT');
-	    $fromActivity = $this->createActivity($toUserId, $currentUser->getId(), 'A', $resCmt->getId(), 'MESSAGESENT');
-	    $activityParse = new ActivityParse();
-	    $resToActivity = $activityParse->saveActivity($toActivity);
-	    $resFromActivity = $activityParse->saveActivity($fromActivity);
-	    if ($resToActivity instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackMessageController($resCmt->getId(), 'sendMessage');
-		$this->response(array('status' => $message), 503);
-	    }
-	    if ($resFromActivity instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackMessageController($resCmt->getId(), 'sendMessage');
-		$this->response(array('status' => $message), 503);
-	    }
-	    global $mail_files;
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    require_once CONTROLLERS_DIR . 'utilsController.php';
-	    $userParse = new UserParse();
-	    $user = $userParse->getUser($toUserId);
-	    $address = $user->getEmail();
-	    $subject = $controllers['SBJMESSAGE'];
-	    $html = $mail_files['MESSAGEEMAIL'];
-	    sendMailForNotification($address, $subject, $html);
-	    $this->response(array($controllers['MESSAGESAVED']), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
-    }
-
-    /**
-     * \fn	createActivity($fromuser,$touser)
+     * \fn	deleteConversation()
      * \brief   private function to delete activity class instance
      * \param   $id
      */
@@ -205,72 +86,107 @@ class MessageController extends REST {
     }
 
     /**
-     * \fn	getFeaturingJSON() 
-     * \brief   funzione per il recupero dei featuring per l'event
-     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+     * \fn	message()
+     * \brief   save a message an the related activity
+     * \todo    testare, possibilità di invio a utenti multipli, controllo della relazione
      */
-    public function getFeaturingJSON() {
-
+    public function message() {
+	global $controllers;
 	try {
-	    global $controllers;
-	    error_reporting(E_ALL ^ E_NOTICE);
-	    $force = false;
-	    $filter = null;
-
-	    if (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 400);
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['currentUser'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 403);
+	    } elseif (!isset($this->request['toUser'])) {
+		$this->response(array('status' => $controllers['NOTOUSER']), 403);
+	    } elseif (!isset($this->request['toUserType'])) {
+		$this->response(array('status' => $controllers['NOTOUSERTYPE']), 403);
+	    } elseif (!isset($this->request['message'])) {
+		$this->response(array('status' => $controllers['NOMESSAGE']), 403);
 	    }
-	    if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
-		$force = true;
+	    $currentUser = $_SESSION['currentUser'];
+	    $toUserId = $this->request['toUser'];
+	    $toUserType = $this->request['toUserType'];
+	    if (!relationChecker($currentUser->getId(), $currentUser->getType(), $toUserId, $toUserType)) {
+		$this->response(array('status' => $controllers['NOSPAM']), 401);
 	    }
-	    if (isset($this->request['term']) && !is_null($this->request['term']) && (strlen($this->request['term']) > 0)) {
-		$filter = $this->request['term'];
+	    $text = $this->request['message'];
+	    if (strlen($text) < $this->config->minMessageSize) {
+		$this->response(array('status' => $controllers['SHORTMESSAGE'] . strlen($text)), 406);
 	    }
-	    $currentUserFeaturingArray = null;
-	    if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
-		$currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
-	    } else {
-		require_once CONTROLLERS_DIR . 'utilsController.php';
-		$currentUserFeaturingArray = getFeaturingArray();
-		$_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
+	    require_once CLASSES_DIR . 'comment.class.php';
+	    $message = new Comment();
+	    $message->setActive(1);
+	    $message->setAlbum(null);
+	    $message->setCommentcounter(0);
+	    $message->setEvent(null);
+	    $message->setFromuser($currentUser->getId());
+	    $message->setImage(null);
+	    $message->setLatitude(null);
+	    $message->setLongitude(null);
+	    $message->setLovecounter(0);
+	    $message->setSharecounter(0);
+	    $message->setText($text);
+	    $message->setTitle(null);
+	    $message->setTouser($toUserId);
+	    $message->setType('M');
+	    $message->setVideo(null);
+	    $message->setVote(null);
+	    $commentParse = new CommentParse();
+	    $resCmt = $commentParse->saveComment($message);
+	    if ($resCmt instanceof Error) {
+		$this->response(array('status' => 'NOSAVEMESS'), 503);
 	    }
-
-	    if (!is_null($filter)) {
-		require_once CONTROLLERS_DIR . 'utilsController.php';
-		echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
-	    } else {
-		echo json_encode($currentUserFeaturingArray);
-	    }
+	    global $mail_files;
+	    require_once CLASSES_DIR . 'userParse.class.php';
+	    require_once CONTROLLERS_DIR . 'utilsController.php';
+	    $user = selectUsers($currentUser);
+	    $address = $user->getEmail();
+	    $subject = $controllers['SBJMESSAGE'];
+	    $html = $mail_files['MESSAGEEMAIL'];
+	    sendMailForNotification($address, $subject, $html);
+	    $this->response(array($controllers['MESSAGESAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
     /**
-     * \fn	createActivity($fromuser,$touser,$message)
-     * \brief   private function to create activity class instance
-     * \param   $fromuser,$touser
+     * \fn	read()
+     * \brief   update activity for the current read message
+     * \todo    testare
      */
-    private function createActivity($fromuser, $touser, $status, $message, $type, $read = false) {
-	require_once CLASSES_DIR . 'activity.class.php';
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setAlbum(null);
-	$activity->setComment($message);
-	$activity->setCounter(0);
-	$activity->setEvent(null);
-	$activity->setFromuser($fromuser);
-	$activity->setImage(null);
-	$activity->setPlaylist(null);
-	$activity->setQuestion(null);
-	$activity->setRead($read);
-	$activity->setRecord(null);
-	$activity->setSong(null);
-	$activity->setStatus($status);
-	$activity->setTouser($touser);
-	$activity->setType($type);
-	$activity->setVideo(null);
-	return $activity;
+    public function read() {
+	global $controllers;
+	try {
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['currentUser'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 403);
+	    } elseif (!isset($this->request['id'])) {
+		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
+	    }
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $id = $this->request['id'];
+	    $activityP = new ActivityParse();
+	    $activity = $activityP->getActivity($id);
+	    if ($activity instanceof Error) {
+		$this->response(array('status' => $controllers['NOACTFORREADMESS']), 503);
+	    } elseif ($activity->getRead() != false) {
+		$this->response(array('status' => $controllers['ALREADYREAD']), 503);
+	    } else {
+		$res = $activityP->updateField($id, 'read', true);
+		$res1 = $activityP->updateField($id, 'status', 'A');
+	    }
+	    if ($res instanceof Error || $res1 instanceof Error) {
+		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+		$message = rollbackMessageController($id, 'readMessage');
+		$this->response(array('status' => $message), 503);
+	    }
+	    $this->response(array($controllers['MESSAGEREAD']), 200);
+	} catch (Exception $e) {
+	    $this->response(array('status' => $e->getMessage()), 503);
+	}
     }
 
 }
