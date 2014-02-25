@@ -71,7 +71,7 @@ class CommentController extends REST {
 	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
 	    $cmt = new Comment();
-	    $cmt->setActive(true);
+	    $cmt->setActive(1);
 	    $cmt->setCommentcounter(0);
 	    $cmt->setFromuser($fromuser->getId());
 	    $cmt->setLatitude(null);

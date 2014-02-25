@@ -68,7 +68,7 @@ class PostController extends REST {
 		$this->response(array('status' => $controllers['LONGPOST'] . strlen($post)), 406);
 	    }
 	    $cmt = new Comment();
-	    $cmt->setActive(true);
+	    $cmt->setActive(1);
 	    $cmt->setAlbum(null);
 	    $cmt->setComment(null);
 	    $cmt->setCommentcounter(0);
