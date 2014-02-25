@@ -24,7 +24,6 @@ require_once SERVICES_DIR . 'insert.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 
-
 /**
  * \brief	PostController class 
  * \details	controller per l'azione di post
@@ -61,7 +60,7 @@ class PostController extends REST {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
 	    $fromuser = $_SESSION['currentUser'];
-	    $toUserObjectId = $this->request['toUser'];
+	    $toUserId = $this->request['toUser'];
 	    $post = $_REQUEST['post'];
 	    if (strlen($post) < $this->config->minPostSize) {
 		$this->response(array('status' => $controllers['SHORTPOST'] . strlen($post)), 406);
@@ -79,15 +78,13 @@ class PostController extends REST {
 	    $cmt->setImage(null);
 	    $cmt->setLatitude(null);
 	    $cmt->setLongitude(null);
-	    $cmt->setLocation(null);
 	    $cmt->setLovecounter(0);
 	    $cmt->setRecord(null);
 	    $cmt->setSharecounter(0);
 	    $cmt->setSong(null);
-	    $cmt->setTag(array());
 	    $cmt->setTitle(null);
 	    $cmt->setText($post);
-	    $cmt->setTouser($toUserObjectId);
+	    $cmt->setTouser($toUserId);
 	    $cmt->setType('P');
 	    $cmt->setVideo(null);
 	    $cmt->setVote(null);
