@@ -1015,7 +1015,7 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
                            m.longitude,
                            m.lovecounter,
                            m.sharecounter,
-                           m.id_tag,
+                           mt.id_tag,
                            m.text,
                            m.touser,
                            m.type type_p,
@@ -1144,7 +1144,7 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 			   u.username
 		     FROM playlist p, user u
                      WHERE p.active = 1
-                       AND p.fromuser = id_u";
+                       AND p.fromuser = u.id";
 	if (!is_null($id)) {
 	    $sql .= " AND a.id = " . $id . "";
 	}
