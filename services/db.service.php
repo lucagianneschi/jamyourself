@@ -1217,7 +1217,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
                            p.longitude,
                            p.lovecounter,
                            p.sharecounter,
-                           p.tag,
+                           pt.id_tag,
                            p.text,
                            p.touser,
                            p.type type_p,
@@ -1228,14 +1228,15 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
                            u.username,
                            u.thumbnail,
                            u.type type_u,
-			   fu.id id_fu,
+			   			   fu.id id_fu,
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu
-                      FROM comment p, user u
+                     FROM comment p, user u, comment_tag pt
                      WHERE p.active = 1
-                       AND p.fromuser = u.id
-		       AND p.type = 'P'";
+                       	AND p.fromuser = u.id
+		       			AND p.type = 'P'
+		       			AND pt.id_comment = p.id";
 	if (!is_null($id)) {
 	    $sql .= " AND a.id = " . $id . "";
 	}
