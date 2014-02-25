@@ -24,6 +24,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CONTROLLERS_DIR . 'utilsController.php';
 require_once SERVICES_DIR . 'utils.service.php';
+require_once SERVICES_DIR . 'insert.service.php';
 
 /**
  * \brief	CommentController class 
@@ -60,7 +61,7 @@ class CommentController extends REST {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
 	    }
 	    $fromuser = $_SESSION['currentUser'];
-	    $toUserObjectId = $this->request['toUser'];
+	    $toUserId = $this->request['toUser'];
 	    $comment = $this->request['comment'];
 	    $classType = $this->request['classType'];
 	    $id = $this->request['id'];
@@ -74,14 +75,14 @@ class CommentController extends REST {
 	    $cmt->setActive(true);
 	    $cmt->setCommentcounter(0);
 	    $cmt->setFromuser($fromuser->getId());
-	    $cmt->setLocation(null);
+	    $cmt->setLatitude(null);
+	    $cmt->setLongitude(null);
 	    $cmt->setLovecounter(0);
 	    $cmt->setLovers(array());
 	    $cmt->setSharecounter(0);
-	    $cmt->setTag(array());
 	    $cmt->setTitle(null);
 	    $cmt->setText($comment);
-	    $cmt->setTouser($toUserObjectId);
+	    $cmt->setTouser($toUserId);
 	    $cmt->setType('C');
 	    $cmt->setVote(null);
 	    switch ($classType) {
@@ -100,18 +101,6 @@ class CommentController extends REST {
 		    }
 		    //$res = $commentParse->incrementComment($id, 'commentCounter', 1);
 		    $cmt->setComment($id);
-		    $activity->setComment($id);
-//		    switch ($comment->getType()) {
-//			case 'P':
-//			    $activity->setType('COMMENTEDONPOST');
-//			    break;
-//			case 'RE':
-//			    $activity->setType('COMMENTEDONEVENTREVIEW');
-//			    break;
-//			case 'RR':
-//			    $activity->setType('COMMENTEDONRECORDREVIEW');
-//			    break;
-//		    }
 		    break;
 		case 'Event':
 		    require_once CLASSES_DIR . 'event.class.php';
@@ -142,22 +131,13 @@ class CommentController extends REST {
 		    //$activity->setType('COMMENTEDONVIDEO');
 		    break;
 	    }
-	    //SALVO
-	    $resCmt = $commentParse->saveComment($cmt);
+	    $resCmt = insertComment($cmt);
 	    if ($resCmt instanceof Error) {
 		$this->response(array('status' => $resCmt->getErrorMessage()), 503);
-	    } else {
-		$activityParse = new ActivityParse();
-		$resActivity = $activityParse->saveActivity($activity);
-		if ($resActivity instanceof Error || $res instanceof Error) {
-		    require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		    $message = rollbackCommentController($id, $classType);
-		    $this->response(array('status' => $message), 503);
-		}
 	    }
 	    global $mail_files;
 	    require_once CLASSES_DIR . 'user.class.php';
-	    $user = selectUsers($toUserObjectId);
+	    $user = selectUsers($toUserId);
 	    $address = $user->getEmail();
 	    $subject = $controllers['SBJCOMMENT'];
 	    $html = $mail_files['COMMENTEMAIL'];
