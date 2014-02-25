@@ -18,10 +18,12 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CLASSES_DIR . 'comment.class.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once SERVICES_DIR . 'insert.service.php';
+require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+
 
 /**
  * \brief	PostController class 
@@ -89,8 +91,10 @@ class PostController extends REST {
 	    $cmt->setType('P');
 	    $cmt->setVideo(null);
 	    $cmt->setVote(null);
-	    //SALVO
-
+	    $id = insertComment($cmt);
+	    if ($id instanceof Error) {
+		$this->response(array('status' => $id->getMessage()), 503);
+	    }
 	    $this->response(array('status' => $controllers['POSTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
