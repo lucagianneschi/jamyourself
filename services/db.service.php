@@ -22,6 +22,105 @@ require_once CLASSES_DIR . 'error.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
 
 /**
+ * \fn	    insertUser($user)
+ * \brief   Execute an insert operation of the $user
+ * \param   $user object the user to insert
+ * \todo
+ */
+function insertUser($user) {
+    $connectionService = new ConnectionService();
+    $connectionService->connect();
+    if (!$connectionService->active) {
+        return $connectionService->error;
+    } else {
+        
+        $sql = "INSERT INTO user (id,
+                                  username,
+                                  password,
+                                  active,
+                                  address,
+                                  avatar,
+                                  background,
+                                  birthday,
+                                  city,
+                                  collaborationcounter,
+                                  country,
+                                  description,
+                                  email,
+                                  facebookid,
+                                  facebookpage,
+                                  firstname,
+                                  followerscounter,
+                                  followingcounter,
+                                  friendshipcounter,
+                                  googlepluspage,
+                                  jammercounter,
+                                  jammertype,
+                                  lastname,
+                                  latitude,
+                                  level,
+                                  levelvalue,
+                                  longitude,
+                                  premium,
+                                  premiumexpirationdate,
+                                  thumbnail,
+                                  sex,
+                                  twitterpage,
+                                  type,
+                                  venuecounter,
+                                  website,
+                                  youtubechannel,
+                                  createdat,
+                                  updatedat)
+                          VALUES (NULL,
+                                  '" . $user->getActive() . "',
+                                  '" . $user->getAddress() . "',
+                                  '" . $user->getAvatar() . "',
+                                  '" . $user->getBackground() . "',
+                                  '" . $user->getBirthday() . "',
+                                  '" . $user->getCity() . "',
+                                  '" . $user->getCollaborationcounter() . "',
+                                  '" . $user->getCountry() . "',
+                                  '" . $user->getCreatedat() . "',
+                                  '" . $user->getDescription() . "',
+                                  '" . $user->getEmail() . "',
+                                  '" . $user->getFacebookId() . "',
+                                  '" . $user->getFbPage() . "',
+                                  '" . $user->getFirstname() . "',
+                                  '" . $user->getFollowerscounter() . "',
+                                  '" . $user->getFollowingcounter() . "',
+                                  '" . $user->getFriendshipcounter() . "',
+                                  '" . $user->getGooglepluspage() . "',
+                                  '" . $user->getJammercounter() . "',
+                                  '" . $user->getJammertype() . "',
+                                  '" . $user->getLastname() . "',
+                                  '" . $user->getLevel() . "',
+                                  '" . $user->getLevelvalue() . "',
+                                  '" . $user->getLatitude() . "',
+                                  '" . $user->getLongitude() . "',
+                                  '" . $user->getMembers() . "',
+                                  '" . $user->getPremium() . "',
+                                  '" . $user->getPremiumexpirationdate()->format('Y-m-d H:i:s') . "',
+                                  '" . $user->getSex() . "',
+                                  '" . $user->getThumbnail() . "',
+                                  '" . $user->getTwitterpage() . "',
+                                  '" . $user->getType() . "',
+                                  '" . $user->getUpdatedat() . "',
+                                  '" . $user->getUsername() . "',
+                                  '" . $user->getVenuecounter() . "',
+                                  '" . $user->getWebsite() . "',
+                                  '" . $user->getYoutubechannel() . "',
+                                  NOW(),
+                                  NOW())";
+        
+        mysqli_query($connectionService->connection, $sql);
+        $insert_id = mysqli_insert_id($connectionService->connection);
+        $connectionService->disconnect();
+        return $insert_id;
+    }
+}
+
+/**
  * \fn	    query($sql)
  * \brief   Execute generic query
  * \param   $ql string for query
@@ -203,7 +302,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
                    a.sharecounter sharecounter_a,
                    a.thumbnail thumbnail_a,
                    a.title title_a,
-                   ct.id id_cmt,
+                   c.id id_cmt,
                    c.active active_c,
                    c.createdat createdat_c,
                    c.updatedat updatedat_c,
