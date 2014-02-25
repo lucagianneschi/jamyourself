@@ -1502,7 +1502,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
                            u.username,
                            u.thumbnail thumbnail_u,
                            u.type type_u
-                     FROM comment rw, user u, event e, comment_tag rwt
+                     FROM comment rw, user u, user fu, event e, comment_tag rwt
                      WHERE rw.active = 1
                        	AND rw.fromuser = fu.id
 		       			AND rw.type = 'RE'
@@ -1667,7 +1667,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
                            rw.longitude,
                            rw.lovecounter,
                            rw.sharecounter,
-                           rw.tag,
+                           rwt.id_tag,
                            rw.text,
                            rw.touser,
                            rw.type type_p,
@@ -1678,7 +1678,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu,
-			   r.id id_r,
+			   			   r.id id_r,
                            r.active active_r,
                            r.buylink,
                            r.city,
@@ -1704,10 +1704,11 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
                            u.username username_u,
                            u.thumbnail thumbnail_u,
                            u.type type_u
-                      FROM comment rw, user u, record r
+                     FROM comment rw, user u, user fu, record r, comment_tag rwt
                      WHERE rw.active = 1
                        AND rw.fromuser = fu.id
-		       AND rw.type = 'RR'";
+				       AND rw.type = 'RR'
+				       AND rwt.id_comment = rw.id";
 	if (!is_null($id)) {
 	    $sql .= " AND a.id = " . $id . "";
 	}
