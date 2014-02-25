@@ -1232,7 +1232,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu
-                     FROM comment p, user u, comment_tag pt
+                     FROM comment p, user u, user fu, comment_tag pt
                      WHERE p.active = 1
                        	AND p.fromuser = u.id
 		       			AND p.type = 'P'
@@ -1463,7 +1463,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
                            rw.longitude,
                            rw.lovecounter,
                            rw.sharecounter,
-                           rw.tag,
+                           rwt.id_tag,
                            rw.text,
                            rw.touser,
                            rw.type type_p,
@@ -1474,7 +1474,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu,
-			   e.id id_e,
+			   			   e.id id_e,
                            e.active active_e,
                            e.address,
                            e.attendeecounter,
@@ -1502,10 +1502,11 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
                            u.username,
                            u.thumbnail thumbnail_u,
                            u.type type_u
-                      FROM comment rw, user u, event e
+                     FROM comment rw, user u, event e, comment_tag rwt
                      WHERE rw.active = 1
-                       AND rw.fromuser = fu.id
-		       AND rw.type = 'RE'";
+                       	AND rw.fromuser = fu.id
+		       			AND rw.type = 'RE'
+		       			AND rwt.id_comment = rw.id";
 	if (!is_null($id)) {
 	    $sql .= " AND a.id = " . $id . "";
 	}
