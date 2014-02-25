@@ -66,14 +66,14 @@ class PlaylistSongBox {
      * \return	playlistSongBox
      * \todo	terminare funzione prendere songs che stanno dentro la playlist
      */
-    public function init() {
+    public function init($playlistId) {
 	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    $this->error = ONLYIFLOGGEDIN;
 	    return;
 	}
-	$songs = selectSongs($id, $where, $order, $limit, $skip);
+	$songs = selectSongsInPlaylist($playlistId, $where= null, $order= null, 20, 0);
 	if ($songs instanceof Error) {
 	    $this->error = $songs->getErrorMessage();
 	}
