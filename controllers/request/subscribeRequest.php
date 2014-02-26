@@ -2,9 +2,9 @@
 
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
- * \version		1.0
+ * \version		0.3
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		file di request per il controller di login e logout
  * \par			Commenti:
