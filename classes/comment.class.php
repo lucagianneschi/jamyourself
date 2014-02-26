@@ -343,7 +343,7 @@ class Comment {
 
     /**
      * \fn	void setFromuser($fromuser))
-     * \brief	Sets the fromUser value,pointer to ParseUser
+     * \brief	Sets the fromUser value
      * \param	int
      */
     public function setFromuser($fromuser) {

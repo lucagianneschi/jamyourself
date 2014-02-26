@@ -115,60 +115,6 @@ class MessageBox {
 	$this->messageArray = $messages;
     }
 
-//	$compoundQuery = array(
-//	    array('id' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $currentUserId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $otherId)), 'className' => 'Comment'), 'key' => 'id'))),
-//	    array('id' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $otherId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $currentUserId)), 'className' => 'Comment'), 'key' => 'id'))));
-//	$messageP = new CommentParse();
-//	$messageP->whereOr($compoundQuery);
-//	$messageP->where('type', 'M');
-//	$messageP->where('active', true);
-//	$messageP->whereInclude('fromUser,toUser');
-//	$messageP->orderByDescending('createdat');
-//	$messageP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitMessagesForMessagePage);
-//	$messageP->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-//	$messages = $messageP->getComments();
-//	if ($messages instanceof Error) {
-//	    $this->errorManagement($messages->getErrorMessage());
-//	    return;
-//	} elseif (is_null($messages)) {
-//	    $this->errorManagement();
-//	    return;
-//	} else {
-//	    $messagesArray = array();
-//	    require_once CLASSES_DIR . 'activityParse.class.php';
-//	    foreach ($messages as $message) {
-//		if (!is_null($message->getFromuser())) {
-//		    $activity = new ActivityParse();
-//		    $activity->wherePointer('comment', 'Comment', $message->getId());
-//		    $activity->whereNotEqualTo('status', 'D');
-//		    $activity->where('active', true);
-//		    $activity->whereInclude('id,fromUser');
-//		    $msg = $activity->getActivities();
-//		    if ($msg instanceof Error) {
-//			$this->errorManagement($msg->getErrorMessage());
-//			return;
-//		    } elseif (!is_null($msg)) {
-//			foreach ($msg as $value) {
-//			    $send = ($message->getFromuser()->getId() == $currentUserId) ? 'S' : 'R';
-//			    if (($send == 'S' && $message->getFromuser()->getId() == $value->getFromuser()->getId()) || ($send == 'R' && $message->getTouser()->getId() == $value->getFromuser()->getId())) {
-//				$activityId = $value->getId();
-//				$createdat = $message->getCreatedat();
-//				$messageId = $message->getId();
-//				$read = $value->getRead();
-//				$text = $message->getText();
-//				$messageInfo = new MessageInfo($activityId, $createdat, $messageId, $read, $send, $text);
-//				array_push($messagesArray, $messageInfo);
-//			    }
-//			}
-//		    }
-//		}
-//	    }
-//	}
-//
-//	$this->error = null;
-//	$this->messageArray = $messagesArray;
-//	$this->userInfoArray = array();
-//    }
 }
 
 ?>
