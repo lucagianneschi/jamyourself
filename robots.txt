@@ -5,6 +5,5 @@ Disallow: /classe/
 Disallow: /config/
 Disallow: /controllers/
 Disallow: /languages/
-Disallow: /parse/
 Disallow: /cache/
 Disallow: /services/
