@@ -24,7 +24,6 @@ $tags = $_POST['tags'];
 $eventDate = $_POST['eventDate'];
 
 if (!is_null($eventDate) && $eventDate != '')
-    //$data = toParseDate(DateTime::createFromFormat("d/m/Y", $eventDate));
 
 $eventBox = new EventBox();
 $eventBox->initForStream($lat, $lon, $city, $country, $tags, $data);
