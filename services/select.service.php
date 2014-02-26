@@ -1872,11 +1872,10 @@ function selectSongsInPlaylist($id = null, $where = null, $order = null, $limit 
 		       r.id id_r,
 		       r.thumbnail thumbnail_r,
 		       r.title title_r
-		  FROM playlist_song ps, song s
-		 WHERE ps.id_playlist = <id_playlist>
-		   AND s.id = pl.id_song";
+		  FROM playlist pl, playlist_song ps, record r, song s, user u
+		  WHERE s.id = ps.id_song AND pl.fromuser = u.id AND s.record = r.id AND ps.playlist = pl.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND pl.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
