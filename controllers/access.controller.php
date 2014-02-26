@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
- * \version		1.0
+ * \version		0.3
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		terminare la funzione logout e socialLogin; fare API su Wiki
+ * \todo		fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))
@@ -21,7 +21,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CLASSES_DIR 'user.class.php';
+require_once CLASSES_DIR . 'user.class.php';
 
 /**
  * \brief	ReviewController class 
@@ -70,7 +70,7 @@ class AccessController extends REST {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['id']) || !isset($_SESSION['username']) ) {
+	    } elseif (!isset($_SESSION['id']) || !isset($_SESSION['username'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
 	    session_unset();
