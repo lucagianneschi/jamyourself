@@ -550,6 +550,13 @@ function insertVideo($video) {
                                   NOW())";
         mysqli_query($connectionService->connection, $sql);
         $insert_id = mysqli_insert_id($connectionService->connection);
+        foreach ($video->getTag() as $tag) {
+            $sql = "INSERT INTO video_tag (id,
+                                           tag)
+                                   VALUES (" . $insert_id . ",
+                                           '" . $tag . "')";
+            mysqli_query($connectionService->connection, $sql);
+        }
         $connectionService->disconnect();
         return $insert_id;
     }
