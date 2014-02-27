@@ -166,9 +166,8 @@ function sessionChecker() {
 	session_start();
     $sessionExist = session_id() === '' ? FALSE : TRUE;
     $currentUserId = null;
-    if ($sessionExist == TRUE && isset($_SESSION['currentUser'])) {
-	$currentUser = $_SESSION['currentUser'];
-	$currentUserId = $currentUser->getId();
+    if ($sessionExist == TRUE && isset($_SESSION['id'])) {
+	$currentUserId = $_SESSION['id'];
     }
     return $currentUserId;
 }
