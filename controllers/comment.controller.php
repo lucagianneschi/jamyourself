@@ -79,6 +79,7 @@ class CommentController extends REST {
 	    $cmt->setLovecounter(0);
 	    $cmt->setLovers(array());
 	    $cmt->setSharecounter(0);
+	    $cmt->setTag(array());
 	    $cmt->setTitle(null);
 	    $cmt->setText($comment);
 	    $cmt->setTouser($toUserId);
@@ -90,44 +91,39 @@ class CommentController extends REST {
 		    $album = new Album();
 		    $album->setId($id);
 		    $cmt->setAlbum($id);
-		    //$res = $albumParse->incrementAlbum($id, 'commentCounter', 1);s
-		    //$activity->setType('COMMENTEDONALBUM');
+		    //INCREMENTARE COMMENT COUNTER ALBUM e FARE RELAZIONE USER - ALBUM
 		    break;
 		case 'Comment':
 		    $comment = selectComments($id);
 		    if ($comment instanceOf Error) {
 			$this->response(array('status' => $comment->getErrorMessage()), 503);
 		    }
-		    //$res = $commentParse->incrementComment($id, 'commentCounter', 1);
+		    //INCREMENTARE COMMENT COUNTER COMMENT e FARE RELAZIONE USER - COMMENT
 		    $cmt->setComment($id);
 		    break;
 		case 'Event':
 		    require_once CLASSES_DIR . 'event.class.php';
 		    $event = new Event();
-		    //$res = $eventParse->incrementEvent($id, 'commentCounter', 1);
-		    $cmt->setEvent($id);
-		    //$activity->setType('COMMENTEDONEVENT');
+		    $cmt->setEvent($event);
+		    //INCREMENTARE COMMENT COUNTER EVENT e FARE RELAZIONE USER - EVENT
 		    break;
 		case 'Image':
 		    require_once CLASSES_DIR . 'image.class.php';
 		    $image = new Image();
-		    $res = $imageParse->incrementImage($id, 'commentCounter', 1);
-		    $cmt->setImage($id);
-		    //$activity->setType('COMMENTEDONIMAGE');
+		    $cmt->setImage($image);
+		     //INCREMENTARE COMMENT COUNTER IMAGE e FARE RELAZIONE USER - IMAGE
 		    break;
 		case 'Record':
 		    require_once CLASSES_DIR . 'record.class.php';
 		    $record = new Record();
-		    $res = $recordParse->incrementRecord($id, 'commentCounter', 1);
-		    $cmt->setRecord($id);
-		    //$activity->setType('COMMENTEDONRECORD');
+		    $cmt->setRecord($record);
+		     //INCREMENTARE COMMENT COUNTER RECORD e FARE RELAZIONE USER - RECORD
 		    break;
 		case 'Video':
 		    require_once CLASSES_DIR . 'video.class.php';
 		    $video = new Video();
-		    $res = $videoParse->incrementVideo($id, 'commentCounter', 1);
-		    $cmt->setVideo($id);
-		    //$activity->setType('COMMENTEDONVIDEO');
+		    $cmt->setVideo($video);
+		     //INCREMENTARE COMMENT COUNTER VIDEO e FARE RELAZIONE USER - VIDEO
 		    break;
 	    }
 	    $resCmt = insertComment($cmt);
@@ -141,7 +137,7 @@ class CommentController extends REST {
 	    $subject = $controllers['SBJCOMMENT'];
 	    $html = $mail_files['COMMENTEMAIL'];
 	    sendMailForNotification($address, $subject, $html);
-	    $this->response(array('status' => $res), 200);
+	    $this->response(array('status' => $controllers['COMMENTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}

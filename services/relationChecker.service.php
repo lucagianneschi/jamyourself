@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
- * \version		1.0
+ * \version		0.3
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Funzione:
@@ -11,13 +11,11 @@
  * \par			Commenti:
  * \warning
  * \bug			
- * \todo		utilizzare la sessione per il currentUserId e per currentUserType
+ * \todo		realizzare nuova versione per DB a grafo
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 require_once ROOT_DIR . 'config.php';
-
-require_once CLASSES_DIR . 'activityParse.class.php';
 require_once SERVICES_DIR . 'debug.service.php';
 
 /**
@@ -26,23 +24,8 @@ require_once SERVICES_DIR . 'debug.service.php';
  * \param	$currentUserId, $currentUserType, $toUserId, $toUserType
  * \return  true if there's a relation between users, false otherwise
  */
-function relationChecker($currentUserId, $currentUserType, $toUserId, $toUserType) {
-    if ($currentUserType == 'SPOTTER') {
-	$type = ($toUserType == 'SPOTTER') ? 'FRIENDSHIPREQUEST' : 'FOLLOWING';
-    } else {
-	$type = ($toUserType == 'SPOTTER') ? 'FOLLOWING' : 'COLLABORATIONREQUEST';
-    }
-    $compoundQuery = array(
-	array('id' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $currentUserId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $toUserId)), 'className' => 'Activity'), 'key' => 'id'))),
-	array('id' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $toUserId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'id' => $currentUserId)), 'className' => 'Activity'), 'key' => 'id'))));
-    $relationActivity = new ActivityParse();
-    $relationActivity->whereOr($compoundQuery);
-    $relationActivity->where('active', true);
-    $relationActivity->where('type', $type);
-    $relationActivity->where('status', 'A');
-    $check = $relationActivity->getCount();
-    $relation = ($check != 0) ? true : false;
-    return $relation;
+function relationChecker() {
+    return;
 }
 
 ?>

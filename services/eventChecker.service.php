@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
- * \version		1.0
+ * \version		0.3
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Funzione:
@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug			
- * \todo		
+ * \todo		realizzare nuova versione per DB a grafo
  */
 
 if (!defined('ROOT_DIR'))
@@ -23,14 +23,9 @@ require_once ROOT_DIR . 'config.php';
  * \brief   check if user is in a sort of relation with event
  * \return  true if the user is in that property, false otherwise
  */
-function checkUserInEventRelation($userId, $eventId, $field) {
-    require_once CLASSES_DIR . 'eventParse.class.php';
-    $eventP = new EventParse();
-    $eventP->where('id', $eventId);
-    $eventP->where('active', true);
-    $eventP->whereRelatedTo($field, '_User', $userId);
-    $check = $eventP->getCount();
-    return ($check != 0) ? true : false;
+function checkUserInEventRelation() {
+
+    return;
 }
 
 ?>
