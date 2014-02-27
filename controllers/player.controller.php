@@ -44,54 +44,13 @@ class PlayerController extends REST {
 	    } elseif (!isset($this->request['songId'])) {
 		$this->response(array('status' => $controllers['NOSONGID']), 403);
 	    }
-	    $songId = $this->request['songId'];
-	    $currentUser = $_SESSION['currentUser'];
-	    require_once CLASSES_DIR . 'song.class.php';
-	    require_once CLASSES_DIR . 'songParse.class.php';
-	    $songParse = new SongParse();
-	    $song = $songParse->getSong($songId);
-	    if ($song instanceof Error) {
-		$this->response(array('status' => $controllers['ERRORSONGINFO']), 503);
-	    }
-	    $activity = $this->createActivity($currentUser->getId(), $song->getRecord(), $songId);
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityParse = new ActivityParse();
-	    $resActivity = $activityParse->saveActivity($activity);
-	    if ($resActivity instanceof Error) {
-		$this->response(array('status' => $controllers['ACTSONGNOTPLAYED']), 503);
-	    }
+	    
+	    
+	    
 	    $this->response(array($controllers['SONGPLAYED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
-    }
-
-    /**
-     * \fn	createActivity($type, $fromuser, $recordId, $songId)
-     * \brief   create activity for playslitControlelr
-     * \param   $type, $fromuser, $recordId, $songId
-     * \return  $activity     
-     */
-    private function createActivity($fromuser, $recordId, $songId) {
-	require_once CLASSES_DIR . 'activity.class.php';
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setAlbum(null);
-	$activity->setComment(null);
-	$activity->setCounter(0);
-	$activity->setEvent(null);
-	$activity->setFromuser($fromuser);
-	$activity->setImage(null);
-	$activity->setPlaylist(null);
-	$activity->setQuestion(null);
-	$activity->setRead(true);
-	$activity->setRecord($recordId);
-	$activity->setSong($songId);
-	$activity->setStatus('A');
-	$activity->setTouser(null);
-	$activity->setType("SONGLISTENED");
-	$activity->setVideo(null);
-	return $activity;
     }
 
 }

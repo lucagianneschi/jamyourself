@@ -57,31 +57,8 @@ class EventController extends REST {
 	    if ($touser instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
 	    }
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityP = new ActivityParse();
-	    $activityP->where('id', $id);
-	    $activityP->whereInclude('event');
-	    $activityP->setLimit(1);
-	    $res = $activityP->getActivities();
-	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['ACTNOTFOUND']), 403);
-	    } elseif (is_null($res->getEvent())) {
-		$this->response(array('status' => $controllers['NOEVENTFOUND']), 503);
-	    } elseif ((checkUserInEventRelation($currentUser->getId(), $res->getEvent()->getId(), 'invited') == true) ||
-		    (checkUserInEventRelation($currentUser->getId(), $res->getEvent()->getId(), 'refused') == true) ||
-		    (checkUserInEventRelation($currentUser->getId(), $res->getEvent()->getId(), 'attendee') == true)) {
-		$this->response(array('status' => $controllers['NOAVAILABLEACCEPTINVITATION']), 503);
-	    }
-	    require_once CLASSES_DIR . 'eventParse.class.php';
-	    $eventP = new EventParse();
-	    $event = $eventP->updateField($event->getId(), 'attendee', $currentUser->getId(), true, 'add', '_User');
-	    $statusUpdate = $activityP->updateField($id, 'status', 'A');
-	    $readUpdate = $activityP->updateField($id, 'read', true);
-	    if ($statusUpdate instanceof Error || $readUpdate instanceof Error || $event instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackEventManagementController($id, 'acceptInvitation', $currentUser->getId(), $event->getId());
-		$this->response(array('status' => $message), 503);
-	    }
+	 
+	    //AGGIUNGE RELAZIONE TRA USER E EVENTO : PARTECIPAZIONE
 	    $this->response(array($controllers['INVITATIONACCEPTED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);

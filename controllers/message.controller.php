@@ -132,14 +132,13 @@ class MessageController extends REST {
 	    $message->setType('M');
 	    $message->setVideo(null);
 	    $message->setVote(null);
-	    $commentParse = new CommentParse();
-	    $resCmt = $commentParse->saveComment($message);
-	    if ($resCmt instanceof Error) {
+	    $message_id = insertComment($message);
+	    if ($message_id instanceof Error) {
 		$this->response(array('status' => 'NOSAVEMESS'), 503);
 	    }
 	    global $mail_files;
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    require_once CONTROLLERS_DIR . 'utilsController.php';
+	    require_once CLASSES_DIR . 'user.class.php';
+	    require_once CONTROLLERS_DIR . 'utils.service.php';
 	    $user = selectUsers($currentUser);
 	    $address = $user->getEmail();
 	    $subject = $controllers['SBJMESSAGE'];
@@ -166,23 +165,7 @@ class MessageController extends REST {
 	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    }
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $id = $this->request['id'];
-	    $activityP = new ActivityParse();
-	    $activity = $activityP->getActivity($id);
-	    if ($activity instanceof Error) {
-		$this->response(array('status' => $controllers['NOACTFORREADMESS']), 503);
-	    } elseif ($activity->getRead() != false) {
-		$this->response(array('status' => $controllers['ALREADYREAD']), 503);
-	    } else {
-		$res = $activityP->updateField($id, 'read', true);
-		$res1 = $activityP->updateField($id, 'status', 'A');
-	    }
-	    if ($res instanceof Error || $res1 instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackMessageController($id, 'readMessage');
-		$this->response(array('status' => $message), 503);
-	    }
+
 	    $this->response(array($controllers['MESSAGEREAD']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);

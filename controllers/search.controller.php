@@ -60,30 +60,7 @@ class SearchController extends REST {
 	    }
 	    $classType = $this->request['classType'];
 	    $text = $this->request['text'];
-	    require_once CLASSES_DIR . 'activity.class.php';
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setAlbum(null);
-	    $activity->setComment(null);
-	    $activity->setCounter(0);
-	    $activity->setEvent(null);
-	    $activity->setFromuser(null);
-	    $activity->setImage(null);
-	    $activity->setPlaylist(null);
-	    $activity->setQuestion(null);
-	    $activity->setRead(false);
-	    $activity->setRecord(null);
-	    $activity->setSong(null);
-	    $activity->setStatus('A');
-	    $activity->setTouser(null);
-	    $activity->setType('SEARCH');
-	    $activity->setVideo(null);
-	    $activityParse = new ActivityParse();
-	    $resActivity = $activityParse->saveActivity($activity);
-	    if ($resActivity instanceof Error) {
-		$this->response(array('status' => $controllers['SEARCHOK']), 200);
-	    }
+
 	    $this->response(array('status' => $controllers['SEARCHOK']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
