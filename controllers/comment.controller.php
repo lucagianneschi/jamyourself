@@ -59,7 +59,7 @@ class CommentController extends REST {
 	    } elseif (!isset($this->request['classType'])) {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
 	    }
-	    $fromuser = $_SESSION['currentUser'];
+	    $fromuser = $_SESSION['id'];
 	    $toUserId = $this->request['toUser'];
 	    $comment = $this->request['comment'];
 	    $classType = $this->request['classType'];

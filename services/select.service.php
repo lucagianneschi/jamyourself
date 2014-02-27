@@ -927,7 +927,7 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
                            fu.username username_u,
                            fu.thumbnail thumbnail_u,
                            fu.type type_u,
-			   			   tu.id id_tu,
+			   tu.id id_tu,
                            tu.username username_tu,
                            tu.thumbnail thumbnail_tu,
                            tu.type type_tu
@@ -1129,7 +1129,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
                            u.username,
                            u.thumbnail,
                            u.type type_u,
-			   			   fu.id id_fu,
+			   fu.id id_fu,
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu

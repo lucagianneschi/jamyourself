@@ -49,7 +49,7 @@ class EventController extends REST {
 	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOACTIVITYID']), 403);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUser = $_SESSION['id'];
 	    $toUserId = $this->request['toUserId'];
 	    $id = $this->request['id'];
 	    require_once CLASSES_DIR . 'user.class.php';
@@ -82,7 +82,7 @@ class EventController extends REST {
 	    } elseif (!isset($this->request['toUserId'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUser = $_SESSION['id'];
 	    $eventId = $this->request['id'];
 	    if (checkUserInEventRelation($currentUser->getId(), $eventId, 'attendee') == true) {
 		$this->response(array('status' => $controllers['NOAVAILABLEACCEPTINVITATION']), 503);
@@ -123,7 +123,7 @@ class EventController extends REST {
 	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUser = $_SESSION['id'];
 	    $id = $this->request['id'];
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
@@ -219,7 +219,7 @@ class EventController extends REST {
 	    } elseif (!isset($this->request['eventId'])) {
 		$this->response(array('status' => $controllers['NOEVENTID']), 403);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUser = $_SESSION['id'];
 	    $toUserId = $this->request['toUser'];
 	    $eventId = $this->request['eventId'];
 	    if ($currentUser->getId() == $toUserId) {

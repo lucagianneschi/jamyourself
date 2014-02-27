@@ -51,7 +51,7 @@ class StreamBox {
 	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
 	}
-	$currentUser = $_SESSION['currentUser'];
+	$currentUser = $_SESSION['id'];
 	$connectionService = new ConnectionService();
 	$connectionService->connect();
 	if (!$connectionService->active) {

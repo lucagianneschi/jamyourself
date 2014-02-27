@@ -59,7 +59,7 @@ class PostController extends REST {
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-	    $fromuser = $_SESSION['currentUser'];
+	    $fromuser = $_SESSION['id'];
 	    $toUserId = $this->request['toUser'];
 	    $post = $_REQUEST['post'];
 	    if (strlen($post) < $this->config->minPostSize) {
