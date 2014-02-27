@@ -31,12 +31,12 @@ function insertAlbum($album) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
     if (!$connectionService->active) {
-        $error = new Error();
-        $error->setErrormessage($connectionService->error);
-        return $error;
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
     } else {
-        require_once 'album.class.php';
-        $sql = "INSERT INTO album (id,
+	require_once 'album.class.php';
+	$sql = "INSERT INTO album (id,
                                     active,
                                     commentcounter,
                                     counter,
@@ -68,10 +68,17 @@ function insertAlbum($album) {
                                   '" . $album->getTitle() . "',
                                   NOW(),
                                   NOW())";
-        mysqli_query($connectionService->connection, $sql);
-        $insert_id = mysqli_insert_id($connectionService->connection);
-        $connectionService->disconnect();
-        return $insert_id;
+	mysqli_query($connectionService->connection, $sql);
+	$insert_id = mysqli_insert_id($connectionService->connection);
+	foreach ($album->getTag() as $tag) {
+	    $sql = "INSERT INTO album_tag (id,
+                                           tag)
+                                   VALUES (" . $insert_id . ",
+                                           '" . $tag . "')";
+	    mysqli_query($connectionService->connection, $sql);
+	}
+	$connectionService->disconnect();
+	return $insert_id;
     }
 }
 
@@ -85,12 +92,12 @@ function insertComment($comment) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
     if (!$connectionService->active) {
-        $error = new Error();
-        $error->setErrormessage($connectionService->error);
-        return $error;
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
     } else {
-        require_once 'comment.class.php';
-        $sql = "INSERT INTO comment (id,
+	require_once 'comment.class.php';
+	$sql = "INSERT INTO comment (id,
                                     active,
                                     album,
                                     comment,
@@ -132,10 +139,17 @@ function insertComment($comment) {
                                   '" . $comment->getVote() . "',
                                   NOW(),
                                   NOW())";
-        mysqli_query($connectionService->connection, $sql);
-        $insert_id = mysqli_insert_id($connectionService->connection);
-        $connectionService->disconnect();
-        return $insert_id;
+	mysqli_query($connectionService->connection, $sql);
+	$insert_id = mysqli_insert_id($connectionService->connection);
+	foreach ($comment->getTag() as $tag) {
+	    $sql = "INSERT INTO comment_tag (id,
+                                           tag)
+                                   VALUES (" . $insert_id . ",
+                                           '" . $tag . "')";
+	    mysqli_query($connectionService->connection, $sql);
+	}
+	$connectionService->disconnect();
+	return $insert_id;
     }
 }
 
@@ -149,12 +163,12 @@ function insertEvent($event) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
     if (!$connectionService->active) {
-        $error = new Error();
-        $error->setErrormessage($connectionService->error);
-        return $error;
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
     } else {
-        require_once 'event.class.php';
-        $sql = "INSERT INTO event ( id,
+	require_once 'event.class.php';
+	$sql = "INSERT INTO event ( id,
                                     active,
                                     address,
                                     comment,
@@ -204,10 +218,24 @@ function insertEvent($event) {
                                   '" . $event->getTitle() . "',   
                                   NOW(),
                                   NOW())";
-        mysqli_query($connectionService->connection, $sql);
-        $insert_id = mysqli_insert_id($connectionService->connection);
-        $connectionService->disconnect();
-        return $insert_id;
+	mysqli_query($connectionService->connection, $sql);
+	$insert_id = mysqli_insert_id($connectionService->connection);
+	foreach ($event->getGenre() as $genre) {
+	    $sql = "INSERT INTO event_genre (id,
+                                           genre)
+                                   VALUES (" . $insert_id . ",
+                                           '" . $genre . "')";
+	    mysqli_query($connectionService->connection, $sql);
+	}
+	foreach ($event->getTag() as $tag) {
+	    $sql = "INSERT INTO event_tag (id,
+                                           tag)
+                                   VALUES (" . $insert_id . ",
+                                           '" . $tag . "')";
+	    mysqli_query($connectionService->connection, $sql);
+	}
+	$connectionService->disconnect();
+	return $insert_id;
     }
 }
 
@@ -221,12 +249,12 @@ function insertImage($image) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
     if (!$connectionService->active) {
-        $error = new Error();
-        $error->setErrormessage($connectionService->error);
-        return $error;
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
     } else {
-        require_once 'image.class.php';
-        $sql = "INSERT INTO image ( id,
+	require_once 'image.class.php';
+	$sql = "INSERT INTO image ( id,
                                     active,
                                     commentcounter,
                                     counter,
@@ -250,10 +278,17 @@ function insertImage($image) {
                                   '" . $image->getThumbnail() . "',   
                                   NOW(),
                                   NOW())";
-        mysqli_query($connectionService->connection, $sql);
-        $insert_id = mysqli_insert_id($connectionService->connection);
-        $connectionService->disconnect();
-        return $insert_id;
+	mysqli_query($connectionService->connection, $sql);
+	$insert_id = mysqli_insert_id($connectionService->connection);
+	foreach ($image->getTag() as $tag) {
+	    $sql = "INSERT INTO image_tag (id,
+                                           tag)
+                                   VALUES (" . $insert_id . ",
+                                           '" . $tag . "')";
+	    mysqli_query($connectionService->connection, $sql);
+	}
+	$connectionService->disconnect();
+	return $insert_id;
     }
 }
 
@@ -267,12 +302,12 @@ function insertPlaylist($playlist) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
     if (!$connectionService->active) {
-        $error = new Error();
-        $error->setErrormessage($connectionService->error);
-        return $error;
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
     } else {
-        require_once 'playlist.class.php';
-        $sql = "INSERT INTO playlist ( id,
+	require_once 'playlist.class.php';
+	$sql = "INSERT INTO playlist ( id,
                                     active,
                                     fromuser,
                                     name,
@@ -286,10 +321,10 @@ function insertPlaylist($playlist) {
                                   '" . $playlist->getSongcounter() . "',   
                                   NOW(),
                                   NOW())";
-        mysqli_query($connectionService->connection, $sql);
-        $insert_id = mysqli_insert_id($connectionService->connection);
-        $connectionService->disconnect();
-        return $insert_id;
+	mysqli_query($connectionService->connection, $sql);
+	$insert_id = mysqli_insert_id($connectionService->connection);
+	$connectionService->disconnect();
+	return $insert_id;
     }
 }
 
@@ -303,12 +338,12 @@ function insertRecord($record) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
     if (!$connectionService->active) {
-        $error = new Error();
-        $error->setErrormessage($connectionService->error);
-        return $error;
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
     } else {
-        require_once 'record.class.php';
-        $sql = "INSERT INTO record ( id,
+	require_once 'record.class.php';
+	$sql = "INSERT INTO record ( id,
                                     active,
                                     buylink,
                                     commentcounter,
@@ -350,10 +385,24 @@ function insertRecord($record) {
                                   '" . $record->getYear() . "',
                                   NOW(),
                                   NOW())";
-        mysqli_query($connectionService->connection, $sql);
-        $insert_id = mysqli_insert_id($connectionService->connection);
-        $connectionService->disconnect();
-        return $insert_id;
+	mysqli_query($connectionService->connection, $sql);
+	$insert_id = mysqli_insert_id($connectionService->connection);
+	foreach ($record->getGenre() as $genre) {
+	    $sql = "INSERT INTO record_genre (id,
+                                           genre)
+                                   VALUES (" . $insert_id . ",
+                                           '" . $genre . "')";
+	    mysqli_query($connectionService->connection, $sql);
+	}
+	foreach ($record->getTag() as $tag) {
+	    $sql = "INSERT INTO record_tag (id,
+                                           tag)
+                                   VALUES (" . $insert_id . ",
+                                           '" . $tag . "')";
+	    mysqli_query($connectionService->connection, $sql);
+	}
+	$connectionService->disconnect();
+	return $insert_id;
     }
 }
 
@@ -367,12 +416,12 @@ function insertSong($song) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
     if (!$connectionService->active) {
-        $error = new Error();
-        $error->setErrormessage($connectionService->error);
-        return $error;
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
     } else {
-        require_once 'song.class.php';
-        $sql = "INSERT INTO song( id,
+	require_once 'song.class.php';
+	$sql = "INSERT INTO song( id,
                                     active,
                                     commentcounter,
                                     counter,
@@ -405,10 +454,10 @@ function insertSong($song) {
                                   '" . $song->getYear() . "',
                                   NOW(),
                                   NOW())";
-        mysqli_query($connectionService->connection, $sql);
-        $insert_id = mysqli_insert_id($connectionService->connection);
-        $connectionService->disconnect();
-        return $insert_id;
+	mysqli_query($connectionService->connection, $sql);
+	$insert_id = mysqli_insert_id($connectionService->connection);
+	$connectionService->disconnect();
+	return $insert_id;
     }
 }
 
@@ -422,11 +471,11 @@ function insertUser($user) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
     if (!$connectionService->active) {
-        $error = new Error();
-        $error->setErrormessage($connectionService->error);
-        return $error;
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
     } else {
-        $sql = "INSERT INTO user (id,
+	$sql = "INSERT INTO user (id,
                                   username,
                                   password,
                                   active,
@@ -466,8 +515,8 @@ function insertUser($user) {
                                   createdat,
                                   updatedat)
                           VALUES (NULL,
-                          		  '" . $user->getUsername() . "',
-                          		  '" . $user->getPassword() . "',
+				  '" . $user->getUsername() . "',
+                                  '" . $user->getPassword() . "',
                                   '" . $user->getActive() . "',
                                   '" . $user->getAddress() . "',
                                   '" . $user->getAvatar() . "',
@@ -492,7 +541,6 @@ function insertUser($user) {
                                   '" . $user->getLevelvalue() . "',
                                   '" . $user->getLatitude() . "',
                                   '" . $user->getLongitude() . "',
-                                  '" . $user->getMembers() . "',
                                   '" . $user->getPremium() . "',
                                   '" . $user->getPremiumexpirationdate()->format('Y-m-d H:i:s') . "',
                                   '" . $user->getSex() . "',
@@ -504,10 +552,24 @@ function insertUser($user) {
                                   '" . $user->getYoutubechannel() . "',
                                   NOW(),
                                   NOW())";
-        mysqli_query($connectionService->connection, $sql);
-        $insert_id = mysqli_insert_id($connectionService->connection);
-        $connectionService->disconnect();
-        return $insert_id;
+	mysqli_query($connectionService->connection, $sql);
+	$insert_id = mysqli_insert_id($connectionService->connection);
+	foreach ($user->getSettings() as $setting) {
+	    $sql = "INSERT INTO user_setting (id,
+                                           setting)
+                                   VALUES (" . $insert_id . ",
+                                           '" . $setting . "')";
+	    mysqli_query($connectionService->connection, $sql);
+	}
+	foreach ($user->getMembers() as $member) {
+	    $sql = "INSERT INTO user_members (id,
+                                           member)
+                                   VALUES (" . $insert_id . ",
+                                           '" . $member . "')";
+	    mysqli_query($connectionService->connection, $sql);
+	}
+	$connectionService->disconnect();
+	return $insert_id;
     }
 }
 
@@ -521,12 +583,12 @@ function insertVideo($video) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
     if (!$connectionService->active) {
-        $error = new Error();
-        $error->setErrormessage($connectionService->error);
-        return $error;
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
     } else {
-        require_once 'video.class.php';
-        $sql = "INSERT INTO video ( id,
+	require_once 'video.class.php';
+	$sql = "INSERT INTO video ( id,
                                     active,
                                     author,
                                     counter,
@@ -548,17 +610,17 @@ function insertVideo($video) {
                                   '" . $video->getTitle() . "',
                                   NOW(),
                                   NOW())";
-        mysqli_query($connectionService->connection, $sql);
-        $insert_id = mysqli_insert_id($connectionService->connection);
-        foreach ($video->getTag() as $tag) {
-            $sql = "INSERT INTO video_tag (id,
+	mysqli_query($connectionService->connection, $sql);
+	$insert_id = mysqli_insert_id($connectionService->connection);
+	foreach ($video->getTag() as $tag) {
+	    $sql = "INSERT INTO video_tag (id,
                                            tag)
                                    VALUES (" . $insert_id . ",
                                            '" . $tag . "')";
-            mysqli_query($connectionService->connection, $sql);
-        }
-        $connectionService->disconnect();
-        return $insert_id;
+	    mysqli_query($connectionService->connection, $sql);
+	}
+	$connectionService->disconnect();
+	return $insert_id;
     }
 }
 
