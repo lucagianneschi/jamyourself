@@ -2049,11 +2049,40 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $user->setLevelvalue($row['levelvalue']);
 	    $user->setLatitude($row['latitude']);
 	    $user->setLongitude($row['longitude']);
-	    $user->setMembers($row['members']);
+	    $sql = "SELECT members
+                          FROM user_members
+                         WHERE id = " . $row['id'];
+	    $results_members = mysqli_query($connectionService->connection, $sql);
+	    if (!$results) {
+		$error = new Error();
+		$error->setErrormessage($results_members->error);
+		return $error;
+	    }
+	    while ($row_members = mysqli_fetch_array($results_members, MYSQLI_ASSOC))
+		$rows_members[] = $row_members;
+	    $members = array();
+	    foreach ($rows_members as $row_members) {
+		$members[] = $row_members;
+	    }
+	    $user->setMembers($members);
 	    $user->setPremium($row['premium']);
 	    $user->setPremiumexpirationdate($row['premiumexpirationdate']);
-	    //TODO --> recuperare settings
-	    $user->setSettings($row['settings']);
+	    $sql = "SELECT setting
+                          FROM user_setting
+                         WHERE id = " . $row['id'];
+	    $results = mysqli_query($connectionService->connection, $sql);
+	    if (!$results) {
+		$error = new Error();
+		$error->setErrormessage($results->error);
+		return $error;
+	    }
+	    while ($row_setting = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		$rows_setting[] = $row_setting;
+	    $settings = array();
+	    foreach ($rows_setting as $row_setting) {
+		$settings[] = $row_setting;
+	    }
+	    $user->setSettings($settings);
 	    $user->setSex($row['sex']);
 	    $user->setThumbnail($row['thumbnail']);
 	    $user->setTwitterpage($row['twitterpage']);
@@ -2150,7 +2179,7 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
 	    $video->setFromuser($fromuser);
 	    $video->setLovecounter($row['lovecounter']);
 	    $sql = "SELECT tag
-                          FROM comment_tag
+                          FROM video_tag
                          WHERE id = " . $row['id_v'];
 	    $results = mysqli_query($connectionService->connection, $sql);
 	    if (!$results) {
