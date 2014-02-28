@@ -30,10 +30,10 @@ require_once SERVICES_DIR . 'connection.service.php';
 function query($sql) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	return $connectionService->error;
     } else {
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	    $rows[] = $row;
 	$connectionService->disconnect();
@@ -50,7 +50,7 @@ function query($sql) {
 function selectAlbums($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -97,7 +97,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -107,7 +107,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $rows_album[] = $row;
 	$albums = array();
 	foreach ($rows_album as $row) {
-	    require_once 'album.class.php';
+	    require_once CLASSES_DIR .'album.class.php';
 	    $album = new Album();
 	    $album->setId($row['id_a']);
 	    $album->setActive($row['active']);
@@ -119,7 +119,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
-	    $fromuser->setType($row['type']);
+		$fromuser->setType($row['type']);
 	    $album->setFromuser($fromuser);
 	    $album->setImagecounter($row['imagecounter']);
 	    $album->setLatitude($row['latitude']);
@@ -129,7 +129,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $sql = "SELECT tag
                           FROM album_tag
                          WHERE id = " . $row['id'];
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results->error);
@@ -162,7 +162,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 function selectComments($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -357,7 +357,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -367,12 +367,12 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $rows[] = $row;
 	$comment = array();
 	foreach ($rows as $row) {
-	    require_once 'comment.class.php';
-	    require_once 'user.class.php';
+	    require_once CLASSES_DIR .'comment.class.php';
+	    require_once CLASSES_DIR .'user.class.php';
 	    $comment = new Comment();
 	    $comment->setId($row['id_cmt']);
 	    $comment->setActive($row['active_cmt']);
-	    require_once 'album.class.php';
+	    require_once CLASSES_DIR .'album.class.php';
 	    $album = new Album();
 	    $album->setId($row['id_a']);
 	    $album->setActive($row['active_a']);
@@ -388,7 +388,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $sql = "SELECT tag
                           FROM album_tag
                          WHERE id = " . $row['id_a'];
-	    $results_tag = mysqli_query($connectionService->connection, $sql);
+	    $results_tag = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results_tag->error);
@@ -410,7 +410,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $comment->setCommentcounter($row['commentcounter_cmt']);
 	    $comment->setCounter($row['counter_cmt']);
 	    $comment->setCreatedat($row['createdat_cmt']);
-	    require_once 'event.class.php';
+	    require_once CLASSES_DIR .'event.class.php';
 	    $event = new Event();
 	    $event->setId($row['id_e']);
 	    $event->setCreatedat($row['createdat_e']);
@@ -428,7 +428,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $sql = "SELECT genre
                           FROM event_genre
                          WHERE id = " . $row['genre_e'];
-	    $results_genre = mysqli_query($connectionService->connection, $sql);
+	    $results_genre = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results_genre) {
 		$error = new Error();
 		$error->setErrormessage($results_genre->error);
@@ -452,7 +452,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $sql = "SELECT tag
                           FROM event_tag
                          WHERE id = " . $row['id_e'];
-	    $results_tag_event = mysqli_query($connectionService->connection, $sql);
+	    $results_tag_event = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results_tag_event) {
 		$error = new Error();
 		$error->setErrormessage($results_tag_event->error);
@@ -472,10 +472,10 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $fromuser->setId($row['id_fu']);
 	    $fromuser->setThumbnail($row['thumbnail_fu']);
 	    $fromuser->setUsername($row['username_fu']);
-	    $fromuser->setType($row['type_fu']);
+		$fromuser->setType($row['type_fu']);
 	    $comment->setFromuser($fromuser);
-	    require_once 'album.class.php';
-	    require_once 'image.class.php';
+	    require_once CLASSES_DIR .'album.class.php';
+	    require_once CLASSES_DIR .'image.class.php';
 	    $image = new Image();
 	    $image->setId($row['id_i']);
 	    $image->setCreatedat($row['createdat_i']);
@@ -495,7 +495,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $sql = "SELECT tag
                           FROM image_tag
                          WHERE id = " . $row['id_i'];
-	    $results_tag_image = mysqli_query($connectionService->connection, $sql);
+	    $results_tag_image = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results_tag_image) {
 		$error = new Error();
 		$error->setErrormessage($results_tag_image->error);
@@ -512,7 +512,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $comment->setImage($image);
 	    $comment->setLatitude($row['latitude_cmt']);
 	    $comment->setLovecounter($row['lovecounter_cmt']);
-	    require_once 'record.class.php';
+	    require_once CLASSES_DIR .'record.class.php';
 	    $record = new Record();
 	    $record->setId($row['id_r']);
 	    $record->setCreatedat($row['createdat_r']);
@@ -528,7 +528,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $sql = "SELECT genre
                           FROM record_genre
                          WHERE id = " . $row['genre_r'];
-	    $results_genre_record = mysqli_query($connectionService->connection, $sql);
+	    $results_genre_record = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results_genre_record) {
 		$error = new Error();
 		$error->setErrormessage($results_genre_record->error);
@@ -553,8 +553,8 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $record->setYear($row['year_r']);
 	    $comment->setRecord($record);
 	    $comment->setSharecounter($row['sharecounter_cmt']);
-	    require_once 'record.class.php';
-	    require_once 'song.class.php';
+	    require_once CLASSES_DIR .'record.class.php';
+	    require_once CLASSES_DIR .'song.class.php';
 	    $song = new Song();
 	    $song->setId($row['id_s']);
 	    $song->setActive($row['active_s']);
@@ -575,7 +575,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $sql = "SELECT tag
                           FROM comment_tag
                          WHERE id = " . $row['id_s'];
-	    $results_tag_song = mysqli_query($connectionService->connection, $sql);
+	    $results_tag_song = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results_tag_song) {
 		$error = new Error();
 		$error->setErrormessage($results_tag_song->error);
@@ -595,9 +595,9 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $touser->setId($row['id_tu']);
 	    $touser->setThumbnail($row['thumbnail_tu']);
 	    $touser->setUsername($row['username_tu']);
-	    $touser->setType($row['type_tu']);
+		$touser->setType($row['type_tu']);
 	    $comment->setTouser($touser);
-	    require_once 'video.class.php';
+	    require_once CLASSES_DIR .'video.class.php';
 	    $video = new Video();
 	    $video->setId($row['id_v']);
 	    $video->setActive($row['active']);
@@ -611,7 +611,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $sql = "SELECT tag
                           FROM comment_tag
                          WHERE id = " . $row['id_v'];
-	    $results_tag_video = mysqli_query($connectionService->connection, $sql);
+	    $results_tag_video = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results_tag_video) {
 		$error = new Error();
 		$error->setErrormessage($results_tag_video->error);
@@ -646,7 +646,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 function selectEvents($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -701,7 +701,7 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -711,7 +711,7 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	    $rows[] = $row;
 	$events = array();
 	foreach ($rows as $row) {
-	    require_once 'event.class.php';
+	    require_once CLASSES_DIR .'event.class.php';
 	    $event = new Event();
 	    $event->setId($row['id_e']);
 	    $event->setActive($row['active']);
@@ -728,12 +728,12 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
-	    $fromuser->setType($row['type']);
+		$fromuser->setType($row['type']);
 	    $event->setFromuser($fromuser);
 	    $sql = "SELECT genre
                           FROM event_genre
                          WHERE id = " . $row['genre'];
-	    $results_genre = mysqli_query($connectionService->connection, $sql);
+	    $results_genre = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results_genre) {
 		$error = new Error();
 		$error->setErrormessage($results_genre->error);
@@ -757,7 +757,7 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	    $sql = "SELECT tag
                           FROM event_tag
                          WHERE id = " . $row['id'];
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results->error);
@@ -790,7 +790,7 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 function selectImages($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -839,7 +839,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -849,8 +849,8 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    $rows[] = $row;
 	$images = array();
 	foreach ($rows as $row) {
-	    require_once 'album.class.php';
-	    require_once 'image.class.php';
+	    require_once CLASSES_DIR .'album.class.php';
+	    require_once CLASSES_DIR .'image.class.php';
 	    $image = new Image();
 	    $image->setId($row['id_i']);
 	    $image->setCreatedat($row['createdat']);
@@ -866,7 +866,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
-	    $fromuser->setType($row['type']);
+		$fromuser->setType($row['type']);
 	    $image->setFromuser($fromuser);
 	    $image->setLatitude($row['latitude']);
 	    $image->setLongitude($row['longitude']);
@@ -876,7 +876,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    $sql = "SELECT tag
                           FROM image_tag
                          WHERE id = " . $row['id_i'];
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results->error);
@@ -906,7 +906,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 function selectMessages($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -932,7 +932,7 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
                            fu.username username_u,
                            fu.thumbnail thumbnail_u,
                            fu.type type_u,
-			   tu.id id_tu,
+			   			   tu.id id_tu,
                            tu.username username_tu,
                            tu.thumbnail thumbnail_tu,
                            tu.type type_tu
@@ -961,7 +961,7 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -971,8 +971,8 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
 	    $rows[] = $row;
 	$messages = array();
 	foreach ($rows as $row) {
-	    require_once 'comment.class.php';
-	    require_once 'user.class.php';
+	    require_once CLASSES_DIR .'comment.class.php';
+	    require_once CLASSES_DIR .'user.class.php';
 	    $message = new Comment();
 	    $message->setId($row['id_m']);
 	    $message->setActive($row['active']);
@@ -991,7 +991,7 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
 	    $sql = "SELECT tag
                           FROM comment_tag
                          WHERE id = " . $row['id_m'];
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results->error);
@@ -1032,13 +1032,13 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
 function selectPlaylists($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
 	return;
     } else {
-	$sql = "SELECT     p.id id_p,
+	$sql = "SELECT p.id id_p,
 		           p.createdat,
 		           p.updatedat,
 		           p.active,
@@ -1046,13 +1046,13 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 		           p.name,
 		           p.songcounter,
 		           p.unlimited,
-			   u.id id_u,
-			   u.username
+			   	   u.id id_u,
+			       u.username
+			       u.type
 		     FROM playlist p, user u
-                     WHERE p.active = 1
-                       AND p.fromuser = u.id";
+             WHERE p.active = 1 AND p.fromuser = u.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND p.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -1070,7 +1070,7 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -1080,7 +1080,7 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 	    $rows[] = $row;
 	$playlists = array();
 	foreach ($rows as $row) {
-	    require_once 'playlist.class.php';
+	    require_once CLASSES_DIR .'playlist.class.php';
 	    $playlist = new Playlist();
 	    $playlist->setId($row['id_p']);
 	    $playlist->setActive($row['active']);
@@ -1109,7 +1109,7 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 function selectPosts($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -1134,7 +1134,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
                            u.username,
                            u.thumbnail,
                            u.type type_u,
-			   fu.id id_fu,
+			   			   fu.id id_fu,
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu
@@ -1162,7 +1162,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -1172,8 +1172,8 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $rows[] = $row;
 	$posts = array();
 	foreach ($rows as $row) {
-	    require_once 'comment.class.php';
-	    require_once 'user.class.php';
+	    require_once CLASSES_DIR .'comment.class.php';
+	    require_once CLASSES_DIR .'user.class.php';
 	    $post = new Comment();
 	    $post->setId($row['id_p']);
 	    $post->setActive($row['active']);
@@ -1183,7 +1183,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
-	    $fromuser->setType($row['type_u']);
+		$fromuser->setType($row['type_u']);
 	    $post->setFromuser($fromuser);
 	    $post->setLatitude($row['latitude']);
 	    $post->setLongitude($row['longitude']);
@@ -1192,7 +1192,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $sql = "SELECT tag
                           FROM comment_tag
                          WHERE id = " . $row['id_c'];
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results->error);
@@ -1211,7 +1211,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $touser->setId($row['id_fu']);
 	    $touser->setThumbnail($row['thumbnail_fu']);
 	    $touser->setUsername($row['username_fu']);
-	    $touser->setType($row['type_fu']);
+		$touser->setType($row['type_fu']);
 	    $post->setFromuser($touser);
 	    $post->setType($row['type_p']);
 	    $post->setVote($row['vote']);
@@ -1233,7 +1233,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 function selectRecords($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -1286,7 +1286,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -1296,7 +1296,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    $rows[] = $row;
 	$records = array();
 	foreach ($rows as $row) {
-	    require_once 'record.class.php';
+	    require_once CLASSES_DIR .'record.class.php';
 	    $record = new Record();
 	    $record->setId($row['id_r']);
 	    $record->setActive($row['active']);
@@ -1315,7 +1315,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    $sql = "SELECT genre
                           FROM record_genre
                          WHERE id = " . $row['genre'];
-	    $results_genre = mysqli_query($connectionService->connection, $sql);
+	    $results_genre = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results_genre) {
 		$error = new Error();
 		$error->setErrormessage($results_genre->error);
@@ -1357,7 +1357,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 function selectReviewEvent($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -1434,7 +1434,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -1444,9 +1444,9 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $rows[] = $row;
 	$reviewEvents = array();
 	foreach ($rows as $row) {
-	    require_once 'comment.class.php';
-	    require_once 'event.class.php';
-	    require_once 'user.class.php';
+	    require_once CLASSES_DIR .'comment.class.php';
+	    require_once CLASSES_DIR .'event.class.php';
+	    require_once CLASSES_DIR .'user.class.php';
 	    $reviewEvent = new Comment();
 	    $reviewEvent->setId($row['id_rw']);
 	    $reviewEvent->setActive($row['active_rw']);
@@ -1467,7 +1467,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $sql = "SELECT genre
                           FROM event_genre
                          WHERE id = " . $row['genre'];
-	    $results_genre = mysqli_query($connectionService->connection, $sql);
+	    $results_genre = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results_genre) {
 		$error = new Error();
 		$error->setErrormessage($results_genre->error);
@@ -1491,7 +1491,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $sql = "SELECT tag
                           FROM event_tag
                          WHERE id = " . $row['id'];
-	    $results_event = mysqli_query($connectionService->connection, $sql);
+	    $results_event = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results_event->error);
@@ -1513,7 +1513,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $fromuser->setId($row['id_fu']);
 	    $fromuser->setThumbnail($row['thumbnail_fu']);
 	    $fromuser->setUsername($row['username_fu']);
-	    $fromuser->setType($row['type_fu']);
+		$fromuser->setType($row['type_fu']);
 	    $reviewEvent->setFromuser($fromuser);
 	    $reviewEvent->setLatitude($row['latitude_rw']);
 	    $reviewEvent->setLongitude($row['longitude_rw']);
@@ -1522,7 +1522,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $sql = "SELECT tag
                           FROM comment_tag
                          WHERE id = " . $row['id_rw'];
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results->error);
@@ -1541,7 +1541,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $touser->setId($row['id_u']);
 	    $touser->setThumbnail($row['thumbnail_u']);
 	    $touser->setUsername($row['username_u']);
-	    $touser->setType($row['type_u']);
+		$touser->setType($row['type_u']);
 	    $reviewEvent->setTouser($touser);
 	    $reviewEvent->setType($row['type_rw']);
 	    $reviewEvent->setVote($row['vote']);
@@ -1563,7 +1563,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 function selectReviewRecord($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -1638,7 +1638,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -1648,9 +1648,9 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $rows[] = $row;
 	$reviewRecords = array();
 	foreach ($rows as $row) {
-	    require_once 'comment.class.php';
-	    require_once 'record.class.php';
-	    require_once 'user.class.php';
+	    require_once CLASSES_DIR .'comment.class.php';
+	    require_once CLASSES_DIR .'record.class.php';
+	    require_once CLASSES_DIR .'user.class.php';
 	    $reviewRecord = new Comment();
 	    $reviewRecord->setId($row['id_rw']);
 	    $reviewRecord->setActive($row['active_rw']);
@@ -1660,7 +1660,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $fromuser->setId($row['id_fu']);
 	    $fromuser->setThumbnail($row['thumbnail_fu']);
 	    $fromuser->setUsername($row['username_fu']);
-	    $fromuser->setType($row['type_fu']);
+		$fromuser->setType($row['type_fu']);
 	    $reviewRecord->setFromuser($fromuser);
 	    $reviewRecord->setLatitude($row['latitude_rw']);
 	    $reviewRecord->setLongitude($row['longitude_rw']);
@@ -1678,7 +1678,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $sql = "SELECT genre
                           FROM record_genre
                          WHERE id = " . $row['genre'];
-	    $results_genre = mysqli_query($connectionService->connection, $sql);
+	    $results_genre = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results_genre) {
 		$error = new Error();
 		$error->setErrormessage($results_genre->error);
@@ -1708,7 +1708,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $sql = "SELECT tag
                           FROM comment_tag
                          WHERE id = " . $row['id_rw'];
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results->error);
@@ -1727,7 +1727,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $touser->setId($row['id_u']);
 	    $touser->setThumbnail($row['thumbnail_u']);
 	    $touser->setUsername($row['username_u']);
-	    $touser->setType($row['type_u']);
+		$touser->setType($row['type_u']);
 	    $reviewRecord->setTouser($touser);
 	    $reviewRecord->setType($row['type_rw']);
 	    $reviewRecord->setVote($row['vote']);
@@ -1749,7 +1749,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 function selectSongs($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -1799,7 +1799,7 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -1809,9 +1809,9 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 	    $rows[] = $row;
 	$songs = array();
 	foreach ($rows as $row) {
-	    require_once 'record.class.php';
-	    require_once 'song.class.php';
-	    require_once 'user.class.php';
+	    require_once CLASSES_DIR .'record.class.php';
+	    require_once CLASSES_DIR .'song.class.php';
+	    require_once CLASSES_DIR .'user.class.php';
 	    $song = new Song();
 	    $song->setId($row['id_s']);
 	    $song->setActive($row['active']);
@@ -1855,7 +1855,7 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 function selectSongsInPlaylist($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -1904,7 +1904,7 @@ function selectSongsInPlaylist($id = null, $where = null, $order = null, $limit 
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -1914,9 +1914,9 @@ function selectSongsInPlaylist($id = null, $where = null, $order = null, $limit 
 	    $rows[] = $row;
 	$songs = array();
 	foreach ($rows as $row) {
-	    require_once 'record.class.php';
-	    require_once 'song.class.php';
-	    require_once 'user.class.php';
+	    require_once CLASSES_DIR .'record.class.php';
+	    require_once CLASSES_DIR .'song.class.php';
+	    require_once CLASSES_DIR .'user.class.php';
 	    $song = new Song();
 	    $song->setId($row['id_s']);
 	    $song->setActive($row['active']);
@@ -1960,7 +1960,7 @@ function selectSongsInPlaylist($id = null, $where = null, $order = null, $limit 
 function selectUsers($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$this->error = $connectionService->error;
 	return;
     } else {
@@ -2004,7 +2004,7 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
                       FROM user
                      WHERE active = 1";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -2022,7 +2022,7 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -2032,7 +2032,7 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $rows[] = $row;
 	$users = array();
 	foreach ($rows as $row) {
-	    require_once 'user.class.php';
+	    require_once CLASSES_DIR.'user.class.php';
 	    $user = new User();
 	    $user->setId($row['id']);
 	    $user->setActive($row['active']);
@@ -2043,11 +2043,12 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $user->setCity($row['city']);
 	    $user->setCollaborationcounter($row['collaborationcounter']);
 	    $user->setCountry($row['country']);
-	    $user->setCreatedat($row['createdat']);
+		#TODO vuole un datime 
+//	    $user->setCreatedat($row['createdat']); 
 	    $user->setDescription($row['description']);
 	    $user->setEmail($row['email']);
 	    $user->setFacebookId($row['facebookid']);
-	    $user->setFbPage($row['facebookpage']);
+	    $user->setFacebookpage($row['facebookpage']);
 	    $user->setFirstname($row['firstname']);
 	    $user->setFollowerscounter($row['followerscounter']);
 	    $user->setFollowingcounter($row['followingcounter']);
@@ -2060,10 +2061,10 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $user->setLevelvalue($row['levelvalue']);
 	    $user->setLatitude($row['latitude']);
 	    $user->setLongitude($row['longitude']);
-	    $sql = "SELECT members
+		$sql = "SELECT members
                           FROM user_members
                          WHERE id = " . $row['id'];
-	    $results_members = mysqli_query($connectionService->connection, $sql);
+	    $results_members = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results_members->error);
@@ -2078,10 +2079,10 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $user->setMembers($members);
 	    $user->setPremium($row['premium']);
 	    $user->setPremiumexpirationdate($row['premiumexpirationdate']);
-	    $sql = "SELECT setting
+		$sql = "SELECT setting
                           FROM user_setting
                          WHERE id = " . $row['id'];
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results->error);
@@ -2097,7 +2098,8 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $user->setSex($row['sex']);
 	    $user->setThumbnail($row['thumbnail']);
 	    $user->setTwitterpage($row['twitterpage']);
-	    $user->setUpdatedat($row['updatedat']);
+		#TODO vuole un datime 
+//	    $user->setUpdatedat($row['updatedat']);
 	    $user->setUsername($row['username']);
 	    $user->setVenuecounter($row['venuecounter']);
 	    $user->setWebsite($row['website']);
@@ -2118,7 +2120,7 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 function selectVideos($id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
-    if (!$connectionService->active) {
+    if (!$connectionService->getActive()) {
 	$error = new Error();
 	$error->setErrormessage($connectionService->error);
 	return $error;
@@ -2162,7 +2164,7 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->connection, $sql);
+	$results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
 	    $error = new Error();
 	    $error->setErrormessage($results->error);
@@ -2172,7 +2174,7 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
 	    $rows[] = $row;
 	$videos = array();
 	foreach ($rows as $row) {
-	    require_once 'video.class.php';
+	    require_once CLASSES_DIR .'video.class.php';
 	    $video = new Video();
 	    $video->setId($row['id_v']);
 	    $video->setActive($row['active']);
@@ -2192,7 +2194,7 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
 	    $sql = "SELECT tag
                           FROM video_tag
                          WHERE id = " . $row['id_v'];
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
 		$error->setErrormessage($results->error);
