@@ -131,6 +131,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $album->setLongitude($row['longitude']);
 	    $album->setLovecounter($row['lovecounter']);
 	    $album->setSharecounter($row['sharecounter']);
+		/*
 	    $sql = "SELECT tag
                           FROM album_tag
                          WHERE id = " . $row['id'];
@@ -147,6 +148,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 		$tags[] = $row_tag;
 	    }
 	    $album->setTag($tags);
+		 * */
 	    $album->setThumbnail($row['thumbnail_a']);
 	    $album->setTitle($row['title']);
 	    $album->setCreatedat($row['createdat']);
@@ -890,6 +892,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    $image->setLovecounter($row['lovecounter']);
 	    $image->setPath($row['path']);
 	    $image->setSharecounter($row['sharecounter']);
+		/*
 	    $sql = "SELECT tag
                           FROM image_tag
                          WHERE id = " . $row['id_i'];
@@ -1297,7 +1300,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
                      WHERE r.active = 1
                        AND r.fromuser = u.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND r.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -1340,11 +1343,13 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    $record->setCover($row['cover']);
 	    $record->setDescription($row['description']);
 	    $record->setDuration($row['duration']);
+		require_once CLASSES_DIR . 'user.class.php';
 	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
 	    $record->setFromuser($fromuser);
+		/*
 	    $sql = "SELECT genre
                           FROM record_genre
                          WHERE id = " . $row['genre'];
@@ -1360,7 +1365,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    foreach ($rows_genre as $row_genre) {
 		$genres[] = $row_genre;
 	    }
-	    $record->setGenre($genres);
+	    $record->setGenre($genres);*/
 	    $record->setLabel($row['label']);
 	    $record->setLatitude($row['latitude']);
 	    $record->setLongitude($row['longitude']);
@@ -1374,7 +1379,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    $record->setYear($row['year']);
 	    $record->setCreatedat($row['createdat']);
 	    $record->setUpdatedat($row['updatedat']);
-	    $records[$row['id']] = $record;
+	    $records[$row['id_r']] = $record;
 	}
 	$connectionService->disconnect();
 	return $records;
@@ -2150,6 +2155,7 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 //	    $user->setSettings($settings);
 	    $user->setSex($row['sex']);
 	    $user->setThumbnail($row['thumbnail']);
+		$user->setType($row['type']);
 	    $user->setTwitterpage($row['twitterpage']);
 	    #TODO vuole un datime 
 //	    $user->setUpdatedat($row['updatedat']);
