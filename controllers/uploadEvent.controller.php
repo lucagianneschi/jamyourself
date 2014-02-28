@@ -23,7 +23,6 @@ require_once CLASSES_DIR . 'userParse.class.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once BOXES_DIR . "utilsBox.php";
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
 
@@ -111,7 +110,6 @@ class UploadEventController extends REST {
 	    $event->setAddress($infoLocation["address"] . ", " . $infoLocation['number']);
 	    $event->setCity($infoLocation["city"]);
 	    $event->setLovecounter(0);
-	    $event->setLovers(array());
 	    $event->setRefused(null);
 	    $event->setReviewcounter(0);
 	    $event->setSharecounter(0);
@@ -147,30 +145,6 @@ class UploadEventController extends REST {
 	}
     }
 
-    /**
-     * \fn	createActivity($fromuser, $eventId)
-     * \brief   funzione per la creazione dell'activity legata alla creazione dell'event
-     */
-    private function createActivity($fromuser, $eventId) {
-	require_once CLASSES_DIR . 'activity.class.php';
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setAlbum(null);
-	$activity->setCounter(0);
-	$activity->setEvent($eventId);
-	$activity->setFromuser($fromuser);
-	$activity->setImage(null);
-	$activity->setPlaylist(null);
-	$activity->setQuestion(null);
-	$activity->setRead(true);
-	$activity->setRecord(null);
-	$activity->setSong(null);
-	$activity->setStatus("A");
-	$activity->setTouser(null);
-	$activity->setType("EVENTCREATED");
-	$activity->setVideo(null);
-	return $activity;
-    }
 
     /**
      * \fn	getDate($day, $hours)
