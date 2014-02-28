@@ -37,7 +37,7 @@ class AlbumBox {
      * \param	$id for user that owns the page, $limit, $skip, $upload
      * \todo    
      */
-    public function init($id, $limit = 3, $skip = 0, $upload = false) {
+    public function init($id, $limit = 3, $skip = 0) {
 	$albums = selectAlbums(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($albums instanceof Error) {
 	    $this->error = $albums->getErrorMessage();
