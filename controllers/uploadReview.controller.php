@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  * \author		Stefano Muscas
- * \version		1.0
+ * \version		0.3
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
@@ -124,7 +124,6 @@ class UploadReviewController extends REST {
 	    $review->setImage(null);
 	    $review->setLocation(null);
 	    $review->setLovecounter(0);
-	    $review->setLovers(array());
 	    $review->setSharecounter(0);
 	    $review->setSong(null);
 	    $review->setTag(array());
@@ -157,46 +156,13 @@ class UploadReviewController extends REST {
 	    $resRev = $commentParse->saveComment($review);
 	    if ($resRev instanceof Error) {
 		$this->response(array("status" => $controllers['NOSAVEDREVIEW']), 503);
-	    } elseif ($this->saveActivityForNewReview($type, $touser->getId()) instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackUploadReviewController($resRev->getId());
-		$this->response(array('status' => $message), 503);
-	    }
+	    } 
 	    $this->response(array("status" => $controllers['REWSAVED'], "id" => $this->reviewedId), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
 
-    /**
-     * \fn	saveActivityForNewReview($type, $touser)
-     * \brief   funzione per il salvataggio dell'activity connessa all'inserimento della review
-     * \todo    differenziare il caso event o record
-     */
-    private function saveActivityForNewReview($type, $touser) {
-	require_once CLASSES_DIR . 'user.class.php';
-	require_once CLASSES_DIR . 'activity.class.php';
-	require_once CLASSES_DIR . 'activityParse.class.php';
-	$currentUser = $_SESSION['currentUser'];
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setCounter(0);
-	$activity->setFromuser($currentUser->getId());
-	$activity->setRead(false);
-	$activity->setStatus('A');
-	$activity->setType($type);
-	$activity->setTouser($touser);
-	if ($type == "NEWEVENTREVIEW") {
-	    $activity->setEvent($this->reviewed->getId());
-	    $activity->setRecord(null);
-	} else {
-	    $activity->setEvent(null);
-	    $activity->setRecord($this->reviewed->getId());
-	}
-	$activityParse = new ActivityParse();
-	$resActivity = $activityParse->saveActivity($activity);
-	return $resActivity;
-    }
 
 }
 
