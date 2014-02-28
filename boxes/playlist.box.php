@@ -36,7 +36,8 @@ class PlaylistInfoBox {
      * \return	playlistInfoBox
      */
     public function init() {
-	$playlists = selectPlaylists(null, array('fromuser' => $currentUserId));
+	$user = $_SESSION['currentUser'];
+	$playlists = selectPlaylists(null, array('fromuser' => $user->getId()));
 	if ($playlists instanceof Error) {
 	    $this->error = $playlists->getErrorMessage();
 	}
@@ -61,7 +62,7 @@ class PlaylistSongBox {
      * \todo	terminare funzione prendere songs che stanno dentro la playlist
      */
     public function init($playlistId) {
-	$songs = selectSongsInPlaylist($playlistId, $where= null, $order= null, 20, 0);
+	$songs = selectSongsInPlaylist($playlistId, 20, 0);
 	if ($songs instanceof Error) {
 	    $this->error = $songs->getErrorMessage();
 	}
@@ -69,4 +70,5 @@ class PlaylistSongBox {
     }
 
 }
+
 ?>

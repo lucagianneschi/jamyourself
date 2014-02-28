@@ -36,8 +36,8 @@ class CommentBox {
      * \param	$className for the instance of the class that has been commented, $id for object that has been commented,
      * \param   $limit number of objects to retreive, $skip number of objects to skip
      */
-    public function init($id, $limit = DEFAULTQUERY, $skip = 0) {
-	$comments = selectComments(null, array('album' => $id), array('createad' => 'DESC'), $limit, $skip);
+    public function init($id,$classname, $limit = DEFAULTQUERY, $skip = 0) {
+	$comments = selectComments(null, array($classname => $id), array('createad' => 'DESC'), $limit, $skip);
 	if ($comments instanceof Error) {
 	    $this->error = $comments->getErrorMessage();
 	}
