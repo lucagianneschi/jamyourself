@@ -65,12 +65,6 @@ class RecordBox {
      * \todo
      */
     public function initForStream($lat = null, $long = null, $city = null, $country = null, $genre = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = 'loveCounter') {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->error = ONLYIFLOGGEDIN;
-	    return;
-	}
     }
 
     /**
