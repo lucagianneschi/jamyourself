@@ -1,27 +1,33 @@
 <?php
+
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'mantainance.service.php';
 require_once SERVICES_DIR . 'session.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+
 require_once BOXES_DIR . 'userInfo.box.php';
 
 $currentUser = $_SESSION['currentUser'];
 $userObjectId = $currentUser->getId();
 
 if (isset($_GET['user'])) {
-    $userObjectId = $_GET['user'];
+    $userPageId = $_GET['user'];
 }
 
 $userInfoBox = new UserInfoBox();
-$userInfoBox->init($userObjectId);
+$userInfoBox->init($userPageId);
 
-if (is_null($userInfoBox->error)) {
-    $user = $userInfoBox->user;
+if (is_null($userInfoBox->error)) {	
+   
+	foreach ($userInfoBox->user as $key => $value) {
+		$user = $value;
+	}	
     ?>
     <!DOCTYPE html>
     <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
@@ -72,3 +78,4 @@ if (is_null($userInfoBox->error)) {
 } else {
     header('Location: ' . VIEWS_DIR . '404.php');
 }
+?>
