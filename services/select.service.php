@@ -90,8 +90,10 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -109,7 +111,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $rows_album[] = $row;
 	$albums = array();
 	foreach ($rows_album as $row) {
-	    require_once CLASSES_DIR .'album.class.php';
+	    require_once CLASSES_DIR . 'album.class.php';
 	    $album = new Album();
 	    $album->setId($row['id_a']);
 	    $album->setActive($row['active']);
@@ -117,12 +119,12 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $album->setCounter($row['counter']);
 	    $album->setCover($row['cover']);
 	    $album->setDescription($row['description']);
-		require_once CLASSES_DIR .'user.class.php';
+	    require_once CLASSES_DIR . 'user.class.php';
 	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
-		$fromuser->setType($row['type']);
+	    $fromuser->setType($row['type']);
 	    $album->setFromuser($fromuser);
 	    $album->setImagecounter($row['imagecounter']);
 	    $album->setLatitude($row['latitude']);
@@ -353,8 +355,10 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -372,12 +376,12 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $rows[] = $row;
 	$comment = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'comment.class.php';
-	    require_once CLASSES_DIR .'user.class.php';
+	    require_once CLASSES_DIR . 'comment.class.php';
+	    require_once CLASSES_DIR . 'user.class.php';
 	    $comment = new Comment();
 	    $comment->setId($row['id_cmt']);
 	    $comment->setActive($row['active_cmt']);
-	    require_once CLASSES_DIR .'album.class.php';
+	    require_once CLASSES_DIR . 'album.class.php';
 	    $album = new Album();
 	    $album->setId($row['id_a']);
 	    $album->setActive($row['active_a']);
@@ -415,7 +419,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $comment->setCommentcounter($row['commentcounter_cmt']);
 	    $comment->setCounter($row['counter_cmt']);
 	    $comment->setCreatedat($row['createdat_cmt']);
-	    require_once CLASSES_DIR .'event.class.php';
+	    require_once CLASSES_DIR . 'event.class.php';
 	    $event = new Event();
 	    $event->setId($row['id_e']);
 	    $event->setCreatedat($row['createdat_e']);
@@ -477,10 +481,10 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $fromuser->setId($row['id_fu']);
 	    $fromuser->setThumbnail($row['thumbnail_fu']);
 	    $fromuser->setUsername($row['username_fu']);
-		$fromuser->setType($row['type_fu']);
+	    $fromuser->setType($row['type_fu']);
 	    $comment->setFromuser($fromuser);
-	    require_once CLASSES_DIR .'album.class.php';
-	    require_once CLASSES_DIR .'image.class.php';
+	    require_once CLASSES_DIR . 'album.class.php';
+	    require_once CLASSES_DIR . 'image.class.php';
 	    $image = new Image();
 	    $image->setId($row['id_i']);
 	    $image->setCreatedat($row['createdat_i']);
@@ -517,7 +521,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $comment->setImage($image);
 	    $comment->setLatitude($row['latitude_cmt']);
 	    $comment->setLovecounter($row['lovecounter_cmt']);
-	    require_once CLASSES_DIR .'record.class.php';
+	    require_once CLASSES_DIR . 'record.class.php';
 	    $record = new Record();
 	    $record->setId($row['id_r']);
 	    $record->setCreatedat($row['createdat_r']);
@@ -558,8 +562,8 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $record->setYear($row['year_r']);
 	    $comment->setRecord($record);
 	    $comment->setSharecounter($row['sharecounter_cmt']);
-	    require_once CLASSES_DIR .'record.class.php';
-	    require_once CLASSES_DIR .'song.class.php';
+	    require_once CLASSES_DIR . 'record.class.php';
+	    require_once CLASSES_DIR . 'song.class.php';
 	    $song = new Song();
 	    $song->setId($row['id_s']);
 	    $song->setActive($row['active_s']);
@@ -600,9 +604,9 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $touser->setId($row['id_tu']);
 	    $touser->setThumbnail($row['thumbnail_tu']);
 	    $touser->setUsername($row['username_tu']);
-		$touser->setType($row['type_tu']);
+	    $touser->setType($row['type_tu']);
 	    $comment->setTouser($touser);
-	    require_once CLASSES_DIR .'video.class.php';
+	    require_once CLASSES_DIR . 'video.class.php';
 	    $video = new Video();
 	    $video->setId($row['id_v']);
 	    $video->setActive($row['active']);
@@ -699,8 +703,10 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -718,7 +724,7 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	    $rows[] = $row;
 	$events = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'event.class.php';
+	    require_once CLASSES_DIR . 'event.class.php';
 	    $event = new Event();
 	    $event->setId($row['id_e']);
 	    $event->setActive($row['active']);
@@ -735,7 +741,7 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
-		$fromuser->setType($row['type']);
+	    $fromuser->setType($row['type']);
 	    $event->setFromuser($fromuser);
 	    $sql = "SELECT genre
                           FROM event_genre
@@ -839,8 +845,10 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -858,8 +866,8 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    $rows[] = $row;
 	$images = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'album.class.php';
-	    require_once CLASSES_DIR .'image.class.php';
+	    require_once CLASSES_DIR . 'album.class.php';
+	    require_once CLASSES_DIR . 'image.class.php';
 	    $image = new Image();
 	    $image->setId($row['id_i']);
 	    $image->setCreatedat($row['createdat']);
@@ -875,7 +883,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
-		$fromuser->setType($row['type']);
+	    $fromuser->setType($row['type']);
 	    $image->setFromuser($fromuser);
 	    $image->setLatitude($row['latitude']);
 	    $image->setLongitude($row['longitude']);
@@ -963,8 +971,10 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -982,8 +992,8 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
 	    $rows[] = $row;
 	$messages = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'comment.class.php';
-	    require_once CLASSES_DIR .'user.class.php';
+	    require_once CLASSES_DIR . 'comment.class.php';
+	    require_once CLASSES_DIR . 'user.class.php';
 	    $message = new Comment();
 	    $message->setId($row['id_m']);
 	    $message->setActive($row['active']);
@@ -1074,8 +1084,10 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1093,7 +1105,7 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 	    $rows[] = $row;
 	$playlists = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'playlist.class.php';
+	    require_once CLASSES_DIR . 'playlist.class.php';
 	    $playlist = new Playlist();
 	    $playlist->setId($row['id_p']);
 	    $playlist->setActive($row['active']);
@@ -1168,8 +1180,10 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1187,8 +1201,8 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $rows[] = $row;
 	$posts = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'comment.class.php';
-	    require_once CLASSES_DIR .'user.class.php';
+	    require_once CLASSES_DIR . 'comment.class.php';
+	    require_once CLASSES_DIR . 'user.class.php';
 	    $post = new Comment();
 	    $post->setId($row['id_p']);
 	    $post->setActive($row['active']);
@@ -1198,7 +1212,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
-		$fromuser->setType($row['type_u']);
+	    $fromuser->setType($row['type_u']);
 	    $post->setFromuser($fromuser);
 	    $post->setLatitude($row['latitude']);
 	    $post->setLongitude($row['longitude']);
@@ -1226,7 +1240,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $touser->setId($row['id_fu']);
 	    $touser->setThumbnail($row['thumbnail_fu']);
 	    $touser->setUsername($row['username_fu']);
-		$touser->setType($row['type_fu']);
+	    $touser->setType($row['type_fu']);
 	    $post->setFromuser($touser);
 	    $post->setType($row['type_p']);
 	    $post->setVote($row['vote']);
@@ -1294,8 +1308,10 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1313,7 +1329,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    $rows[] = $row;
 	$records = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'record.class.php';
+	    require_once CLASSES_DIR . 'record.class.php';
 	    $record = new Record();
 	    $record->setId($row['id_r']);
 	    $record->setActive($row['active']);
@@ -1444,8 +1460,10 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1463,9 +1481,9 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $rows[] = $row;
 	$reviewEvents = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'comment.class.php';
-	    require_once CLASSES_DIR .'event.class.php';
-	    require_once CLASSES_DIR .'user.class.php';
+	    require_once CLASSES_DIR . 'comment.class.php';
+	    require_once CLASSES_DIR . 'event.class.php';
+	    require_once CLASSES_DIR . 'user.class.php';
 	    $reviewEvent = new Comment();
 	    $reviewEvent->setId($row['id_rw']);
 	    $reviewEvent->setActive($row['active_rw']);
@@ -1532,7 +1550,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $fromuser->setId($row['id_fu']);
 	    $fromuser->setThumbnail($row['thumbnail_fu']);
 	    $fromuser->setUsername($row['username_fu']);
-		$fromuser->setType($row['type_fu']);
+	    $fromuser->setType($row['type_fu']);
 	    $reviewEvent->setFromuser($fromuser);
 	    $reviewEvent->setLatitude($row['latitude_rw']);
 	    $reviewEvent->setLongitude($row['longitude_rw']);
@@ -1560,7 +1578,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $touser->setId($row['id_u']);
 	    $touser->setThumbnail($row['thumbnail_u']);
 	    $touser->setUsername($row['username_u']);
-		$touser->setType($row['type_u']);
+	    $touser->setType($row['type_u']);
 	    $reviewEvent->setTouser($touser);
 	    $reviewEvent->setType($row['type_rw']);
 	    $reviewEvent->setVote($row['vote']);
@@ -1650,8 +1668,10 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1669,9 +1689,9 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $rows[] = $row;
 	$reviewRecords = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'comment.class.php';
-	    require_once CLASSES_DIR .'record.class.php';
-	    require_once CLASSES_DIR .'user.class.php';
+	    require_once CLASSES_DIR . 'comment.class.php';
+	    require_once CLASSES_DIR . 'record.class.php';
+	    require_once CLASSES_DIR . 'user.class.php';
 	    $reviewRecord = new Comment();
 	    $reviewRecord->setId($row['id_rw']);
 	    $reviewRecord->setActive($row['active_rw']);
@@ -1681,7 +1701,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $fromuser->setId($row['id_fu']);
 	    $fromuser->setThumbnail($row['thumbnail_fu']);
 	    $fromuser->setUsername($row['username_fu']);
-		$fromuser->setType($row['type_fu']);
+	    $fromuser->setType($row['type_fu']);
 	    $reviewRecord->setFromuser($fromuser);
 	    $reviewRecord->setLatitude($row['latitude_rw']);
 	    $reviewRecord->setLongitude($row['longitude_rw']);
@@ -1748,7 +1768,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $touser->setId($row['id_u']);
 	    $touser->setThumbnail($row['thumbnail_u']);
 	    $touser->setUsername($row['username_u']);
-		$touser->setType($row['type_u']);
+	    $touser->setType($row['type_u']);
 	    $reviewRecord->setTouser($touser);
 	    $reviewRecord->setType($row['type_rw']);
 	    $reviewRecord->setVote($row['vote']);
@@ -1813,8 +1833,10 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1832,9 +1854,9 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 	    $rows[] = $row;
 	$songs = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'record.class.php';
-	    require_once CLASSES_DIR .'song.class.php';
-	    require_once CLASSES_DIR .'user.class.php';
+	    require_once CLASSES_DIR . 'record.class.php';
+	    require_once CLASSES_DIR . 'song.class.php';
+	    require_once CLASSES_DIR . 'user.class.php';
 	    $song = new Song();
 	    $song->setId($row['id_s']);
 	    $song->setActive($row['active']);
@@ -1920,8 +1942,10 @@ function selectSongsInPlaylist($id = null, $where = null, $order = null, $limit 
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1939,9 +1963,9 @@ function selectSongsInPlaylist($id = null, $where = null, $order = null, $limit 
 	    $rows[] = $row;
 	$songs = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'record.class.php';
-	    require_once CLASSES_DIR .'song.class.php';
-	    require_once CLASSES_DIR .'user.class.php';
+	    require_once CLASSES_DIR . 'record.class.php';
+	    require_once CLASSES_DIR . 'song.class.php';
+	    require_once CLASSES_DIR . 'user.class.php';
 	    $song = new Song();
 	    $song->setId($row['id_s']);
 	    $song->setActive($row['active']);
@@ -2040,8 +2064,10 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -2059,7 +2085,7 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $rows[] = $row;
 	$users = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR.'user.class.php';
+	    require_once CLASSES_DIR . 'user.class.php';
 	    $user = new User();
 	    $user->setId($row['id']);
 	    $user->setActive($row['active']);
@@ -2070,7 +2096,7 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $user->setCity($row['city']);
 	    $user->setCollaborationcounter($row['collaborationcounter']);
 	    $user->setCountry($row['country']);
-		#TODO vuole un datime 
+	    #TODO vuole un datime 
 //	    $user->setCreatedat($row['createdat']); 
 	    $user->setDescription($row['description']);
 	    $user->setEmail($row['email']);
@@ -2088,45 +2114,44 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $user->setLevelvalue($row['levelvalue']);
 	    $user->setLatitude($row['latitude']);
 	    $user->setLongitude($row['longitude']);
-		/*
-		$sql = "SELECT members
-                          FROM user_members
-                         WHERE id = " . $row['id'];
-	    $results_members = mysqli_query($connectionService->getConnection(), $sql);
-	    if (!$results_members) {
-		$error = new Error();
-		$error->setErrormessage($results_members->error);
-		return $error;
-	    }
-	    while ($row_members = mysqli_fetch_array($results_members, MYSQLI_ASSOC))
-		$rows_members[] = $row_members;
-	    $members = array();
-	    foreach ($rows_members as $row_members) {
-		$members[] = $row_members;
-	    }
-	    $user->setMembers($members);
+//	    $sql = "SELECT members
+//                          FROM user_members
+//                         WHERE id = " . $row['id'];
+//	    $results_members = mysqli_query($connectionService->getConnection(), $sql);
+//	    if (!$results_members) {
+//		$error = new Error();
+//		$error->setErrormessage($results_members->error);
+//		return $error;
+//	    }
+//	    while ($row_members = mysqli_fetch_array($results_members, MYSQLI_ASSOC))
+//		$rows_members[] = $row_members;
+//	    $members = array();
+//	    foreach ($rows_members as $row_members) {
+//		$members[] = $row_members;
+//	    }
+//	    $user->setMembers($members);
 	    $user->setPremium($row['premium']);
 	    $user->setPremiumexpirationdate($row['premiumexpirationdate']);
-		$sql = "SELECT setting
-                          FROM user_setting
-                         WHERE id = " . $row['id'];
-	    $results = mysqli_query($connectionService->getConnection(), $sql);
-	    if (!$results) {
-		$error = new Error();
-		$error->setErrormessage($results->error);
-		return $error;
-	    }
-	    while ($row_setting = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows_setting[] = $row_setting;
-	    $settings = array();
-	    foreach ($rows_setting as $row_setting) {
-		$settings[] = $row_setting;
-	    }
-	    $user->setSettings($settings);
+//	    $sql = "SELECT setting
+//                          FROM user_setting
+//                         WHERE id = " . $row['id'];
+//	    $results = mysqli_query($connectionService->getConnection(), $sql);
+//	    if (!$results) {
+//		$error = new Error();
+//		$error->setErrormessage($results->error);
+//		return $error;
+//	    }
+//	    while ($row_setting = mysqli_fetch_array($results, MYSQLI_ASSOC))
+//		$rows_setting[] = $row_setting;
+//	    $settings = array();
+//	    foreach ($rows_setting as $row_setting) {
+//		$settings[] = $row_setting;
+//	    }
+//	    $user->setSettings($settings);
 	    $user->setSex($row['sex']);
 	    $user->setThumbnail($row['thumbnail']);
 	    $user->setTwitterpage($row['twitterpage']);
-		#TODO vuole un datime 
+	    #TODO vuole un datime 
 //	    $user->setUpdatedat($row['updatedat']);
 	    $user->setUsername($row['username']);
 	    $user->setVenuecounter($row['venuecounter']);
@@ -2185,8 +2210,10 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
 	    $sql .= " ORDER BY ";
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
-	    	if($last == $value) $sql .= " " . $key . " " . $value;
-			else $sql .= " " . $key . " " . $value . ",";
+		if ($last == $value)
+		    $sql .= " " . $key . " " . $value;
+		else
+		    $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -2204,7 +2231,7 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
 	    $rows[] = $row;
 	$videos = array();
 	foreach ($rows as $row) {
-	    require_once CLASSES_DIR .'video.class.php';
+	    require_once CLASSES_DIR . 'video.class.php';
 	    $video = new Video();
 	    $video->setId($row['id_v']);
 	    $video->setActive($row['active']);
