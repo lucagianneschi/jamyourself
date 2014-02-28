@@ -38,14 +38,6 @@ class AlbumBox {
      * \todo    
      */
     public function init($id, $limit = 3, $skip = 0, $upload = false) {
-	if ($upload == true) {
-	    require_once SERVICES_DIR . 'utils.service.php';
-	    $currentUserId = sessionChecker();
-	    if (is_null($currentUserId)) {
-		$this->error = ONLYIFLOGGEDIN;
-		return;
-	    }
-	}
 	$albums = selectAlbums(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($albums instanceof Error) {
 	    $this->error = $albums->getErrorMessage();
