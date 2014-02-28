@@ -144,7 +144,7 @@ class AccessController extends REST {
 		return false;
 	    }
 	    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-	    $user = new User($row[0]['type']);
+	    $user = new User();
 	    $user->setId($row[0]['id']);
 	    $user->setActive($row[0]['active']);
 	    $user->setAddress($row[0]['address']);
@@ -178,6 +178,7 @@ class AccessController extends REST {
 	    $user->setSettings($row[0]['settings']);
 	    $user->setSex($row[0]['sex']);
 	    $user->setThumbnail($row[0]['thumbnail']);
+	    $user->setType($row[0]['type']);
 	    $user->setTwitterpage($row[0]['twitterpage']);
 	    $user->setUpdatedat($row[0]['updatedat']);
 	    $user->setUsername($row[0]['username']);

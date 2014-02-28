@@ -115,10 +115,11 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $album->setCounter($row['counter']);
 	    $album->setCover($row['cover']);
 	    $album->setDescription($row['description']);
-	    $fromuser = new User($row['type']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
+	    $fromuser->setType($row['type']);
 	    $album->setFromuser($fromuser);
 	    $album->setImagecounter($row['imagecounter']);
 	    $album->setLatitude($row['latitude']);
@@ -467,10 +468,11 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $event->setThumbnail($row['thumbnail_e']);
 	    $event->setTitle($row['title_e']);
 	    $comment->setEvent($event);
-	    $fromuser = new User($row['type_fu']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_fu']);
 	    $fromuser->setThumbnail($row['thumbnail_fu']);
 	    $fromuser->setUsername($row['username_fu']);
+	    $fromuser->setType($row['type_fu']);
 	    $comment->setFromuser($fromuser);
 	    require_once 'album.class.php';
 	    require_once 'image.class.php';
@@ -589,10 +591,11 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	    $comment->setText($row['text_cmt']);
 	    $comment->setTitle($row['title_cmt']);
 	    $comment->setUpdatedat($row['updatedat_cmt']);
-	    $touser = new User($row['type_tu']);
+	    $touser = new User();
 	    $touser->setId($row['id_tu']);
 	    $touser->setThumbnail($row['thumbnail_tu']);
 	    $touser->setUsername($row['username_tu']);
+	    $touser->setType($row['type_tu']);
 	    $comment->setTouser($touser);
 	    require_once 'video.class.php';
 	    $video = new Video();
@@ -721,10 +724,11 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	    $event->setCover($row['cover']);
 	    $event->setDescription($row['description']);
 	    $event->setEventdate($row['eventdate']);
-	    $fromuser = new User($row['type']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
+	    $fromuser->setType($row['type']);
 	    $event->setFromuser($fromuser);
 	    $sql = "SELECT genre
                           FROM event_genre
@@ -858,10 +862,11 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    $image->setAlbum($album);
 	    $image->setCommentcounter($row['commentcounter']);
 	    $image->setCounter($row['counter']);
-	    $fromuser = new User($row['type']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
+	    $fromuser->setType($row['type']);
 	    $image->setFromuser($fromuser);
 	    $image->setLatitude($row['latitude']);
 	    $image->setLongitude($row['longitude']);
@@ -973,7 +978,7 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
 	    $message->setActive($row['active']);
 	    $message->setCommentcounter($row['commentcounter']);
 	    $message->setCounter($row['counter']);
-	    $fromuser = new User($row['type_fu']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_fu']);
 	    $fromuser->setThumbnail($row['thumbnail_fu']);
 	    $fromuser->setUsername($row['username_fu']);
@@ -1001,7 +1006,7 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
 	    $message->setTag($tags);
 	    $message->setText($row['text']);
 	    $message->setTitle($row['title']);
-	    $touser = new User($row['type_tu']);
+	    $touser = new User();
 	    $touser->setId($row['id_tu']);
 	    $touser->setThumbnail($row['thumbnail_tu']);
 	    $touser->setUsername($row['username_tu']);
@@ -1080,7 +1085,7 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 	    $playlist->setId($row['id_p']);
 	    $playlist->setActive($row['active']);
 	    $playlist->setCreatedat($row['createdat']);
-	    $fromuser = new User($row['type']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setUsername($row['username']);
 	    $playlist->setFromuser($fromuser);
@@ -1174,10 +1179,11 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $post->setActive($row['active']);
 	    $post->setCommentcounter($row['commentcounter']);
 	    $post->setCounter($row['counter']);
-	    $fromuser = new User($row['type_u']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
+	    $fromuser->setType($row['type_u']);
 	    $post->setFromuser($fromuser);
 	    $post->setLatitude($row['latitude']);
 	    $post->setLongitude($row['longitude']);
@@ -1201,10 +1207,11 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	    $post->setTag($tags);
 	    $post->setText($row['text']);
 	    $post->setTitle($row['title']);
-	    $touser = new User($row['type_fu']);
+	    $touser = new User();
 	    $touser->setId($row['id_fu']);
 	    $touser->setThumbnail($row['thumbnail_fu']);
 	    $touser->setUsername($row['username_fu']);
+	    $touser->setType($row['type_fu']);
 	    $post->setFromuser($touser);
 	    $post->setType($row['type_p']);
 	    $post->setVote($row['vote']);
@@ -1300,7 +1307,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    $record->setCover($row['cover']);
 	    $record->setDescription($row['description']);
 	    $record->setDuration($row['duration']);
-	    $fromuser = new User($row['type']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
@@ -1502,10 +1509,11 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $event->setCreatedat($row['createdat_e']);
 	    $event->setUpdatedat($row['updatedat_e']);
 	    $reviewEvent->setEvent($event);
-	    $fromuser = new User($row['type_fu']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_fu']);
 	    $fromuser->setThumbnail($row['thumbnail_fu']);
 	    $fromuser->setUsername($row['username_fu']);
+	    $fromuser->setType($row['type_fu']);
 	    $reviewEvent->setFromuser($fromuser);
 	    $reviewEvent->setLatitude($row['latitude_rw']);
 	    $reviewEvent->setLongitude($row['longitude_rw']);
@@ -1529,10 +1537,11 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	    $reviewEvent->setTag($tags);
 	    $reviewEvent->setText($row['text']);
 	    $reviewEvent->setTitle($row['title']);
-	    $touser = new User($row['type_u']);
+	    $touser = new User();
 	    $touser->setId($row['id_u']);
 	    $touser->setThumbnail($row['thumbnail_u']);
 	    $touser->setUsername($row['username_u']);
+	    $touser->setType($row['type_u']);
 	    $reviewEvent->setTouser($touser);
 	    $reviewEvent->setType($row['type_rw']);
 	    $reviewEvent->setVote($row['vote']);
@@ -1647,10 +1656,11 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $reviewRecord->setActive($row['active_rw']);
 	    $reviewRecord->setCommentcounter($row['commentcounter_rw']);
 	    $reviewRecord->setCounter($row['counter_rw']);
-	    $fromuser = new User($row['type_fu']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_fu']);
 	    $fromuser->setThumbnail($row['thumbnail_fu']);
 	    $fromuser->setUsername($row['username_fu']);
+	    $fromuser->setType($row['type_fu']);
 	    $reviewRecord->setFromuser($fromuser);
 	    $reviewRecord->setLatitude($row['latitude_rw']);
 	    $reviewRecord->setLongitude($row['longitude_rw']);
@@ -1713,10 +1723,11 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	    $reviewRecord->setTag($tags);
 	    $reviewRecord->setText($row['text']);
 	    $reviewRecord->setTitle($row['title']);
-	    $touser = new User($row['type_u']);
+	    $touser = new User();
 	    $touser->setId($row['id_u']);
 	    $touser->setThumbnail($row['thumbnail_u']);
 	    $touser->setUsername($row['username_u']);
+	    $touser->setType($row['type_u']);
 	    $reviewRecord->setTouser($touser);
 	    $reviewRecord->setType($row['type_rw']);
 	    $reviewRecord->setVote($row['vote']);
@@ -1808,7 +1819,7 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 	    $song->setCounter($row['counter']);
 	    $song->setCreatedat($row['createdat']);
 	    $song->setDuration($row['duration']);
-	    $fromuser = new User($row['type']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setType($row['type']);
@@ -1913,7 +1924,7 @@ function selectSongsInPlaylist($id = null, $where = null, $order = null, $limit 
 	    $song->setCounter($row['counter']);
 	    $song->setCreatedat($row['createdat']);
 	    $song->setDuration($row['duration']);
-	    $fromuser = new User($row['type']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setType($row['type']);
@@ -2022,7 +2033,7 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	$users = array();
 	foreach ($rows as $row) {
 	    require_once 'user.class.php';
-	    $user = new User($row['type']);
+	    $user = new User();
 	    $user->setId($row['id']);
 	    $user->setActive($row['active']);
 	    $user->setAddress($row['address']);
@@ -2171,7 +2182,7 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
 	    $video->setCreatedat($row['createdat']);
 	    $video->setDescription($row['description']);
 	    $video->setDuration($row['duration']);
-	    $fromuser = new User($row['type']);
+	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setType($row['type']);

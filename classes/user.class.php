@@ -60,21 +60,6 @@ class User {
     private $youtubechannel;
 
     /**
-     * \fn	void __construct($type)
-     * \brief	The constructor instantiate the type of the User
-     * \param	$type the string which represent the User type (VENUE|JAMMER|SPOTTER)
-     */
-    public function __construct($type) {
-	if (is_null($type) || !in_array($type, array('VENUE', 'JAMMER', 'SPOTTER'))) {
-	    $e = new Exception('User Class type must be defined');
-	    throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-	    throw $e;
-	} else {
-	    $this->setType($type);
-	}
-    }
-
-    /**
      * \fn	int getId()
      * \brief	Return the id value
      * \return	string
