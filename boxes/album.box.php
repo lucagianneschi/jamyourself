@@ -52,7 +52,7 @@ class AlbumBox {
      * \todo    
      */
     public function initForDetail($id, $limit = 15, $skip = 0) {
-	$images = selectImages(null, array('album' => $id), array('createad' => 'DESC'), $limit, $skip);
+	$images = selectImages(null, array('album' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($images instanceof Error) {
 	    $this->error = $images->getErrorMessage();
 	}
