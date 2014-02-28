@@ -88,8 +88,10 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -115,6 +117,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $album->setCounter($row['counter']);
 	    $album->setCover($row['cover']);
 	    $album->setDescription($row['description']);
+		require_once CLASSES_DIR .'user.class.php';
 	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
@@ -348,8 +351,10 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -692,8 +697,10 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -830,8 +837,10 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -952,8 +961,10 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1061,8 +1072,10 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1153,8 +1166,10 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1277,8 +1292,10 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1425,8 +1442,10 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1629,8 +1648,10 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1790,8 +1811,10 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -1895,8 +1918,10 @@ function selectSongsInPlaylist($id = null, $where = null, $order = null, $limit 
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -2013,8 +2038,10 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -2061,11 +2088,12 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 	    $user->setLevelvalue($row['levelvalue']);
 	    $user->setLatitude($row['latitude']);
 	    $user->setLongitude($row['longitude']);
+		/*
 		$sql = "SELECT members
                           FROM user_members
                          WHERE id = " . $row['id'];
 	    $results_members = mysqli_query($connectionService->getConnection(), $sql);
-	    if (!$results) {
+	    if (!$results_members) {
 		$error = new Error();
 		$error->setErrormessage($results_members->error);
 		return $error;
@@ -2155,8 +2183,10 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
 	}
 	if (!is_null($order)) {
 	    $sql .= " ORDER BY ";
+	    $last = end($order);
 	    foreach ($order as $key => $value) {
-		$sql .= " " . $key . " " . $value . ",";
+	    	if($last == $value) $sql .= " " . $key . " " . $value;
+			else $sql .= " " . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
