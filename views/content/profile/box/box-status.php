@@ -26,7 +26,8 @@ $id = $user->getId();
 
 $currentUserType = $currentUser->getType();
 $currentUser = $currentUser->getId();
-$badge = $user->getBadge();
+#TODO
+//$badge = $user->getBadge();
 $noBadge = 10 - count($badge);
 $css_message = '';
 $css_relation = 'no-display';

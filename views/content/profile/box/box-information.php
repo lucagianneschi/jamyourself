@@ -50,7 +50,7 @@ function noDisplay($dato) {
 		    <a class="ico-label white breakOff <?php echo noDisplay($user->getCity()); ?><?php echo $information_pin; ?>"><?php echo $user->getCity(); ?></a>
 		    <a class="ico-label grey breakOff <?php echo noDisplay($user->getAddress()); ?>" id="information-address"><?php echo $user->getAddress(); ?></a>
 		    <!-- TODO -->
-	    <!-- a class="ico-label white breakOff<?php echo $information_note; ?>"><?php echo $user->getMusic(); ?></a -->
+	    <!-- a class="ico-label white breakOff<?php echo $information_note; ?>"><?php // echo $user->getMusic(); ?></a -->
 		</div>
 		<div class="small-6 columns">
 		    <div class="row <?php echo noDisplay($user->getFacebookpage()); ?>">
@@ -84,6 +84,8 @@ function noDisplay($dato) {
 	</section>
 	<?php
 	if ($type == 'JAMMER') {
+		#TODO
+		/*
 	    ?>
     	<!--------------------------------------- MEMBRES --------------------------------------->
 	    <?php
@@ -115,6 +117,8 @@ function noDisplay($dato) {
 		</section>
 		<?php
 	    }
+		 * */
+		
 	}
 	// su utente e' tipo venue allora viene mostrato il section del map
 	if ($type == 'VENUE') {

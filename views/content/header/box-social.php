@@ -30,8 +30,13 @@ $invited->init();
 $message = new MessageCounterBox();
 $message->init();
 $relation = new RelationCounterBox();
-$relation->init();
+$relation->init($userType);
 
+#TODO DA ELIMINARE 
+$totNotification = 0;
+$invited = 0;
+$message = 0;
+$relation = 0;
 
 $css_not = $totNotification > 0 ? '' : 'no-display';
 $css_inv = $invited > 0 ? '' : 'no-display';
@@ -41,25 +46,25 @@ $css_rel = $relation > 0 ? '' : 'no-display';
 switch ($typeNotification) {
     case 'notification':
 		$detailNotification = new ActionListBox();
-		$detailNotification->init();		
+		$detailNotification->init(10,0);		
 		$numNot = $totNotification;
 		$other = '';
 	break;
     case 'message':
 		$detailNotification = new MessageListBox();
-		$detailNotification->init();
+		$detailNotification->init(10,0);
 		$numNot = $message;
 		$other = $views['header']['social']['message_msg'];
 	break;
     case 'event':
 		$detailNotification = new EventListBox();
-		$detailNotification->init();
+		$detailNotification->init(10,0);
 		$numNot = $invited;
 		$other = $views['header']['social']['message_event'];
 	break;
     case 'relation':
 		$detailNotification = new RelationListBox();
-		$detailNotification->init();
+		$detailNotification->init($userType,10,0);
 		$numNot = $relation;
 		$other = $views['header']['social']['message_relation'];
 		break;
@@ -110,12 +115,14 @@ switch ($typeNotification) {
     <!------------------------------------ notification ------------------------------------------->
 <?php
 $index = 0;
+/*
 if (count($detailNotification) > 0) {
     foreach ($detailNotification as $key => $value) {
 	if ($index % 4 == 0) {
 	    ?><div class="rsContent">	<?php
 	}
-	$createdAd = $value->createdat->format('d/m/Y H:i');
+	//$createdAd = $value->createdat->format('d/m/Y H:i');
+	$createdAd =  $value->createdat;
 	$user_objectId = $value->fromUserInfo->id;
 	$user_thumb = $value->fromUserInfo->thumbnail;
 	$user_username = $value->fromUserInfo->username;
@@ -211,5 +218,5 @@ if (count($detailNotification) > 0) {
 
 <?php
 }
-
+*/
 ?>

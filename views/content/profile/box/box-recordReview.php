@@ -22,7 +22,7 @@ $id = $_POST['id'];
 $type = $_POST['type'];
 
 $reviewBox = new ReviewRecordBox();
-$reviewBox->init($id, $type);
+$reviewBox->initForPersonalPage($id, $type);
 if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
     $reviews = $reviewBox->reviewArray;
