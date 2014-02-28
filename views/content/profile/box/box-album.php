@@ -22,6 +22,7 @@ $objectIdUser = $_POST['objectIdUser'];
 
 $albumBox = new AlbumBox();
 $albumBox->init($_POST['id']);
+
 if (is_null($albumBox->error)) {
     if (isset($_SESSION['currentUser']))
 	$currentUser = $_SESSION['currentUser'];
@@ -97,13 +98,11 @@ if (is_null($albumBox->error)) {
 	    				    </div>		
 	    				</div>
 	    			    </div>
-					<?php if (($index + 1) % 2 == 0 || $albumCounter == $index + 1) { ?> </div> <?php
-				    }
-				    if (($index + 1) % 4 == 0 || $albumCounter == $index + 1) {
-					?> </div> <?php
-				    }
-				    $index++;
-				}
+					<?php if (($index + 1) % 2 == 0 || $albumCounter == $index + 1) { ?> </div> <?php }
+					if (($index + 1) % 4 == 0 || $albumCounter == $index + 1) {
+					?> </div> <?php }
+					$index++;
+					}
 				?>							
 			</div>
 		    <?php } else { ?>
@@ -144,60 +143,58 @@ if (is_null($albumBox->error)) {
 			    <!----------------------------------------- ALBUM DETAIL--------------------------->			
 			    <div id='box-albumDetail'></div>
 			    <script type="text/javascript">
-				    function loadBoxAlbumDetail(userId, id, countImage, limit, skip) {
-					var json_data = {};
-					json_data.userId = userId;
-					json_data.id = id;
-					json_data.countImage = countImage;
-					json_data.limit = limit;
-					json_data.skip = skip;
-					$.ajax({
-					    type: "POST",
-					    url: "content/profile/box/box-albumDetail.php",
-					    data: json_data,
-					    beforeSend: function(xhr) {
-						//spinner.show();
-						$("#albumSlide").fadeOut(100, function() {
-						    $('#' + id).fadeIn(100);
-						    if (skip == 0)
-							goSpinnerBox('#' + id + ' #box-albumDetail', '');
-						    else {
-							$('#' + id + ' #box-albumDetail .otherObject').addClass('no-display');
-							goSpinnerBox('#' + id + ' #box-albumDetail .spinnerDetail', '');
-						    }
+					function loadBoxAlbumDetail(userId, id, countImage, limit, skip) {
+						var json_data = {};
+						json_data.userId = userId;
+						json_data.id = id;
+						json_data.countImage = countImage;
+						json_data.limit = limit;
+						json_data.skip = skip;
+						$.ajax({
+							type : "POST",
+							url : "content/profile/box/box-albumDetail.php",
+							data : json_data,
+							beforeSend : function(xhr) {
+								//spinner.show();
+								$("#albumSlide").fadeOut(100, function() {
+									$('#' + id).fadeIn(100);
+									if (skip == 0)
+										goSpinnerBox('#' + id + ' #box-albumDetail', '');
+									else {
+										$('#' + id + ' #box-albumDetail .otherObject').addClass('no-display');
+										goSpinnerBox('#' + id + ' #box-albumDetail .spinnerDetail', '');
+									}
+								});
+								console.log('Sono partito box-albumDetail');
+							}
+						}).done(function(message, status, xhr) {
+							//spinner.hide();
+							if (skip > 0) {
+								$('#' + id + ' #box-albumDetail .otherObject').addClass('no-display');
+								$('#' + id + ' #box-albumDetail .spinnerDetail').addClass('no-display');
+							} else {
+								$("#" + id + " #box-albumDetail").html('');
+							}
+							$('#albumBottonSlide').addClass('no-display');
+							$(message).appendTo("#" + id + " #box-albumDetail");
+							lightBoxPhoto('photo-colorbox-group');
+							addthis.init();
+							addthis.toolbox(".addthis_toolbox");
+							//    rsi_album.updateSliderSize(true);
+
+							//	$("#"+id+" #box-albumDetail").html(message);
+							code = xhr.status;
+							//console.log("Code: " + code + " | Message: " + message);
+							//gestione visualizzazione box detail
+							console.log("Code: " + code + " | Message: <omitted because too large>");
+						}).fail(function(xhr) {
+							//spinner.hide();
+							console.log("Error: " + $.parseJSON(xhr));
+							//message = $.parseJSON(xhr.responseText).status;
+							//code = xhr.status;
+							//console.log("Code: " + code + " | Message: " + message);
 						});
-						console.log('Sono partito box-albumDetail');
-					    }
-					}).done(function(message, status, xhr) {
-					    //spinner.hide();
-					    if (skip > 0) {
-						$('#' + id + ' #box-albumDetail .otherObject').addClass('no-display');
-						$('#' + id + ' #box-albumDetail .spinnerDetail').addClass('no-display');
-					    }
-
-					    else {
-						$("#" + id + " #box-albumDetail").html('');
-					    }
-					    $('#albumBottonSlide').addClass('no-display');
-					    $(message).appendTo("#" + id + " #box-albumDetail");
-					    lightBoxPhoto('photo-colorbox-group');
-					    addthis.init();
-					    addthis.toolbox(".addthis_toolbox");
-					    //    rsi_album.updateSliderSize(true);
-
-					    //	$("#"+id+" #box-albumDetail").html(message);
-					    code = xhr.status;
-					    //console.log("Code: " + code + " | Message: " + message);
-					    //gestione visualizzazione box detail								
-					    console.log("Code: " + code + " | Message: <omitted because too large>");
-					}).fail(function(xhr) {
-					    //spinner.hide();
-					    console.log("Error: " + $.parseJSON(xhr));
-					    //message = $.parseJSON(xhr.responseText).status;
-					    //code = xhr.status;
-					    //console.log("Code: " + code + " | Message: " + message);
-					});
-				    }
+					}
 			    </script>
 			    <!----------------------------------------- FINE ALBUM DETAIL --------------------------->	
 			    <div class="row album-single-propriety">
@@ -216,9 +213,7 @@ if (is_null($albumBox->error)) {
 			    </div>			
 
 			    <!---------------------------------------- SHARE ------------------------------------------------->
-			    <?php
-			    //		$paramsAlbum = getShareParameters('Album', $album_id, $thumbImage);
-			    ?>
+			    <?php //		$paramsAlbum = getShareParameters('Album', $album_id, $thumbImage); ?>
 			    <!-- AddThis Button BEGIN -->
 			    <div class="addthis_toolbox">
 				<div class="hover_menu">
@@ -239,11 +234,9 @@ if (is_null($albumBox->error)) {
 		    </div>				
 		</div>
 
-		<?php
-	    }
-	    ?>	
+		<?php } ?>	
         </div>
     </div>
     <?php
-}
+	}
 ?>

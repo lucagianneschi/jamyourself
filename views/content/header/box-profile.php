@@ -9,7 +9,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'playlist.box.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
-$playlist = new PlaylistBox();
+
+$playlist = new PlaylistInfoBox();
 $playlist->init();
 
 $currentUser = $_SESSION['currentUser'];

@@ -30,11 +30,14 @@ switch ($user->getType()) {
 }
 $music = '';
 $space = '';
+
+#TODO
+/*
 foreach ($user->getMusic() as $key => $value) {
     $music = $music . $space . $views['tag']['music'][$value];
     $space = ', ';
 }
-
+*/
 $userinfo_pin = $city == '' ? '' : '_pin';
 $userinfo_note = $music == '' ? '' : '_note';
 $fileManagerService = new FileManagerService();
