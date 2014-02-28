@@ -49,12 +49,12 @@ class CollaboratorsBox {
     public function init($id, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
 	$connectionService->connect();
-	if (!$connectionService->active) {
+	if (!$connectionService->getActive()) {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
 	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
@@ -94,12 +94,12 @@ class FollowersBox {
     public function init($id, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
 	$connectionService->connect();
-	if (!$connectionService->active) {
+	if (!$connectionService->getActive()) {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
 	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
@@ -140,12 +140,12 @@ class FollowingsBox {
     public function init($id,$limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
 	$connectionService->connect();
-	if (!$connectionService->active) {
+	if (!$connectionService->getActive()) {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
 	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
@@ -186,12 +186,12 @@ class FriendsBox {
     public function init($id,$limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
 	$connectionService->connect();
-	if (!$connectionService->active) {
+	if (!$connectionService->getActive()) {
 	    $this->error = $connectionService->error;
 	    return;
 	} else {
 	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
+	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    $connectionService->disconnect();
 	    if (!$results) {
 		return;
