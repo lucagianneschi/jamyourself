@@ -834,7 +834,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
                        AND i.fromuser = u.id
 		       AND i.fromuser = a.fromuser";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND i.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -905,9 +905,9 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    foreach ($rows_tag as $row_tag) {
 		$tags[] = $row_tag;
 	    }
-	    $image->setTag($tags);
+	    $image->setTag($tags); */
 	    $image->setThumbnail($row['thumbnail_i']);
-	    $images[$row['id']] = $image;
+	    $images[$row['id_i']] = $image;
 	}
 	$connectionService->disconnect();
 	return $images;
