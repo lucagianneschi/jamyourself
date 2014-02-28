@@ -36,15 +36,7 @@ class EventBox {
      * \param	$id for user that owns the page
      * \todo    inserire orderby
      */
-    public function init($id, $limit = 3, $skip = 0, $upload = false) {
-	if ($upload == true) {
-	    require_once SERVICES_DIR . 'utils.service.php';
-	    $currentUserId = sessionChecker();
-	    if (is_null($currentUserId)) {
-		$this->error = ONLYIFLOGGEDIN;
-		return;
-	    }
-	}
+    public function init($id, $limit = 3, $skip = 0) {
 	$events = selectEvents(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($events instanceof Error) {
 	    $this->error = $events->getErrorMessage();
@@ -72,12 +64,7 @@ class EventBox {
      * \todo    reimplementare $tags al momento in cui vengono implementati nella vista stream
      */
     public function initForStream($lat = null, $long = null, $city = null, $country = null, $tags = null, $eventDate = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = 'loveCounter') {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->error = ONLYIFLOGGEDIN;
-	    return;
-	}
+	
     }
 
 }

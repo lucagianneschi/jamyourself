@@ -36,12 +36,6 @@ class PlaylistInfoBox {
      * \return	playlistInfoBox
      */
     public function init() {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->error = ONLYIFLOGGEDIN;
-	    return;
-	}
 	$playlists = selectPlaylists(null, array('fromuser' => $currentUserId));
 	if ($playlists instanceof Error) {
 	    $this->error = $playlists->getErrorMessage();
@@ -67,12 +61,6 @@ class PlaylistSongBox {
      * \todo	terminare funzione prendere songs che stanno dentro la playlist
      */
     public function init($playlistId) {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->error = ONLYIFLOGGEDIN;
-	    return;
-	}
 	$songs = selectSongsInPlaylist($playlistId, $where= null, $order= null, 20, 0);
 	if ($songs instanceof Error) {
 	    $this->error = $songs->getErrorMessage();

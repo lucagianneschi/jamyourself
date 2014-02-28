@@ -45,12 +45,6 @@ class StreamBox {
      * \todo
      */
     public function init($limit = DEFAULTQUERY, $skip = null) {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
 	$currentUser = $_SESSION['id'];
 	$connectionService = new ConnectionService();
 	$connectionService->connect();

@@ -87,11 +87,7 @@ class MessageBox {
      * \return	MessageBox, error in case of error
      */
     public function initForUserList() {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
+
     }
 
     /**
@@ -102,11 +98,6 @@ class MessageBox {
      * \return	MessageBox, error in case of error
      */
     public function initForMessageList($otherId, $limit = null, $skip = null) {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->error = ONLYIFLOGGEDIN;
-	    return;
-	}
 	require_once CLASSES_DIR . 'comment.class.php';
 	$messages = selectMessages($currentUserId, $otherId, null, $where, array('createad' => 'DESC'), $limit, $skip);
 	if ($messages instanceof Error) {

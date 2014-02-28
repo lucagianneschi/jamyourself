@@ -34,12 +34,6 @@ class ActionCounterBox {
      * \return	actionsBoxCounter
      */
     public function init() {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
     }
 
 }
@@ -60,12 +54,7 @@ class ActionListBox {
      * \return	actionsListBox
      */
     public function init($limit, $skip) {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
+
     }
 
 }
@@ -84,12 +73,7 @@ class EventListBox {
      * \brief	class for quering events for header
      */
     public function init($limit, $skip) {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
+
     }
 
 }
@@ -108,12 +92,7 @@ class InvitedCounterBox {
      * \return	invitedBoxCounter
      */
     public function init() {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
+
     }
 
 }
@@ -132,12 +111,7 @@ class MessageCounterBox {
      * \return	messageBoxCounter
      */
     public function init() {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
+
     }
 
 }
@@ -157,12 +131,7 @@ class MessageListBox {
      * \return	messageListBox
      */
     public function init($limit, $skip) {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
+
     }
 
 }
@@ -181,12 +150,7 @@ class RelationCounterBox {
      * \return	messageBoxCounter
      */
     public function init($type) {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
+
     }
 
 }
@@ -206,12 +170,7 @@ class RelationListBox {
      * \return	relationListBox 
      */
     public function init($type, $limit, $skip) {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
+
     }
 
 }

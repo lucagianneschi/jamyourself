@@ -67,12 +67,6 @@ class ReviewEventBox {
      * \todo    
      */
     public function initForUploadReviewPage($id) {
-	require_once SERVICES_DIR . 'utils.service.php';
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
     }
 
 }
