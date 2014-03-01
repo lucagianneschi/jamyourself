@@ -75,7 +75,8 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
                    u.username,
                    u.thumbnail thumbnail_u,
                    u.type
-              FROM album a, user u
+              FROM album a,
+                   user u
              WHERE a.active = 1
                AND a.fromuser = u.id";
 	if (!is_null($id)) {
@@ -101,9 +102,9 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-	$results = mysqli_query($connectionService->getConnection(), $sql);
+    $results = mysqli_query($connectionService->getConnection(), $sql);
 	if (!$results) {
-	    $error = new Error();
+        $error = new Error();
 	    $error->setErrormessage($results->error);
 	    return $error;
 	}
@@ -131,10 +132,9 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $album->setLongitude($row['longitude']);
 	    $album->setLovecounter($row['lovecounter']);
 	    $album->setSharecounter($row['sharecounter']);
-		/*
-	    $sql = "SELECT tag
+		$sql = "SELECT tag
                           FROM album_tag
-                         WHERE id = " . $row['id'];
+                         WHERE id = " . $row['id_a'];
 	    $results = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results) {
 		$error = new Error();
@@ -148,8 +148,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 		$tags[] = $row_tag;
 	    }
 	    $album->setTag($tags);
-		 * */
-	    $album->setThumbnail($row['thumbnail_a']);
+		$album->setThumbnail($row['thumbnail_a']);
 	    $album->setTitle($row['title']);
 	    $album->setCreatedat($row['createdat']);
 	    $album->setUpdatedat($row['updatedat']);
@@ -892,8 +891,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    $image->setLovecounter($row['lovecounter']);
 	    $image->setPath($row['path']);
 	    $image->setSharecounter($row['sharecounter']);
-		/*
-	    $sql = "SELECT tag
+		$sql = "SELECT tag
                           FROM image_tag
                          WHERE id = " . $row['id_i'];
 	    $results = mysqli_query($connectionService->getConnection(), $sql);
@@ -908,7 +906,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    foreach ($rows_tag as $row_tag) {
 		$tags[] = $row_tag;
 	    }
-	    $image->setTag($tags); */
+	    $image->setTag($tags);
 	    $image->setThumbnail($row['thumbnail_i']);
 	    $images[$row['id_i']] = $image;
 	}
@@ -1349,10 +1347,10 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
 	    $record->setFromuser($fromuser);
-		/*
-	    $sql = "SELECT genre
-                          FROM record_genre
-                         WHERE id = " . $row['genre'];
+		$sql = "SELECT g.genre
+                          FROM record_genre rg, genre g
+                         WHERE rg.id_record = " . $row['id_r'] . "
+                           AND g.id = rg.id_genre";
 	    $results_genre = mysqli_query($connectionService->getConnection(), $sql);
 	    if (!$results_genre) {
 		$error = new Error();
@@ -1365,7 +1363,7 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    foreach ($rows_genre as $row_genre) {
 		$genres[] = $row_genre;
 	    }
-	    $record->setGenre($genres);*/
+	    $record->setGenre($genres);
 	    $record->setLabel($row['label']);
 	    $record->setLatitude($row['latitude']);
 	    $record->setLongitude($row['longitude']);
