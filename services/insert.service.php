@@ -462,6 +462,61 @@ function insertSong($song) {
 }
 
 /**
+ * \fn	    insertSong($song)
+ * \brief   Execute an insert operation of the $song
+ * \param   $songobject the user to insert
+ * \todo
+ */
+function insertSongInPlayslist($song) {
+    $connectionService = new ConnectionService();
+    $connectionService->connect();
+    if (!$connectionService->active) {
+	$error = new Error();
+	$error->setErrormessage($connectionService->error);
+	return $error;
+    } else {
+//	require_once 'song.class.php';
+//	$sql = "INSERT INTO playlist_song ( id,
+//                                    active,
+//                                    commentcounter,
+//                                    counter,
+//                                    duration,
+//                                    fromuser,
+//                                    latitude,
+//                                    longitude,
+//                                    lovecounter,
+//                                    path,
+//                                    position,
+//                                    record,
+//                                    sharecounter,
+//                                    title,
+//                                    createdat,
+//                                    updatedat)
+//                          VALUES (NULL,
+//                                  '" . $song->getActive() . "',                                              
+//                                  '" . $song->getCommentcounter() . "',
+//                                  '" . $song->getCounter() . "',
+//                                  '" . $song->getDuration() . "', 
+//                                  '" . $song->getFromuser() . "',                                              
+//                                  '" . $song->getLatitude() . "',                                      
+//                                  '" . $song->getLongitude() . "',   
+//                                  '" . $song->getLovecounter() . "',   
+//                                  '" . $song->getPath() . "',   
+//                                  '" . $song->getPosition() . "',   
+//                                  '" . $song->getRecord() . "',                                       
+//                                  '" . $song->getSharecounter() . "',
+//                                  '" . $song->getTitle() . "',
+//                                  '" . $song->getYear() . "',
+//                                  NOW(),
+//                                  NOW())";
+	mysqli_query($connectionService->connection, $sql);
+	$insert_id = mysqli_insert_id($connectionService->connection);
+	$connectionService->disconnect();
+	return $insert_id;
+    }
+}
+
+/**
  * \fn	    insertUser($user)
  * \brief   Execute an insert operation of the $user
  * \param   $user object the user to insert
