@@ -37,7 +37,11 @@ class ReviewEventBox {
      * \todo        
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
-	
+	$reviews = selectComments(null, array('event' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	if ($reviews instanceof Error) {
+	    $this->error = $reviews->getErrorMessage();
+	}
+	$this->reviewArray = $reviews;
     }
 
     /**
@@ -60,15 +64,6 @@ class ReviewEventBox {
 	$this->reviewArray = $reviews;
     }
 
-    /**
-     * \fn        initForUploadReviewPage($id)
-     * \brief     Init REviewBox instance for Upload Review Page
-     * \param     $id for the event or record, $className Record or Event
-     * \todo    
-     */
-    public function initForUploadReviewPage($id) {
-    }
-
 }
 
 /**
@@ -88,7 +83,11 @@ class ReviewRecordBox {
      * \todo        
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
-	
+	$reviews = selectComments(null, array('record' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	if ($reviews instanceof Error) {
+	    $this->error = $reviews->getErrorMessage();
+	}
+	$this->reviewArray = $reviews;
     }
 
     /**
@@ -109,16 +108,6 @@ class ReviewRecordBox {
 	    $this->error = $reviews->getErrorMessage();
 	}
 	$this->reviewArray = $reviews;
-    }
-
-    /**
-     * \fn        initForUploadReviewPage($id)
-     * \brief        Init REviewBox instance for Upload Review Page
-     * \param        $id for the event or record, $className Record or Event
-     * \todo    
-     */
-    public function initForUploadReviewPage($id) {
-
     }
 
 }
