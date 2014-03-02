@@ -102,6 +102,15 @@ class FileManagerService {
     }
 
     /**
+     * \fn	getDomainName()
+     * \brief   get domain name
+     * \return  domain name
+     */
+    public function getDomainName() {
+	return $_SERVER['SERVER_NAME'];
+    }
+
+    /**
      * \fn	getEventPhotoURL($userId, $photoId)
      * \brief   get event photo URL
      * \return  URL if found
@@ -295,15 +304,6 @@ class FileManagerService {
 	    return true;
 	else
 	    return $this->createSongsDir($userId);
-    }
-    
-        /**
-     * \fn	getDomainName()
-     * \brief   get domain name
-     * \return  domain name
-     */
-    public function getDomainName(){
-        return $_SERVER['SERVER_NAME'];
     }
 
 }
