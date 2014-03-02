@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
- * \version		1.0
+ * \version		0.3
  * \date		2013
  * \copyright           Jamyourself.com 2013
  * \par			Info Classe:
@@ -58,28 +58,11 @@ class MessageController extends REST {
 	    }
 	    $currentUser = $_SESSION['currentUser'];
 	    $touser = $this->request['toUser'];
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activity = new ActivityParse();
-	    $activity->wherePointer('fromUser', '_User', $currentUser->getId());
-	    $activity->wherePointer('toUser', '_User', $touser);
-	    $activity->where('type', 'MESSAGESENT');
-	    $activity->where('status', 'A');
-	    $activity->where('active', true);
-	    $conversation = $activity->getActivities();
-	    if ($conversation instanceof Error) {
-		$this->response(array('status' => 'ERROR_MSG'), 503);
-	    } elseif (is_null($conversation)) {
-		$this->response(array('status' => 'NO_DEL'), 503);
-	    } else {
-		foreach ($conversation as $message) {
-		    $statusUpdate = $activity->updateField($message->getId(), 'status', 'D');
-		    if ($statusUpdate instanceof Error) {
-			$this->response(array('status' => 'ERROR_DEL_MSG'), 503);
-		    }
-		}
-		$this->createActivity($currentUser, null, 'A', null, 'CONVERSATIONDELETED', true);
-		$this->response(array($controllers['CONVERSATION_DEL']), 200);
-	    }
+	    
+	    
+	    
+	    
+	    $this->response(array($controllers['CONVERSATION_DEL']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
