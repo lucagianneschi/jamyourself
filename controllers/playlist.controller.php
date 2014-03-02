@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
- * \version		1.0
+ * \version		0.3
  * \date		2013
  * \copyright           Jamyourself.com 2013
  * \par			Info Classe:
@@ -21,7 +21,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
- 
+
 /**
  * \brief	PlaylistController class 
  * \details	controller di gestione playlist
@@ -42,7 +42,7 @@ class PlaylistController extends REST {
     /**
      * \fn      addSong()
      * \brief   add song to playlist
-     * \todo    vedere se va fatto controllo su + o meno 20 valori nella relation
+     * \todo    utilizzare il servizio insert.service per scrivere sul DB
      */
     public function addSong() {
 	try {
@@ -66,29 +66,7 @@ class PlaylistController extends REST {
 	    } elseif (in_array($songId, $playlist->getSongsArray())) {
 		$this->response(array('status' => $controllers['SONGALREADYINTRACKLIST']), 503);
 	    }
-	    //TODO controllo sbagliato?? se l'utente e' premium non ha limiti nella playlist?
-	    //if (count($playlist->getSongsArray()) >= PLAYLISTLIMIT && $currentUser->getPremium() != true) {
-	    if (count($playlist->getSongsArray()) <= PLAYLISTLIMIT || $currentUser->getPremium() == true) {
-		$res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
-		if ($res instanceof Error) {
-		    $this->response(array('status' => $controllers['NOADDSONGTOPLAYREL']), 503);
-		}
-		$res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $currentUser->getPremium(), $this->config->songsLimit);
-		if ($res1 instanceof Error) {
-		    $this->response(array('status' => $controllers['NOADDSONGTOPLAYARRAY']), 503);
-		}
-	    } else {
-		$this->response(array('status' => $controllers['TOMANYSONGS']), 503);
-	    }
-	    $activity = $this->createActivity("SONGADDEDTOPLAYLIST", $currentUser->getId(), $playlistId, $songId);
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityParse = new ActivityParse();
-	    $resActivity = $activityParse->saveActivity($activity);
-	    if ($resActivity instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackPlaylistController($playlistId, $songId, 'add', $currentUser->getPremium(), $this->config->songsLimit);
-		$this->response(array('status' => $message), 503);
-	    }
+
 	    $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
@@ -119,40 +97,11 @@ class PlaylistController extends REST {
 	    } elseif (!in_array($songId, $playlist->getSongsArray())) {
 		$this->response(array('status' => $controllers['ERRORCHECKINGSONGINTRACKLIST']), 503);
 	    }
-	    if (count($playlist->getSongsArray()) == 0) {
-		$this->response(array('status' => $controllers['NOTHINGTOREMOVE']), 503);
-	    }
-	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
-	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['NOREMOVESONGTOPLAYREL']), 503);
-	    }
-	    $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
-	    if ($res1 instanceof Error) {
-		$this->response(array('status' => $controllers['NOREMOVESONGTOPLAYARRAY']), 503);
-	    }
-	    $activity = $this->createActivity("SONGREMOVEDFROMPLAYLIST", $currentUser->getId(), $playlistId, $songId);
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityParse = new ActivityParse();
-	    $resActivity = $activityParse->saveActivity($activity);
-	    if ($resActivity instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackPlaylistController($playlistId, $songId, 'remove', $currentUser->getPremium(), $this->config->songsLimit);
-		$this->response(array('status' => $message), 503);
-	    }
+
 	    $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
-    }
-
-    /**
-     * \fn	createActivity()
-     * \brief   create activity for playslitControlelr
-     * \param   $type, $fromuser, $playlistId, $songId
-     * \return  $activity     
-     */
-    private function createActivity() {
-	return;
     }
 
 }

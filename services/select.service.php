@@ -1900,7 +1900,7 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectSongsInPlaylist($id = null, $where = null, $order = null, $limit = null, $skip = null) {
+function selectSongsInPlaylist($id = null, $limit = 20, $skip = 0) {
     $connectionService = new ConnectionService();
     $connectionService->connect();
     if (!$connectionService->getActive()) {
@@ -1935,21 +1935,6 @@ function selectSongsInPlaylist($id = null, $where = null, $order = null, $limit 
 		  WHERE s.id = ps.id_song AND pl.fromuser = u.id AND s.record = r.id AND ps.playlist = pl.id";
 	if (!is_null($id)) {
 	    $sql .= " AND pl.id = " . $id . "";
-	}
-	if (!is_null($where)) {
-	    foreach ($where as $key => $value) {
-		$sql .= " AND " . $key . " = '" . $value . "'";
-	    }
-	}
-	if (!is_null($order)) {
-	    $sql .= " ORDER BY ";
-	    $last = end($order);
-	    foreach ($order as $key => $value) {
-		if ($last == $value)
-		    $sql .= " " . $key . " " . $value;
-		else
-		    $sql .= " " . $key . " " . $value . ",";
-	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $skip . ", " . $limit;
