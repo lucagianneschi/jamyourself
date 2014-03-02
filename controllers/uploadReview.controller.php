@@ -50,6 +50,7 @@ class UploadReviewController extends REST {
 	if (isset($_GET["rewiewId"]) && strlen($_GET["rewiewId"]) > 0 && (isset($_GET["type"]) && strlen($_GET["type"]) > 0) && ( ($_GET["type"] == "Event" ) || ($_GET["type"] == "Record" ))) {
 	    $this->reviewedId = $_GET["rewiewId"];
 	    $this->reviewedClassType = $_GET["type"];
+	    //qui se == record allora fai selectRecord, altrimenti fai selectEvent
 	    $revieBox = new ReviewBox();
 	    $revieBox->initForUploadReviewPage($this->reviewedId, $this->reviewedClassType);
 	    if (!is_null($revieBox->error)) {
@@ -162,7 +163,6 @@ class UploadReviewController extends REST {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
-
 
 }
 
