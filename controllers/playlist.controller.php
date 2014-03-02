@@ -74,7 +74,7 @@ class PlaylistController extends REST {
     }
 
     /**
-     * \fn		removeSong()
+     * \fn	removeSong()
      * \brief   remove song to playlist 
      * \todo   
      */
