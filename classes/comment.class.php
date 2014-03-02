@@ -500,7 +500,10 @@ class Comment {
 	$string .= '[record] => ' . $this->getRecord() . '<br />';
 	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
 	$string .= '[song] => ' . $this->getSong() . '<br />';
-	$string .= '[tags] => ' . $this->getTag() . '<br />';
+	foreach ($this->getTag() as $tag) {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[tag] => ' . $tag . '<br />';
+	}
 	$string .= '[text] => ' . $this->getText() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	$string .= '[touser] => ' . $this->getTouser() . '<br />';

@@ -345,7 +345,10 @@ class Image {
 	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
 	$string .= '[path] => ' . $this->getPath() . '<br />';
 	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
-	$string .= '[tags] => ' . $this->getTag() . '<br />';
+	foreach ($this->getTag() as $tag) {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[tag] => ' . $tag . '<br />';
+	}
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	return $string;
     }

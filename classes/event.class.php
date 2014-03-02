@@ -535,7 +535,10 @@ class Event {
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	$string .= '[eventdate] => ' . $this->getEventdate()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
-	$string .= '[tags] => ' . $this->getGenre() . '<br />';
+	foreach ($this->getGenre() as $genre) {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[genre] => ' . $genre . '<br />';
+	}
 	$string .= '[invitedcounter] => ' . $this->getInvitedcounter() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
@@ -544,7 +547,10 @@ class Event {
 	$string .= '[reviewcounter] => ' . $this->getReviewcounter() . '<br />';
 	$string .= '[refusedcounter] => ' . $this->getRefusedCounter() . '<br />';
 	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
-	$string .= '[tags] => ' . $this->getTag() . '<br />';
+	foreach ($this->getTag() as $tag) {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[tag] => ' . $tag . '<br />';
+	}
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	return $string;

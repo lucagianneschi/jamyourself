@@ -384,7 +384,10 @@ class Album {
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
 	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
-	$string .= '[tag] => ' . $this->getTag() . '<br />';
+	foreach ($this->getTag() as $tag) {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[tag] => ' . $tag . '<br />';
+	}
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	return $string;

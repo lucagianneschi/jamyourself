@@ -323,7 +323,10 @@ class Video {
 	$string .= '[duration] => ' . $this->getDuration() . '<br />';
 	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
-	$string .= '[tags] => ' . $this->getTag() . '<br />';
+	foreach ($this->getTag() as $tag) {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[tag] => ' . $tag . '<br />';
+	}
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	$string .= '[URL] => ' . $this->getURL() . '<br />';

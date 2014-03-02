@@ -495,7 +495,10 @@ class Record {
 	$string .= '[description] => ' . $this->getDescription() . '<br/>';
 	$string .= '[duration] => ' . $this->getDuration() . '<br/>';
 	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
-	$string .= '[genre] .= > ' . $this->getGenre() . '<br/>';
+	foreach ($this->getGenre() as $genre) {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[genre] => ' . $genre . '<br />';
+	}
 	$string .= '[label] .= > ' . $this->getLabel() . '<br/>';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
