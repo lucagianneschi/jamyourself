@@ -806,13 +806,9 @@ class User {
 	$string .= '[levelvalue] => ' . $this->getLevelvalue() . '<br />';
 	$string .= '[password] => ' . $this->getPassword() . '<br />';
 	$string .= '[premium] => ' . $this->getPremium() . '<br />';
-	if ($this->getPremiumexpirationdate() != null) {
-	    $string .= '[premiumexpirationdate] => ' . $this->getPremiumexpirationdate()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[premiumexpirationdate] => NULL<br />';
-	}
+	$string .= '[premiumexpirationdate] => ' . $this->getPremiumexpirationdate()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
-	$string .= '[settings] => ' . $this->getSettings() . '<br />';
+	$string .= '[settings] => ' . $this->getSettings() . '<br />';	
 	$string .= '[sex] => ' . $this->getSex() . '<br />';
 	$string .= '[twitterpage] => ' . $this->getTwitterpage() . '<br />';
 	$string .= '[type] => ' . $this->getType() . '<br />';
