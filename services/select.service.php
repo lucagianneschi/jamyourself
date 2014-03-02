@@ -1932,7 +1932,7 @@ function selectSongsInPlaylist($id = null, $limit = 20, $skip = 0) {
 		       r.thumbnail thumbnail_r,
 		       r.title title_r
 		  FROM playlist pl, playlist_song ps, record r, song s, user u
-		  WHERE s.id = ps.id_song AND pl.fromuser = u.id AND s.record = r.id AND ps.playlist = pl.id";
+		  WHERE s.id = ps.id_song AND pl.fromuser = u.id AND s.record = r.id AND ps.playlist = pl.id s.active = 1";
 	if (!is_null($id)) {
 	    $sql .= " AND pl.id = " . $id . "";
 	}
