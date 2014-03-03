@@ -78,7 +78,7 @@ class ConnectionService {
 	curl_setopt($c, CURLOPT_POSTFIELDS, $dataString);
 	$response = curl_exec($c);
 	if ($response === false) {
-	    $this->error = new Exception("Can't open connection to " . URL);
+	    throw new Exception("Can't open connection to " . URL);
 	}
 	$data = json_decode($response, true);
 	$this->data = $data;
