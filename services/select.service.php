@@ -726,7 +726,7 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
                      WHERE e.active = 1
                        AND e.fromuser = u.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND e.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
