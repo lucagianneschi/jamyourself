@@ -30,8 +30,9 @@ $fileManagerService = new FileManagerService();
 if (isset($_SESSION['currentUser']))
     $currentUser = $_SESSION['currentUser'];
 $indice = 0;
-if (is_array($songs) && count($songs) > 0) {
+if (is_array($songs) && count($songs) > 0) {/*
     foreach ($songs as $key => $value) {
+    	
 	if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 	    $track_css_love = '_love orange';
 	    $track_text_love = $views['unlove'];
@@ -109,7 +110,7 @@ if (is_array($songs) && count($songs) > 0) {
 	</div>
 	<?php
 	$indice++;
-    }
+    }*/ 
 }else {
     ?>
     <div class="row" style="padding-left: 20px !important; padding-top: 20px !important;}">
