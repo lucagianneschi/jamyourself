@@ -38,7 +38,7 @@ class PostBox {
      * \todo
      */
     public function init($id, $limit = 5, $skip = 0) {
-	$posts = selectPosts(null, array('touser' => $id, 'type' => 'C'), array('createad' => 'DESC'), $limit, $skip);
+	$posts = selectPosts(null, array('touser' => $id, 'type' => 'P'), array('createad' => 'DESC'), $limit, $skip);
 	if ($posts instanceof Error) {
 	    $this->error = $posts->getErrorMessage();
 	}
