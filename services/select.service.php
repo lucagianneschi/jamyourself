@@ -41,6 +41,7 @@ function getList($fromNodeType, $fromNodeId, $toNodeType, $relationType) {
 	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
 	WHERE n.id = {fromNodeId}
 	RETURN m
+	ORDER BY r.createdat DESC
 	';
 	$params = array(
 		'fromNodeId'	=> $fromNodeId
@@ -49,7 +50,9 @@ function getList($fromNodeType, $fromNodeId, $toNodeType, $relationType) {
 	$res = $connectionService->curl($query, $params);
 	$list = array();
 	foreach($res['data'] as $value) {
-		$list[] = $value[0]['data']['id'];
+		if ($fromNodeId != $value[0]['data']['id']) {
+			$list[] = $value[0]['data']['id'];
+		}
 	}
 	return $list;
 }
