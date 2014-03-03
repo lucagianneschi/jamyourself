@@ -11,7 +11,7 @@
  *  \par		Commenti:
  *  \warning
  *  \bug
- *  \todo		inserire dati connessione DB corretti
+ *  \todo		
  *
  */
 
@@ -35,52 +35,53 @@ define('PSW', 'j4my0urs3lf');
  */
 define('DB', 'jamdatabase');
 
+/** \def DB('URL', 'jam-neo4j-dev.cloudapp.net')
+ *  Define the URL for Node DB
+ */
 define('URL', 'jam-neo4j-dev.cloudapp.net');
+
+/** \def DB('PORT', '7474')
+ *  Define the Post for Node DB
+ */
 define('PORT', '7474');
 
 class ConnectionService {
 
     private $active = false;
     private $connection = null;
+    private $data = array();
     private $database = DB;
     private $error = null;
     private $host = HOST;
     private $password = PSW;
     private $user = USER;
 
-	public function curl($query, $params) {
-		$c = curl_init();
-		curl_setopt($c, CURLOPT_URL, 'http://' . URL . ':' . PORT . '/db/data/cypher');
-		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($c, CURLOPT_HTTPHEADER, array(
-			'Accept: application/json; stream=true',
-			'Content-type: application/json',
-			'X-Stream: true'
-		));
-		curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'POST');
-		curl_setopt($c, CURLOPT_POST, false);
-		curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($c, CURLOPT_USERPWD, USER . ':' . PSW);
-		$dataString = json_encode(array('query' => $query, 'params' => $params));
-		curl_setopt($c, CURLOPT_POSTFIELDS, $dataString);
-		
-		$response = curl_exec($c);
-		
-		if ($response === false) {
-			throw new Exception("Can't open connection to " . URL);
-		}
-
-		$data = json_decode($response, true);
-		return $data;
-	}
-	
     /**
-     * \fn	getActive()
-     * \brief	Return the active value
-     * \return	BOOL
+     * \fn	curl($query, $params)
+     * \brief	connet to the database
+     * \return	true or errors
      */
-    public function getActive() {
-	return $this->active;
+    public function curl($query, $params) {
+	$c = curl_init();
+	curl_setopt($c, CURLOPT_URL, 'http://' . URL . ':' . PORT . '/db/data/cypher');
+	curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($c, CURLOPT_HTTPHEADER, array(
+	    'Accept: application/json; stream=true',
+	    'Content-type: application/json',
+	    'X-Stream: true'
+	));
+	curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'POST');
+	curl_setopt($c, CURLOPT_POST, false);
+	curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+	curl_setopt($c, CURLOPT_USERPWD, USER . ':' . PSW);
+	$dataString = json_encode(array('query' => $query, 'params' => $params));
+	curl_setopt($c, CURLOPT_POSTFIELDS, $dataString);
+	$response = curl_exec($c);
+	if ($response === false) {
+	    throw new Exception("Can't open connection to " . URL);
+	}
+	$data = json_decode($response, true);
+	$this->data = $data;
     }
 
     /**
@@ -102,6 +103,28 @@ class ConnectionService {
     }
 
     /**
+     * \fn	disconnect($connection)
+     * \brief	disconnet from the database
+     * \return	true
+     */
+    public function disconnect() {
+	if ($this->active) {
+	    mysqli_close($this->connection);
+	    $this->active = false;
+	}
+	return true;
+    }
+
+    /**
+     * \fn	getActive()
+     * \brief	Return the active value
+     * \return	BOOL
+     */
+    public function getActive() {
+	return $this->active;
+    }
+
+    /**
      * \fn	getConnection()
      * \brief	Return the connection value
      * \return	BOOL
@@ -117,19 +140,6 @@ class ConnectionService {
      */
     public function getDatabase() {
 	return $this->database;
-    }
-
-    /**
-     * \fn	disconnect($connection)
-     * \brief	disconnet from the database
-     * \return	true
-     */
-    public function disconnect() {
-	if ($this->active) {
-	    mysqli_close($this->connection);
-	    $this->active = false;
-	}
-	return true;
     }
 
     /**

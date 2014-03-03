@@ -729,7 +729,7 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
                      WHERE e.active = 1
                        AND e.fromuser = u.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND e.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -997,7 +997,7 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
 		       			OR m.touser = fu.id)
 		       			AND mt.id_comment = id_m";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND m.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -1206,7 +1206,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 		       			AND p.type = 'P'
 		       			AND pt.id_comment = p.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND p.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -1488,7 +1488,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 		       			AND rw.type = 'RE'
 		       			AND rwt.id_comment = rw.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND rw.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -1696,7 +1696,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 				       AND rw.type = 'RR'
 				       AND rwt.id_comment = rw.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND rw.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -1859,9 +1859,10 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 			       r.title title_r
                  FROM song s, user u, record r
                 WHERE s.active  = 1
-                  AND s.fromuser = u.id";
+                  AND s.fromuser = u.id
+                  AND s.record = r.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND s.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -1923,7 +1924,7 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 	    $song->setSharecounter($row['sharecounter']);
 	    $song->setTitle($row['title_s']);
 	    $song->setUpdatedat($row['updatedat']);
-	    $songs[$row['id']] = $song;
+	    $songs[$row['id_s']] = $song;
 	}
 	$connectionService->disconnect();
 	return $songs;
@@ -2224,7 +2225,7 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
                 WHERE v.active = 1
                   AND v.fromuser = u.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND v.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {

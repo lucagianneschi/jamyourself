@@ -89,7 +89,7 @@ $views = array(
 	'nodata' => 'There are no Friends'
     ),
     'information' => array(
-	'title' => 'information',
+	'title' => 'Information',
 	'content1' => 'About',
 	'content2' => 'Members',
 	'content3' => 'Map',
@@ -196,7 +196,7 @@ $views = array(
 	    'content5' => 'Invited'
 	),
 	'comment' => array(
-	    'title' => 'comment'
+	    'title' => 'Comment'
 	),
 	'record' => array(
 	    'title' => 'Tracklist',
