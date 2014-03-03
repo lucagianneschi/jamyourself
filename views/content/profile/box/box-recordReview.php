@@ -75,13 +75,14 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $recordReview_love = $value->getLovecounter();
 				    $recordReview_comment = $value->getCommentcounter();
 				    $recordReview_share = $value->getSharecounter();
+					/*
 				    if (in_array($currentUser->getId(), $value->getLovers())) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 				    } else {
 					$css_love = '_unlove grey';
 					$text_love = $views['love'];
-				    }
+				    }*/
 				    ?>
 	    			<div  class="rsContent">	
 	    			    <div id='recordReview_<?php echo $recordReview_objectId ?>'>
