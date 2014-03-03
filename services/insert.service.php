@@ -21,6 +21,16 @@ require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
 
+function createNode($nodeType, $nodeId) {
+	$query = '
+	MERGE (n:' . $nodeType . ' {id:' . $nodeId . '})
+	RETURN count(n)
+	';
+	$connectionService = new ConnectionService();
+	$res = $connectionService->curl($query, null);
+	return $res['data'][0];
+}
+
 /**
  * \fn	    insertAlbum($album)
  * \brief   Execute an insert operation of the $album
