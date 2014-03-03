@@ -35,6 +35,9 @@ define('PSW', 'j4my0urs3lf');
  */
 define('DB', 'jamdatabase');
 
+define('URL', 'jam-neo4j-dev.cloudapp.net');
+define('PORT', '7474');
+
 class ConnectionService {
 
     private $active = false;
@@ -45,6 +48,32 @@ class ConnectionService {
     private $password = PSW;
     private $user = USER;
 
+	public function curl($query, $params) {
+		$c = curl_init();
+		curl_setopt($c, CURLOPT_URL, 'http://' . URL . ':' . PORT . '/db/data/cypher');
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($c, CURLOPT_HTTPHEADER, array(
+			'Accept: application/json; stream=true',
+			'Content-type: application/json',
+			'X-Stream: true'
+		));
+		curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'POST');
+		curl_setopt($c, CURLOPT_POST, false);
+		curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($c, CURLOPT_USERPWD, USER . ':' . PSW);
+		$dataString = json_encode(array('query' => $query, 'params' => $params));
+		curl_setopt($c, CURLOPT_POSTFIELDS, $dataString);
+		
+		$response = curl_exec($c);
+		
+		if ($response === false) {
+			throw new Exception("Can't open connection to " . URL);
+		}
+
+		$data = json_decode($response, true);
+		return $data;
+	}
+	
     /**
      * \fn	getActive()
      * \brief	Return the active value
