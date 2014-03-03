@@ -21,14 +21,20 @@ require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
 
+/**
+ * \fn	    createNode($nodeType, $nodeId)
+ * \brief   Create node on the node4J DB
+ * \param   $nodeType, $nodeId
+ * \todo
+ */
 function createNode($nodeType, $nodeId) {
-	$query = '
+    $query = '
 	MERGE (n:' . $nodeType . ' {id:' . $nodeId . '})
 	RETURN count(n)
 	';
-	$connectionService = new ConnectionService();
-	$res = $connectionService->curl($query, null);
-	return $res['data'][0];
+    $connectionService = new ConnectionService();
+    $res = $connectionService->curl($query, null);
+    return $res['data'][0];
 }
 
 /**
