@@ -21,6 +21,39 @@ require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
 
+function existsRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType) {
+	$query = '
+	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
+	WHERE n.id = {fromNodeId} AND m.id = {toNodeId}
+	RETURN count(n)
+	';
+	$params = array(
+		'fromNodeId'	=> $fromNodeId,
+		'toNodeId' 		=> $toNodeId
+	);
+	$connectionService = new ConnectionService();
+	$res = $connectionService->curl($query, $params);
+	return $res['data'][0];
+}
+
+function getList($fromNodeType, $fromNodeId, $toNodeType, $relationType) {
+	$query = '
+	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
+	WHERE n.id = {fromNodeId}
+	RETURN m
+	';
+	$params = array(
+		'fromNodeId'	=> $fromNodeId
+	);
+	$connectionService = new ConnectionService();
+	$res = $connectionService->curl($query, $params);
+	$list = array();
+	foreach($res['data'] as $value) {
+		$list[] = $value[0]['data']['id'];
+	}
+	return $list;
+}
+
 /**
  * \fn	    query($sql)
  * \brief   Execute generic query
