@@ -55,8 +55,7 @@ class ReviewEventBox {
 	if ($type == 'SPOTTER') {
 	    $reviews = selectReviewEvent(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	} else {
-	    //TODO
-	    $reviews = selectReviewEvent(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	    $reviews = selectReviewEvent(null, array('event' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	}
 	if ($reviews instanceof Error) {
 	    $this->error = $reviews->getErrorMessage();
@@ -101,8 +100,7 @@ class ReviewRecordBox {
 	if ($type == 'SPOTTER') {
 	    $reviews = selectReviewRecord(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	} else {
-	    //TODO
-	    $reviews = selectReviewRecord(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	    $reviews = selectReviewRecord(null, array('record' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	}
 	if ($reviews instanceof Error) {
 	    $this->error = $reviews->getErrorMessage();
