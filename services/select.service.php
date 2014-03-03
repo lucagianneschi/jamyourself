@@ -994,7 +994,7 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
 		       			OR m.touser = fu.id)
 		       			AND mt.id_comment = id_m";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND m.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -1203,7 +1203,7 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
 		       			AND p.type = 'P'
 		       			AND pt.id_comment = p.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND p.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -1485,7 +1485,7 @@ function selectReviewEvent($id = null, $where = null, $order = null, $limit = nu
 		       			AND rw.type = 'RE'
 		       			AND rwt.id_comment = rw.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND rw.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -1693,7 +1693,7 @@ function selectReviewRecord($id = null, $where = null, $order = null, $limit = n
 				       AND rw.type = 'RR'
 				       AND rwt.id_comment = rw.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND rw.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -2222,7 +2222,7 @@ function selectVideos($id = null, $where = null, $order = null, $limit = null, $
                 WHERE v.active = 1
                   AND v.fromuser = u.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND v.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
