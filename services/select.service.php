@@ -1823,9 +1823,10 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 			       r.title title_r
                  FROM song s, user u, record r
                 WHERE s.active  = 1
-                  AND s.fromuser = u.id";
+                  AND s.fromuser = u.id
+                  AND s.record = r.id";
 	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
+	    $sql .= " AND s.id = " . $id . "";
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
@@ -1887,7 +1888,7 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
 	    $song->setSharecounter($row['sharecounter']);
 	    $song->setTitle($row['title_s']);
 	    $song->setUpdatedat($row['updatedat']);
-	    $songs[$row['id']] = $song;
+	    $songs[$row['id_s']] = $song;
 	}
 	$connectionService->disconnect();
 	return $songs;
