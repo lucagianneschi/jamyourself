@@ -83,14 +83,7 @@ function query($sql) {
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectAlbums($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
+function selectAlbums($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
 	$sql = "SELECT a.id id_a,
                    a.active,
                    a.commentcounter,
@@ -120,7 +113,16 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	}
 	if (!is_null($where)) {
 	    foreach ($where as $key => $value) {
-		$sql .= " AND " . $key . " = '" . $value . "'";
+			if (is_array($value)) {
+				$inSql = '';
+				foreach($value as $val) {
+					$inSql .= "'" . $val . "',";
+				}
+				$inSql = substr($inSql, 0, strlen($inSql) - 1);
+				$sql .= " AND a." . $key . " IN (" . $inSql . ")";
+			} else {
+				$sql .= " AND a." . $key . " = '" . $value . "'";
+			}
 	    }
 	}
 	if (!is_null($order)) {
@@ -128,9 +130,9 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $last = end($order);
 	    foreach ($order as $key => $value) {
 		if ($last == $value)
-		    $sql .= " " . $key . " " . $value;
+		    $sql .= " a." . $key . " " . $value;
 		else
-		    $sql .= " " . $key . " " . $value . ",";
+		    $sql .= " a." . $key . " " . $value . ",";
 	    }
 	}
 	if (!is_null($skip) && !is_null($limit)) {
@@ -138,11 +140,13 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	} elseif (is_null($skip) && !is_null($limit)) {
 	    $sql .= " LIMIT " . $limit;
 	}
-    $results = mysqli_query($connectionService->getConnection(), $sql);
+	
+	echo $sql;	
+	
+    $results = mysqli_query($connection, $sql);
 	if (!$results) {
-        $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
+        jam_log(__FILE__, __LINE__, 'Unable to execute query');
+		return false;
 	}
 	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	    $rows_album[] = $row;
@@ -169,20 +173,22 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $album->setLovecounter($row['lovecounter']);
 	    $album->setSharecounter($row['sharecounter']);
 		$sql = "SELECT tag
-                          FROM album_tag
-                         WHERE id = " . $row['id_a'];
-	    $results = mysqli_query($connectionService->getConnection(), $sql);
+				  FROM album_tag
+				 WHERE id = " . $row['id_a'];
+	    $results = mysqli_query($connection, $sql);
 	    if (!$results) {
-		$error = new Error();
-		$error->setErrormessage($results->error);
-		return $error;
+			jam_log(__FILE__, __LINE__, 'Unable to execute query');
+			return false;
 	    }
-	    while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows_tag[] = $row_tag;
 	    $tags = array();
-	    foreach ($rows_tag as $row_tag) {
-		$tags[] = $row_tag;
-	    }
+		$rows_tag = array();
+		while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
+			$rows_tag[] = $row_tag;
+		if (is_array($rows_tag)) {
+			foreach ($rows_tag as $row_tag) {
+				$tags[] = $row_tag;
+			}
+		}
 	    $album->setTag($tags);
 		$album->setThumbnail($row['thumbnail_a']);
 	    $album->setTitle($row['title']);
@@ -190,9 +196,7 @@ function selectAlbums($id = null, $where = null, $order = null, $limit = null, $
 	    $album->setUpdatedat($row['updatedat']);
 	    $albums[$row['id_a']] = $album;
 	}
-	$connectionService->disconnect();
 	return $albums;
-    }
 }
 
 /**
