@@ -37,9 +37,14 @@ class PlaylistInfoBox {
      */
     public function init() {
 	$user = $_SESSION['currentUser'];
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
 	$playlists = selectPlaylists(null, array('fromuser' => $user->getId()));
-	if ($playlists instanceof Error) {
-	    $this->error = $playlists->getErrorMessage();
+	if ($playlists === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->playlistArray = $playlists;
     }
@@ -62,9 +67,14 @@ class PlaylistSongBox {
      * \todo	terminare funzione prendere songs che stanno dentro la playlist
      */
     public function init($playlistId) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
 	$songs = selectSongsInPlaylist($playlistId, 20, 0);
-	if ($songs instanceof Error) {
-	    $this->error = $songs->getErrorMessage();
+	if ($songs === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->songArray = $songs;
     }

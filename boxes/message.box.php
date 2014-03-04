@@ -87,7 +87,7 @@ class MessageBox {
      * \return	MessageBox, error in case of error
      */
     public function initForUserList() {
-
+	
     }
 
     /**
@@ -98,10 +98,14 @@ class MessageBox {
      * \return	MessageBox, error in case of error
      */
     public function initForMessageList($otherId, $limit = null, $skip = null) {
-	require_once CLASSES_DIR . 'comment.class.php';
-	$messages = selectMessages($currentUserId, $otherId, null, $where, array('createad' => 'DESC'), $limit, $skip);
-	if ($messages instanceof Error) {
-	    $this->error = $messages->getErrorMessage();
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
+	$messages = selectMessages($connection, $id, $where, $order, $limit, $skip);
+	if ($messages === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->messageArray = $messages;
     }
