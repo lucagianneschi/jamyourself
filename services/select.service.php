@@ -1739,8 +1739,8 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
-	    return false;
+	jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
@@ -1809,9 +1809,8 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
                          WHERE id = " . $row['id_rw'];
 	$results = mysqli_query($connection, $sql);
 	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
+	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
 	}
 	while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	    $rows_tag[] = $row_tag;
@@ -1838,20 +1837,13 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 }
 
 /**
- * \fn	    selectSongs($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectSongs($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectSongs($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	$sql = "SELECT     s.id id_s,
+function selectSongs($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $sql = "SELECT     s.id id_s,
 		               s.createdat,
 		               s.updatedat,
 		               s.active,
@@ -1878,74 +1870,80 @@ function selectSongs($id = null, $where = null, $order = null, $limit = null, $s
                 WHERE s.active  = 1
                   AND s.fromuser = u.id
                   AND s.record = r.id";
-	if (!is_null($id)) {
-	    $sql .= " AND s.id = " . $id . "";
-	}
-	if (!is_null($where)) {
-	    foreach ($where as $key => $value) {
-		$sql .= " AND " . $key . " = '" . $value . "'";
-	    }
-	}
-	if (!is_null($order)) {
-	    $sql .= " ORDER BY ";
-	    $last = end($order);
-	    foreach ($order as $key => $value) {
-		if ($last == $value)
-		    $sql .= " " . $key . " " . $value;
-		else
-		    $sql .= " " . $key . " " . $value . ",";
-	    }
-	}
-	if (!is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $skip . ", " . $limit;
-	} elseif (is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $limit;
-	}
-	$results = mysqli_query($connectionService->getConnection(), $sql);
-	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
-	}
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	$songs = array();
-	foreach ($rows as $row) {
-	    require_once CLASSES_DIR . 'record.class.php';
-	    require_once CLASSES_DIR . 'song.class.php';
-	    require_once CLASSES_DIR . 'user.class.php';
-	    $song = new Song();
-	    $song->setId($row['id_s']);
-	    $song->setActive($row['active']);
-	    $song->setCommentcounter($row['commentcounter']);
-	    $song->setCounter($row['counter']);
-	    $song->setCreatedat($row['createdat']);
-	    $song->setDuration($row['duration']);
-	    $fromuser = new User();
-	    $fromuser->setId($row['id_u']);
-	    $fromuser->setThumbnail($row['thumbnail_u']);
-	    $fromuser->setType($row['type']);
-	    $fromuser->setUsername($row['username']);
-	    $song->setFromuser($fromuser);
-	    $song->setGenre($row['genre']);
-	    $song->setLatitude($row['latitude']);
-	    $song->setLongitude($row['longitude']);
-	    $song->getLovecounter($row['lovecounter']);
-	    $song->setPath($row['path']);
-	    $song->setPosition($row['position']);
-	    $record = new Record();
-	    $record->setId($row['id_r']);
-	    $record->setThumbnail($row['thumbnail_r']);
-	    $record->setTitle($row['title_r']);
-	    $song->setRecord($record);
-	    $song->setSharecounter($row['sharecounter']);
-	    $song->setTitle($row['title_s']);
-	    $song->setUpdatedat($row['updatedat']);
-	    $songs[$row['id_s']] = $song;
-	}
-	$connectionService->disconnect();
-	return $songs;
+    if (!is_null($id)) {
+	$sql .= " AND s.id = " . $id . "";
     }
+    if (!is_null($where)) {
+	foreach ($where as $key => $value) {
+	    if (is_array($value)) {
+		$inSql = '';
+		foreach ($value as $val) {
+		    $inSql .= "'" . $val . "',";
+		}
+		$inSql = substr($inSql, 0, strlen($inSql) - 1);
+		$sql .= " AND s." . $key . " IN (" . $inSql . ")";
+	    } else {
+		$sql .= " AND s." . $key . " = '" . $value . "'";
+	    }
+	}
+    }
+    if (!is_null($order)) {
+	$sql .= " ORDER BY ";
+	$last = end($order);
+	foreach ($order as $key => $value) {
+	    if ($last == $value)
+		$sql .= " s." . $key . " " . $value;
+	    else
+		$sql .= " s." . $key . " " . $value . ",";
+	}
+    }
+    if (!is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $skip . ", " . $limit;
+    } elseif (is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $limit;
+    }
+    $results = mysqli_query($connection, $sql);
+    if (!$results) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
+    }
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    $songs = array();
+    foreach ($rows as $row) {
+	require_once CLASSES_DIR . 'record.class.php';
+	require_once CLASSES_DIR . 'song.class.php';
+	require_once CLASSES_DIR . 'user.class.php';
+	$song = new Song();
+	$song->setId($row['id_s']);
+	$song->setActive($row['active']);
+	$song->setCommentcounter($row['commentcounter']);
+	$song->setCounter($row['counter']);
+	$song->setCreatedat($row['createdat']);
+	$song->setDuration($row['duration']);
+	$fromuser = new User();
+	$fromuser->setId($row['id_u']);
+	$fromuser->setThumbnail($row['thumbnail_u']);
+	$fromuser->setType($row['type']);
+	$fromuser->setUsername($row['username']);
+	$song->setFromuser($fromuser);
+	$song->setGenre($row['genre']);
+	$song->setLatitude($row['latitude']);
+	$song->setLongitude($row['longitude']);
+	$song->getLovecounter($row['lovecounter']);
+	$song->setPath($row['path']);
+	$song->setPosition($row['position']);
+	$record = new Record();
+	$record->setId($row['id_r']);
+	$record->setThumbnail($row['thumbnail_r']);
+	$record->setTitle($row['title_r']);
+	$song->setRecord($record);
+	$song->setSharecounter($row['sharecounter']);
+	$song->setTitle($row['title_s']);
+	$song->setUpdatedat($row['updatedat']);
+	$songs[$row['id_s']] = $song;
+    }
+    return $songs;
 }
 
 /**
