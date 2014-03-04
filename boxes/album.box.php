@@ -19,6 +19,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
 
 /**
@@ -38,9 +39,14 @@ class AlbumBox {
      * \todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
-	$albums = selectAlbums(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
-	if ($albums instanceof Error) {
-	    $this->error = $albums->getErrorMessage();
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
+	$albums = selectAlbums($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	if ($albums === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->albumArray = $albums;
     }
@@ -52,9 +58,14 @@ class AlbumBox {
      * \todo    
      */
     public function initForDetail($id, $limit = 15, $skip = 0) {
-	$images = selectImages(null, array('album' => $id), array('createdat' => 'DESC'), $limit, $skip);
-	if ($images instanceof Error) {
-	    $this->error = $images->getErrorMessage();
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
+	$images = selectImages($connection, null, array('album' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	if ($images === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->imageArray = $images;
     }
