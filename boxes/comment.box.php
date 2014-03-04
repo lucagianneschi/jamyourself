@@ -18,6 +18,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
 
 /**
@@ -36,10 +37,15 @@ class CommentBox {
      * \param	$className for the instance of the class that has been commented, $id for object that has been commented,
      * \param   $limit number of objects to retreive, $skip number of objects to skip
      */
-    public function init($id,$classname, $limit = DEFAULTQUERY, $skip = 0) {
-	$comments = selectComments(null, array($classname => $id), array('createad' => 'DESC'), $limit, $skip);
-	if ($comments instanceof Error) {
-	    $this->error = $comments->getErrorMessage();
+    public function init($id, $classname, $limit = DEFAULTQUERY, $skip = 0) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
+	$comments = selectComments($connection, null, array($classname => $id), array('createad' => 'DESC'), $limit, $skip);
+	if ($comments === false) {
+	    $this->error = $this->error = 'Errore nella query';
 	}
 	$this->commentArray = $comments;
     }
