@@ -321,21 +321,14 @@ function insertImage($connection, $image) {
 }
 
 /**
- * \fn	    insertPlaylist($playlist)
+ * \fn	    insertPlaylist($connection,$playlist)
  * \brief   Execute an insert operation of the $playlist
  * \param   $playlist object the user to insert
  * \todo
  */
-function insertPlaylist($playlist) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->active) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	require_once 'playlist.class.php';
-	$sql = "INSERT INTO playlist ( id,
+function insertPlaylist($connection, $playlist) {
+    require_once 'playlist.class.php';
+    $sql = "INSERT INTO playlist ( id,
                                     active,
                                     fromuser,
                                     name,
@@ -343,35 +336,30 @@ function insertPlaylist($playlist) {
                                     createdat,
                                     updatedat)
                           VALUES (NULL,
-                                  '" . $playlist->getActive() . "',
+			  	  '" . (is_null($playlist->getActive()) ? 0 : $playlist->getActive()) . "',
+                                  '" . (is_null($playlist->getFromuser()) ? 0 : $playlist->getFromuser()) . "',
                                   '" . $playlist->getFromuser() . "',                                              
                                   '" . $playlist->getName() . "',
-                                  '" . $playlist->getSongcounter() . "',   
+				  '" . (is_null($playlist->getSongcounter()) ? 0 : $playlist->getSongcounter()) . "',  
                                   NOW(),
                                   NOW())";
-	mysqli_query($connectionService->connection, $sql);
-	$insert_id = mysqli_insert_id($connectionService->connection);
-	$connectionService->disconnect();
-	return $insert_id;
+    $result = mysqli_query($connection, $sql);
+    if ($result === false) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute insertPlaylist');
+	return false;
     }
+    return true;
 }
 
 /**
- * \fn	    insertRecord($record)
+ * \fn	    insertRecord($connection, $record)
  * \brief   Execute an insert operation of the $record
  * \param   $record object the user to insert
  * \todo
  */
-function insertRecord($record) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->active) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	require_once 'record.class.php';
-	$sql = "INSERT INTO record ( id,
+function insertRecord($connection, $record) {
+    require_once 'record.class.php';
+    $sql = "INSERT INTO record ( id,
                                     active,
                                     buylink,
                                     commentcounter,
@@ -393,45 +381,54 @@ function insertRecord($record) {
                                     createdat,
                                     updatedat)
                           VALUES (NULL,
+			  	  '" . (is_null($record->getActive()) ? 0 : $record->getActive()) . "',
                                   '" . $record->getActive() . "',
-                                  '" . $record->getBuylink() . "',                                              
-                                  '" . $record->getCommentcounter() . "',
-                                  '" . $record->getCounter() . "',
+                                  '" . $record->getBuylink() . "', 
+				  '" . (is_null($record->getCommentcounter()) ? 0 : $record->getCommentcounter()) . "',
+                                  '" . (is_null($record->getCounter()) ? 0 : $record->getCounter()) . "',
                                   '" . $record->getCover() . "',                                              
                                   '" . $record->getDescription() . "',
-                                  '" . $record->getDuration() . "', 
-                                  '" . $record->getFromuser() . "',                                              
+				  '" . (is_null($record->getDuration()) ? 0 : $record->getDuration()) . "',
+				  '" . (is_null($record->getFromuser()) ? 0 : $record->getFromuser()) . "',                                             
                                   '" . $record->getLabel() . "',
-                                  '" . $record->getLatitude() . "',                                      
-                                  '" . $record->getLongitude() . "',   
-                                  '" . $record->getLovecounter() . "',   
-                                  '" . $record->getReviewcounter() . "',   
-                                  '" . $record->getSharecounter() . "',   
-                                  '" . $record->getSongcounter() . "',
+				  '" . (is_null($record->getLatitude()) ? 0 : $record->getLatitude()) . "',
+				  '" . (is_null($record->getLongitude()) ? 0 : $record->getLongitude()) . "',
+				  '" . (is_null($record->getLovecounter()) ? 0 : $record->getLovecounter()) . "',
+				  '" . (is_null($record->getReviewcounter()) ? 0 : $record->getReviewcounter()) . "',
+				  '" . (is_null($record->getSharecounter()) ? 0 : $record->getSharecounter()) . "',
+                                  '" . (is_null($record->getSongcounter()) ? 0 : $record->getSongcounter()) . "', 
                                   '" . $record->getThumbnail() . "',
                                   '" . $record->getTitle() . "',
                                   '" . $record->getYear() . "',
                                   NOW(),
                                   NOW())";
-	mysqli_query($connectionService->connection, $sql);
-	$insert_id = mysqli_insert_id($connectionService->connection);
-	foreach ($record->getGenre() as $genre) {
-	    $sql = "INSERT INTO record_genre (id,
-                                           genre)
-                                   VALUES (" . $insert_id . ",
-                                           '" . $genre . "')";
-	    mysqli_query($connectionService->connection, $sql);
+    $result = mysqli_query($connection, $sql);
+    if ($result === false) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute insertEvent');
+	return false;
+    } else {
+	$insert_id_genre = mysqli_insert_id($connection);
+	if (is_array($record->getGenre())) {
+	    foreach ($record->getGenre() as $genre) {
+		$sql = "INSERT INTO event_genre (id,
+						genre)
+						VALUES (" . $insert_id_genre . ",
+							'" . $genre . "')";
+		mysqli_query($connection, $sql);
+	    }
 	}
-	foreach ($record->getTag() as $tag) {
-	    $sql = "INSERT INTO record_tag (id,
-                                           tag)
-                                   VALUES (" . $insert_id . ",
-                                           '" . $tag . "')";
-	    mysqli_query($connectionService->connection, $sql);
+	$insert_id_tag = mysqli_insert_id($connection);
+	if (is_array($record->getTag())) {
+	    foreach ($record->getTag() as $tag) {
+		$sql = "INSERT INTO event_tag (id,
+						tag)
+						VALUES (" . $insert_id_tag . ",
+							'" . $tag . "')";
+		mysqli_query($connection, $sql);
+	    }
 	}
-	$connectionService->disconnect();
-	return $insert_id;
     }
+    return ($insert_id_genre && $insert_id_tag);
 }
 
 /**
