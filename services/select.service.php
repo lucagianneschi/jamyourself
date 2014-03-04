@@ -861,15 +861,8 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectImages($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	$sql = "SELECT     i.id id_i,
+function selectImages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $sql = "SELECT     i.id id_i,
 	                   i.createdat,
                            i.updatedat,
                            i.active,
@@ -894,85 +887,91 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
                      WHERE i.active = 1
                        AND i.fromuser = u.id
 		       AND i.fromuser = a.fromuser";
-	if (!is_null($id)) {
-	    $sql .= " AND i.id = " . $id . "";
-	}
-	if (!is_null($where)) {
-	    foreach ($where as $key => $value) {
-		$sql .= " AND " . $key . " = '" . $value . "'";
-	    }
-	}
-	if (!is_null($order)) {
-	    $sql .= " ORDER BY ";
-	    $last = end($order);
-	    foreach ($order as $key => $value) {
-		if ($last == $value)
-		    $sql .= " " . $key . " " . $value;
-		else
-		    $sql .= " " . $key . " " . $value . ",";
-	    }
-	}
-	if (!is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $skip . ", " . $limit;
-	} elseif (is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $limit;
-	}
-	$results = mysqli_query($connectionService->getConnection(), $sql);
-	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
-	}
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	$images = array();
-	foreach ($rows as $row) {
-	    require_once CLASSES_DIR . 'album.class.php';
-	    require_once CLASSES_DIR . 'image.class.php';
-	    $image = new Image();
-	    $image->setId($row['id_i']);
-	    $image->setCreatedat($row['createdat']);
-	    $image->setUpdatedat($row['updatedat']);
-	    $image->setActive($row['active']);
-	    $album = new Album();
-	    $album->setTitle($row['title']);
-	    $album->setCover($row['cover']);
-	    $image->setAlbum($album);
-	    $image->setCommentcounter($row['commentcounter']);
-	    $image->setCounter($row['counter']);
-	    $fromuser = new User();
-	    $fromuser->setId($row['id_u']);
-	    $fromuser->setThumbnail($row['thumbnail_u']);
-	    $fromuser->setUsername($row['username']);
-	    $fromuser->setType($row['type']);
-	    $image->setFromuser($fromuser);
-	    $image->setLatitude($row['latitude']);
-	    $image->setLongitude($row['longitude']);
-	    $image->setLovecounter($row['lovecounter']);
-	    $image->setPath($row['path']);
-	    $image->setSharecounter($row['sharecounter']);
-	    $sql = "SELECT tag
-                          FROM image_tag
-                         WHERE id = " . $row['id_i'];
-	    $results = mysqli_query($connectionService->getConnection(), $sql);
-	    if (!$results) {
-		$error = new Error();
-		$error->setErrormessage($results->error);
-		return $error;
-	    }
-	    while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows_tag[] = $row_tag;
-	    $tags = array();
-	    foreach ($rows_tag as $row_tag) {
-		$tags[] = $row_tag;
-	    }
-	    $image->setTag($tags);
-	    $image->setThumbnail($row['thumbnail_i']);
-	    $images[$row['id_i']] = $image;
-	}
-	$connectionService->disconnect();
-	return $images;
+    if (!is_null($id)) {
+	$sql .= " AND i.id = " . $id . "";
     }
+    if (!is_null($where)) {
+	foreach ($where as $key => $value) {
+	    if (is_array($value)) {
+		$inSql = '';
+		foreach ($value as $val) {
+		    $inSql .= "'" . $val . "',";
+		}
+		$inSql = substr($inSql, 0, strlen($inSql) - 1);
+		$sql .= " AND e." . $key . " IN (" . $inSql . ")";
+	    } else {
+		$sql .= " AND e." . $key . " = '" . $value . "'";
+	    }
+	}
+    }
+    if (!is_null($order)) {
+	$sql .= " ORDER BY ";
+	$last = end($order);
+	foreach ($order as $key => $value) {
+	    if ($last == $value)
+		$sql .= " e." . $key . " " . $value;
+	    else
+		$sql .= " e." . $key . " " . $value . ",";
+	}
+    }
+    if (!is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $skip . ", " . $limit;
+    } elseif (is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $limit;
+    }
+    $results = mysqli_query($connection, $sql);
+    if (!$results) {
+	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
+    }
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    $images = array();
+    foreach ($rows as $row) {
+	require_once CLASSES_DIR . 'album.class.php';
+	require_once CLASSES_DIR . 'image.class.php';
+	$image = new Image();
+	$image->setId($row['id_i']);
+	$image->setCreatedat($row['createdat']);
+	$image->setUpdatedat($row['updatedat']);
+	$image->setActive($row['active']);
+	$album = new Album();
+	$album->setTitle($row['title']);
+	$album->setCover($row['cover']);
+	$image->setAlbum($album);
+	$image->setCommentcounter($row['commentcounter']);
+	$image->setCounter($row['counter']);
+	$fromuser = new User();
+	$fromuser->setId($row['id_u']);
+	$fromuser->setThumbnail($row['thumbnail_u']);
+	$fromuser->setUsername($row['username']);
+	$fromuser->setType($row['type']);
+	$image->setFromuser($fromuser);
+	$image->setLatitude($row['latitude']);
+	$image->setLongitude($row['longitude']);
+	$image->setLovecounter($row['lovecounter']);
+	$image->setPath($row['path']);
+	$image->setSharecounter($row['sharecounter']);
+	$sql = "SELECT tag
+		  FROM image_tag
+		 WHERE id = " . $row['id_i'];
+	$results_tag = mysqli_query($connection, $sql);
+	if (!$results_tag) {
+	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
+	}
+	$tags = array();
+	$rows_tag = array();
+	while ($row_tag = mysqli_fetch_array($results_tag, MYSQLI_ASSOC))
+	    $rows_tag[] = $row_tag;
+	foreach ($rows_tag as $row_tag) {
+	    $tags[] = $row_tag;
+	}
+	$image->setTag($tags);
+	$image->setThumbnail($row['thumbnail_i']);
+	$images[$row['id_i']] = $image;
+    }
+    return $images;
 }
 
 /**
