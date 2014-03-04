@@ -24,6 +24,26 @@ require_once SERVICES_DIR . 'log.service.php';
 class ConnectionService {
 
     /**
+     * \fn	connect()
+     * \brief	connect to the database
+     * \return	connection or false
+     */
+    public function connect() {
+	try {
+	    $connection = mysqli_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PSW, MYSQL_DB);
+	    if (mysqli_connect_errno($connection)) {
+		jam_log(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
+		return false;
+	    } else {
+		return $connection;
+	    }
+	} catch (Exception $e) {
+	    jam_log(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
+	    return false;
+	}
+    }
+
+    /**
      * \fn	curl($query, $params)
      * \brief	connet to the database
      * \return	true or errors
@@ -50,26 +70,6 @@ class ConnectionService {
 	} else {
 	    $data = json_decode($response, true);
 	    $this->data = $data;
-	}
-    }
-
-    /**
-     * \fn	connect()
-     * \brief	connect to the database
-     * \return	connection or false
-     */
-    public function connect() {
-	try {
-	    $connection = mysqli_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PSW, MYSQL_DB);
-	    if (mysqli_connect_errno($connection)) {
-		jam_log(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
-		return false;
-	    } else {
-		return $connection;
-	    }
-	} catch (Exception $e) {
-	    jam_log(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
-	    return false;
 	}
     }
 
