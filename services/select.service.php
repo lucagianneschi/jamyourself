@@ -90,7 +90,7 @@ function query($sql) {
 }
 
 /**
- * \fn	    selectAlbums($id, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectAlbums($connection, $id, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Album Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
@@ -207,7 +207,7 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
 }
 
 /**
- * \fn	    selectComments($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectComments($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Event Class
  * \param   $id, $where = null, $order = null, $limit = null, $skip = null
  * \todo    prendere soltanto i parametri di interesse in base a confronto con box esistente
@@ -709,7 +709,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 }
 
 /**
- * \fn	    selectEvents($id, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectEvents($connection, $id, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Event Class
  * \param   $id, $where = null, $order = null, $limit = null, $skip = null
  * \todo
@@ -856,7 +856,7 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
 }
 
 /**
- * \fn	    selectImages($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectImages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
@@ -921,8 +921,8 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
-	    return false;
+	jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
@@ -975,21 +975,13 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
 }
 
 /**
- * \fn	    selectMessages($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectMessages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Comment Class, messages
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectMessages($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-	return;
-    } else {
-	$sql = "SELECT	   m.id id_m,
+function selectMessages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $sql = "SELECT	   m.id id_m,
                            m.active,
                            m.commentcounter,
                            m.counter,
@@ -1009,99 +1001,105 @@ function selectMessages($id = null, $where = null, $order = null, $limit = null,
                            fu.username username_u,
                            fu.thumbnail thumbnail_u,
                            fu.type type_u,
-			   			   tu.id id_tu,
+			   tu.id id_tu,
                            tu.username username_tu,
                            tu.thumbnail thumbnail_tu,
                            tu.type type_tu
                       FROM comment m, user fu, user tu, comment_tag mt                
                       WHERE m.active = 1
-		       			AND m.type = 'M'
+		       	AND m.type = 'M'
                        	AND (m.fromuser = fu.id
-		       			OR m.touser = fu.id)
-		       			AND mt.id_comment = id_m";
-	if (!is_null($id)) {
-	    $sql .= " AND m.id = " . $id . "";
-	}
-	if (!is_null($where)) {
-	    foreach ($where as $key => $value) {
-		$sql .= " AND " . $key . " = '" . $value . "'";
-	    }
-	}
-	if (!is_null($order)) {
-	    $sql .= " ORDER BY ";
-	    $last = end($order);
-	    foreach ($order as $key => $value) {
-		if ($last == $value)
-		    $sql .= " " . $key . " " . $value;
-		else
-		    $sql .= " " . $key . " " . $value . ",";
-	    }
-	}
-	if (!is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $skip . ", " . $limit;
-	} elseif (is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $limit;
-	}
-	$results = mysqli_query($connectionService->getConnection(), $sql);
-	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
-	}
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	$messages = array();
-	foreach ($rows as $row) {
-	    require_once CLASSES_DIR . 'comment.class.php';
-	    require_once CLASSES_DIR . 'user.class.php';
-	    $message = new Comment();
-	    $message->setId($row['id_m']);
-	    $message->setActive($row['active']);
-	    $message->setCommentcounter($row['commentcounter']);
-	    $message->setCounter($row['counter']);
-	    $fromuser = new User();
-	    $fromuser->setId($row['id_fu']);
-	    $fromuser->setThumbnail($row['thumbnail_fu']);
-	    $fromuser->setUsername($row['username_fu']);
-	    $fromuser->setType($row['type_fu']);
-	    $message->setFromuser($fromuser);
-	    $message->setLatitude($row['latitude']);
-	    $message->setLongitude($row['longitude']);
-	    $message->setLovecounter($row['lovecounter']);
-	    $message->setSharecounter($row['sharecounter']);
-	    $sql = "SELECT tag
-                          FROM comment_tag
-                         WHERE id = " . $row['id_m'];
-	    $results = mysqli_query($connectionService->getConnection(), $sql);
-	    if (!$results) {
-		$error = new Error();
-		$error->setErrormessage($results->error);
-		return $error;
-	    }
-	    while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows_tag[] = $row_tag;
-	    $tags = array();
-	    foreach ($rows_tag as $row_tag) {
-		$tags[] = $row_tag;
-	    }
-	    $message->setTag($tags);
-	    $message->setText($row['text']);
-	    $message->setTitle($row['title']);
-	    $touser = new User();
-	    $touser->setId($row['id_tu']);
-	    $touser->setThumbnail($row['thumbnail_tu']);
-	    $touser->setUsername($row['username_tu']);
-	    $touser->setType($row['type_tu']);
-	    $message->setTouser($touser);
-	    $message->setType($row['type_m']);
-	    $message->setVote($row['vote']);
-	    $message->setCreatedat($row['createdat']);
-	    $message->setUpdatedat($row['updatedat']);
-	    $messages[$row['id']] = $message;
-	}
-	$connectionService->disconnect();
-	return $messages;
+		        OR m.touser = fu.id)
+		        AND mt.id_comment = id_m";
+    if (!is_null($id)) {
+	$sql .= " AND m.id = " . $id . "";
     }
+    if (!is_null($where)) {
+	foreach ($where as $key => $value) {
+	    if (is_array($value)) {
+		$inSql = '';
+		foreach ($value as $val) {
+		    $inSql .= "'" . $val . "',";
+		}
+		$inSql = substr($inSql, 0, strlen($inSql) - 1);
+		$sql .= " AND e." . $key . " IN (" . $inSql . ")";
+	    } else {
+		$sql .= " AND e." . $key . " = '" . $value . "'";
+	    }
+	}
+    }
+    if (!is_null($order)) {
+	$sql .= " ORDER BY ";
+	$last = end($order);
+	foreach ($order as $key => $value) {
+	    if ($last == $value)
+		$sql .= " e." . $key . " " . $value;
+	    else
+		$sql .= " e." . $key . " " . $value . ",";
+	}
+    }
+    if (!is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $skip . ", " . $limit;
+    } elseif (is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $limit;
+    }
+    $results = mysqli_query($connection, $sql);
+    if (!$results) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
+    }
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    $messages = array();
+    foreach ($rows as $row) {
+	require_once CLASSES_DIR . 'comment.class.php';
+	require_once CLASSES_DIR . 'user.class.php';
+	$message = new Comment();
+	$message->setId($row['id_m']);
+	$message->setActive($row['active']);
+	$message->setCommentcounter($row['commentcounter']);
+	$message->setCounter($row['counter']);
+	$fromuser = new User();
+	$fromuser->setId($row['id_fu']);
+	$fromuser->setThumbnail($row['thumbnail_fu']);
+	$fromuser->setUsername($row['username_fu']);
+	$fromuser->setType($row['type_fu']);
+	$message->setFromuser($fromuser);
+	$message->setLatitude($row['latitude']);
+	$message->setLongitude($row['longitude']);
+	$message->setLovecounter($row['lovecounter']);
+	$message->setSharecounter($row['sharecounter']);
+	$sql = "SELECT tag
+		  FROM comment_tag
+		 WHERE id = " . $row['id_i'];
+	$results_tag = mysqli_query($connection, $sql);
+	if (!$results_tag) {
+	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
+	}
+	$tags = array();
+	$rows_tag = array();
+	while ($row_tag = mysqli_fetch_array($results_tag, MYSQLI_ASSOC))
+	    $rows_tag[] = $row_tag;
+	foreach ($rows_tag as $row_tag) {
+	    $tags[] = $row_tag;
+	}
+	$message->setTag($tags);
+	$message->setText($row['text']);
+	$message->setTitle($row['title']);
+	$touser = new User();
+	$touser->setId($row['id_tu']);
+	$touser->setThumbnail($row['thumbnail_tu']);
+	$touser->setUsername($row['username_tu']);
+	$touser->setType($row['type_tu']);
+	$message->setTouser($touser);
+	$message->setType($row['type_m']);
+	$message->setVote($row['vote']);
+	$message->setCreatedat($row['createdat']);
+	$message->setUpdatedat($row['updatedat']);
+	$messages[$row['id_m']] = $message;
+    }
+    return $messages;
 }
 
 /**
