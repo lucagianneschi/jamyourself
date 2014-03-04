@@ -1310,20 +1310,13 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
 }
 
 /**
- * \fn	    selectRecords($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectRecords($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectRecords($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	$sql = "SELECT r.id id_r,
+function selectRecords($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $sql = "SELECT r.id id_r,
                            r.active,
                            r.buylink,
                            r.city,
@@ -1352,91 +1345,98 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
                       FROM record r, user u
                      WHERE r.active = 1
                        AND r.fromuser = u.id";
-	if (!is_null($id)) {
-	    $sql .= " AND r.id = " . $id . "";
-	}
-	if (!is_null($where)) {
-	    foreach ($where as $key => $value) {
-		$sql .= " AND " . $key . " = '" . $value . "'";
+    if (!is_null($id)) {
+	$sql .= " AND r.id = " . $id . "";
+    }
+    if (!is_null($where)) {
+	foreach ($where as $key => $value) {
+	    if (is_array($value)) {
+		$inSql = '';
+		foreach ($value as $val) {
+		    $inSql .= "'" . $val . "',";
+		}
+		$inSql = substr($inSql, 0, strlen($inSql) - 1);
+		$sql .= " AND r." . $key . " IN (" . $inSql . ")";
+	    } else {
+		$sql .= " AND r." . $key . " = '" . $value . "'";
 	    }
 	}
-	if (!is_null($order)) {
-	    $sql .= " ORDER BY ";
-	    $last = end($order);
-	    foreach ($order as $key => $value) {
-		if ($last == $value)
-		    $sql .= " " . $key . " " . $value;
-		else
-		    $sql .= " " . $key . " " . $value . ",";
-	    }
+    }
+    if (!is_null($order)) {
+	$sql .= " ORDER BY ";
+	$last = end($order);
+	foreach ($order as $key => $value) {
+	    if ($last == $value)
+		$sql .= " r." . $key . " " . $value;
+	    else
+		$sql .= " r." . $key . " " . $value . ",";
 	}
-	if (!is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $skip . ", " . $limit;
-	} elseif (is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $limit;
-	}
-	$results = mysqli_query($connectionService->getConnection(), $sql);
-	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
-	}
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	$records = array();
-	foreach ($rows as $row) {
-	    require_once CLASSES_DIR . 'record.class.php';
-	    $record = new Record();
-	    $record->setId($row['id_r']);
-	    $record->setActive($row['active']);
-	    $record->setBuylink($row['buylink']);
-	    $record->setCity($row['city']);
-	    $record->setCommentcounter($row['commentcounter']);
-	    $record->setCounter($row['counter']);
-	    $record->setCover($row['cover']);
-	    $record->setDescription($row['description']);
-	    $record->setDuration($row['duration']);
-	    require_once CLASSES_DIR . 'user.class.php';
-	    $fromuser = new User();
-	    $fromuser->setId($row['id_u']);
-	    $fromuser->setThumbnail($row['thumbnail_u']);
-	    $fromuser->setUsername($row['username']);
-	    $record->setFromuser($fromuser);
-	    $sql = "SELECT g.genre
+    }
+    if (!is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $skip . ", " . $limit;
+    } elseif (is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $limit;
+    }
+    $results = mysqli_query($connection, $sql);
+    if (!$results) {
+	$error = new Error();
+	$error->setErrormessage($results->error);
+	return $error;
+    }
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    $records = array();
+    foreach ($rows as $row) {
+	require_once CLASSES_DIR . 'record.class.php';
+	$record = new Record();
+	$record->setId($row['id_r']);
+	$record->setActive($row['active']);
+	$record->setBuylink($row['buylink']);
+	$record->setCity($row['city']);
+	$record->setCommentcounter($row['commentcounter']);
+	$record->setCounter($row['counter']);
+	$record->setCover($row['cover']);
+	$record->setDescription($row['description']);
+	$record->setDuration($row['duration']);
+	require_once CLASSES_DIR . 'user.class.php';
+	$fromuser = new User();
+	$fromuser->setId($row['id_u']);
+	$fromuser->setThumbnail($row['thumbnail_u']);
+	$fromuser->setUsername($row['username']);
+	$record->setFromuser($fromuser);
+	$sql = "SELECT g.genre
                           FROM record_genre rg, genre g
                          WHERE rg.id_record = " . $row['id_r'] . "
                            AND g.id = rg.id_genre";
-	    $results_genre = mysqli_query($connectionService->getConnection(), $sql);
-	    if (!$results_genre) {
-		$error = new Error();
-		$error->setErrormessage($results_genre->error);
-		return $error;
-	    }
-	    while ($row_genre = mysqli_fetch_array($results_genre, MYSQLI_ASSOC))
-		$rows_genre[] = $row_genre;
-	    $genres = array();
-	    foreach ($rows_genre as $row_genre) {
-		$genres[] = $row_genre;
-	    }
-	    $record->setGenre($genres);
-	    $record->setLabel($row['label']);
-	    $record->setLatitude($row['latitude']);
-	    $record->setLongitude($row['longitude']);
-	    $record->setLovecounter($row['lovecounter']);
-	    $record->setReviewCounter($row['reviewCounter']);
-	    $record->setSharecounter($row['sharecounter']);
-	    $record->setSongCounter($row['songCounter']);
-	    $record->setThumbnail($row['thumbnail_r']);
-	    $record->setTitle($row['title']);
-	    $record->setTracklist($row['tracklist']);
-	    $record->setYear($row['year']);
-	    $record->setCreatedat($row['createdat']);
-	    $record->setUpdatedat($row['updatedat']);
-	    $records[$row['id_r']] = $record;
+	$results_genre = mysqli_query($connection, $sql);
+	if (!$results_genre) {
+	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
 	}
-	$connectionService->disconnect();
-	return $records;
+	$genres = array();
+	$rows_genre = array();
+	while ($row_genre = mysqli_fetch_array($results_genre, MYSQLI_ASSOC))
+	    $rows_genre[] = $row_genre;
+	foreach ($rows_genre as $row_genre) {
+	    $genres[] = $row_genre;
+	}	
+	$record->setGenre($genres);
+	$record->setLabel($row['label']);
+	$record->setLatitude($row['latitude']);
+	$record->setLongitude($row['longitude']);
+	$record->setLovecounter($row['lovecounter']);
+	$record->setReviewCounter($row['reviewCounter']);
+	$record->setSharecounter($row['sharecounter']);
+	$record->setSongCounter($row['songCounter']);
+	$record->setThumbnail($row['thumbnail_r']);
+	$record->setTitle($row['title']);
+	$record->setTracklist($row['tracklist']);
+	$record->setYear($row['year']);
+	$record->setCreatedat($row['createdat']);
+	$record->setUpdatedat($row['updatedat']);
+	$records[$row['id_r']] = $record;
     }
+    return $records;
 }
 
 /**
