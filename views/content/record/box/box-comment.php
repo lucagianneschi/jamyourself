@@ -15,6 +15,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'comment.box.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 session_start();
 
 $id = $_POST['id'];
@@ -73,8 +74,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 			    $comment_counter_love = $value->getLovecounter();
 			    $comment_counter_comment = $value->getCommentcounter();
 			    $comment_counter_share = $value->getSharecounter();
-
-			    if (in_array($currentUser->getId(), $value->getLovers())) {
+			    if(existsRelation('user', $currentUser->getId(), 'comment', $comment_objectId, 'loved')){
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {
