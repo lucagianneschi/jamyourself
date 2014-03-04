@@ -18,7 +18,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 
 /**
@@ -41,8 +41,7 @@ class CollaboratorsBox {
 	try {
 	    $venueArray = array();
 	    $jammerArray = array();
-	    $connectionService = new ConnectionService();
-	    $data = $connectionService->curl($query, $params);
+	    $data = getList('user', $id, 'user', 'collaboration');
 	    foreach ($data as $id) {
 		$user = selectUsers($id);
 		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
@@ -73,14 +72,13 @@ class FollowersBox {
      */
     public function init($id, $limit = 3, $skip = 0) {
 	try {
-	    $users = array();
-	    $connectionService = new ConnectionService();
-	    $data = $connectionService->curl($query, $params);
+	    $followers = array();
+	    $data = getList('user', $id, 'user', 'followers');
 	    foreach ($data as $id) {
 		$user = selectUsers($id);
-		array_push($users, $user);
+		array_push($followers, $user);
 	    }
-	    $this->followersArray = $users;
+	    $this->followersArray = $followers;
 	} catch (Exception $e) {
 	    $this->error = $e->getMessage();
 	}
@@ -108,8 +106,7 @@ class FollowingsBox {
 	try {
 	    $venueArray = array();
 	    $jammerArray = array();
-	    $connectionService = new ConnectionService();
-	    $data = $connectionService->curl($query, $params);
+	    $data = getList('user', $id, 'user', 'following');
 	    foreach ($data as $id) {
 		$user = selectUsers($id);
 		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
@@ -140,14 +137,13 @@ class FriendsBox {
      */
     public function init($id, $limit = 3, $skip = 0) {
 	try {
-	    $users = array();
-	    $connectionService = new ConnectionService();
-	    $data = $connectionService->curl($query, $params);
+	    $followings = array();
+	    $data = getList('user', $id, 'user', 'following');
 	    foreach ($data as $id) {
 		$user = selectUsers($id);
-		array_push($users, $user);
+		array_push($followings, $user);
 	    }
-	    $this->friendsArray = $users;
+	    $this->followersArray = $followers;
 	} catch (Exception $e) {
 	    $this->error = $e->getMessage();
 	}
