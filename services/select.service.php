@@ -1947,20 +1947,13 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
 }
 
 /**
- * \fn	    selectSongs($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectSongs($connection,$id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectSongsInPlaylist($id = null, $limit = 20, $skip = 0) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	$sql = "SELECT s.id id_s,
+function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) {
+    $sql = "SELECT s.id id_s,
 		       s.createdat,
 		       s.updatedat,
 		       s.active,
@@ -1984,176 +1977,178 @@ function selectSongsInPlaylist($id = null, $limit = 20, $skip = 0) {
 		       r.thumbnail thumbnail_r,
 		       r.title title_r
 		  FROM playlist pl, playlist_song ps, record r, song s, user u
-		  WHERE s.id = ps.id_song AND pl.fromuser = u.id AND s.record = r.id AND ps.playlist = pl.id s.active = 1";
-	if (!is_null($id)) {
-	    $sql .= " AND pl.id = " . $id . "";
-	}
-	if (!is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $skip . ", " . $limit;
-	} elseif (is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $limit;
-	}
-	$results = mysqli_query($connectionService->getConnection(), $sql);
-	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
-	}
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	$songs = array();
-	foreach ($rows as $row) {
-	    require_once CLASSES_DIR . 'record.class.php';
-	    require_once CLASSES_DIR . 'song.class.php';
-	    require_once CLASSES_DIR . 'user.class.php';
-	    $song = new Song();
-	    $song->setId($row['id_s']);
-	    $song->setActive($row['active']);
-	    $song->setCommentcounter($row['commentcounter']);
-	    $song->setCounter($row['counter']);
-	    $song->setCreatedat($row['createdat']);
-	    $song->setDuration($row['duration']);
-	    $fromuser = new User();
-	    $fromuser->setId($row['id_u']);
-	    $fromuser->setThumbnail($row['thumbnail_u']);
-	    $fromuser->setType($row['type']);
-	    $fromuser->setUsername($row['username']);
-	    $song->setFromuser($fromuser);
-	    $song->setGenre($row['genre']);
-	    $song->setLatitude($row['latitude']);
-	    $song->setLongitude($row['longitude']);
-	    $song->getLovecounter($row['lovecounter']);
-	    $song->setPath($row['path']);
-	    $song->setPosition($row['position']);
-	    $record = new Record();
-	    $record->setId($row['id_r']);
-	    $record->setThumbnail($row['thumbnail_r']);
-	    $record->setTitle($row['title_r']);
-	    $song->setRecord($record);
-	    $song->setSharecounter($row['sharecounter']);
-	    $song->setTitle($row['title_s']);
-	    $song->setUpdatedat($row['updatedat']);
-	    $songs[$row['id_s']] = $song;
-	}
+		  WHERE s.id = ps.id_song 
+		  AND pl.fromuser = u.id 
+		  AND s.record = r.id 
+		  AND ps.playlist = pl.id s.active = 1";
+    if (!is_null($id)) {
+	$sql .= " AND pl.id = " . $id . "";
     }
-    $connectionService->disconnect();
+    if (!is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $skip . ", " . $limit;
+    } elseif (is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $limit;
+    }
+    $results = mysqli_query($connection, $sql);
+    if (!$results) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
+    }
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    $songs = array();
+    foreach ($rows as $row) {
+	require_once CLASSES_DIR . 'record.class.php';
+	require_once CLASSES_DIR . 'song.class.php';
+	require_once CLASSES_DIR . 'user.class.php';
+	$song = new Song();
+	$song->setId($row['id_s']);
+	$song->setActive($row['active']);
+	$song->setCommentcounter($row['commentcounter']);
+	$song->setCounter($row['counter']);
+	$song->setCreatedat($row['createdat']);
+	$song->setDuration($row['duration']);
+	$fromuser = new User();
+	$fromuser->setId($row['id_u']);
+	$fromuser->setThumbnail($row['thumbnail_u']);
+	$fromuser->setType($row['type']);
+	$fromuser->setUsername($row['username']);
+	$song->setFromuser($fromuser);
+	$song->setGenre($row['genre']);
+	$song->setLatitude($row['latitude']);
+	$song->setLongitude($row['longitude']);
+	$song->getLovecounter($row['lovecounter']);
+	$song->setPath($row['path']);
+	$song->setPosition($row['position']);
+	$record = new Record();
+	$record->setId($row['id_r']);
+	$record->setThumbnail($row['thumbnail_r']);
+	$record->setTitle($row['title_r']);
+	$song->setRecord($record);
+	$song->setSharecounter($row['sharecounter']);
+	$song->setTitle($row['title_s']);
+	$song->setUpdatedat($row['updatedat']);
+	$songs[$row['id_s']] = $song;
+    }
     return $songs;
 }
 
 /**
- * \fn	    selectUsers($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectUsers($connection,$id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectUsers($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
-	$this->error = $connectionService->error;
-	return;
-    } else {
-	$sql = "SELECT     id,
-                           active,
-                           address,
-                           avatar,
-                           background,
-                           birthday,
-                           city,
-                           collaborationcounter,
-                           country,
-                           createdat,
-                           description,
-                           email,
-                           facebookid,
-                           facebookpage,
-                           firstname,
-                           followerscounter,
-                           followingcounter,
-                           friendshipcounter,
-                           googlepluspage,
-                           jammercounter,
-                           jammertype,
-                           lastname,
-                           level,
-                           levelvalue,
-                           latitude,
-                           longitude,
-                           premium,
-                           premiumexpirationdate,
-                           sex,
-                           thumbnail,
-                           twitterpage,
-                           type,
-                           updatedat,
-                           username,
-                           venuecounter,
-                           website,
-                           youtubechannel
-                      FROM user
-                     WHERE active = 1";
-	if (!is_null($id)) {
-	    $sql .= " AND id = " . $id . "";
-	}
-	if (!is_null($where)) {
-	    foreach ($where as $key => $value) {
+function selectUsers($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $sql = "SELECT     id,
+			active,
+			address,
+			avatar,
+			background,
+			birthday,
+			city,
+			collaborationcounter,
+			country,
+			createdat,
+			description,
+			email,
+			facebookid,
+			facebookpage,
+			firstname,
+			followerscounter,
+			followingcounter,
+			friendshipcounter,
+			googlepluspage,
+			jammercounter,
+			jammertype,
+			lastname,
+			level,
+			levelvalue,
+			latitude,
+			longitude,
+			premium,
+			premiumexpirationdate,
+			sex,
+			thumbnail,
+			twitterpage,
+			type,
+			updatedat,
+			username,
+			venuecounter,
+			website,
+			youtubechannel
+			FROM user
+			WHERE active = 1";
+    if (!is_null($id)) {
+	$sql .= " AND id = " . $id . "";
+    }
+    if (!is_null($where)) {
+	foreach ($where as $key => $value) {
+	    if (is_array($value)) {
+		$inSql = '';
+		foreach ($value as $val) {
+		    $inSql .= "'" . $val . "',";
+		}
+		$inSql = substr($inSql, 0, strlen($inSql) - 1);
+		$sql .= " AND " . $key . " IN (" . $inSql . ")";
+	    } else {
 		$sql .= " AND " . $key . " = '" . $value . "'";
 	    }
 	}
-	if (!is_null($order)) {
-	    $sql .= " ORDER BY ";
-	    $last = end($order);
-	    foreach ($order as $key => $value) {
-		if ($last == $value)
-		    $sql .= " " . $key . " " . $value;
-		else
-		    $sql .= " " . $key . " " . $value . ",";
-	    }
+    }
+    if (!is_null($order)) {
+	$sql .= " ORDER BY ";
+	$last = end($order);
+	foreach ($order as $key => $value) {
+	    if ($last == $value)
+		$sql .= " " . $key . " " . $value;
+	    else
+		$sql .= " " . $key . " " . $value . ",";
 	}
-	if (!is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $skip . ", " . $limit;
-	} elseif (is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $limit;
-	}
-	$results = mysqli_query($connectionService->getConnection(), $sql);
-	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
-	}
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	$users = array();
-	foreach ($rows as $row) {
-	    require_once CLASSES_DIR . 'user.class.php';
-	    $user = new User();
-	    $user->setId($row['id']);
-	    $user->setActive($row['active']);
-	    $user->setAddress($row['address']);
-	    $user->setAvatar($row['avatar']);
-	    $user->setBackground($row['background']);
-	    $user->setBirthday($row['birthday']);
-	    $user->setCity($row['city']);
-	    $user->setCollaborationcounter($row['collaborationcounter']);
-	    $user->setCountry($row['country']);
-	    #TODO vuole un datime 
+    }
+    if (!is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $skip . ", " . $limit;
+    } elseif (is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $limit;
+    }
+    $results = mysqli_query($connection, $sql);
+    if (!$results) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
+    }
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    $users = array();
+    foreach ($rows as $row) {
+	require_once CLASSES_DIR . 'user.class.php';
+	$user = new User();
+	$user->setId($row['id']);
+	$user->setActive($row['active']);
+	$user->setAddress($row['address']);
+	$user->setAvatar($row['avatar']);
+	$user->setBackground($row['background']);
+	$user->setBirthday($row['birthday']);
+	$user->setCity($row['city']);
+	$user->setCollaborationcounter($row['collaborationcounter']);
+	$user->setCountry($row['country']);
+#TODO vuole un datime 
 //	    $user->setCreatedat($row['createdat']); 
-	    $user->setDescription($row['description']);
-	    $user->setEmail($row['email']);
-	    $user->setFacebookId($row['facebookid']);
-	    $user->setFacebookpage($row['facebookpage']);
-	    $user->setFirstname($row['firstname']);
-	    $user->setFollowerscounter($row['followerscounter']);
-	    $user->setFollowingcounter($row['followingcounter']);
-	    $user->setFriendshipcounter($row['friendshipcounter']);
-	    $user->setGooglepluspage($row['googlepluspage']);
-	    $user->setJammercounter($row['jammercounter']);
-	    $user->setJammertype($row['jammertype']);
-	    $user->setLastname($row['lastname']);
-	    $user->setLevel($row['level']);
-	    $user->setLevelvalue($row['levelvalue']);
-	    $user->setLatitude($row['latitude']);
-	    $user->setLongitude($row['longitude']);
+	$user->setDescription($row['description']);
+	$user->setEmail($row['email']);
+	$user->setFacebookId($row['facebookid']);
+	$user->setFacebookpage($row['facebookpage']);
+	$user->setFirstname($row['firstname']);
+	$user->setFollowerscounter($row['followerscounter']);
+	$user->setFollowingcounter($row['followingcounter']);
+	$user->setFriendshipcounter($row['friendshipcounter']);
+	$user->setGooglepluspage($row['googlepluspage']);
+	$user->setJammercounter($row['jammercounter']);
+	$user->setJammertype($row['jammertype']);
+	$user->setLastname($row['lastname']);
+	$user->setLevel($row['level']);
+	$user->setLevelvalue($row['levelvalue']);
+	$user->setLatitude($row['latitude']);
+	$user->setLongitude($row['longitude']);
 //	    $sql = "SELECT members
 //                          FROM user_members
 //                         WHERE id = " . $row['id'];
@@ -2170,16 +2165,15 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 //		$members[] = $row_members;
 //	    }
 //	    $user->setMembers($members);
-	    $user->setPremium($row['premium']);
-	    $user->setPremiumexpirationdate($row['premiumexpirationdate']);
+	$user->setPremium($row['premium']);
+	$user->setPremiumexpirationdate($row['premiumexpirationdate']);
 //	    $sql = "SELECT setting
 //                          FROM user_setting
 //                         WHERE id = " . $row['id'];
 //	    $results = mysqli_query($connectionService->getConnection(), $sql);
 //	    if (!$results) {
-//		$error = new Error();
-//		$error->setErrormessage($results->error);
-//		return $error;
+//	jam_log(__FILE__, __LINE__, 'Unable to execute query');
+//	return false;
 //	    }
 //	    while ($row_setting = mysqli_fetch_array($results, MYSQLI_ASSOC))
 //		$rows_setting[] = $row_setting;
@@ -2188,132 +2182,129 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 //		$settings[] = $row_setting;
 //	    }
 //	    $user->setSettings($settings);
-	    $user->setSex($row['sex']);
-	    $user->setThumbnail($row['thumbnail']);
-	    $user->setType($row['type']);
-	    $user->setTwitterpage($row['twitterpage']);
-	    #TODO vuole un datime 
+	$user->setSex($row['sex']);
+	$user->setThumbnail($row['thumbnail']);
+	$user->setType($row['type']);
+	$user->setTwitterpage($row['twitterpage']);
+#TODO vuole un datime 
 //	    $user->setUpdatedat($row['updatedat']);
-	    $user->setUsername($row['username']);
-	    $user->setVenuecounter($row['venuecounter']);
-	    $user->setWebsite($row['website']);
-	    $user->setYoutubechannel($row['youtubechannel']);
-	    $users[$row['id']] = $user;
-	}
-	$connectionService->disconnect();
-	return $users;
+	$user->setUsername($row['username']);
+	$user->setVenuecounter($row['venuecounter']);
+	$user->setWebsite($row['website']);
+	$user->setYoutubechannel($row['youtubechannel']);
+	$users[$row['id']] = $user;
     }
+    return $users;
 }
 
 /**
- * \fn	    selectVideos($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectVideos($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectVideos($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
+function selectVideos($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+
+    $sql = "SELECT          v.id id_v,
+			    v.createdat,
+			    v.updatedat,
+			    v.active,
+			    v.author,
+			    v.counter,
+			    v.cover,
+			    v.duration,
+			    v.fromuser,
+			    v.lovecounter,
+			    v.thumbnail thumbnail_v,
+			    v.title title_v,
+			    v.URL,
+			    u.id id_u,
+			    u.thumbnail thumbnail_u,
+			    u.type,
+			    u.username
+			    FROM video v, user u
+			    WHERE v.active = 1
+			    AND v.fromuser = u.id";
+    if (!is_null($id)) {
+	$sql .= " AND v.id = " . $id . "";
+    }
+    if (!is_null($where)) {
+	foreach ($where as $key => $value) {
+	    if (is_array($value)) {
+		$inSql = '';
+		foreach ($value as $val) {
+		    $inSql .= "'" . $val . "',";
+		}
+		$inSql = substr($inSql, 0, strlen($inSql) - 1);
+		$sql .= " AND v." . $key . " IN (" . $inSql . ")";
+	    } else {
+		$sql .= " AND v." . $key . " = '" . $value . "'";
+	    }
+	}
+    }
+    if (!is_null($order)) {
+	$sql .= " ORDER BY ";
+	$last = end($order);
+	foreach ($order as $key => $value) {
+	    if ($last == $value)
+		$sql .= " v." . $key . " " . $value;
+	    else
+		$sql .= " v." . $key . " " . $value . ",";
+	}
+    }
+    if (!is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $skip . ", " . $limit;
+    } elseif (is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $limit;
+    }
+    $results = mysqli_query($connection, $sql);
+    if (!$results) {
 	$error = new Error();
-	$error->setErrormessage($connectionService->error);
+	$error->setErrormessage($results->error);
 	return $error;
-    } else {
-	$sql = "SELECT         v.id id_v,
-		               v.createdat,
-		               v.updatedat,
-		               v.active,
-			       v.author,
-		               v.counter,
-			       v.cover,
-		               v.duration,
-		               v.fromuser,
-		               v.lovecounter,
-			       v.thumbnail thumbnail_v,
-			       v.title title_v,
-			       v.URL,
-			       u.id id_u,
-			       u.thumbnail thumbnail_u,
-			       u.type,
-			       u.username
-                 FROM video v, user u
-                WHERE v.active = 1
-                  AND v.fromuser = u.id";
-	if (!is_null($id)) {
-	    $sql .= " AND v.id = " . $id . "";
-	}
-	if (!is_null($where)) {
-	    foreach ($where as $key => $value) {
-		$sql .= " AND " . $key . " = '" . $value . "'";
-	    }
-	}
-	if (!is_null($order)) {
-	    $sql .= " ORDER BY ";
-	    $last = end($order);
-	    foreach ($order as $key => $value) {
-		if ($last == $value)
-		    $sql .= " " . $key . " " . $value;
-		else
-		    $sql .= " " . $key . " " . $value . ",";
-	    }
-	}
-	if (!is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $skip . ", " . $limit;
-	} elseif (is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $limit;
-	}
-	$results = mysqli_query($connectionService->getConnection(), $sql);
-	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
-	}
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	$videos = array();
-	foreach ($rows as $row) {
-	    require_once CLASSES_DIR . 'video.class.php';
-	    $video = new Video();
-	    $video->setId($row['id_v']);
-	    $video->setActive($row['active']);
-	    $video->setAuthor($row['author']);
-	    $video->setCounter($row['counter']);
-	    $video->setCover($row['cover']);
-	    $video->setCreatedat($row['createdat']);
-	    $video->setDescription($row['description']);
-	    $video->setDuration($row['duration']);
-	    $fromuser = new User();
-	    $fromuser->setId($row['id_u']);
-	    $fromuser->setThumbnail($row['thumbnail_u']);
-	    $fromuser->setType($row['type']);
-	    $fromuser->setUsername($row['username']);
-	    $video->setFromuser($fromuser);
-	    $video->setLovecounter($row['lovecounter']);
-	    $sql = "SELECT tag
+    }
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    $videos = array();
+    foreach ($rows as $row) {
+	require_once CLASSES_DIR . 'video.class.php';
+	$video = new Video();
+	$video->setId($row['id_v']);
+	$video->setActive($row['active']);
+	$video->setAuthor($row['author']);
+	$video->setCounter($row['counter']);
+	$video->setCover($row['cover']);
+	$video->setCreatedat($row['createdat']);
+	$video->setDescription($row['description']);
+	$video->setDuration($row['duration']);
+	$fromuser = new User();
+	$fromuser->setId($row['id_u']);
+	$fromuser->setThumbnail($row['thumbnail_u']);
+	$fromuser->setType($row['type']);
+	$fromuser->setUsername($row['username']);
+	$video->setFromuser($fromuser);
+	$video->setLovecounter($row['lovecounter']);
+	$sql = "SELECT tag
                           FROM video_tag
                          WHERE id = " . $row['id_v'];
-	    $results = mysqli_query($connectionService->getConnection(), $sql);
-	    if (!$results) {
-		$error = new Error();
-		$error->setErrormessage($results->error);
-		return $error;
-	    }
-	    while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows_tag[] = $row_tag;
-	    $tags = array();
-	    foreach ($rows_tag as $row_tag) {
-		$tags[] = $row_tag;
-	    }
-	    $video->setTag($tags);
-	    $video->setThumbnail($row['thumbnail_v']);
-	    $video->setTitle($row['title_v']);
-	    $video->setURL($row['URL']);
-	    $video->setUpdatedat($row['updatedat']);
-	    $videos[$row['id_v']] = $video;
+	$results_tag = mysqli_query($connection, $sql);
+	if (!$results_tag) {
+	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
 	}
-	$connectionService->disconnect();
-	return $videos;
+	while ($row_tag = mysqli_fetch_array($results_tag, MYSQLI_ASSOC))
+	    $rows_tag[] = $row_tag;
+	$tags = array();
+	foreach ($rows_tag as $row_tag) {
+	    $tags[] = $row_tag;
+	}
+	$video->setTag($tags);
+	$video->setThumbnail($row['thumbnail_v']);
+	$video->setTitle($row['title_v']);
+	$video->setURL($row['URL']);
+	$video->setUpdatedat($row['updatedat']);
+	$videos[$row['id_v']] = $video;
     }
+    return $videos;
 }
-
 ?>
