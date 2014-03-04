@@ -19,6 +19,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
 
 /**
@@ -37,9 +38,14 @@ class UserInfoBox {
      * \return  instance of UserInfoBox
      */
     public function init($id) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
 	$user = selectUsers($id);
-	if ($user instanceof Error) {
-	    $this->error = $user->getErrorMessage();
+	if ($user === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->user = $user;
     }
