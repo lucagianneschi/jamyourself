@@ -127,8 +127,12 @@ class CommentController extends REST {
 		    break;
 	    }
 	    $resCmt = insertComment($cmt);
+	    $node = createNode('comment', $cmt->getId());
 	    if ($resCmt instanceof Error) {
 		$this->response(array('status' => $resCmt->getErrorMessage()), 503);
+	    }
+	    if(!$node){
+		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
 	    global $mail_files;
 	    require_once CLASSES_DIR . 'user.class.php';

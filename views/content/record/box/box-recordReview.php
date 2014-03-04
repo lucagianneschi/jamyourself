@@ -55,7 +55,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    $review_counter_love = $value->getLovecounter();
 		    $review_counter_comment = $value->getCommentcounter();
 		    $review_counter_share = $value->getSharecounter();
-		    if (in_array($currentUser->getId(), $value->getLovers())) {
+		    if(existsRelation('user', $currentUser->getId(), 'comment', $review_objectId, 'loved')){
 			$css_love = '_love orange';
 			$text_love = $views['unlove'];
 		    } else {

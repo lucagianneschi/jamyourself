@@ -20,7 +20,6 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once SERVICES_DIR . 'relationChecker.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
 
@@ -58,10 +57,10 @@ class MessageController extends REST {
 	    }
 	    $currentUser = $_SESSION['currentUser'];
 	    $touser = $this->request['toUser'];
-	    
-	    
-	    
-	    
+
+
+
+
 	    $this->response(array($controllers['CONVERSATION_DEL']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
@@ -118,6 +117,10 @@ class MessageController extends REST {
 	    $message_id = insertComment($message);
 	    if ($message_id instanceof Error) {
 		$this->response(array('status' => 'NOSAVEMESS'), 503);
+	    }
+	    $node = createNode('message', $message->getId());
+	    if (!$node) {
+		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
 	    global $mail_files;
 	    require_once CLASSES_DIR . 'user.class.php';

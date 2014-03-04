@@ -61,9 +61,9 @@ class RelationController extends REST {
 	    if ($currentUser->getId() == $touser->getId()) {
 		$this->response(array('status' => $controllers['SELF']), 503);
 	    }
-
-	    require_once SERVICES_DIR . 'relationChecker.service.php';
-	    if (relationChecker($currentUser->getId(), $currentUser->getType(), $touser->getId(), $touser->getType())) {
+	    require_once SERVICES_DIR . 'select.service.php';
+	    //definire il relationType
+	    if(!existsRelation('user', $currentUser->getId(), 'user', $touser->getId(), $relationType)){
 		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
 	    }
 
@@ -247,9 +247,8 @@ class RelationController extends REST {
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userParse = new UserParse();
 	    $touser = $userParse->getUser($toUserId);
-
-	    require_once SERVICES_DIR . 'relationChecker.service.php';
-	    if (!relationChecker($currentUser->getId(), $currentUser->getType(), $touser->getId(), $touser->getType())) {
+	    //definire il relationType
+	    if(!existsRelation('user', $currentUser->getId(), 'user', $touser->getId(), $relationType)){
 		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
 	    }
 	    require_once CLASSES_DIR . 'activityParse.class.php';
@@ -393,8 +392,8 @@ class RelationController extends REST {
 	    $userParse = new UserParse();
 	    $touser = $userParse->getUser($toUserId);
 
-	    require_once SERVICES_DIR . 'relationChecker.service.php';
-	    if (relationChecker($currentUser->getId(), $currentUser->getType(), $touser->getId(), $touser->getType())) {
+	    //definire il relationType
+	    if(!existsRelation('user', $currentUser->getId(), 'user', $touser->getId(), $relationType)){
 		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
 	    }
 
