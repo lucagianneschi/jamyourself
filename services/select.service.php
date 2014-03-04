@@ -898,9 +898,9 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
 		    $inSql .= "'" . $val . "',";
 		}
 		$inSql = substr($inSql, 0, strlen($inSql) - 1);
-		$sql .= " AND e." . $key . " IN (" . $inSql . ")";
+		$sql .= " AND i." . $key . " IN (" . $inSql . ")";
 	    } else {
-		$sql .= " AND e." . $key . " = '" . $value . "'";
+		$sql .= " AND i." . $key . " = '" . $value . "'";
 	    }
 	}
     }
@@ -909,9 +909,9 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
 	$last = end($order);
 	foreach ($order as $key => $value) {
 	    if ($last == $value)
-		$sql .= " e." . $key . " " . $value;
+		$sql .= " i." . $key . " " . $value;
 	    else
-		$sql .= " e." . $key . " " . $value . ",";
+		$sql .= " i." . $key . " " . $value . ",";
 	}
     }
     if (!is_null($skip) && !is_null($limit)) {
@@ -1022,9 +1022,9 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
 		    $inSql .= "'" . $val . "',";
 		}
 		$inSql = substr($inSql, 0, strlen($inSql) - 1);
-		$sql .= " AND e." . $key . " IN (" . $inSql . ")";
+		$sql .= " AND m." . $key . " IN (" . $inSql . ")";
 	    } else {
-		$sql .= " AND e." . $key . " = '" . $value . "'";
+		$sql .= " AND m." . $key . " = '" . $value . "'";
 	    }
 	}
     }
@@ -1033,9 +1033,9 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
 	$last = end($order);
 	foreach ($order as $key => $value) {
 	    if ($last == $value)
-		$sql .= " e." . $key . " " . $value;
+		$sql .= " m." . $key . " " . $value;
 	    else
-		$sql .= " e." . $key . " " . $value . ",";
+		$sql .= " m." . $key . " " . $value . ",";
 	}
     }
     if (!is_null($skip) && !is_null($limit)) {
@@ -1103,21 +1103,13 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
 }
 
 /**
- * \fn	    selectPlaylists($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectPlaylists($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Playlist Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectPlaylists($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-	return;
-    } else {
-	$sql = "SELECT p.id id_p,
+function selectPlaylists($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $sql = "SELECT p.id id_p,
 		           p.createdat,
 		           p.updatedat,
 		           p.active,
@@ -1125,62 +1117,68 @@ function selectPlaylists($id = null, $where = null, $order = null, $limit = null
 		           p.name,
 		           p.songcounter,
 		           p.unlimited,
-			   	   u.id id_u,
-			       u.username
-			       u.type
+			   u.id id_u,
+			   u.username
+			   u.type
 		     FROM playlist p, user u
              WHERE p.active = 1 AND p.fromuser = u.id";
-	if (!is_null($id)) {
-	    $sql .= " AND p.id = " . $id . "";
-	}
-	if (!is_null($where)) {
-	    foreach ($where as $key => $value) {
-		$sql .= " AND " . $key . " = '" . $value . "'";
-	    }
-	}
-	if (!is_null($order)) {
-	    $sql .= " ORDER BY ";
-	    $last = end($order);
-	    foreach ($order as $key => $value) {
-		if ($last == $value)
-		    $sql .= " " . $key . " " . $value;
-		else
-		    $sql .= " " . $key . " " . $value . ",";
-	    }
-	}
-	if (!is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $skip . ", " . $limit;
-	} elseif (is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $limit;
-	}
-	$results = mysqli_query($connectionService->getConnection(), $sql);
-	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
-	}
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	$playlists = array();
-	foreach ($rows as $row) {
-	    require_once CLASSES_DIR . 'playlist.class.php';
-	    $playlist = new Playlist();
-	    $playlist->setId($row['id_p']);
-	    $playlist->setActive($row['active']);
-	    $playlist->setCreatedat($row['createdat']);
-	    $fromuser = new User();
-	    $fromuser->setId($row['id_u']);
-	    $fromuser->setUsername($row['username']);
-	    $playlist->setFromuser($fromuser);
-	    $playlist->setName($row['name']);
-	    $playlist->setSongcounter($row['songcounter']);
-	    $playlist->setUnlimited($row['unlimited']);
-	    $playlist->setUpdatedat($row['updatedat']);
-	    $playlists[$row['id']] = $playlist;
-	}
-	$connectionService->disconnect();
-	return $playlists;
+    if (!is_null($id)) {
+	$sql .= " AND p.id = " . $id . "";
     }
+    if (!is_null($where)) {
+	foreach ($where as $key => $value) {
+	    if (is_array($value)) {
+		$inSql = '';
+		foreach ($value as $val) {
+		    $inSql .= "'" . $val . "',";
+		}
+		$inSql = substr($inSql, 0, strlen($inSql) - 1);
+		$sql .= " AND p." . $key . " IN (" . $inSql . ")";
+	    } else {
+		$sql .= " AND p." . $key . " = '" . $value . "'";
+	    }
+	}
+    }
+    if (!is_null($order)) {
+	$sql .= " ORDER BY ";
+	$last = end($order);
+	foreach ($order as $key => $value) {
+	    if ($last == $value)
+		$sql .= " p." . $key . " " . $value;
+	    else
+		$sql .= " p." . $key . " " . $value . ",";
+	}
+    }
+    if (!is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $skip . ", " . $limit;
+    } elseif (is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $limit;
+    }
+    $results = mysqli_query($connection, $sql);
+    if (!$results) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
+    }
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    $playlists = array();
+    foreach ($rows as $row) {
+	require_once CLASSES_DIR . 'playlist.class.php';
+	$playlist = new Playlist();
+	$playlist->setId($row['id_p']);
+	$playlist->setActive($row['active']);
+	$playlist->setCreatedat($row['createdat']);
+	$fromuser = new User();
+	$fromuser->setId($row['id_u']);
+	$fromuser->setUsername($row['username']);
+	$playlist->setFromuser($fromuser);
+	$playlist->setName($row['name']);
+	$playlist->setSongcounter($row['songcounter']);
+	$playlist->setUnlimited($row['unlimited']);
+	$playlist->setUpdatedat($row['updatedat']);
+	$playlists[$row['id_p']] = $playlist;
+    }
+    return $playlists;
 }
 
 /**
