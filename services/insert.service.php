@@ -113,21 +113,14 @@ function insertAlbum($connection, $album) {
 }
 
 /**
- * \fn	    insertComment($comment)
+ * \fn	    insertComment($connection,$comment)
  * \brief   Execute an insert operation of the $comment
  * \param   $comment object the user to insert
  * \todo
  */
-function insertComment($comment) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->active) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	require_once 'comment.class.php';
-	$sql = "INSERT INTO comment (id,
+function insertComment($connection, $comment) {
+    require_once 'comment.class.php';
+    $sql = "INSERT INTO comment (id,
                                     active,
                                     album,
                                     comment,
@@ -149,36 +142,41 @@ function insertComment($comment) {
                                     createdat,
                                     updatedat)
                           VALUES (NULL,
-                                  '" . $comment->getActive() . "',
-                                  '" . $comment->getAlbum() . "',  
-                                  '" . $comment->getComment() . "',      
-                                  '" . $comment->getCommentcounter() . "',
-                                  '" . $comment->getCounter() . "',
-                                  '" . $comment->getEvent() . "',   
-                                  '" . $comment->getFromuser() . "',
-                                  '" . $comment->getImage() . "',
-                                  '" . $comment->getLatitude() . "',
-                                  '" . $comment->getLongitude() . "',
-                                  '" . $comment->getLovecounter() . "',
-                                  '" . $comment->getRecord() . "',                                     
-                                  '" . $comment->getSharecounter() . "',
+			  	  '" . (is_null($comment->getActive()) ? 0 : $comment->getActive()) . "',
+                                  '" . (is_null($comment->getAlbum()) ? 0 : $comment->getAlbum()) . "',
+                                  '" . (is_null($comment->getComment()) ? 0 : $comment->getComment()) . "',  
+                                  '" . (is_null($comment->getCommentcounter()) ? 0 : $comment->getCommentcounter()) . "',      
+                                  '" . (is_null($comment->getCounter()) ? 0 : $comment->getCounter()) . "',
+                                  '" . (is_null($comment->getEvent()) ? 0 : $comment->getEvent()) . "',
+                                  '" . (is_null($comment->getFromuser()) ? 0 : $comment->getFromuser()) . "',  
+                                  '" . (is_null($comment->getImage()) ? 0 : $comment->getImage()) . "',
+                                  '" . (is_null($comment->getLatitude()) ? 0 : $comment->getLatitude()) . "',
+                                  '" . (is_null($comment->getLongitude()) ? 0 : $comment->getLongitude()) . "',
+                                  '" . (is_null($comment->getLovecounter()) ? 0 : $comment->getLovecounter()) . "',
+                                  '" . (is_null($comment->getRecord()) ? 0 : $comment->getRecord()) . "',
+                                  '" . (is_null($comment->getSharecounter()) ? 0 : $comment->getSharecounter()) . "',                                    
                                   '" . $comment->getText() . "',
                                   '" . $comment->getTitle() . "',
-                                  '" . $comment->getTouser() . "',    
+                                  '" . (is_null($comment->getTouser()) ? 0 : $comment->getTouser()) . "',      
                                   '" . $comment->getType() . "',
-                                  '" . $comment->getVote() . "',
+                                  '" . (is_null($comment->getVote()) ? 0 : $comment->getVote()) . "',
                                   NOW(),
                                   NOW())";
-	mysqli_query($connectionService->connection, $sql);
-	$insert_id = mysqli_insert_id($connectionService->connection);
-	foreach ($comment->getTag() as $tag) {
-	    $sql = "INSERT INTO comment_tag (id,
-                                           tag)
-                                   VALUES (" . $insert_id . ",
-                                           '" . $tag . "')";
-	    mysqli_query($connectionService->connection, $sql);
+    $result = mysqli_query($connection, $sql);
+    if ($result === false) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute insertAlbum');
+	return false;
+    } else {
+	$insert_id = mysqli_insert_id($connection);
+	if (is_array($comment->getTag())) {
+	    foreach ($comment->getTag() as $tag) {
+		$sql = "INSERT INTO comment_tag (id,
+						tag)
+						VALUES (" . $insert_id . ",
+							'" . $tag . "')";
+		mysqli_query($connection, $sql);
+	    }
 	}
-	$connectionService->disconnect();
 	return $insert_id;
     }
 }
