@@ -21,40 +21,52 @@ require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
 
+/**
+ * \fn	    existsRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType)
+ * \brief   Check if a relation exist between 2 nodes
+ * \param   $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType
+ * \todo
+ */
 function existsRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType) {
-	$query = '
+    $query = '
 	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
 	WHERE n.id = {fromNodeId} AND m.id = {toNodeId}
 	RETURN count(n)
 	';
-	$params = array(
-		'fromNodeId'	=> $fromNodeId,
-		'toNodeId' 		=> $toNodeId
-	);
-	$connectionService = new ConnectionService();
-	$res = $connectionService->curl($query, $params);
-	return $res['data'][0];
+    $params = array(
+	'fromNodeId' => $fromNodeId,
+	'toNodeId' => $toNodeId
+    );
+    $connectionService = new ConnectionService();
+    $res = $connectionService->curl($query, $params);
+    return $res['data'][0];
 }
 
+/**
+ * \fn	    getList($fromNodeType, $fromNodeId, $toNodeType, $relationType)
+ * \brief   Get list of nodes in relation with the first node
+ * \param   $fromNodeType, $fromNodeId, $toNodeType, $relationType
+ * \todo
+ */
 function getList($fromNodeType, $fromNodeId, $toNodeType, $relationType) {
-	$query = '
+    $query = '
 	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
 	WHERE n.id = {fromNodeId}
 	RETURN m
 	ORDER BY r.createdat DESC
 	';
-	$params = array(
-		'fromNodeId'	=> $fromNodeId
-	);
-	$connectionService = new ConnectionService();
-	$res = $connectionService->curl($query, $params);
-	$list = array();
-	foreach($res['data'] as $value) {
-		if ($fromNodeId != $value[0]['data']['id']) {
-			$list[] = $value[0]['data']['id'];
-		}
+    $params = array(
+	'fromNodeId' => $fromNodeId
+    );
+    $connectionService = new ConnectionService();
+    $res = $connectionService->curl($query, $params);
+    $list = array();
+    foreach ($res['data'] as $value) {
+	if ($fromNodeId != $value[0]['data']['id']) {
+	    $list[] = $value[0]['data']['id'];
 	}
-	return $list;
+    }
+    return $list;
 }
 
 /**
@@ -84,7 +96,7 @@ function query($sql) {
  * \todo
  */
 function selectAlbums($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
-	$sql = "SELECT a.id id_a,
+    $sql = "SELECT a.id id_a,
                    a.active,
                    a.commentcounter,
                    a.counter,
@@ -108,95 +120,95 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
                    user u
              WHERE a.active = 1
                AND a.fromuser = u.id";
-	if (!is_null($id)) {
-	    $sql .= " AND a.id = " . $id . "";
-	}
-	if (!is_null($where)) {
-	    foreach ($where as $key => $value) {
-			if (is_array($value)) {
-				$inSql = '';
-				foreach($value as $val) {
-					$inSql .= "'" . $val . "',";
-				}
-				$inSql = substr($inSql, 0, strlen($inSql) - 1);
-				$sql .= " AND a." . $key . " IN (" . $inSql . ")";
-			} else {
-				$sql .= " AND a." . $key . " = '" . $value . "'";
-			}
+    if (!is_null($id)) {
+	$sql .= " AND a.id = " . $id . "";
+    }
+    if (!is_null($where)) {
+	foreach ($where as $key => $value) {
+	    if (is_array($value)) {
+		$inSql = '';
+		foreach ($value as $val) {
+		    $inSql .= "'" . $val . "',";
+		}
+		$inSql = substr($inSql, 0, strlen($inSql) - 1);
+		$sql .= " AND a." . $key . " IN (" . $inSql . ")";
+	    } else {
+		$sql .= " AND a." . $key . " = '" . $value . "'";
 	    }
 	}
-	if (!is_null($order)) {
-	    $sql .= " ORDER BY ";
-	    $last = end($order);
-	    foreach ($order as $key => $value) {
-		if ($last == $value)
-		    $sql .= " a." . $key . " " . $value;
-		else
-		    $sql .= " a." . $key . " " . $value . ",";
-	    }
+    }
+    if (!is_null($order)) {
+	$sql .= " ORDER BY ";
+	$last = end($order);
+	foreach ($order as $key => $value) {
+	    if ($last == $value)
+		$sql .= " a." . $key . " " . $value;
+	    else
+		$sql .= " a." . $key . " " . $value . ",";
 	}
-	if (!is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $skip . ", " . $limit;
-	} elseif (is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $limit;
-	}
-	
-	echo $sql;	
-	
+    }
+    if (!is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $skip . ", " . $limit;
+    } elseif (is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $limit;
+    }
+
+    echo $sql;
+
     $results = mysqli_query($connection, $sql);
-	if (!$results) {
-        jam_log(__FILE__, __LINE__, 'Unable to execute query');
-		return false;
-	}
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows_album[] = $row;
-	$albums = array();
-	foreach ($rows_album as $row) {
-	    require_once CLASSES_DIR . 'album.class.php';
-	    $album = new Album();
-	    $album->setId($row['id_a']);
-	    $album->setActive($row['active']);
-	    $album->setCommentcounter($row['commentcounter']);
-	    $album->setCounter($row['counter']);
-	    $album->setCover($row['cover']);
-	    $album->setDescription($row['description']);
-	    require_once CLASSES_DIR . 'user.class.php';
-	    $fromuser = new User();
-	    $fromuser->setId($row['id_u']);
-	    $fromuser->setThumbnail($row['thumbnail_u']);
-	    $fromuser->setUsername($row['username']);
-	    $fromuser->setType($row['type']);
-	    $album->setFromuser($fromuser);
-	    $album->setImagecounter($row['imagecounter']);
-	    $album->setLatitude($row['latitude']);
-	    $album->setLongitude($row['longitude']);
-	    $album->setLovecounter($row['lovecounter']);
-	    $album->setSharecounter($row['sharecounter']);
-		$sql = "SELECT tag
+    if (!$results) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
+    }
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows_album[] = $row;
+    $albums = array();
+    foreach ($rows_album as $row) {
+	require_once CLASSES_DIR . 'album.class.php';
+	$album = new Album();
+	$album->setId($row['id_a']);
+	$album->setActive($row['active']);
+	$album->setCommentcounter($row['commentcounter']);
+	$album->setCounter($row['counter']);
+	$album->setCover($row['cover']);
+	$album->setDescription($row['description']);
+	require_once CLASSES_DIR . 'user.class.php';
+	$fromuser = new User();
+	$fromuser->setId($row['id_u']);
+	$fromuser->setThumbnail($row['thumbnail_u']);
+	$fromuser->setUsername($row['username']);
+	$fromuser->setType($row['type']);
+	$album->setFromuser($fromuser);
+	$album->setImagecounter($row['imagecounter']);
+	$album->setLatitude($row['latitude']);
+	$album->setLongitude($row['longitude']);
+	$album->setLovecounter($row['lovecounter']);
+	$album->setSharecounter($row['sharecounter']);
+	$sql = "SELECT tag
 				  FROM album_tag
 				 WHERE id = " . $row['id_a'];
-	    $results = mysqli_query($connection, $sql);
-	    if (!$results) {
-			jam_log(__FILE__, __LINE__, 'Unable to execute query');
-			return false;
-	    }
-	    $tags = array();
-		$rows_tag = array();
-		while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
-			$rows_tag[] = $row_tag;
-		if (is_array($rows_tag)) {
-			foreach ($rows_tag as $row_tag) {
-				$tags[] = $row_tag;
-			}
-		}
-	    $album->setTag($tags);
-		$album->setThumbnail($row['thumbnail_a']);
-	    $album->setTitle($row['title']);
-	    $album->setCreatedat($row['createdat']);
-	    $album->setUpdatedat($row['updatedat']);
-	    $albums[$row['id_a']] = $album;
+	$results = mysqli_query($connection, $sql);
+	if (!$results) {
+	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
 	}
-	return $albums;
+	$tags = array();
+	$rows_tag = array();
+	while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	    $rows_tag[] = $row_tag;
+	if (is_array($rows_tag)) {
+	    foreach ($rows_tag as $row_tag) {
+		$tags[] = $row_tag;
+	    }
+	}
+	$album->setTag($tags);
+	$album->setThumbnail($row['thumbnail_a']);
+	$album->setTitle($row['title']);
+	$album->setCreatedat($row['createdat']);
+	$album->setUpdatedat($row['updatedat']);
+	$albums[$row['id_a']] = $album;
+    }
+    return $albums;
 }
 
 /**
@@ -931,7 +943,7 @@ function selectImages($id = null, $where = null, $order = null, $limit = null, $
 	    $image->setLovecounter($row['lovecounter']);
 	    $image->setPath($row['path']);
 	    $image->setSharecounter($row['sharecounter']);
-		$sql = "SELECT tag
+	    $sql = "SELECT tag
                           FROM image_tag
                          WHERE id = " . $row['id_i'];
 	    $results = mysqli_query($connectionService->getConnection(), $sql);
@@ -1381,13 +1393,13 @@ function selectRecords($id = null, $where = null, $order = null, $limit = null, 
 	    $record->setCover($row['cover']);
 	    $record->setDescription($row['description']);
 	    $record->setDuration($row['duration']);
-		require_once CLASSES_DIR . 'user.class.php';
+	    require_once CLASSES_DIR . 'user.class.php';
 	    $fromuser = new User();
 	    $fromuser->setId($row['id_u']);
 	    $fromuser->setThumbnail($row['thumbnail_u']);
 	    $fromuser->setUsername($row['username']);
 	    $record->setFromuser($fromuser);
-		$sql = "SELECT g.genre
+	    $sql = "SELECT g.genre
                           FROM record_genre rg, genre g
                          WHERE rg.id_record = " . $row['id_r'] . "
                            AND g.id = rg.id_genre";
@@ -2179,7 +2191,7 @@ function selectUsers($id = null, $where = null, $order = null, $limit = null, $s
 //	    $user->setSettings($settings);
 	    $user->setSex($row['sex']);
 	    $user->setThumbnail($row['thumbnail']);
-		$user->setType($row['type']);
+	    $user->setType($row['type']);
 	    $user->setTwitterpage($row['twitterpage']);
 	    #TODO vuole un datime 
 //	    $user->setUpdatedat($row['updatedat']);
