@@ -77,7 +77,7 @@ function insertAlbum($connection, $album) {
 			title,
 			createdat,
 			updatedat)
-           VALUES (NULL,
+			VALUES (NULL,
 				  '" . (is_null($album->getActive()) ? 0 : $album->getActive()) . "',
                                   '" . (is_null($album->getCommentcounter()) ? 0 : $album->getCommentcounter()) . "',
                                   '" . (is_null($album->getCounter()) ? 0 : $album->getCounter()) . "',
@@ -164,7 +164,7 @@ function insertComment($connection, $comment) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jam_log(__FILE__, __LINE__, 'Unable to execute insertAlbum');
+	jam_log(__FILE__, __LINE__, 'Unable to execute insertComment');
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
@@ -182,21 +182,14 @@ function insertComment($connection, $comment) {
 }
 
 /**
- * \fn	    insertEvent($event)
+ * \fn	    insertEvent($connection,$event)
  * \brief   Execute an insert operation of the $event
  * \param   $event object the user to insert
  * \todo
  */
-function insertEvent($event) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->active) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	require_once 'event.class.php';
-	$sql = "INSERT INTO event ( id,
+function insertEvent($connection, $event) {
+    require_once 'event.class.php';
+    $sql = "INSERT INTO event ( id,
                                     active,
                                     address,
                                     comment,
@@ -222,49 +215,56 @@ function insertEvent($event) {
                                     createdat,
                                     updatedat)
                           VALUES (NULL,
-                                  '" . $event->getActive() . "',
-                                  '" . $event->getAddress() . "',  
-                                  '" . $event->getComment() . "',      
-                                  '" . $event->getAttendeecounter() . "',
-                                  '" . $event->getCancelledcounter() . "',
+			  	  '" . (is_null($event->getActive()) ? 0 : $event->getActive()) . "',
+                                  '" . $event->getAddress() . "',    
+				  '" . (is_null($event->getAttendeecounter()) ? 0 : $event->getAttendeecounter()) . "',
+				  '" . (is_null($event->getCancelledcounter()) ? 0 : $event->getCancelledcounter()) . "',
                                   '" . $event->getCity() . "',   
-                                  '" . $event->getCommentcounter() . "',
-                                  '" . $event->getCounter() . "',
+				  '" . (is_null($event->getCommentcounter()) ? 0 : $event->getCommentcounter()) . "',
+                                  '" . (is_null($event->getCounter()) ? 0 : $event->getCounter()) . "',
                                   '" . $event->getCover() . "',
                                   '" . $event->getDescription() . "',
-                                  '" . $event->getEventdate() . "',  
-                                  '" . $event->getFromuser() . "',       
-                                  '" . $event->getInvitedcounter() . "',                                        
-                                  '" . $event->getLatitude() . "',
+				  '" . (is_null($event->getEventdate()) ? 0 : $event->getEventdate()) . "',
+				  '" . (is_null($event->getFromuser()) ? 0 : $event->getFromuser()) . "', 
+				  '" . (is_null($event->getInvitedcounter()) ? 0 : $event->getInvitedcounter()) . "',       
+				  '" . (is_null($event->getLatitude()) ? 0 : $event->getLatitude()) . "',                                         
                                   '" . $event->getLocationname() . "',                                      
-                                  '" . $event->getLongitude() . "',
-                                  '" . $event->getLovecounter() . "',
-                                  '" . $event->getReviewcounter() . "',
-                                  '" . $event->getRefusedcounter() . "', 
-                                  '" . $event->getSharecounter() . "',
+				  '" . (is_null($event->getLongitude()) ? 0 : $event->getLongitude()) . "',
+				  '" . (is_null($event->getLovecounter()) ? 0 : $event->getLovecounter()) . "',
+				  '" . (is_null($event->getReviewcounter()) ? 0 : $event->getReviewcounter()) . "',
+				  '" . (is_null($event->getRefusedcounter()) ? 0 : $event->getRefusedcounter()) . "',
+				  '" . (is_null($event->getSharecounter()) ? 0 : $event->getSharecounter()) . "',
                                   '" . $event->getThumbnail() . "',
                                   '" . $event->getTitle() . "',   
                                   NOW(),
                                   NOW())";
-	mysqli_query($connectionService->connection, $sql);
-	$insert_id = mysqli_insert_id($connectionService->connection);
-	foreach ($event->getGenre() as $genre) {
-	    $sql = "INSERT INTO event_genre (id,
-                                           genre)
-                                   VALUES (" . $insert_id . ",
-                                           '" . $genre . "')";
-	    mysqli_query($connectionService->connection, $sql);
+    $result = mysqli_query($connection, $sql);
+    if ($result === false) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute insertEvent');
+	return false;
+    } else {
+	$insert_id_genre = mysqli_insert_id($connection);
+	if (is_array($event->getGenre())) {
+	    foreach ($event->getGenre() as $genre) {
+		$sql = "INSERT INTO event_genre (id,
+						genre)
+						VALUES (" . $insert_id_genre . ",
+							'" . $genre . "')";
+		$res = mysqli_query($connection, $sql);
+	    }
 	}
-	foreach ($event->getTag() as $tag) {
-	    $sql = "INSERT INTO event_tag (id,
-                                           tag)
-                                   VALUES (" . $insert_id . ",
-                                           '" . $tag . "')";
-	    mysqli_query($connectionService->connection, $sql);
+	$insert_id_tag = mysqli_insert_id($connection);
+	if (is_array($event->getTag())) {
+	    foreach ($event->getTag() as $tag) {
+		$sql = "INSERT INTO event_tag (id,
+						tag)
+						VALUES (" . $insert_id_tag . ",
+							'" . $tag . "')";
+		$res = mysqli_query($connection, $sql);
+	    }
 	}
-	$connectionService->disconnect();
-	return $insert_id;
     }
+    return ($insert_id_genre && $insert_id_tag);
 }
 
 /**
