@@ -152,9 +152,6 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
     } elseif (is_null($skip) && !is_null($limit)) {
 	$sql .= " LIMIT " . $limit;
     }
-
-    echo $sql;
-
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	jam_log(__FILE__, __LINE__, 'Unable to execute query');
@@ -185,8 +182,8 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
 	$album->setLovecounter($row['lovecounter']);
 	$album->setSharecounter($row['sharecounter']);
 	$sql = "SELECT tag
-				  FROM album_tag
-				 WHERE id = " . $row['id_a'];
+		  FROM album_tag
+		 WHERE id = " . $row['id_a'];
 	$results = mysqli_query($connection, $sql);
 	if (!$results) {
 	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
@@ -196,10 +193,8 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
 	$rows_tag = array();
 	while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	    $rows_tag[] = $row_tag;
-	if (is_array($rows_tag)) {
-	    foreach ($rows_tag as $row_tag) {
-		$tags[] = $row_tag;
-	    }
+	foreach ($rows_tag as $row_tag) {
+	    $tags[] = $row_tag;
 	}
 	$album->setTag($tags);
 	$album->setThumbnail($row['thumbnail_a']);
@@ -308,7 +303,7 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
                    e.thumbnail thumbnail_e,
                    e.title title_e,
                    i.id id_i,
-	           	   i.createdat createdat_i,
+	           i.createdat createdat_i,
                    i.updatedat updatedat_i,
                    i.active active_i,
                    i.commentcounter commentcounter_i,
@@ -317,9 +312,9 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
                    i.latitude latitude_i,
                    i.longitude longitude_i,
                    i.lovecounter lovecounter_i,
-		   		   i.path path_i,
+		   i.path path_i,
                    i.sharecounter sharecounter_i,
-	           	   i.thumbnail thumbnail_i,
+	           i.thumbnail thumbnail_i,
                    r.id id_r,
                    r.createdat createdat_r,
                    r.updatedat updatedat_r,
@@ -344,8 +339,8 @@ function selectComments($id = null, $where = null, $order = null, $limit = null,
                    r.title title_r,
                    r.year,
                    s.id id_s,
-		   		   s.createdat createdat_s,
-				   s.updatedat updatedat_s,
+		   s.createdat createdat_s,
+		   s.updatedat updatedat_s,
 				   s.active active_s,
 				   s.commentcounter commentcounter_s,
 				   s.counter counter_s,
