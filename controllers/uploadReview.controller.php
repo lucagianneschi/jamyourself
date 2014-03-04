@@ -59,6 +59,7 @@ class UploadReviewController extends REST {
 		die("Errore");
 	    } else {
 		$this->reviewed = $revieBox->mediaInfo[0];
+		//getRelatedUsers non esiste più!
 		$this->reviewedFeaturing = getRelatedUsers($this->reviewedId, "featuring", $this->reviewedClassType);
 		$this->reviewedFromUser = $this->reviewed->getFromuser();
 		if ($this->reviewedFeaturing instanceof Error) {

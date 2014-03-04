@@ -24,6 +24,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 /**
  * \fn	getFeaturingArray() 
  * \brief   funzione per il recupero dei featuring per l'event
+ * \todo  getRelatedUsers non esiste più
  */
 function getFeaturingArray() {
     if (isset($_SESSION['currentUser'])) {

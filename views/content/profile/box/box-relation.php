@@ -18,7 +18,9 @@ $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
 $tot = intval($_POST['tot']);
 
-$arrayRelation = getRelatedUsers($id, $relation, '_User', false, $limit, $skip);
+$arrayRelation = getList('user', $id, 'user', $relationType);
+// questa funzione commentata non esiste più!!
+//$arrayRelation = getRelatedUsers($id, $relation, '_User', false, $limit, $skip);
 
 if ($relation == 'friendship')
     $rel = 'friends';

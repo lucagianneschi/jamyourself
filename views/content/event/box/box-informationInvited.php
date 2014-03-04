@@ -20,7 +20,9 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 $id = $_POST['id'];
-$inviteds = getRelatedUsers($id, 'invited', 'Event', false, 10, 0);
+$inviteds = array();
+// questa funzione commentata non esiste più!!
+//$inviteds = getRelatedUsers($id, 'invited', 'Event', false, 10, 0);
 $invitedsCounter = count($inviteds);
 
 if ($invitedsCounter > 0) {

@@ -20,7 +20,9 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 $id = $_POST['id'];
-$featurings = getRelatedUsers($id, 'featuring', 'Event', false, 10, 0);
+$featurings = array();
+// questa funzione commentata non esiste più!!
+//$featurings = getRelatedUsers($id, 'featuring', 'Event', false, 10, 0);
 $featuringsCounter = count($featurings);
 
 if ($featuringsCounter > 0) {
