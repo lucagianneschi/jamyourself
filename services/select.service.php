@@ -592,7 +592,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 	    return false;
 	}
 	$genres_record = array();
-	$rows_genres_record  = array();
+	$rows_genres_record = array();
 	while ($rows_genres_record = mysqli_fetch_array($results_genre_record, MYSQLI_ASSOC))
 	    $rows_tag_event[] = $row_tag_event;
 	foreach ($rows_tag_event as $row_tag_event) {
@@ -714,15 +714,8 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
  * \param   $id, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectEvents($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	$sql = "SELECT     e.id id_e,
+function selectEvents($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $sql = "SELECT     e.id id_e,
                            e.active,
                            e.address,
                            e.attendeecounter,
@@ -753,107 +746,113 @@ function selectEvents($id = null, $where = null, $order = null, $limit = null, $
                       FROM event e, user u
                      WHERE e.active = 1
                        AND e.fromuser = u.id";
-	if (!is_null($id)) {
-	    $sql .= " AND e.id = " . $id . "";
-	}
-	if (!is_null($where)) {
-	    foreach ($where as $key => $value) {
-		$sql .= " AND " . $key . " = '" . $value . "'";
-	    }
-	}
-	if (!is_null($order)) {
-	    $sql .= " ORDER BY ";
-	    $last = end($order);
-	    foreach ($order as $key => $value) {
-		if ($last == $value)
-		    $sql .= " " . $key . " " . $value;
-		else
-		    $sql .= " " . $key . " " . $value . ",";
-	    }
-	}
-	if (!is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $skip . ", " . $limit;
-	} elseif (is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $limit;
-	}
-	$results = mysqli_query($connectionService->getConnection(), $sql);
-	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
-	}
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	$events = array();
-	foreach ($rows as $row) {
-	    require_once CLASSES_DIR . 'event.class.php';
-	    $event = new Event();
-	    $event->setId($row['id_e']);
-	    $event->setActive($row['active']);
-	    $event->setAddress($row['address']);
-	    $event->setAttendeecounter($row['attendeecounter']);
-	    $event->setCancelledcounter($row['cancelledcounter']);
-	    $event->setCity($row['city']);
-	    $event->setCommentcounter($row['commentcounter']);
-	    $event->setCounter($row['counter']);
-	    $event->setCover($row['cover']);
-	    $event->setDescription($row['description']);
-	    $event->setEventdate($row['eventdate']);
-	    $fromuser = new User();
-	    $fromuser->setId($row['id_u']);
-	    $fromuser->setThumbnail($row['thumbnail_u']);
-	    $fromuser->setUsername($row['username']);
-	    $fromuser->setType($row['type']);
-	    $event->setFromuser($fromuser);
-	    $sql = "SELECT genre
-                          FROM event_genre
-                         WHERE id = " . $row['genre'];
-	    $results_genre = mysqli_query($connectionService->getConnection(), $sql);
-	    if (!$results_genre) {
-		$error = new Error();
-		$error->setErrormessage($results_genre->error);
-		return $error;
-	    }
-	    while ($row_genre = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows_genre[] = $row_genre;
-	    $genres = array();
-	    foreach ($rows_genre as $row_genre) {
-		$genres[] = $row_genre;
-	    }
-	    $event->setGenre($genres);
-	    $event->setInvitedCounter($row['invitedCounter']);
-	    $event->setLatitude($row['latitude']);
-	    $event->setLocationname($row['locationname']);
-	    $event->setLongitude($row['longitude']);
-	    $event->setLovecounter($row['lovecounter']);
-	    $event->setRefusedcounter($row['refusedcounter']);
-	    $event->setReviewcounter($row['reviewcounter']);
-	    $event->setSharecounter($row['sharecounter']);
-	    $sql = "SELECT tag
-                          FROM event_tag
-                         WHERE id = " . $row['id'];
-	    $results = mysqli_query($connectionService->getConnection(), $sql);
-	    if (!$results) {
-		$error = new Error();
-		$error->setErrormessage($results->error);
-		return $error;
-	    }
-	    while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows_tag[] = $row_tag;
-	    $tags = array();
-	    foreach ($rows_tag as $row_tag) {
-		$tags[] = $row_tag;
-	    }
-	    $event->setTag($tags);
-	    $event->setThumbnail($row['thumbnail_e']);
-	    $event->setTitle($row['title']);
-	    $event->setCreatedat($row['createdat']);
-	    $event->setUpdatedat($row['updatedat']);
-	    $events[$row['id']] = $event;
-	}
-	$connectionService->disconnect();
-	return $events;
+    if (!is_null($id)) {
+	$sql .= " AND e.id = " . $id . "";
     }
+    if (!is_null($where)) {
+	foreach ($where as $key => $value) {
+	    if (is_array($value)) {
+		$inSql = '';
+		foreach ($value as $val) {
+		    $inSql .= "'" . $val . "',";
+		}
+		$inSql = substr($inSql, 0, strlen($inSql) - 1);
+		$sql .= " AND e." . $key . " IN (" . $inSql . ")";
+	    } else {
+		$sql .= " AND e." . $key . " = '" . $value . "'";
+	    }
+	}
+    }
+    if (!is_null($order)) {
+	$sql .= " ORDER BY ";
+	$last = end($order);
+	foreach ($order as $key => $value) {
+	    if ($last == $value)
+		$sql .= " e." . $key . " " . $value;
+	    else
+		$sql .= " e." . $key . " " . $value . ",";
+	}
+    }
+    if (!is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $skip . ", " . $limit;
+    } elseif (is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $limit;
+    }
+    $results = mysqli_query($connection, $sql);
+    if (!$results) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
+    }
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    $events = array();
+    foreach ($rows as $row) {
+	require_once CLASSES_DIR . 'event.class.php';
+	$event = new Event();
+	$event->setId($row['id_e']);
+	$event->setActive($row['active']);
+	$event->setAddress($row['address']);
+	$event->setAttendeecounter($row['attendeecounter']);
+	$event->setCancelledcounter($row['cancelledcounter']);
+	$event->setCity($row['city']);
+	$event->setCommentcounter($row['commentcounter']);
+	$event->setCounter($row['counter']);
+	$event->setCover($row['cover']);
+	$event->setDescription($row['description']);
+	$event->setEventdate($row['eventdate']);
+	$fromuser = new User();
+	$fromuser->setId($row['id_u']);
+	$fromuser->setThumbnail($row['thumbnail_u']);
+	$fromuser->setUsername($row['username']);
+	$fromuser->setType($row['type']);
+	$event->setFromuser($fromuser);
+	$sql = "SELECT genre
+		  FROM event_genre
+		 WHERE id = " . $row['genre'];
+	$results_genre_event = mysqli_query($connection, $sql);
+	if (!$results_genre_event) {
+	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
+	}
+	$genres = array();
+	$rows_genre = array();
+	while ($row_genre = mysqli_fetch_array($results_genre_event, MYSQLI_ASSOC))
+	    $rows_genre[] = $row_genre;
+	foreach ($rows_genre as $row_genre) {
+	    $genres[] = $row_genre;
+	}
+	$event->setGenre($genres);
+	$event->setInvitedCounter($row['invitedCounter']);
+	$event->setLatitude($row['latitude']);
+	$event->setLocationname($row['locationname']);
+	$event->setLongitude($row['longitude']);
+	$event->setLovecounter($row['lovecounter']);
+	$event->setRefusedcounter($row['refusedcounter']);
+	$event->setReviewcounter($row['reviewcounter']);
+	$event->setSharecounter($row['sharecounter']);
+	$sql = "SELECT tag
+		  FROM event_tag
+		 WHERE id = " . $row['id_e'];
+	$results_tag = mysqli_query($connection, $sql);
+	if (!$results_tag) {
+	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
+	}
+	$tags_event = array();
+	$rows_tag_event = array();
+	while ($row_tag_event = mysqli_fetch_array($results_tag, MYSQLI_ASSOC))
+	    $rows_tag_event[] = $row_tag_event;
+	foreach ($rows_tag_event as $row_tag_event) {
+	    $tags_event[] = $row_tag_event;
+	}
+	$event->setTag($tags_event);
+	$event->setThumbnail($row['thumbnail_e']);
+	$event->setTitle($row['title']);
+	$event->setCreatedat($row['createdat']);
+	$event->setUpdatedat($row['updatedat']);
+	$events[$row['id_e']] = $event;
+    }
+    return $events;
 }
 
 /**
