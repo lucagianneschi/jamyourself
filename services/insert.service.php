@@ -37,64 +37,75 @@ function createNode($nodeType, $nodeId) {
     return $res['data'][0];
 }
 
+function createRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType) {
+	$query = '
+	MATCH (n:' . $fromNodeType . ' {id:' . $fromNodeId . '}), (m:' . $toNodeType . ' {id:' . $toNodeId . '})
+	MERGE (n)-[r:' . $relType. ' {createdat:' . date('YmdHis') . '}]->(m)
+	RETURN count(r)
+	';
+    $connectionService = new ConnectionService();
+    $res = $connectionService->curl($query, null);
+    return $res['data'][0];
+}
+
 /**
  * \fn	    insertAlbum($album)
  * \brief   Execute an insert operation of the $album
  * \param   $album object the user to insert
  * \todo
  */
-function insertAlbum($album) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->active) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	require_once 'album.class.php';
-	$sql = "INSERT INTO album (id,
-                                    active,
-                                    commentcounter,
-                                    counter,
-                                    cover,
-                                    description,
-                                    fromuser,
-                                    imagecounter,
-                                    latitude,
-                                    longitude,
-                                    lovecounter,
-                                    sharecounter,
-                                    thumbnail,
-                                    title,
-                                    createdat,
-                                    updatedat)
+function insertAlbum($connection, $album) {
+    $sql = "INSERT INTO album (id,
+								active,
+								commentcounter,
+								counter,
+								cover,
+								description,
+								fromuser,
+								imagecounter,
+								latitude,
+								longitude,
+								lovecounter,
+								sharecounter,
+								thumbnail,
+								title,
+								createdat,
+								updatedat)
                           VALUES (NULL,
                                   '" . $album->getActive() . "',
-                                  '" . $album->getcommentcounter() . "',
-                                  '" . $album->getCounter() . "',
+                                  '" . (is_null($album->getcommentcounter()) ? 0 : $album->getcommentcounter()) . "',
+                                  '" . (is_null($album->getCounter()) ? 0 : $album->getCounter()) . "',
                                   '" . $album->getCover() . "',
                                   '" . $album->getDescription() . "',
-                                  '" . $album->getFromuser() . "',
-                                  '" . $album->getImagecounter() . "',
-                                  '" . $album->getLatitude() . "',
-                                  '" . $album->getLongitude() . "',
-                                  '" . $album->getLovecounter() . "',
-                                  '" . $album->getSharecounter() . "',
+                                  '" . (is_null($album->getFromuser()) ? 0 : $album->getFromuser()) . "',
+                                  '" . (is_null($album->getImagecounter()) ? 0 : $album->getImagecounter()) . "',
+                                  '" . (is_null($album->getLatitude()) ? 0 : $album->getLatitude()) . "',
+                                  '" . (is_null($album->getLongitude()) ? 0 : $album->getLongitude()) . "',
+                                  '" . (is_null($album->getLovecounter()) ? 0 : $album->getLovecounter()) . "',
+                                  '" . (is_null($album->getSharecounter()) ? 0 : $album->getSharecounter()) . "',
                                   '" . $album->getThumbnail() . "',
                                   '" . $album->getTitle() . "',
                                   NOW(),
                                   NOW())";
-	mysqli_query($connectionService->connection, $sql);
-	$insert_id = mysqli_insert_id($connectionService->connection);
-	foreach ($album->getTag() as $tag) {
-	    $sql = "INSERT INTO album_tag (id,
-                                           tag)
-                                   VALUES (" . $insert_id . ",
-                                           '" . $tag . "')";
-	    mysqli_query($connectionService->connection, $sql);
-	}
-	$connectionService->disconnect();
-	return $insert_id;
+	
+	echo $sql;
+	
+	$result = mysqli_query($connection, $sql);
+	if ($result === false) {
+		jam_log(__FILE__, __LINE__, 'Unable to execute insertAlbum');
+		return false;
+	} else {
+		$insert_id = mysqli_insert_id($connection);
+		if (is_array($album->getTag())) {
+			foreach ($album->getTag() as $tag) {
+				$sql = "INSERT INTO album_tag (id,
+											   tag)
+									   VALUES (" . $insert_id . ",
+											   '" . $tag . "')";
+				mysqli_query($connection, $sql);
+			}
+		}
+		return $insert_id;
     }
 }
 
