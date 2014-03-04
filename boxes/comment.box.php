@@ -45,7 +45,7 @@ class CommentBox {
 	}
 	$comments = selectComments($connection, null, array($classname => $id), array('createad' => 'DESC'), $limit, $skip);
 	if ($comments === false) {
-	    $this->error = $this->error = 'Errore nella query';
+	    $this->error = 'Errore nella query';
 	}
 	$this->commentArray = $comments;
     }
