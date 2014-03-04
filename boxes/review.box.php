@@ -38,9 +38,14 @@ class ReviewEventBox {
      * \todo        
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
 	$reviews = selectComments(null, array('event' => $id), array('createdat' => 'DESC'), $limit, $skip);
-	if ($reviews instanceof Error) {
-	    $this->error = $reviews->getErrorMessage();
+	if ($reviews === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->reviewArray = $reviews;
     }
@@ -53,13 +58,18 @@ class ReviewEventBox {
      * \todo        fare la query per il proprietario dell'event
      */
     function init($id, $type, $limit = 3, $skip = 0) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
 	if ($type == 'SPOTTER') {
 	    $reviews = selectReviewEvent(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	} else {
 	    $reviews = selectReviewEvent(null, array('event' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	}
-	if ($reviews instanceof Error) {
-	    $this->error = $reviews->getErrorMessage();
+	if ($reviews === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->reviewArray = $reviews;
     }
@@ -83,9 +93,14 @@ class ReviewRecordBox {
      * \todo        
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
 	$reviews = selectComments(null, array('record' => $id), array('createdat' => 'DESC'), $limit, $skip);
-	if ($reviews instanceof Error) {
-	    $this->error = $reviews->getErrorMessage();
+	if ($reviews === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->reviewArray = $reviews;
     }
@@ -98,13 +113,18 @@ class ReviewRecordBox {
      * \todo        fare la query per il proprietario dell'event
      */
     function initForPersonalPage($id, $type, $limit = 3, $skip = 0) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
 	if ($type == 'SPOTTER') {
 	    $reviews = selectReviewRecord(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	} else {
 	    $reviews = selectReviewRecord(null, array('record' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	}
-	if ($reviews instanceof Error) {
-	    $this->error = $reviews->getErrorMessage();
+	if ($reviews === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->reviewArray = $reviews;
     }
