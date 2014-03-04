@@ -37,10 +37,16 @@ function createNode($nodeType, $nodeId) {
     return $res['data'][0];
 }
 
+/**
+ * \fn	    createRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType)
+ * \brief   Create relation between nodes on the node4J DB
+ * \param   $nodeType, $nodeId
+ * \todo
+ */
 function createRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType) {
-	$query = '
+    $query = '
 	MATCH (n:' . $fromNodeType . ' {id:' . $fromNodeId . '}), (m:' . $toNodeType . ' {id:' . $toNodeId . '})
-	MERGE (n)-[r:' . $relType. ' {createdat:' . date('YmdHis') . '}]->(m)
+	MERGE (n)-[r:' . $relType . ' {createdat:' . date('YmdHis') . '}]->(m)
 	RETURN count(r)
 	';
     $connectionService = new ConnectionService();
@@ -56,24 +62,24 @@ function createRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $rel
  */
 function insertAlbum($connection, $album) {
     $sql = "INSERT INTO album (id,
-								active,
-								commentcounter,
-								counter,
-								cover,
-								description,
-								fromuser,
-								imagecounter,
-								latitude,
-								longitude,
-								lovecounter,
-								sharecounter,
-								thumbnail,
-								title,
-								createdat,
-								updatedat)
-                          VALUES (NULL,
-                                  '" . $album->getActive() . "',
-                                  '" . (is_null($album->getcommentcounter()) ? 0 : $album->getcommentcounter()) . "',
+			active,
+			commentcounter,
+			counter,
+			cover,
+			description,
+			fromuser,
+			imagecounter,
+			latitude,
+			longitude,
+			lovecounter,
+			sharecounter,
+			thumbnail,
+			title,
+			createdat,
+			updatedat)
+           VALUES (NULL,
+				  '" . (is_null($album->getActive()) ? 0 : $album->getActive()) . "',
+                                  '" . (is_null($album->getCommentcounter()) ? 0 : $album->getCommentcounter()) . "',
                                   '" . (is_null($album->getCounter()) ? 0 : $album->getCounter()) . "',
                                   '" . $album->getCover() . "',
                                   '" . $album->getDescription() . "',
@@ -87,25 +93,22 @@ function insertAlbum($connection, $album) {
                                   '" . $album->getTitle() . "',
                                   NOW(),
                                   NOW())";
-	
-	echo $sql;
-	
-	$result = mysqli_query($connection, $sql);
-	if ($result === false) {
-		jam_log(__FILE__, __LINE__, 'Unable to execute insertAlbum');
-		return false;
-	} else {
-		$insert_id = mysqli_insert_id($connection);
-		if (is_array($album->getTag())) {
-			foreach ($album->getTag() as $tag) {
-				$sql = "INSERT INTO album_tag (id,
-											   tag)
-									   VALUES (" . $insert_id . ",
-											   '" . $tag . "')";
-				mysqli_query($connection, $sql);
-			}
-		}
-		return $insert_id;
+    $result = mysqli_query($connection, $sql);
+    if ($result === false) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute insertAlbum');
+	return false;
+    } else {
+	$insert_id = mysqli_insert_id($connection);
+	if (is_array($album->getTag())) {
+	    foreach ($album->getTag() as $tag) {
+		$sql = "INSERT INTO album_tag (id,
+						tag)
+						VALUES (" . $insert_id . ",
+							'" . $tag . "')";
+		mysqli_query($connection, $sql);
+	    }
+	}
+	return $insert_id;
     }
 }
 
