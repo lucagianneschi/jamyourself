@@ -1071,7 +1071,7 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
 	$message->setSharecounter($row['sharecounter']);
 	$sql = "SELECT tag
 		  FROM comment_tag
-		 WHERE id = " . $row['id_i'];
+		 WHERE id = " . $row['id_m'];
 	$results_tag = mysqli_query($connection, $sql);
 	if (!$results_tag) {
 	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
@@ -1182,20 +1182,13 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
 }
 
 /**
- * \fn	    selectPosts($id = null, $where = null, $order = null, $limit = null, $skip = null)
+ * \fn	    selectPosts($connection,$id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
  * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * \todo
  */
-function selectPosts($id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	$sql = "SELECT	   p.id id_p,
+function selectPosts($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $sql = "SELECT	   p.id id_p,
                            p.active,
                            p.commentcounter,
                            p.counter,
@@ -1215,98 +1208,105 @@ function selectPosts($id = null, $where = null, $order = null, $limit = null, $s
                            u.username,
                            u.thumbnail,
                            u.type type_u,
-			   			   fu.id id_fu,
+			   fu.id id_fu,
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu
                      FROM comment p, user u, user fu, comment_tag pt
                      WHERE p.active = 1
                        	AND p.fromuser = u.id
-		       			AND p.type = 'P'
-		       			AND pt.id_comment = p.id";
-	if (!is_null($id)) {
-	    $sql .= " AND p.id = " . $id . "";
-	}
-	if (!is_null($where)) {
-	    foreach ($where as $key => $value) {
-		$sql .= " AND " . $key . " = '" . $value . "'";
-	    }
-	}
-	if (!is_null($order)) {
-	    $sql .= " ORDER BY ";
-	    $last = end($order);
-	    foreach ($order as $key => $value) {
-		if ($last == $value)
-		    $sql .= " " . $key . " " . $value;
-		else
-		    $sql .= " " . $key . " " . $value . ",";
-	    }
-	}
-	if (!is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $skip . ", " . $limit;
-	} elseif (is_null($skip) && !is_null($limit)) {
-	    $sql .= " LIMIT " . $limit;
-	}
-	$results = mysqli_query($connectionService->getConnection(), $sql);
-	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results->error);
-	    return $error;
-	}
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	$posts = array();
-	foreach ($rows as $row) {
-	    require_once CLASSES_DIR . 'comment.class.php';
-	    require_once CLASSES_DIR . 'user.class.php';
-	    $post = new Comment();
-	    $post->setId($row['id_p']);
-	    $post->setActive($row['active']);
-	    $post->setCommentcounter($row['commentcounter']);
-	    $post->setCounter($row['counter']);
-	    $fromuser = new User();
-	    $fromuser->setId($row['id_u']);
-	    $fromuser->setThumbnail($row['thumbnail_u']);
-	    $fromuser->setUsername($row['username']);
-	    $fromuser->setType($row['type_u']);
-	    $post->setFromuser($fromuser);
-	    $post->setLatitude($row['latitude']);
-	    $post->setLongitude($row['longitude']);
-	    $post->setLovecounter($row['lovecounter']);
-	    $post->setSharecounter($row['sharecounter']);
-	    $sql = "SELECT tag
-                          FROM comment_tag
-                         WHERE id = " . $row['id_c'];
-	    $results = mysqli_query($connectionService->getConnection(), $sql);
-	    if (!$results) {
-		$error = new Error();
-		$error->setErrormessage($results->error);
-		return $error;
-	    }
-	    while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
-		$rows_tag[] = $row_tag;
-	    $tags = array();
-	    foreach ($rows_tag as $row_tag) {
-		$tags[] = $row_tag;
-	    }
-	    $post->setTag($tags);
-	    $post->setText($row['text']);
-	    $post->setTitle($row['title']);
-	    $touser = new User();
-	    $touser->setId($row['id_fu']);
-	    $touser->setThumbnail($row['thumbnail_fu']);
-	    $touser->setUsername($row['username_fu']);
-	    $touser->setType($row['type_fu']);
-	    $post->setFromuser($touser);
-	    $post->setType($row['type_p']);
-	    $post->setVote($row['vote']);
-	    $post->setCreatedat($row['createdat']);
-	    $post->setUpdatedat($row['updatedat']);
-	    $posts[$row['id']] = $post;
-	}
-	$connectionService->disconnect();
-	return $posts;
+		       	AND p.type = 'P'
+		       	AND pt.id_comment = p.id";
+    if (!is_null($id)) {
+	$sql .= " AND p.id = " . $id . "";
     }
+    if (!is_null($where)) {
+	foreach ($where as $key => $value) {
+	    if (is_array($value)) {
+		$inSql = '';
+		foreach ($value as $val) {
+		    $inSql .= "'" . $val . "',";
+		}
+		$inSql = substr($inSql, 0, strlen($inSql) - 1);
+		$sql .= " AND p." . $key . " IN (" . $inSql . ")";
+	    } else {
+		$sql .= " AND p." . $key . " = '" . $value . "'";
+	    }
+	}
+    }
+    if (!is_null($order)) {
+	$sql .= " ORDER BY ";
+	$last = end($order);
+	foreach ($order as $key => $value) {
+	    if ($last == $value)
+		$sql .= " p." . $key . " " . $value;
+	    else
+		$sql .= " p." . $key . " " . $value . ",";
+	}
+    }
+    if (!is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $skip . ", " . $limit;
+    } elseif (is_null($skip) && !is_null($limit)) {
+	$sql .= " LIMIT " . $limit;
+    }
+    $results = mysqli_query($connection, $sql);
+    if (!$results) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
+    }
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    $posts = array();
+    foreach ($rows as $row) {
+	require_once CLASSES_DIR . 'comment.class.php';
+	require_once CLASSES_DIR . 'user.class.php';
+	$post = new Comment();
+	$post->setId($row['id_p']);
+	$post->setActive($row['active']);
+	$post->setCommentcounter($row['commentcounter']);
+	$post->setCounter($row['counter']);
+	$fromuser = new User();
+	$fromuser->setId($row['id_u']);
+	$fromuser->setThumbnail($row['thumbnail_u']);
+	$fromuser->setUsername($row['username']);
+	$fromuser->setType($row['type_u']);
+	$post->setFromuser($fromuser);
+	$post->setLatitude($row['latitude']);
+	$post->setLongitude($row['longitude']);
+	$post->setLovecounter($row['lovecounter']);
+	$post->setSharecounter($row['sharecounter']);
+	$sql = "SELECT tag
+		  FROM comment_tag
+		 WHERE id = " . $row['id_p'];
+	$results_tag = mysqli_query($connection, $sql);
+	if (!$results_tag) {
+	    jam_log(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
+	}
+	$tags = array();
+	$rows_tag = array();
+	while ($row_tag = mysqli_fetch_array($results_tag, MYSQLI_ASSOC))
+	    $rows_tag[] = $row_tag;
+	foreach ($rows_tag as $row_tag) {
+	    $tags[] = $row_tag;
+	}
+	$post->setTag($tags);
+	$post->setText($row['text']);
+	$post->setTitle($row['title']);
+	$touser = new User();
+	$touser->setId($row['id_fu']);
+	$touser->setThumbnail($row['thumbnail_fu']);
+	$touser->setUsername($row['username_fu']);
+	$touser->setType($row['type_fu']);
+	$post->setFromuser($touser);
+	$post->setType($row['type_p']);
+	$post->setVote($row['vote']);
+	$post->setCreatedat($row['createdat']);
+	$post->setUpdatedat($row['updatedat']);
+	$posts[$row['id_p']] = $post;
+    }
+
+    return $posts;
 }
 
 /**

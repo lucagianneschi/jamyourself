@@ -38,9 +38,14 @@ class PostBox {
      * \todo
      */
     public function init($id, $limit = 5, $skip = 0) {
-	$posts = selectPosts(null, array('touser' => $id, 'type' => 'P'), array('createad' => 'DESC'), $limit, $skip);
-	if ($posts instanceof Error) {
-	    $this->error = $posts->getErrorMessage();
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
+	$posts = selectPosts($connection, null, array('touser' => $id, 'type' => 'P'), array('createad' => 'DESC'), $limit, $skip);
+	if ($posts === false) {
+	    $this->error = 'Errore nella connessione';
 	}
 	$this->postArray = $posts;
     }
