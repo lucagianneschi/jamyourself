@@ -84,7 +84,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 				    $defaultThum = DEFTHUMBSPOTTER;
 				    break;
 			    }
-			    if (in_array($currentUser->getId(), $value->getLovers())) {
+			    if(existsRelation('user', $currentUser->getId(), 'comment', $comment_objectId, 'loved')){
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {
