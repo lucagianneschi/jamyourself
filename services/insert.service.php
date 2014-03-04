@@ -250,7 +250,7 @@ function insertEvent($connection, $event) {
 						genre)
 						VALUES (" . $insert_id_genre . ",
 							'" . $genre . "')";
-		$res = mysqli_query($connection, $sql);
+		mysqli_query($connection, $sql);
 	    }
 	}
 	$insert_id_tag = mysqli_insert_id($connection);
@@ -260,7 +260,7 @@ function insertEvent($connection, $event) {
 						tag)
 						VALUES (" . $insert_id_tag . ",
 							'" . $tag . "')";
-		$res = mysqli_query($connection, $sql);
+		mysqli_query($connection, $sql);
 	    }
 	}
     }
@@ -268,21 +268,14 @@ function insertEvent($connection, $event) {
 }
 
 /**
- * \fn	    insertImage($image)
+ * \fn	    insertImage($connection, $image)
  * \brief   Execute an insert operation of the $image
  * \param   $image object the user to insert
  * \todo
  */
-function insertImage($image) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->active) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	require_once 'image.class.php';
-	$sql = "INSERT INTO image ( id,
+function insertImage($connection, $image) {
+    require_once 'image.class.php';
+    $sql = "INSERT INTO image ( id,
                                     active,
                                     commentcounter,
                                     counter,
@@ -290,34 +283,41 @@ function insertImage($image) {
                                     latitude,
                                     longitude,
                                     lovecounter,
+				    path,
                                     sharecounter,
                                     thumbnail,
                                     createdat,
                                     updatedat)
                           VALUES (NULL,
-                                  '" . $image->getActive() . "',
-                                  '" . $image->getCommentcounter() . "',
-                                  '" . $image->getCounter() . "',
-                                  '" . $image->getFromuser() . "',                                              
-                                  '" . $image->getLatitude() . "',                                     
-                                  '" . $image->getLongitude() . "',
-                                  '" . $image->getLovecounter() . "', 
-                                  '" . $image->getSharecounter() . "',
+				  '" . (is_null($image->getActive()) ? 0 : $image->getActive()) . "',
+                                  '" . (is_null($image->getCommentcounter()) ? 0 : $image->getCommentcounter()) . "',
+                                  '" . (is_null($image->getCounter()) ? 0 : $image->getCounter()) . "',
+                                  '" . (is_null($image->getFromuser()) ? 0 : $image->getFromuser()) . "',
+                                  '" . (is_null($image->getLatitude()) ? 0 : $image->getLatitude()) . "',                                             
+                                  '" . (is_null($image->getLongitude()) ? 0 : $image->getLongitude()) . "',                                    
+                                  '" . (is_null($image->getLovecounter()) ? 0 : $image->getLovecounter()) . "',
+				  '" . $image->getPath() . "',
+                                  '" . (is_null($image->getSharecounter()) ? 0 : $image->getSharecounter()) . "', 
                                   '" . $image->getThumbnail() . "',   
                                   NOW(),
                                   NOW())";
-	mysqli_query($connectionService->connection, $sql);
-	$insert_id = mysqli_insert_id($connectionService->connection);
-	foreach ($image->getTag() as $tag) {
-	    $sql = "INSERT INTO image_tag (id,
-                                           tag)
-                                   VALUES (" . $insert_id . ",
-                                           '" . $tag . "')";
-	    mysqli_query($connectionService->connection, $sql);
+    $result = mysqli_query($connection, $sql);
+    if ($result === false) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute insertImage');
+	return false;
+    } else {
+	$insert_id = mysqli_insert_id($connection);
+	if (is_array($image->getTag())) {
+	    foreach ($image->getTag() as $tag) {
+		$sql = "INSERT INTO image_tag (id,
+						tag)
+						VALUES (" . $insert_id . ",
+							'" . $tag . "')";
+		mysqli_query($connection, $sql);
+	    }
 	}
-	$connectionService->disconnect();
-	return $insert_id;
     }
+    return $insert_id;
 }
 
 /**
