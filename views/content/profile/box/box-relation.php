@@ -27,12 +27,7 @@ if ($relation == 'friendship')
 else
     $rel = $relation;
 
-if ($arrayRelation instanceof Error) {
-    ?>
-
-    <h3 class="red">Error</h3>
-
-<?php } elseif (is_null($arrayRelation) || count($arrayRelation) == 0) {
+if (is_null($arrayRelation) || count($arrayRelation) == 0) {
     ?>
 
     <div class="grey "><?php echo $views[$rel]['nodata'] ?></div>
