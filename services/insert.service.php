@@ -399,18 +399,18 @@ function insertRecord($connection, $record) {
                                   '" . (is_null($record->getSongcounter()) ? 0 : $record->getSongcounter()) . "', 
                                   '" . $record->getThumbnail() . "',
                                   '" . $record->getTitle() . "',
-                                  '" . $record->getYear() . "',
+				  '" . (is_null($record->getYear()) ? 0 : $record->getYear()) . "',
                                   NOW(),
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jam_log(__FILE__, __LINE__, 'Unable to execute insertEvent');
+	jam_log(__FILE__, __LINE__, 'Unable to execute insertRecord');
 	return false;
     } else {
 	$insert_id_genre = mysqli_insert_id($connection);
 	if (is_array($record->getGenre())) {
 	    foreach ($record->getGenre() as $genre) {
-		$sql = "INSERT INTO event_genre (id,
+		$sql = "INSERT INTO record_genre (id,
 						genre)
 						VALUES (" . $insert_id_genre . ",
 							'" . $genre . "')";
@@ -420,7 +420,7 @@ function insertRecord($connection, $record) {
 	$insert_id_tag = mysqli_insert_id($connection);
 	if (is_array($record->getTag())) {
 	    foreach ($record->getTag() as $tag) {
-		$sql = "INSERT INTO event_tag (id,
+		$sql = "INSERT INTO record_tag (id,
 						tag)
 						VALUES (" . $insert_id_tag . ",
 							'" . $tag . "')";
@@ -437,16 +437,9 @@ function insertRecord($connection, $record) {
  * \param   $songobject the user to insert
  * \todo
  */
-function insertSong($song) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->active) {
-	$error = new Error();
-	$error->setErrormessage($connectionService->error);
-	return $error;
-    } else {
-	require_once 'song.class.php';
-	$sql = "INSERT INTO song( id,
+function insertSong($connection, $song) {
+    require_once 'song.class.php';
+    $sql = "INSERT INTO song( id,
                                     active,
                                     commentcounter,
                                     counter,
@@ -462,28 +455,30 @@ function insertSong($song) {
                                     title,
                                     createdat,
                                     updatedat)
-                          VALUES (NULL,
-                                  '" . $song->getActive() . "',                                              
-                                  '" . $song->getCommentcounter() . "',
-                                  '" . $song->getCounter() . "',
-                                  '" . $song->getDuration() . "', 
-                                  '" . $song->getFromuser() . "',                                              
-                                  '" . $song->getLatitude() . "',                                      
-                                  '" . $song->getLongitude() . "',   
-                                  '" . $song->getLovecounter() . "',   
-                                  '" . $song->getPath() . "',   
-                                  '" . $song->getPosition() . "',   
-                                  '" . $song->getRecord() . "',                                       
-                                  '" . $song->getSharecounter() . "',
+                          VALUES (NULL,  
+				  '" . (is_null($song->getActive()) ? 0 : $song->getActive()) . "',
+				  '" . (is_null($song->getCommentcounter()) ? 0 : $song->getCommentcounter()) . "',
+                                  '" . (is_null($song->getCounter()) ? 0 : $song->getCounter()) . "',
+				  '" . (is_null($song->getDuration()) ? 0 : $song->getDuration()) . "',
+				  '" . (is_null($song->getFromuser()) ? 0 : $song->getFromuser()) . "',                                             
+				  '" . (is_null($song->getLatitude()) ? 0 : $song->getLatitude()) . "',
+				  '" . (is_null($song->getLongitude()) ? 0 : $song->getLongitude()) . "',
+				  '" . (is_null($song->getLovecounter()) ? 0 : $song->getLovecounter()) . "',
+				  '" . $song->getPath() . "', 
+				  '" . (is_null($song->getPosition()) ? 0 : $song->getPosition()) . "',
+				  '" . (is_null($song->getRecord()) ? 0 : $song->getRecord()) . "',  
+				  '" . (is_null($song->getSharecounter()) ? 0 : $song->getSharecounter()) . "', 
+                                  '" . $song->getThumbnail() . "',
                                   '" . $song->getTitle() . "',
-                                  '" . $song->getYear() . "',
+				  '" . (is_null($song->getYear()) ? 0 : $song->getYear()) . "',
                                   NOW(),
                                   NOW())";
-	mysqli_query($connectionService->connection, $sql);
-	$insert_id = mysqli_insert_id($connectionService->connection);
-	$connectionService->disconnect();
-	return $insert_id;
+    $result = mysqli_query($connection, $sql);
+    if ($result === false) {
+	jam_log(__FILE__, __LINE__, 'Unable to execute insertRecord');
+	return false;
     }
+    return true;
 }
 
 /**
