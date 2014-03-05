@@ -43,7 +43,7 @@ class UserInfoBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$user = selectUsers($id);
+	$user = selectUsers($connection, $id);
 	if ($user === false) {
 	    $this->error = 'Errore nella query';
 	}

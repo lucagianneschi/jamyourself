@@ -43,7 +43,7 @@ class PlaylistInfoBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$playlists = selectPlaylists(null, array('fromuser' => $user->getId()));
+	$playlists = selectPlaylists($connection, null, array('fromuser' => $user->getId()));
 	if ($playlists === false) {
 	    $this->error = 'Errore nella query';
 	}
@@ -73,7 +73,7 @@ class PlaylistSongBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$songs = selectSongsInPlaylist($playlistId, 20, 0);
+	$songs = selectSongsInPlaylist($connection, $playlistId, 20, 0);
 	if ($songs === false) {
 	    $this->error = 'Errore nella query';
 	}
