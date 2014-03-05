@@ -322,7 +322,6 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
                    r.description description_r,
                    r.duration duration_r,
                    r.fromuser fromuser_r,
-                   rg.id_genre genre_r,
                    r.label,
                    r.latitude latitude_r,
                    r.longitude longitude_r,
@@ -341,7 +340,6 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 		   s.counter counter_s,
 		   s.duration duration_s,
 		   s.fromuser fromuser_s,
-		   sg.id_genre genre_s,
 		   s.latitude latitude_s,
 		   s.longitude longitude_s,
 		   s.lovecounter lovecounter_s,
@@ -350,16 +348,15 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 		   s.record record_s,
 		   s.sharecounter sharecounter_s,
 		   s.title title_s,
-                   v.id id_v,
+           v.id id_v,
 		   v.createdat createdat_v,
 		   v.updatedat updatedat_v,
 		   v.active active_v,
 		   v.author,
 		   v.counter counter_v,
-	           v.cover cover_v,
+	       v.cover cover_v,
 		   v.duration duration_v,
 		   v.fromuser fromuser_v,
-		   vg.id_genre genre_v,
 		   v.lovecounter lovecounter_v,
 		   v.thumbnail thumbnail_v,
 		   v.title title_v,
@@ -377,14 +374,11 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
                    LEFT JOIN comment c ON (c.id = cmt.comment)
                    LEFT JOIN event e   ON (e.id = cmt.event)
                    LEFT JOIN image i   ON (i.id = cmt.image)
-                   LEFT JOIN record r  ON (r.id = cmt.record)
-		   LEFT JOIN record_genre rg ON (rg.id_record = r.id)
-	           LEFT JOIN song s  ON (s.id = cmt.song)
-		   LEFT JOIN song_genre sg ON (sg.id_song = s.id)
+                   LEFT JOIN record r  ON (r.id = cmt.record)		   
+	           	   LEFT JOIN song s  ON (s.id = cmt.song)		   
                    LEFT JOIN user fu   ON (fu.id = cmt.fromuser)
                    LEFT JOIN user tu   ON (tu.id = cmt.touser)
-                   LEFT JOIN video v   ON (v.id = cmt.video)
-		   LEFT JOIN video_genre vg ON (vg.id_video = v.id)
+                   LEFT JOIN video v   ON (v.id = cmt.video)		  
              WHERE cmt.active = 1";
     if (!is_null($id)) {
 	$sql .= " AND c.id = " . $id . "";
@@ -426,6 +420,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $comment = array();
+	if(!is_array($rows)) return $comment;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'user.class.php';
