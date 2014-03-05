@@ -201,8 +201,8 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
 	$album->setTag($tags);
 	$album->setThumbnail($row['thumbnail_a']);
 	$album->setTitle($row['title']);
-	$album->setCreatedat($row['createdat']);
-	$album->setUpdatedat($row['updatedat']);
+	$album->setCreatedat(new DateTime($row['createdat']));
+	$album->setUpdatedat(new DateTime($row['updatedat']));
 	$albums[$row['id_a']] = $album;
     }
     return $albums;
@@ -630,7 +630,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 	$song->setPosition($row['position_s']);
 	$song->setSharecounter($row['sharecounter']);
 	$song->setTitle($row['title_s']);
-	$song->setUpdatedat($row['updatedat']);
+	$song->setUpdatedat(new DateTime($row['updatedat']));
 	$sql = "SELECT tag
 		  FROM song_tag
 		 WHERE id = " . $row['id_s'];
@@ -850,8 +850,8 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
 	$event->setTag($tags_event);
 	$event->setThumbnail($row['thumbnail_e']);
 	$event->setTitle($row['title']);
-	$event->setCreatedat($row['createdat']);
-	$event->setUpdatedat($row['updatedat']);
+	$event->setCreatedat(new DateTime($row['createdat']));
+	$event->setUpdatedat(new DateTime($row['updatedat']));
 	$events[$row['id_e']] = $event;
     }
     return $events;
@@ -934,8 +934,8 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
 	require_once CLASSES_DIR . 'image.class.php';
 	$image = new Image();
 	$image->setId($row['id_i']);
-	$image->setCreatedat($row['createdat']);
-	$image->setUpdatedat($row['updatedat']);
+	$image->setCreatedat(new DateTime($row['createdat']));
+	$image->setUpdatedat(new DateTime($row['updatedat']));
 	$image->setActive($row['active']);
 	$album = new Album();
 	$album->setTitle($row['title']);
@@ -1097,8 +1097,8 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
 	$message->setTouser($touser);
 	$message->setType($row['type_m']);
 	$message->setVote($row['vote']);
-	$message->setCreatedat($row['createdat']);
-	$message->setUpdatedat($row['updatedat']);
+	$message->setCreatedat(new DateTime($row['createdat']));
+	$message->setUpdatedat(new DateTime($row['updatedat']));
 	$messages[$row['id_m']] = $message;
     }
     return $messages;
@@ -1171,7 +1171,7 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
 	$playlist = new Playlist();
 	$playlist->setId($row['id_p']);
 	$playlist->setActive($row['active']);
-	$playlist->setCreatedat($row['createdat']);
+	$playlist->setCreatedat(new DateTime($row['createdat']));
 	$fromuser = new User();
 	$fromuser->setId($row['id_u']);
 	$fromuser->setUsername($row['username']);
@@ -1179,7 +1179,7 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
 	$playlist->setName($row['name']);
 	$playlist->setSongcounter($row['songcounter']);
 	$playlist->setUnlimited($row['unlimited']);
-	$playlist->setUpdatedat($row['updatedat']);
+	$playlist->setUpdatedat(new DateTime($row['updatedat']));
 	$playlists[$row['id_p']] = $playlist;
     }
     return $playlists;
@@ -1305,8 +1305,8 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
 	$post->setFromuser($touser);
 	$post->setType($row['type_p']);
 	$post->setVote($row['vote']);
-	$post->setCreatedat($row['createdat']);
-	$post->setUpdatedat($row['updatedat']);
+	$post->setCreatedat(new DateTime($row['createdat']));
+	$post->setUpdatedat(new DateTime($row['updatedat']));
 	$posts[$row['id_p']] = $post;
     }
 
@@ -1435,8 +1435,8 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
 	$record->setTitle($row['title']);
 	$record->setTracklist($row['tracklist']);
 	$record->setYear($row['year']);
-	$record->setCreatedat($row['createdat']);
-	$record->setUpdatedat($row['updatedat']);
+	$record->setCreatedat(new DateTime($row['createdat']));
+	$record->setUpdatedat(new DateTime($row['updatedat']));
 	$records[$row['id_r']] = $record;
     }
     return $records;
@@ -1863,13 +1863,15 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
 		               s.record,
 		               s.sharecounter,
 		               s.title title_s,
+		               
 			       u.id id_u,
 			       u.thumbnail thumbnail_u,
 			       u.type,
 			       u.username,
 			       r.id id_r,
 			       r.thumbnail thumbnail_r,
-			       r.title title_r
+			       r.title title_r,
+			       r.updatedat
                  FROM song s, user u, record r
                 WHERE s.active  = 1
                   AND s.fromuser = u.id
@@ -1923,7 +1925,7 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
 	$song->setActive($row['active']);
 	$song->setCommentcounter($row['commentcounter']);
 	$song->setCounter($row['counter']);
-	$song->setCreatedat($row['createdat']);
+	$song->setCreatedat(new DateTime($row['createdat']));
 	$song->setDuration($row['duration']);
 	$fromuser = new User();
 	$fromuser->setId($row['id_u']);
@@ -1944,7 +1946,7 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
 	$song->setRecord($record);
 	$song->setSharecounter($row['sharecounter']);
 	$song->setTitle($row['title_s']);
-	$song->setUpdatedat($row['updatedat']);
+	$song->setUpdatedat(new DateTime($row['updatedat']));
 	$songs[$row['id_s']] = $song;
     }
     return $songs;
@@ -2010,7 +2012,7 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
 	$song->setActive($row['active']);
 	$song->setCommentcounter($row['commentcounter']);
 	$song->setCounter($row['counter']);
-	$song->setCreatedat($row['createdat']);
+	$song->setCreatedat(new DateTime($row['createdat']));
 	$song->setDuration($row['duration']);
 	$fromuser = new User();
 	$fromuser->setId($row['id_u']);
@@ -2031,7 +2033,7 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
 	$song->setRecord($record);
 	$song->setSharecounter($row['sharecounter']);
 	$song->setTitle($row['title_s']);
-	$song->setUpdatedat($row['updatedat']);
+	$song->setUpdatedat(new DateTime($row['updatedat']));
 	$songs[$row['id_s']] = $song;
     }
     return $songs;
@@ -2135,8 +2137,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 	$user->setCity($row['city']);
 	$user->setCollaborationcounter($row['collaborationcounter']);
 	$user->setCountry($row['country']);
-#TODO vuole un datime 
-//	    $user->setCreatedat($row['createdat']); 
+    $user->setCreatedat(new DateTime($row['createdat'])); 
 	$user->setDescription($row['description']);
 	$user->setEmail($row['email']);
 	$user->setFacebookId($row['facebookid']);
@@ -2190,8 +2191,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 	$user->setThumbnail($row['thumbnail']);
 	$user->setType($row['type']);
 	$user->setTwitterpage($row['twitterpage']);
-#TODO vuole un datime 
-//	    $user->setUpdatedat($row['updatedat']);
+    $user->setUpdatedat(new DateTime($row['updatedat']));
 	$user->setUsername($row['username']);
 	$user->setVenuecounter($row['venuecounter']);
 	$user->setWebsite($row['website']);
@@ -2278,7 +2278,7 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
 	$video->setAuthor($row['author']);
 	$video->setCounter($row['counter']);
 	$video->setCover($row['cover']);
-	$video->setCreatedat($row['createdat']);
+	$video->setCreatedat(new DateTime($row['createdat']));
 	$video->setDescription($row['description']);
 	$video->setDuration($row['duration']);
 	$fromuser = new User();
@@ -2306,7 +2306,7 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
 	$video->setThumbnail($row['thumbnail_v']);
 	$video->setTitle($row['title_v']);
 	$video->setURL($row['URL']);
-	$video->setUpdatedat($row['updatedat']);
+	$video->setUpdatedat(new DateTime($row['updatedat']));
 	$videos[$row['id_v']] = $video;
     }
     return $videos;
