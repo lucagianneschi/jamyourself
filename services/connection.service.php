@@ -32,13 +32,13 @@ class ConnectionService {
 	try {
 	    $connection = mysqli_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PSW, MYSQL_DB);
 	    if (mysqli_connect_errno($connection)) {
-		jam_log(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
+		jamLog (__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
 		return false;
 	    } else {
 		return $connection;
 	    }
 	} catch (Exception $e) {
-	    jam_log(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
+	    jamLog (__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
 	    return false;
 	}
     }
@@ -65,7 +65,7 @@ class ConnectionService {
 	curl_setopt($c, CURLOPT_POSTFIELDS, $dataString);
 	$response = curl_exec($c);
 	if ($response === false) {
-	    jam_log($_SERVER['SCRIPT_NAME'], __LINE__, 'Unable to connect to ' . NEO4J_HOST);
+	    jamLog ($_SERVER['SCRIPT_NAME'], __LINE__, 'Unable to connect to ' . NEO4J_HOST);
 	    return false;
 	} else {
 	    $data = json_decode($response, true);
