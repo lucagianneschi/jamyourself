@@ -1117,14 +1117,14 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
 		           p.name,
 		           p.songcounter,
 		           p.unlimited,
-			   u.id id_u,
-			   u.username
-			   u.type
+			   	   u.id id_u,
+			   	   u.username,
+			   	   u.type
 		     FROM playlist p, user u
              WHERE p.active = 1 AND p.fromuser = u.id";
     if (!is_null($id)) {
 	$sql .= " AND p.id = " . $id . "";
-    }
+    }	
     if (!is_null($where)) {
 	foreach ($where as $key => $value) {
 	    if (is_array($value)) {
@@ -1165,6 +1165,7 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
     $playlists = array();
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'playlist.class.php';
+	require_once CLASSES_DIR . 'user.class.php';
 	$playlist = new Playlist();
 	$playlist->setId($row['id_p']);
 	$playlist->setActive($row['active']);
