@@ -95,7 +95,7 @@ function insertAlbum($connection, $album) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jam_log(__FILE__, __LINE__, 'Unable to execute insertAlbum');
+        jamLog(__FILE__, __LINE__, 'Unable to execute insertAlbum');
         return false;
     } else {
         $insert_id = mysqli_insert_id($connection);
@@ -164,7 +164,7 @@ function insertComment($connection, $comment) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jam_log(__FILE__, __LINE__, 'Unable to execute insertComment');
+        jamLog(__FILE__, __LINE__, 'Unable to execute insertComment');
         return false;
     } else {
         $insert_id = mysqli_insert_id($connection);
@@ -240,7 +240,7 @@ function insertEvent($connection, $event) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jam_log(__FILE__, __LINE__, 'Unable to execute insertEvent');
+        jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent');
         return false;
     } else {
         $insert_id_genre = mysqli_insert_id($connection);
@@ -303,7 +303,7 @@ function insertImage($connection, $image) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jam_log(__FILE__, __LINE__, 'Unable to execute insertImage');
+        jamLog(__FILE__, __LINE__, 'Unable to execute insertImage');
         return false;
     } else {
         $insert_id = mysqli_insert_id($connection);
@@ -345,7 +345,7 @@ function insertPlaylist($connection, $playlist) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jam_log(__FILE__, __LINE__, 'Unable to execute insertPlaylist');
+        jamLog(__FILE__, __LINE__, 'Unable to execute insertPlaylist');
         return false;
     }
     return true;
@@ -404,7 +404,7 @@ function insertRecord($connection, $record) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jam_log(__FILE__, __LINE__, 'Unable to execute insertRecord');
+        jamLog(__FILE__, __LINE__, 'Unable to execute insertRecord');
         return false;
     } else {
         $insert_id_genre = mysqli_insert_id($connection);
@@ -475,7 +475,7 @@ function insertSong($connection, $song) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jam_log(__FILE__, __LINE__, 'Unable to execute insertSong');
+        jamLog(__FILE__, __LINE__, 'Unable to execute insertSong');
         return false;
     }
     return true;
@@ -498,7 +498,7 @@ function insertSongInPlayslist($connection, $song, $playlist) {
                                   '" . (is_null($playlist->getId()) ? 0 : $playlist->getId()) . "'";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jam_log(__FILE__, __LINE__, 'Unable to execute insertsongoIntoPlaylist');
+        jamLog(__FILE__, __LINE__, 'Unable to execute insertsongoIntoPlaylist');
         return false;
     }
     return true;
@@ -592,7 +592,7 @@ function insertUser($connection, $user) {
 
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jam_log(__FILE__, __LINE__, 'Unable to execute insertUser');
+        jamLog(__FILE__, __LINE__, 'Unable to execute insertUser');
         return false;
     } else {
         $insert_id_members = mysqli_insert_id($connection);
@@ -651,7 +651,7 @@ function insertVideo($connection, $video) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jam_log(__FILE__, __LINE__, 'Unable to execute insertVideo');
+        jamLog(__FILE__, __LINE__, 'Unable to execute insertVideo');
         return false;
     } else {
         $insert_id = mysqli_insert_id($connection);
