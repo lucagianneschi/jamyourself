@@ -1197,7 +1197,6 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
                            p.longitude,
                            p.lovecounter,
                            p.sharecounter,
-                           pt.id_tag,
                            p.text,
                            p.touser,
                            p.type type_p,
@@ -1208,15 +1207,14 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
                            u.username,
                            u.thumbnail,
                            u.type type_u,
-			   fu.id id_fu,
+			   			   fu.id id_fu,
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu
-                     FROM comment p, user u, user fu, comment_tag pt
+                     FROM comment p, user u, user fu
                      WHERE p.active = 1
                        	AND p.fromuser = u.id
-		       	AND p.type = 'P'
-		       	AND pt.id_comment = p.id";
+		       	AND p.type = 'P'";
     if (!is_null($id)) {
 	$sql .= " AND p.id = " . $id . "";
     }
@@ -1257,6 +1255,7 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $posts = array();
+	if(!is_array($rows)) return $posts;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'user.class.php';
