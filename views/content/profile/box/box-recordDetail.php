@@ -18,12 +18,13 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR .'record.box.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'select.service.php';
-
+require_once CLASSES_DIR . 'user.class.php';
 if (session_id() == '')
     session_start();
 $recordId = $_POST['id'];
 $recordBox = new RecordBox();
-$songs = $recordBox->initForTracklist($recordId);
+$recordBox->initForTracklist($recordId);
+$songs = $recordBox->tracklist;
 $pathCover = $_POST['pathCover'];
 $userId = $_POST['userId'];
 $fileManagerService = new FileManagerService();
@@ -68,7 +69,7 @@ if (is_array($songs) && count($songs) > 0) {
 	    <div class="small-12 columns ">	
 
 		<div class="row">
-		    <div class="small-9 columns ">					
+		    <div class="small-9 columns">					
 			<a class="ico-label _play-large text breakOffTest jpPlay" onclick="playSong('<?php echo $value->getId(); ?>', '<?php echo $pathCover ?>')"><?php echo $indice + 1; ?>. <span class="songTitle"><?php echo $value->getTitle(); ?></span></a>
 			<input type="hidden" name="song" value="<?php echo $fileManagerService->getSongURL($userId, $value->getPath()); ?>" />
 		    </div>					
