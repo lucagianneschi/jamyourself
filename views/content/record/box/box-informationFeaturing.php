@@ -22,9 +22,9 @@ require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
 $id = $_POST['id'];
-// questa funzione commentata non esiste più!!
-//$featurings = getRelatedUsers($id, 'featuring', 'Record', false, 10, 0);
-$featurings = array();
+
+$featurings = getList('user', $id, 'record', 'featuring');
+
 $featuringsCounter = count($featurings);
 
 if ($featuringsCounter > 0) {

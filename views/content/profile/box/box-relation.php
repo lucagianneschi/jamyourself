@@ -9,8 +9,8 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 $id = $_POST['id'];
 $relation = $_POST['relation'];
@@ -18,21 +18,14 @@ $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
 $tot = intval($_POST['tot']);
 
-$arrayRelation = getList('user', $id, 'user', $relationType);
-// questa funzione commentata non esiste più!!
-//$arrayRelation = getRelatedUsers($id, $relation, '_User', false, $limit, $skip);
+$arrayRelation = getList('user', $id, 'user', $relation);
 
 if ($relation == 'friendship')
     $rel = 'friends';
 else
     $rel = $relation;
 
-if ($arrayRelation instanceof Error) {
-    ?>
-
-    <h3 class="red">Error</h3>
-
-<?php } elseif (is_null($arrayRelation) || count($arrayRelation) == 0) {
+if (is_null($arrayRelation) || count($arrayRelation) == 0) {
     ?>
 
     <div class="grey "><?php echo $views[$rel]['nodata'] ?></div>

@@ -43,7 +43,7 @@ class ReviewEventBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$reviews = selectComments(null, array('event' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	$reviews = selectComments($connection, null, array('event' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($reviews === false) {
 	    $this->error = 'Errore nella query';
 	}
@@ -64,9 +64,9 @@ class ReviewEventBox {
 	    $this->error = 'Errore nella connessione';
 	}
 	if ($type == 'SPOTTER') {
-	    $reviews = selectReviewEvent(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	    $reviews = selectReviewEvent($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	} else {
-	    $reviews = selectReviewEvent(null, array('event' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	    $reviews = selectReviewEvent($connection, null, array('event' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	}
 	if ($reviews === false) {
 	    $this->error = 'Errore nella query';
@@ -98,7 +98,7 @@ class ReviewRecordBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$reviews = selectComments(null, array('record' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	$reviews = selectComments($connection, null, array('record' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($reviews === false) {
 	    $this->error = 'Errore nella query';
 	}
@@ -119,9 +119,9 @@ class ReviewRecordBox {
 	    $this->error = 'Errore nella connessione';
 	}
 	if ($type == 'SPOTTER') {
-	    $reviews = selectReviewRecord(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	    $reviews = selectReviewRecord($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	} else {
-	    $reviews = selectReviewRecord(null, array('record' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	    $reviews = selectReviewRecord($connection, null, array('record' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	}
 	if ($reviews === false) {
 	    $this->error = 'Errore nella query';

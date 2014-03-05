@@ -18,6 +18,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'record.box.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 if (session_id() == '')
     session_start();
@@ -88,14 +89,14 @@ if (is_null($recordBox->error)) {
 			    $record_comment = $value->getCommentcounter();
 			    $record_share = $value->getSharecounter();
 			    $record_review = $value->getReviewcounter();
-			    /*
-			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
-				$css_love = '_love orange';
-				$text_love = $views['unlove'];
+			    
+			    if (existsRelation('user', $currentUser->getId(), 'record', $record_id, 'loved')) {
+					$css_love = '_love orange';
+					$text_love = $views['unlove'];
 			    } else {
-				$css_love = '_unlove grey';
-				$text_love = $views['love'];
-			    }*/
+					$css_love = '_unlove grey';
+					$text_love = $views['love'];
+			    }
 			    $textData = '';
 			    if (!is_null($record_data) && $record_data != '') {
 				$textData = $views['record']['recorded'];
@@ -168,15 +169,14 @@ if (is_null($recordBox->error)) {
 		$recordSingle_love = $value->getLovecounter();
 		$recordSingle_comment = $value->getCommentcounter();
 		$recordSingle_share = $value->getSharecounter();
-		$recordSingle_review = $value->getReviewcounter();
-		/*
-		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
+		$recordSingle_review = $value->getReviewcounter();		
+		if (existsRelation('user', $currentUser->getId(), 'record', $recordSingle_id, 'loved')) {
 		    $recordSingle_css_love = '_love orange';
 		    $recordSingle_text_love = $views['unlove'];
 		} else {
 		    $recordSingle_css_love = '_unlove grey';
 		    $recordSingle_text_love = $views['love'];
-		}*/	
+		}
 		$textData = '';
 		if (!is_null($recordSingle_data) && $recordSingle_data != '') {
 		    $textData = $views['record']['recorded'];

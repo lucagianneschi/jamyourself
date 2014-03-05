@@ -9,11 +9,17 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'playlist.box.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
-
 $playlist = new PlaylistInfoBox();
 $playlist->init();
 
 $currentUser = $_SESSION['currentUser'];
+
+$playlistArray = $playlist->playlistArray;
+
+#TODO da modificare quando ci saranno più playlist 
+foreach ($playlistArray as $key => $value) {
+	$playlist = $value;
+}
 
 #TODO
 //decidere come gestire i possibili errori
@@ -22,13 +28,13 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 } elseif (!is_null($playlist->error)) {
     echo $playlist->error;
 }
-$_SESSION['playlist']['id'] = $playlist->id;
+$_SESSION['playlist']['id'] = $playlist->getId();
 $_SESSION['playlist']['songs'] = array();
 ?>
 
 <div class="row">
     <div  class="small-6 columns hide-for-small">
-	<h3><?php echo $playlist->name; ?></h3>
+	<h3><?php echo $playlist->getName(); ?></h3>
 	<div class="row">
 	    <div  class="large-6 columns">
 			<!--div class="text white" style="margin-bottom: 15px;"><?php echo $views['header']['profile']['title'] ?></div-->    		
@@ -36,65 +42,6 @@ $_SESSION['playlist']['songs'] = array();
 	</div>
     </div>	
 </div>
-
-
-<!--div id="jp_container_N" class="jp-video jp-video-270p">
-    <div class="jp-type-playlist">
-    <div id="jquery_jplayer_N" class="jp-jplayer"></div>
-    <div class="jp-gui">
-	<div class="jp-video-play">
-	    <a href="javascript:;" class="jp-video-play-icon" tabindex="1"><?php echo $views['header']['player']['play']; ?></a>
-	</div>
-	<div class="jp-interface">
-	    <div class="jp-progress">
-		<div class="jp-seek-bar">
-		    <div class="jp-play-bar"></div>
-		</div>
-	    </div>
-	    <div class="jp-current-time"></div>
-	    <div class="jp-duration"></div>
-	    <div class="jp-title">
-		<ul>
-		    <li></li>
-		</ul>
-	    </div>
-	    <div class="jp-controls-holder">
-		<ul class="jp-controls">
-		    <li><a href="javascript:;" class="jp-previous" tabindex="1"><?php echo $views['header']['player']['previous']; ?></a></li>
-		    <li><a href="javascript:;" class="jp-play" tabindex="1"><?php echo $views['header']['player']['play']; ?></a></li>
-		    <li><a href="javascript:;" class="jp-pause" tabindex="1"><?php echo $views['header']['player']['pause']; ?></a></li>
-		    <li><a href="javascript:;" class="jp-next" tabindex="1"><?php echo $views['header']['player']['next']; ?></a></li>
-		    <li><a href="javascript:;" class="jp-stop" tabindex="1"><?php echo $views['header']['player']['stop']; ?></a></li>
-		    <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><?php echo $views['header']['player']['mute']; ?></a></li>
-		    <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><?php echo $views['header']['player']['unmute']; ?></a></li>
-		    <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><?php echo $views['header']['player']['max volume']; ?></a></li>
-		</ul>
-		<div class="jp-volume-bar">
-		    <div class="jp-volume-bar-value"></div>
-		</div>
-		<ul class="jp-toggles">								
-		    <li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle"><?php echo $views['header']['player']['shuffle']; ?></a></li>
-		    <li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off"><?php echo $views['header']['player']['shuffle off']; ?></a></li>
-		    <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat"><?php echo $views['header']['player']['repeat']; ?></a></li>
-		    <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off"><?php echo $views['header']['player']['repeat off']; ?></a></li>
-		</ul>
-	    </div>
-	</div>
-    </div>
-    <div class="jp-playlist">
-	<ul>
-
-	    
-	    <li></li>
-	</ul>
-    </div>
-    <div class="jp-no-solution">
-	<span><?php echo $views['header']['player']['update']; ?></span>
-<?php echo $views['header']['player']['update_message']; ?>
-    </div>
-    </div>
-</div-->
-<!-- The method Playlist.displayPlaylist() uses this unordered list -->
 
 <div class="row">
     <div  class="small-12 columns">					
@@ -123,8 +70,8 @@ $_SESSION['playlist']['songs'] = array();
 		    'love' => $value->getLovecounter(),
 		    'share' => $value->getSharecounter(),
 		    'pathCover' => $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnail())
-		));
-		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
+		));		
+		if (existsRelation('user', $currentUser->getId(), 'song', $id, 'loved')) {
 		    $track_css_love = '_love orange';
 		    $track_text_love = $views['unlove'];
 		} else {

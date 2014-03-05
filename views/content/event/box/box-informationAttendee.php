@@ -18,11 +18,12 @@ require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'utilsBox.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 $id = $_POST['id'];
 $attendees = array();
-// questa funzione commentata non esiste più!!
-//$attendees = getRelatedUsers($id, 'attendee', 'Event', false, 10, 0);
+$attendees = getList('user', $id, 'event', 'attendee');
+
 $attendeesCounter = count($attendees);
 
 if ($attendeesCounter > 0) {

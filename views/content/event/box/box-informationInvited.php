@@ -18,11 +18,12 @@ require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'utilsBox.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 $id = $_POST['id'];
 $inviteds = array();
-// questa funzione commentata non esiste più!!
-//$inviteds = getRelatedUsers($id, 'invited', 'Event', false, 10, 0);
+
+$inviteds = getList('user', $id, 'event', 'invited');
 $invitedsCounter = count($inviteds);
 
 if ($invitedsCounter > 0) {

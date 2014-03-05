@@ -16,6 +16,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'album.box.php';
 require_once CLASSES_DIR . 'user.class.php';
+require_once SERVICES_DIR . 'select.service.php';
 session_start();
 
 $objectIdUser = $_POST['objectIdUser'];
@@ -69,8 +70,8 @@ if (is_null($albumBox->error)) {
 				$album_love = $value->getLovecounter();
 				$album_comment = $value->getCommentcounter();
 				$album_share = $value->getSharecounter();
-				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['id'], $album_thumbnail);
-				if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
+				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['id'], $album_thumbnail);				
+				if (existsRelation('user', $currentUser->getId(), 'album', $album_id, 'loved')) {
 				    $css_love = '_love orange';
 				    $text_love = $views['unlove'];
 				} else {
@@ -124,7 +125,7 @@ if (is_null($albumBox->error)) {
 		$album_love = $value->getLovecounter();
 		$album_comment = $value->getCommentcounter();
 		$album_share = $value->getSharecounter();
-		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
+		if (existsRelation('user', $currentUser->getId(), 'album', $album_id, 'loved')) {
 		    $css_love = '_love orange';
 		    $text_love = $views['unlove'];
 		} else {
