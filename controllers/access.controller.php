@@ -48,11 +48,11 @@ class AccessController extends REST {
 				$this -> response(array('status' => $controllers['NO CREDENTIALS']), 405);
 			}
 			$connectionService = new ConnectionService();
-			$connectionService -> connect();
-			if($connectionService -> getActive()){
-				$name = mysqli_real_escape_string($connectionService -> getConnection(), stripslashes($this -> request['usernameOrEmail']));
-				$password = mysqli_real_escape_string($connectionService -> getConnection(), stripslashes($this -> request['password']));
-				$user = $this -> checkEmailOrUsername($connectionService, $password, $name);				
+			$connection = $connectionService->connect();
+			if($connection != false){
+				$name = mysqli_real_escape_string($connection, stripslashes($this -> request['usernameOrEmail']));
+				$password = mysqli_real_escape_string($connection, stripslashes($this -> request['password']));
+				$user = $this -> checkEmailOrUsername($connection, $password, $name);				
 				
 				if (!$user) {
 					$this -> response(array('status' => 'INVALID CREDENTIALS'), 503);
@@ -99,11 +99,11 @@ class AccessController extends REST {
 	 * \param   $password, $name
 	 * \todo
 	 */
-	private function checkEmailOrUsername($connectionService, $password, $name) {
+	private function checkEmailOrUsername($connection, $password, $name) {
 		if (is_null($name) || is_null($password)) {
 			return false;
 		}		
-		if (!$connectionService -> getActive()) {
+		if ($connection == false) {
 			return false;
 		} else {
 			$sql = "SELECT id,
@@ -146,7 +146,7 @@ class AccessController extends REST {
 		      FROM user
 		      WHERE password='$password' AND active = 1
 		       AND (username='$name' OR email='$name')";
-			$result = mysqli_query($connectionService -> getConnection(), $sql);
+			$result = mysqli_query($connection, $sql);
 			if (!$result || (mysqli_num_rows($result) != 1)) {
 				return false;
 			}			
