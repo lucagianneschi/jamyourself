@@ -89,8 +89,12 @@ class PostController extends REST {
 	    $cmt->setVideo(null);
 	    $cmt->setVote(null);
 	    $id = insertComment($cmt);
+	    $node = createNode('post', $cmt->getId());
 	    if ($id instanceof Error) {
 		$this->response(array('status' => $id->getMessage()), 503);
+	    }
+	    if(!$node){
+		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
 	    $this->response(array('status' => $controllers['POSTSAVED']), 200);
 	} catch (Exception $e) {

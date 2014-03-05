@@ -16,13 +16,15 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
 $id = $_POST['id'];
-$featurings = getRelatedUsers($id, 'featuring', 'Record', false, 10, 0);
+// questa funzione commentata non esiste più!!
+//$featurings = getRelatedUsers($id, 'featuring', 'Record', false, 10, 0);
+$featurings = array();
 $featuringsCounter = count($featurings);
 
 if ($featuringsCounter > 0) {

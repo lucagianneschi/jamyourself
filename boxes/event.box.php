@@ -19,6 +19,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
 
 /**
@@ -37,9 +38,14 @@ class EventBox {
      * \todo    inserire orderby
      */
     public function init($id, $limit = 3, $skip = 0) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
 	$events = selectEvents(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
-	if ($events instanceof Error) {
-	    $this->error = $events->getErrorMessage();
+	if ($events === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->eventArray = $events;
     }
@@ -50,9 +56,14 @@ class EventBox {
      * \param	$id for event
      */
     public function initForMediaPage($id) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
 	$events = selectEvents($id);
-	if ($events instanceof Error) {
-	    $this->error = $events->getErrorMessage();
+	if ($events === false) {
+	    $this->error = 'Errore nella query';
 	}
 	$this->eventArray = $events;
     }

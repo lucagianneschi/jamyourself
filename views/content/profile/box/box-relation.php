@@ -7,7 +7,7 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
@@ -18,7 +18,9 @@ $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
 $tot = intval($_POST['tot']);
 
-$arrayRelation = getRelatedUsers($id, $relation, '_User', false, $limit, $skip);
+$arrayRelation = getList('user', $id, 'user', $relationType);
+// questa funzione commentata non esiste più!!
+//$arrayRelation = getRelatedUsers($id, $relation, '_User', false, $limit, $skip);
 
 if ($relation == 'friendship')
     $rel = 'friends';

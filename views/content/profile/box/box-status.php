@@ -11,10 +11,10 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once CLASSES_DIR . 'user.class.php';
-require_once SERVICES_DIR . 'relationChecker.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 //session_start();
 
 $currentUser = $_SESSION['currentUser'];
@@ -31,7 +31,7 @@ $currentUser = $currentUser->getId();
 $noBadge = 10 - count($badge);
 $css_message = '';
 $css_relation = 'no-display';
-if (!relationChecker($currentUser, $currentUserType, $id, $type)) {
+if(!existsRelation('user', $currentUser, 'user', $id, $relationType)) {
     $css_message = 'no-display';
     $css_relation = '';
 }

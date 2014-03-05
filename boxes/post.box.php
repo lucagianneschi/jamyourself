@@ -19,6 +19,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
 
 /**
@@ -38,9 +39,14 @@ class PostBox {
      * \todo
      */
     public function init($id, $limit = 5, $skip = 0) {
-	$posts = selectPosts(null, array('touser' => $id, 'type' => 'C'), array('createad' => 'DESC'), $limit, $skip);
-	if ($posts instanceof Error) {
-	    $this->error = $posts->getErrorMessage();
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
+	$posts = selectPosts($connection, null, array('touser' => $id, 'type' => 'P'), array('createad' => 'DESC'), $limit, $skip);
+	if ($posts === false) {
+	    $this->error = 'Errore nella connessione';
 	}
 	$this->postArray = $posts;
     }

@@ -21,7 +21,7 @@ spl_autoload_register(null, false);
 spl_autoload_extensions('.php, .class.php, .box.php, .controller.php');
 
 function dynamicLoading($className) {
-    require_once SERVICES_DIR . 'debug.service.php';
+    require_once SERVICES_DIR . 'log.service.php';
     $boxString = strpos($className, 'Box');
     if ($boxString == true) {
 	require_once ROOT_DIR . 'config.php';

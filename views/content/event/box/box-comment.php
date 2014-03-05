@@ -9,12 +9,13 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../../../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'comment.box.php';
 require_once CLASSES_DIR . 'user.class.php';
+require_once SERVICES_DIR . 'select.service.php';
 session_start();
 
 $id = $_POST['id'];
@@ -84,7 +85,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 				    $defaultThum = DEFTHUMBSPOTTER;
 				    break;
 			    }
-			    if (in_array($currentUser->getId(), $value->getLovers())) {
+			    if(existsRelation('user', $currentUser->getId(), 'comment', $comment_objectId, 'loved')){
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {

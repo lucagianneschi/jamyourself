@@ -10,7 +10,7 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'review.box.php';
@@ -57,7 +57,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    $review_counter_love = $value->getLovecounter();
 		    $review_counter_comment = $value->getCommentcounter();
 		    $review_counter_share = $value->getSharecounter();
-		    if (in_array($currentUser->getId(), $value->getLovers())) {
+		    if(existsRelation('user', $currentUser->getId(), 'comment', $comment_objectId, 'loved')){
 			$css_love = '_love orange';
 			$text_love = $views['unlove'];
 		    } else {

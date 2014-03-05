@@ -32,6 +32,7 @@ $controllers = array(
     'NOMAIL' => 'Unable to send mail',
     'nodata' => 'No data available',
     'NOEXPIRED' => 'Expired unset',
+    'NODEERROR' => 'Unable to create node',
     //SUBSCRIBE
     'SUBSCRIPTIONOK' => 'You have been subscribed',
     'SUBSCRIPTIONERROR' => 'An error occurred',

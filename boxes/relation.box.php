@@ -18,8 +18,8 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'connection.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'select.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * \brief	CollaboratorsBox class 
@@ -27,18 +27,9 @@ require_once SERVICES_DIR . 'debug.service.php';
  */
 class CollaboratorsBox {
 
-    public $config;
     public $error = null;
     public $venueArray = array();
     public $jammerArray = array();
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "relationBox.config.json"), false);
-    }
 
     /**
      * \fn	init($id)
@@ -47,21 +38,18 @@ class CollaboratorsBox {
      * \todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->getActive()) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->getConnection(), $sql);
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->jammerArray = $results;
-		$this->venueArray = $results;
+	try {
+	    $venueArray = array();
+	    $jammerArray = array();
+	    $data = getList('user', $id, 'user', 'collaboration');
+	    foreach ($data as $id) {
+		$user = selectUsers($id);
+		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
 	    }
+	    $this->venueArray = $venueArray;
+	    $this->jammerArray = $jammerArray;
+	} catch (Exception $e) {
+	    $this->error = $e->getMessage();
 	}
     }
 
@@ -73,40 +61,26 @@ class CollaboratorsBox {
  */
 class FollowersBox {
 
-    public $config;
     public $error = null;
     public $followersArray = array();
 
     /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "relationBox.config.json"), false);
-    }
-
-    /**
      * \fn	init($id)
-     * \brief	Init FollowersBox 
-     * \param	$id for user that owns the page 
+     * \brief	Init CollaboratorsBox 
+     * \param	$id for user that owns the page $limit, $skip
      * \todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->getActive()) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->getConnection(), $sql);
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->followersArray = $results;
-
+	try {
+	    $followers = array();
+	    $data = getList('user', $id, 'user', 'followers');
+	    foreach ($data as $id) {
+		$user = selectUsers($id);
+		array_push($followers, $user);
 	    }
+	    $this->followersArray = $followers;
+	} catch (Exception $e) {
+	    $this->error = $e->getMessage();
 	}
     }
 
@@ -118,42 +92,29 @@ class FollowersBox {
  */
 class FollowingsBox {
 
-    public $config;
     public $error = null;
     public $venueArray = array();
     public $jammerArray = array();
 
     /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "relationBox.config.json"), false);
-    }
-
-    /**
      * \fn	init($id)
-     * \brief	Init FollowingsBox
-     * \param	$id for user that owns the page 
+     * \brief	Init CollaboratorsBox 
+     * \param	$id for user that owns the page $limit, $skip
      * \todo    
      */
-    public function init($id,$limit = 3, $skip = 0) {
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->getActive()) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->getConnection(), $sql);
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->venueArray = $results;
-		$this->jammerArray = $results;
-
+    public function init($id, $limit = 3, $skip = 0) {
+	try {
+	    $venueArray = array();
+	    $jammerArray = array();
+	    $data = getList('user', $id, 'user', 'following');
+	    foreach ($data as $id) {
+		$user = selectUsers($id);
+		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
 	    }
+	    $this->venueArray = $venueArray;
+	    $this->jammerArray = $jammerArray;
+	} catch (Exception $e) {
+	    $this->error = $e->getMessage();
 	}
     }
 
@@ -165,39 +126,26 @@ class FollowingsBox {
  */
 class FriendsBox {
 
-    public $config;
     public $error = null;
     public $friendsArray = array();
 
     /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "relationBox.config.json"), false);
-    }
-
-    /**
      * \fn	init($id)
-     * \brief	Init FriendsBox
-     * \param	$id for user that owns the page 
+     * \brief	Init CollaboratorsBox 
+     * \param	$id for user that owns the page $limit, $skip
      * \todo    
      */
-    public function init($id,$limit = 3, $skip = 0) {
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->getActive()) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT * FROM record WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->getConnection(), $sql);
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->friendsArray = $results;
+    public function init($id, $limit = 3, $skip = 0) {
+	try {
+	    $followings = array();
+	    $data = getList('user', $id, 'user', 'following');
+	    foreach ($data as $id) {
+		$user = selectUsers($id);
+		array_push($followings, $user);
 	    }
+	    $this->followersArray = $followers;
+	} catch (Exception $e) {
+	    $this->error = $e->getMessage();
 	}
     }
 

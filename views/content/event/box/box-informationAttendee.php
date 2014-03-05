@@ -14,13 +14,15 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 $id = $_POST['id'];
-$attendees = getRelatedUsers($id, 'attendee', 'Event', false, 10, 0);
+$attendees = array();
+// questa funzione commentata non esiste più!!
+//$attendees = getRelatedUsers($id, 'attendee', 'Event', false, 10, 0);
 $attendeesCounter = count($attendees);
 
 if ($attendeesCounter > 0) {

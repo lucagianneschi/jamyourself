@@ -21,7 +21,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once SERVICES_DIR . 'eventChecker.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
 
 /**
@@ -57,7 +57,7 @@ class EventController extends REST {
 	    if ($touser instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
 	    }
-	 
+
 	    //AGGIUNGE RELAZIONE TRA USER E EVENTO : PARTECIPAZIONE
 	    $this->response(array($controllers['INVITATIONACCEPTED']), 200);
 	} catch (Exception $e) {
@@ -84,7 +84,9 @@ class EventController extends REST {
 	    }
 	    $currentUser = $_SESSION['id'];
 	    $eventId = $this->request['id'];
-	    if (checkUserInEventRelation($currentUser->getId(), $eventId, 'attendee') == true) {
+
+	    //definire il relationType
+	    if (!existsRelation('event', $currentUser->getId(), 'event', $eventId, 'invited')) {
 		$this->response(array('status' => $controllers['NOAVAILABLEACCEPTINVITATION']), 503);
 	    }
 	    require_once CLASSES_DIR . 'eventParse.class.php';

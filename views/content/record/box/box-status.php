@@ -12,7 +12,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
-if (is_array($record->getLovers()) && in_array($currentUser->getId(), $record->getLovers())) {
+if (existsRelation('user', $currentUser->getId(), 'record', $record->getId(), 'loved')) {
     $css_love = '_love orange';
     $text_love = $views['unlove'];
 } else {

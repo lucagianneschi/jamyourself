@@ -7,7 +7,7 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'mantainance.service.php';
 require_once SERVICES_DIR . 'session.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'record.box.php';
 

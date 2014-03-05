@@ -11,224 +11,75 @@
  *  \par		Commenti:
  *  \warning
  *  \bug
- *  \todo		inserire dati connessione DB corretti
+ *  \todo		
  *
  */
 
-/** \def HOST('HOST', jam-mysql-dev.cloudapp.net)
- *  Define the host for the DB
- */
-define('HOST', 'jam-mysql-dev.cloudapp.net');
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../');
 
-/** \def USER('USER', jamyourself)
- *  Define the user for DB
- */
-define('USER', 'jamyourself');
-
-/** \def PSW('PSW', j4my0urs3lf)
- *  Define the Password for DB
- */
-define('PSW', 'j4my0urs3lf');
-
-/** \def DB('DB', jamdatabase)
- *  Define the Mdatabase name
- */
-define('DB', 'jamdatabase');
-
-define('URL', 'jam-neo4j-dev.cloudapp.net');
-define('PORT', '7474');
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 class ConnectionService {
 
-    private $active = false;
-    private $connection = null;
-    private $database = DB;
-    private $error = null;
-    private $host = HOST;
-    private $password = PSW;
-    private $user = USER;
-
-	public function curl($query, $params) {
-		$c = curl_init();
-		curl_setopt($c, CURLOPT_URL, 'http://' . URL . ':' . PORT . '/db/data/cypher');
-		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($c, CURLOPT_HTTPHEADER, array(
-			'Accept: application/json; stream=true',
-			'Content-type: application/json',
-			'X-Stream: true'
-		));
-		curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'POST');
-		curl_setopt($c, CURLOPT_POST, false);
-		curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($c, CURLOPT_USERPWD, USER . ':' . PSW);
-		$dataString = json_encode(array('query' => $query, 'params' => $params));
-		curl_setopt($c, CURLOPT_POSTFIELDS, $dataString);
-		
-		$response = curl_exec($c);
-		
-		if ($response === false) {
-			throw new Exception("Can't open connection to " . URL);
-		}
-
-		$data = json_decode($response, true);
-		return $data;
-	}
-	
     /**
-     * \fn	getActive()
-     * \brief	Return the active value
-     * \return	BOOL
+     * \fn	connect()
+     * \brief	connect to the database
+     * \return	connection or false
      */
-    public function getActive() {
-	return $this->active;
+    public function connect() {
+	try {
+	    $connection = mysqli_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PSW, MYSQL_DB);
+	    if (mysqli_connect_errno($connection)) {
+		jam_log(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
+		return false;
+	    } else {
+		return $connection;
+	    }
+	} catch (Exception $e) {
+	    jam_log(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
+	    return false;
+	}
     }
 
     /**
-     * \fn	connect()
+     * \fn	curl($query, $params)
      * \brief	connet to the database
      * \return	true or errors
      */
-    public function connect() {
-	if (!$this->active) {
-	    $this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
-	    if (mysqli_connect_errno($this->connection)) {
-		$this->error = mysqli_connect_error();
-		exit();
-	    } else {
-		$this->active = true;
-	    }
+    public function curl($query, $params) {
+	$c = curl_init();
+	curl_setopt($c, CURLOPT_URL, 'http://' . NEO4J_HOST . ':' . NEO4J_PORT . '/db/data/cypher');
+	curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($c, CURLOPT_HTTPHEADER, array(
+	    'Accept: application/json; stream=true',
+	    'Content-type: application/json',
+	    'X-Stream: true'
+	));
+	curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'POST');
+	curl_setopt($c, CURLOPT_POST, false);
+	curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+	curl_setopt($c, CURLOPT_USERPWD, NEO4J_USER . ':' . NEO4J_PSW);
+	$dataString = json_encode(array('query' => $query, 'params' => $params));
+	curl_setopt($c, CURLOPT_POSTFIELDS, $dataString);
+	$response = curl_exec($c);
+	if ($response === false) {
+	    jam_log($_SERVER['SCRIPT_NAME'], __LINE__, 'Unable to connect to ' . NEO4J_HOST);
+	    return false;
+	} else {
+	    $data = json_decode($response, true);
+	    $this->data = $data;
 	}
-	return true;
-    }
-
-    /**
-     * \fn	getConnection()
-     * \brief	Return the connection value
-     * \return	BOOL
-     */
-    public function getConnection() {
-	return $this->connection;
-    }
-
-    /**
-     * \fn	getDatabase()
-     * \brief	Return the database name
-     * \return	string
-     */
-    public function getDatabase() {
-	return $this->database;
     }
 
     /**
      * \fn	disconnect($connection)
      * \brief	disconnet from the database
-     * \return	true
+     * \return	void
      */
-    public function disconnect() {
-	if ($this->active) {
-	    mysqli_close($this->connection);
-	    $this->active = false;
-	}
-	return true;
-    }
-
-    /**
-     * \fn	getError()
-     * \brief	Return the error
-     * \return	string
-     */
-    public function getError() {
-	return $this->error;
-    }
-
-    /**
-     * \fn	getHost()
-     * \brief	Return the host name
-     * \return	string
-     */
-    public function getHost() {
-	return $this->host;
-    }
-
-    /**
-     * \fn	getPassword()
-     * \brief	Return the password to access the DB
-     * \return	string
-     */
-    public function getPassword() {
-	return $this->password;
-    }
-
-    /**
-     * \fn	getUser() 
-     * \brief	Return the user to access the DB
-     * \return	string
-     */
-    public function getUser() {
-	return $this->user;
-    }
-
-    /**
-     * \fn	setActive($active)
-     * \brief	Set the active state 
-     * \return	BOOL
-     */
-    public function setActive($active) {
-	$this->active = $active;
-    }
-
-    /**
-     * \fn	setConnection($connection)
-     * \brief	Set the connection state 
-     * \return	BOOL
-     */
-    public function setConnection($connection) {
-	$this->connection = $connection;
-    }
-
-    /**
-     * \fn	setDatabase($database)
-     * \brief	Set the database name in case of error connection
-     * \return	string
-     */
-    public function setDatabase($database) {
-	$this->database = $database;
-    }
-
-    /**
-     * \fn	setError($error)
-     * \brief	Set the error in case of error connection
-     * \return	string
-     */
-    public function setError($error) {
-	$this->error = $error;
-    }
-
-    /**
-     * \fn	setHost($host) 
-     * \brief	Set the host to access the DB
-     * \return	string
-     */
-    public function setHost($host) {
-	$this->host = $host;
-    }
-
-    /**
-     * \fn	setPassword($password) 
-     * \brief	Set the $password to access the DB
-     * \return	string
-     */
-    public function setPassword($password) {
-	$this->password = $password;
-    }
-
-    /**
-     * \fn	setUser($user) 
-     * \brief	Set the user to access the DB
-     * \return	string
-     */
-    public function setUser($user) {
-	$this->user = $user;
+    public function disconnect($connection) {
+	@mysqli_close($connection);
     }
 
 }

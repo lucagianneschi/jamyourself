@@ -384,8 +384,54 @@ define('SUB_SBJ', 'SUBSCRIBE NUOVO UTENTE');
  */
 define('SUB_ADD', 'subscribe@jamyourself.com');
 
-/** \def  'DEBUG', true
- * LOG LEVEL
+/** \def  'LOG', true
+ * Define if write the Log
  */
-define('DEBUG', true);
+define('LOG', 1);
+
+/** \def  'LOG_DIR', ROOT_DIR . 'logs/'
+ * Define if write the Log
+ */
+define('LOG_DIR', ROOT_DIR . 'logs/');
+
+/** \def MYSQL_HOST('MYSQL_HOST', jam-mysql-dev.cloudapp.net)
+ *  Define the host for the DB
+ */
+define('MYSQL_HOST', 'jam-mysql-dev.cloudapp.net');
+
+/** \def MYSQL_USER('MYSQL_USER', jamyourself)
+ *  Define the Username for DB
+ */
+define('MYSQL_USER', 'jamyourself');
+
+/** \def MYSQL_PSW('MYSQL_PSW', j4my0urs3lf)
+ *  Define the Password for DB
+ */
+define('MYSQL_PSW', 'j4my0urs3lf');
+
+/** \def MYSQL_DB('MYSQL_DB', jamdatabase)
+ *  Define the Database name
+ */
+define('MYSQL_DB', 'jamdatabase');
+
+/** \def NEO4J_HOST('NEO4J_HOST', 'jam-neo4j-dev.cloudapp.net')
+ *  Define the host for Node DB
+ */
+define('NEO4J_HOST', 'jam-neo4j-dev.cloudapp.net');
+
+/** \def NEO4J_PORT('NEO4J_PORT', '7474')
+ *  Define the Post for Node DB
+ */
+define('NEO4J_PORT', '7474');
+
+/** \def NEO4J_USER('NEO4J_USER', jamyourself)
+ *  Define the Username for Node DB
+ */
+define('NEO4J_USER', 'jamyourself');
+
+/** \def NEO4J_PSW('NEO4J_PSW', j4my0urs3lf)
+ *  Define the Password for Node DB
+ */
+define('NEO4J_PSW', 'j4my0urs3lf');
+
 ?>
