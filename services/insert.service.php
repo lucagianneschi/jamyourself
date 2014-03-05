@@ -27,14 +27,21 @@ require_once SERVICES_DIR . 'connection.service.php';
  * \param   $nodeType, $nodeId
  * \todo
  */
-function createNode($nodeType, $nodeId) {
+function createNode($connection, $nodeType, $nodeId) {
     $query = '
 	MERGE (n:' . $nodeType . ' {id:' . $nodeId . '})
 	RETURN count(n)
 	';
-    $connectionService = new ConnectionService();
-    $res = $connectionService->curl($query, null);
-    return $res['data'][0];
+    $res = $connection->curl($query);
+	if ($res === false) {
+		return false;
+	} else {
+		if ($connection->getAutocommit()) {
+			return $res['data'][0][0];
+		} else {
+			return $res['results'][0]['data'][0]['row'][0];
+		}
+	}
 }
 
 /**
@@ -43,15 +50,24 @@ function createNode($nodeType, $nodeId) {
  * \param   $nodeType, $nodeId
  * \todo
  */
-function createRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType) {
+function createRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType) {
     $query = '
 	MATCH (n:' . $fromNodeType . ' {id:' . $fromNodeId . '}), (m:' . $toNodeType . ' {id:' . $toNodeId . '})
-	MERGE (n)-[r:' . $relType . ' {createdat:' . date('YmdHis') . '}]->(m)
+	MERGE (n)-[r:' . $relType . ']->(m)
+	ON CREATE SET r.createdat = ' . date('YmdHis') . '
+	ON MATCH SET r.createdat = ' . date('YmdHis') . '
 	RETURN count(r)
 	';
-    $connectionService = new ConnectionService();
-    $res = $connectionService->curl($query, null);
-    return $res['data'][0];
+	$res = $connection->curl($query);
+	if ($res === false) {
+		return false;
+	} else {
+		if ($connection->getAutocommit()) {
+			return $res['data'][0][0];
+		} else {
+			return $res['results'][0]['data'][0]['row'][0];
+		}
+	}
 }
 
 /**

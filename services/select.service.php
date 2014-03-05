@@ -55,7 +55,7 @@ function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
  * \param   $fromNodeType, $fromNodeId, $toNodeType, $relationType
  * \todo
  */
-function getRelatedNodes($fromNodeType, $fromNodeId, $toNodeType, $relationType) {
+function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType) {
     $query = '
 	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
 	WHERE n.id = {fromNodeId}
@@ -65,15 +65,26 @@ function getRelatedNodes($fromNodeType, $fromNodeId, $toNodeType, $relationType)
     $params = array(
 	'fromNodeId' => $fromNodeId
     );
-    $connectionService = new ConnectionService();
-    $res = $connectionService->curl($query, $params);
-    $list = array();
-    foreach ($res['data'] as $value) {
-	if ($fromNodeId != $value[0]['data']['id']) {
-	    $list[] = $value[0]['data']['id'];
+    $res = $connection->curl($query, $params);
+	if ($res === false) {
+		return false;
+	} else {
+		$relatedNodes = array();
+		if ($connection->getAutocommit()) {
+			foreach ($res['data'] as $value) {
+				if ($fromNodeId != $value[0]['data']['id']) {
+					$relatedNodes[] = $value[0]['data']['id'];
+				}
+			}
+		} else {
+			foreach ($res['results'][0]['data'] as $value) {
+				if ($fromNodeId != $value['row'][0]['id']) {
+					$relatedNodes[] = $value['row'][0]['id'];
+				}
+			}
+		}
+		return $relatedNodes;
 	}
-    }
-    return $list;
 }
 
 /**
