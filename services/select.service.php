@@ -27,7 +27,7 @@ require_once SERVICES_DIR . 'connection.service.php';
  * \param   $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType
  * \todo
  */
-function existsRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType) {
+function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType) {
     $query = '
 	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
 	WHERE n.id = {fromNodeId} AND m.id = {toNodeId}
@@ -37,9 +37,16 @@ function existsRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $rel
 	'fromNodeId' => $fromNodeId,
 	'toNodeId' => $toNodeId
     );
-    $connectionService = new ConnectionService();
-    $res = $connectionService->curl($query, $params);
-    return $res['data'][0];
+	$res = $connection->curl($query, $params);
+	if ($res === false) {
+		return false;
+	} else {
+		if ($connection->getAutocommit()) {
+			return $res['data'][0][0];
+		} else {
+			return $res['results'][0]['data'][0]['row'][0];
+		}
+	}
 }
 
 /**
@@ -48,7 +55,7 @@ function existsRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $rel
  * \param   $fromNodeType, $fromNodeId, $toNodeType, $relationType
  * \todo
  */
-function getList($fromNodeType, $fromNodeId, $toNodeType, $relationType) {
+function getRelatedNodes($fromNodeType, $fromNodeId, $toNodeType, $relationType) {
     $query = '
 	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
 	WHERE n.id = {fromNodeId}
