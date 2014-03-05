@@ -11,6 +11,7 @@ require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 $id = $_POST['id'];
 $relation = $_POST['relation'];
@@ -18,9 +19,7 @@ $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
 $tot = intval($_POST['tot']);
 
-$arrayRelation = getList('user', $id, 'user', $relationType);
-// questa funzione commentata non esiste più!!
-//$arrayRelation = getRelatedUsers($id, $relation, '_User', false, $limit, $skip);
+$arrayRelation = getList('user', $id, 'user', $relation);
 
 if ($relation == 'friendship')
     $rel = 'friends';
