@@ -788,6 +788,7 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $events = array();
+	if(!is_array($rows)) return $events;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'event.class.php';
 	$event = new Event();
@@ -1916,6 +1917,7 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $songs = array();
+	if(!is_array($rows)) return $songs;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'record.class.php';
 	require_once CLASSES_DIR . 'song.class.php';
