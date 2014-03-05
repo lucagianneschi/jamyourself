@@ -1454,7 +1454,6 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
                            rw.longitude,
                            rw.lovecounter,
                            rw.sharecounter,
-                           rwt.id_tag,
                            rw.text,
                            rw.touser,
                            rw.type type_p,
@@ -1493,11 +1492,10 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
                            u.username,
                            u.thumbnail thumbnail_u,
                            u.type type_u
-                     FROM comment rw, user u, user fu, event e, comment_tag rwt
+                     FROM comment rw, user u, user fu, event e
                      WHERE rw.active = 1
                        	AND rw.fromuser = fu.id
-		       	AND rw.type = 'RE'
-		       	AND rwt.id_comment = rw.id";
+		       	AND rw.type = 'RE'";
     if (!is_null($id)) {
 	$sql .= " AND rw.id = " . $id . "";
     }
@@ -1538,6 +1536,7 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $reviewEvents = array();
+	if(!is_array($rows)) return $reviewEvents;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'event.class.php';
@@ -1663,7 +1662,6 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
                            rw.longitude,
                            rw.lovecounter,
                            rw.sharecounter,
-                           rwt.id_tag,
                            rw.text,
                            rw.touser,
                            rw.type type_p,
@@ -1700,11 +1698,10 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
                            u.username username_u,
                            u.thumbnail thumbnail_u,
                            u.type type_u
-                     FROM comment rw, user u, user fu, record r, comment_tag rwt
+                     FROM comment rw, user u, user fu, record r
                      WHERE rw.active = 1
                        AND rw.fromuser = fu.id
-		       AND rw.type = 'RR'
-		       AND rwt.id_comment = rw.id";
+		       AND rw.type = 'RR'";
     if (!is_null($id)) {
 	$sql .= " AND rw.id = " . $id . "";
     }
@@ -1745,6 +1742,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $reviewRecords = array();
+	if(!is_array($rows)) return $reviewRecords;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'record.class.php';
