@@ -23,7 +23,7 @@ require_once SERVICES_DIR . 'select.service.php';
 $id = $_POST['id'];
 $featurings = array();
 
-$featurings = getList('user', $id, 'event', 'featuring');
+$featurings = getRelatedNodes('user', $id, 'event', 'featuring');
 $featuringsCounter = count($featurings);
 
 if ($featuringsCounter > 0) {

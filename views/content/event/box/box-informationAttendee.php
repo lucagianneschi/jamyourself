@@ -22,7 +22,7 @@ require_once SERVICES_DIR . 'select.service.php';
 
 $id = $_POST['id'];
 $attendees = array();
-$attendees = getList('user', $id, 'event', 'attendee');
+$attendees = getRelatedNodes('user', $id, 'event', 'attendee');
 
 $attendeesCounter = count($attendees);
 

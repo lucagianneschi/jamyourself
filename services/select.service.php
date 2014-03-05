@@ -37,20 +37,20 @@ function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 	'fromNodeId' => $fromNodeId,
 	'toNodeId' => $toNodeId
     );
-	$res = $connection->curl($query, $params);
-	if ($res === false) {
-		return false;
+    $res = $connection->curl($query, $params);
+    if ($res === false) {
+	return false;
+    } else {
+	if ($connection->getAutocommit()) {
+	    return $res['data'][0][0];
 	} else {
-		if ($connection->getAutocommit()) {
-			return $res['data'][0][0];
-		} else {
-			return $res['results'][0]['data'][0]['row'][0];
-		}
+	    return $res['results'][0]['data'][0]['row'][0];
 	}
+    }
 }
 
 /**
- * \fn	    getList($fromNodeType, $fromNodeId, $toNodeType, $relationType)
+ * \fn	    getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType)
  * \brief   Get list of nodes in relation with the first node
  * \param   $fromNodeType, $fromNodeId, $toNodeType, $relationType
  * \todo
@@ -65,40 +65,37 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
     $params = array(
 	'fromNodeId' => $fromNodeId
     );
-<<<<<<< HEAD
     $res = $connection->curl($query, $params);
-	if ($res === false) {
-		return false;
-	} else {
-		$relatedNodes = array();
-		if ($connection->getAutocommit()) {
-			foreach ($res['data'] as $value) {
-				if ($fromNodeId != $value[0]['data']['id']) {
-					$relatedNodes[] = $value[0]['data']['id'];
-				}
-			}
-		} else {
-			foreach ($res['results'][0]['data'] as $value) {
-				if ($fromNodeId != $value['row'][0]['id']) {
-					$relatedNodes[] = $value['row'][0]['id'];
-				}
-			}
+    if ($res === false) {
+	return false;
+    } else {
+	$relatedNodes = array();
+	if ($connection->getAutocommit()) {
+	    foreach ($res['data'] as $value) {
+		if ($fromNodeId != $value[0]['data']['id']) {
+		    $relatedNodes[] = $value[0]['data']['id'];
 		}
-		return $relatedNodes;
+	    }
+	} else {
+	    foreach ($res['results'][0]['data'] as $value) {
+		if ($fromNodeId != $value['row'][0]['id']) {
+		    $relatedNodes[] = $value['row'][0]['id'];
+		}
+	    }
 	}
-=======
+	return $relatedNodes;
+    }
     $connectionService = new ConnectionService();
     $res = $connectionService->curl($query, $params);
     $list = array();
-	if(is_array($res['data'])){
-	    foreach ($res['data'] as $value) {
-			if ($fromNodeId != $value[0]['data']['id']) {
-			    $list[] = $value[0]['data']['id'];
-			}
+    if (is_array($res['data'])) {
+	foreach ($res['data'] as $value) {
+	    if ($fromNodeId != $value[0]['data']['id']) {
+		$list[] = $value[0]['data']['id'];
 	    }
 	}
+    }
     return $list;
->>>>>>> 1dc5fdca97e2fdf702343bb4ad74479dc2c876f9
 }
 
 /**
@@ -186,7 +183,7 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -218,7 +215,7 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
 		 WHERE id = " . $row['id_a'];
 	$results = mysqli_query($connection, $sql);
 	if (!$results) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags = array();
@@ -444,13 +441,14 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $comment = array();
-	if(!is_array($rows)) return $comment;
+    if (!is_array($rows))
+	return $comment;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'user.class.php';
@@ -475,7 +473,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 		 WHERE id = " . $row['id_a'];
 	$results_album_tag = mysqli_query($connection, $sql);
 	if (!$results_album_tag) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags_album = array();
@@ -515,7 +513,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 		 WHERE id = " . $row['genre_e'];
 	$results_genre_event = mysqli_query($connection, $sql);
 	if (!$results_genre_event) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$genres = array();
@@ -539,7 +537,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 		 WHERE id = " . $row['id_e'];
 	$results_tag_event = mysqli_query($connection, $sql);
 	if (!$results_tag_event) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags_event = array();
@@ -582,7 +580,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 		 WHERE id = " . $row['id_ai'];
 	$results_image_tag = mysqli_query($connection, $sql);
 	if (!$results_image_tag) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags_image = array();
@@ -615,7 +613,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 		 WHERE id = " . $row['genre_r'];
 	$results_genre_record = mysqli_query($connection, $sql);
 	if (!$results_genre_record) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$genres_record = array();
@@ -661,7 +659,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 		 WHERE id = " . $row['id_s'];
 	$results_song_tag = mysqli_query($connection, $sql);
 	if (!$results_song_tag) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags_song = array();
@@ -677,7 +675,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 		 WHERE id = " . $row['id_cmt'];
 	$results_comment_tag = mysqli_query($connection, $sql);
 	if (!$results_comment_tag) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags_comment = array();
@@ -713,7 +711,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 		 WHERE id = " . $row['id_v'];
 	$results_video_tag = mysqli_query($connection, $sql);
 	if (!$results_video_tag) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags_video = array();
@@ -807,13 +805,14 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $events = array();
-	if(!is_array($rows)) return $events;
+    if (!is_array($rows))
+	return $events;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'event.class.php';
 	$event = new Event();
@@ -839,7 +838,7 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
 		 WHERE id = " . $row['genre'];
 	$results_genre_event = mysqli_query($connection, $sql);
 	if (!$results_genre_event) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$genres = array();
@@ -863,7 +862,7 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
 		 WHERE id = " . $row['id_e'];
 	$results_tag = mysqli_query($connection, $sql);
 	if (!$results_tag) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags_event = array();
@@ -949,7 +948,7 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -985,7 +984,7 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
 		 WHERE id = " . $row['id_i'];
 	$results_tag = mysqli_query($connection, $sql);
 	if (!$results_tag) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags = array();
@@ -1073,7 +1072,7 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -1102,7 +1101,7 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
 		 WHERE id = " . $row['id_m'];
 	$results_tag = mysqli_query($connection, $sql);
 	if (!$results_tag) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags = array();
@@ -1152,7 +1151,7 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
              WHERE p.active = 1 AND p.fromuser = u.id";
     if (!is_null($id)) {
 	$sql .= " AND p.id = " . $id . "";
-    }	
+    }
     if (!is_null($where)) {
 	foreach ($where as $key => $value) {
 	    if (is_array($value)) {
@@ -1184,9 +1183,9 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-    	require_once SERVICES_DIR . 'log.service.php';
-		jamLog(__FILE__, __LINE__, 'Unable to execute query');
-		return false;
+	require_once SERVICES_DIR . 'log.service.php';
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
@@ -1279,13 +1278,14 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $posts = array();
-	if(!is_array($rows)) return $posts;
+    if (!is_array($rows))
+	return $posts;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'user.class.php';
@@ -1309,7 +1309,7 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
 		 WHERE id = " . $row['id_p'];
 	$results_tag = mysqli_query($connection, $sql);
 	if (!$results_tag) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags = array();
@@ -1408,7 +1408,7 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -1438,7 +1438,7 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
                            AND g.id = rg.id_genre";
 	$results_genre = mysqli_query($connection, $sql);
 	if (!$results_genre) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$genres = array();
@@ -1559,13 +1559,14 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $reviewEvents = array();
-	if(!is_array($rows)) return $reviewEvents;
+    if (!is_array($rows))
+	return $reviewEvents;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'event.class.php';
@@ -1592,7 +1593,7 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 		 WHERE id = " . $row['genre'];
 	$results_genre_event = mysqli_query($connection, $sql);
 	if (!$results_genre_event) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$genres = array();
@@ -1647,7 +1648,7 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 		 WHERE id = " . $row['id_rw'];
 	$results_tag = mysqli_query($connection, $sql);
 	if (!$results_tag) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$tags_review = array();
@@ -1765,13 +1766,14 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $reviewRecords = array();
-	if(!is_array($rows)) return $reviewRecords;
+    if (!is_array($rows))
+	return $reviewRecords;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'record.class.php';
@@ -1806,7 +1808,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
                            AND g.id = rg.id_genre";
 	$results_genre = mysqli_query($connection, $sql);
 	if (!$results_genre) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	$genres = array();
@@ -1836,7 +1838,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
                          WHERE id = " . $row['id_rw'];
 	$results = mysqli_query($connection, $sql);
 	if (!$results) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -1933,13 +1935,14 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $songs = array();
-	if(!is_array($rows)) return $songs;
+    if (!is_array($rows))
+	return $songs;
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'record.class.php';
 	require_once CLASSES_DIR . 'song.class.php';
@@ -2021,7 +2024,7 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -2143,7 +2146,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -2161,7 +2164,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 	$user->setCity($row['city']);
 	$user->setCollaborationcounter($row['collaborationcounter']);
 	$user->setCountry($row['country']);
-    $user->setCreatedat(new DateTime($row['createdat'])); 
+	$user->setCreatedat(new DateTime($row['createdat']));
 	$user->setDescription($row['description']);
 	$user->setEmail($row['email']);
 	$user->setFacebookId($row['facebookid']);
@@ -2215,7 +2218,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 	$user->setThumbnail($row['thumbnail']);
 	$user->setType($row['type']);
 	$user->setTwitterpage($row['twitterpage']);
-    $user->setUpdatedat(new DateTime($row['updatedat']));
+	$user->setUpdatedat(new DateTime($row['updatedat']));
 	$user->setUsername($row['username']);
 	$user->setVenuecounter($row['venuecounter']);
 	$user->setWebsite($row['website']);
@@ -2317,7 +2320,7 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
                          WHERE id = " . $row['id_v'];
 	$results_tag = mysqli_query($connection, $sql);
 	if (!$results_tag) {
-	    jamLog (__FILE__, __LINE__, 'Unable to execute query');
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
 	    return false;
 	}
 	while ($row_tag = mysqli_fetch_array($results_tag, MYSQLI_ASSOC))
@@ -2335,4 +2338,5 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
     }
     return $videos;
 }
+
 ?>

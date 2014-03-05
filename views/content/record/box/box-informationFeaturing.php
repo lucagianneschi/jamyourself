@@ -23,7 +23,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 
 $id = $_POST['id'];
 
-$featurings = getList('user', $id, 'record', 'featuring');
+$featurings = getRelatedNodes('user', $id, 'record', 'featuring');
 
 $featuringsCounter = count($featurings);
 

@@ -36,7 +36,7 @@ class ConnectionService {
 			$this->autocommit = $value;
 			return true;
 		} else {
-			jam_log(__FILE__, __LINE__, 'The parameter must be bool');
+			jamLog(__FILE__, __LINE__, 'The parameter must be bool');
 			return false;
 		}
     }
@@ -62,7 +62,7 @@ class ConnectionService {
 			curl_setopt($c, CURLOPT_USERPWD, NEO4J_USER . ':' . NEO4J_PSW);
 			$response = curl_exec($c);
 			if ($response === false) {
-				jam_log(__FILE__, __LINE__, 'Unable to connect to ' . NEO4J_HOST);
+				jamLog(__FILE__, __LINE__, 'Unable to connect to ' . NEO4J_HOST);
 				return false;
 			} else {
 				return true;
@@ -80,13 +80,13 @@ class ConnectionService {
 		try {
 			$connection = mysqli_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PSW, MYSQL_DB);
 			if (mysqli_connect_errno($connection)) {
-				jam_log(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
+				jamLog(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
 				return false;
 			} else {
 				return $connection;
 			}
 		} catch (Exception $e) {
-			jam_log(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
+			jamLog(__FILE__, __LINE__, 'Unable to connect to ' . MYSQL_HOST);
 			return false;
 		}
     }
@@ -126,7 +126,7 @@ class ConnectionService {
 		curl_setopt($c, CURLOPT_POSTFIELDS, $dataString);
 		$response = curl_exec($c);
 		if ($response === false) {
-			jam_log(__FILE__, __LINE__, 'Unable to connect to ' . NEO4J_HOST);
+			jamLog(__FILE__, __LINE__, 'Unable to connect to ' . NEO4J_HOST);
 			return false;
 		} else {
 			if (empty($data['errors'])) {
@@ -136,7 +136,7 @@ class ConnectionService {
 				}
 				return $data;
 			} else {
-				jam_log(__FILE__, __LINE__, 'Unable to execute transaction to ' . NEO4J_HOST);
+				jamLog(__FILE__, __LINE__, 'Unable to execute transaction to ' . NEO4J_HOST);
 				return false;
 			}
 		}

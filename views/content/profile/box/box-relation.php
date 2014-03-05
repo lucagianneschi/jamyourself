@@ -18,7 +18,7 @@ $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
 $tot = intval($_POST['tot']);
 
-$arrayRelation = getList('user', $id, 'user', $relation);
+$arrayRelation = getRelatedNodes('user', $id, 'user', $relation);
 
 if ($relation == 'friendship')
     $rel = 'friends';
