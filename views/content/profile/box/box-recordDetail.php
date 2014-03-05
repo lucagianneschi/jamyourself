@@ -17,6 +17,7 @@ require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR .'record.box.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 if (session_id() == '')
     session_start();
@@ -30,10 +31,10 @@ $fileManagerService = new FileManagerService();
 if (isset($_SESSION['currentUser']))
     $currentUser = $_SESSION['currentUser'];
 $indice = 0;
-if (is_array($songs) && count($songs) > 0) {/*
+if (is_array($songs) && count($songs) > 0) {
     foreach ($songs as $key => $value) {
     	
-	if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
+	if (existsRelation('user', $currentUser->getId(), 'song', $value->getId(), 'loved')) {
 	    $track_css_love = '_love orange';
 	    $track_text_love = $views['unlove'];
 	} else {
@@ -110,7 +111,7 @@ if (is_array($songs) && count($songs) > 0) {/*
 	</div>
 	<?php
 	$indice++;
-    }*/ 
+    }
 }else {
     ?>
     <div class="row" style="padding-left: 20px !important; padding-top: 20px !important;}">

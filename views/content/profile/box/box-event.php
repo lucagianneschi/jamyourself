@@ -15,6 +15,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'event.box.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 if (session_id() == '')
     session_start();
@@ -115,7 +116,7 @@ if (is_null($eventBox->error)) {
 			    $event_review = $value->getReviewcounter();
 			    $event_share = $value->getSharecounter();
 			    $pathCoverEvent = $fileManagerService->getEventPhotoPath($_POST['id'], $event_thumbnail);
-			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
+			    if (existsRelation('user', $currentUser->getId(), 'event', $event_id, 'loved')) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {

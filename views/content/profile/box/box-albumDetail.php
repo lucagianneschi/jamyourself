@@ -19,6 +19,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 require_once VIEWS_DIR . 'utilities/share.php';
 require_once BOXES_DIR . 'album.box.php';
 require_once CLASSES_DIR . 'user.class.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 $userId = $_POST['userId'];
 $id = $_POST['id'];
@@ -72,13 +73,12 @@ $fileManagerService = new FileManagerService();
     <div class="large-12 columns">
 	<?php
 	foreach ($albumDetail->imageArray as $key => $value) {
-	    if (isset($_SESSION['currentUser']) &&
-		    (is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers()))) {
-		$css_love = '_love orange';
-		$text_love = $views['unlove'];
+	    if (existsRelation('user', $currentUser->getId(), 'image', $value->getId(), 'loved')) {
+			$css_love = '_love orange';
+			$text_love = $views['unlove'];
 	    } else {
-		$css_love = '_unlove grey';
-		$text_love = $views['love'];
+			$css_love = '_unlove grey';
+			$text_love = $views['love'];
 	    }
 	    ?>				 	
     	<div id="<?php echo $value->getId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($id, $value->getPath()); ?>">

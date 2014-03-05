@@ -17,6 +17,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'review.box.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 session_start();
 
 $id = $_POST['id'];
@@ -82,14 +83,14 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $eventReview_love = $value->getLovecounter();
 				    $eventReview_comment = $value->getCommentcounter();
 				    $eventReview_share = $value->getSharecounter();
-					/*
-				    if (in_array($currentUser->getId(), $value->getLovers())) {
+					
+				    if (existsRelation('user', $currentUser->getId(), 'comment', $eventReview_objectId, 'loved')) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 				    } else {
 					$css_love = '_unlove grey';
 					$text_love = $views['love'];
-				    }*/
+				    }
 				    ?>
 	    			<div  class="rsContent">	
 	    			    <div id='eventReview_<?php echo $eventReview_objectId ?>'>	

@@ -8,7 +8,7 @@ require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'playlist.box.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
-
+require_once SERVICES_DIR . 'select.service.php';
 
 $playlist = new PlaylistInfoBox();
 $playlist->init();
@@ -123,8 +123,8 @@ $_SESSION['playlist']['songs'] = array();
 		    'love' => $value->getLovecounter(),
 		    'share' => $value->getSharecounter(),
 		    'pathCover' => $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnail())
-		));
-		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
+		));		
+		if (existsRelation('user', $currentUser->getId(), 'song', $id, 'loved')) {
 		    $track_css_love = '_love orange';
 		    $track_text_love = $views['unlove'];
 		} else {
