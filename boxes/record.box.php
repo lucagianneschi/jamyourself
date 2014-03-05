@@ -43,7 +43,7 @@ class RecordBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$records = selectRecords(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	$records = selectRecords($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($records === false) {
 	    $this->error = 'Errore nella query';
 	}
@@ -62,7 +62,7 @@ class RecordBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$records = selectRecords($id);
+	$records = selectRecords($connection, $id);
 	if ($records === false) {
 	    $this->error = 'Errore nella query';
 	}
@@ -91,7 +91,7 @@ class RecordBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$tracklist = selectSongs(null, array('record' => $id), array('position' => 'ASC'));
+	$tracklist = selectSongs($connection, null, array('record' => $id), array('position' => 'ASC'));
 	if ($tracklist === false) {
 	    $this->error = 'Errore nella query';
 	}
