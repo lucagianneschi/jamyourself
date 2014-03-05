@@ -1156,8 +1156,9 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jam_log(__FILE__, __LINE__, 'Unable to execute query');
-	return false;
+    	require_once SERVICES_DIR . 'log.service.php';
+		jamLog(__FILE__, __LINE__, 'Unable to execute query');
+		return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
