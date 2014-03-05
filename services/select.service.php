@@ -61,11 +61,13 @@ function getList($fromNodeType, $fromNodeId, $toNodeType, $relationType) {
     $connectionService = new ConnectionService();
     $res = $connectionService->curl($query, $params);
     $list = array();
-    foreach ($res['data'] as $value) {
-	if ($fromNodeId != $value[0]['data']['id']) {
-	    $list[] = $value[0]['data']['id'];
+	if(is_array($res['data'])){
+	    foreach ($res['data'] as $value) {
+			if ($fromNodeId != $value[0]['data']['id']) {
+			    $list[] = $value[0]['data']['id'];
+			}
+	    }
 	}
-    }
     return $list;
 }
 
