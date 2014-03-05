@@ -43,7 +43,7 @@ class EventBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$events = selectEvents(null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	$events = selectEvents($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($events === false) {
 	    $this->error = 'Errore nella query';
 	}
@@ -61,7 +61,7 @@ class EventBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$events = selectEvents($id);
+	$events = selectEvents($connection, $id);
 	if ($events === false) {
 	    $this->error = 'Errore nella query';
 	}
