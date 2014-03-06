@@ -23,7 +23,8 @@ if (session_id() == '')
     session_start();
 $userId = $_POST['userId'];
 $recordBox = new RecordBox();
-$tracklist = $recordBox->initForTracklist($_POST['id']);
+$recordBox->initForTracklist($_POST['id']);
+$tracklist = $recordBox->tracklist;
 if (isset($_SESSION['currentUser']))
     $currentUser = $_SESSION['currentUser'];
 ?>
