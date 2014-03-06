@@ -70,8 +70,10 @@ $_SESSION['playlist']['songs'] = array();
 		    'love' => $value->getLovecounter(),
 		    'share' => $value->getSharecounter(),
 		    'pathCover' => $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnail())
-		));		
-		if (existsRelation('user', $currentUser->getId(), 'song', $id, 'loved')) {
+		));
+		
+		$connectionService = new ConnectionService();		
+		if (existsRelation($connectionService,'user', $currentUser->getId(), 'song', $id, 'LOVE')) {
 		    $track_css_love = '_love orange';
 		    $track_text_love = $views['unlove'];
 		} else {

@@ -31,7 +31,8 @@ $currentUser = $currentUser->getId();
 $noBadge = 10 - count($badge);
 $css_message = '';
 $css_relation = 'no-display';
-if(!existsRelation('user', $currentUser, 'user', $id, $relationType)) {
+$connectionService = new ConnectionService();
+if(!existsRelation($connectionService,'user', $currentUser, 'user', $id, $relationType)) {
     $css_message = 'no-display';
     $css_relation = '';
 }

@@ -17,6 +17,9 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'album.box.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'select.service.php';
+require_once SERVICES_DIR . 'connection.service.php';
+
+
 session_start();
 
 $objectIdUser = $_POST['objectIdUser'];
@@ -70,8 +73,9 @@ if (is_null($albumBox->error)) {
 				$album_love = $value->getLovecounter();
 				$album_comment = $value->getCommentcounter();
 				$album_share = $value->getSharecounter();
-				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['id'], $album_thumbnail);				
-				if (existsRelation('user', $currentUser->getId(), 'album', $album_id, 'loved')) {
+				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['id'], $album_thumbnail);
+				$connectionService = new ConnectionService();				
+				if (existsRelation($connectionService,'user', $currentUser->getId(), 'album', $album_id, 'loved')) {
 				    $css_love = '_love orange';
 				    $text_love = $views['unlove'];
 				} else {

@@ -89,8 +89,8 @@ if (is_null($recordBox->error)) {
 			    $record_comment = $value->getCommentcounter();
 			    $record_share = $value->getSharecounter();
 			    $record_review = $value->getReviewcounter();
-			    
-			    if (existsRelation('user', $currentUser->getId(), 'record', $record_id, 'loved')) {
+			     $connectionService = new ConnectionService();
+			    if (existsRelation($connectionService,'user', $currentUser->getId(), 'record', $record_id, 'loved')) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 			    } else {
@@ -169,8 +169,9 @@ if (is_null($recordBox->error)) {
 		$recordSingle_love = $value->getLovecounter();
 		$recordSingle_comment = $value->getCommentcounter();
 		$recordSingle_share = $value->getSharecounter();
-		$recordSingle_review = $value->getReviewcounter();		
-		if (existsRelation('user', $currentUser->getId(), 'record', $recordSingle_id, 'loved')) {
+		$recordSingle_review = $value->getReviewcounter();
+		$connectionService = new ConnectionService();		
+		if (existsRelation($connectionService,'user', $currentUser->getId(), 'record', $recordSingle_id, 'loved')) {
 		    $recordSingle_css_love = '_love orange';
 		    $recordSingle_text_love = $views['unlove'];
 		} else {

@@ -73,7 +73,8 @@ $fileManagerService = new FileManagerService();
     <div class="large-12 columns">
 	<?php
 	foreach ($albumDetail->imageArray as $key => $value) {
-	    if (existsRelation('user', $currentUser->getId(), 'image', $value->getId(), 'loved')) {
+		$connectionService = new ConnectionService();
+	    if (existsRelation($connectionService,'user', $currentUser->getId(), 'image', $value->getId(), 'loved')) {
 			$css_love = '_love orange';
 			$text_love = $views['unlove'];
 	    } else {

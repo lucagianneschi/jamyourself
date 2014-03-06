@@ -75,8 +75,9 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $recordReview_text = $value->getText();
 				    $recordReview_love = $value->getLovecounter();
 				    $recordReview_comment = $value->getCommentcounter();
-				    $recordReview_share = $value->getSharecounter();					
-				    if (existsRelation('user', $currentUser->getId(), 'comment',$recordReview_objectId, 'loved')) {
+				    $recordReview_share = $value->getSharecounter();
+					$connectionService = new ConnectionService();						
+				    if (existsRelation($connectionService,'user', $currentUser->getId(), 'comment',$recordReview_objectId, 'loved')) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 				    } else {

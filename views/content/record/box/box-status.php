@@ -11,8 +11,8 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-
-if (existsRelation('user', $currentUser->getId(), 'record', $record->getId(), 'loved')) {
+$connectionService = new ConnectionService();
+if (existsRelation($connectionService,'user', $currentUser->getId(), 'record', $record->getId(), 'loved')) {
     $css_love = '_love orange';
     $text_love = $views['unlove'];
 } else {
