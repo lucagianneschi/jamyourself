@@ -65,7 +65,8 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 			    $post_text = $value->getText();
 			    $post_loveCounter = $value->getLovecounter();
 			    $post_commentCounter = $value->getCommentcounter();
-			    if (existsRelation('user', $currentUser->getId(), 'comment', $post_objectId, 'loved')) {
+			    $connectionService = new ConnectionService();
+			    if (existsRelation($connectionService,'user', $currentUser->getId(), 'comment', $post_objectId, 'loved')) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {

@@ -18,12 +18,11 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
-
+require_once SERVICES_DIR . 'select.service.php';
 $id = $_POST['id'];
-
-$featurings = getRelatedNodes('user', $id, 'record', 'featuring');
+$connectionService = new ConnectionService();
+$featurings = getRelatedNodes($connectionService,'user', $id, 'record', 'featuring');
 
 $featuringsCounter = count($featurings);
 
