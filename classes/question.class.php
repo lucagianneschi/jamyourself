@@ -218,8 +218,10 @@ class Question {
     public function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$string .= '[createdat] => ' . $this->getCreatedat()->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[updatedat] => ' . $this->getUpdatedat()->format('d-m-Y H:i:s') . '<br />';
+	$createdAt = new DateTime($this->getCreatedat());
+	$string .= '[createdat] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+	$updatedAt = new DateTime($this->getUpdatedat());
+	$string .= '[updatedat] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[answer] => ' . $this->getAnswer() . '<br />';
 	$string .= '[mailFrom] => ' . $this->getMailFrom() . '<br />';
 	$string .= '[mailTo] => ' . $this->getMailTo() . '<br />';
