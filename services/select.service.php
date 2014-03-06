@@ -957,6 +957,7 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'album.class.php';
 	require_once CLASSES_DIR . 'image.class.php';
+	require_once CLASSES_DIR . 'user.class.php';
 	$image = new Image();
 	$image->setId($row['id_i']);
 	$image->setCreatedat(new DateTime($row['createdat']));
@@ -1458,7 +1459,7 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
 	$record->setSongCounter($row['songCounter']);
 	$record->setThumbnail($row['thumbnail_r']);
 	$record->setTitle($row['title']);
-	$record->setTracklist($row['tracklist']);
+	//$record->setTracklist($row['tracklist']);
 	$record->setYear($row['year']);
 	$record->setCreatedat(new DateTime($row['createdat']));
 	$record->setUpdatedat(new DateTime($row['updatedat']));
