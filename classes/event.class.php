@@ -522,8 +522,10 @@ class Event {
     function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$string .= '[createdat] => ' . $this->getCreatedat()->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[updatedat] => ' . $this->getUpdatedat()->format('d-m-Y H:i:s') . '<br />';
+	$createdAt = new DateTime($this->getCreatedat());
+	$string .= '[createdat] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+	$updatedAt = new DateTime($this->getUpdatedat());
+	$string .= '[updatedat] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[address] => ' . $this->getAddress() . '<br />';
 	$string .= '[attendeecounter] => ' . $this->getAttendeecounter() . '<br />';
@@ -533,7 +535,8 @@ class Event {
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
-	$string .= '[eventdate] => ' . $this->getEventdate()->format('d-m-Y H:i:s') . '<br />';
+	$eventDate = new DateTime($this->getEventdate());
+	$string .= '[eventdate] => ' . $evetDate->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	foreach ($this->getGenre() as $genre) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
