@@ -484,8 +484,10 @@ class Record {
     public function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$string .= '[createdat] => ' . $this->getCreatedat()->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[updatedat] => ' . $this->getUpdatedat()->format('d-m-Y H:i:s') . '<br />';
+	$createdAt = new DateTime($this->getCreatedat());
+	$string .= '[createdat] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+	$updatedAt = new DateTime($this->getUpdatedat());
+	$string .= '[updatedat] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[buylink] => ' . $this->getBuylink() . '<br/>';
 	$string .= '[city] => ' . $this->getCity() . '<br />';
