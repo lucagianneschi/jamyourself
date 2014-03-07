@@ -104,18 +104,11 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
  * \param   $ql string for query
  * \todo
  */
-function query($sql) {
-    $connectionService = new ConnectionService();
-    $connectionService->connect();
-    if (!$connectionService->getActive()) {
-	return $connectionService->error;
-    } else {
-	$results = mysqli_query($connectionService->getConnection(), $sql);
+function query($connection, $sql) {
+    $results = mysqli_query($connection, $sql);
 	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	    $rows[] = $row;
-	$connectionService->disconnect();
 	return $rows;
-    }
 }
 
 /**
@@ -889,31 +882,32 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
  * \todo
  */
 function selectImages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $sql = "SELECT     i.id id_i,
-	                   i.createdat,
-                           i.updatedat,
-                           i.active,
-                           i.commentcounter,
-                           i.counter,
-                           i.fromuser,
-                           i.latitude,
-                           i.longitude,
-                           i.lovecounter,
-			   i.path,
-                           i.sharecounter,
-			   i.thumbnail thumbnail_i,
-			   a.id ia_a,
-			   a.cover,
-			   a.title,
-			   a.fromuser,
-                           u.id id_u,
-                           u.username,
-                           u.thumbnail thumbnail_u,
-                           u.type
-                      FROM image i, user u, album a
-                     WHERE i.active = 1
-                       AND i.fromuser = u.id
-		       AND i.fromuser = a.fromuser";
+    $sql = "SELECT	i.id id_i,
+					i.createdat,
+					i.updatedat,
+					i.active,
+					i.commentcounter,
+					i.counter,
+					i.fromuser,
+					i.latitude,
+					i.longitude,
+					i.lovecounter,
+					i.path,
+					i.sharecounter,
+					i.thumbnail thumbnail_i,
+					a.id ia_a,
+					a.cover,
+					a.title,
+					a.fromuser,
+					u.id id_u,
+					u.username,
+					u.thumbnail thumbnail_u,
+					u.type
+			FROM	image i, user u, album a
+			WHERE	i.active = 1
+			AND		i.fromuser = u.id
+			AND		i.album = a.id
+			AND		i.fromuser = a.fromuser";
     if (!is_null($id)) {
 	$sql .= " AND i.id = " . $id . "";
     }
