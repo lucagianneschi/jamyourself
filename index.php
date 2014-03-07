@@ -25,7 +25,6 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<!-- <link rel="stylesheet" href="css/style.min.css" type="text/css" media="screen"> -->
 	<!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     </head>
-
     <body>
 	<div id="logo" onclick="scrollto('top');"><img src="views/resources/images/home/logo.png" alt ="Jamyourself: Meritocratic Social Music Discovering"></div>
 	<div class="menu">
