@@ -394,10 +394,10 @@ define('LOG', 1);
  */
 define('LOG_DIR', ROOT_DIR . 'logs/');
 
-/** \def MYSQL_HOST('MYSQL_HOST', jam-mysql-dev.cloudapp.net)
+/** \def MYSQL_HOST('MYSQL_HOST', jam-db-dev.cloudapp.net)
  *  Define the host for the DB
  */
-define('MYSQL_HOST', 'jam-mysql-dev.cloudapp.net');
+define('MYSQL_HOST', 'jam-db-dev.cloudapp.net');
 
 /** \def MYSQL_USER('MYSQL_USER', jamyourself)
  *  Define the Username for DB
@@ -414,10 +414,10 @@ define('MYSQL_PSW', 'j4my0urs3lf');
  */
 define('MYSQL_DB', 'jamdatabase');
 
-/** \def NEO4J_HOST('NEO4J_HOST', 'jam-neo4j-dev.cloudapp.net')
+/** \def NEO4J_HOST('NEO4J_HOST', 'jam-db-dev.cloudapp.net')
  *  Define the host for Node DB
  */
-define('NEO4J_HOST', 'jam-neo4j-dev.cloudapp.net');
+define('NEO4J_HOST', 'jam-db-dev.cloudapp.net');
 
 /** \def NEO4J_PORT('NEO4J_PORT', '7474')
  *  Define the Post for Node DB
