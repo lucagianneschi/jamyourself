@@ -26,7 +26,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     </head>
     <body>
-	<div id="logo" onclick="scrollto('top');"><img src="views/resources/images/home/logo.png" alt ="Jamyourself: Meritocratic Social Music Discovering"></div>
+	<div id="logo" onclick="scrollto('top');"><img src="views/resources/images/home/logo.png" alt ="Jamyourself: Meritocratic Social Music Discovering"  width="150" height="118"></div>
 	<div class="menu">
 	    <div class="facebook" onclick="window.open('<?php echo FACEBOOK; ?>');"></div>
 	    <div class="twitter" onclick="window.open('<?php echo TWITTER; ?>');"></div>
@@ -37,24 +37,24 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	</div>
 	<div style="display: none">
 	    <div id="login_content">
-			<div id="title">LOGIN</div>
-			<form action="javascript:access($('#user').val(), $('#pass').val(), 'login', null)">
-			    <div class="loginInput">
-					<input type="text" id="user" placeholder="username" /><br />
-					<input type="password" id="pass" placeholder="password" /><br />
-					<input type="submit" id="login" value="Login" style="width: 205px;"/>
-			    </div>	
-			</form>
+		<div id="title">LOGIN</div>
+		<form action="javascript:access($('#user').val(), $('#pass').val(), 'login', null)">
+		    <div class="loginInput">
+			<input type="text" id="user" placeholder="username" /><br />
+			<input type="password" id="pass" placeholder="password" /><br />
+			<input type="submit" id="login" value="Login" style="width: 205px;"/>
+		    </div>	
+		</form>
 	    </div>
 	</div>
 	<div id="private-beta">
-            <img src="views/resources/images/home/privatebeta.png" alt ="Private Beta" style="margin-bottom: -7px;" alt="">
-		</div>
+            <img src="views/resources/images/home/privatebeta.png" alt ="Private Beta" style="margin-bottom: -7px;" width="147" height="145">
+	</div>
 	<div id="top" class="slide top" data-stellar-background-ratio="0.7">
-		
+
 	    <div class="container clearfix">		
 		<div class="grid_12">
-		    <img src="views/resources/images/home/logo-big.png" alt ="Jamyourself: Meritocratic Social Music Discovering">
+		    <img src="views/resources/images/home/logo-big.png" alt ="Jamyourself: Meritocratic Social Music Discovering" width="280" height="280">
 		    <h1><?php echo $views['home']['stand_out']; ?></h1>
 		    <h2><?php echo $views['home']['be_the_first']; ?><br><?php echo $views['home']['and_take']; ?></h2>
 		</div>
@@ -66,12 +66,12 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    <div class="container clearfix">
 		<div class="grid_1">&nbsp;</div>
 		<div class="grid_5">
-		    <img src="views/resources/images/home/rank-spot.png" alt>
+		    <img src="views/resources/images/home/rank-spot.png" alt width="180" height="120">
 		    <h2><?php echo $views['home']['top']; ?></h2>
 		    <p><?php echo $views['home']['points']; ?><br><?php echo $views['home']['best']; ?></p>
 		</div>
 		<div class="grid_5">
-		    <img src="views/resources/images/home/badge-spot.png" alt>
+		    <img src="views/resources/images/home/badge-spot.png" alt width="180" height="120">
 		    <h2><?php echo $views['home']['talents']; ?></h2>
 		    <p><?php echo $views['home']['badge']; ?><br><?php echo $views['home']['worth']; ?></p>
 		</div>
@@ -83,51 +83,42 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    <div class="container clearfix">
 		<div class="grid_4">
 		    <div class="spot" onclick="scrollto('spotter');">
-			<img src="views/resources/images/home/spotter-spot.png" alt>
+			<img src="views/resources/images/home/spotter-spot.png" alt width="94" height="150">
 			<h2><?php echo $views['home']['are_you']; ?><br><?php echo $views['home']['music_lover']; ?></h2>
 		    </div>
 		</div>
 		<div class="grid_4">
 		    <div class="spot" onclick="scrollto('jammer');">
-			<img src="views/resources/images/home/jammer-spot.png" alt>
+			<img src="views/resources/images/home/jammer-spot.png" alt width="94" height="150">
 			<h2><?php echo $views['home']['are_you']; ?><br><?php echo $views['home']['emerging_artist']; ?></h2>
 		    </div>
 		</div>
 		<div class="grid_4 omega">
 		    <div class="spot" onclick="scrollto('venue');">
-			<img src="views/resources/images/home/venue-spot.png" alt>
+			<img src="views/resources/images/home/venue-spot.png" alt width="94" height="150">
 			<h2><?php echo $views['home']['own']; ?><br><?php echo $views['home']['venue']; ?></h2>
 		    </div>
 		</div>
 	    </div>
 	</div>
-
 	<div class="slide slide-img" style="background-image: url(views/resources/images/home/1.jpg)" data-slide="2" data-stellar-background-ratio="0.5"></div>
-
-
 	<div class="slide" id="jammer" data-stellar-background-ratio="0.7">
 	    <div class="container clearfix">
-
 		<div class="grid_5 jam-user">
-		    <img src="views/resources/images/home/jammer.png" alt>
+		    <img src="views/resources/images/home/jammer.png" alt width="220" height="350">
 		</div>
 		<div class="grid_6 omega">
 		    <h1><?php echo $views['home']['cool']; ?><br><?php echo $views['home']['sing']; ?></h1>
 		    <h2><?php echo $views['home']['star']; ?></h2>
 		    <p><?php echo $views['home']['start_sharing1']; ?><br><?php echo $views['home']['start_sharing2']; ?></p>
 		</div>
-
 	    </div>
 	</div>
-
 	<div class="slide slide-img" style="background-image: url(views/resources/images/home/2.jpg)" data-slide="2" data-stellar-background-ratio="0.5"></div>
-
-
 	<div class="slide" id="spotter" data-stellar-background-ratio="0.7">
 	    <div class="container clearfix">
-
 		<div class="grid_5 jam-user">
-		    <img src="views/resources/images/home/spotter.png" alt>
+		    <img src="views/resources/images/home/spotter.png" alt width="220" height="350">
 		</div>
 		<div class="grid_6 omega">
 		    <h1><?php echo $views['home']['you_told']; ?><br><?php echo $views['home']['before']; ?></h1>
@@ -137,24 +128,19 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 	    </div>
 	</div>
-
 	<div class="slide slide-img" style="background-image: url(views/resources/images/home/3.jpg)" data-slide="2" data-stellar-background-ratio="0.5"></div>
-
 	<div class="slide" id="venue" data-stellar-background-ratio="0.7">
 	    <div class="container clearfix">
-
 		<div class="grid_5 jam-user">
-		    <img src="views/resources/images/home/venue.png" alt>
+		    <img src="views/resources/images/home/venue.png" alt width="220" height="350">
 		</div>
 		<div class="grid_6 omega">
 		    <h1><?php echo $views['home']['tomorrow']; ?><br><?php echo $views['home']['remember']; ?></h1>
 		    <h2><?php echo $views['home']['venue_start']; ?></h2>
 		    <p><?php echo $views['home']['find_next']; ?></p>
 		</div>
-
 	    </div>
 	</div>
-
 	<div class="slide footer" id="subscribe" data-stellar-background-ratio="0.5">
 	    <div class="container clearfix">
 		<div class="grid_1">&nbsp;</div>
@@ -190,7 +176,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<script type="text/javascript" src="views/resources/javascripts/plugins/jquery/waypoints.min.js"></script>
 	<script type="text/javascript" src="views/resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="views/resources/javascripts/customs/home.js"></script>
-    <script type="text/javascript" src="views/resources/javascripts/customs/access.js"></script>
+	<script type="text/javascript" src="views/resources/javascripts/customs/access.js"></script>
 	<!----------- colorbox // lightbox foto ---------------------------------------------------->
 	<script type="text/javascript" src="views/resources/javascripts/plugins/colorbox/jquery.colorbox.js"></script>
 	<script>
@@ -214,10 +200,9 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    });
 	    $(document).ready(function() {
 		$(".loginLB").colorbox({inline: true, width: "30%"});
-		<?php 
-		if(isset($_GET['login'])){ ?> 
-			$(".loginLB").colorbox({inline: true, width: "30%", open: true}); 
-		<?php } ?>
+<?php if (isset($_GET['login'])) { ?>
+    		$(".loginLB").colorbox({inline: true, width: "30%", open: true});
+<?php } ?>
 	    });
 	</script>
 
