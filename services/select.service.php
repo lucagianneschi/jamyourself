@@ -106,9 +106,9 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
  */
 function query($connection, $sql) {
     $results = mysqli_query($connection, $sql);
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	return $rows;
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    return $rows;
 }
 
 /**
@@ -1612,9 +1612,8 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
                          WHERE id = " . $row['id_e'];
 	$results_event = mysqli_query($connection, $sql);
 	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results_event->error);
-	    return $error;
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
 	}
 	while ($row_tag = mysqli_fetch_array($results_event, MYSQLI_ASSOC))
 	    $rows_tag[] = $row_tag;
@@ -2285,9 +2284,8 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	$error = new Error();
-	$error->setErrormessage($results->error);
-	return $error;
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
