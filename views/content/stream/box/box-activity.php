@@ -21,7 +21,6 @@ if (session_id() == '')
     session_start();
 
 $currentUser = $_SESSION['currentUser'];
-
 $streamBox = new StreamBox();
 $streamBox->init(10, 0);
 if (is_null($streamBox->error)) {

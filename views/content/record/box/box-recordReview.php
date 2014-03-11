@@ -22,10 +22,9 @@ $id = $_POST['id'];
 $limit = $_POST['limit'];
 $skip = $_POST['skip'];
 $reviewToShow = 3;
-
 $reviewBox = new ReviewRecordBox();
 $reviewBox->initForMediaPage($id, $limit, $skip);
-if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
+if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
     $currentUser = $_SESSION['currentUser'];
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);

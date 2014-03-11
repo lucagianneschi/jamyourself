@@ -24,7 +24,6 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
     $posts = $postBox->postArray;
     $postCounter = count($posts);
     ?>
-
     <!------------------------------------- Post ------------------------------------>
     <div class="row" id="social-Post" style='margin-bottom: 40px;'>
         <div  class="large-12 columns">
