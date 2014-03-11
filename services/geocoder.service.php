@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Stafano Muscas
- *  \version		0.1
+ *  @author		Stafano Muscas
+ *  @version		0.1
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:

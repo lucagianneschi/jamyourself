@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par 		Info Generali:
- *  \author		Stefano Muscas
- *  \version		0.3
+ *  @author		Stefano Muscas
+ *  @version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -62,7 +62,7 @@ class User {
     /**
      * \fn	int getId()
      * \brief	Return the id value
-     * \return	string
+     * @return	string
      */
     public function getId() {
 	return $this->id;
@@ -71,7 +71,7 @@ class User {
     /**
      * \fn		DateTime getCreatedat()
      * \brief	Return the User creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -80,7 +80,7 @@ class User {
     /**
      * \fn		DateTime getUpdatedat()
      * \brief	Return the User modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -89,7 +89,7 @@ class User {
     /**
      * \fn		boolean getActive()
      * \brief	Return the activation state of the User
-     * \return	boolean
+     * @return	boolean
      */
     public function getActive() {
 	return $this->active;
@@ -98,7 +98,7 @@ class User {
     /**
      * \fn		string getAddress()
      * \brief	Return the address of the User
-     * \return	string
+     * @return	string
      */
     public function getAddress() {
 	return $this->address;
@@ -107,7 +107,7 @@ class User {
     /**
      * \fn	string getAvatar()
      * \brief	Return the profile picture link of the User
-     * \return	string
+     * @return	string
      */
     public function getAvatar() {
 	return $this->avatar;
@@ -116,7 +116,7 @@ class User {
     /**
      * \fn		string getBackground()
      * \brief	Return the background link of the User
-     * \return	string
+     * @return	string
      */
     public function getBackground() {
 	return $this->background;
@@ -125,7 +125,7 @@ class User {
     /**
      * \fn		string getBirthday()
      * \brief	Return the birthday of the User represented by a string with format YYYY-MM-DD
-     * \return	string
+     * @return	string
      */
     public function getBirthday() {
 	return $this->birthday;
@@ -134,7 +134,7 @@ class User {
     /**
      * \fn		string getCity()
      * \brief	Return the city of the User
-     * \return	string
+     * @return	string
      */
     public function getCity() {
 	return $this->city;
@@ -143,7 +143,7 @@ class User {
     /**
      * \fn		number getCollaborationcounter()
      * \brief	Return the number of User in collaboration with
-     * \return	number
+     * @return	number
      */
     public function getCollaborationcounter() {
 	return $this->collaborationcounter;
@@ -152,7 +152,7 @@ class User {
     /**
      * \fn		string getCountry()
      * \brief	Return the country of the User
-     * \return	string
+     * @return	string
      */
     public function getCountry() {
 	return $this->country;
@@ -161,7 +161,7 @@ class User {
     /**
      * \fn		string getDescription()
      * \brief	Return the description of the User
-     * \return	string
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
@@ -170,7 +170,7 @@ class User {
     /**
      * \fn		string getEmail()
      * \brief	Return the email of the User
-     * \return	string
+     * @return	string
      */
     public function getEmail() {
 	return $this->email;
@@ -179,7 +179,7 @@ class User {
     /**
      * \fn		string getFacebookId()
      * \brief	Return the facebook id of the User
-     * \return	string
+     * @return	string
      */
     public function getFacebookid() {
 	return $this->facebookid;
@@ -188,7 +188,7 @@ class User {
     /**
      * \fn		string getFbPage()
      * \brief	Return the facebook page link of the User
-     * \return	string
+     * @return	string
      */
     public function getFacebookpage() {
 	return $this->facebookpage;
@@ -197,7 +197,7 @@ class User {
     /**
      * \fn		string getFirstname()
      * \brief	Return the firstname of the User
-     * \return	string
+     * @return	string
      */
     public function getFirstname() {
 	return $this->firstname;
@@ -206,7 +206,7 @@ class User {
     /**
      * \fn		number getLevel()
      * \brief	Return the number of User followed
-     * \return	number
+     * @return	number
      */
     public function getFollowerscounter() {
 	return $this->followerscounter;
@@ -215,7 +215,7 @@ class User {
     /**
      * \fn		number getFollowingcounter()
      * \brief	Return the number of User followed
-     * \return	number
+     * @return	number
      */
     public function getFollowingcounter() {
 	return $this->followingcounter;
@@ -224,7 +224,7 @@ class User {
     /**
      * \fn		number getLevel()
      * \brief	Return the number of User in friendship relation
-     * \return	number
+     * @return	number
      */
     public function getFriendshipcounter() {
 	return $this->friendshipcounter;
@@ -233,7 +233,7 @@ class User {
     /**
      * \fn		string getGooglepluspage()
      * \brief	Return the googlePlus page link of the User
-     * \return	string
+     * @return	string
      */
     public function getGooglepluspage() {
 	return $this->googlepluspage;
@@ -242,7 +242,7 @@ class User {
     /**
      * \fn		number getJammercounter()
      * \brief	Return the jammer counter, number of Jammer in collaboration
-     * \return	number
+     * @return	number
      */
     public function getJammercounter() {
 	return $this->jammercounter;
@@ -251,7 +251,7 @@ class User {
     /**
      * \fn		string getJammertype()
      * \brief	Return the jammer type of the User
-     * \return	string
+     * @return	string
      */
     public function getJammertype() {
 	return $this->jammertype;
@@ -260,7 +260,7 @@ class User {
     /**
      * \fn		string getLastname()
      * \brief	Return the lastname of the User
-     * \return	string
+     * @return	string
      */
     public function getLastname() {
 	return $this->lastname;
@@ -269,7 +269,7 @@ class User {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	latitude
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -278,7 +278,7 @@ class User {
     /**
      * \fn		number getLevel()
      * \brief	Return the level of the User
-     * \return	number
+     * @return	number
      */
     public function getLevel() {
 	return $this->level;
@@ -287,7 +287,7 @@ class User {
     /**
      * \fn		number getLevelvalue()
      * \brief	Return the level value of the User
-     * \return	number
+     * @return	number
      */
     public function getLevelvalue() {
 	return $this->levelvalue;
@@ -296,7 +296,7 @@ class User {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -305,7 +305,7 @@ class User {
     /**
      * \fn	string getPassword()
      * \brief	Return the password of the User
-     * \return	string
+     * @return	string
      */
     public function getPassword() {
 	return $this->password;
@@ -314,7 +314,7 @@ class User {
     /**
      * \fn		boolean getPremium()
      * \brief	Return if the User has a Premium account
-     * \return	boolean
+     * @return	boolean
      */
     public function getPremium() {
 	return $this->premium;
@@ -323,7 +323,7 @@ class User {
     /**
      * \fn		DateTime getPremiumexpirationdate()
      * \brief	Return the expiration date of the premium account of the User
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getPremiumexpirationdate() {
 	return $this->premiumexpirationdate;
@@ -332,7 +332,7 @@ class User {
     /**
      * \fn	string getThumbnail()
      * \brief	Return the thumbnail profile picture link of the User
-     * \return	string
+     * @return	string
      */
     public function getThumbnail() {
 	return $this->thumbnail;
@@ -341,7 +341,7 @@ class User {
     /**
      * \fn		array getSettings()
      * \brief	Return an array of the setting of the User
-     * \return	array
+     * @return	array
      */
     public function getSettings() {
 	return $this->settings;
@@ -350,7 +350,7 @@ class User {
     /**
      * \fn		string getSex()
      * \brief	Return the sex of the User
-     * \return	string
+     * @return	string
      */
     public function getSex() {
 	return $this->sex;
@@ -359,7 +359,7 @@ class User {
     /**
      * \fn		string getTwitterpage()
      * \brief	Return the twitter page link of the User
-     * \return	string
+     * @return	string
      */
     public function getTwitterpage() {
 	return $this->twitterpage;
@@ -368,7 +368,7 @@ class User {
     /**
      * \fn		string getType()
      * \brief	Return the type of the User
-     * \return	string
+     * @return	string
      */
     public function getType() {
 	return $this->type;
@@ -377,7 +377,7 @@ class User {
     /**
      * \fn		string getUsername()
      * \brief	Return the username of the User
-     * \return	string
+     * @return	string
      */
     public function getUsername() {
 	return $this->username;
@@ -386,7 +386,7 @@ class User {
     /**
      * \fn		number getVenuecounter()
      * \brief	Return venue counter, number of venue in collaboration
-     * \return	number
+     * @return	number
      */
     public function getVenuecounter() {
 	return $this->venuecounter;
@@ -395,7 +395,7 @@ class User {
     /**
      * \fn		string getWebsite()
      * \brief	Return the website link of the User
-     * \return	string
+     * @return	string
      */
     public function getWebsite() {
 	return $this->website;
@@ -404,7 +404,7 @@ class User {
     /**
      * \fn		string getYoutubechannel()
      * \brief	Return the youtube channel link of the User
-     * \return	string
+     * @return	string
      */
     public function getYoutubechannel() {
 	return $this->youtubechannel;
@@ -773,7 +773,7 @@ class User {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the User object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

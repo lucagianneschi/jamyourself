@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		0.3.0
+ * @author		Luca Gianneschi
+ * @version		0.3.0
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:

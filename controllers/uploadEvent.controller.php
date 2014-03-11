@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Stefano Muscas
- * \version		1.0
+ * @author		Stefano Muscas
+ * @version		1.0
  * \date		2013
  * \copyright           Jamyourself.com 2013
  * \par			Info Classe:

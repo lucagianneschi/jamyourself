@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Stefano Muscas
- *  \version		0.3
+ *  @author		Stefano Muscas
+ *  @version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -38,7 +38,7 @@ class Video {
     /**
      * \fn	int getId()
      * \brief	Return the id value
-     * \return	int
+     * @return	int
      */
     public function getId() {
 	return $this->id;
@@ -47,7 +47,7 @@ class Video {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Video creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -56,7 +56,7 @@ class Video {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Video modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -65,7 +65,7 @@ class Video {
     /**
      * \fn	boolean getActive()
      * \brief	Return the active value
-     * \return	boolean
+     * @return	boolean
      */
     public function getActive() {
 	return $this->active;
@@ -74,7 +74,7 @@ class Video {
     /**
      * \fn	string getAuthor()
      * \brief	Return the author value; author is the uploader on YouTube or Vimeo
-     * \return	string
+     * @return	string
      */
     public function getAuthor() {
 	return $this->author;
@@ -83,7 +83,7 @@ class Video {
     /**
      * \fn	int getCounter()
      * \brief	Return the counter value
-     * \return	int
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
@@ -92,7 +92,7 @@ class Video {
     /**
      * \fn	string getCover()
      * \brief	Return the cover (path file) value
-     * \return	string
+     * @return	string
      */
     public function getCover() {
 	return $this->cover;
@@ -101,7 +101,7 @@ class Video {
     /**
      * \fn	string getDescription()
      * \brief	Return the description value
-     * \return	string
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
@@ -110,7 +110,7 @@ class Video {
     /**
      * \fn	int getDuration()
      * \brief	Return the duration value in second
-     * \return	int
+     * @return	int
      */
     public function getDuration() {
 	return $this->duration;
@@ -119,7 +119,7 @@ class Video {
     /**
      * \fn	int getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	int
+     * @return	int
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -128,7 +128,7 @@ class Video {
     /**
      * \fn	int getLovecounter()
      * \brief	Return the int value of loveCounter, counting the love action on the video
-     * \return	int
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
@@ -137,7 +137,7 @@ class Video {
     /**
      * \fn	int getTag()
      * \brief	Return the tags value, array of string to categorize the video
-     * \return	int
+     * @return	int
      */
     public function getTag() {
 	return $this->tag;
@@ -146,7 +146,7 @@ class Video {
     /**
      * \fn	string getThumbnail()
      * \brief	Return the thumbnail value, URL of the video cover image
-     * \return	string
+     * @return	string
      */
     public function getThumbnail() {
 	return $this->thumbnail;
@@ -155,7 +155,7 @@ class Video {
     /**
      * \fn	string getTitle()
      * \brief	Return the title value
-     * \return	string
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
@@ -164,7 +164,7 @@ class Video {
     /**
      * \fn	string getURL()
      * \brief	Return the URL value
-     * \return	string
+     * @return	string
      */
     public function getURL() {
 	return $this->URL;
@@ -308,7 +308,7 @@ class Video {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Video object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

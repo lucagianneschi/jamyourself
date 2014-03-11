@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par	    Info Generali:
- *  \author	    Maria Laura Fresu
- *  \version	    0.3
+ *  @author	    Maria Laura Fresu
+ *  @version	    0.3
  *  \date	    2013
  *  \copyright	    Jamyourself.com 2013
  *  \par Info	    Classe:
@@ -49,7 +49,7 @@ class Event {
     /**
      * \fn	getId()
      * \brief	Return the id value
-     * \return	int
+     * @return	int
      */
     public function getId() {
 	return $this->id;
@@ -58,7 +58,7 @@ class Event {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Event creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -67,7 +67,7 @@ class Event {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Event modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -76,7 +76,7 @@ class Event {
     /**
      * \fn	BOOL getActive()
      * \brief	Return the active value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
@@ -85,7 +85,7 @@ class Event {
     /**
      * \fn	getAddress()
      * \brief	Return the address value
-     * \return	string
+     * @return	string
      */
     public function getAddress() {
 	return $this->address;
@@ -94,7 +94,7 @@ class Event {
     /**
      * \fn	getAttendeeCounter()
      * \brief	Return the number of attendees value
-     * \return	string
+     * @return	string
      */
     public function getAttendeecounter() {
 	return $this->attendeecounter;
@@ -103,7 +103,7 @@ class Event {
     /**
      * \fn	getCancelledCounter()
      * \brief	Return the number of attendees value
-     * \return	string
+     * @return	string
      */
     public function getCancelledcounter() {
 	return $this->cancelledcounter;
@@ -112,7 +112,7 @@ class Event {
     /**
      * \fn	getCity()
      * \brief	Return the city value
-     * \return	string
+     * @return	string
      */
     public function getCity() {
 	return $this->city;
@@ -121,7 +121,7 @@ class Event {
     /**
      * \fn	int getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * @return	int
      */
     public function getCommentcounter() {
 	return $this->commentcounter;
@@ -130,7 +130,7 @@ class Event {
     /**
      * \fn	int getCounter()
      * \brief	Return the counter value
-     * \return	int
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
@@ -139,7 +139,7 @@ class Event {
     /**
      * \fn	getCover()
      * \brief	Return the city value
-     * \return	string
+     * @return	string
      */
     public function getCover() {
 	return $this->cover;
@@ -148,7 +148,7 @@ class Event {
     /**
      * \fn	string getDescription()
      * \brief	Return the description value
-     * \return	string
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
@@ -157,7 +157,7 @@ class Event {
     /**
      * \fn	DateTime getEventdate()
      * \brief	Return the Event Date 
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getEventdate() {
 	return $this->eventdate;
@@ -166,7 +166,7 @@ class Event {
     /**
      * \fn	string getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	string
+     * @return	string
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -175,7 +175,7 @@ class Event {
     /**
      * \fn	array getGenre()
      * \brief	Return the genre (array) value for the genre
-     * \return	array
+     * @return	array
      */
     public function getGenre() {
 	return $this->genre;
@@ -184,7 +184,7 @@ class Event {
     /**
      * \fn	getInvitedCounter()
      * \brief	Return the number of invited value
-     * \return	string
+     * @return	string
      */
     public function getInvitedcounter() {
 	return $this->invitedcounter;
@@ -193,7 +193,7 @@ class Event {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	latitude
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -202,7 +202,7 @@ class Event {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -211,7 +211,7 @@ class Event {
     /**
      * \fn	string getLocationname()
      * \brief	Return the name of the location
-     * \return	string
+     * @return	string
      */
     public function getLocationname() {
 	return $this->locationname;
@@ -220,7 +220,7 @@ class Event {
     /**
      * \fn	int getLovecounter()
      * \brief	Return the int value of loveCounter, counting the love action on the event
-     * \return	int
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
@@ -229,7 +229,7 @@ class Event {
     /**
      * \fn	getRefusedCounter()
      * \brief	Return the number of attendees value
-     * \return	string
+     * @return	string
      */
     public function getRefusedCounter() {
 	return $this->refusedCounter;
@@ -238,7 +238,7 @@ class Event {
     /**
      * \fn	int getReviewcounter()
      * \brief	Return the review counter value (number of review)
-     * \return	int
+     * @return	int
      */
     public function getReviewcounter() {
 	return $this->reviewcounter;
@@ -247,7 +247,7 @@ class Event {
     /**
      * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
-     * \return	int
+     * @return	int
      */
     public function getSharecounter() {
 	return $this->sharecounter;
@@ -256,7 +256,7 @@ class Event {
     /**
      * \fn	array getTag()
      * \brief	Return the tags value, array of string to categorize the event
-     * \return	int
+     * @return	int
      */
     public function getTag() {
 	return $this->tag;
@@ -265,7 +265,7 @@ class Event {
     /**
      * \fn	string getThumbnail()
      * \brief	Return the thumbnail value
-     * \return	string
+     * @return	string
      */
     public function getThumbnail() {
 	return $this->thumbnail;
@@ -274,7 +274,7 @@ class Event {
     /**
      * \fn	string getTitle()
      * \brief	Return the title value
-     * \return	string
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
@@ -517,7 +517,7 @@ class Event {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Event object
-     * \return	string
+     * @return	string
      */
     function __toString() {
 	$string = '';

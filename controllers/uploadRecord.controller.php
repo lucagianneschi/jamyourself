@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Stefano Muscas
- * \version		1.0
+ * @author		Stefano Muscas
+ * @version		1.0
  * \date		2013
  * \copyright           Jamyourself.com 2013
  * \par			Info Classe:
@@ -583,7 +583,7 @@ class UploadRecordController extends REST {
      * \fn	$userId, $recordId, $songId
      * \brief   funzione per il salvataggio di un mp3
      * \param   $userId, $recordId, $songId
-     * \return  TRUE id MP3 is saved in the correct folder, FALSE eighter
+     * @return  TRUE id MP3 is saved in the correct folder, FALSE eighter
      */
     private function saveMp3($userId, $songId) {
 	if (file_exists(CACHE_DIR . $songId)) {

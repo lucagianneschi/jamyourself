@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Daniele Caldelli
- *  \version		0.3
+ *  @author		Daniele Caldelli
+ *  @version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -24,7 +24,7 @@ class Error {
     /**
      * \fn	string getErrormessage()
      * \brief	Return the Error message
-     * \return	string
+     * @return	string
      */
     public function getErrormessage() {
 	return $this->errormessage;
@@ -42,7 +42,7 @@ class Error {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Error object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		0.3
+ * @author		Luca Gianneschi
+ * @version		0.3
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
@@ -35,7 +35,7 @@ class PostBox {
      * \fn	init($id)
      * \brief	Init PostBox instance for Personal Page
      * \param	$id for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
-     * \return	postBox
+     * @return	postBox
      * \todo
      */
     public function init($id, $limit = 5, $skip = 0) {

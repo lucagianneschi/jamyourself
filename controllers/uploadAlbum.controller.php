@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Stefano Muscas
- * \version		1.0
+ * @author		Stefano Muscas
+ * @version		1.0
  * \date		2013
  * \copyright           Jamyourself.com 2013
  * \par			Info Classe:
@@ -352,17 +352,16 @@ class UploadAlbumController extends REST {
 	}
     }
 
-    public function getAlbums() {
+    private function getAlbums() {
 	global $controllers;
 	if ($this->get_request_method() != "POST") {
 	    $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
 	} elseif (!isset($_SESSION['currentUser'])) {
 	    $this->response($controllers['USERNOSES'], 402);
 	}
-
 	require_once BOXES_DIR . "album.box.php";
 	$albumBox = new AlbumBox();
-	$albumBox->init($_SESSION['currentUser'], $limit = 10, $skip = 0, $upload = true);
+	$albumBox->init($_SESSION['currentUser'], $limit = 10);
 	$albumList = array();
 	if (is_null($albumBox->error) && count($albumBox->albumArray) > 0) {
 	    foreach ($albumBox->albumArray as $album) {

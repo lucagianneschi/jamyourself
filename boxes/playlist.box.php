@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		0.3
+ * @author		Luca Gianneschi
+ * @version		0.3
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
@@ -34,7 +34,7 @@ class PlaylistInfoBox {
     /**
      * \fn	init()
      * \brief	Init PlaylistInfoBox instance
-     * \return	playlistInfoBox
+     * @return	playlistInfoBox
      */
     public function init() {
 	$user = $_SESSION['currentUser'];
@@ -64,7 +64,7 @@ class PlaylistSongBox {
     /**
      * \fn	init($playlistId, $sonsArray)
      * \brief	Init PlaylistSongBox instance
-     * \return	playlistSongBox
+     * @return	playlistSongBox
      * \todo	terminare funzione prendere songs che stanno dentro la playlist
      */
     public function init($playlistId) {

@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Stefano Muscas
- *  \version		0.3
+ *  @author		Stefano Muscas
+ *  @version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -40,7 +40,7 @@ class Song {
     /**
      * \fn	int getId()
      * \brief	Return the id value
-     * \return	string
+     * @return	string
      */
     public function getId() {
 	return $this->id;
@@ -49,7 +49,7 @@ class Song {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Song creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -58,7 +58,7 @@ class Song {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Song modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -67,7 +67,7 @@ class Song {
     /**
      * \fn	BOOL getId()
      * \brief	Return the active value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
@@ -76,7 +76,7 @@ class Song {
     /**
      * \fn	int getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * @return	int
      */
     public function getCommentcounter() {
 	return $this->commentcounter;
@@ -85,7 +85,7 @@ class Song {
     /**
      * \fn	int getCounter()
      * \brief	Return the counter value
-     * \return	int
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
@@ -94,7 +94,7 @@ class Song {
     /**
      * \fn	int getDuration()
      * \brief	Return the duration value in second
-     * \return	int
+     * @return	int
      */
     public function getDuration() {
 	return $this->duration;
@@ -103,7 +103,7 @@ class Song {
     /**
      * \fn	int getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	int
+     * @return	int
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -112,7 +112,7 @@ class Song {
     /**
      * \fn	string getGenre()
      * \brief	Return the genre value 
-     * \return	string
+     * @return	string
      */
     public function getGenre() {
 	return $this->genre;
@@ -121,7 +121,7 @@ class Song {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	latitude
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -130,7 +130,7 @@ class Song {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -139,7 +139,7 @@ class Song {
     /**
      * \fn	int getLovecounter()
      * \brief	Return the loveCounter value, number of users who love the song
-     * \return	int
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
@@ -148,7 +148,7 @@ class Song {
     /**
      * \fn	string getPath()
      * \brief	Return the path value
-     * \return	string
+     * @return	string
      */
     public function getPath() {
 	return $this->pathath;
@@ -157,7 +157,7 @@ class Song {
     /**
      * \fn	string getPosition()
      * \brief	Return the position value,number of the song in the tracklist of its record
-     * \return	string
+     * @return	string
      */
     public function getPosition() {
 	return $this->position;
@@ -166,7 +166,7 @@ class Song {
     /**
      * \fn	int getRecord()
      * \brief	Return the record value,string of the id of the related record
-     * \return	int
+     * @return	int
      */
     public function getRecord() {
 	return $this->record;
@@ -175,7 +175,7 @@ class Song {
     /**
      * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
-     * \return	int
+     * @return	int
      */
     public function getSharecounter() {
 	return $this->sharecounter;
@@ -184,7 +184,7 @@ class Song {
     /**
      * \fn	string getTitle()
      * \brief	Return the title value
-     * \return	string
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
@@ -346,7 +346,7 @@ class Song {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Song object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

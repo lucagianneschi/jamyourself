@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Daniele Caldelli
- *  \version		0.3
+ *  @author		Daniele Caldelli
+ *  @version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -33,7 +33,7 @@ class Question {
     /**
      * \fn		string getId()
      * \brief	Return the id value
-     * \return	string
+     * @return	string
      */
     public function getId() {
 	return $this->id;
@@ -42,7 +42,7 @@ class Question {
     /**
      * \fn		DateTime getCreatedat()
      * \brief	Return the Question creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -51,7 +51,7 @@ class Question {
     /**
      * \fn		DateTime getUpdatedat()
      * \brief	Return the Question modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -60,7 +60,7 @@ class Question {
     /**
      * \fn		string getAnswer()
      * \brief	Return the answer value
-     * \return	string
+     * @return	string
      */
     public function getAnswer() {
 	return $this->answer;
@@ -69,7 +69,7 @@ class Question {
     /**
      * \fn		string getMailFrom()
      * \brief	Return the mailFrom value
-     * \return	string
+     * @return	string
      */
     public function getMailFrom() {
 	return $this->mailFrom;
@@ -78,7 +78,7 @@ class Question {
     /**
      * \fn		string getMailTo()
      * \brief	Return the mailTo value
-     * \return	string
+     * @return	string
      */
     public function getMailTo() {
 	return $this->mailTo;
@@ -87,7 +87,7 @@ class Question {
     /**
      * \fn		string getName()
      * \brief	Return the name value
-     * \return	string
+     * @return	string
      */
     public function getName() {
 	return $this->name;
@@ -96,7 +96,7 @@ class Question {
     /**
      * \fn		BOOL getReplied()
      * \brief	Return the replied value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getReplied() {
 	return $this->replied;
@@ -105,7 +105,7 @@ class Question {
     /**
      * \fn		string getSubject()
      * \brief	Return the subject value
-     * \return	string
+     * @return	string
      */
     public function getSubject() {
 	return $this->subject;
@@ -114,7 +114,7 @@ class Question {
     /**
      * \fn		string getText()
      * \brief	Return the text value
-     * \return	string
+     * @return	string
      */
     public function getText() {
 	return $this->text;
@@ -213,7 +213,7 @@ class Question {
     /**
      * \fn		string __toString()
      * \brief	Return a printable string representing the Question object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

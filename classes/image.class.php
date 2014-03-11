@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Maria Laura Fresu
- *  \version		0.3
+ *  @author		Maria Laura Fresu
+ *  @version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -39,7 +39,7 @@ class Image {
     /**
      * \fn	int getId()
      * \brief	Return the id value
-     * \return	int
+     * @return	int
      */
     public function getId() {
 	return $this->id;
@@ -48,7 +48,7 @@ class Image {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Image creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -57,7 +57,7 @@ class Image {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Image modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -66,7 +66,7 @@ class Image {
     /**
      * \fn	BOOL getActive()
      * \brief	Return the active value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
@@ -75,7 +75,7 @@ class Image {
     /**
      * \fn	int getAlbum()
      * \brief	Return the album value
-     * \return	int
+     * @return	int
      */
     public function getAlbum() {
 	return $this->album;
@@ -84,7 +84,7 @@ class Image {
     /**
      * \fn	int getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * @return	int
      */
     public function getCommentcounter() {
 	return $this->commentcounter;
@@ -93,7 +93,7 @@ class Image {
     /**
      * \fn	int getCounter()
      * \brief	Return the counter value
-     * \return	int
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
@@ -102,7 +102,7 @@ class Image {
     /**
      * \fn	string getDescription()
      * \brief	Return the description value
-     * \return	string
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
@@ -111,7 +111,7 @@ class Image {
     /**
      * \fn	int getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	int
+     * @return	int
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -120,7 +120,7 @@ class Image {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	latitude
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -129,7 +129,7 @@ class Image {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -138,7 +138,7 @@ class Image {
     /**
      * \fn	int getLovecounter()
      * \brief	Return the int value of loveCounter, counting the love action on the image
-     * \return	int
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
@@ -147,7 +147,7 @@ class Image {
     /**
      * \fn	string getPath()
      * \brief	Return the path value
-     * \return	string
+     * @return	string
      */
     public function getPath() {
 	return $this->path;
@@ -156,7 +156,7 @@ class Image {
     /**
      * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
-     * \return	int
+     * @return	int
      */
     public function getSharecounter() {
 	return $this->sharecounter;
@@ -165,7 +165,7 @@ class Image {
     /**
      * \fn	getTag()
      * \brief	Return the tags value
-     * \return	int
+     * @return	int
      */
     public function getTag() {
 	return $this->tag;
@@ -174,7 +174,7 @@ class Image {
     /**
      * \fn	string getThumbnail()
      * \brief	Return the thumbnail value, path for the thumnail
-     * \return	string
+     * @return	string
      */
     public function getThumbnail() {
 	return $this->thumbnail;
@@ -327,7 +327,7 @@ class Image {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Image object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

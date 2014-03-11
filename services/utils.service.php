@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Stefano Muscas
- *  \version		0.3
+ *  @author		Stefano Muscas
+ *  @version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -25,8 +25,8 @@ require_once ROOT_DIR . 'config.php';
  * \brief	The function returns the difference between $end and $start parameter in microseconds
  * \param	$start	represent the microsecond time of the begin of the operation
  * \param	$end	represent the microsecond time of the end of the operation
- * \return	number	the number representing the difference in microsecond
- * \return	Error	if the parameters are null
+ * @return	number	the number representing the difference in microsecond
+ * @return	Error	if the parameters are null
  */
 function executionTime($start, $end) {
     if (is_null($start) || is_null($end))
@@ -51,7 +51,7 @@ function executionTime($start, $end) {
  * \fn		string decode_string($string)
  * \brief	The function returns a string read from DB that can be interpreted by the user
  * \param	$string 	represent the string from DB to decode
- * \return	string		the decoded string
+ * @return	string		the decoded string
  */
 function decode_string($string) {
     $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
@@ -63,7 +63,7 @@ function decode_string($string) {
  * \fn		string encode_string($string)
  * \brief	The function returns a string that can be saved to DB
  * \param	$string 	represent the string to be saved
- * \return	string		the string encoded for DB
+ * @return	string		the string encoded for DB
  */
 function encode_string($string) {
     $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
@@ -75,7 +75,7 @@ function encode_string($string) {
  * \fn	    filterFeaturingByValue($array, $value)
  * \brief   filtra featuind per tipo
  * \param   $array, $value
- * \return  $newarray
+ * @return  $newarray
  * \todo    
  */
 function filterFeaturingByValue($array, $value) {
@@ -159,7 +159,7 @@ function sendMailForNotification($address, $subject, $html) {
 /**
  * \fn		sessionChecker()
  * \brief	The function returns a string wiht the id of the user in session, if there's no user return a invalid ID used (valid for the code)
- * \return	string $currentUserId;
+ * @return	string $currentUserId;
  */
 function sessionChecker() {
     if (session_id() == '')

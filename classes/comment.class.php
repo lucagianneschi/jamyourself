@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Daniele Caldelli, Stefano Muscas
- *  \version		0.3
+ *  @author		Daniele Caldelli, Stefano Muscas
+ *  @version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -47,7 +47,7 @@ class Comment {
     /**
      * \fn	getId()
      * \brief	Return the id value
-     * \return	int
+     * @return	int
      */
     public function getId() {
 	return $this->id;
@@ -56,7 +56,7 @@ class Comment {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Comment creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -65,7 +65,7 @@ class Comment {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Comment modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -74,7 +74,7 @@ class Comment {
     /**
      * \fn	BOOL getActive()
      * \brief	Return the active valure
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
@@ -83,7 +83,7 @@ class Comment {
     /**
      * \fn	getAlbum()
      * \brief	Return the int value id to album
-     * \return	int
+     * @return	int
      */
     public function getAlbum() {
 	return $this->album;
@@ -92,7 +92,7 @@ class Comment {
     /**
      * \fn	getComment()
      * \brief	Return the related comment id
-     * \return	int
+     * @return	int
      */
     public function getComment() {
 	return $this->comment;
@@ -101,7 +101,7 @@ class Comment {
     /**
      * \fn	int getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * @return	int
      */
     public function getCommentcounter() {
 	return $this->commentcounter;
@@ -110,7 +110,7 @@ class Comment {
     /**
      * \fn	int getCounter()
      * \brief	Return the counter value
-     * \return	int
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
@@ -119,7 +119,7 @@ class Comment {
     /**
      * \fn	getEvent()
      * \brief	Return the related event id
-     * \return	int
+     * @return	int
      */
     public function getEvent() {
 	return $this->event;
@@ -128,7 +128,7 @@ class Comment {
     /**
      * \fn	getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	int
+     * @return	int
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -137,7 +137,7 @@ class Comment {
     /**
      * \fn	getImage()
      * \brief	Return the related image id
-     * \return	int
+     * @return	int
      */
     public function getImage() {
 	return $this->image;
@@ -146,7 +146,7 @@ class Comment {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	latitude
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -155,7 +155,7 @@ class Comment {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -164,7 +164,7 @@ class Comment {
     /**
      * \fn	int getLovecounter()
      * \brief	Return the int value of loveCounter, counting the love action on the comment
-     * \return	int
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
@@ -173,7 +173,7 @@ class Comment {
     /**
      * \fn	getRecord()
      * \brief	Return the record value id
-     * \return	string
+     * @return	string
      */
     public function getRecord() {
 	return $this->record;
@@ -182,7 +182,7 @@ class Comment {
     /**
      * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
-     * \return	int
+     * @return	int
      */
     public function getSharecounter() {
 	return $this->sharecounter;
@@ -191,7 +191,7 @@ class Comment {
     /**
      * \fn	getSong()
      * \brief	Return the song value id
-     * \return	int
+     * @return	int
      */
     public function getSong() {
 	return $this->song;
@@ -200,7 +200,7 @@ class Comment {
     /**
      * \fn	getTag()
      * \brief	Return the tags value
-     * \return	int
+     * @return	int
      */
     public function getTag() {
 	return $this->tag;
@@ -209,7 +209,7 @@ class Comment {
     /**
      * \fn	getText()
      * \brief	Return the text value
-     * \return	string
+     * @return	string
      */
     public function getText() {
 	return $this->text;
@@ -218,7 +218,7 @@ class Comment {
     /**
      * \fn	getTitle()
      * \brief	Return the title value, NULL for any type but Review R
-     * \return	array
+     * @return	array
      */
     public function getTitle() {
 	return $this->title;
@@ -227,7 +227,7 @@ class Comment {
     /**
      * \fn	getTouser()
      * \brief	Return the toUser value, id
-     * \return	int
+     * @return	int
      */
     public function getTouser() {
 	return $this->touser;
@@ -236,7 +236,7 @@ class Comment {
     /**
      * \fn	getType()
      * \brief	Return the type value
-     * \return	string
+     * @return	string
      */
     public function getType() {
 	return $this->type;
@@ -245,7 +245,7 @@ class Comment {
     /**
      * \fn	getVideo()
      * \brief	Return the video value id
-     * \return	string
+     * @return	string
      */
     public function getVideo() {
 	return $this->video;
@@ -254,7 +254,7 @@ class Comment {
     /**
      * \fn	getVote()
      * \brief	Return the vote, from 1 to 5
-     * \return	int
+     * @return	int
      */
     public function getVote() {
 	return $this->vote;
@@ -479,7 +479,7 @@ class Comment {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Comment object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

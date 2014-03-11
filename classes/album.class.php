@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Maria Laura Fresu
- *  \version		0.3
+ *  @author		Maria Laura Fresu
+ *  @version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -41,7 +41,7 @@ class Album {
     /**
      * \fn	getId()
      * \brief	Return the id value
-     * \return	string
+     * @return	string
      */
     public function getId() {
 	return $this->id;
@@ -50,7 +50,7 @@ class Album {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Album creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -59,7 +59,7 @@ class Album {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Album modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -68,7 +68,7 @@ class Album {
     /**
      * \fn	BOOL getActive()
      * \brief	Return the active value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
@@ -77,7 +77,7 @@ class Album {
     /**
      * \fn	getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * @return	int
      */
     public function getCommentcounter() {
 	return $this->commentcounter;
@@ -86,7 +86,7 @@ class Album {
     /**
      * \fn	int getCounter()
      * \brief	Return the counter value
-     * \return	int
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
@@ -95,7 +95,7 @@ class Album {
     /**
      * \fn      getCover()
      * \brief	Return the cover (path file) value
-     * \return	string
+     * @return	string
      */
     public function getCover() {
 	return $this->cover;
@@ -104,7 +104,7 @@ class Album {
     /**
      * \fn	getDescription()
      * \brief	Return the description value
-     * \return	string
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
@@ -113,7 +113,7 @@ class Album {
     /**
      * \fn	getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	int
+     * @return	int
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -122,7 +122,7 @@ class Album {
     /**
      * \fn	int getImagecounter()
      * \brief	Return the image counter value (number of images)
-     * \return	int
+     * @return	int
      */
     public function getImagecounter() {
 	return $this->imagecounter;
@@ -131,7 +131,7 @@ class Album {
     /**
      * \fn	int getImages()
      * \brief	Return the array of images
-     * \return	int
+     * @return	int
      */
     public function getImages() {
 	return $this->images;
@@ -140,7 +140,7 @@ class Album {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	long
+     * @return	long
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -149,7 +149,7 @@ class Album {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -158,7 +158,7 @@ class Album {
     /**
      * \fn	getLovecounter()
      * \brief	Return the int value of loveCounter, counting the love action on the album
-     * \return	int
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
@@ -167,7 +167,7 @@ class Album {
     /**
      * \fn	getSharecounter()
      * \brief	Return the counter for sharing action
-     * \return	int
+     * @return	int
      */
     public function getSharecounter() {
 	return $this->sharecounter;
@@ -176,7 +176,7 @@ class Album {
     /**
      * \fn	getTag()
      * \brief	Return the tags value, array of string to categorize the album
-     * \return	int
+     * @return	int
      */
     public function getTag() {
 	return $this->tag;
@@ -185,7 +185,7 @@ class Album {
     /**
      * \fn	getThumbnail()
      * \brief	Return the thumbnail value
-     * \return	string
+     * @return	string
      */
     public function getThumbnail() {
 	return $this->thumbnail;
@@ -194,7 +194,7 @@ class Album {
     /**
      * \fn	getTitle()
      * \brief	Return the title value
-     * \return	string
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
@@ -365,7 +365,7 @@ class Album {
     /**
      * \fn		string __toString()
      * \brief	Return a printable string representing the Album object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

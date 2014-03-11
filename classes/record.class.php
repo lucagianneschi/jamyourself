@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Stefano Muscas
- *  \version		0.3
+ *  @author		Stefano Muscas
+ *  @version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -47,7 +47,7 @@ class Record {
     /**
      * \fn	int getId()
      * \brief	Return the id value
-     * \return	int
+     * @return	int
      */
     public function getId() {
 	return $this->id;
@@ -56,7 +56,7 @@ class Record {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Record creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -65,7 +65,7 @@ class Record {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Record modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -74,7 +74,7 @@ class Record {
     /**
      * \fn	BOOL getId()
      * \brief	Return the active value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
@@ -83,7 +83,7 @@ class Record {
     /**
      * \fn	string getBuylink()
      * \brief	Return the buylink value
-     * \return	string
+     * @return	string
      */
     public function getBuylink() {
 	return $this->buylink;
@@ -92,7 +92,7 @@ class Record {
     /**
      * \fn	string getCity
      * \brief	Return the city value
-     * \return	string
+     * @return	string
      */
     public function getCity() {
 	return $this->city;
@@ -101,7 +101,7 @@ class Record {
     /**
      * \fn	int getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * @return	int
      */
     public function getCommentcounter() {
 	return $this->commentcounter;
@@ -110,7 +110,7 @@ class Record {
     /**
      * \fn	int getCounter()
      * \brief	Return the counter value
-     * \return	int
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
@@ -119,7 +119,7 @@ class Record {
     /**
      * \fn	string getCover()
      * \brief	Return the cover (path file) value
-     * \return	string
+     * @return	string
      */
     public function getCover() {
 	return $this->cover;
@@ -128,7 +128,7 @@ class Record {
     /**
      * \fn	string getDescription()
      * \brief	Return the description value
-     * \return	string
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
@@ -137,7 +137,7 @@ class Record {
     /**
      * \fn	int getDuration()
      * \brief	Return the duration value in second
-     * \return	int
+     * @return	int
      */
     public function getDuration() {
 	return $this->duration;
@@ -146,7 +146,7 @@ class Record {
     /**
      * \fn	int getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	int
+     * @return	int
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -155,7 +155,7 @@ class Record {
     /**
      * \fn	getGenre()
      * \brief	Return the genre value 
-     * \return	int
+     * @return	int
      */
     public function getGenre() {
 	return $this->genre;
@@ -164,7 +164,7 @@ class Record {
     /**
      * \fn	string getLabel()
      * \brief	Return the label value
-     * \return	string
+     * @return	string
      */
     public function getLabel() {
 	return $this->label;
@@ -173,7 +173,7 @@ class Record {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	latitude
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -182,7 +182,7 @@ class Record {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -191,7 +191,7 @@ class Record {
     /**
      * \fn	int getLovecounter()
      * \brief	Return the loveCounter value, number of users who love the record
-     * \return	int
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
@@ -200,7 +200,7 @@ class Record {
     /**
      * \fn	int getReviewcounter()
      * \brief	Return the review counter value (number of review)
-     * \return	int
+     * @return	int
      */
     public function getReviewcounter() {
 	return $this->reviewCounter;
@@ -209,7 +209,7 @@ class Record {
     /**
      * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
-     * \return	int
+     * @return	int
      */
     public function getSharecounter() {
 	return $this->sharecounter;
@@ -218,7 +218,7 @@ class Record {
     /**
      * \fn	int getSongCounter()
      * \brief	Return the song counter value (number of songs)
-     * \return	int
+     * @return	int
      */
     public function getSongCounter() {
 	return $this->songCounter;
@@ -227,7 +227,7 @@ class Record {
     /**
      * \fn	string getThumbnail()
      * \brief	Return the thumbnail (path file) value
-     * \return	string
+     * @return	string
      */
     public function getThumbnail() {
 	return $this->thumbnail;
@@ -236,7 +236,7 @@ class Record {
     /**
      * \fn	string getTitle()
      * \brief	Return the title value
-     * \return	string
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
@@ -245,7 +245,7 @@ class Record {
     /**
      * \fn	getTracklist()
      * \brief	Return the tracklist value,array of Ids of song
-     * \return	int
+     * @return	int
      */
     public function getTracklist() {
 	return $this->tracklist;
@@ -254,7 +254,7 @@ class Record {
     /**
      * \fn	string getYear()
      * \brief	Return the year value
-     * \return	string
+     * @return	string
      */
     public function getYear() {
 	return $this->year;
@@ -479,7 +479,7 @@ class Record {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Record object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

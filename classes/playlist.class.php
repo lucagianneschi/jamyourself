@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Stefano Muscas
- *  \version		0.3
+ *  @author		Stefano Muscas
+ *  @version		0.3
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
@@ -32,7 +32,7 @@ class Playlist {
     /**
      * \fn	int getId()
      * \brief	Return the id value
-     * \return	int
+     * @return	int
      */
     public function getId() {
 	return $this->id;
@@ -41,7 +41,7 @@ class Playlist {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Playlist creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -50,7 +50,7 @@ class Playlist {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Playlist modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -59,7 +59,7 @@ class Playlist {
     /**
      * \fn	BOOL getActive()
      * \brief	Return the active value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
@@ -68,7 +68,7 @@ class Playlist {
     /**
      * \fn	getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	int
+     * @return	int
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -77,7 +77,7 @@ class Playlist {
     /**
      * \fn	string getName()
      * \brief	Return the name value for playlist
-     * \return	string
+     * @return	string
      */
     public function getName() {
 	return $this->name;
@@ -86,7 +86,7 @@ class Playlist {
     /**
      * \fn	int getsongcounter()
      * \brief	Return the song counter value (number of songs)
-     * \return	int
+     * @return	int
      */
     public function getSongcounter() {
 	return $this->songcounter;
@@ -95,7 +95,7 @@ class Playlist {
     /**
      * \fn	int getsongs()
      * \brief	Return the song counter value (number of songs)
-     * \return	int
+     * @return	int
      */
     public function getSongs() {
 	return $this->songs;
@@ -104,7 +104,7 @@ class Playlist {
     /**
      * \fn	BOOL getUnlimited()
      * \brief	Return the unlimited value (YES just for premium account)
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getUnlimited() {
 	return $this->unlimited;
@@ -194,7 +194,7 @@ class Playlist {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Playlist object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

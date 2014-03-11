@@ -1,8 +1,8 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Stafano Muscas
- * \version		1.0
+ * @author		Stafano Muscas
+ * @version		1.0
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
@@ -50,7 +50,7 @@ class SignupController extends REST {
     /**
      * \fn	signup()
      * \brief	mette in sessione le informazioni per corretta visualizzazione
-     * \return
+     * @return
      * \todo
      */
     public function init() {
@@ -149,7 +149,7 @@ class SignupController extends REST {
     /**
      * \fn	signup()
      * \brief	registrazione utente al sito
-     * \return
+     * @return
      * \todo
      */
     public function signup() {
@@ -250,7 +250,7 @@ class SignupController extends REST {
     /**
      * \fn	createDefaultRecord($userId)
      * \brief	crea record di default
-     * \return  $record
+     * @return  $record
      * \todo
      */
     private function createDefaultRecord($userId) {
