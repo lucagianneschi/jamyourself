@@ -34,7 +34,7 @@ class RecordBox {
     /**
      * \fn	init($id)
      * \brief	init for recordBox for personal Page
-     * \param	$id of the user who owns the page
+     * @param	$id of the user who owns the page
      * @todo
      */
     public function init($id, $limit = 3, $skip = 0) {
@@ -53,7 +53,7 @@ class RecordBox {
     /**
      * \fn	initForMediaPage($id)
      * \brief	init for Media Page
-     * \param	$id of the record to display in Media Page
+     * @param	$id of the record to display in Media Page
      * @todo
      */
     public function initForMediaPage($id) {
@@ -72,7 +72,7 @@ class RecordBox {
     /**
      * \fn	init($genre = null, $limit = null, $skip = null)
      * \brief	Init RecordFilter instance for TimeLine
-     * \param	$genre = null, $limit = null, $skip = null
+     * @param	$genre = null, $limit = null, $skip = null
      * @todo
      */
     public function initForStream($lat = null, $long = null, $city = null, $country = null, $genre = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = 'loveCounter') {
@@ -82,7 +82,7 @@ class RecordBox {
     /**
      * \fn	initForTracklist($id)
      * \brief	init for Tracklist
-     * \param	$id of the record to display
+     * @param	$id of the record to display
      * @todo
      */
     public function initForTracklist($id) {

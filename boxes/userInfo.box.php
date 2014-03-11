@@ -34,7 +34,7 @@ class UserInfoBox {
     /**
      * \fn	init($id)
      * \brief	Init InfoBox instance for Personal Page
-     * \param	$id for user that owns the page
+     * @param	$id for user that owns the page
      * @return  instance of UserInfoBox
      */
     public function init($id) {

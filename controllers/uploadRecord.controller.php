@@ -309,7 +309,7 @@ class UploadRecordController extends REST {
     /**
      * \fn	addSongToRecord($record, $songId)
      * \brief   funzione per aggiunta song a record esistente
-     * \param   $record, instance of record.class e songId
+     * @param   $record, instance of record.class e songId
      */
     private function addSongToRecord($record, $song) {
 	try {
@@ -356,7 +356,7 @@ class UploadRecordController extends REST {
     /**
      * \fn	createActivity($fromuser, $recordId, $type = 'RECORDCREATED', $songId = null)
      * \brief   funzione per creazione activity per questo controller
-     * \param   $fromuser, $recordId, $type = 'RECORDUPLOADED', $songId = null
+     * @param   $fromuser, $recordId, $type = 'RECORDUPLOADED', $songId = null
      */
     private function createActivity($fromuser, $recordId, $type = 'RECORDCREATED', $songId = null) {
 	require_once CLASSES_DIR . 'activity.class.php';
@@ -384,7 +384,7 @@ class UploadRecordController extends REST {
     /**
      * \fn	deleteMp3($userId,  $songId)
      * \brief   funzione per cancellazione mp3 dal filesystem
-     * \param   $userId, $recordId, $songId
+     * @param   $userId, $recordId, $songId
      */
     private function deleteMp3($userId, $songId) {
 	$fileManager = new FileManagerService();
@@ -538,7 +538,7 @@ class UploadRecordController extends REST {
     /**
      * \fn	removeSongFromRecord($record, $songId)
      * \brief   funzione per la rimozione di una song da un record
-     * \param   $record, $songId
+     * @param   $record, $songId
      */
     private function removeSongFromRecord($record, $song) {
 	try {
@@ -582,7 +582,7 @@ class UploadRecordController extends REST {
     /**
      * \fn	$userId, $recordId, $songId
      * \brief   funzione per il salvataggio di un mp3
-     * \param   $userId, $recordId, $songId
+     * @param   $userId, $recordId, $songId
      * @return  TRUE id MP3 is saved in the correct folder, FALSE eighter
      */
     private function saveMp3($userId, $songId) {

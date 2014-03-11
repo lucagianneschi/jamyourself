@@ -263,7 +263,7 @@ class Comment {
     /**
      * \fn	void setId($id)
      * \brief	Sets the id value
-     * \param	int
+     * @param	int
      */
     public function setId($id) {
 	$this->id = $id;
@@ -272,7 +272,7 @@ class Comment {
     /**
      * \fn		void setCreatedat($createdat)
      * \brief	Sets the Comment creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -281,7 +281,7 @@ class Comment {
     /**
      * \fn		void setUpdatedat($updatedat)
      * \brief	Sets the Comment modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -290,7 +290,7 @@ class Comment {
     /**
      * \fn	void setActive($active)
      * \brief	Sets the active value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -299,7 +299,7 @@ class Comment {
     /**
      * \fn	void setAlbum($album)
      * \brief	Sets the album value
-     * \param	int
+     * @param	int
      */
     public function setAlbum($album) {
 	$this->album = $album;
@@ -308,7 +308,7 @@ class Comment {
     /**
      * \fn	void setComment($comment)
      * \brief	Sets the comment value
-     * \param	int
+     * @param	int
      */
     public function setComment($comment) {
 	$this->comment = $comment;
@@ -317,7 +317,7 @@ class Comment {
     /**
      * \fn		void setCommentcounter($commentcounter)
      * \brief	Sets the commnetCounter value
-     * \param	int
+     * @param	int
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
@@ -326,7 +326,7 @@ class Comment {
     /**
      * \fn	void setCounter($counter)
      * \brief	Sets the counter value
-     * \param	int
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
@@ -335,7 +335,7 @@ class Comment {
     /**
      * \fn	void setEvent($event)
      * \brief	Sets the event id value
-     * \param	int
+     * @param	int
      */
     public function setEvent($event) {
 	$this->event = $event;
@@ -344,7 +344,7 @@ class Comment {
     /**
      * \fn	void setFromuser($fromuser))
      * \brief	Sets the fromUser value
-     * \param	int
+     * @param	int
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
@@ -353,7 +353,7 @@ class Comment {
     /**
      * \fn	void setImage($image)
      * \brief	Sets the image id value
-     * \param	int
+     * @param	int
      */
     public function setImage($image) {
 	$this->image = $image;
@@ -362,7 +362,7 @@ class Comment {
     /**
      * \fn	void setLatitude($latitude)
      * \brief	Sets the latitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
@@ -371,7 +371,7 @@ class Comment {
     /**
      * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
@@ -380,7 +380,7 @@ class Comment {
     /**
      * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the loveCounter value
-     * \param	int
+     * @param	int
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
@@ -389,7 +389,7 @@ class Comment {
     /**
      * \fn	void setRecord($record)
      * \brief	Sets the record id value
-     * \param	int
+     * @param	int
      */
     public function setRecord($record) {
 	$this->record = $record;
@@ -398,7 +398,7 @@ class Comment {
     /**
      * \fn		void setCounter($sharecounter)
      * \brief	Sets the sharecounter value
-     * \param	int
+     * @param	int
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
@@ -407,7 +407,7 @@ class Comment {
     /**
      * \fn	void setSong($song)
      * \brief	Sets the song id value
-     * \param	int
+     * @param	int
      */
     public function setSong($song) {
 	$this->song = $song;
@@ -416,7 +416,7 @@ class Comment {
     /**
      * \fn	void setTag($tag)
      * \brief	Sets the tags value
-     * \param	int
+     * @param	int
      */
     public function setTag($tag) {
 	$this->tag = $tag;
@@ -425,7 +425,7 @@ class Comment {
     /**
      * \fn	void setText($text)
      * \brief	Sets the text value
-     * \param	string
+     * @param	string
      */
     public function setText($text) {
 	$this->text = $text;
@@ -434,7 +434,7 @@ class Comment {
     /**
      * \fn	void setTitle($title)
      * \brief	Sets the title
-     * \param	string
+     * @param	string
      */
     public function setTitle($title) {
 	$this->title = $title;
@@ -443,7 +443,7 @@ class Comment {
     /**
      * \fn	void setTouser($touser)
      * \brief	Sets the toUser id value
-     * \param	int
+     * @param	int
      */
     public function setTouser($touser) {
 	$this->touser = $touser;
@@ -452,7 +452,7 @@ class Comment {
     /**
      * \fn	void setType($type)
      * \brief	Sets the type id value
-     * \param	string
+     * @param	string
      */
     public function setType($type) {
 	$this->type = $type;
@@ -461,7 +461,7 @@ class Comment {
     /**
      * \fn	void setVideo($video)
      * \brief	Sets the video id value
-     * \param	int
+     * @param	int
      */
     public function setVideo($video) {
 	$this->video = $video;
@@ -470,7 +470,7 @@ class Comment {
     /**
      * \fn		void setVote($vote)
      * \brief	Sets the vote value
-     * \param	int
+     * @param	int
      */
     public function setVote($vote) {
 	$this->vote = $vote;

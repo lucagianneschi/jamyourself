@@ -283,7 +283,7 @@ class Event {
     /**
      * \fn	void setId($id)
      * \brief	Sets the id value
-     * \param	string
+     * @param	string
      */
     public function setId($id) {
 	$this->id = $id;
@@ -292,7 +292,7 @@ class Event {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the Event creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -301,7 +301,7 @@ class Event {
     /**
      * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the Event modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -310,7 +310,7 @@ class Event {
     /**
      * \fn	void setActive($active)
      * \brief	Sets the active value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -319,7 +319,7 @@ class Event {
     /**
      * \fn		void setAddress($address)
      * \brief	Sets the address value
-     * \param	string
+     * @param	string
      */
     public function setAddress($address) {
 	$this->address = $address;
@@ -328,7 +328,7 @@ class Event {
     /**
      * \fn	void setAttendeecounter($attendeecounter)
      * \brief	Sets the attendeeCounter value
-     * \param	int
+     * @param	int
      */
     public function setAttendeecounter($attendeecounter) {
 	$this->attendeecounter = $attendeecounter;
@@ -337,7 +337,7 @@ class Event {
     /**
      * \fn	void setCancelledcounter($cancelledCounter)
      * \brief	Sets the cancelledcounter value
-     * \param	int
+     * @param	int
      */
     public function setCancelledcounter($cancelledcounter) {
 	$this->cancelledcounter = $cancelledcounter;
@@ -346,7 +346,7 @@ class Event {
     /**
      * \fn	void setCity($city)
      * \brief	Sets the city value
-     * \param	string
+     * @param	string
      */
     public function setCity($city) {
 	$this->city = $city;
@@ -355,7 +355,7 @@ class Event {
     /**
      * \fn	void setCommentcounter($commentcounter)
      * \brief	Sets the commnetCounter value
-     * \param	int
+     * @param	int
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
@@ -364,7 +364,7 @@ class Event {
     /**
      * \fn		void setCounter($counter)
      * \brief	Sets the counter value
-     * \param	int
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
@@ -373,7 +373,7 @@ class Event {
     /**
      * \fn	void setCover($cover)
      * \brief	Sets the cover value
-     * \param	string
+     * @param	string
      */
     public function setCover($cover) {
 	$this->cover = $cover;
@@ -382,7 +382,7 @@ class Event {
     /**
      * \fn	void setDescription($description)
      * \brief	Sets the description value
-     * \param	string
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
@@ -391,7 +391,7 @@ class Event {
     /**
      * \fn	setEventDate($eventDate)
      * \brief	Sets the Event Date date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setEventdate($eventdate) {
 	$this->eventdate = $eventdate;
@@ -400,7 +400,7 @@ class Event {
     /**
      * \fn	void setFromuser($fromuser))
      * \brief	Sets the fromUser value
-     * \param	int
+     * @param	int
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
@@ -409,7 +409,7 @@ class Event {
     /**
      * \fn	void setGenre($genre)
      * \brief	Sets the genre value, array for genres
-     * \param	int
+     * @param	int
      */
     public function setGenre($genre) {
 	$this->genre = $genre;
@@ -418,7 +418,7 @@ class Event {
     /**
      * \fn	setInvitedCounter($invitedCounter)
      * \brief	Sets the invitedCounter value
-     * \param	int
+     * @param	int
      */
     public function setInvitedCounter($invitedCounter) {
 	$this->invitedCounter = $invitedCounter;
@@ -427,7 +427,7 @@ class Event {
     /**
      * \fn	void setLatitude($latitude)
      * \brief	Sets the latitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
@@ -436,7 +436,7 @@ class Event {
     /**
      * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
@@ -445,7 +445,7 @@ class Event {
     /**
      * \fn	void setLocationName($locationName)
      * \brief	Sets the locationName value
-     * \param	string
+     * @param	string
      */
     public function setLocationname($locationname) {
 	$this->locationname = $locationname;
@@ -454,7 +454,7 @@ class Event {
     /**
      * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the loveCounter value
-     * \param	int
+     * @param	int
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
@@ -463,7 +463,7 @@ class Event {
     /**
      * \fn	void  setRefusedCounter($refusedcounter)
      * \brief	Sets the refusedCounter value
-     * \param	int
+     * @param	int
      */
     public function setRefusedcounter($refusedcounter) {
 	$this->refusedcounter = $refusedcounter;
@@ -472,7 +472,7 @@ class Event {
     /**
      * \fn	void setReviewcounter($reviewcounter)
      * \brief	Sets the reviewcounter value
-     * \param	int
+     * @param	int
      */
     public function setReviewcounter($reviewcounter) {
 	$this->reviewcounter = $reviewcounter;
@@ -481,7 +481,7 @@ class Event {
     /**
      * \fn	void setCounter($sharecounter)
      * \brief	Sets the sharecounter value
-     * \param	int
+     * @param	int
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
@@ -490,7 +490,7 @@ class Event {
     /**
      * \fn	void setTag($tag)
      * \brief	Sets the tags value
-     * \param	int
+     * @param	int
      */
     public function setTag($tag) {
 	$this->tag = $tag;
@@ -499,7 +499,7 @@ class Event {
     /**
      * \fn	void setThumbnail($thumbnail)
      * \brief	Sets the thumbnail value
-     * \param	string
+     * @param	string
      */
     public function setThumbnail($thumbnail) {
 	$this->thumbnail = $thumbnail;
@@ -508,7 +508,7 @@ class Event {
     /**
      * \fn	void setTitle($title)
      * \brief	Sets the title value
-     * \param	string
+     * @param	string
      */
     public function setTitle($title) {
 	$this->title = $title;
@@ -536,7 +536,7 @@ class Event {
 	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	$eventDate = new DateTime($this->getEventdate());
-	$string .= '[eventdate] => ' . $evetDate->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[eventdate] => ' . $eventDate->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	foreach ($this->getGenre() as $genre) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';

@@ -41,7 +41,7 @@ class StreamBox {
     /**
      * \fn	init
      * \brief	timeline init
-     * \param	$limit, $skip
+     * @param	$limit, $skip
      * @todo
      */
     public function init($limit = DEFAULTQUERY, $skip = null) {
@@ -66,7 +66,7 @@ class StreamBox {
     /**
      * \fn	createActivityArray($userType)
      * \brief	private funtion for creating the activity type array based on the user type
-     * \param	$userType
+     * @param	$userType
      * @todo
      */
     private function createActivityArray($userType) {

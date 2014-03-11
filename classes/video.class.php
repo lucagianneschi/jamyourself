@@ -173,7 +173,7 @@ class Video {
     /**
      * \fn	void setId($id)
      * \brief	Sets the id value
-     * \param	int
+     * @param	int
      */
     public function setId($id) {
 	$this->id = $id;
@@ -182,7 +182,7 @@ class Video {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the Video creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -191,7 +191,7 @@ class Video {
     /**
      * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the Video modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -200,7 +200,7 @@ class Video {
     /**
      * \fn	void setActive($active)
      * \brief	Sets the active value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -209,7 +209,7 @@ class Video {
     /**
      * \fn	void setAuthor($author)
      * \brief	Sets the author value
-     * \param	string
+     * @param	string
      */
     public function setAuthor($author) {
 	$this->author = $author;
@@ -218,7 +218,7 @@ class Video {
     /**
      * \fn	void setCounter($counter)
      * \brief	Sets the counter value
-     * \param	int
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
@@ -227,7 +227,7 @@ class Video {
     /**
      * \fn	void setCover($cover))
      * \brief	Sets the cover value
-     * \param	string
+     * @param	string
      */
     public function setCover($cover) {
 	$this->cover = $cover;
@@ -236,7 +236,7 @@ class Video {
     /**
      * \fn	void setDescription($description)
      * \brief	Sets the description value
-     * \param	string
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
@@ -245,7 +245,7 @@ class Video {
     /**
      * \fn	void setDuration($duration)
      * \brief	Sets the duration value
-     * \param	int
+     * @param	int
      */
     public function setDuration($duration) {
 	$this->duration = $duration;
@@ -254,7 +254,7 @@ class Video {
     /**
      * \fn	void setFromuser($fromuser))
      * \brief	Sets the fromUser value
-     * \param	int
+     * @param	int
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
@@ -263,7 +263,7 @@ class Video {
     /**
      * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the loveCounter value
-     * \param	int
+     * @param	int
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
@@ -272,7 +272,7 @@ class Video {
     /**
      * \fn	void setTag($tag)
      * \brief	Sets the tags value,array of strings
-     * \param	int
+     * @param	int
      */
     public function setTag($tag) {
 	$this->tag = $tag;
@@ -281,7 +281,7 @@ class Video {
     /**
      * \fn	void setThumbnail($thumbnail)
      * \brief	Sets the thumbnail value, url of the cover image of the video
-     * \param	string
+     * @param	string
      */
     public function setThumbnail($thumbnail) {
 	$this->thumbnail = $thumbnail;
@@ -290,7 +290,7 @@ class Video {
     /**
      * \fn	void setTitle($title)
      * \brief	Sets the title value
-     * \param	string
+     * @param	string
      */
     public function setTitle($title) {
 	$this->title = $title;
@@ -299,7 +299,7 @@ class Video {
     /**
      * \fn	void setURL($URL)
      * \brief	Sets the URL value, url of the video
-     * \param	string
+     * @param	string
      */
     public function setURL($URL) {
 	$this->URL = $URL;

@@ -161,7 +161,7 @@ class UploadAlbumController extends REST {
     /**
      * \fn	createActivity($fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null)
      * \brief   funzione per creazione activity per questo controller
-     * \param   $fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null
+     * @param   $fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null
      */
     private function createActivity($fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null) {
 	require_once CLASSES_DIR . 'activity.class.php';

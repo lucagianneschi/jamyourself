@@ -33,7 +33,7 @@ class Error {
     /**
      * \fn	void setErrorMessage($errorMessage)
      * \brief	Sets the Error message
-     * \param	string
+     * @param	string
      */
     public function setErrormessage($errormessage) {
 	$this->errormessage = $errormessage;

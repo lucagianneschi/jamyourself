@@ -193,7 +193,7 @@ class Song {
     /**
      * \fn	void setId($id)
      * \brief	Sets the id value
-     * \param	int
+     * @param	int
      */
     public function setId($id) {
 	$this->id = $id;
@@ -202,7 +202,7 @@ class Song {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the Song creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -211,7 +211,7 @@ class Song {
     /**
      * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the Song modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -220,7 +220,7 @@ class Song {
     /**
      * \fn	void setActive($active)
      * \brief	Sets the active  value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -229,7 +229,7 @@ class Song {
     /**
      * \fn	void setCommentcounter($commentcounter)
      * \brief	Sets the commnetCounter value
-     * \param	int
+     * @param	int
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
@@ -238,7 +238,7 @@ class Song {
     /**
      * \fn	void setCounter($counter)
      * \brief	Sets the counter  value
-     * \param	int
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
@@ -247,7 +247,7 @@ class Song {
     /**
      * \fn	void setDuration($duration)
      * \brief	Sets the duration value
-     * \param	int
+     * @param	int
      */
     public function setDuration($duration) {
 	$this->duration = $duration;
@@ -256,7 +256,7 @@ class Song {
     /**
      * \fn	void setFromuser($fromuser)
      * \brief	Sets the fromUser id  value
-     * \param	string
+     * @param	string
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
@@ -265,7 +265,7 @@ class Song {
     /**
      * \fn	void setGenre($genre) 
      * \brief	Sets the genre value
-     * \param	string
+     * @param	string
      */
     public function setGenre($genre) {
 	$this->genre = $genre;
@@ -274,7 +274,7 @@ class Song {
     /**
      * \fn	void setLatitude($latitude)
      * \brief	Sets the latitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
@@ -283,7 +283,7 @@ class Song {
     /**
      * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
@@ -292,7 +292,7 @@ class Song {
     /**
      * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the LoveCounter  value
-     * \param	int
+     * @param	int
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
@@ -301,7 +301,7 @@ class Song {
     /**
      * \fn	void setpath($pPath)
      * \brief	Sets the path value
-     * \param	string
+     * @param	string
      */
     public function setPath($path) {
 	$this->path = $path;
@@ -310,7 +310,7 @@ class Song {
     /**
      * \fn	setPosition($position)
      * \brief	Sets the position value
-     * \param	string
+     * @param	string
      */
     public function setPosition($position) {
 	$this->position = $position;
@@ -319,7 +319,7 @@ class Song {
     /**
      * \fn	void setRecord($record) 
      * \brief	Sets the record id value
-     * \param	int
+     * @param	int
      */
     public function setRecord($record) {
 	$this->record = $record;
@@ -328,7 +328,7 @@ class Song {
     /**
      * \fn	void setCounter($sharecounter)
      * \brief	Sets the sharecounter value
-     * \param	int
+     * @param	int
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
@@ -337,7 +337,7 @@ class Song {
     /**
      * \fn	void setTitle($title) 
      * \brief	Sets the title value
-     * \param	string
+     * @param	string
      */
     public function setTitle($title) {
 	$this->title = $title;

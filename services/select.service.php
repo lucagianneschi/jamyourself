@@ -24,7 +24,7 @@ require_once SERVICES_DIR . 'connection.service.php';
 /**
  * \fn	    existsRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType)
  * \brief   Check if a relation exist between 2 nodes
- * \param   $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType
+ * @param   $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType
  * @todo
  */
 function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType) {
@@ -52,7 +52,7 @@ function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 /**
  * \fn	    getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType)
  * \brief   Get list of nodes in relation with the first node
- * \param   $fromNodeType, $fromNodeId, $toNodeType, $relationType
+ * @param   $fromNodeType, $fromNodeId, $toNodeType, $relationType
  * @todo
  */
 function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType) {
@@ -101,7 +101,7 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
 /**
  * \fn	    query($sql)
  * \brief   Execute generic query
- * \param   $ql string for query
+ * @param   $ql string for query
  * @todo
  */
 function query($connection, $sql) {
@@ -114,7 +114,7 @@ function query($connection, $sql) {
 /**
  * \fn	    selectAlbums($connection, $id, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Album Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectAlbums($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -231,7 +231,7 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
 /**
  * \fn	    selectComments($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Event Class
- * \param   $id, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id, $where = null, $order = null, $limit = null, $skip = null
  * @todo    prendere soltanto i parametri di interesse in base a confronto con box esistente
  */
 function selectComments($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -729,7 +729,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 /**
  * \fn	    selectEvents($connection, $id, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Event Class
- * \param   $id, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectEvents($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -878,7 +878,7 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
 /**
  * \fn	    selectImages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectImages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -999,7 +999,7 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
 /**
  * \fn	    selectMessages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Comment Class, messages
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectMessages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1127,7 +1127,7 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
 /**
  * \fn	    selectPlaylists($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Playlist Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectPlaylists($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1208,7 +1208,7 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
 /**
  * \fn	    selectPosts($connection,$id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectPosts($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1336,7 +1336,7 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
 /**
  * \fn	    selectRecords($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectRecords($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1465,7 +1465,7 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
 /**
  * \fn	    selectReviewEvent($connection,$id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Comment Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectReviewEvent($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1673,7 +1673,7 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 /**
  * \fn	    selectReviewRecord($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Comment Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectReviewRecord($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1862,7 +1862,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 /**
  * \fn	    selectSongs($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectSongs($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1976,7 +1976,7 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
 /**
  * \fn	    selectSongs($connection,$id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) {
@@ -2063,7 +2063,7 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
 /**
  * \fn	    selectUsers($connection,$id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectUsers($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -2225,7 +2225,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 /**
  * \fn	    selectVideos($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
  * @todo
  */
 function selectVideos($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {

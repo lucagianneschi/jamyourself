@@ -455,7 +455,7 @@ class RelationController extends REST {
     /**
      * \fn	createActivity($type, $toUserId, $currentUserId, $status)
      * \brief   private function to create activity class instance
-     * \param   $type, $toUserId, $currentUserId, $status
+     * @param   $type, $toUserId, $currentUserId, $status
      */
     private function createActivity($type, $toUserId, $currentUserId, $status) {
 	require_once CLASSES_DIR . 'activity.class.php';

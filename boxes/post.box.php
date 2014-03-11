@@ -34,7 +34,7 @@ class PostBox {
     /**
      * \fn	init($id)
      * \brief	Init PostBox instance for Personal Page
-     * \param	$id for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
+     * @param	$id for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
      * @return	postBox
      * @todo
      */

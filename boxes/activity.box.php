@@ -41,7 +41,7 @@ class ActivitySongBox {
     /**
      * \fn	init($id)
      * \brief	Init ActivitySongBox instance for Personal Page
-     * \param	$id for user that owns the page
+     * @param	$id for user that owns the page
      */
     public function init($id) {
     }
@@ -69,7 +69,7 @@ class ActivityEventBox {
     /**
      * \fn	init($id)
      * \brief	Init ActivityEventBox instance for Personal Page
-     * \param	$id for user that owns the page
+     * @param	$id for user that owns the page
      */
     public function init($id) {
 

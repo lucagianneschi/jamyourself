@@ -413,7 +413,7 @@ class User {
     /**
      * \fn		void setId($id)
      * \brief	Sets the id value
-     * \param	string
+     * @param	string
      */
     public function setId($id) {
 	$this->id = $id;
@@ -422,7 +422,7 @@ class User {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the User creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat(DateTime $updatedat) {
 	$this->updatedat = $updatedat;
@@ -431,7 +431,7 @@ class User {
     /**
      * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the User modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat(DateTime $createdat) {
 	$this->createdat = $createdat;
@@ -440,7 +440,7 @@ class User {
     /**
      * \fn		void setActive($active)
      * \brief	Sets the active value of the User
-     * \param	boolean
+     * @param	boolean
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -449,7 +449,7 @@ class User {
     /**
      * \fn		void setAddress($address)
      * \brief	Sets the address of the User
-     * \param	string
+     * @param	string
      */
     public function setAddress($address) {
 	$this->address = $address;
@@ -458,7 +458,7 @@ class User {
     /**
      * \fn	void setAvatar($avatar)
      * \brief	Sets the avatar of the User
-     * \param	string
+     * @param	string
      */
     public function setAvatar($avatar) {
 	$this->avatar = $avatar;
@@ -467,7 +467,7 @@ class User {
     /**
      * \fn		void setBackground($background)
      * \brief	Sets the background value of the User
-     * \param	string
+     * @param	string
      */
     public function setBackground($background) {
 	$this->background = $background;
@@ -476,7 +476,7 @@ class User {
     /**
      * \fn	string setBirthday($birthday)
      * \brief	Sets the birthday of the User represented by a string with format YYYY-MM-DD
-     * \param	string
+     * @param	string
      */
     public function setBirthday($birthday) {
 	$this->birthday = $birthday;
@@ -485,7 +485,7 @@ class User {
     /**
      * \fn	void setCity($city)
      * \brief	Sets the city value of the User
-     * \param	string
+     * @param	string
      */
     public function setCity($city) {
 	$this->city = $city;
@@ -494,7 +494,7 @@ class User {
     /**
      * \fn	void setLevel($collaborationcounter)
      * \brief	Sets the collaborationcounter of the User
-     * \param	number
+     * @param	number
      */
     public function setCollaborationcounter($collaborationcounter) {
 	$this->collaborationcounter = $collaborationcounter;
@@ -503,7 +503,7 @@ class User {
     /**
      * \fn	void setCountry($country)
      * \brief	Sets the country value of the User
-     * \param	string
+     * @param	string
      */
     public function setCountry($country) {
 	$this->country = $country;
@@ -512,7 +512,7 @@ class User {
     /**
      * \fn	void setDescription($description)
      * \brief	Sets the description value of the User
-     * \param	string
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
@@ -521,7 +521,7 @@ class User {
     /**
      * \fn	void setEmail($email)
      * \brief	Sets the email value of the User
-     * \param	string
+     * @param	string
      */
     public function setEmail($email) {
 	$this->email = $email;
@@ -530,7 +530,7 @@ class User {
     /**
      * \fn	string setFacebookid($facebookId)
      * \brief	Sets the facebook id of the User
-     * \param	string
+     * @param	string
      */
     public function setFacebookid($facebookid) {
 	$this->facebookid = $facebookid;
@@ -539,7 +539,7 @@ class User {
     /**
      * \fn	void setFacebookpage($facebookpage)
      * \brief	Sets the facebook page link of the User
-     * \param	string
+     * @param	string
      */
     public function setFacebookpage($facebookpage) {
 	$this->facebookpage = $facebookpage;
@@ -548,7 +548,7 @@ class User {
     /**
      * \fn	string setFirstname($firstname)
      * \brief	Sets the firstname id of the User
-     * \param	string
+     * @param	string
      */
     public function setFirstname($firstname) {
 	$this->firstname = $firstname;
@@ -557,7 +557,7 @@ class User {
     /**
      * \fn	void setFollowerscounter($followerscounter)
      * \brief	Sets the followerscounter of the User
-     * \param	number
+     * @param	number
      */
     public function setFollowerscounter($followerscounter) {
 	$this->followerscounter = $followerscounter;
@@ -566,7 +566,7 @@ class User {
     /**
      * \fn	void setFollowingcounter($followingcounter)
      * \brief	Sets the followingcounter of the User
-     * \param	number
+     * @param	number
      */
     public function setFollowingcounter($followingcounter) {
 	$this->followingcounter = $followingcounter;
@@ -575,7 +575,7 @@ class User {
     /**
      * \fn	void setFriendshipcounter($friendshipcounter)
      * \brief	Sets the friendshipcounter of the User
-     * \param	number
+     * @param	number
      */
     public function setFriendshipcounter($friendshipcounter) {
 	$this->friendshipcounter = $friendshipcounter;
@@ -584,7 +584,7 @@ class User {
     /**
      * \fn	void setGooglepluspage($googlepluspage)
      * \brief	Sets the google plus page link of the User
-     * \param	string
+     * @param	string
      */
     public function setGooglepluspage($googlepluspage) {
 	$this->googlepluspage = $googlepluspage;
@@ -593,7 +593,7 @@ class User {
     /**
      * \fn	void setJammercounter($jammercounter)
      * \brief	Sets the jammer counter 
-     * \param	number
+     * @param	number
      */
     public function setJammercounter($jammercounter) {
 	$this->jammercounter = $jammercounter;
@@ -602,7 +602,7 @@ class User {
     /**
      * \fn	void setJammertype($jammertype)
      * \brief	Sets the jammer type of the User
-     * \param	string
+     * @param	string
      */
     public function setJammertype($jammertype) {
 	$this->jammertype = $jammertype;
@@ -611,7 +611,7 @@ class User {
     /**
      * \fn	string setLastname($lastname)
      * \brief	Sets the lastname id of the User
-     * \param	string
+     * @param	string
      */
     public function setLastname($lastname) {
 	$this->lastname = $lastname;
@@ -620,7 +620,7 @@ class User {
     /**
      * \fn	void setLatitude($latitude)
      * \brief	Sets the latitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
@@ -629,7 +629,7 @@ class User {
     /**
      * \fn		void setLevel($level)
      * \brief	Sets the level of the User
-     * \param	number
+     * @param	number
      */
     public function setLevel($level) {
 	$this->level = $level;
@@ -638,7 +638,7 @@ class User {
     /**
      * \fn		void setLevelvalue($levelvalue)
      * \brief	Sets the level value of the User
-     * \param	number
+     * @param	number
      */
     public function setLevelvalue($levelvalue) {
 	$this->view = $levelvalue;
@@ -647,7 +647,7 @@ class User {
     /**
      * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
@@ -656,7 +656,7 @@ class User {
     /**
      * \fn		void setMembers($members)
      * \brief	Sets an array of id of the User related with the User
-     * \param	array
+     * @param	array
      */
     public function setMembers($members) {
 	$this->members = $members;
@@ -665,7 +665,7 @@ class User {
     /**
      * \fn		void setPassword($password)
      * \brief	Sets the password value of the User
-     * \param	string
+     * @param	string
      */
     public function setPassword($password) {
 	$this->password = $password;
@@ -674,7 +674,7 @@ class User {
     /**
      * \fn		void setPremium($premium)
      * \brief	Sets if the User has a Premium account
-     * \param	boolean
+     * @param	boolean
      */
     public function setPremium($premium) {
 	$this->premium = $premium;
@@ -683,7 +683,7 @@ class User {
     /**
      * \fn		void setPremiumexpirationdate($premiumexpirationdate)
      * \brief	Sets the expiration date of the User Premium account
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setPremiumexpirationdate($premiumexpirationdate) {
 	$this->premiumexpirationdate = $premiumexpirationdate;
@@ -692,7 +692,7 @@ class User {
     /**
      * \fn	void setThumbnail($thumbnail)
      * \brief	Sets the profile picture thumbnail link of the User
-     * \param	string
+     * @param	string
      */
     public function setThumbnail($thumbnail) {
 	$this->thumbnail = $thumbnail;
@@ -701,7 +701,7 @@ class User {
     /**
      * \fn	void setSettings($settings)
      * \brief	Sets an array of settings of the User
-     * \param	array
+     * @param	array
      */
     public function setSettings($settings) {
 	$this->settings = $settings;
@@ -710,7 +710,7 @@ class User {
     /**
      * \fn	string setSex($sex)
      * \brief	Sets the sex id of the User
-     * \param	string
+     * @param	string
      */
     public function setSex($sex) {
 	$this->sex = $sex;
@@ -719,7 +719,7 @@ class User {
     /**
      * \fn	void setTwitterpage($twitterpage)
      * \brief	Sets the twitter page link of the User
-     * \param	string
+     * @param	string
      */
     public function setTwitterpage($twitterpage) {
 	$this->twitterpage = $twitterpage;
@@ -728,7 +728,7 @@ class User {
     /**
      * \fn	void setType($type)
      * \brief	Sets the type of the User
-     * \param	string
+     * @param	string
      */
     public function setType($type) {
 	$this->type = $type;
@@ -737,7 +737,7 @@ class User {
     /**
      * \fn		void setUsername($username)
      * \brief	Sets the username value of the User
-     * \param	string
+     * @param	string
      */
     public function setUsername($username) {
 	$this->username = $username;
@@ -746,7 +746,7 @@ class User {
     /**
      * \fn	void setVenuecounter($venuecounter)
      * \brief	Sets the venue counter 
-     * \param	number
+     * @param	number
      */
     public function setVenuecounter($venuecounter) {
 	$this->venuecounter = $venuecounter;
@@ -755,7 +755,7 @@ class User {
     /**
      * \fn	void setWebsite($website)
      * \brief	Sets the website link of the User
-     * \param	string
+     * @param	string
      */
     public function setWebsite($website) {
 	$this->website = $website;
@@ -764,7 +764,7 @@ class User {
     /**
      * \fn	void setYoutubechannel($youtubechannel)
      * \brief	Sets the youtube channel link of the User
-     * \param	string
+     * @param	string
      */
     public function setYoutubechannel($youtubechannel) {
 	$this->youtubechannel = $youtubechannel;

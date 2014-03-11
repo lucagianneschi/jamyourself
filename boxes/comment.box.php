@@ -34,8 +34,8 @@ class CommentBox {
     /**
      * \fn	init($id, $limit, $skip)
      * \brief	Init CommentBox instance all over the website
-     * \param	$className for the instance of the class that has been commented, $id for object that has been commented,
-     * \param   $limit number of objects to retreive, $skip number of objects to skip
+     * @param	$className for the instance of the class that has been commented, $id for object that has been commented,
+     * @param   $limit number of objects to retreive, $skip number of objects to skip
      */
     public function init($id, $classname, $limit = DEFAULTQUERY, $skip = 0) {
 	$connectionService = new ConnectionService();

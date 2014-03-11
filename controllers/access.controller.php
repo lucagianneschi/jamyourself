@@ -99,7 +99,7 @@ class AccessController extends REST {
     /**
      * \fn      private function checkEmailOrUsername($password, $name)
      * \brief   check if user credentials are correct
-     * \param   $password, $name
+     * @param   $password, $name
      * @todo
      */
     private function checkEmailOrUsername($connection, $password, $name) {

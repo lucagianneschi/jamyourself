@@ -203,7 +203,7 @@ class Album {
     /**
      * \fn	void setId($id)
      * \brief	Sets the id value
-     * \param	string
+     * @param	string
      */
     public function setId($id) {
 	$this->id = $id;
@@ -212,7 +212,7 @@ class Album {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the Album creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -221,7 +221,7 @@ class Album {
     /**
      * \fn		void setUpdatedat($updatedat)
      * \brief	Sets the Album modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -230,7 +230,7 @@ class Album {
     /**
      * \fn	void setActive($active)
      * \brief	Sets the active value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -239,7 +239,7 @@ class Album {
     /**
      * \fn	void setCommentcounter($commentcounter)
      * \brief	Sets the commnetCounter value
-     * \param	int
+     * @param	int
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
@@ -248,7 +248,7 @@ class Album {
     /**
      * \fn	void setCounter($counter)
      * \brief	Sets the counter value
-     * \param	int
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
@@ -257,7 +257,7 @@ class Album {
     /**
      * \fn	void setCover($cover)
      * \brief	Sets the cover value
-     * \param	string
+     * @param	string
      */
     public function setCover($cover) {
 	$this->cover = $cover;
@@ -266,7 +266,7 @@ class Album {
     /**
      * \fn	void setDescription($description)
      * \brief	Sets the description value
-     * \param	string
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
@@ -275,7 +275,7 @@ class Album {
     /**
      * \fn	setFromuser($fromuser))
      * \brief	Sets the fromUser value, int id
-     * \param	int
+     * @param	int
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
@@ -284,7 +284,7 @@ class Album {
     /**
      * \fn	void setImagecounter($imagecounter)
      * \brief	Sets the imagetCounter value
-     * \param	int
+     * @param	int
      */
     public function setImagecounter($imagecounter) {
 	$this->imagecounter = $imagecounter;
@@ -293,7 +293,7 @@ class Album {
     /**
      * \fn	void setImages($images)
      * \brief	Sets the images value
-     * \param	array
+     * @param	array
      */
     public function setImages($images) {
 	$this->images = $images;
@@ -302,7 +302,7 @@ class Album {
     /**
      * \fn	void setLatitude($latitude)
      * \brief	Sets the latitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
@@ -311,7 +311,7 @@ class Album {
     /**
      * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
@@ -320,7 +320,7 @@ class Album {
     /**
      * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the loveCounter value
-     * \param	int
+     * @param	int
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
@@ -329,7 +329,7 @@ class Album {
     /**
      * \fn	void setCounter($sharecounter)
      * \brief	Sets the sharecounter value
-     * \param	int
+     * @param	int
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
@@ -338,7 +338,7 @@ class Album {
     /**
      * \fn	void setTag($tag)
      * \brief	Sets the tags value,array of strings
-     * \param	array
+     * @param	array
      */
     public function setTag($tag) {
 	$this->tag = $tag;
@@ -347,7 +347,7 @@ class Album {
     /**
      * \fn	void setTitle($title)
      * \brief	Sets the title value
-     * \param	string
+     * @param	string
      */
     public function setTitle($title) {
 	$this->title = $title;
@@ -356,7 +356,7 @@ class Album {
     /**
      * \fn	void setThumbnail($thumbnail)
      * \brief	Sets the thumbnail value
-     * \param	string
+     * @param	string
      */
     public function setThumbnail($thumbnail) {
 	$this->thumbnail = $thumbnail;

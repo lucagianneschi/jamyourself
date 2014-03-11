@@ -33,7 +33,7 @@ class ElementList {
     /**
      * \fn	__construct($read,$userInfo)
      * \brief	construct for the ElementList
-     * \param	$read,$userInfo
+     * @param	$read,$userInfo
      */
     function __construct($read, $userInfo) {
 	is_null($read) ? $this->read = false : $this->read = $read;
@@ -58,7 +58,7 @@ class MessageInfo {
     /**
      * \fn	__construct($createdat, $id, $send, $text)
      * \brief	construct for the MessageInfo class
-     * \param	$createdat, $id, $send, $text, $title
+     * @param	$createdat, $id, $send, $text, $title
      */
     function __construct($activityId, $createdat, $id, $read, $send, $text) {
 	is_null($activityId) ? $this->activityId = null : $this->activityId = $activityId;
@@ -83,7 +83,7 @@ class MessageBox {
     /**
      * \fn	initForUserList($id, $otherId, $limit, $skip)
      * \brief	Init MessageBox instance for Message Page, left column
-     * \param	$id for user that owns the page $limit, $skip
+     * @param	$id for user that owns the page $limit, $skip
      * @todo    
      * @return	MessageBox, error in case of error
      */
@@ -94,7 +94,7 @@ class MessageBox {
     /**
      * \fn	initForMessageList($id, $otherId, $limit, $skip)
      * \brief	Init MessageBox instance for Message Page, right column
-     * \param	$id for user that owns the page, $otherId the id if the user who the currentUser is messaging with, $limit, $skip
+     * @param	$id for user that owns the page, $otherId the id if the user who the currentUser is messaging with, $limit, $skip
      * @todo    
      * @return	MessageBox, error in case of error
      */

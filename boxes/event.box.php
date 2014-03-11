@@ -34,7 +34,7 @@ class EventBox {
     /**
      * \fn	init($id)
      * \brief	Init EventBox instance for Personal Page
-     * \param	$id for user that owns the page
+     * @param	$id for user that owns the page
      * @todo    inserire orderby
      */
     public function init($id, $limit = 3, $skip = 0) {
@@ -53,7 +53,7 @@ class EventBox {
     /**
      * \fn	initForMediaPage($id)
      * \brief	Init EventBox instance for Media Page
-     * \param	$id for event
+     * @param	$id for event
      */
     public function initForMediaPage($id) {
 	$connectionService = new ConnectionService();
@@ -71,7 +71,7 @@ class EventBox {
     /**
      * \fn	init($city = null, $type = null, $eventDate = null, $limit = null, $skip = null)
      * \brief	Init EventFilter instance for TimeLine
-     * \param	$city = null, $type = null, $eventDate = null, $limit = null, $skip = null;
+     * @param	$city = null, $type = null, $eventDate = null, $limit = null, $skip = null;
      * @todo    reimplementare $tags al momento in cui vengono implementati nella vista stream
      */
     public function initForStream($lat = null, $long = null, $city = null, $country = null, $tags = null, $eventDate = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = 'loveCounter') {

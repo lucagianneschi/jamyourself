@@ -34,7 +34,7 @@ class CollaboratorsBox {
     /**
      * \fn	init($id)
      * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
+     * @param	$id for user that owns the page $limit, $skip
      * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
@@ -67,7 +67,7 @@ class FollowersBox {
     /**
      * \fn	init($id)
      * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
+     * @param	$id for user that owns the page $limit, $skip
      * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
@@ -99,7 +99,7 @@ class FollowingsBox {
     /**
      * \fn	init($id)
      * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
+     * @param	$id for user that owns the page $limit, $skip
      * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
@@ -132,7 +132,7 @@ class FriendsBox {
     /**
      * \fn	init($id)
      * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
+     * @param	$id for user that owns the page $limit, $skip
      * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {

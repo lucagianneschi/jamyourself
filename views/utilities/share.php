@@ -12,7 +12,7 @@
 /**
  * \fn		getShareParameters($classType, $id, $imgPath)
  * \brief	define the share parameters
- * \param	$classType:	the type of the Parse class
+ * @param	$classType:	the type of the Parse class
  * 			$id:	the id of the object of the $classType
  * 			$imgPath:	the path of the image to share in case that $classType is Event, Image, Record and Song
  */

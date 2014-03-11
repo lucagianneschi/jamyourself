@@ -263,7 +263,7 @@ class Record {
     /**
      * \fn	void setId($id)
      * \brief	Sets the id value
-     * \param	int
+     * @param	int
      */
     public function setId($id) {
 	$this->id = $id;
@@ -272,7 +272,7 @@ class Record {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the Song creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -281,7 +281,7 @@ class Record {
     /**
      * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the Song modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -290,7 +290,7 @@ class Record {
     /**
      * \fn	void setActive($active)
      * \brief	Sets the active  value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -299,7 +299,7 @@ class Record {
     /**
      * \fn	void setbuylink($buylink)
      * \brief	Sets the buylink value
-     * \param	string
+     * @param	string
      */
     public function setBuylink($buylink) {
 	$this->buylink = $buylink;
@@ -308,7 +308,7 @@ class Record {
     /**
      * \fn	setCity($city)
      * \brief	Sets the city value
-     * \param	string
+     * @param	string
      */
     public function setCity($city) {
 	$this->city = $city;
@@ -317,7 +317,7 @@ class Record {
     /**
      * \fn	void setCommentcounter($commentcounter)
      * \brief	Sets the commnetCounter value
-     * \param	int
+     * @param	int
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
@@ -326,7 +326,7 @@ class Record {
     /**
      * \fn	void setCounter($counter)
      * \brief	Sets the counter  value
-     * \param	int
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
@@ -335,7 +335,7 @@ class Record {
     /**
      * \fn	void setCover($cover))
      * \brief	Sets the cover value
-     * \param	string
+     * @param	string
      */
     public function setCover($cover) {
 	$this->cover = $cover;
@@ -344,7 +344,7 @@ class Record {
     /**
      * \fn	void setDescription($description)
      * \brief	Sets the description value
-     * \param	string
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
@@ -353,7 +353,7 @@ class Record {
     /**
      * \fn	void setDuration($duration)
      * \brief	Sets the duration  value
-     * \param	int
+     * @param	int
      */
     public function setDuration($duration) {
 	$this->duration = $duration;
@@ -362,7 +362,7 @@ class Record {
     /**
      * \fn	void setFromuser($fromuser)
      * \brief	Sets the fromUser id  value
-     * \param	int
+     * @param	int
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
@@ -371,7 +371,7 @@ class Record {
     /**
      * \fn	void setGenre($genre) 
      * \brief	Sets the genre value
-     * \param	int
+     * @param	int
      */
     public function setGenre($genre) {
 	$this->genre = $genre;
@@ -380,7 +380,7 @@ class Record {
     /**
      * \fn	void setLabel($label) 
      * \brief	Sets the label value
-     * \param	string
+     * @param	string
      */
     public function setLabel($label) {
 	$this->label = $label;
@@ -389,7 +389,7 @@ class Record {
     /**
      * \fn	void setLatitude($latitude)
      * \brief	Sets the latitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
@@ -398,7 +398,7 @@ class Record {
     /**
      * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
@@ -407,7 +407,7 @@ class Record {
     /**
      * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the LoveCounter  value
-     * \param	int
+     * @param	int
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
@@ -416,7 +416,7 @@ class Record {
     /**
      * \fn	void setReviewCounter($reviewCounter)
      * \brief	Sets the reviewCounter value
-     * \param	int
+     * @param	int
      */
     public function setReviewCounter($reviewCounter) {
 	$this->reviewCounter = $reviewCounter;
@@ -425,7 +425,7 @@ class Record {
     /**
      * \fn	void setCounter($sharecounter)
      * \brief	Sets the sharecounter value
-     * \param	int
+     * @param	int
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
@@ -434,7 +434,7 @@ class Record {
     /**
      * \fn	void  setSongCounter($songCounter)
      * \brief	Sets the songCounter value
-     * \param	int
+     * @param	int
      */
     public function setSongCounter($songCounter) {
 	$this->songCounter = $songCounter;
@@ -443,7 +443,7 @@ class Record {
     /**
      * \fn	void setThumbnail($thumbnail) 
      * \brief	Sets the thumbnail (path file) value
-     * \param	string
+     * @param	string
      */
     public function setThumbnail($thumbnail) {
 	$this->thumbnail = $thumbnail;
@@ -452,7 +452,7 @@ class Record {
     /**
      * \fn	void setTitle($title) 
      * \brief	Sets the title value
-     * \param	string
+     * @param	string
      */
     public function setTitle($title) {
 	$this->title = $title;
@@ -461,7 +461,7 @@ class Record {
     /**
      * \fn	void setTracklist($tracklist)
      * \brief	Sets the tracklist  value (list of id)
-     * \param	array
+     * @param	array
      */
     public function setTracklist($tracklist) {
 	$this->tracklist = $tracklist;
@@ -470,7 +470,7 @@ class Record {
     /**
      * \fn	void setYear($year) 
      * \brief	Sets the year value
-     * \param	string
+     * @param	string
      */
     public function setYear($year) {
 	$this->year = $year;

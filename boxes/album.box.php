@@ -35,7 +35,7 @@ class AlbumBox {
     /**
      * \fn	init($id, $limit = 3, $skip = 0, $upload = false)
      * \brief	Init AlbumBox instance for Personal Page or UploadPage
-     * \param	$id for user that owns the page, $limit, $skip, $upload
+     * @param	$id for user that owns the page, $limit, $skip, $upload
      * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
@@ -54,7 +54,7 @@ class AlbumBox {
     /**
      * \fn	initForDetail($id $limit - optional, $skip - optional)
      * \brief	Init AlbumBox instance for Personal Page, detailed view
-     * \param	$id of the album to display information,$limit, $skip
+     * @param	$id of the album to display information,$limit, $skip
      * @todo    
      */
     public function initForDetail($id, $limit = 15, $skip = 0) {

@@ -33,8 +33,8 @@ class ReviewEventBox {
     /**
      * \fn        initForMediaPage($id, $className, $limit, $skip)
      * \brief        Init ReviewBox instance for Media Page
-     * \param        $id of the review to display information, Event or Record class
-     * \param   $className, $limit, $skip,$currentUserId
+     * @param        $id of the review to display information, Event or Record class
+     * @param   $className, $limit, $skip,$currentUserId
      * @todo        
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
@@ -53,8 +53,8 @@ class ReviewEventBox {
     /**
      * \fn        initForPersonalPage($id, $type, $className)
      * \brief        Init ReviewBox instance for Personal Page
-     * \param        $id of the user who owns the page, $type of user, $className Record or Event class
-     * \param	    $type, $className
+     * @param        $id of the user who owns the page, $type of user, $className Record or Event class
+     * @param	    $type, $className
      * @todo        fare la query per il proprietario dell'event
      */
     function init($id, $type, $limit = 3, $skip = 0) {
@@ -88,8 +88,8 @@ class ReviewRecordBox {
     /**
      * \fn        initForMediaPage($id, $className, $limit, $skip)
      * \brief        Init ReviewBox instance for Media Page
-     * \param        $id of the review to display information, Event or Record class
-     * \param   $className, $limit, $skip,$currentUserId
+     * @param        $id of the review to display information, Event or Record class
+     * @param   $className, $limit, $skip,$currentUserId
      * @todo        
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
@@ -108,8 +108,8 @@ class ReviewRecordBox {
     /**
      * \fn        initForPersonalPage($id, $type, $className)
      * \brief        Init ReviewBox instance for Personal Page
-     * \param        $id of the user who owns the page, $type of user, $className Record or Event class
-     * \param	    $type, $className
+     * @param        $id of the user who owns the page, $type of user, $className Record or Event class
+     * @param	    $type, $className
      * @todo        fare la query per il proprietario dell'event
      */
     function initForPersonalPage($id, $type, $limit = 3, $skip = 0) {

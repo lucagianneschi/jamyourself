@@ -123,7 +123,7 @@ class Question {
     /**
      * \fn		void setId($id)
      * \brief	Sets the id value
-     * \param	string
+     * @param	string
      */
     public function setId($id) {
 	$this->id = $id;
@@ -132,7 +132,7 @@ class Question {
     /**
      * \fn		void setCreatedat($createdat)
      * \brief	Sets the Question creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -141,7 +141,7 @@ class Question {
     /**
      * \fn		void setUpdatedat($updatedat)
      * \brief	Sets the Question modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -150,7 +150,7 @@ class Question {
     /**
      * \fn		void setAnswer($value)
      * \brief	Sets the answer value
-     * \param	string
+     * @param	string
      */
     public function setAnswer($value) {
 	$this->answer = $value;
@@ -159,7 +159,7 @@ class Question {
     /**
      * \fn		void setMailFrom($value)
      * \brief	Sets the mailFrom value
-     * \param	string
+     * @param	string
      */
     public function setMailFrom($value) {
 	$this->mailFrom = $value;
@@ -168,7 +168,7 @@ class Question {
     /**
      * \fn		void setMailTo($value)
      * \brief	Sets the mailTo value
-     * \param	string
+     * @param	string
      */
     public function setMailTo($value) {
 	$this->mailTo = $value;
@@ -177,7 +177,7 @@ class Question {
     /**
      * \fn		void setName($value)
      * \brief	Sets the name value
-     * \param	string
+     * @param	string
      */
     public function setName($value) {
 	$this->name = $value;
@@ -186,7 +186,7 @@ class Question {
     /**
      * \fn		void setReplied($value)
      * \brief	Sets the replied value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setReplied($value) {
 	$this->replied = $value;
@@ -195,7 +195,7 @@ class Question {
     /**
      * \fn		void setSubject($value)
      * \brief	Sets the subject value
-     * \param	string
+     * @param	string
      */
     public function setSubject($value) {
 	$this->subject = $value;
@@ -204,7 +204,7 @@ class Question {
     /**
      * \fn		void setText($value)
      * \brief	Sets the text value
-     * \param	string
+     * @param	string
      */
     public function setText($value) {
 	$this->text = $value;

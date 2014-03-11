@@ -23,8 +23,8 @@ require_once ROOT_DIR . 'config.php';
 /**
  * \fn		number executionTime($start, $end)
  * \brief	The function returns the difference between $end and $start parameter in microseconds
- * \param	$start	represent the microsecond time of the begin of the operation
- * \param	$end	represent the microsecond time of the end of the operation
+ * @param	$start	represent the microsecond time of the begin of the operation
+ * @param	$end	represent the microsecond time of the end of the operation
  * @return	number	the number representing the difference in microsecond
  * @return	Error	if the parameters are null
  */
@@ -50,7 +50,7 @@ function executionTime($start, $end) {
 /**
  * \fn		string decode_string($string)
  * \brief	The function returns a string read from DB that can be interpreted by the user
- * \param	$string 	represent the string from DB to decode
+ * @param	$string 	represent the string from DB to decode
  * @return	string		the decoded string
  */
 function decode_string($string) {
@@ -62,7 +62,7 @@ function decode_string($string) {
 /**
  * \fn		string encode_string($string)
  * \brief	The function returns a string that can be saved to DB
- * \param	$string 	represent the string to be saved
+ * @param	$string 	represent the string to be saved
  * @return	string		the string encoded for DB
  */
 function encode_string($string) {
@@ -74,7 +74,7 @@ function encode_string($string) {
 /**
  * \fn	    filterFeaturingByValue($array, $value)
  * \brief   filtra featuind per tipo
- * \param   $array, $value
+ * @param   $array, $value
  * @return  $newarray
  * @todo    
  */
@@ -93,7 +93,7 @@ function filterFeaturingByValue($array, $value) {
 /**
  * \fn	    getCroppedImages($decoded)
  * \brief   funzione per recupero immagini dopo crop
- * \param   $decoded
+ * @param   $decoded
  * @todo   check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
  */
 function getCroppedImages($decoded) {
@@ -137,7 +137,7 @@ function getCroppedImages($decoded) {
 /**
  * \fn	    sendMailForNotification($address, $subject, $html)
  * \brief   invia mail ad utente
- * \param   $address, $subject, $html
+ * @param   $address, $subject, $html
  * @todo    testare
  */
 function sendMailForNotification($address, $subject, $html) {

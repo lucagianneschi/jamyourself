@@ -256,7 +256,7 @@ class EventController extends REST {
     /**
      * \fn      createActivity($type, $toUserId, $currentUserId, $status, $eventId, $readr)
      * \brief   private function to create ad hoc activity
-     * \param   $type, $toUserId, $currentUserId, $status, $eventId, $read
+     * @param   $type, $toUserId, $currentUserId, $status, $eventId, $read
      */
     private function createActivity($type, $toUserId, $currentUserId, $status, $eventId, $read) {
 	return;

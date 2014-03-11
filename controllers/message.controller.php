@@ -43,7 +43,7 @@ class MessageController extends REST {
     /**
      * \fn	deleteConversation()
      * \brief   private function to delete activity class instance
-     * \param   $id
+     * @param   $id
      */
     public function deleteConversation() {
 	global $controllers;
