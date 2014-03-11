@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Daniele Caldelli
  * @version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di love/unlove 
  * \details		incrementa/decrementa il loveCounter di una classe e istanza corrispondente activity
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))
@@ -31,7 +31,7 @@ class LoveController extends REST {
     /**
      * \fn		incrementLove()
      * \brief   increments loveCounter property of an istance of a class
-     * \todo    usare la sessione, prendere il toUser per la incrementLove, poichè il propietario del media deve avere notifica
+     * @todo    usare la sessione, prendere il toUser per la incrementLove, poichè il propietario del media deve avere notifica
      */
     public function incrementLove() {
 	global $controllers;
@@ -100,7 +100,7 @@ class LoveController extends REST {
     /**
      * \fn		decrementLove()
      * \brief   decrements loveCounter property of an istance of a class
-     * \todo    usare la sessione
+     * @todo    usare la sessione
      */
     public function decrementLove() {
 	global $controllers;

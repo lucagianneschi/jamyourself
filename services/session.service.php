@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Daniele Caldelli
  * @version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		classe per la gestione delle operazioni iniziali
  * \details		
  * \par			
- * \warning
- * \bug
- * \todo
+ * @warning
+ * @bug
+ * @todo
  *
  */
 if (!defined('ROOT_DIR'))

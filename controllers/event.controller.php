@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		1.0
- * \date		2013
- * \copyright	        Jamyourself.com 2013
+ * @since		2013
+ * @copyright	        Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di gestione delle azioni di invito per event
  * \details		gestisce le azioni di invio, rifiuto e accettazione delle richieste di partecipazione ad event
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		test di funzionamento, fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		test di funzionamento, fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))
@@ -33,7 +33,7 @@ class EventController extends REST {
     /**
      * \fn	declineInvitationRequest()
      * \brief   decline invitation request
-     * \todo    test, in caso di partecipazione aggiungere all'event lo user che partecipa
+     * @todo    test, in caso di partecipazione aggiungere all'event lo user che partecipa
      */
     public function acceptInvitation() {
 	try {
@@ -68,7 +68,7 @@ class EventController extends REST {
     /**
      * \fn	attendEvent()
      * \brief   set the currentUser as an attendee
-     * \todo    test
+     * @todo    test
      */
     public function attendEvent() {
 	try {
@@ -113,7 +113,7 @@ class EventController extends REST {
     /**
      * \fn	declineRelationRequest()
      * \brief   decline relationship request
-     * \todo    test
+     * @todo    test
      */
     public function declineInvitation() {
 	try {
@@ -157,7 +157,7 @@ class EventController extends REST {
     /**
      * \fn	declineInvitationRequest()
      * \brief   decline invitation request
-     * \todo    test
+     * @todo    test
      */
     public function removeAttendee() {
 	try {
@@ -206,7 +206,7 @@ class EventController extends REST {
     /**
      * \fn	sendRelationRequest()
      * \brief   send request for relationships
-     * \todo    test
+     * @todo    test
      */
     public function sendInvitation() {
 	try {

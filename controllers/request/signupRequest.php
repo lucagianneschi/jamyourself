@@ -3,13 +3,13 @@
 /* ! \par		Info Generali:
  * @author		Stefano Muscas
  * @version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		file di request per il controller signup
  * \par			Commenti:
- * \warning
- * \bug
+ * @warning
+ * @bug
  *
  */
 

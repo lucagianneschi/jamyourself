@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento messaggi
  * \details		Recupera le informazioni dei messaggi per la pagina messaggi
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		
+ * @warning
+ * @bug
+ * @todo		
  *
  */
 if (!defined('ROOT_DIR'))
@@ -84,7 +84,7 @@ class MessageBox {
      * \fn	initForUserList($id, $otherId, $limit, $skip)
      * \brief	Init MessageBox instance for Message Page, left column
      * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * @todo    
      * @return	MessageBox, error in case of error
      */
     public function initForUserList() {
@@ -95,7 +95,7 @@ class MessageBox {
      * \fn	initForMessageList($id, $otherId, $limit, $skip)
      * \brief	Init MessageBox instance for Message Page, right column
      * \param	$id for user that owns the page, $otherId the id if the user who the currentUser is messaging with, $limit, $skip
-     * \todo    
+     * @todo    
      * @return	MessageBox, error in case of error
      */
     public function initForMessageList($otherId, $limit = null, $skip = null) {

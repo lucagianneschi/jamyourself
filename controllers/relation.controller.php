@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Daniele Caldelli
  * @version		1.0
- * \date		2013
- * \copyright	        Jamyourself.com 2013
+ * @since		2013
+ * @copyright	        Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di invio/ricezione delle relazioni
  * \details		incrementa/decrementa il loveCounter di una classe e istanza corrispondente activity
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		 terminare funzioni, verificare che siano state istanziate tutte le activity, fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		 terminare funzioni, verificare che siano state istanziate tutte le activity, fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))
@@ -27,14 +27,14 @@ require_once SERVICES_DIR . 'utils.service.php';
 /**
  * \brief	RelationController class
  * \details	controller per invio e ricezione relazioni
- * \todo        introdurre le rollback per le varie funzioni
+ * @todo        introdurre le rollback per le varie funzioni
  */
 class RelationController extends REST {
 
     /**
      * \fn	acceptRelationRequest()
      * \brief   accept relationship request
-     * \todo    test
+     * @todo    test
      */
     public function acceptRelation() {
 	global $controllers;
@@ -186,7 +186,7 @@ class RelationController extends REST {
     /**
      * \fn	declineRelationRequest()
      * \brief   decline relationship request
-     * \todo    test
+     * @todo    test
      */
     public function declineRelation() {
 	global $controllers;
@@ -226,7 +226,7 @@ class RelationController extends REST {
     /**
      * \fn	removeRelationship ()
      * \brief   remove an existing relationship
-     * \todo    test
+     * @todo    test
      */
     public function removeRelation() {
 	global $controllers;
@@ -368,7 +368,7 @@ class RelationController extends REST {
     /**
      * \fn	sendRelationRequest()
      * \brief   send request for relationships
-     * \todo    test
+     * @todo    test
      */
     public function sendRelation() {
 	global $controllers;

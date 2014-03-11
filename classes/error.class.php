@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  *  @author		Daniele Caldelli
  *  @version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Error
  *  \details		Classe Error per la gestione degli errori
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  * 
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Error">Definizione Classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Error">API</a>

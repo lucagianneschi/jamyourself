@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Daniele Caldelli
  * @version		1.0
- * \date		2013
- * \copyright	Jamyourself.com 2013
+ * @since		2013
+ * @copyright	Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		estensione della classe PHPMailer 
  * \details		contiene i parametri standard di invio mail di Jam
  * \par			Commenti:
- * \warning
- * \bug
- * \todo
+ * @warning
+ * @bug
+ * @todo
  *
  */
 if (!defined('ROOT_DIR'))

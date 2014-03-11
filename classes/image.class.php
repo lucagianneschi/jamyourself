@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  *  @author		Maria Laura Fresu
  *  @version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Image
  *  \details		Classe per la singola immagine caricata dall'utente
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Image">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Image">API</a>

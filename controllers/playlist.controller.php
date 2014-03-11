@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.3
- * \date		2013
- * \copyright           Jamyourself.com 2013
+ * @since		2013
+ * @copyright           Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di gestione della playlist
  * \details		gestisce l'inserimento e la cancellazione di una song dalla tracklist di una playlist
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		 fare API su Wiki, controllare codice removeSong()
+ * @warning
+ * @bug
+ * @todo		 fare API su Wiki, controllare codice removeSong()
  *
  */
 if (!defined('ROOT_DIR'))
@@ -42,7 +42,7 @@ class PlaylistController extends REST {
     /**
      * \fn      addSong()
      * \brief   add song to playlist
-     * \todo    utilizzare il servizio insert.service per scrivere sul DB
+     * @todo    utilizzare il servizio insert.service per scrivere sul DB
      */
     public function addSong() {
 	try {
@@ -76,7 +76,7 @@ class PlaylistController extends REST {
     /**
      * \fn	removeSong()
      * \brief   remove song to playlist 
-     * \todo   
+     * @todo   
      */
     public function removeSong() {
 	try {

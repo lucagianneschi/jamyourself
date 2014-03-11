@@ -3,14 +3,14 @@
 /* ! \par		Info Generali:
  * @author		Stafano Muscas
  * @version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		servizio di validazione del nuovo utente in fase di registrazione
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		
+ * @warning
+ * @bug
+ * @todo		
  */
 
 if (!defined('ROOT_DIR'))
@@ -42,7 +42,7 @@ class ValidateNewUserService {
      * \fn	getIsValid()
      * \brief	get della property valid
      * @return
-     * \todo
+     * @todo
      */
     public function getIsValid() {
 	return $this->isValid;
@@ -52,7 +52,7 @@ class ValidateNewUserService {
      * \fn	getErrors()
      * \brief	get della property errors
      * @return
-     * \todo
+     * @todo
      */
     public function getErrors() {
 	return $this->errors;
@@ -62,7 +62,7 @@ class ValidateNewUserService {
      * \fn	setInvalid($invalidPropertyName)
      * \brief	set della property valid e errors in caso di utente non valido
      * @return
-     * \todo
+     * @todo
      */
     private function setInvalid($invalidPropertyName) {
 	$this->isValid = false;
@@ -73,7 +73,7 @@ class ValidateNewUserService {
      * \fn	checkBirthday($birthdayJSON)
      * \brief	check correttezza birthday
      * @return
-     * \todo
+     * @todo
      */
     public function checkBirthday($birthdayJSON) {
 	$birthday = json_decode(json_encode($birthdayJSON), false);
@@ -89,7 +89,7 @@ class ValidateNewUserService {
      * \fn	checkDescription($description)
      * \brief	check correttezza description
      * @return
-     * \todo
+     * @todo
      */
     public function checkDescription($description) {
 	if (strlen($description) < 0 || strlen($description) > $this->config->maxDescriptionLength)
@@ -101,7 +101,7 @@ class ValidateNewUserService {
      * \fn	checkEmail($email)
      * \brief	check correttezza email
      * @return
-     * \todo
+     * @todo
      */
     public function checkEmail($email) {
 	if (strlen($email) > 50)
@@ -127,7 +127,7 @@ class ValidateNewUserService {
      * \fn	checkLocation($location)
      * \brief	check correttezza location
      * @return
-     * \todo
+     * @todo
      */
     public function checkLocation($location) {
 	$gs = new GeocoderService();
@@ -141,7 +141,7 @@ class ValidateNewUserService {
      * \fn	checkMembers($members)
      * \brief	check correttezza members
      * @return
-     * \todo
+     * @todo
      */
     public function checkMembers($members) {
 	if (!is_array($members))
@@ -161,7 +161,7 @@ class ValidateNewUserService {
      * \fn	checkNewSpotter($user)
      * \brief	check utente SPOTTER
      * @return
-     * \todo
+     * @todo
      */
     private function checkNewSpotter($user) {
 	if (!isset($user->lastname) || is_null($user->lastname) || !$this->checkLastname($user->lastname))
@@ -194,7 +194,7 @@ class ValidateNewUserService {
      * \fn	checkNewUser($userJSON)
      * \brief	check utente property comuni
      * @return
-     * \todo
+     * @todo
      */
     public function checkNewUser($userJSON) {
 	if (is_null($userJSON))
@@ -244,7 +244,7 @@ class ValidateNewUserService {
      * \fn	checkNewVenue($user)
      * \brief	check utente VENUE
      * @return
-     * \todo
+     * @todo
      */
     private function checkNewVenue($user) {
 
@@ -279,7 +279,7 @@ class ValidateNewUserService {
      * \fn	checkNewJammer($user)
      * \brief	check utente JAMMER
      * @return
-     * \todo
+     * @todo
      */
     private function checkNewJammer($user) {
 	if (!isset($user->city) || is_null($user->city))
@@ -310,7 +310,7 @@ class ValidateNewUserService {
      * \fn	checkPassword($password)
      * \brief	check correttezza password
      * @return
-     * \todo
+     * @todo
      */
     public function checkPassword($password) {
 	$strlen = strlen($password);
@@ -339,7 +339,7 @@ class ValidateNewUserService {
      * \fn	checkUsername($username)
      * \brief	check correttezza username
      * @return
-     * \todo
+     * @todo
      */
     public function checkUsername($username) {
 	if (strlen($username) > 50) {
@@ -361,7 +361,7 @@ class ValidateNewUserService {
      * \fn	checkVerifyPassword($verifyPassword, $password)
      * \brief	check correttezza password e retyper della password
      * @return
-     * \todo
+     * @todo
      */
     public function checkVerifyPassword($verifyPassword, $password) {
 	return $verifyPassword == $password;
@@ -371,7 +371,7 @@ class ValidateNewUserService {
      * \fn	checkJammerType($jammerType)
      * \brief	check correttezza jammerType
      * @return
-     * \todo
+     * @todo
      */
     public function checkJammerType($jammerType) {
 	$jammerTypeList = $this->config->jammerType;
@@ -385,7 +385,7 @@ class ValidateNewUserService {
      * \fn	checkBandComponent($componentJSON)
      * \brief	check correttezza array members
      * @return
-     * \todo
+     * @todo
      */
     private function checkBandComponent($componentJSON) {
 	$component = json_decode(json_encode($componentJSON), false);
@@ -404,7 +404,7 @@ class ValidateNewUserService {
      * \fn	checkFirstname($firstname)
      * \brief	check correttezza firstname
      * @return
-     * \todo
+     * @todo
      */
     private function checkFirstname($firstname) {
 	if (strlen($firstname) > 50)
@@ -418,7 +418,7 @@ class ValidateNewUserService {
      * \fn	checkLastname($lastname)
      * \brief	check correttezza lastname
      * @return
-     * \todo
+     * @todo
      */
     private function checkLastname($lastname) {
 	if (strlen($lastname) > 50)
@@ -432,7 +432,7 @@ class ValidateNewUserService {
      * \fn	checkLocalType($localType)
      * \brief	check correttezza localType
      * @return
-     * \todo
+     * @todo
      */
     private function checkLocalType($localType) {
 	if (!is_array($localType) || count($localType) <= 0 || count($localType) > $this->config->maxLocalTypeSize)
@@ -444,7 +444,7 @@ class ValidateNewUserService {
      * \fn	checkMusic($music, $type)
      * \brief	check correttezza music
      * @return
-     * \todo
+     * @todo
      */
     private function checkMusic($music, $type) {
 	$dim = 0;
@@ -466,7 +466,7 @@ class ValidateNewUserService {
      * \fn	checkSex($sex)
      * \brief	check correttezza sex
      * @return
-     * \todo
+     * @todo
      */
     private function checkSex($sex) {
 	switch ($sex) {
@@ -484,7 +484,7 @@ class ValidateNewUserService {
      * \fn	checkSpecialChars($string)
      * \brief	check esistenza caratteri speciali
      * @return
-     * \todo
+     * @todo
      */
     private function checkSpecialChars($string) {
 	$charList = "!#$%&'()*+,-./:;<=>?[]^_`{|}~àèìòùáéíóúüñ¿¡";
@@ -501,7 +501,7 @@ class ValidateNewUserService {
      * \fn	checkSex($sex)
      * \brief	check correttezza url
      * @return
-     * \todo
+     * @todo
      */
     private function checkUrl($url) {
 	if (strlen($url) > 0) {

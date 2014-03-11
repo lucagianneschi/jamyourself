@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  *  @author		Daniele Caldelli
  *  @version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Question
  *  \details		Classe dedicata alle domande e alle risposte tra utenti e amministrazione
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Question">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Question">API</a>

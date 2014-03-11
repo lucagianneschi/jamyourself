@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  *  @author		Stefano Muscas
  *  @version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Playslist
  *  \details		Classe che accoglie le canzoni che andranno nel player della pagina utente
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Playlists">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Playlist">API</a>

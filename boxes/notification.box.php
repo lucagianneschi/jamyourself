@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.2
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento notifiche utente
  * \details		Recupera le notifiche da mostrare nell'header
  * \par			Commenti:
- * \warning
- * \bug
- * \todo			
+ * @warning
+ * @bug
+ * @todo			
  *
  */
 if (!defined('ROOT_DIR'))
@@ -23,7 +23,7 @@ require_once SERVICES_DIR . 'select.service.php';
 /**
  * \brief	ActionsCounterBox 
  * \details	counter for activity INVITED
- * \todo	inserire nella whereOr le activity corrette
+ * @todo	inserire nella whereOr le activity corrette
  */
 class ActionCounterBox {
 
@@ -42,7 +42,7 @@ class ActionCounterBox {
 /**
  * \brief	ActionsListBox 
  * \details	lista di activies per cui si ha notifica
- * \todo	
+ * @todo	
  */
 class ActionListBox {
 

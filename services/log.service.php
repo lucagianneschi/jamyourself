@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  *  @author		Daniele Caldelli
  *  @version            0.3
- *  \date		2013
- *  \copyright          Jamyourself.com 2013
+ *  @since		2013
+ *  @copyright          Jamyourself.com 2013
  *  \par		Info :
  *  \brief		Debub function
  *  \details            Funzione per scrivere su file un bug
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  *
  */
 

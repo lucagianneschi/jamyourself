@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Stefano Muscas
  * @version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Funzione:
  * \brief		servizio di gestione delle cartelle, valido in fase di creazione e reperimento path e URL
  * \details		
  * \par			Commenti:
- * \warning
- * \bug			
- * \todo		
+ * @warning
+ * @bug			
+ * @todo		
  */
 
 if (!defined('ROOT_DIR'))

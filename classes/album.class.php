@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  *  @author		Maria Laura Fresu
  *  @version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Album
  *  \details		Classe raccoglitore per immagini
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Album">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Album">API</a>

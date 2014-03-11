@@ -3,13 +3,13 @@
 /* ! \par Info  Generali:
  *  @author     Luca Gianneschi
  *  @version    1.0
- *  \date       2013
- *  \copyright  Jamyourself.com 2013
+ *  @since       2013
+ *  @copyright  Jamyourself.com 2013
  *  \par        Info:
  *  \brief      basic config file 
- *  \warning
- *  \bug
- *  \todo       keep this file up to date
+ *  @warning
+ *  @bug
+ *  @todo       keep this file up to date
  */
 
 require_once 'path.php';

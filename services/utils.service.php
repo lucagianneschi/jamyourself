@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  *  @author		Stefano Muscas
  *  @version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Utils class
  *  \details		Classe di utilità sfruttata delle classi modello per snellire il codice
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo		Fare API su Wiki
+ *  @warning
+ *  @bug
+ *  @todo		Fare API su Wiki
  *
  */
 
@@ -76,7 +76,7 @@ function encode_string($string) {
  * \brief   filtra featuind per tipo
  * \param   $array, $value
  * @return  $newarray
- * \todo    
+ * @todo    
  */
 function filterFeaturingByValue($array, $value) {
     $newarray = array();
@@ -94,7 +94,7 @@ function filterFeaturingByValue($array, $value) {
  * \fn	    getCroppedImages($decoded)
  * \brief   funzione per recupero immagini dopo crop
  * \param   $decoded
- * \todo   check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+ * @todo   check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
  */
 function getCroppedImages($decoded) {
 //in caso di anomalie ---> default
@@ -138,7 +138,7 @@ function getCroppedImages($decoded) {
  * \fn	    sendMailForNotification($address, $subject, $html)
  * \brief   invia mail ad utente
  * \param   $address, $subject, $html
- * \todo    testare
+ * @todo    testare
  */
 function sendMailForNotification($address, $subject, $html) {
     global $controllers;

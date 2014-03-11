@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		1.0
- * \date		2013
- * \copyright	        Jamyourself.com 2013
+ * @since		2013
+ * @copyright	        Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di gestione delle rollback dei controller
  * \details		gestisce le azioni in caso di fallimento di alcune azioni dei controller
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		aggiornare al momento in cui vengono messe nuove rollback per i controller, fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		aggiornare al momento in cui vengono messe nuove rollback per i controller, fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))
@@ -333,7 +333,7 @@ function rollbackMessageController($id, $function) {
  * \fn	rollbackPlaylistController($playlistId, $songId, $operation, $premium, $limit)
  * \brief   rollback for addSong() e removeSong()
  * \param   $playslitId-> playlist id, $songId -> song id , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())$premium, $limit for the currentUser
- * \todo    
+ * @todo    
  */
 function rollbackPlaylistController($playlistId, $songId, $operation, $premium, $limit) {
     global $controllers;

@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di login e logout
  * \details		effettua operazioni di login e logut utente
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		fare API su Wiki
  *
  */
 
@@ -34,7 +34,7 @@ class AccessController extends REST {
     /**
      * \fn      login()
      * \brief   user login
-     * \todo
+     * @todo
      */
     public function login() {
 	try {
@@ -78,7 +78,7 @@ class AccessController extends REST {
     /**
      * \fn      logout()
      * \brief   user logout
-     * \todo
+     * @todo
      */
     public function logout() {
 	try {
@@ -100,7 +100,7 @@ class AccessController extends REST {
      * \fn      private function checkEmailOrUsername($password, $name)
      * \brief   check if user credentials are correct
      * \param   $password, $name
-     * \todo
+     * @todo
      */
     private function checkEmailOrUsername($connection, $password, $name) {
 	$sql = "SELECT id,

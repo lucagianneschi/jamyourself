@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.3.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento ultime activities dell'utente
  * \details		Recupera le informazioni delle ultime activities dell'utente
  * \par			Commenti:
- * \warning
- * \bug
- * \todo
+ * @warning
+ * @bug
+ * @todo
  *
  */
 if (!defined('ROOT_DIR'))

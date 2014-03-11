@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box Relations
  * \details		Recupera le ultime relazioni per tipologia di utente
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		
+ * @warning
+ * @bug
+ * @todo		
  *
  */
 if (!defined('ROOT_DIR'))
@@ -35,7 +35,7 @@ class CollaboratorsBox {
      * \fn	init($id)
      * \brief	Init CollaboratorsBox 
      * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
 	try {
@@ -68,7 +68,7 @@ class FollowersBox {
      * \fn	init($id)
      * \brief	Init CollaboratorsBox 
      * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
 	try {
@@ -100,7 +100,7 @@ class FollowingsBox {
      * \fn	init($id)
      * \brief	Init CollaboratorsBox 
      * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
 	try {
@@ -133,7 +133,7 @@ class FriendsBox {
      * \fn	init($id)
      * \brief	Init CollaboratorsBox 
      * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
 	try {

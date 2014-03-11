@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  *  @author		Daniele Caldelli, Stefano Muscas
  *  @version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Comment 
  *  \details		Classe dedicata a POST, REVIEW, COMMENT & MESSAGGI 
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  * 
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Comment">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Comment">API</a>

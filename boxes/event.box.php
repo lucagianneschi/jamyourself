@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento info event
  * \details		Recupera le informazioni dell'evento, le inserisce in un array da passare alla view
  * \par			Commenti:
- * \warning
- * \bug
- * \todo
+ * @warning
+ * @bug
+ * @todo
  *
  */
 
@@ -35,7 +35,7 @@ class EventBox {
      * \fn	init($id)
      * \brief	Init EventBox instance for Personal Page
      * \param	$id for user that owns the page
-     * \todo    inserire orderby
+     * @todo    inserire orderby
      */
     public function init($id, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
@@ -72,7 +72,7 @@ class EventBox {
      * \fn	init($city = null, $type = null, $eventDate = null, $limit = null, $skip = null)
      * \brief	Init EventFilter instance for TimeLine
      * \param	$city = null, $type = null, $eventDate = null, $limit = null, $skip = null;
-     * \todo    reimplementare $tags al momento in cui vengono implementati nella vista stream
+     * @todo    reimplementare $tags al momento in cui vengono implementati nella vista stream
      */
     public function initForStream($lat = null, $long = null, $city = null, $country = null, $tags = null, $eventDate = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = 'loveCounter') {
 	

@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento playlist utente
  * \details		Recupera la playlist utente
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		comprendere i profili premium
+ * @warning
+ * @bug
+ * @todo		comprendere i profili premium
  *
  */
 
@@ -65,7 +65,7 @@ class PlaylistSongBox {
      * \fn	init($playlistId, $sonsArray)
      * \brief	Init PlaylistSongBox instance
      * @return	playlistSongBox
-     * \todo	terminare funzione prendere songs che stanno dentro la playlist
+     * @todo	terminare funzione prendere songs che stanno dentro la playlist
      */
     public function init($playlistId) {
 	$connectionService = new ConnectionService();

@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di inserimento commenti
  * \details		controller di inserimento commenti
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		fare API su Wiki; avviare invio mail
+ * @warning
+ * @bug
+ * @todo		fare API su Wiki; avviare invio mail
  *
  */
 
@@ -41,7 +41,7 @@ class CommentController extends REST {
     /**
      * \fn		comment()
      * \brief   salva un commento
-     * \todo    testare con sessione
+     * @todo    testare con sessione
      */
     public function comment() {
 	global $controllers;

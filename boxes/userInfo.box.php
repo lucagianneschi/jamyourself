@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento info utente
  * \details		Recupera le informazioni dell'utente, le inserisce in un array da passare alla view
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		
+ * @warning
+ * @bug
+ * @todo		
  *
  */
 

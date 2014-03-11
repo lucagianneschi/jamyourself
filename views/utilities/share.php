@@ -3,8 +3,8 @@
 /* ! \par		Info Generali:
  * @author		Daniele Caldelli
  * @version		1.0
- * \date		2013
- * \copyright	Jamyourself.com 2013
+ * @since		2013
+ * @copyright	Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		define the share parameters
  */

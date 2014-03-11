@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di ricerca
  * \details		effettua la ricerca di elementi nel sito
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		terminare, implementare; fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		terminare, implementare; fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))
@@ -47,7 +47,7 @@ class SearchController extends REST {
     /**
      * \fn		search()
      * \brief   effettua la ricerca
-     * \todo    tutto
+     * @todo    tutto
      */
     public function search() {
 	try {

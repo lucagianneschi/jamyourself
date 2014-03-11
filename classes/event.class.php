@@ -3,15 +3,15 @@
 /* ! \par	    Info Generali:
  *  @author	    Maria Laura Fresu
  *  @version	    0.3
- *  \date	    2013
- *  \copyright	    Jamyourself.com 2013
+ *  @since	    2013
+ *  @copyright	    Jamyourself.com 2013
  *  \par Info	    Classe:
  *  \brief	    Event
  *  \details	    Classe dedicata agli eventi, solo JAMMER e VENUE possono istanziare questa classe
  *  \par	    Commenti:
- *  \warning
- *  \bug
- *  \todo		
+ *  @warning
+ *  @bug
+ *  @todo		
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Event">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Event">API</a>

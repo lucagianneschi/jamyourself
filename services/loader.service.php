@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.1
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		servizio di lazy loading delle classi
  * \details		effettua la require_once solo al momento necessario
  * \par			Commenti:
- * \warning
- * \bug			
- * \todo		testare tutte le classi, gestione dei servizi
+ * @warning
+ * @bug			
+ * @todo		testare tutte le classi, gestione dei servizi
  */
 
 if (!defined('ROOT_DIR'))

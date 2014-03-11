@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box commenti
  * \details		Recupera le informazioni del commento e le mette in oggetto commentBox
  * \par			Commenti:
- * \warning
- * \bug
- * \todo	        discutere se necessario fare check su correttezza della classe commentata
+ * @warning
+ * @bug
+ * @todo	        discutere se necessario fare check su correttezza della classe commentata
  */
 
 if (!defined('ROOT_DIR'))
@@ -24,7 +24,7 @@ require_once SERVICES_DIR . 'select.service.php';
 /**
  * \brief	CommentBox class 
  * \details	box class to pass info to the view 
- * \todo	
+ * @todo	
  */
 class CommentBox {
 

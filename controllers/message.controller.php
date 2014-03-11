@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.3
- * \date		2013
- * \copyright           Jamyourself.com 2013
+ * @since		2013
+ * @copyright           Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller per l'azione di mesaggio
  * \details		invia il messaggio e corrispondente activity;legge il messaggio
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		fare API su Wiki, eliminare TODO per invio mail
+ * @warning
+ * @bug
+ * @todo		fare API su Wiki, eliminare TODO per invio mail
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
@@ -70,7 +70,7 @@ class MessageController extends REST {
     /**
      * \fn	message()
      * \brief   save a message an the related activity
-     * \todo    testare, possibilità di invio a utenti multipli, controllo della relazione
+     * @todo    testare, possibilità di invio a utenti multipli, controllo della relazione
      */
     public function message() {
 	global $controllers;
@@ -139,7 +139,7 @@ class MessageController extends REST {
     /**
      * \fn	read()
      * \brief   update activity for the current read message
-     * \todo    testare
+     * @todo    testare
      */
     public function read() {
 	global $controllers;

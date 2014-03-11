@@ -3,15 +3,15 @@
 /* ! \par               Info Generali:
  * @author              Luca Gianneschi
  * @version             0.3
- * \date                2013
- * \copyright           Jamyourself.com 2013
+ * @since                2013
+ * @copyright           Jamyourself.com 2013
  * \par                 Info Classe:
  * \brief               box caricamento review event e record
  * \details             Recupera le informazioni sulla review dell'event, le inserisce in un array da passare alla view
  * \par                 Commenti:
- * \warning
- * \bug
- * \todo                
+ * @warning
+ * @bug
+ * @todo                
  */
 
 if (!defined('ROOT_DIR'))
@@ -35,7 +35,7 @@ class ReviewEventBox {
      * \brief        Init ReviewBox instance for Media Page
      * \param        $id of the review to display information, Event or Record class
      * \param   $className, $limit, $skip,$currentUserId
-     * \todo        
+     * @todo        
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
@@ -55,7 +55,7 @@ class ReviewEventBox {
      * \brief        Init ReviewBox instance for Personal Page
      * \param        $id of the user who owns the page, $type of user, $className Record or Event class
      * \param	    $type, $className
-     * \todo        fare la query per il proprietario dell'event
+     * @todo        fare la query per il proprietario dell'event
      */
     function init($id, $type, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
@@ -90,7 +90,7 @@ class ReviewRecordBox {
      * \brief        Init ReviewBox instance for Media Page
      * \param        $id of the review to display information, Event or Record class
      * \param   $className, $limit, $skip,$currentUserId
-     * \todo        
+     * @todo        
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
@@ -110,7 +110,7 @@ class ReviewRecordBox {
      * \brief        Init ReviewBox instance for Personal Page
      * \param        $id of the user who owns the page, $type of user, $className Record or Event class
      * \param	    $type, $className
-     * \todo        fare la query per il proprietario dell'event
+     * @todo        fare la query per il proprietario dell'event
      */
     function initForPersonalPage($id, $type, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();

@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Stefano Muscas
  * @version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller per subscribe, home, solo per fare BETA
  * \details		invia mail ad indirizzo predefinito per tenere elenco di subscriber
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		Fare APi su Wiki
+ * @warning
+ * @bug
+ * @todo		Fare APi su Wiki
  *
  */
 if (!defined('ROOT_DIR'))

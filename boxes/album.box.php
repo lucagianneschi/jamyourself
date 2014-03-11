@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento info album
  * \details		Recupera le informazioni dell'album, le inserisce in un array da passare alla view
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		
+ * @warning
+ * @bug
+ * @todo		
  *
  */
 
@@ -36,7 +36,7 @@ class AlbumBox {
      * \fn	init($id, $limit = 3, $skip = 0, $upload = false)
      * \brief	Init AlbumBox instance for Personal Page or UploadPage
      * \param	$id for user that owns the page, $limit, $skip, $upload
-     * \todo    
+     * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
@@ -55,7 +55,7 @@ class AlbumBox {
      * \fn	initForDetail($id $limit - optional, $skip - optional)
      * \brief	Init AlbumBox instance for Personal Page, detailed view
      * \param	$id of the album to display information,$limit, $skip
-     * \todo    
+     * @todo    
      */
     public function initForDetail($id, $limit = 15, $skip = 0) {
 	$connectionService = new ConnectionService();

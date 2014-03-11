@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di operazioni social legate all'utente
  * \details		controller di utilities riferite alle operazioni di tipo social sulla classe utente
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		FAre API su Wiki; implementare
+ * @warning
+ * @bug
+ * @todo		FAre API su Wiki; implementare
  *
  */
 if (!defined('ROOT_DIR'))
@@ -31,7 +31,7 @@ class SocialController extends REST {
     /**
      * \fn		addShare()
      * \brief   increment the sharecounter of an object
-     * \todo
+     * @todo
      */
     public function addShare() {
 	try {
@@ -113,7 +113,7 @@ class SocialController extends REST {
     /**
      * \fn		linkUser()
      * \brief   link the user account with a Social Network
-     * \todo
+     * @todo
      */
     public function linkUser() {
 	try {
@@ -147,7 +147,7 @@ class SocialController extends REST {
     /**
      * \fn		loginUser()
      * \brief   login the user with a Social Network account
-     * \todo
+     * @todo
      */
     public function loginUser() {
 	try {
@@ -178,7 +178,7 @@ class SocialController extends REST {
     /**
      * \fn		unlinkUser()
      * \brief   unlink the user account from a Social Network
-     * \todo
+     * @todo
      */
     public function unlinkUser() {
 	try {

@@ -3,15 +3,15 @@
 /* ! \par		Info Generali:
  * @author		Luca Gianneschi
  * @version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		file per funzioni di utilità per controller
  * \details		file per funzioni di utilità per controller
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		eliminare dopo realizzazione recupero featuring
+ * @warning
+ * @bug
+ * @todo		eliminare dopo realizzazione recupero featuring
  */
 
 if (!defined('ROOT_DIR'))
@@ -24,7 +24,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 /**
  * \fn	getFeaturingArray() 
  * \brief   funzione per il recupero dei featuring per l'event
- * \todo  getRelatedUsers non esiste più
+ * @todo  getRelatedUsers non esiste più
  */
 function getFeaturingArray() {
     if (isset($_SESSION['currentUser'])) {
