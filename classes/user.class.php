@@ -778,10 +778,10 @@ class User {
     public function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$data = new DateTime($this->getCreatedat());
-	$string .= '[createdat] => ' . $data->format('d-m-Y H:i:s') . '<br />';
-	$data = new DateTime($this->getUpdatedat());
-	$string .= '[updatedat] => ' . $data->format('d-m-Y H:i:s') . '<br />';
+	$createdat = new DateTime($this->getCreatedat());
+	$string .= '[createdat] => ' . $createdat->format('d-m-Y H:i:s') . '<br />';
+	$updatedat = new DateTime($this->getUpdatedat());
+	$string .= '[updatedat] => ' . $updatedat->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[address] => ' . $this->getAddress() . '<br />';
 	$string .= '[avatar] => ' . $this->getAvatar() . '<br />';
@@ -808,8 +808,8 @@ class User {
 	$string .= '[levelvalue] => ' . $this->getLevelvalue() . '<br />';
 	$string .= '[password] => ' . $this->getPassword() . '<br />';
 	$string .= '[premium] => ' . $this->getPremium() . '<br />';
-	$data = new DateTime($this->getPremiumexpirationdate());
-	$string .= '[premiumexpirationdate] => ' . $data->format('d-m-Y H:i:s') . '<br />';
+	$premiumexpirationdate = new DateTime($this->getPremiumexpirationdate());
+	$string .= '[premiumexpirationdate] => ' . $premiumexpirationdate->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	foreach ($this->getSettings() as $settings) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
