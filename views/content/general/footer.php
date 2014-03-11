@@ -1,7 +1,7 @@
 <?php
 $username = '';
 $id = '';
-if (isset($_SESSION['id']) && isset($_SESSION['username]) ) {
+if (isset($_SESSION['id']) && isset($_SESSION['username']) ) {
     $username = $_SESSION['username'];
     $id = $_SESSION['id'];
 }
