@@ -69,7 +69,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnail();
 				    $recordObjectId = $value->getRecord()->getId();
 				    $recordReview_title = $value->getRecord()->getTitle();
-				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
+				    $recordReview_data = $value->getCreatedat();
 				    #TODO
 				    //$recordReview_rating = $value->getRecord()->getRating();
 				    $recordReview_text = $value->getText();

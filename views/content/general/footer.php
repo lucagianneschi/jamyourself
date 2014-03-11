@@ -1,10 +1,9 @@
 <?php
 $username = '';
 $id = '';
-if (isset($_SESSION['currentUser'])) {
-    $currentUser = $_SESSION['currentUser'];
-    $username = $currentUser->getUsername();
-    $id = $currentUser->getId();
+if (isset($_SESSION['id']) && isset($_SESSION['username']) ) {
+    $username = $_SESSION['username'];
+    $id = $_SESSION['id'];
 }
 ?>
 <footer id="footer" >

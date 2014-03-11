@@ -66,7 +66,7 @@ class ReviewEventBox {
 	if ($type == 'SPOTTER') {
 	    $reviews = selectReviewEvent($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	} else {
-	    $reviews = selectReviewEvent($connection, null, array('event' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	    $reviews = selectReviewEvent($connection, null, array('touser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	}
 	if ($reviews === false) {
 	    $this->error = 'Errore nella query';
@@ -121,8 +121,8 @@ class ReviewRecordBox {
 	if ($type == 'SPOTTER') {
 	    $reviews = selectReviewRecord($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	} else {
-	    $reviews = selectReviewRecord($connection, null, array('record' => $id), array('createdat' => 'DESC'), $limit, $skip);
-	}
+	    $reviews = selectReviewRecord($connection, null, array('touser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	} 
 	if ($reviews === false) {
 	    $this->error = 'Errore nella query';
 	}

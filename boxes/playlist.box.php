@@ -37,13 +37,13 @@ class PlaylistInfoBox {
      * @return	playlistInfoBox
      */
     public function init() {
-	$user = $_SESSION['currentUser'];
+	$userId = $_SESSION['id'];
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$playlists = selectPlaylists($connection, null, array('fromuser' => $user->getId()));
+	$playlists = selectPlaylists($connection, null, array('fromuser' => $userId));
 	if ($playlists === false) {
 	    $this->error = 'Errore nella query';
 	}
