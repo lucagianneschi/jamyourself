@@ -434,4 +434,8 @@ define('NEO4J_USER', 'jamyourself');
  */
 define('NEO4J_PSW', 'j4my0urs3lf');
 
+/** 
+ *  Set the timezone for server side
+ */
+ini_set('date.timezone', 'GMT');
 ?>
