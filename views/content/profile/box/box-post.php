@@ -21,6 +21,7 @@ $postBox->init($_POST['id']);
 
 if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
+    $currentUserId = $_SESSION['id'];
     $posts = $postBox->postArray;
     $postCounter = count($posts);
     ?>
@@ -65,7 +66,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 			    $post_loveCounter = $value->getLovecounter();
 			    $post_commentCounter = $value->getCommentcounter();
 			    $connectionService = new ConnectionService();
-			    if (existsRelation($connectionService,'user', $currentUser->getId(), 'comment', $post_objectId, 'loved')) {
+			    if (existsRelation($connectionService,'user', $currentUserId, 'comment', $post_objectId, 'loved')) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {
@@ -125,7 +126,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 	    			<div class="row">
 	    			    <div class="box-propriety">
 	    				<div class="small-5 columns ">
-	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>', '<?php echo $currentUserId; ?>')"><?php echo $text_love; ?></a>
 	    				    <a class="note grey" onclick="loadBoxOpinion('<?php echo $post_objectId; ?>', '<?php echo $post_fromUser_objectId; ?>', 'Comment', '#<?php echo $post_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 	    				</div>
 	    				<div class="small-5 columns propriety ">

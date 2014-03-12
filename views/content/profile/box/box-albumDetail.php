@@ -31,7 +31,7 @@ if (session_id() == '')
     session_start();
 if (isset($_SESSION['currentUser']))
     $currentUser = $_SESSION['currentUser'];
-
+$currentUserId = $_SESSION['id'];
 $albumDetail = new AlbumBox();
 $albumDetail->initForDetail($id, $limit, $skip);
 
@@ -74,7 +74,7 @@ $fileManagerService = new FileManagerService();
 	<?php
 	foreach ($albumDetail->imageArray as $key => $value) {
 		$connectionService = new ConnectionService();
-	    if (existsRelation($connectionService,'user', $currentUser->getId(), 'image', $value->getId(), 'loved')) {
+	    if (existsRelation($connectionService,'user', $currentUserId, 'image', $value->getId(), 'loved')) {
 			$css_love = '_love orange';
 			$text_love = $views['unlove'];
 	    } else {
