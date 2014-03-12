@@ -523,4 +523,56 @@ function updateUser($connection, $user) {
     }
 }
 
+/**
+ * updateVideo function 
+ * @param   $connection
+ * @param Video $video Video class instance
+ * @return BOOL true if update OK, false otherwise
+ */
+function updateVideo($connection, $video) {
+    $autocommit = 0;
+    $result = mysqli_query($connection, "SELECT @@autocommit");
+    if ($result === false) {
+	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	return false;
+    } else {
+	$row = mysqli_fetch_row($result);
+	$autocommit = $row[0];
+    }
+    mysqli_autocommit($connection, false);
+    $sql = "UPDATE comment SET ";
+    $sql .= "active = '" . $video->getActive() . "',";
+    $sql .= "author = '" . $video->getAuthor() . "',";
+    $sql .= "counter = '" . $video->getCounter() . "',";
+    $sql .= "cover = '" . $video->getCover() . "',";
+    $sql .= "description = '" . $video->getDescription() . "',";
+    $sql .= "duration = '" . $video->getDuration() . "',";
+    $sql .= "fromuser = '" . $video->getFromuser() . "',";
+    $sql .= "lovecounter = '" . $video->getLovecounter() . "',";
+    $sql .= "thumbnail = '" . $video->getThumbnail() . "',";
+    $sql .= "title = '" . $video->getTitle() . "',";
+    $sql .= "updatedat = '" . date('Y-m-d H:i:s') . "'";
+    $sql .= " WHERE id = " . $video->getId();
+    $resultsUpdate = mysqli_query($connection, $sql);
+    $sql = "DELETE FROM video_tag WHERE id = " . $video->getId();
+    $resultsDelete = mysqli_query($connection, $sql);
+    $resultsInsert = true;
+    foreach ($video->getTag() as $tag) {
+	$sql = "INSERT INTO video_tag (id, tag) VALUES (" . $video->getId() . ", '" . $tag . "')";
+	$results = mysqli_query($connection, $sql);
+	if ($results === false) {
+	    $resultsInsert = false;
+	}
+    }
+    if ($resultsUpdate === false || $resultsDelete === false || $resultsInsert === false) {
+	mysqli_rollback($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return false;
+    } else {
+	mysqli_commit($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return true;
+    }
+}
+
 ?>
