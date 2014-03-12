@@ -23,8 +23,16 @@ require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
 
 /**
- * \brief	AlbumBox class 
- * \details	box class to pass info to the view 
+ * AlbumBox  class 
+ * Box class to pass info to the view, Recupera le informazioni degli album dell'utente
+ * 
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class AlbumBox {
 
@@ -33,9 +41,10 @@ class AlbumBox {
     public $imageArray = array();
 
     /**
-     * \fn	init($id, $limit = 3, $skip = 0, $upload = false)
-     * \brief	Init AlbumBox instance for Personal Page or UploadPage
-     * @param	$id for user that owns the page, $limit, $skip, $upload
+     * Init AlbumBox instance for Personal Page or UploadPage
+     * @param	int $id ,for user that owns the page
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip
      * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
@@ -52,9 +61,10 @@ class AlbumBox {
     }
 
     /**
-     * \fn	initForDetail($id $limit - optional, $skip - optional)
-     * \brief	Init AlbumBox instance for Personal Page, detailed view
-     * @param	$id of the album to display information,$limit, $skip
+     * Init AlbumBox instance for Personal Page, detailed view
+     * @param	int $id , of the album to display information
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip
      * @todo    
      */
     public function initForDetail($id, $limit = 15, $skip = 0) {

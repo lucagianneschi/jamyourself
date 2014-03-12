@@ -1,20 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * @author		Luca Gianneschi
- * @version		0.3
- * @since		2013
- * @copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		box caricamento info event
- * \details		Recupera le informazioni dell'evento, le inserisce in un array da passare alla view
- * \par			Commenti:
- * @warning
- * @bug
- * @todo
- *
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -23,8 +8,15 @@ require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
 
 /**
- * \brief	EventBox class
- * \details	box class to pass info to the view
+ * EventBox class, box class to pass info to the view
+ * Recupera le informazioni dell'evento, le inserisce in un array da passare alla view
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class EventBox {
 
@@ -32,10 +24,11 @@ class EventBox {
     public $eventArray = array();
 
     /**
-     * \fn	init($id)
-     * \brief	Init EventBox instance for Personal Page
+     * Init EventBox instance for Personal Page
      * @param	$id for user that owns the page
-     * @todo    inserire orderby
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip
+     * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
@@ -51,9 +44,8 @@ class EventBox {
     }
 
     /**
-     * \fn	initForMediaPage($id)
-     * \brief	Init EventBox instance for Media Page
-     * @param	$id for event
+     * Init EventBox instance for Media Page
+     * @param	int $id for event
      */
     public function initForMediaPage($id) {
 	$connectionService = new ConnectionService();
@@ -69,10 +61,20 @@ class EventBox {
     }
 
     /**
-     * \fn	init($city = null, $type = null, $eventDate = null, $limit = null, $skip = null)
-     * \brief	Init EventFilter instance for TimeLine
-     * @param	$city = null, $type = null, $eventDate = null, $limit = null, $skip = null;
-     * @todo    reimplementare $tags al momento in cui vengono implementati nella vista stream
+     * Init EventFilter instance for TimeLine
+     * @param   float $lat = null, goal set for latitude
+     * @param   float $long = null, goal set for longitude
+     * @param	string $city = null, city to search event nearby
+     * @param	string $country = null, country for the city
+     * @param	array $tags = null, tags for event
+     * @param   string $type = null, type of the event
+     * @param   date $eventDate = null, date of the event
+     * @param   float $distance, maximum distance fo the event
+     * @param	string  $unit, 'km' (kilometers) or 'mi'(miles)
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @param   string $field, field for ordering results 
+     * @todo    
      */
     public function initForStream($lat = null, $long = null, $city = null, $country = null, $tags = null, $eventDate = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = 'loveCounter') {
 	
