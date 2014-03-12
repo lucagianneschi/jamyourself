@@ -71,6 +71,16 @@ function update($connection, $class, $set, $increment = null, $decrement = null,
 }
 
 function updateAlbum($connection, $album) {
+	$autocommit = 0;
+	$result = mysqli_query($link, "SELECT @@autocommit");
+	if ($result === false) {
+		jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+        return false;
+	} else {
+		$row = mysqli_fetch_row($result);
+		$autocommit = $row[0];
+	}
+	
 	mysqli_autocommit($connection, false);
 	
 	$sql = "UPDATE album SET ";
@@ -105,11 +115,11 @@ function updateAlbum($connection, $album) {
 	
 	if ($resultsUpdate === false || $resultsDelete === false || $resultsInsert === false)  {
 		mysqli_rollback($connection);
-		mysqli_autocommit($connection, true);
+		$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
 		return false;
 	} else {
 		mysqli_commit($connection);
-		mysqli_autocommit($connection, true);
+		$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
 		return true;
 	}
 }
