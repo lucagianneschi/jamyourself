@@ -315,4 +315,52 @@ function updateImage($connection, $image) {
     }
 }
 
+/**
+ * updatePlaylist function 
+ * @param   $connection
+ * @param Playlist $playlist Playlist class instance
+ * @return BOOL true if update OK, false otherwise
+ */
+function updatePlaylist($connection, $playlist) {
+    $autocommit = 0;
+    $result = mysqli_query($connection, "SELECT @@autocommit");
+    if ($result === false) {
+	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	return false;
+    } else {
+	$row = mysqli_fetch_row($result);
+	$autocommit = $row[0];
+    }
+    mysqli_autocommit($connection, false);
+    $sql = "UPDATE comment SET ";
+    $sql .= "active = '" . $playlist->getActive() . "',";
+    $sql .= "fromuser = '" . $playlist->getFromuser() . "',";
+    $sql .= "name = '" . $playlist->getName() . "',";
+    $sql .= "songcounter = '" . $playlist->getSongcounter() . "',";
+    $sql .= "lovecounter = '" . $playlist->getLovecounter() . "',";
+    $sql .= "unlimited = '" . $playlist->getUnlimited() . "',";
+    $sql .= "updatedat = '" . date('Y-m-d H:i:s') . "'";
+    $sql .= " WHERE id = " . $playlist->getId();
+    $resultsUpdate = mysqli_query($connection, $sql);
+    $sql = "DELETE FROM image_tag WHERE id = " . $playlist->getId();
+    $resultsDelete = mysqli_query($connection, $sql);
+    $resultsInsert = true;
+    foreach ($playlist->getSongs() as $song) {
+	$sql = "INSERT INTO playlist_song (id, song) VALUES (" . $playlist->getId() . ", '" . $song . "')";
+	$results = mysqli_query($connection, $sql);
+	if ($results === false) {
+	    $resultsInsert = false;
+	}
+    }
+    if ($resultsUpdate === false || $resultsDelete === false || $resultsInsert === false) {
+	mysqli_rollback($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return false;
+    } else {
+	mysqli_commit($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return true;
+    }
+}
+
 ?>
