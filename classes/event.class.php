@@ -36,8 +36,8 @@ class Event {
     private $genre;
     private $invitedcounter;
     private $latitude;
-    private $longitude;
     private $locationname;
+    private $longitude;
     private $lovecounter;
     private $reviewcounter;
     private $refusedcounter;
@@ -200,21 +200,21 @@ class Event {
     }
 
     /**
-     * \fn	getLongitude()
-     * \brief	Return the longitude value
-     * @return	long
-     */
-    public function getLongitude() {
-	return $this->longitude;
-    }
-
-    /**
      * \fn	string getLocationname()
      * \brief	Return the name of the location
      * @return	string
      */
     public function getLocationname() {
 	return $this->locationname;
+    }
+
+    /**
+     * \fn	getLongitude()
+     * \brief	Return the longitude value
+     * @return	long
+     */
+    public function getLongitude() {
+	return $this->longitude;
     }
 
     /**
@@ -434,21 +434,21 @@ class Event {
     }
 
     /**
-     * \fn	void setLongitude($longitude)
-     * \brief	Sets the longitude value
-     * @param	$longitude
-     */
-    public function setLongitude($longitude) {
-	$this->longitude = $longitude;
-    }
-
-    /**
      * \fn	void setLocationName($locationName)
      * \brief	Sets the locationName value
      * @param	string
      */
     public function setLocationname($locationname) {
 	$this->locationname = $locationname;
+    }
+
+    /**
+     * \fn	void setLongitude($longitude)
+     * \brief	Sets the longitude value
+     * @param	$longitude
+     */
+    public function setLongitude($longitude) {
+	$this->longitude = $longitude;
     }
 
     /**
@@ -544,8 +544,8 @@ class Event {
 	}
 	$string .= '[invitedcounter] => ' . $this->getInvitedcounter() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
-	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[locationname] => ' . $this->getLocationname() . '<br />';
+	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
 	$string .= '[reviewcounter] => ' . $this->getReviewcounter() . '<br />';
 	$string .= '[refusedcounter] => ' . $this->getRefusedCounter() . '<br />';
