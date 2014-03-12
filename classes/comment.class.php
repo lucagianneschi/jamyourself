@@ -1,22 +1,19 @@
 <?php
 
-/* ! \par		Info Generali:
- *  @author		Daniele Caldelli, Stefano Muscas
- *  @version		0.3
- *  @since		2013
- *  @copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		Comment 
- *  \details		Classe dedicata a POST, REVIEW, COMMENT & MESSAGGI 
- *  \par		Commenti:
- *  @warning
- *  @bug
- *  @todo
+/**
+ * Comment class 
+ * Classe dedicata a POST, REVIEW, COMMENT & MESSAGGI
  * 
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Comment">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Comment">API</a>
+ * @author		Daniele Caldelli 
+ * @author              Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Comment definizione classe                
  */
-
 class Comment {
 
     private $id;
@@ -477,8 +474,7 @@ class Comment {
     }
 
     /**
-     * \fn	string __toString()
-     * \brief	Return a printable string representing the Comment object
+     * Return a printable string representing the Album object
      * @return	string
      */
     public function __toString() {
