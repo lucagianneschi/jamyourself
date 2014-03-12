@@ -73,7 +73,6 @@ function update($connection, $class, $set, $increment = null, $decrement = null,
     return true;
 }
 
-
 /**
  * updateAlbum function 
  * @param   $connection
@@ -191,11 +190,75 @@ function updateComment($connection, $comment) {
     }
 }
 
-
-
-
-
-
-
+/**
+ * updateEvent function 
+ * @param   $connection
+ * @param Event $event Event class instance
+ * @return BOOL true if update OK, false otherwise
+ */
+function updateEvent($connection, $event) {
+    $autocommit = 0;
+    $result = mysqli_query($connection, "SELECT @@autocommit");
+    if ($result === false) {
+	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	return false;
+    } else {
+	$row = mysqli_fetch_row($result);
+	$autocommit = $row[0];
+    }
+    mysqli_autocommit($connection, false);
+    $sql = "UPDATE event SET ";
+    $sql .= "active = '" . $event->getActive() . "',";
+    $sql .= "album = '" . $event->getAlbum() . "',";
+    $sql .= "address = '" . $event->getAddress() . "',";
+    $sql .= "attendeecounter = '" . $event->getAttendeecounter() . "',";
+    $sql .= "cancelledcounter = '" . $event->getCancelledcounter() . "',";
+    $sql .= "city = '" . $event->getCity() . "',";
+    $sql .= "commentcounter = '" . $event->getCommentcounter() . "',";
+    $sql .= "counter = '" . $event->getCounter() . "',";
+    $sql .= "cover = '" . $event->getCover() . "',";
+    $sql .= "description = '" . $event->getDescription() . "',";
+    $sql .= "eventdate = '" . $event->getEventdate() . "',";
+    $sql .= "fromuser = '" . $event->getFromuser() . "',";
+    $sql .= "invitedcounter = '" . $event->getInvitedcounter() . "',";
+    $sql .= "latitude = '" . $event->getLatitude() . "',";
+    $sql .= "locationname = '" . $event->getLocationname() . "',";
+    $sql .= "longitude = '" . $event->getLongitude() . "',";
+    $sql .= "lovecounter = '" . $event->getLovecounter() . "',";
+    $sql .= "reviewcounter = '" . $event->getReviewcounter() . "',";
+    $sql .= "refusedcounter = '" . $event->getRefusedCounter() . "',";
+    $sql .= "sharecounter = '" . $event->getSharecounter() . "',";
+    $sql .= "thumbnail = '" . $event->getThumbnail() . "',";
+    $sql .= "title = '" . $event->getTitle() . "',";
+    $sql .= "updatedat = '" . date('Y-m-d H:i:s') . "'";
+    $sql .= " WHERE id = " . $event->getId();
+    $resultsUpdate = mysqli_query($connection, $sql);
+    $sql = "DELETE FROM album_tag WHERE id = " . $event->getId();
+    $resultsDelete = mysqli_query($connection, $sql);
+    $resultsInsert = true;
+    foreach ($event->getGenre() as $genre) {
+	$sql = "INSERT INTO comment_genre (id, genre) VALUES (" . $event->getId() . ", '" . $genre . "')";
+	$results = mysqli_query($connection, $sql);
+	if ($results === false) {
+	    $resultsInsert = false;
+	}
+    }
+    foreach ($event->getTag() as $tag) {
+	$sql = "INSERT INTO comment_tag (id, tag) VALUES (" . $event->getId() . ", '" . $tag . "')";
+	$results = mysqli_query($connection, $sql);
+	if ($results === false) {
+	    $resultsInsert = false;
+	}
+    }
+    if ($resultsUpdate === false || $resultsDelete === false || $resultsInsert === false) {
+	mysqli_rollback($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return false;
+    } else {
+	mysqli_commit($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return true;
+    }
+}
 
 ?>
