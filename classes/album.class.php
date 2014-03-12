@@ -1,22 +1,18 @@
 <?php
 
-/* ! \par		Info Generali:
- *  @author		Maria Laura Fresu
- *  @version		0.3
- *  @since		2013
- *  @copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		Album
- *  \details		Classe raccoglitore per immagini
- *  \par		Commenti:
- *  @warning
- *  @bug
- *  @todo
- *
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Album">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Album">API</a>
+/**
+ * Album  class 
+ * Classe raccoglitore per immagini
+ * 
+ * @author		Maria Laura Fresu
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Album definizione classe                
  */
-
 class Album {
 
     private $id;
@@ -39,8 +35,7 @@ class Album {
     private $title;
 
     /**
-     * \fn	getId()
-     * \brief	Return the id value
+     * Return the id value
      * @return	string
      */
     public function getId() {
@@ -48,17 +43,15 @@ class Album {
     }
 
     /**
-     * \fn	DateTime getCreatedat()
-     * \brief	Return the Album creation date
-     * @return	DateTime
+     * Return the Album creation date
+     * @return	DateTime 
      */
     public function getCreatedat() {
 	return $this->createdat;
     }
 
     /**
-     * \fn	DateTime getUpdatedat()
-     * \brief	Return the Album modification date
+     * Return the Album modification date
      * @return	DateTime
      */
     public function getUpdatedat() {
@@ -66,17 +59,15 @@ class Album {
     }
 
     /**
-     * \fn	BOOL getActive()
-     * \brief	Return the active value
-     * @return	BOOL
+     * Return the active value
+     * @return	int
      */
     public function getActive() {
 	return $this->active;
     }
 
     /**
-     * \fn	getCommentcounter()
-     * \brief	Return the comment counter value (number of comments)
+     * Return the comment counter value (number of comments)
      * @return	int
      */
     public function getCommentcounter() {
@@ -84,17 +75,15 @@ class Album {
     }
 
     /**
-     * \fn	int getCounter()
-     * \brief	Return the counter value
-     * @return	int
+     * Return the counter value
+     * @return	int counter
      */
     public function getCounter() {
 	return $this->counter;
     }
 
     /**
-     * \fn      getCover()
-     * \brief	Return the cover (path file) value
+     * Return the cover (path file) value
      * @return	string
      */
     public function getCover() {
@@ -102,8 +91,7 @@ class Album {
     }
 
     /**
-     * \fn	getDescription()
-     * \brief	Return the description value
+     * Return the description value
      * @return	string
      */
     public function getDescription() {
@@ -111,8 +99,7 @@ class Album {
     }
 
     /**
-     * \fn	getFromuser()
-     * \brief	Return the id value for the fromUser
+     * Return the id value for the fromUser
      * @return	int
      */
     public function getFromuser() {
@@ -120,8 +107,7 @@ class Album {
     }
 
     /**
-     * \fn	int getImagecounter()
-     * \brief	Return the image counter value (number of images)
+     * Return the image counter value (number of images)
      * @return	int
      */
     public function getImagecounter() {
@@ -129,8 +115,7 @@ class Album {
     }
 
     /**
-     * \fn	int getImages()
-     * \brief	Return the array of images
+     * Return the array of images
      * @return	int
      */
     public function getImages() {
@@ -138,8 +123,7 @@ class Album {
     }
 
     /**
-     * \fn	getLatitude()
-     * \brief	Return the latitude value
+     * Return the latitude value
      * @return	long
      */
     public function getLatitude() {
@@ -147,8 +131,7 @@ class Album {
     }
 
     /**
-     * \fn	getLongitude()
-     * \brief	Return the longitude value
+     * Return the longitude value
      * @return	long
      */
     public function getLongitude() {
@@ -156,8 +139,7 @@ class Album {
     }
 
     /**
-     * \fn	getLovecounter()
-     * \brief	Return the int value of loveCounter, counting the love action on the album
+     * Return the int value of loveCounter, counting the love action on the album
      * @return	int
      */
     public function getLovecounter() {
@@ -165,8 +147,7 @@ class Album {
     }
 
     /**
-     * \fn	getSharecounter()
-     * \brief	Return the counter for sharing action
+     * Return the counter for sharing action
      * @return	int
      */
     public function getSharecounter() {
@@ -174,8 +155,7 @@ class Album {
     }
 
     /**
-     * \fn	getTag()
-     * \brief	Return the tags value, array of string to categorize the album
+     * Return the tags value, array of string to categorize the album
      * @return	int
      */
     public function getTag() {
@@ -183,8 +163,7 @@ class Album {
     }
 
     /**
-     * \fn	getThumbnail()
-     * \brief	Return the thumbnail value
+     * Return the thumbnail value
      * @return	string
      */
     public function getThumbnail() {
@@ -192,8 +171,7 @@ class Album {
     }
 
     /**
-     * \fn	getTitle()
-     * \brief	Return the title value
+     * Return the title value
      * @return	string
      */
     public function getTitle() {
@@ -201,8 +179,7 @@ class Album {
     }
 
     /**
-     * \fn	void setId($id)
-     * \brief	Sets the id value
+     * Sets the id value
      * @param	string
      */
     public function setId($id) {
@@ -210,8 +187,7 @@ class Album {
     }
 
     /**
-     * \fn	void setCreatedat($createdat)
-     * \brief	Sets the Album creation date
+     * Sets the Album creation date
      * @param	DateTime
      */
     public function setCreatedat($createdat) {
@@ -219,8 +195,7 @@ class Album {
     }
 
     /**
-     * \fn		void setUpdatedat($updatedat)
-     * \brief	Sets the Album modification date
+     * Sets the Album modification date
      * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
@@ -228,8 +203,7 @@ class Album {
     }
 
     /**
-     * \fn	void setActive($active)
-     * \brief	Sets the active value
+     * Sets the active value
      * @param	BOOL
      */
     public function setActive($active) {
@@ -237,8 +211,7 @@ class Album {
     }
 
     /**
-     * \fn	void setCommentcounter($commentcounter)
-     * \brief	Sets the commnetCounter value
+     * Sets the commnetCounter value
      * @param	int
      */
     public function setCommentcounter($commentcounter) {
@@ -246,8 +219,7 @@ class Album {
     }
 
     /**
-     * \fn	void setCounter($counter)
-     * \brief	Sets the counter value
+     * Sets the counter value
      * @param	int
      */
     public function setCounter($counter) {
@@ -255,8 +227,7 @@ class Album {
     }
 
     /**
-     * \fn	void setCover($cover)
-     * \brief	Sets the cover value
+     * Sets the cover value
      * @param	string
      */
     public function setCover($cover) {
@@ -264,8 +235,7 @@ class Album {
     }
 
     /**
-     * \fn	void setDescription($description)
-     * \brief	Sets the description value
+     * Sets the description value
      * @param	string
      */
     public function setDescription($description) {
@@ -273,8 +243,7 @@ class Album {
     }
 
     /**
-     * \fn	setFromuser($fromuser))
-     * \brief	Sets the fromUser value, int id
+     * Sets the fromUser value, int id
      * @param	int
      */
     public function setFromuser($fromuser) {
@@ -282,8 +251,7 @@ class Album {
     }
 
     /**
-     * \fn	void setImagecounter($imagecounter)
-     * \brief	Sets the imagetCounter value
+     * Sets the imagetCounter value
      * @param	int
      */
     public function setImagecounter($imagecounter) {
@@ -291,8 +259,7 @@ class Album {
     }
 
     /**
-     * \fn	void setImages($images)
-     * \brief	Sets the images value
+     * Sets the images value
      * @param	array
      */
     public function setImages($images) {
@@ -300,8 +267,7 @@ class Album {
     }
 
     /**
-     * \fn	void setLatitude($latitude)
-     * \brief	Sets the latitude value
+     * Sets the latitude value
      * @param	$longitude
      */
     public function setLatitude($latitude) {
@@ -309,8 +275,7 @@ class Album {
     }
 
     /**
-     * \fn	void setLongitude($longitude)
-     * \brief	Sets the longitude value
+     * Sets the longitude value
      * @param	$longitude
      */
     public function setLongitude($longitude) {
@@ -318,8 +283,7 @@ class Album {
     }
 
     /**
-     * \fn	void setLovecounter($lovecounter)
-     * \brief	Sets the loveCounter value
+     * Sets the loveCounter value
      * @param	int
      */
     public function setLovecounter($lovecounter) {
@@ -327,8 +291,7 @@ class Album {
     }
 
     /**
-     * \fn	void setCounter($sharecounter)
-     * \brief	Sets the sharecounter value
+     * Sets the sharecounter value
      * @param	int
      */
     public function setSharecounter($sharecounter) {
@@ -336,8 +299,7 @@ class Album {
     }
 
     /**
-     * \fn	void setTag($tag)
-     * \brief	Sets the tags value,array of strings
+     * Sets the tags value,array of strings
      * @param	array
      */
     public function setTag($tag) {
@@ -345,8 +307,7 @@ class Album {
     }
 
     /**
-     * \fn	void setTitle($title)
-     * \brief	Sets the title value
+     * Sets the title value
      * @param	string
      */
     public function setTitle($title) {
@@ -354,8 +315,7 @@ class Album {
     }
 
     /**
-     * \fn	void setThumbnail($thumbnail)
-     * \brief	Sets the thumbnail value
+     * Sets the thumbnail value
      * @param	string
      */
     public function setThumbnail($thumbnail) {
@@ -363,8 +323,7 @@ class Album {
     }
 
     /**
-     * \fn		string __toString()
-     * \brief	Return a printable string representing the Album object
+     * Return a printable string representing the Album object
      * @return	string
      */
     public function __toString() {
