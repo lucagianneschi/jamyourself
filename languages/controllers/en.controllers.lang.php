@@ -1,18 +1,16 @@
 <?php
 
-/* ! \par Info Generali:
- *  @author    Luca Gianneschi
- *  @version   1.0
- *  @since      2013
- *  @copyright Jamyourself.com 2013
- *
- *  \par       Info:
- *  \brief     English strings for controllers
- *  @warning
- *  @bug
- *  @todo 
+/**
+ * English Strings for controllers
+ * 
+ * @author Luca Gianneschi
+ * @version		0.2
+ * @since		2014-03-12
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
-
 $controllers = array(
     //GENERAL
     'INVALIDEMAIL' => 'Invalid e-Mail',
@@ -55,6 +53,7 @@ $controllers = array(
     'SHORTPOST' => 'Your post is too short | lenght:',
     'LONGPOST' => 'Your post is too long | lenght:',
     'NOPOST' => 'No post specified',
+    'POSTERROR' => 'Error Saving Your Post',
     //COMMENT
     'NOCOMMENT' => 'No comment specified',
     'SHORTCOMMENT' => 'Your comment is too short | lenght:',

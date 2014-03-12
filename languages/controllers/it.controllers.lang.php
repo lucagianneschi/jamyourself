@@ -1,18 +1,16 @@
 <?php
 
-/* ! \par Info Generali:
- *  @author    Luca Gianneschi
- *  @version   1.0
- *  @since      2013
- *  @copyright Jamyourself.com 2013
- *
- *  \par       Info:
- *  \brief     Italian strings for controllers
- *  @warning
- *  @bug
- *  @todo	traduzioni 
+/**
+ * Italian Strings for controllers
+ * 
+ * @author Luca Gianneschi
+ * @version		0.2
+ * @since		2014-03-12
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
-
 $controllers = array(
     //GENERAL
     'INVALIDEMAIL' => 'E-Mail non valida',

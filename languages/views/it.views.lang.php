@@ -1,15 +1,15 @@
 <?php
 
-/* ! \par Info Generali:
- *  @author    Maria Laura Fresu
- *  @version   1.0
- *  @since      2013
- *  @copyright Jamyourself.com 2013
- *  \par       Info:
- *  \brief     Italian strings for views
- *  @warning
- *  @bug
- *  @todo
+/**
+ * Italian Strings for views
+ * 
+ * @author Maria Laura Fresu
+ * @version		0.2
+ * @since		2014-03-12
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 $views = array(
     'prev' => 'Previous',
