@@ -74,8 +74,7 @@ class EventBox {
      * @param	string  $unit, 'km' (kilometers) or 'mi'(miles)
      * @param   int $limit, number of album to display
      * @param   int $skip, number of album to skip 
-     * @param   string $field, field for ordering results 
-     * @todo    
+     * @param   string $field, field for ordering results    
      */
     public function initForStream($lat = null, $long = null, $city = null, $country = null, $tags = null, $eventDate = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = 'loveCounter') {
 	

@@ -1,19 +1,5 @@
 <?php
 
-/* ! \par               Info Generali:
- * @author              Luca Gianneschi
- * @version             0.3
- * @since                2013
- * @copyright           Jamyourself.com 2013
- * \par                 Info Classe:
- * \brief               box caricamento review event e record
- * \details             Recupera le informazioni sulla review dell'event, le inserisce in un array da passare alla view
- * \par                 Commenti:
- * @warning
- * @bug
- * @todo                
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -22,8 +8,15 @@ require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
 
 /**
- * \brief        ReviewEventBox class
- * \details      box class to pass info to the view
+ * ReviewEventBox class, box class to pass info to the view,
+ * Recupera le informazioni del commento e le mette in oggetto commentBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class ReviewEventBox {
 
@@ -31,11 +24,10 @@ class ReviewEventBox {
     public $reviewArray = array();
 
     /**
-     * \fn        initForMediaPage($id, $className, $limit, $skip)
-     * \brief        Init ReviewBox instance for Media Page
-     * @param        $id of the review to display information, Event or Record class
-     * @param   $className, $limit, $skip,$currentUserId
-     * @todo        
+     * Init ReviewEventBox instance for Media Page
+     * @param   int $id for object that has been commented
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip    
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
@@ -51,11 +43,11 @@ class ReviewEventBox {
     }
 
     /**
-     * \fn        initForPersonalPage($id, $type, $className)
-     * \brief        Init ReviewBox instance for Personal Page
-     * @param        $id of the user who owns the page, $type of user, $className Record or Event class
-     * @param	    $type, $className
-     * @todo        fare la query per il proprietario dell'event
+     * Init ReviewEventBox instance for Personal Page
+     * @param   int $id of the user who owns the page,
+     * @param   string $type of user
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip    
      */
     function init($id, $type, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
@@ -77,8 +69,15 @@ class ReviewEventBox {
 }
 
 /**
- * \brief        ReviewRecordBox class
- * \details      box class to pass info to the view
+ * ReviewRecordBox class, box class to pass info to the view,
+ * Recupera le informazioni del commento e le mette in oggetto commentBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class ReviewRecordBox {
 
@@ -86,11 +85,10 @@ class ReviewRecordBox {
     public $reviewArray = array();
 
     /**
-     * \fn        initForMediaPage($id, $className, $limit, $skip)
-     * \brief        Init ReviewBox instance for Media Page
-     * @param        $id of the review to display information, Event or Record class
-     * @param   $className, $limit, $skip,$currentUserId
-     * @todo        
+     * Init ReviewRecordBox instance for Media Page
+     * @param   int $id for object that has been commented
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip    
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
@@ -106,11 +104,11 @@ class ReviewRecordBox {
     }
 
     /**
-     * \fn        initForPersonalPage($id, $type, $className)
-     * \brief        Init ReviewBox instance for Personal Page
-     * @param        $id of the user who owns the page, $type of user, $className Record or Event class
-     * @param	    $type, $className
-     * @todo        fare la query per il proprietario dell'event
+     * Init ReviewRecordBox instance for Personal Page
+     * @param   int $id of the user who owns the page,
+     * @param   string $type of user
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip    
      */
     function initForPersonalPage($id, $type, $limit = 3, $skip = 0) {
 	$connectionService = new ConnectionService();
@@ -122,7 +120,7 @@ class ReviewRecordBox {
 	    $reviews = selectReviewRecord($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	} else {
 	    $reviews = selectReviewRecord($connection, null, array('touser' => $id), array('createdat' => 'DESC'), $limit, $skip);
-	} 
+	}
 	if ($reviews === false) {
 	    $this->error = 'Errore nella query';
 	}
