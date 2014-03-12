@@ -23,8 +23,15 @@ require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
 
 /**
- * \brief	PlaylistInfoBox class 
- * \details	box to display user's playlist info in each page of the website 
+ * PlaylistInfoBox class, box to display user's playlist info in each page of the website
+ * Recupera le informazioni dell'evento, le inserisce in un array da passare alla view
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class PlaylistInfoBox {
 
@@ -32,9 +39,7 @@ class PlaylistInfoBox {
     public $playlistArray = array();
 
     /**
-     * \fn	init()
-     * \brief	Init PlaylistInfoBox instance
-     * @return	playlistInfoBox
+     * PlaylistInfoBox init
      */
     public function init() {
 	$userId = $_SESSION['id'];
@@ -53,8 +58,15 @@ class PlaylistInfoBox {
 }
 
 /**
- * \brief	PlaylistSongBox class 
- * \details	box to display user's playlist song info 
+ * PlaylistSongBox class, box to display user's playlist info in each page of the website
+ * Recupera le informazioni dell'evento, le inserisce in un array da passare alla view
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class PlaylistSongBox {
 
@@ -62,10 +74,8 @@ class PlaylistSongBox {
     public $songArray = array();
 
     /**
-     * \fn	init($playlistId, $sonsArray)
-     * \brief	Init PlaylistSongBox instance
-     * @return	playlistSongBox
-     * @todo	terminare funzione prendere songs che stanno dentro la playlist
+     * Init PlaylistSongBox instance
+     * @param	int $playlistId
      */
     public function init($playlistId) {
 	$connectionService = new ConnectionService();

@@ -18,6 +18,7 @@ require_once SERVICES_DIR . 'select.service.php';
  * @bug
  * @todo                
  */
+
 class CommentBox {
 
     public $commentArray = array();
