@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Stefano Muscas
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @author		Stefano Muscas
+ *  @version		0.3
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Record 
  *  \details		Classe dedicata ad un album di brani musicali, puo' essere istanziata solo da Jammer
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Record">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Record">API</a>
@@ -47,7 +47,7 @@ class Record {
     /**
      * \fn	int getId()
      * \brief	Return the id value
-     * \return	int
+     * @return	int
      */
     public function getId() {
 	return $this->id;
@@ -56,7 +56,7 @@ class Record {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Record creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -65,7 +65,7 @@ class Record {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Record modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -74,7 +74,7 @@ class Record {
     /**
      * \fn	BOOL getId()
      * \brief	Return the active value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
@@ -83,7 +83,7 @@ class Record {
     /**
      * \fn	string getBuylink()
      * \brief	Return the buylink value
-     * \return	string
+     * @return	string
      */
     public function getBuylink() {
 	return $this->buylink;
@@ -92,7 +92,7 @@ class Record {
     /**
      * \fn	string getCity
      * \brief	Return the city value
-     * \return	string
+     * @return	string
      */
     public function getCity() {
 	return $this->city;
@@ -101,7 +101,7 @@ class Record {
     /**
      * \fn	int getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * @return	int
      */
     public function getCommentcounter() {
 	return $this->commentcounter;
@@ -110,7 +110,7 @@ class Record {
     /**
      * \fn	int getCounter()
      * \brief	Return the counter value
-     * \return	int
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
@@ -119,7 +119,7 @@ class Record {
     /**
      * \fn	string getCover()
      * \brief	Return the cover (path file) value
-     * \return	string
+     * @return	string
      */
     public function getCover() {
 	return $this->cover;
@@ -128,7 +128,7 @@ class Record {
     /**
      * \fn	string getDescription()
      * \brief	Return the description value
-     * \return	string
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
@@ -137,7 +137,7 @@ class Record {
     /**
      * \fn	int getDuration()
      * \brief	Return the duration value in second
-     * \return	int
+     * @return	int
      */
     public function getDuration() {
 	return $this->duration;
@@ -146,7 +146,7 @@ class Record {
     /**
      * \fn	int getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	int
+     * @return	int
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -155,7 +155,7 @@ class Record {
     /**
      * \fn	getGenre()
      * \brief	Return the genre value 
-     * \return	int
+     * @return	int
      */
     public function getGenre() {
 	return $this->genre;
@@ -164,7 +164,7 @@ class Record {
     /**
      * \fn	string getLabel()
      * \brief	Return the label value
-     * \return	string
+     * @return	string
      */
     public function getLabel() {
 	return $this->label;
@@ -173,7 +173,7 @@ class Record {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	latitude
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -182,7 +182,7 @@ class Record {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -191,7 +191,7 @@ class Record {
     /**
      * \fn	int getLovecounter()
      * \brief	Return the loveCounter value, number of users who love the record
-     * \return	int
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
@@ -200,7 +200,7 @@ class Record {
     /**
      * \fn	int getReviewcounter()
      * \brief	Return the review counter value (number of review)
-     * \return	int
+     * @return	int
      */
     public function getReviewcounter() {
 	return $this->reviewCounter;
@@ -209,7 +209,7 @@ class Record {
     /**
      * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
-     * \return	int
+     * @return	int
      */
     public function getSharecounter() {
 	return $this->sharecounter;
@@ -218,7 +218,7 @@ class Record {
     /**
      * \fn	int getSongCounter()
      * \brief	Return the song counter value (number of songs)
-     * \return	int
+     * @return	int
      */
     public function getSongCounter() {
 	return $this->songCounter;
@@ -227,7 +227,7 @@ class Record {
     /**
      * \fn	string getThumbnail()
      * \brief	Return the thumbnail (path file) value
-     * \return	string
+     * @return	string
      */
     public function getThumbnail() {
 	return $this->thumbnail;
@@ -236,7 +236,7 @@ class Record {
     /**
      * \fn	string getTitle()
      * \brief	Return the title value
-     * \return	string
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
@@ -245,7 +245,7 @@ class Record {
     /**
      * \fn	getTracklist()
      * \brief	Return the tracklist value,array of Ids of song
-     * \return	int
+     * @return	int
      */
     public function getTracklist() {
 	return $this->tracklist;
@@ -254,7 +254,7 @@ class Record {
     /**
      * \fn	string getYear()
      * \brief	Return the year value
-     * \return	string
+     * @return	string
      */
     public function getYear() {
 	return $this->year;
@@ -263,7 +263,7 @@ class Record {
     /**
      * \fn	void setId($id)
      * \brief	Sets the id value
-     * \param	int
+     * @param	int
      */
     public function setId($id) {
 	$this->id = $id;
@@ -272,7 +272,7 @@ class Record {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the Song creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -281,7 +281,7 @@ class Record {
     /**
      * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the Song modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -290,7 +290,7 @@ class Record {
     /**
      * \fn	void setActive($active)
      * \brief	Sets the active  value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -299,7 +299,7 @@ class Record {
     /**
      * \fn	void setbuylink($buylink)
      * \brief	Sets the buylink value
-     * \param	string
+     * @param	string
      */
     public function setBuylink($buylink) {
 	$this->buylink = $buylink;
@@ -308,7 +308,7 @@ class Record {
     /**
      * \fn	setCity($city)
      * \brief	Sets the city value
-     * \param	string
+     * @param	string
      */
     public function setCity($city) {
 	$this->city = $city;
@@ -317,7 +317,7 @@ class Record {
     /**
      * \fn	void setCommentcounter($commentcounter)
      * \brief	Sets the commnetCounter value
-     * \param	int
+     * @param	int
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
@@ -326,7 +326,7 @@ class Record {
     /**
      * \fn	void setCounter($counter)
      * \brief	Sets the counter  value
-     * \param	int
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
@@ -335,7 +335,7 @@ class Record {
     /**
      * \fn	void setCover($cover))
      * \brief	Sets the cover value
-     * \param	string
+     * @param	string
      */
     public function setCover($cover) {
 	$this->cover = $cover;
@@ -344,7 +344,7 @@ class Record {
     /**
      * \fn	void setDescription($description)
      * \brief	Sets the description value
-     * \param	string
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
@@ -353,7 +353,7 @@ class Record {
     /**
      * \fn	void setDuration($duration)
      * \brief	Sets the duration  value
-     * \param	int
+     * @param	int
      */
     public function setDuration($duration) {
 	$this->duration = $duration;
@@ -362,7 +362,7 @@ class Record {
     /**
      * \fn	void setFromuser($fromuser)
      * \brief	Sets the fromUser id  value
-     * \param	int
+     * @param	int
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
@@ -371,7 +371,7 @@ class Record {
     /**
      * \fn	void setGenre($genre) 
      * \brief	Sets the genre value
-     * \param	int
+     * @param	int
      */
     public function setGenre($genre) {
 	$this->genre = $genre;
@@ -380,7 +380,7 @@ class Record {
     /**
      * \fn	void setLabel($label) 
      * \brief	Sets the label value
-     * \param	string
+     * @param	string
      */
     public function setLabel($label) {
 	$this->label = $label;
@@ -389,7 +389,7 @@ class Record {
     /**
      * \fn	void setLatitude($latitude)
      * \brief	Sets the latitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
@@ -398,7 +398,7 @@ class Record {
     /**
      * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
@@ -407,7 +407,7 @@ class Record {
     /**
      * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the LoveCounter  value
-     * \param	int
+     * @param	int
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
@@ -416,7 +416,7 @@ class Record {
     /**
      * \fn	void setReviewCounter($reviewCounter)
      * \brief	Sets the reviewCounter value
-     * \param	int
+     * @param	int
      */
     public function setReviewCounter($reviewCounter) {
 	$this->reviewCounter = $reviewCounter;
@@ -425,7 +425,7 @@ class Record {
     /**
      * \fn	void setCounter($sharecounter)
      * \brief	Sets the sharecounter value
-     * \param	int
+     * @param	int
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
@@ -434,7 +434,7 @@ class Record {
     /**
      * \fn	void  setSongCounter($songCounter)
      * \brief	Sets the songCounter value
-     * \param	int
+     * @param	int
      */
     public function setSongCounter($songCounter) {
 	$this->songCounter = $songCounter;
@@ -443,7 +443,7 @@ class Record {
     /**
      * \fn	void setThumbnail($thumbnail) 
      * \brief	Sets the thumbnail (path file) value
-     * \param	string
+     * @param	string
      */
     public function setThumbnail($thumbnail) {
 	$this->thumbnail = $thumbnail;
@@ -452,7 +452,7 @@ class Record {
     /**
      * \fn	void setTitle($title) 
      * \brief	Sets the title value
-     * \param	string
+     * @param	string
      */
     public function setTitle($title) {
 	$this->title = $title;
@@ -461,7 +461,7 @@ class Record {
     /**
      * \fn	void setTracklist($tracklist)
      * \brief	Sets the tracklist  value (list of id)
-     * \param	array
+     * @param	array
      */
     public function setTracklist($tracklist) {
 	$this->tracklist = $tracklist;
@@ -470,7 +470,7 @@ class Record {
     /**
      * \fn	void setYear($year) 
      * \brief	Sets the year value
-     * \param	string
+     * @param	string
      */
     public function setYear($year) {
 	$this->year = $year;
@@ -479,7 +479,7 @@ class Record {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Record object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

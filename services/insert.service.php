@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Luca Gianneschi
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @author		Luca Gianneschi
+ *  @version		0.3
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Servizio di inserimento nel DB
  *  \details		Servizio inserimento dei record nel DB
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo		terminare funzioni per ogni classe
+ *  @warning
+ *  @bug
+ *  @todo		terminare funzioni per ogni classe
  *
  */
 if (!defined('ROOT_DIR'))
@@ -24,8 +24,8 @@ require_once SERVICES_DIR . 'connection.service.php';
 /**
  * \fn	    createNode($nodeType, $nodeId)
  * \brief   Create node on the node4J DB
- * \param   $nodeType, $nodeId
- * \todo
+ * @param   $nodeType, $nodeId
+ * @todo
  */
 function createNode($connection, $nodeType, $nodeId) {
     $query = '
@@ -47,8 +47,8 @@ function createNode($connection, $nodeType, $nodeId) {
 /**
  * \fn	    createRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType)
  * \brief   Create relation between nodes on the node4J DB
- * \param   $nodeType, $nodeId
- * \todo
+ * @param   $nodeType, $nodeId
+ * @todo
  */
 function createRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType) {
     $query = '
@@ -73,8 +73,8 @@ function createRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 /**
  * \fn	    insertAlbum($album)
  * \brief   Execute an insert operation of the $album
- * \param   $album object the user to insert
- * \todo
+ * @param   $album object the user to insert
+ * @todo
  */
 function insertAlbum($connection, $album) {
     $sql = "INSERT INTO album (id,
@@ -131,8 +131,8 @@ function insertAlbum($connection, $album) {
 /**
  * \fn	    insertComment($connection,$comment)
  * \brief   Execute an insert operation of the $comment
- * \param   $comment object the user to insert
- * \todo
+ * @param   $comment object the user to insert
+ * @todo
  */
 function insertComment($connection, $comment) {
     require_once 'comment.class.php';
@@ -200,8 +200,8 @@ function insertComment($connection, $comment) {
 /**
  * \fn	    insertEvent($connection,$event)
  * \brief   Execute an insert operation of the $event
- * \param   $event object the user to insert
- * \todo
+ * @param   $event object the user to insert
+ * @todo
  */
 function insertEvent($connection, $event) {
     require_once 'event.class.php';
@@ -286,8 +286,8 @@ function insertEvent($connection, $event) {
 /**
  * \fn	    insertImage($connection, $image)
  * \brief   Execute an insert operation of the $image
- * \param   $image object the user to insert
- * \todo
+ * @param   $image object the user to insert
+ * @todo
  */
 function insertImage($connection, $image) {
     require_once 'image.class.php';
@@ -339,8 +339,8 @@ function insertImage($connection, $image) {
 /**
  * \fn	    insertPlaylist($connection,$playlist)
  * \brief   Execute an insert operation of the $playlist
- * \param   $playlist object the user to insert
- * \todo
+ * @param   $playlist object the user to insert
+ * @todo
  */
 function insertPlaylist($connection, $playlist) {
     require_once 'playlist.class.php';
@@ -370,8 +370,8 @@ function insertPlaylist($connection, $playlist) {
 /**
  * \fn	    insertRecord($connection, $record)
  * \brief   Execute an insert operation of the $record
- * \param   $record object the user to insert
- * \todo
+ * @param   $record object the user to insert
+ * @todo
  */
 function insertRecord($connection, $record) {
     require_once 'record.class.php';
@@ -450,8 +450,8 @@ function insertRecord($connection, $record) {
 /**
  * \fn	    insertSong($song)
  * \brief   Execute an insert operation of the $song
- * \param   $songobject the user to insert
- * \todo
+ * @param   $songobject the user to insert
+ * @todo
  */
 function insertSong($connection, $song) {
     require_once 'song.class.php';
@@ -500,8 +500,8 @@ function insertSong($connection, $song) {
 /**
  * \fn	    insertSong($connection,$song)
  * \brief   Execute an insert operation of the $song
- * \param   $songobject the user to insert
- * \todo
+ * @param   $songobject the user to insert
+ * @todo
  */
 function insertSongInPlayslist($connection, $song, $playlist) {
     require_once 'song.class.php';
@@ -523,8 +523,8 @@ function insertSongInPlayslist($connection, $song, $playlist) {
 /**
  * \fn	    insertUser($connection, $user)
  * \brief   Execute an insert operation of the $user
- * \param   $user object the user to insert
- * \todo
+ * @param   $user object the user to insert
+ * @todo
  */
 function insertUser($connection, $user) {
     $sql = "INSERT INTO user (id,
@@ -638,8 +638,8 @@ function insertUser($connection, $user) {
 /**
  * \fn	    insertVideo($connection, $video) 
  * \brief   Execute an insert operation of the $video
- * \param   $video object the user to insert
- * \todo
+ * @param   $video object the user to insert
+ * @todo
  */
 function insertVideo($connection, $video) {
     require_once 'video.class.php';

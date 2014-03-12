@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @author		Luca Gianneschi
+ * @version		1.0
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di operazioni legate all'utente
  * \details		controller di utilities riferite alla classe utente
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		Fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		Fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))
@@ -34,7 +34,7 @@ class UserUtilitiesController extends REST {
     /**
      * \fn		passwordReset()
      * \brief   esegue una richiesta di reset della password
-     * \todo    usare la sessione
+     * @todo    usare la sessione
      */
     public function passwordReset() {
 	try {

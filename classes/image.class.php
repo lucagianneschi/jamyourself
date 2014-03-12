@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Maria Laura Fresu
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @author		Maria Laura Fresu
+ *  @version		0.3
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Image
  *  \details		Classe per la singola immagine caricata dall'utente
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Image">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Image">API</a>
@@ -39,7 +39,7 @@ class Image {
     /**
      * \fn	int getId()
      * \brief	Return the id value
-     * \return	int
+     * @return	int
      */
     public function getId() {
 	return $this->id;
@@ -48,7 +48,7 @@ class Image {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Image creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -57,7 +57,7 @@ class Image {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Image modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -66,7 +66,7 @@ class Image {
     /**
      * \fn	BOOL getActive()
      * \brief	Return the active value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
@@ -75,7 +75,7 @@ class Image {
     /**
      * \fn	int getAlbum()
      * \brief	Return the album value
-     * \return	int
+     * @return	int
      */
     public function getAlbum() {
 	return $this->album;
@@ -84,7 +84,7 @@ class Image {
     /**
      * \fn	int getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * @return	int
      */
     public function getCommentcounter() {
 	return $this->commentcounter;
@@ -93,7 +93,7 @@ class Image {
     /**
      * \fn	int getCounter()
      * \brief	Return the counter value
-     * \return	int
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
@@ -102,7 +102,7 @@ class Image {
     /**
      * \fn	string getDescription()
      * \brief	Return the description value
-     * \return	string
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
@@ -111,7 +111,7 @@ class Image {
     /**
      * \fn	int getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	int
+     * @return	int
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -120,7 +120,7 @@ class Image {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	latitude
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -129,7 +129,7 @@ class Image {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -138,7 +138,7 @@ class Image {
     /**
      * \fn	int getLovecounter()
      * \brief	Return the int value of loveCounter, counting the love action on the image
-     * \return	int
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
@@ -147,7 +147,7 @@ class Image {
     /**
      * \fn	string getPath()
      * \brief	Return the path value
-     * \return	string
+     * @return	string
      */
     public function getPath() {
 	return $this->path;
@@ -156,7 +156,7 @@ class Image {
     /**
      * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
-     * \return	int
+     * @return	int
      */
     public function getSharecounter() {
 	return $this->sharecounter;
@@ -165,7 +165,7 @@ class Image {
     /**
      * \fn	getTag()
      * \brief	Return the tags value
-     * \return	int
+     * @return	int
      */
     public function getTag() {
 	return $this->tag;
@@ -174,7 +174,7 @@ class Image {
     /**
      * \fn	string getThumbnail()
      * \brief	Return the thumbnail value, path for the thumnail
-     * \return	string
+     * @return	string
      */
     public function getThumbnail() {
 	return $this->thumbnail;
@@ -183,7 +183,7 @@ class Image {
     /**
      * \fn	void setId($id)
      * \brief	Sets the id value
-     * \param	int
+     * @param	int
      */
     public function setId($id) {
 	$this->id = $id;
@@ -192,7 +192,7 @@ class Image {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the Image creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -201,7 +201,7 @@ class Image {
     /**
      * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the Image modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -210,7 +210,7 @@ class Image {
     /**
      * \fn	void setActive($active)
      * \brief	Sets the active value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -219,7 +219,7 @@ class Image {
     /**
      * \fn	void setAlbum($album)
      * \brief	Sets the album value
-     * \param	int
+     * @param	int
      */
     public function setAlbum($album) {
 	$this->album = $album;
@@ -228,7 +228,7 @@ class Image {
     /**
      * \fn	void setCommentcounter($commentcounter)
      * \brief	Sets the commentCounter value
-     * \param	int
+     * @param	int
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
@@ -237,7 +237,7 @@ class Image {
     /**
      * \fn	void setCounter($counter)
      * \brief	Sets the counter value
-     * \param	int
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
@@ -246,7 +246,7 @@ class Image {
     /**
      * \fn	void setDescription($description)
      * \brief	Sets the description value
-     * \param	string
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
@@ -255,7 +255,7 @@ class Image {
     /**
      * \fn	void setFromuser($fromuser))
      * \brief	Sets the fromUser value
-     * \param	int
+     * @param	int
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
@@ -264,7 +264,7 @@ class Image {
     /**
      * \fn	void setLatitude($latitude)
      * \brief	Sets the latitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
@@ -273,7 +273,7 @@ class Image {
     /**
      * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
@@ -282,7 +282,7 @@ class Image {
     /**
      * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the loveCounter value
-     * \param	int
+     * @param	int
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
@@ -291,7 +291,7 @@ class Image {
     /**
      * \fn	void setpath($pPath)
      * \brief	Sets the path value
-     * \param	string
+     * @param	string
      */
     public function setPath($path) {
 	$this->path = $path;
@@ -300,7 +300,7 @@ class Image {
     /**
      * \fn	void setCounter($sharecounter)
      * \brief	Sets the sharecounter value
-     * \param	int
+     * @param	int
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
@@ -309,7 +309,7 @@ class Image {
     /**
      * \fn	void setTag($tag)
      * \brief	Sets the tags value
-     * \param	int
+     * @param	int
      */
     public function setTag($tag) {
 	$this->tag = $tag;
@@ -318,7 +318,7 @@ class Image {
     /**
      * \fn	void setThumbnail($thumbnail)
      * \brief	Sets the thumbnail value,string fot the thumbnail
-     * \param	array
+     * @param	array
      */
     public function setThumbnail($thumbnail) {
 	$this->thumbnail = $thumbnail;
@@ -327,7 +327,7 @@ class Image {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Image object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

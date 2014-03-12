@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		1.0
- * \date		2013
- * \copyright           Jamyourself.com 2013
+ * @author		Luca Gianneschi
+ * @version		1.0
+ * @since		2013
+ * @copyright           Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di gestione del player
  * \details		gestisce la creazione dell'activity legata al player
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		 completare ed implementare
+ * @warning
+ * @bug
+ * @todo		 completare ed implementare
  *
  */
 if (!defined('ROOT_DIR'))
@@ -32,7 +32,7 @@ class PlayerController extends REST {
     /**
      * \fn      play()
      * \brief   add song to playlist
-     * \todo    
+     * @todo    
      */
     public function play() {
 	try {

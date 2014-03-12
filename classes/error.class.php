@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Daniele Caldelli
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @author		Daniele Caldelli
+ *  @version		0.3
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Error
  *  \details		Classe Error per la gestione degli errori
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  * 
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Error">Definizione Classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Error">API</a>
@@ -24,7 +24,7 @@ class Error {
     /**
      * \fn	string getErrormessage()
      * \brief	Return the Error message
-     * \return	string
+     * @return	string
      */
     public function getErrormessage() {
 	return $this->errormessage;
@@ -33,7 +33,7 @@ class Error {
     /**
      * \fn	void setErrorMessage($errorMessage)
      * \brief	Sets the Error message
-     * \param	string
+     * @param	string
      */
     public function setErrormessage($errormessage) {
 	$this->errormessage = $errormessage;
@@ -42,7 +42,7 @@ class Error {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Error object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

@@ -1,16 +1,16 @@
 <?php
 
 /* ! \par Info Generali:
- *  \author    Luca Gianneschi
- *  \version   1.0
- *  \date      2013
- *  \copyright Jamyourself.com 2013
+ *  @author    Luca Gianneschi
+ *  @version   1.0
+ *  @since      2013
+ *  @copyright Jamyourself.com 2013
  *
  *  \par       Info:
  *  \brief     English strings for controllers
- *  \warning
- *  \bug
- *  \todo 
+ *  @warning
+ *  @bug
+ *  @todo 
  */
 
 $controllers = array(

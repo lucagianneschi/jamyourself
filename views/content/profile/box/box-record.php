@@ -31,7 +31,6 @@ if (is_null($recordBox->error)) {
 	$currentUser = $_SESSION['currentUser'];
     $records = $recordBox->recordArray;
     $recordCounter = count($records);
-
     $fileManagerService = new FileManagerService();
     ?>
     <!----------------------------------------- PLAYER ALBUM ----------------------------------------------->

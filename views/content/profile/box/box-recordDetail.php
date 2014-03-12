@@ -35,7 +35,7 @@ $indice = 0;
 if (is_array($songs) && count($songs) > 0) {
     foreach ($songs as $key => $value) {
     $connectionService = new ConnectionService();		
-	if (existsRelation($connectionService,'user', $currentUser->getId(), 'song', $value->getId(), 'loved')) {
+	if (existsRelation($connectionService,'user', $_SESSION['id'], 'song', $value->getId(), 'loved')) {
 	    $track_css_love = '_love orange';
 	    $track_text_love = $views['unlove'];
 	} else {

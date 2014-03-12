@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Stefano Muscas
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @author		Stefano Muscas
+ *  @version		0.3
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Song Class
  *  \details		Classe dedicata al singolo brano, puo' essere istanziata solo da Jammer
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Song">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Song">API</a>
@@ -40,7 +40,7 @@ class Song {
     /**
      * \fn	int getId()
      * \brief	Return the id value
-     * \return	string
+     * @return	string
      */
     public function getId() {
 	return $this->id;
@@ -49,7 +49,7 @@ class Song {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Song creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -58,7 +58,7 @@ class Song {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Song modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -67,7 +67,7 @@ class Song {
     /**
      * \fn	BOOL getId()
      * \brief	Return the active value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
@@ -76,7 +76,7 @@ class Song {
     /**
      * \fn	int getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * @return	int
      */
     public function getCommentcounter() {
 	return $this->commentcounter;
@@ -85,7 +85,7 @@ class Song {
     /**
      * \fn	int getCounter()
      * \brief	Return the counter value
-     * \return	int
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
@@ -94,7 +94,7 @@ class Song {
     /**
      * \fn	int getDuration()
      * \brief	Return the duration value in second
-     * \return	int
+     * @return	int
      */
     public function getDuration() {
 	return $this->duration;
@@ -103,7 +103,7 @@ class Song {
     /**
      * \fn	int getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	int
+     * @return	int
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -112,7 +112,7 @@ class Song {
     /**
      * \fn	string getGenre()
      * \brief	Return the genre value 
-     * \return	string
+     * @return	string
      */
     public function getGenre() {
 	return $this->genre;
@@ -121,7 +121,7 @@ class Song {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	latitude
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -130,7 +130,7 @@ class Song {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -139,7 +139,7 @@ class Song {
     /**
      * \fn	int getLovecounter()
      * \brief	Return the loveCounter value, number of users who love the song
-     * \return	int
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
@@ -148,7 +148,7 @@ class Song {
     /**
      * \fn	string getPath()
      * \brief	Return the path value
-     * \return	string
+     * @return	string
      */
     public function getPath() {
 	return $this->pathath;
@@ -157,7 +157,7 @@ class Song {
     /**
      * \fn	string getPosition()
      * \brief	Return the position value,number of the song in the tracklist of its record
-     * \return	string
+     * @return	string
      */
     public function getPosition() {
 	return $this->position;
@@ -166,7 +166,7 @@ class Song {
     /**
      * \fn	int getRecord()
      * \brief	Return the record value,string of the id of the related record
-     * \return	int
+     * @return	int
      */
     public function getRecord() {
 	return $this->record;
@@ -175,7 +175,7 @@ class Song {
     /**
      * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
-     * \return	int
+     * @return	int
      */
     public function getSharecounter() {
 	return $this->sharecounter;
@@ -184,7 +184,7 @@ class Song {
     /**
      * \fn	string getTitle()
      * \brief	Return the title value
-     * \return	string
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
@@ -193,7 +193,7 @@ class Song {
     /**
      * \fn	void setId($id)
      * \brief	Sets the id value
-     * \param	int
+     * @param	int
      */
     public function setId($id) {
 	$this->id = $id;
@@ -202,7 +202,7 @@ class Song {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the Song creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -211,7 +211,7 @@ class Song {
     /**
      * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the Song modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -220,7 +220,7 @@ class Song {
     /**
      * \fn	void setActive($active)
      * \brief	Sets the active  value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -229,7 +229,7 @@ class Song {
     /**
      * \fn	void setCommentcounter($commentcounter)
      * \brief	Sets the commnetCounter value
-     * \param	int
+     * @param	int
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
@@ -238,7 +238,7 @@ class Song {
     /**
      * \fn	void setCounter($counter)
      * \brief	Sets the counter  value
-     * \param	int
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
@@ -247,7 +247,7 @@ class Song {
     /**
      * \fn	void setDuration($duration)
      * \brief	Sets the duration value
-     * \param	int
+     * @param	int
      */
     public function setDuration($duration) {
 	$this->duration = $duration;
@@ -256,7 +256,7 @@ class Song {
     /**
      * \fn	void setFromuser($fromuser)
      * \brief	Sets the fromUser id  value
-     * \param	string
+     * @param	string
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
@@ -265,7 +265,7 @@ class Song {
     /**
      * \fn	void setGenre($genre) 
      * \brief	Sets the genre value
-     * \param	string
+     * @param	string
      */
     public function setGenre($genre) {
 	$this->genre = $genre;
@@ -274,7 +274,7 @@ class Song {
     /**
      * \fn	void setLatitude($latitude)
      * \brief	Sets the latitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
@@ -283,7 +283,7 @@ class Song {
     /**
      * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
@@ -292,7 +292,7 @@ class Song {
     /**
      * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the LoveCounter  value
-     * \param	int
+     * @param	int
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
@@ -301,7 +301,7 @@ class Song {
     /**
      * \fn	void setpath($pPath)
      * \brief	Sets the path value
-     * \param	string
+     * @param	string
      */
     public function setPath($path) {
 	$this->path = $path;
@@ -310,7 +310,7 @@ class Song {
     /**
      * \fn	setPosition($position)
      * \brief	Sets the position value
-     * \param	string
+     * @param	string
      */
     public function setPosition($position) {
 	$this->position = $position;
@@ -319,7 +319,7 @@ class Song {
     /**
      * \fn	void setRecord($record) 
      * \brief	Sets the record id value
-     * \param	int
+     * @param	int
      */
     public function setRecord($record) {
 	$this->record = $record;
@@ -328,7 +328,7 @@ class Song {
     /**
      * \fn	void setCounter($sharecounter)
      * \brief	Sets the sharecounter value
-     * \param	int
+     * @param	int
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
@@ -337,7 +337,7 @@ class Song {
     /**
      * \fn	void setTitle($title) 
      * \brief	Sets the title value
-     * \param	string
+     * @param	string
      */
     public function setTitle($title) {
 	$this->title = $title;
@@ -346,7 +346,7 @@ class Song {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Song object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

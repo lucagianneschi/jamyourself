@@ -26,7 +26,7 @@ $commentToShow = 3;
 
 $commentBox = new CommentBox();
 $commentBox->init($id, $limit, $skip);
-if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
+if (is_null($commentBox->error) || isset($_SESSION['id'])) {
     $currentUser = $_SESSION['currentUser'];
     $comments = $commentBox->commentArray;
     $commentcounter = count($comments);

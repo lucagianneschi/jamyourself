@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Stefano Muscas
- * \version		1.0
- * \date		2013
- * \copyright           Jamyourself.com 2013
+ * @author		Stefano Muscas
+ * @version		1.0
+ * @since		2013
+ * @copyright           Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di upload record 
  * \details		si collega al form di upload di un record, effettua controlli, scrive su DB
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		Fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		Fare API su Wiki
  */
 
 if (!defined('ROOT_DIR'))
@@ -309,7 +309,7 @@ class UploadRecordController extends REST {
     /**
      * \fn	addSongToRecord($record, $songId)
      * \brief   funzione per aggiunta song a record esistente
-     * \param   $record, instance of record.class e songId
+     * @param   $record, instance of record.class e songId
      */
     private function addSongToRecord($record, $song) {
 	try {
@@ -356,7 +356,7 @@ class UploadRecordController extends REST {
     /**
      * \fn	createActivity($fromuser, $recordId, $type = 'RECORDCREATED', $songId = null)
      * \brief   funzione per creazione activity per questo controller
-     * \param   $fromuser, $recordId, $type = 'RECORDUPLOADED', $songId = null
+     * @param   $fromuser, $recordId, $type = 'RECORDUPLOADED', $songId = null
      */
     private function createActivity($fromuser, $recordId, $type = 'RECORDCREATED', $songId = null) {
 	require_once CLASSES_DIR . 'activity.class.php';
@@ -384,7 +384,7 @@ class UploadRecordController extends REST {
     /**
      * \fn	deleteMp3($userId,  $songId)
      * \brief   funzione per cancellazione mp3 dal filesystem
-     * \param   $userId, $recordId, $songId
+     * @param   $userId, $recordId, $songId
      */
     private function deleteMp3($userId, $songId) {
 	$fileManager = new FileManagerService();
@@ -400,7 +400,7 @@ class UploadRecordController extends REST {
     /**
      * \fn	getFeaturingJSON() 
      * \brief   funzione per il recupero dei featuring per l'event
-     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+     * @todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
      */
     public function getFeaturingJSON() {
 	try {
@@ -538,7 +538,7 @@ class UploadRecordController extends REST {
     /**
      * \fn	removeSongFromRecord($record, $songId)
      * \brief   funzione per la rimozione di una song da un record
-     * \param   $record, $songId
+     * @param   $record, $songId
      */
     private function removeSongFromRecord($record, $song) {
 	try {
@@ -582,8 +582,8 @@ class UploadRecordController extends REST {
     /**
      * \fn	$userId, $recordId, $songId
      * \brief   funzione per il salvataggio di un mp3
-     * \param   $userId, $recordId, $songId
-     * \return  TRUE id MP3 is saved in the correct folder, FALSE eighter
+     * @param   $userId, $recordId, $songId
+     * @return  TRUE id MP3 is saved in the correct folder, FALSE eighter
      */
     private function saveMp3($userId, $songId) {
 	if (file_exists(CACHE_DIR . $songId)) {

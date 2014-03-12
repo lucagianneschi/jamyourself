@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Luca Gianneschi
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @author		Luca Gianneschi
+ *  @version		0.3
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Servizio  DB
  *  \details		Servizio esecuzione principali query
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo		terminare funzioni per ogni classe
+ *  @warning
+ *  @bug
+ *  @todo		terminare funzioni per ogni classe
  *
  */
 if (!defined('ROOT_DIR'))
@@ -24,8 +24,8 @@ require_once SERVICES_DIR . 'connection.service.php';
 /**
  * \fn	    existsRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType)
  * \brief   Check if a relation exist between 2 nodes
- * \param   $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType
- * \todo
+ * @param   $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType
+ * @todo
  */
 function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType) {
     $query = '
@@ -52,8 +52,8 @@ function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 /**
  * \fn	    getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType)
  * \brief   Get list of nodes in relation with the first node
- * \param   $fromNodeType, $fromNodeId, $toNodeType, $relationType
- * \todo
+ * @param   $fromNodeType, $fromNodeId, $toNodeType, $relationType
+ * @todo
  */
 function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType) {
     $query = '
@@ -101,21 +101,21 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
 /**
  * \fn	    query($sql)
  * \brief   Execute generic query
- * \param   $ql string for query
- * \todo
+ * @param   $ql string for query
+ * @todo
  */
 function query($connection, $sql) {
     $results = mysqli_query($connection, $sql);
-	while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows[] = $row;
-	return $rows;
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	$rows[] = $row;
+    return $rows;
 }
 
 /**
  * \fn	    selectAlbums($connection, $id, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Album Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectAlbums($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT a.id id_a,
@@ -231,8 +231,8 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
 /**
  * \fn	    selectComments($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Event Class
- * \param   $id, $where = null, $order = null, $limit = null, $skip = null
- * \todo    prendere soltanto i parametri di interesse in base a confronto con box esistente
+ * @param   $id, $where = null, $order = null, $limit = null, $skip = null
+ * @todo    prendere soltanto i parametri di interesse in base a confronto con box esistente
  */
 function selectComments($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT cmt.id id_cmt,
@@ -729,8 +729,8 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 /**
  * \fn	    selectEvents($connection, $id, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Event Class
- * \param   $id, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectEvents($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT     e.id id_e,
@@ -878,8 +878,8 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
 /**
  * \fn	    selectImages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectImages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT	i.id id_i,
@@ -999,8 +999,8 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
 /**
  * \fn	    selectMessages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Comment Class, messages
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectMessages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT	   m.id id_m,
@@ -1127,8 +1127,8 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
 /**
  * \fn	    selectPlaylists($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Playlist Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectPlaylists($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT p.id id_p,
@@ -1208,8 +1208,8 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
 /**
  * \fn	    selectPosts($connection,$id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectPosts($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT	   p.id id_p,
@@ -1336,8 +1336,8 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
 /**
  * \fn	    selectRecords($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectRecords($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT r.id id_r,
@@ -1465,8 +1465,8 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
 /**
  * \fn	    selectReviewEvent($connection,$id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Comment Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectReviewEvent($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT	   rw.id id_rw,
@@ -1612,9 +1612,8 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
                          WHERE id = " . $row['id_e'];
 	$results_event = mysqli_query($connection, $sql);
 	if (!$results) {
-	    $error = new Error();
-	    $error->setErrormessage($results_event->error);
-	    return $error;
+	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
+	    return false;
 	}
 	while ($row_tag = mysqli_fetch_array($results_event, MYSQLI_ASSOC))
 	    $rows_tag[] = $row_tag;
@@ -1674,8 +1673,8 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 /**
  * \fn	    selectReviewRecord($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Comment Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectReviewRecord($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT	   rw.id id_rw,
@@ -1863,8 +1862,8 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 /**
  * \fn	    selectSongs($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectSongs($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT     s.id id_s,
@@ -1977,8 +1976,8 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
 /**
  * \fn	    selectSongs($connection,$id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) {
     $sql = "SELECT s.id id_s,
@@ -2064,8 +2063,8 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
 /**
  * \fn	    selectUsers($connection,$id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectUsers($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT     id,
@@ -2226,8 +2225,8 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 /**
  * \fn	    selectVideos($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null)
  * \brief   Select on Post Class
- * \param   $id = null, $where = null, $order = null, $limit = null, $skip = null
- * \todo
+ * @param   $id = null, $where = null, $order = null, $limit = null, $skip = null
+ * @todo
  */
 function selectVideos($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
 
@@ -2285,9 +2284,8 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	$error = new Error();
-	$error->setErrormessage($results->error);
-	return $error;
+	jamLog(__FILE__, __LINE__, 'Unable to execute query');
+	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;

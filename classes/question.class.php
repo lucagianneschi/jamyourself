@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Daniele Caldelli
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @author		Daniele Caldelli
+ *  @version		0.3
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Question
  *  \details		Classe dedicata alle domande e alle risposte tra utenti e amministrazione
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Question">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Question">API</a>
@@ -33,7 +33,7 @@ class Question {
     /**
      * \fn		string getId()
      * \brief	Return the id value
-     * \return	string
+     * @return	string
      */
     public function getId() {
 	return $this->id;
@@ -42,7 +42,7 @@ class Question {
     /**
      * \fn		DateTime getCreatedat()
      * \brief	Return the Question creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -51,7 +51,7 @@ class Question {
     /**
      * \fn		DateTime getUpdatedat()
      * \brief	Return the Question modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -60,7 +60,7 @@ class Question {
     /**
      * \fn		string getAnswer()
      * \brief	Return the answer value
-     * \return	string
+     * @return	string
      */
     public function getAnswer() {
 	return $this->answer;
@@ -69,7 +69,7 @@ class Question {
     /**
      * \fn		string getMailFrom()
      * \brief	Return the mailFrom value
-     * \return	string
+     * @return	string
      */
     public function getMailFrom() {
 	return $this->mailFrom;
@@ -78,7 +78,7 @@ class Question {
     /**
      * \fn		string getMailTo()
      * \brief	Return the mailTo value
-     * \return	string
+     * @return	string
      */
     public function getMailTo() {
 	return $this->mailTo;
@@ -87,7 +87,7 @@ class Question {
     /**
      * \fn		string getName()
      * \brief	Return the name value
-     * \return	string
+     * @return	string
      */
     public function getName() {
 	return $this->name;
@@ -96,7 +96,7 @@ class Question {
     /**
      * \fn		BOOL getReplied()
      * \brief	Return the replied value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getReplied() {
 	return $this->replied;
@@ -105,7 +105,7 @@ class Question {
     /**
      * \fn		string getSubject()
      * \brief	Return the subject value
-     * \return	string
+     * @return	string
      */
     public function getSubject() {
 	return $this->subject;
@@ -114,7 +114,7 @@ class Question {
     /**
      * \fn		string getText()
      * \brief	Return the text value
-     * \return	string
+     * @return	string
      */
     public function getText() {
 	return $this->text;
@@ -123,7 +123,7 @@ class Question {
     /**
      * \fn		void setId($id)
      * \brief	Sets the id value
-     * \param	string
+     * @param	string
      */
     public function setId($id) {
 	$this->id = $id;
@@ -132,7 +132,7 @@ class Question {
     /**
      * \fn		void setCreatedat($createdat)
      * \brief	Sets the Question creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -141,7 +141,7 @@ class Question {
     /**
      * \fn		void setUpdatedat($updatedat)
      * \brief	Sets the Question modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -150,7 +150,7 @@ class Question {
     /**
      * \fn		void setAnswer($value)
      * \brief	Sets the answer value
-     * \param	string
+     * @param	string
      */
     public function setAnswer($value) {
 	$this->answer = $value;
@@ -159,7 +159,7 @@ class Question {
     /**
      * \fn		void setMailFrom($value)
      * \brief	Sets the mailFrom value
-     * \param	string
+     * @param	string
      */
     public function setMailFrom($value) {
 	$this->mailFrom = $value;
@@ -168,7 +168,7 @@ class Question {
     /**
      * \fn		void setMailTo($value)
      * \brief	Sets the mailTo value
-     * \param	string
+     * @param	string
      */
     public function setMailTo($value) {
 	$this->mailTo = $value;
@@ -177,7 +177,7 @@ class Question {
     /**
      * \fn		void setName($value)
      * \brief	Sets the name value
-     * \param	string
+     * @param	string
      */
     public function setName($value) {
 	$this->name = $value;
@@ -186,7 +186,7 @@ class Question {
     /**
      * \fn		void setReplied($value)
      * \brief	Sets the replied value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setReplied($value) {
 	$this->replied = $value;
@@ -195,7 +195,7 @@ class Question {
     /**
      * \fn		void setSubject($value)
      * \brief	Sets the subject value
-     * \param	string
+     * @param	string
      */
     public function setSubject($value) {
 	$this->subject = $value;
@@ -204,7 +204,7 @@ class Question {
     /**
      * \fn		void setText($value)
      * \brief	Sets the text value
-     * \param	string
+     * @param	string
      */
     public function setText($value) {
 	$this->text = $value;
@@ -213,7 +213,7 @@ class Question {
     /**
      * \fn		string __toString()
      * \brief	Return a printable string representing the Question object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';

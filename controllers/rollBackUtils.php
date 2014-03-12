@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		1.0
- * \date		2013
- * \copyright	        Jamyourself.com 2013
+ * @author		Luca Gianneschi
+ * @version		1.0
+ * @since		2013
+ * @copyright	        Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di gestione delle rollback dei controller
  * \details		gestisce le azioni in caso di fallimento di alcune azioni dei controller
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		aggiornare al momento in cui vengono messe nuove rollback per i controller, fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		aggiornare al momento in cui vengono messe nuove rollback per i controller, fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))
@@ -24,7 +24,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 /**
  * \fn	    rollbackAcceptRelation($operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType)
  * \brief   rollback for accept Relation in relation.controller.php
- * \param   $operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType
+ * @param   $operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType
  */
 function rollbackAcceptRelation($operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType) {
     global $controllers;
@@ -78,7 +78,7 @@ function rollbackAcceptRelation($operation, $activityObjectId, $activityField, $
 /**
  * \fn	    rollbackCommentController($id, $classType)
  * \brief   rollback for comment.controller.php
- * \param   $id, $classType
+ * @param   $id, $classType
  */
 function rollbackCommentController($id, $classType) {
     global $controllers;
@@ -122,7 +122,7 @@ function rollbackCommentController($id, $classType) {
 /**
  * \fn	    rollbackDeclineRelation($activityObjectId, $activityField, $activityValue)
  * \brief   rollback for Decline function of relation.controller.php
- * \param   $activityObjectId, $activityField, $activityValue
+ * @param   $activityObjectId, $activityField, $activityValue
  */
 function rollbackDeclineRelation($activityObjectId, $activityField, $activityValue) {
     global $controllers;
@@ -136,7 +136,7 @@ function rollbackDeclineRelation($activityObjectId, $activityField, $activityVal
 /**
  * \fn	rollbackDeleteController($classType, $id)
  * \brief   rollback for DeleteController
- * \param   $id dell'oggetto su cui fare rollback della delete, $classType
+ * @param   $id dell'oggetto su cui fare rollback della delete, $classType
  */
 function rollbackDeleteController($classType, $id) {
     global $controllers;
@@ -194,7 +194,7 @@ function rollbackDeleteController($classType, $id) {
 /**
  * \fn	    rollbackEventController($id, $operation)
  * \brief   EventManagementController
- * \param   $id dell'oggetto su cui fare rollback della eventmanagement, operation -> sendInvitation, accept, refuse o maybe
+ * @param   $id dell'oggetto su cui fare rollback della eventmanagement, operation -> sendInvitation, accept, refuse o maybe
  */
 function rollbackEventController($activityId, $operation, $userId = null, $eventId = null) {
     global $controllers;
@@ -236,7 +236,7 @@ function rollbackEventController($activityId, $operation, $userId = null, $event
 /**
  * \fn	rollbackLoveController($classType, $id, $operation, $fromuser)
  * \brief   rollback for LoveController
- * \param   $id dell'oggetto su cui fare rollback della love, $classType, operation (love or unlove), $fromuser
+ * @param   $id dell'oggetto su cui fare rollback della love, $classType, operation (love or unlove), $fromuser
  */
 function rollbackLoveController($classType, $id, $operation, $fromuser) {
     global $controllers;
@@ -312,7 +312,7 @@ function rollbackLoveController($classType, $id, $operation, $fromuser) {
 /**
  * \fn	rollbackMessageController($id, $function)
  * \brief   rollback for MessageController
- * \param   $id dell'oggetto su cui fare rollback della message, function (sendMessage or readMessage)
+ * @param   $id dell'oggetto su cui fare rollback della message, function (sendMessage or readMessage)
  */
 function rollbackMessageController($id, $function) {
     global $controllers;
@@ -332,8 +332,8 @@ function rollbackMessageController($id, $function) {
 /**
  * \fn	rollbackPlaylistController($playlistId, $songId, $operation, $premium, $limit)
  * \brief   rollback for addSong() e removeSong()
- * \param   $playslitId-> playlist id, $songId -> song id , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())$premium, $limit for the currentUser
- * \todo    
+ * @param   $playslitId-> playlist id, $songId -> song id , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())$premium, $limit for the currentUser
+ * @todo    
  */
 function rollbackPlaylistController($playlistId, $songId, $operation, $premium, $limit) {
     global $controllers;
@@ -356,7 +356,7 @@ function rollbackPlaylistController($playlistId, $songId, $operation, $premium, 
 /**
  * \fn	rollbackPostController($id)
  * \brief   rollback for PostController
- * \param   $id dell'oggetto su cui fare delete
+ * @param   $id dell'oggetto su cui fare delete
  */
 function rollbackPostController($id) {
     global $controllers;
@@ -370,7 +370,7 @@ function rollbackPostController($id) {
 /**
  * \fn	    rollbackRemoveRelation($operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType)
  * \brief   rollback for relation.controller.php for Remove Relation
- * \param   $operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType
+ * @param   $operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType
  */
 function rollbackRemoveRelation($operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType) {
     global $controllers;
@@ -424,7 +424,7 @@ function rollbackRemoveRelation($operation, $activityObjectId, $activityField, $
 /**
  * \fn	    rollbackSendRelation($toUserObjectId)
  * \brief   rollback for relation.controller.php send relation 
- * \param   $toUserObjectId
+ * @param   $toUserObjectId
  */
 function rollbackSendRelation($toUserObjectId) {
     global $controllers;
@@ -438,7 +438,7 @@ function rollbackSendRelation($toUserObjectId) {
 /**
  * \fn	rollbackSocialController($classType, $id)
  * \brief   rollback for SocialController
- * \param   $classType, $id 
+ * @param   $classType, $id 
  */
 function rollbackSocialController($classType, $id) {
     global $controllers;
@@ -486,7 +486,7 @@ function rollbackSocialController($classType, $id) {
 /**
  * \fn	rollbackUploadReviewController($id)
  * \brief   rollback for UploadReviewController
- * \param   $id 
+ * @param   $id 
  */
 function rollbackUploadReviewController($id) {
     global $controllers;
@@ -500,7 +500,7 @@ function rollbackUploadReviewController($id) {
 /**
  * \fn	rollbackUploadRecordPublishSongController($id)
  * \brief   rollback for UploadRecordController
- * \param   $id 
+ * @param   $id 
  */
 function rollbackUploadRecordController($id, $classType) {
     global $controllers;
@@ -530,7 +530,7 @@ function rollbackUploadRecordController($id, $classType) {
 /**
  * \fn      rollbackUploadEventController($id)
  * \brief   rollback for UploadEventController
- * \param   $id 
+ * @param   $id 
  */
 function rollbackUploadEventController($id) {
     global $controllers;

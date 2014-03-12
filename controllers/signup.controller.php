@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Stafano Muscas
- * \version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @author		Stafano Muscas
+ * @version		1.0
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		signup.controller
  * \details		Iscrizione dell'utente a Jamyourself
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		query su Location, fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		query su Location, fare API su Wiki
  */
 
 if (!defined('ROOT_DIR'))
@@ -39,7 +39,7 @@ class SignupController extends REST {
     /**
      * \fn	__construct()
      * \brief	imposta il file di cunfigurazione e chiama il servizio di validazione utente
-     * \todo
+     * @todo
      */
     function __construct() {
 	parent::__construct();
@@ -50,8 +50,8 @@ class SignupController extends REST {
     /**
      * \fn	signup()
      * \brief	mette in sessione le informazioni per corretta visualizzazione
-     * \return
-     * \todo
+     * @return
+     * @todo
      */
     public function init() {
 	session_start();
@@ -65,7 +65,7 @@ class SignupController extends REST {
     /**
      * \fn	checkEmailExists()
      * \brief	verifica esistenza della mail
-     * \todo    vedi ISSUE #79
+     * @todo    vedi ISSUE #79
      */
     public function checkEmailExists() {
 	global $controllers;
@@ -92,7 +92,7 @@ class SignupController extends REST {
     /**
      * \fn	checkUsernameExists()
      * \brief	verifica esistenza dello userName
-     * \todo    vedi ISSUE #79
+     * @todo    vedi ISSUE #79
      */
     public function checkUsernameExists() {
 	global $controllers;
@@ -119,7 +119,7 @@ class SignupController extends REST {
     /**
      * \fn	recaptcha()
      * \brief	funzione di recaptcha
-     * \todo    ancora da implementare
+     * @todo    ancora da implementare
      */
     public function recaptcha() {
 	global $controllers;
@@ -149,8 +149,8 @@ class SignupController extends REST {
     /**
      * \fn	signup()
      * \brief	registrazione utente al sito
-     * \return
-     * \todo
+     * @return
+     * @todo
      */
     public function signup() {
 	global $controllers;
@@ -231,7 +231,7 @@ class SignupController extends REST {
     /**
      * \fn	createDefaultAlbum($userId)
      * \brief	crea album di default
-     * \todo
+     * @todo
      */
     private function createDefaultAlbum($userId) {
 	require_once CLASSES_DIR . 'album.class.php';
@@ -250,8 +250,8 @@ class SignupController extends REST {
     /**
      * \fn	createDefaultRecord($userId)
      * \brief	crea record di default
-     * \return  $record
-     * \todo
+     * @return  $record
+     * @todo
      */
     private function createDefaultRecord($userId) {
 	require_once CLASSES_DIR . 'record.class.php';
@@ -270,7 +270,7 @@ class SignupController extends REST {
     /**
      * \fn	createDefaultPlaylist($userId)
      * \brief	crea playslit di default
-     * \todo
+     * @todo
      */
     private function createDefaultPlaylist($userId) {
 	require_once CLASSES_DIR . 'playlist.class.php';
@@ -285,7 +285,7 @@ class SignupController extends REST {
     /**
      * \fn	createFileSystemStructure($userId, $type)
      * \brief	crea le cartelle per tipologia di utente
-     * \todo
+     * @todo
      */
     private function createFileSystemStructure($userId, $type) {
 	try {
@@ -308,7 +308,7 @@ class SignupController extends REST {
     /**
      * \fn	createSpotter($userJSON)
      * \brief	crea un utente di tipo SPOTTER
-     * \todo
+     * @todo
      */
     private function createSpotter($userJSON) {
 	if (!is_null($userJSON)) {
@@ -343,7 +343,7 @@ class SignupController extends REST {
     /**
      * \fn	createVenue$userJSON)
      * \brief	crea un utente di tipo VENUE
-     * \todo
+     * @todo
      */
     private function createVenue($userJSON) {
 	if (!is_null($userJSON)) {
@@ -372,7 +372,7 @@ class SignupController extends REST {
     /**
      * \fn	createJammer($userJSON)
      * \brief	crea un utente di tipo JAMMER
-     * \todo
+     * @todo
      */
     private function createJammer($userJSON) {
 	if (!is_null($userJSON)) {
@@ -404,7 +404,7 @@ class SignupController extends REST {
     /**
      * \fn	defineSettings($user_type, $language, $localTime, $imgProfile)
      * \brief	Inizializza la variabile in funzione dell'utente
-     * \todo
+     * @todo
      */
     private function defineSettings($user_type, $language, $localTime, $imgProfile) {
 	$settings = array();
@@ -432,7 +432,7 @@ class SignupController extends REST {
     /**
      * \fn	getLocalTypeArray($genre)
      * \brief	
-     * \todo
+     * @todo
      */
     private function getLocalTypeArray($genre) {
 	if (count($genre) > 0) {
@@ -449,7 +449,7 @@ class SignupController extends REST {
     /**
      * \fn	getMembersArray($members)
      * \brief	
-     * \todo
+     * @todo
      */
     private function getMembersArray($members) {
 	if (count($members) > 0) {
@@ -467,7 +467,7 @@ class SignupController extends REST {
     /**
      * \fn	getMusicArray($genre)
      * \brief	
-     * \todo
+     * @todo
      */
     private function getMusicArray($genre) {
 	if (count($genre) > 0) {
@@ -484,7 +484,7 @@ class SignupController extends REST {
     /**
      * \fn	init_common_settings($language, $localTime, $imgProfile)
      * \brief	Inizializza con le impostazioni di default alcuni valori comuni a tutti gli utenti
-     * \todo
+     * @todo
      */
     private function init_common_settings($language, $localTime, $imgProfile) {
 	$settings = array();
@@ -508,7 +508,7 @@ class SignupController extends REST {
     /**
      * \fn	init_spotter_settings()
      * \brief	Inizializza con le impostazioni di default per SPOTTER
-     * \todo
+     * @todo
      */
     private function init_spotter_settings() {
 	$settings = array();
@@ -528,7 +528,7 @@ class SignupController extends REST {
     /**
      * \fn	init_venue_settings($settings)
      * \brief	Inizializza con le impostazioni di default per VENUE
-     * \todo
+     * @todo
      */
     private function init_venue_settings($settings) {
 	$settings = array();
@@ -550,7 +550,7 @@ class SignupController extends REST {
     /**
      * \fn	init_jammer_settings()
      * \brief	Inizializza con le impostazioni di default per JAMMER
-     * \todo
+     * @todo
      */
     private function init_jammer_settings() {
 	$settings = array();
@@ -576,7 +576,7 @@ class SignupController extends REST {
     /**
      * \fn	passwordEncryption()
      * \brief	cripta la password prima di scriverla sul DB
-     * \todo    VEDI ISSUE #78
+     * @todo    VEDI ISSUE #78
      */
     private function passwordEncryption() {
 	
@@ -585,7 +585,7 @@ class SignupController extends REST {
     /**
      * \fn	setCommonValues($user, $decoded)
      * \brief	setta i valori comuni ai 3 tipi di utenti
-     * \todo
+     * @todo
      */
     private function setCommonValues($user, $decoded) {
 	$user->setUsername($decoded->username);

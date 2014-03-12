@@ -1,19 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		box Relations
- * \details		Recupera le ultime relazioni per tipologia di utente
- * \par			Commenti:
- * \warning
- * \bug
- * \todo		
- *
- */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -22,8 +8,15 @@ require_once SERVICES_DIR . 'select.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 
 /**
- * \brief	CollaboratorsBox class 
- * \details	box class to pass info to the view for personal page for JAMMER & VENUE 
+ * CollaboratorsBox, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class CollaboratorsBox {
 
@@ -32,10 +25,11 @@ class CollaboratorsBox {
     public $jammerArray = array();
 
     /**
-     * \fn	init($id)
-     * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * Init CollaboratorsBox 
+     * @param	$id for user that owns the page
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo implementare $limit e $skip   
      */
     public function init($id, $limit = 3, $skip = 0) {
 	try {
@@ -56,8 +50,15 @@ class CollaboratorsBox {
 }
 
 /**
- * \brief	FollowersBox class 
- * \details	box class to pass info to the view for personal page for JAMMER & VENUE 
+ * FollowersBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class FollowersBox {
 
@@ -65,10 +66,11 @@ class FollowersBox {
     public $followersArray = array();
 
     /**
-     * \fn	init($id)
-     * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * Init CollaboratorsBox 
+     * @param	$id for user that owns the page $limit, $skip
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo implementare $limit e $skip
      */
     public function init($id, $limit = 3, $skip = 0) {
 	try {
@@ -87,8 +89,15 @@ class FollowersBox {
 }
 
 /**
- * \brief	FollowingsBox class 
- * \details	box class to pass info to the view for personal page for SPOTTER 
+ * FollowingsBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class FollowingsBox {
 
@@ -97,10 +106,11 @@ class FollowingsBox {
     public $jammerArray = array();
 
     /**
-     * \fn	init($id)
-     * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * Init CollaboratorsBox 
+     * @param	$id for user that owns the page $limit, $skip
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo implementare $limit e $skip  
      */
     public function init($id, $limit = 3, $skip = 0) {
 	try {
@@ -121,8 +131,15 @@ class FollowingsBox {
 }
 
 /**
- * \brief	FriendsBox class 
- * \details	box class to pass info to the view for personal page for SPOTTER 
+ * FriendsBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class FriendsBox {
 
@@ -130,10 +147,11 @@ class FriendsBox {
     public $friendsArray = array();
 
     /**
-     * \fn	init($id)
-     * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * Init FriendsBox 
+     * @param	$id for user that owns the page $limit, $skip
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo implementare $limit e $skip  
      */
     public function init($id, $limit = 3, $skip = 0) {
 	try {
@@ -143,7 +161,7 @@ class FriendsBox {
 		$user = selectUsers($id);
 		array_push($followings, $user);
 	    }
-	    $this->followersArray = $followers;
+	    $this->followersArray = $followings;
 	} catch (Exception $e) {
 	    $this->error = $e->getMessage();
 	}

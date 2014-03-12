@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Luca Gianneschi
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @author		Luca Gianneschi
+ *  @version		0.3
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Servizio commessione DB
  *  \details		Servizio commessione DB
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo		
+ *  @warning
+ *  @bug
+ *  @todo		
  *
  */
 
@@ -44,7 +44,7 @@ class ConnectionService {
     /**
      * \fn	curl($query, $params)
      * \brief	connet to the database
-     * \return	true or errors
+     * @return	true or errors
      */
     public function commit() {
 		foreach ($this->commit as $url) {
@@ -74,7 +74,7 @@ class ConnectionService {
 	/**
      * \fn	connect()
      * \brief	connect to the database
-     * \return	connection or false
+     * @return	connection or false
      */
     public function connect() {
 		try {
@@ -94,7 +94,7 @@ class ConnectionService {
     /**
      * \fn	curl($query, $params)
      * \brief	connet to the database
-     * \return	true or errors
+     * @return	true or errors
      */
     public function curl($query, $params = null) {
 		$c = curl_init();
@@ -145,7 +145,7 @@ class ConnectionService {
 	/**
      * \fn	disconnect($connection)
      * \brief	disconnet from the database
-     * \return	void
+     * @return	void
      */
     public function disconnect($connection) {
 		@mysqli_close($connection);

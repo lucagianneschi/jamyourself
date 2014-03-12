@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par 		Info Generali:
- *  \author		Stefano Muscas
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @author		Stefano Muscas
+ *  @version		0.3
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		User Class
  *  \details		Classe utente
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-User">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-User">API</a>
@@ -62,7 +62,7 @@ class User {
     /**
      * \fn	int getId()
      * \brief	Return the id value
-     * \return	string
+     * @return	string
      */
     public function getId() {
 	return $this->id;
@@ -71,7 +71,7 @@ class User {
     /**
      * \fn		DateTime getCreatedat()
      * \brief	Return the User creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -80,7 +80,7 @@ class User {
     /**
      * \fn		DateTime getUpdatedat()
      * \brief	Return the User modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -89,7 +89,7 @@ class User {
     /**
      * \fn		boolean getActive()
      * \brief	Return the activation state of the User
-     * \return	boolean
+     * @return	boolean
      */
     public function getActive() {
 	return $this->active;
@@ -98,7 +98,7 @@ class User {
     /**
      * \fn		string getAddress()
      * \brief	Return the address of the User
-     * \return	string
+     * @return	string
      */
     public function getAddress() {
 	return $this->address;
@@ -107,7 +107,7 @@ class User {
     /**
      * \fn	string getAvatar()
      * \brief	Return the profile picture link of the User
-     * \return	string
+     * @return	string
      */
     public function getAvatar() {
 	return $this->avatar;
@@ -116,7 +116,7 @@ class User {
     /**
      * \fn		string getBackground()
      * \brief	Return the background link of the User
-     * \return	string
+     * @return	string
      */
     public function getBackground() {
 	return $this->background;
@@ -125,7 +125,7 @@ class User {
     /**
      * \fn		string getBirthday()
      * \brief	Return the birthday of the User represented by a string with format YYYY-MM-DD
-     * \return	string
+     * @return	string
      */
     public function getBirthday() {
 	return $this->birthday;
@@ -134,7 +134,7 @@ class User {
     /**
      * \fn		string getCity()
      * \brief	Return the city of the User
-     * \return	string
+     * @return	string
      */
     public function getCity() {
 	return $this->city;
@@ -143,7 +143,7 @@ class User {
     /**
      * \fn		number getCollaborationcounter()
      * \brief	Return the number of User in collaboration with
-     * \return	number
+     * @return	number
      */
     public function getCollaborationcounter() {
 	return $this->collaborationcounter;
@@ -152,7 +152,7 @@ class User {
     /**
      * \fn		string getCountry()
      * \brief	Return the country of the User
-     * \return	string
+     * @return	string
      */
     public function getCountry() {
 	return $this->country;
@@ -161,7 +161,7 @@ class User {
     /**
      * \fn		string getDescription()
      * \brief	Return the description of the User
-     * \return	string
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
@@ -170,7 +170,7 @@ class User {
     /**
      * \fn		string getEmail()
      * \brief	Return the email of the User
-     * \return	string
+     * @return	string
      */
     public function getEmail() {
 	return $this->email;
@@ -179,7 +179,7 @@ class User {
     /**
      * \fn		string getFacebookId()
      * \brief	Return the facebook id of the User
-     * \return	string
+     * @return	string
      */
     public function getFacebookid() {
 	return $this->facebookid;
@@ -188,7 +188,7 @@ class User {
     /**
      * \fn		string getFbPage()
      * \brief	Return the facebook page link of the User
-     * \return	string
+     * @return	string
      */
     public function getFacebookpage() {
 	return $this->facebookpage;
@@ -197,7 +197,7 @@ class User {
     /**
      * \fn		string getFirstname()
      * \brief	Return the firstname of the User
-     * \return	string
+     * @return	string
      */
     public function getFirstname() {
 	return $this->firstname;
@@ -206,7 +206,7 @@ class User {
     /**
      * \fn		number getLevel()
      * \brief	Return the number of User followed
-     * \return	number
+     * @return	number
      */
     public function getFollowerscounter() {
 	return $this->followerscounter;
@@ -215,7 +215,7 @@ class User {
     /**
      * \fn		number getFollowingcounter()
      * \brief	Return the number of User followed
-     * \return	number
+     * @return	number
      */
     public function getFollowingcounter() {
 	return $this->followingcounter;
@@ -224,7 +224,7 @@ class User {
     /**
      * \fn		number getLevel()
      * \brief	Return the number of User in friendship relation
-     * \return	number
+     * @return	number
      */
     public function getFriendshipcounter() {
 	return $this->friendshipcounter;
@@ -233,7 +233,7 @@ class User {
     /**
      * \fn		string getGooglepluspage()
      * \brief	Return the googlePlus page link of the User
-     * \return	string
+     * @return	string
      */
     public function getGooglepluspage() {
 	return $this->googlepluspage;
@@ -242,7 +242,7 @@ class User {
     /**
      * \fn		number getJammercounter()
      * \brief	Return the jammer counter, number of Jammer in collaboration
-     * \return	number
+     * @return	number
      */
     public function getJammercounter() {
 	return $this->jammercounter;
@@ -251,7 +251,7 @@ class User {
     /**
      * \fn		string getJammertype()
      * \brief	Return the jammer type of the User
-     * \return	string
+     * @return	string
      */
     public function getJammertype() {
 	return $this->jammertype;
@@ -260,7 +260,7 @@ class User {
     /**
      * \fn		string getLastname()
      * \brief	Return the lastname of the User
-     * \return	string
+     * @return	string
      */
     public function getLastname() {
 	return $this->lastname;
@@ -269,7 +269,7 @@ class User {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	latitude
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -278,7 +278,7 @@ class User {
     /**
      * \fn		number getLevel()
      * \brief	Return the level of the User
-     * \return	number
+     * @return	number
      */
     public function getLevel() {
 	return $this->level;
@@ -287,7 +287,7 @@ class User {
     /**
      * \fn		number getLevelvalue()
      * \brief	Return the level value of the User
-     * \return	number
+     * @return	number
      */
     public function getLevelvalue() {
 	return $this->levelvalue;
@@ -296,7 +296,7 @@ class User {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -305,7 +305,7 @@ class User {
     /**
      * \fn	string getPassword()
      * \brief	Return the password of the User
-     * \return	string
+     * @return	string
      */
     public function getPassword() {
 	return $this->password;
@@ -314,7 +314,7 @@ class User {
     /**
      * \fn		boolean getPremium()
      * \brief	Return if the User has a Premium account
-     * \return	boolean
+     * @return	boolean
      */
     public function getPremium() {
 	return $this->premium;
@@ -323,7 +323,7 @@ class User {
     /**
      * \fn		DateTime getPremiumexpirationdate()
      * \brief	Return the expiration date of the premium account of the User
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getPremiumexpirationdate() {
 	return $this->premiumexpirationdate;
@@ -332,7 +332,7 @@ class User {
     /**
      * \fn	string getThumbnail()
      * \brief	Return the thumbnail profile picture link of the User
-     * \return	string
+     * @return	string
      */
     public function getThumbnail() {
 	return $this->thumbnail;
@@ -341,7 +341,7 @@ class User {
     /**
      * \fn		array getSettings()
      * \brief	Return an array of the setting of the User
-     * \return	array
+     * @return	array
      */
     public function getSettings() {
 	return $this->settings;
@@ -350,7 +350,7 @@ class User {
     /**
      * \fn		string getSex()
      * \brief	Return the sex of the User
-     * \return	string
+     * @return	string
      */
     public function getSex() {
 	return $this->sex;
@@ -359,7 +359,7 @@ class User {
     /**
      * \fn		string getTwitterpage()
      * \brief	Return the twitter page link of the User
-     * \return	string
+     * @return	string
      */
     public function getTwitterpage() {
 	return $this->twitterpage;
@@ -368,7 +368,7 @@ class User {
     /**
      * \fn		string getType()
      * \brief	Return the type of the User
-     * \return	string
+     * @return	string
      */
     public function getType() {
 	return $this->type;
@@ -377,7 +377,7 @@ class User {
     /**
      * \fn		string getUsername()
      * \brief	Return the username of the User
-     * \return	string
+     * @return	string
      */
     public function getUsername() {
 	return $this->username;
@@ -386,7 +386,7 @@ class User {
     /**
      * \fn		number getVenuecounter()
      * \brief	Return venue counter, number of venue in collaboration
-     * \return	number
+     * @return	number
      */
     public function getVenuecounter() {
 	return $this->venuecounter;
@@ -395,7 +395,7 @@ class User {
     /**
      * \fn		string getWebsite()
      * \brief	Return the website link of the User
-     * \return	string
+     * @return	string
      */
     public function getWebsite() {
 	return $this->website;
@@ -404,7 +404,7 @@ class User {
     /**
      * \fn		string getYoutubechannel()
      * \brief	Return the youtube channel link of the User
-     * \return	string
+     * @return	string
      */
     public function getYoutubechannel() {
 	return $this->youtubechannel;
@@ -413,7 +413,7 @@ class User {
     /**
      * \fn		void setId($id)
      * \brief	Sets the id value
-     * \param	string
+     * @param	string
      */
     public function setId($id) {
 	$this->id = $id;
@@ -422,7 +422,7 @@ class User {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the User creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat(DateTime $updatedat) {
 	$this->updatedat = $updatedat;
@@ -431,7 +431,7 @@ class User {
     /**
      * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the User modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat(DateTime $createdat) {
 	$this->createdat = $createdat;
@@ -440,7 +440,7 @@ class User {
     /**
      * \fn		void setActive($active)
      * \brief	Sets the active value of the User
-     * \param	boolean
+     * @param	boolean
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -449,7 +449,7 @@ class User {
     /**
      * \fn		void setAddress($address)
      * \brief	Sets the address of the User
-     * \param	string
+     * @param	string
      */
     public function setAddress($address) {
 	$this->address = $address;
@@ -458,7 +458,7 @@ class User {
     /**
      * \fn	void setAvatar($avatar)
      * \brief	Sets the avatar of the User
-     * \param	string
+     * @param	string
      */
     public function setAvatar($avatar) {
 	$this->avatar = $avatar;
@@ -467,7 +467,7 @@ class User {
     /**
      * \fn		void setBackground($background)
      * \brief	Sets the background value of the User
-     * \param	string
+     * @param	string
      */
     public function setBackground($background) {
 	$this->background = $background;
@@ -476,7 +476,7 @@ class User {
     /**
      * \fn	string setBirthday($birthday)
      * \brief	Sets the birthday of the User represented by a string with format YYYY-MM-DD
-     * \param	string
+     * @param	string
      */
     public function setBirthday($birthday) {
 	$this->birthday = $birthday;
@@ -485,7 +485,7 @@ class User {
     /**
      * \fn	void setCity($city)
      * \brief	Sets the city value of the User
-     * \param	string
+     * @param	string
      */
     public function setCity($city) {
 	$this->city = $city;
@@ -494,7 +494,7 @@ class User {
     /**
      * \fn	void setLevel($collaborationcounter)
      * \brief	Sets the collaborationcounter of the User
-     * \param	number
+     * @param	number
      */
     public function setCollaborationcounter($collaborationcounter) {
 	$this->collaborationcounter = $collaborationcounter;
@@ -503,7 +503,7 @@ class User {
     /**
      * \fn	void setCountry($country)
      * \brief	Sets the country value of the User
-     * \param	string
+     * @param	string
      */
     public function setCountry($country) {
 	$this->country = $country;
@@ -512,7 +512,7 @@ class User {
     /**
      * \fn	void setDescription($description)
      * \brief	Sets the description value of the User
-     * \param	string
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
@@ -521,7 +521,7 @@ class User {
     /**
      * \fn	void setEmail($email)
      * \brief	Sets the email value of the User
-     * \param	string
+     * @param	string
      */
     public function setEmail($email) {
 	$this->email = $email;
@@ -530,7 +530,7 @@ class User {
     /**
      * \fn	string setFacebookid($facebookId)
      * \brief	Sets the facebook id of the User
-     * \param	string
+     * @param	string
      */
     public function setFacebookid($facebookid) {
 	$this->facebookid = $facebookid;
@@ -539,7 +539,7 @@ class User {
     /**
      * \fn	void setFacebookpage($facebookpage)
      * \brief	Sets the facebook page link of the User
-     * \param	string
+     * @param	string
      */
     public function setFacebookpage($facebookpage) {
 	$this->facebookpage = $facebookpage;
@@ -548,7 +548,7 @@ class User {
     /**
      * \fn	string setFirstname($firstname)
      * \brief	Sets the firstname id of the User
-     * \param	string
+     * @param	string
      */
     public function setFirstname($firstname) {
 	$this->firstname = $firstname;
@@ -557,7 +557,7 @@ class User {
     /**
      * \fn	void setFollowerscounter($followerscounter)
      * \brief	Sets the followerscounter of the User
-     * \param	number
+     * @param	number
      */
     public function setFollowerscounter($followerscounter) {
 	$this->followerscounter = $followerscounter;
@@ -566,7 +566,7 @@ class User {
     /**
      * \fn	void setFollowingcounter($followingcounter)
      * \brief	Sets the followingcounter of the User
-     * \param	number
+     * @param	number
      */
     public function setFollowingcounter($followingcounter) {
 	$this->followingcounter = $followingcounter;
@@ -575,7 +575,7 @@ class User {
     /**
      * \fn	void setFriendshipcounter($friendshipcounter)
      * \brief	Sets the friendshipcounter of the User
-     * \param	number
+     * @param	number
      */
     public function setFriendshipcounter($friendshipcounter) {
 	$this->friendshipcounter = $friendshipcounter;
@@ -584,7 +584,7 @@ class User {
     /**
      * \fn	void setGooglepluspage($googlepluspage)
      * \brief	Sets the google plus page link of the User
-     * \param	string
+     * @param	string
      */
     public function setGooglepluspage($googlepluspage) {
 	$this->googlepluspage = $googlepluspage;
@@ -593,7 +593,7 @@ class User {
     /**
      * \fn	void setJammercounter($jammercounter)
      * \brief	Sets the jammer counter 
-     * \param	number
+     * @param	number
      */
     public function setJammercounter($jammercounter) {
 	$this->jammercounter = $jammercounter;
@@ -602,7 +602,7 @@ class User {
     /**
      * \fn	void setJammertype($jammertype)
      * \brief	Sets the jammer type of the User
-     * \param	string
+     * @param	string
      */
     public function setJammertype($jammertype) {
 	$this->jammertype = $jammertype;
@@ -611,7 +611,7 @@ class User {
     /**
      * \fn	string setLastname($lastname)
      * \brief	Sets the lastname id of the User
-     * \param	string
+     * @param	string
      */
     public function setLastname($lastname) {
 	$this->lastname = $lastname;
@@ -620,7 +620,7 @@ class User {
     /**
      * \fn	void setLatitude($latitude)
      * \brief	Sets the latitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
@@ -629,7 +629,7 @@ class User {
     /**
      * \fn		void setLevel($level)
      * \brief	Sets the level of the User
-     * \param	number
+     * @param	number
      */
     public function setLevel($level) {
 	$this->level = $level;
@@ -638,7 +638,7 @@ class User {
     /**
      * \fn		void setLevelvalue($levelvalue)
      * \brief	Sets the level value of the User
-     * \param	number
+     * @param	number
      */
     public function setLevelvalue($levelvalue) {
 	$this->view = $levelvalue;
@@ -647,7 +647,7 @@ class User {
     /**
      * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
@@ -656,7 +656,7 @@ class User {
     /**
      * \fn		void setMembers($members)
      * \brief	Sets an array of id of the User related with the User
-     * \param	array
+     * @param	array
      */
     public function setMembers($members) {
 	$this->members = $members;
@@ -665,7 +665,7 @@ class User {
     /**
      * \fn		void setPassword($password)
      * \brief	Sets the password value of the User
-     * \param	string
+     * @param	string
      */
     public function setPassword($password) {
 	$this->password = $password;
@@ -674,7 +674,7 @@ class User {
     /**
      * \fn		void setPremium($premium)
      * \brief	Sets if the User has a Premium account
-     * \param	boolean
+     * @param	boolean
      */
     public function setPremium($premium) {
 	$this->premium = $premium;
@@ -683,7 +683,7 @@ class User {
     /**
      * \fn		void setPremiumexpirationdate($premiumexpirationdate)
      * \brief	Sets the expiration date of the User Premium account
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setPremiumexpirationdate($premiumexpirationdate) {
 	$this->premiumexpirationdate = $premiumexpirationdate;
@@ -692,7 +692,7 @@ class User {
     /**
      * \fn	void setThumbnail($thumbnail)
      * \brief	Sets the profile picture thumbnail link of the User
-     * \param	string
+     * @param	string
      */
     public function setThumbnail($thumbnail) {
 	$this->thumbnail = $thumbnail;
@@ -701,7 +701,7 @@ class User {
     /**
      * \fn	void setSettings($settings)
      * \brief	Sets an array of settings of the User
-     * \param	array
+     * @param	array
      */
     public function setSettings($settings) {
 	$this->settings = $settings;
@@ -710,7 +710,7 @@ class User {
     /**
      * \fn	string setSex($sex)
      * \brief	Sets the sex id of the User
-     * \param	string
+     * @param	string
      */
     public function setSex($sex) {
 	$this->sex = $sex;
@@ -719,7 +719,7 @@ class User {
     /**
      * \fn	void setTwitterpage($twitterpage)
      * \brief	Sets the twitter page link of the User
-     * \param	string
+     * @param	string
      */
     public function setTwitterpage($twitterpage) {
 	$this->twitterpage = $twitterpage;
@@ -728,7 +728,7 @@ class User {
     /**
      * \fn	void setType($type)
      * \brief	Sets the type of the User
-     * \param	string
+     * @param	string
      */
     public function setType($type) {
 	$this->type = $type;
@@ -737,7 +737,7 @@ class User {
     /**
      * \fn		void setUsername($username)
      * \brief	Sets the username value of the User
-     * \param	string
+     * @param	string
      */
     public function setUsername($username) {
 	$this->username = $username;
@@ -746,7 +746,7 @@ class User {
     /**
      * \fn	void setVenuecounter($venuecounter)
      * \brief	Sets the venue counter 
-     * \param	number
+     * @param	number
      */
     public function setVenuecounter($venuecounter) {
 	$this->venuecounter = $venuecounter;
@@ -755,7 +755,7 @@ class User {
     /**
      * \fn	void setWebsite($website)
      * \brief	Sets the website link of the User
-     * \param	string
+     * @param	string
      */
     public function setWebsite($website) {
 	$this->website = $website;
@@ -764,7 +764,7 @@ class User {
     /**
      * \fn	void setYoutubechannel($youtubechannel)
      * \brief	Sets the youtube channel link of the User
-     * \param	string
+     * @param	string
      */
     public function setYoutubechannel($youtubechannel) {
 	$this->youtubechannel = $youtubechannel;
@@ -773,15 +773,15 @@ class User {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the User object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';
 	$string .= '[id] => ' . $this->getId() . '<br />';
-	$data = new DateTime($this->getCreatedat());
-	$string .= '[createdat] => ' . $data->format('d-m-Y H:i:s') . '<br />';
-	$data = new DateTime($this->getUpdatedat());
-	$string .= '[updatedat] => ' . $data->format('d-m-Y H:i:s') . '<br />';
+	$createdat = new DateTime($this->getCreatedat());
+	$string .= '[createdat] => ' . $createdat->format('d-m-Y H:i:s') . '<br />';
+	$updatedat = new DateTime($this->getUpdatedat());
+	$string .= '[updatedat] => ' . $updatedat->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[address] => ' . $this->getAddress() . '<br />';
 	$string .= '[avatar] => ' . $this->getAvatar() . '<br />';
@@ -808,8 +808,8 @@ class User {
 	$string .= '[levelvalue] => ' . $this->getLevelvalue() . '<br />';
 	$string .= '[password] => ' . $this->getPassword() . '<br />';
 	$string .= '[premium] => ' . $this->getPremium() . '<br />';
-	$data = new DateTime($this->getPremiumexpirationdate());
-	$string .= '[premiumexpirationdate] => ' . $data->format('d-m-Y H:i:s') . '<br />';
+	$premiumexpirationdate = new DateTime($this->getPremiumexpirationdate());
+	$string .= '[premiumexpirationdate] => ' . $premiumexpirationdate->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	foreach ($this->getSettings() as $settings) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';

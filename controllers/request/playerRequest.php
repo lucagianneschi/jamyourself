@@ -1,15 +1,15 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @author		Luca Gianneschi
+ * @version		0.3
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		file di request per il controller player
  * \par			Commenti:
- * \warning
- * \bug
+ * @warning
+ * @bug
  *
  */
 

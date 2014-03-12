@@ -2,16 +2,16 @@
 
 /* ! \par		Info Generali:
  *  \author		Luca Gianneschi
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @version		0.3
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Servizio  DB
  *  \details		Servizio esecuzione principali query
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo		terminare funzioni per ogni classe
+ *  @warning
+ *  @bug
+ *  @todo		terminare funzioni per ogni classe
  *
  */
 if (!defined('ROOT_DIR'))

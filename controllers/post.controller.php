@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Daniele Caldelli
- * \version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @author		Daniele Caldelli
+ * @version		0.3
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller per l'azione di post
  * \details		effettua il post in bacheca di un utente, istanza della classe Comment con type P
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))
@@ -44,7 +44,7 @@ class PostController extends REST {
     /**
      * \fn	post()
      * \brief   save a post an the related activity
-     * \todo    salvare il post sul db relazionale
+     * @todo    salvare il post sul db relazionale
      */
     public function post() {
 	global $controllers;

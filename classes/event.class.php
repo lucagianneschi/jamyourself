@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par	    Info Generali:
- *  \author	    Maria Laura Fresu
- *  \version	    0.3
- *  \date	    2013
- *  \copyright	    Jamyourself.com 2013
+ *  @author	    Maria Laura Fresu
+ *  @version	    0.3
+ *  @since	    2013
+ *  @copyright	    Jamyourself.com 2013
  *  \par Info	    Classe:
  *  \brief	    Event
  *  \details	    Classe dedicata agli eventi, solo JAMMER e VENUE possono istanziare questa classe
  *  \par	    Commenti:
- *  \warning
- *  \bug
- *  \todo		
+ *  @warning
+ *  @bug
+ *  @todo		
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Event">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Event">API</a>
@@ -49,7 +49,7 @@ class Event {
     /**
      * \fn	getId()
      * \brief	Return the id value
-     * \return	int
+     * @return	int
      */
     public function getId() {
 	return $this->id;
@@ -58,7 +58,7 @@ class Event {
     /**
      * \fn	DateTime getCreatedat()
      * \brief	Return the Event creation date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
@@ -67,7 +67,7 @@ class Event {
     /**
      * \fn	DateTime getUpdatedat()
      * \brief	Return the Event modification date
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
@@ -76,7 +76,7 @@ class Event {
     /**
      * \fn	BOOL getActive()
      * \brief	Return the active value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
@@ -85,7 +85,7 @@ class Event {
     /**
      * \fn	getAddress()
      * \brief	Return the address value
-     * \return	string
+     * @return	string
      */
     public function getAddress() {
 	return $this->address;
@@ -94,7 +94,7 @@ class Event {
     /**
      * \fn	getAttendeeCounter()
      * \brief	Return the number of attendees value
-     * \return	string
+     * @return	string
      */
     public function getAttendeecounter() {
 	return $this->attendeecounter;
@@ -103,7 +103,7 @@ class Event {
     /**
      * \fn	getCancelledCounter()
      * \brief	Return the number of attendees value
-     * \return	string
+     * @return	string
      */
     public function getCancelledcounter() {
 	return $this->cancelledcounter;
@@ -112,7 +112,7 @@ class Event {
     /**
      * \fn	getCity()
      * \brief	Return the city value
-     * \return	string
+     * @return	string
      */
     public function getCity() {
 	return $this->city;
@@ -121,7 +121,7 @@ class Event {
     /**
      * \fn	int getCommentcounter()
      * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * @return	int
      */
     public function getCommentcounter() {
 	return $this->commentcounter;
@@ -130,7 +130,7 @@ class Event {
     /**
      * \fn	int getCounter()
      * \brief	Return the counter value
-     * \return	int
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
@@ -139,7 +139,7 @@ class Event {
     /**
      * \fn	getCover()
      * \brief	Return the city value
-     * \return	string
+     * @return	string
      */
     public function getCover() {
 	return $this->cover;
@@ -148,7 +148,7 @@ class Event {
     /**
      * \fn	string getDescription()
      * \brief	Return the description value
-     * \return	string
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
@@ -157,7 +157,7 @@ class Event {
     /**
      * \fn	DateTime getEventdate()
      * \brief	Return the Event Date 
-     * \return	DateTime
+     * @return	DateTime
      */
     public function getEventdate() {
 	return $this->eventdate;
@@ -166,7 +166,7 @@ class Event {
     /**
      * \fn	string getFromuser()
      * \brief	Return the id value for the fromUser
-     * \return	string
+     * @return	string
      */
     public function getFromuser() {
 	return $this->fromuser;
@@ -175,7 +175,7 @@ class Event {
     /**
      * \fn	array getGenre()
      * \brief	Return the genre (array) value for the genre
-     * \return	array
+     * @return	array
      */
     public function getGenre() {
 	return $this->genre;
@@ -184,7 +184,7 @@ class Event {
     /**
      * \fn	getInvitedCounter()
      * \brief	Return the number of invited value
-     * \return	string
+     * @return	string
      */
     public function getInvitedcounter() {
 	return $this->invitedcounter;
@@ -193,7 +193,7 @@ class Event {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	latitude
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
@@ -202,7 +202,7 @@ class Event {
     /**
      * \fn	getLongitude()
      * \brief	Return the longitude value
-     * \return	long
+     * @return	long
      */
     public function getLongitude() {
 	return $this->longitude;
@@ -211,7 +211,7 @@ class Event {
     /**
      * \fn	string getLocationname()
      * \brief	Return the name of the location
-     * \return	string
+     * @return	string
      */
     public function getLocationname() {
 	return $this->locationname;
@@ -220,7 +220,7 @@ class Event {
     /**
      * \fn	int getLovecounter()
      * \brief	Return the int value of loveCounter, counting the love action on the event
-     * \return	int
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
@@ -229,7 +229,7 @@ class Event {
     /**
      * \fn	getRefusedCounter()
      * \brief	Return the number of attendees value
-     * \return	string
+     * @return	string
      */
     public function getRefusedCounter() {
 	return $this->refusedCounter;
@@ -238,7 +238,7 @@ class Event {
     /**
      * \fn	int getReviewcounter()
      * \brief	Return the review counter value (number of review)
-     * \return	int
+     * @return	int
      */
     public function getReviewcounter() {
 	return $this->reviewcounter;
@@ -247,7 +247,7 @@ class Event {
     /**
      * \fn	int getSharecounter()
      * \brief	Return the counter for sharing action
-     * \return	int
+     * @return	int
      */
     public function getSharecounter() {
 	return $this->sharecounter;
@@ -256,7 +256,7 @@ class Event {
     /**
      * \fn	array getTag()
      * \brief	Return the tags value, array of string to categorize the event
-     * \return	int
+     * @return	int
      */
     public function getTag() {
 	return $this->tag;
@@ -265,7 +265,7 @@ class Event {
     /**
      * \fn	string getThumbnail()
      * \brief	Return the thumbnail value
-     * \return	string
+     * @return	string
      */
     public function getThumbnail() {
 	return $this->thumbnail;
@@ -274,7 +274,7 @@ class Event {
     /**
      * \fn	string getTitle()
      * \brief	Return the title value
-     * \return	string
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
@@ -283,7 +283,7 @@ class Event {
     /**
      * \fn	void setId($id)
      * \brief	Sets the id value
-     * \param	string
+     * @param	string
      */
     public function setId($id) {
 	$this->id = $id;
@@ -292,7 +292,7 @@ class Event {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the Event creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
@@ -301,7 +301,7 @@ class Event {
     /**
      * \fn	void setUpdatedat($updatedat)
      * \brief	Sets the Event modification date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
@@ -310,7 +310,7 @@ class Event {
     /**
      * \fn	void setActive($active)
      * \brief	Sets the active value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
@@ -319,7 +319,7 @@ class Event {
     /**
      * \fn		void setAddress($address)
      * \brief	Sets the address value
-     * \param	string
+     * @param	string
      */
     public function setAddress($address) {
 	$this->address = $address;
@@ -328,7 +328,7 @@ class Event {
     /**
      * \fn	void setAttendeecounter($attendeecounter)
      * \brief	Sets the attendeeCounter value
-     * \param	int
+     * @param	int
      */
     public function setAttendeecounter($attendeecounter) {
 	$this->attendeecounter = $attendeecounter;
@@ -337,7 +337,7 @@ class Event {
     /**
      * \fn	void setCancelledcounter($cancelledCounter)
      * \brief	Sets the cancelledcounter value
-     * \param	int
+     * @param	int
      */
     public function setCancelledcounter($cancelledcounter) {
 	$this->cancelledcounter = $cancelledcounter;
@@ -346,7 +346,7 @@ class Event {
     /**
      * \fn	void setCity($city)
      * \brief	Sets the city value
-     * \param	string
+     * @param	string
      */
     public function setCity($city) {
 	$this->city = $city;
@@ -355,7 +355,7 @@ class Event {
     /**
      * \fn	void setCommentcounter($commentcounter)
      * \brief	Sets the commnetCounter value
-     * \param	int
+     * @param	int
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
@@ -364,7 +364,7 @@ class Event {
     /**
      * \fn		void setCounter($counter)
      * \brief	Sets the counter value
-     * \param	int
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
@@ -373,7 +373,7 @@ class Event {
     /**
      * \fn	void setCover($cover)
      * \brief	Sets the cover value
-     * \param	string
+     * @param	string
      */
     public function setCover($cover) {
 	$this->cover = $cover;
@@ -382,7 +382,7 @@ class Event {
     /**
      * \fn	void setDescription($description)
      * \brief	Sets the description value
-     * \param	string
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
@@ -391,7 +391,7 @@ class Event {
     /**
      * \fn	setEventDate($eventDate)
      * \brief	Sets the Event Date date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setEventdate($eventdate) {
 	$this->eventdate = $eventdate;
@@ -400,7 +400,7 @@ class Event {
     /**
      * \fn	void setFromuser($fromuser))
      * \brief	Sets the fromUser value
-     * \param	int
+     * @param	int
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
@@ -409,7 +409,7 @@ class Event {
     /**
      * \fn	void setGenre($genre)
      * \brief	Sets the genre value, array for genres
-     * \param	int
+     * @param	int
      */
     public function setGenre($genre) {
 	$this->genre = $genre;
@@ -418,7 +418,7 @@ class Event {
     /**
      * \fn	setInvitedCounter($invitedCounter)
      * \brief	Sets the invitedCounter value
-     * \param	int
+     * @param	int
      */
     public function setInvitedCounter($invitedCounter) {
 	$this->invitedCounter = $invitedCounter;
@@ -427,7 +427,7 @@ class Event {
     /**
      * \fn	void setLatitude($latitude)
      * \brief	Sets the latitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
@@ -436,7 +436,7 @@ class Event {
     /**
      * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
-     * \param	$longitude
+     * @param	$longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
@@ -445,7 +445,7 @@ class Event {
     /**
      * \fn	void setLocationName($locationName)
      * \brief	Sets the locationName value
-     * \param	string
+     * @param	string
      */
     public function setLocationname($locationname) {
 	$this->locationname = $locationname;
@@ -454,7 +454,7 @@ class Event {
     /**
      * \fn	void setLovecounter($lovecounter)
      * \brief	Sets the loveCounter value
-     * \param	int
+     * @param	int
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
@@ -463,7 +463,7 @@ class Event {
     /**
      * \fn	void  setRefusedCounter($refusedcounter)
      * \brief	Sets the refusedCounter value
-     * \param	int
+     * @param	int
      */
     public function setRefusedcounter($refusedcounter) {
 	$this->refusedcounter = $refusedcounter;
@@ -472,7 +472,7 @@ class Event {
     /**
      * \fn	void setReviewcounter($reviewcounter)
      * \brief	Sets the reviewcounter value
-     * \param	int
+     * @param	int
      */
     public function setReviewcounter($reviewcounter) {
 	$this->reviewcounter = $reviewcounter;
@@ -481,7 +481,7 @@ class Event {
     /**
      * \fn	void setCounter($sharecounter)
      * \brief	Sets the sharecounter value
-     * \param	int
+     * @param	int
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
@@ -490,7 +490,7 @@ class Event {
     /**
      * \fn	void setTag($tag)
      * \brief	Sets the tags value
-     * \param	int
+     * @param	int
      */
     public function setTag($tag) {
 	$this->tag = $tag;
@@ -499,7 +499,7 @@ class Event {
     /**
      * \fn	void setThumbnail($thumbnail)
      * \brief	Sets the thumbnail value
-     * \param	string
+     * @param	string
      */
     public function setThumbnail($thumbnail) {
 	$this->thumbnail = $thumbnail;
@@ -508,7 +508,7 @@ class Event {
     /**
      * \fn	void setTitle($title)
      * \brief	Sets the title value
-     * \param	string
+     * @param	string
      */
     public function setTitle($title) {
 	$this->title = $title;
@@ -517,7 +517,7 @@ class Event {
     /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Event object
-     * \return	string
+     * @return	string
      */
     function __toString() {
 	$string = '';
@@ -536,7 +536,7 @@ class Event {
 	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	$eventDate = new DateTime($this->getEventdate());
-	$string .= '[eventdate] => ' . $evetDate->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[eventdate] => ' . $eventDate->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	foreach ($this->getGenre() as $genre) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';

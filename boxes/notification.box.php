@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		0.2
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento notifiche utente
  * \details		Recupera le notifiche da mostrare nell'header
  * \par			Commenti:
- * \warning
- * \bug
- * \todo			
+ * @warning
+ * @bug
+ * @todo			
  *
  */
 if (!defined('ROOT_DIR'))
@@ -23,7 +23,7 @@ require_once SERVICES_DIR . 'select.service.php';
 /**
  * \brief	ActionsCounterBox 
  * \details	counter for activity INVITED
- * \todo	inserire nella whereOr le activity corrette
+ * @todo	inserire nella whereOr le activity corrette
  */
 class ActionCounterBox {
 
@@ -32,7 +32,7 @@ class ActionCounterBox {
     /**
      * \fn	init()
      * \brief	Init ActionsBoxCounter instance
-     * \return	actionsBoxCounter
+     * @return	actionsBoxCounter
      */
     public function init() {
     }
@@ -42,7 +42,7 @@ class ActionCounterBox {
 /**
  * \brief	ActionsListBox 
  * \details	lista di activies per cui si ha notifica
- * \todo	
+ * @todo	
  */
 class ActionListBox {
 
@@ -52,7 +52,7 @@ class ActionListBox {
     /**
      * \fn	init()
      * \brief	Init ActionListBox instance
-     * \return	actionsListBox
+     * @return	actionsListBox
      */
     public function init($limit, $skip) {
 
@@ -90,7 +90,7 @@ class InvitedCounterBox {
     /**
      * \fn	init()
      * \brief	Init InvitedBoxCounter instance
-     * \return	invitedBoxCounter
+     * @return	invitedBoxCounter
      */
     public function init() {
 
@@ -109,7 +109,7 @@ class MessageCounterBox {
     /**
      * \fn	init()
      * \brief	Init MessageBoxCounter instance
-     * \return	messageBoxCounter
+     * @return	messageBoxCounter
      */
     public function init() {
 
@@ -129,7 +129,7 @@ class MessageListBox {
     /**
      * \fn	init()
      * \brief	Init MessageListBox instance
-     * \return	messageListBox
+     * @return	messageListBox
      */
     public function init($limit, $skip) {
 
@@ -148,7 +148,7 @@ class RelationCounterBox {
     /**
      * \fn	init()
      * \brief	Init MessageBoxCounter instance
-     * \return	messageBoxCounter
+     * @return	messageBoxCounter
      */
     public function init($type) {
 
@@ -168,7 +168,7 @@ class RelationListBox {
     /**
      * \fn	init()
      * \brief	Init RelationListBox instance
-     * \return	relationListBox 
+     * @return	relationListBox 
      */
     public function init($type, $limit, $skip) {
 

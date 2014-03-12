@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Stefano Muscas
- * \version		1.0
- * \date		2013
- * \copyright           Jamyourself.com 2013
+ * @author		Stefano Muscas
+ * @version		1.0
+ * @since		2013
+ * @copyright           Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di upload album 
  * \details		si collega al form di upload di un album, effettua controlli, scrive su DB
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		Fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		Fare API su Wiki
  */
 
 if (!defined('ROOT_DIR'))
@@ -161,7 +161,7 @@ class UploadAlbumController extends REST {
     /**
      * \fn	createActivity($fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null)
      * \brief   funzione per creazione activity per questo controller
-     * \param   $fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null
+     * @param   $fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null
      */
     private function createActivity($fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null) {
 	require_once CLASSES_DIR . 'activity.class.php';
@@ -188,7 +188,7 @@ class UploadAlbumController extends REST {
     /**
      * \fn	getFeaturingJSON() 
      * \brief   funzione per il recupero dei featuring per l'event
-     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+     * @todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
      */
     public function getFeaturingJSON() {
 	try {
@@ -352,17 +352,16 @@ class UploadAlbumController extends REST {
 	}
     }
 
-    public function getAlbums() {
+    private function getAlbums() {
 	global $controllers;
 	if ($this->get_request_method() != "POST") {
 	    $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
 	} elseif (!isset($_SESSION['currentUser'])) {
 	    $this->response($controllers['USERNOSES'], 402);
 	}
-
 	require_once BOXES_DIR . "album.box.php";
 	$albumBox = new AlbumBox();
-	$albumBox->init($_SESSION['currentUser'], $limit = 10, $skip = 0, $upload = true);
+	$albumBox->init($_SESSION['currentUser'], $limit = 10);
 	$albumList = array();
 	if (is_null($albumBox->error) && count($albumBox->albumArray) > 0) {
 	    foreach ($albumBox->albumArray as $album) {

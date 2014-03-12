@@ -1,15 +1,15 @@
 <?php
 
 /* ! \par Info  Generali:
- *  \author     Luca Gianneschi
- *  \version    1.0
- *  \date       2013
- *  \copyright  Jamyourself.com 2013
+ *  @author     Luca Gianneschi
+ *  @version    1.0
+ *  @since       2013
+ *  @copyright  Jamyourself.com 2013
  *  \par        Info:
  *  \brief      basic config file 
- *  \warning
- *  \bug
- *  \todo       keep this file up to date
+ *  @warning
+ *  @bug
+ *  @todo       keep this file up to date
  */
 
 require_once 'path.php';
@@ -434,4 +434,8 @@ define('NEO4J_USER', 'jamyourself');
  */
 define('NEO4J_PSW', 'j4my0urs3lf');
 
+/** 
+ *  Set the timezone for server side
+ */
+ini_set('date.timezone', 'GMT');
 ?>

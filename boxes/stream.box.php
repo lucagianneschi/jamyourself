@@ -1,16 +1,16 @@
 ﻿<?php
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @author		Luca Gianneschi
+ * @version		0.3
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento info event
  * \details		Recupera le informazioni dell'evento, le inserisce in un array da passare alla view
  * \par			Commenti:
- * \warning
- * \bug
- * \todo	        	        
+ * @warning
+ * @bug
+ * @todo	        	        
  */
 
 if (!defined('ROOT_DIR'))
@@ -41,8 +41,8 @@ class StreamBox {
     /**
      * \fn	init
      * \brief	timeline init
-     * \param	$limit, $skip
-     * \todo
+     * @param	$limit, $skip
+     * @todo
      */
     public function init($limit = DEFAULTQUERY, $skip = null) {
 	$currentUser = $_SESSION['id'];
@@ -66,8 +66,8 @@ class StreamBox {
     /**
      * \fn	createActivityArray($userType)
      * \brief	private funtion for creating the activity type array based on the user type
-     * \param	$userType
-     * \todo
+     * @param	$userType
+     * @todo
      */
     private function createActivityArray($userType) {
 	$sharedActivities = $this->config->sharedActivities;
