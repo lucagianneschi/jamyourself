@@ -20,7 +20,14 @@ require_once SERVICES_DIR . 'select.service.php';
  */
 class UserInfoBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var user istanza di uno user
+     */
     public $user = null;
 
     /**

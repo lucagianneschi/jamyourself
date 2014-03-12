@@ -26,8 +26,19 @@ require_once SERVICES_DIR . 'log.service.php';
  */
 class StreamBox {
 
+    /**
+     * @var array Array di activities
+     */
     public $activitiesArray = array();
+
+    /**
+     * @var array Array di config values
+     */
     public $config;
+
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
 
     /**

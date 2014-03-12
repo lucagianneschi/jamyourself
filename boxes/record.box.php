@@ -20,8 +20,19 @@ require_once SERVICES_DIR . 'select.service.php';
  */
 class RecordBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di record
+     */
     public $recordArray = array();
+
+    /**
+     * @var array Array di song
+     */
     public $tracklist = array();
 
     /**

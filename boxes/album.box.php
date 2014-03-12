@@ -36,8 +36,19 @@ require_once SERVICES_DIR . 'select.service.php';
  */
 class AlbumBox {
 
+    /**
+     * @var array Array di album
+     */
     public $albumArray = array();
+
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di image
+     */
     public $imageArray = array();
 
     /**

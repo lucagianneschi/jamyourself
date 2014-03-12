@@ -20,8 +20,19 @@ require_once SERVICES_DIR . 'log.service.php';
  */
 class CollaboratorsBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di venue
+     */
     public $venueArray = array();
+
+    /**
+     * @var array Array di jammer
+     */
     public $jammerArray = array();
 
     /**
@@ -62,7 +73,14 @@ class CollaboratorsBox {
  */
 class FollowersBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di followers (jammer/venue - spotter)
+     */
     public $followersArray = array();
 
     /**
@@ -101,8 +119,19 @@ class FollowersBox {
  */
 class FollowingsBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di venue
+     */
     public $venueArray = array();
+
+    /**
+     * @var array Array di jammer
+     */
     public $jammerArray = array();
 
     /**
@@ -143,7 +172,14 @@ class FollowingsBox {
  */
 class FriendsBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di frinds (spotter - spotter)
+     */
     public $friendsArray = array();
 
     /**

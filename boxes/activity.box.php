@@ -18,10 +18,16 @@ require_once SERVICES_DIR . 'connection.service.php';
  * @bug
  * @todo                Realizzare metodo init
  */
-
 class ActivitySongBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di song
+     */
     public $songArray = array();
 
     /**
@@ -46,10 +52,16 @@ class ActivitySongBox {
  * @bug
  * @todo                Realizzare metodo init
  */
-
 class ActivityEventBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di event
+     */
     public $eventArray = array();
 
     /**

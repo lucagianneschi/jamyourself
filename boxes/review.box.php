@@ -20,7 +20,14 @@ require_once SERVICES_DIR . 'select.service.php';
  */
 class ReviewEventBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di review
+     */
     public $reviewArray = array();
 
     /**
@@ -81,7 +88,14 @@ class ReviewEventBox {
  */
 class ReviewRecordBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di review
+     */
     public $reviewArray = array();
 
     /**

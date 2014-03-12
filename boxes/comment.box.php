@@ -18,10 +18,16 @@ require_once SERVICES_DIR . 'select.service.php';
  * @bug
  * @todo                
  */
-
 class CommentBox {
 
+    /**
+     * @var array Array di comment
+     */
     public $commentArray = array();
+
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
 
     /**

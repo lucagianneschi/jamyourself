@@ -35,7 +35,14 @@ require_once SERVICES_DIR . 'select.service.php';
  */
 class PlaylistInfoBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di playlist
+     */
     public $playlistArray = array();
 
     /**
@@ -70,7 +77,14 @@ class PlaylistInfoBox {
  */
 class PlaylistSongBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di song
+     */
     public $songArray = array();
 
     /**

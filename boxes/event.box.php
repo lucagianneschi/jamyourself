@@ -18,10 +18,16 @@ require_once SERVICES_DIR . 'select.service.php';
  * @bug
  * @todo                
  */
-
 class EventBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di event
+     */
     public $eventArray = array();
 
     /**
