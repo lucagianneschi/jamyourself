@@ -169,7 +169,7 @@ function updateComment($connection, $comment) {
     $sql .= "updatedat = '" . date('Y-m-d H:i:s') . "'";
     $sql .= " WHERE id = " . $comment->getId();
     $resultsUpdate = mysqli_query($connection, $sql);
-    $sql = "DELETE FROM album_tag WHERE id = " . $comment->getId();
+    $sql = "DELETE FROM comment_tag WHERE id = " . $comment->getId();
     $resultsDelete = mysqli_query($connection, $sql);
     $resultsInsert = true;
     foreach ($comment->getTag() as $tag) {
@@ -233,18 +233,72 @@ function updateEvent($connection, $event) {
     $sql .= "updatedat = '" . date('Y-m-d H:i:s') . "'";
     $sql .= " WHERE id = " . $event->getId();
     $resultsUpdate = mysqli_query($connection, $sql);
-    $sql = "DELETE FROM album_tag WHERE id = " . $event->getId();
+    $sql = "DELETE FROM event_tag WHERE id = " . $event->getId();
     $resultsDelete = mysqli_query($connection, $sql);
     $resultsInsert = true;
     foreach ($event->getGenre() as $genre) {
-	$sql = "INSERT INTO comment_genre (id, genre) VALUES (" . $event->getId() . ", '" . $genre . "')";
+	$sql = "INSERT INTO event_genre (id, genre) VALUES (" . $event->getId() . ", '" . $genre . "')";
 	$results = mysqli_query($connection, $sql);
 	if ($results === false) {
 	    $resultsInsert = false;
 	}
     }
     foreach ($event->getTag() as $tag) {
-	$sql = "INSERT INTO comment_tag (id, tag) VALUES (" . $event->getId() . ", '" . $tag . "')";
+	$sql = "INSERT INTO event_tag (id, tag) VALUES (" . $event->getId() . ", '" . $tag . "')";
+	$results = mysqli_query($connection, $sql);
+	if ($results === false) {
+	    $resultsInsert = false;
+	}
+    }
+    if ($resultsUpdate === false || $resultsDelete === false || $resultsInsert === false) {
+	mysqli_rollback($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return false;
+    } else {
+	mysqli_commit($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return true;
+    }
+}
+
+/**
+ * updateImage function 
+ * @param   $connection
+ * @param Image $image Image class instance
+ * @return BOOL true if update OK, false otherwise
+ */
+function updateImage($connection, $image) {
+    $autocommit = 0;
+    $result = mysqli_query($connection, "SELECT @@autocommit");
+    if ($result === false) {
+	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	return false;
+    } else {
+	$row = mysqli_fetch_row($result);
+	$autocommit = $row[0];
+    }
+    mysqli_autocommit($connection, false);
+    $sql = "UPDATE comment SET ";
+    $sql .= "active = '" . $image->getActive() . "',";
+    $sql .= "album = '" . $image->getAlbum() . "',";
+    $sql .= "commentcounter = '" . $image->getCommentcounter() . "',";
+    $sql .= "counter = '" . $image->getCounter() . "',";
+    $sql .= "description = '" . $image->getDescription() . "',";
+    $sql .= "fromuser = '" . $image->getFromuser() . "',";
+    $sql .= "latitude = '" . $image->getLatitude() . "',";
+    $sql .= "longitude = '" . $image->getLongitude() . "',";
+    $sql .= "lovecounter = '" . $image->getLovecounter() . "',";
+    $sql .= "path = '" . $image->getPath() . "',";
+    $sql .= "sharecounter = '" . $image->getSharecounter() . "',";
+    $sql .= "thumbnail = '" . $image->getThumbnail() . "',";
+    $sql .= "updatedat = '" . date('Y-m-d H:i:s') . "'";
+    $sql .= " WHERE id = " . $image->getId();
+    $resultsUpdate = mysqli_query($connection, $sql);
+    $sql = "DELETE FROM image_tag WHERE id = " . $image->getId();
+    $resultsDelete = mysqli_query($connection, $sql);
+    $resultsInsert = true;
+    foreach ($image->getTag() as $tag) {
+	$sql = "INSERT INTO image_tag (id, tag) VALUES (" . $image->getId() . ", '" . $tag . "')";
 	$results = mysqli_query($connection, $sql);
 	if ($results === false) {
 	    $resultsInsert = false;
