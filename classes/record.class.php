@@ -38,7 +38,7 @@ class Record {
     private $lovecounter;
     private $reviewCounter;
     private $sharecounter;
-    private $songCounter;
+    private $songcounter;
     private $thumbnail;
     private $title;
     private $tracklist;
@@ -216,14 +216,14 @@ class Record {
     }
 
     /**
-     * \fn	int getSongCounter()
+     * \fn	int getSongcounter()
      * \brief	Return the song counter value (number of songs)
      * @return	int
      */
-    public function getSongCounter() {
-	return $this->songCounter;
+    public function getSongcounter() {
+	return $this->songcounter;
     }
-    
+
     /**
      * \fn	string getThumbnail()
      * \brief	Return the thumbnail (path file) value
@@ -432,12 +432,12 @@ class Record {
     }
 
     /**
-     * \fn	void  setSongCounter($songCounter)
-     * \brief	Sets the songCounter value
+     * \fn	void  setSongcounter($songcounter)
+     * \brief	Sets the songcounter value
      * @param	int
      */
-    public function setSongCounter($songCounter) {
-	$this->songCounter = $songCounter;
+    public function setSongcounter($songcounter) {
+	$this->songcounter = $songcounter;
     }
 
     /**
@@ -507,7 +507,7 @@ class Record {
 	$string .= '[lovecounter] .= > ' . $this->getLovecounter() . '<br/>';
 	$string .= '[reviewCounter] => ' . $this->getReviewcounter() . '<br />';
 	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
-	$string .= '[songCounter] => ' . $this->getSongCounter() . '<br />';
+	$string .= '[songcounter] => ' . $this->getSongcounter() . '<br />';
 	$string .= '[thumbnailCover] .= > ' . $this->getThumbnail() . '<br/>';
 	$string .= '[title] .= > ' . $this->getTitle() . '<br/>';
 	$string .= '[tracklist] => ' . $this->getTracklist() . '<br />';
