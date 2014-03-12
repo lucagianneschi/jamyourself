@@ -34,8 +34,8 @@ class Comment {
     private $sharecounter;
     private $song;
     private $tag;
-    private $title;
     private $text;
+    private $title;
     private $touser;
     private $type;
     private $video;
