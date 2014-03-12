@@ -1,20 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * @author		Luca Gianneschi
- * @version		0.3
- * @since		2013
- * @copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller di login e logout
- * \details		effettua operazioni di login e logut utente
- * \par			Commenti:
- * @warning
- * @bug
- * @todo		fare API su Wiki
- *
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -26,15 +11,23 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
 
 /**
- * \brief	ReviewController class
- * \details	controller di inserimento di una review
+ * AccessController class
+ * effettua operazioni di login e logut utente
+ * 
+ * @author Daniele Caldelli
+ * @author Maria Laura Fresu
+ * @version		0.2
+ * @since		2014-03-12
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class AccessController extends REST {
 
     /**
-     * \fn      login()
-     * \brief   user login
-     * @todo
+     * Effettua il login dell'utente, inserendo i dati che servono in sessione
+     * @todo    testare
      */
     public function login() {
 	try {
@@ -76,9 +69,8 @@ class AccessController extends REST {
     }
 
     /**
-     * \fn      logout()
-     * \brief   user logout
-     * @todo
+     * Effettua il logout dell'utente, distruggendo la sessione
+     * @todo    testare
      */
     public function logout() {
 	try {
@@ -97,10 +89,12 @@ class AccessController extends REST {
     }
 
     /**
-     * \fn      private function checkEmailOrUsername($password, $name)
-     * \brief   check if user credentials are correct
-     * @param   $password, $name
-     * @todo
+     * Check if user credentials are correct
+     * @param string $connection Connessione
+     * @param string $password password
+     * @param string $name name or email
+     * @return User User instance
+     * @todo Testare
      */
     private function checkEmailOrUsername($connection, $password, $name) {
 	$sql = "SELECT id,
