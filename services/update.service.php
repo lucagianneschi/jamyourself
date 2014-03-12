@@ -233,24 +233,27 @@ function updateEvent($connection, $event) {
     $sql .= "updatedat = '" . date('Y-m-d H:i:s') . "'";
     $sql .= " WHERE id = " . $event->getId();
     $resultsUpdate = mysqli_query($connection, $sql);
-    $sql = "DELETE FROM event_tag WHERE id = " . $event->getId();
-    $resultsDelete = mysqli_query($connection, $sql);
-    $resultsInsert = true;
+    $sql = "DELETE FROM event_genre WHERE id = " . $event->getId();
+    $resultsDeleteGenre = mysqli_query($connection, $sql);
+    $resultsInsertGenre = true;
     foreach ($event->getGenre() as $genre) {
 	$sql = "INSERT INTO event_genre (id, genre) VALUES (" . $event->getId() . ", '" . $genre . "')";
 	$results = mysqli_query($connection, $sql);
 	if ($results === false) {
-	    $resultsInsert = false;
+	    $resultsInsertGenre = false;
 	}
     }
+    $sql = "DELETE FROM event_tag WHERE id = " . $event->getId();
+    $resultsDeleteTag = mysqli_query($connection, $sql);
+    $resultsInsertTag = true;
     foreach ($event->getTag() as $tag) {
 	$sql = "INSERT INTO event_tag (id, tag) VALUES (" . $event->getId() . ", '" . $tag . "')";
 	$results = mysqli_query($connection, $sql);
 	if ($results === false) {
-	    $resultsInsert = false;
+	    $resultsInsertTag = false;
 	}
     }
-    if ($resultsUpdate === false || $resultsDelete === false || $resultsInsert === false) {
+    if ($resultsUpdate === false || $resultsDeleteGenre === false || $resultsDeleteTag === false || $resultsInsertGenre === false || $resultsInsertTag === false) {
 	mysqli_rollback($connection);
 	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
 	return false;
@@ -353,6 +356,87 @@ function updatePlaylist($connection, $playlist) {
 	}
     }
     if ($resultsUpdate === false || $resultsDelete === false || $resultsInsert === false) {
+	mysqli_rollback($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return false;
+    } else {
+	mysqli_commit($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return true;
+    }
+}
+
+/**
+ * updateRecord function 
+ * @param   $connection
+ * @param Record $record Record class instance
+ * @return BOOL true if update OK, false otherwise
+ */
+function updateRecord($connection, $record) {
+    $autocommit = 0;
+    $result = mysqli_query($connection, "SELECT @@autocommit");
+    if ($result === false) {
+	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	return false;
+    } else {
+	$row = mysqli_fetch_row($result);
+	$autocommit = $row[0];
+    }
+    mysqli_autocommit($connection, false);
+    $sql = "UPDATE event SET ";
+    $sql .= "active = '" . $record->getActive() . "',";
+    $sql .= "buylink = '" . $record->getBuylink() . "',";
+    $sql .= "city = '" . $record->getCity() . "',";
+    $sql .= "commentcounter = '" . $record->getCommentcounter() . "',";
+    $sql .= "counter = '" . $record->getCounter() . "',";
+    $sql .= "cover = '" . $record->getCover() . "',";
+    $sql .= "description = '" . $record->getDescription() . "',";
+    $sql .= "duration = '" . $record->getDuration() . "',";
+    $sql .= "fromuser = '" . $record->getFromuser() . "',";
+    $sql .= "label = '" . $record->getLabel() . "',";
+    $sql .= "latitude = '" . $record->getLatitude() . "',";
+    $sql .= "longitude = '" . $record->getLongitude() . "',";
+    $sql .= "lovecounter = '" . $record->getLovecounter() . "',";
+    $sql .= "reviewcounter = '" . $record->getReviewcounter() . "',";
+    $sql .= "sharecounter = '" . $record->getSharecounter() . "',";
+    $sql .= "songcounter = '" . $record->getSongCounter() . "',";
+    $sql .= "thumbnail = '" . $record->getThumbnail() . "',";
+    $sql .= "title = '" . $record->getTitle() . "',";
+    $sql .= "year = '" . $record->getYear() . "',";
+    $sql .= "updatedat = '" . date('Y-m-d H:i:s') . "'";
+    $sql .= " WHERE id = " . $record->getId();
+    $resultsUpdate = mysqli_query($connection, $sql);
+    $sql = "DELETE FROM record_genre WHERE id = " . $record->getId();
+    $resultsDeleteGenre = mysqli_query($connection, $sql);
+    $resultsInsertGenre = true;
+    foreach ($record->getGenre() as $genre) {
+	$sql = "INSERT INTO record_genre (id, genre) VALUES (" . $record->getId() . ", '" . $genre . "')";
+	$results = mysqli_query($connection, $sql);
+	if ($results === false) {
+	    $resultsInsertGenre = false;
+	}
+    }
+    $sql = "DELETE FROM record_tag WHERE id = " . $record->getId();
+    $resultsDeleteTag = mysqli_query($connection, $sql);
+    $resultsInsertTag = true;
+    foreach ($record->getTag() as $tag) {
+	$sql = "INSERT INTO record_tag (id, tag) VALUES (" . $record->getId() . ", '" . $tag . "')";
+	$results = mysqli_query($connection, $sql);
+	if ($results === false) {
+	    $resultsInsertTag = false;
+	}
+    }
+    $sql = "DELETE FROM record_tracklist WHERE id = " . $record->getId();
+    $resultsDeleteTracklist = mysqli_query($connection, $sql);
+    $resultsInsertTracklist = true;
+    foreach ($record->getTracklist() as $song) {
+	$sql = "INSERT INTO record_tracklist (id, tag) VALUES (" . $record->getId() . ", '" . $song . "')";
+	$results = mysqli_query($connection, $sql);
+	if ($results === false) {
+	    $resultsInsertTag = false;
+	}
+    }
+    if ($resultsUpdate === false || $resultsDeleteGenre === false || $resultsDeleteTag === false || $resultsDeleteTracklist === false || $resultsInsertGenre === false || $resultsInsertTag === false || $resultsInsertTracklist === false) {
 	mysqli_rollback($connection);
 	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
 	return false;
