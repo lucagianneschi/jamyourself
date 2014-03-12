@@ -7,17 +7,16 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 $css_not = 'no-display';
 $totNotification = '';
-
 $playlistCurrentUser = array();
 ?>
 <header>
     <!------------------------------------- HIDE HEADER ----------------------------->
     <div id="header-hide" class="no-display bg-black">
 	<?php
-	if (isset($_SESSION['currentUser'])) {
-	    $currentUser = $_SESSION['currentUser'];
-	    $userObjectId = $currentUser->getId();
-	    $userType = $currentUser->getType();
+	if (isset($_SESSION['id'])) {
+	    $userId = $_SESSION['id'];
+	    $userUsername = $_SESSION['username'];
+	    $userType = $_SESSION['type'];
 	    ?>
     	<script>
     	    var myPlaylist;
@@ -85,7 +84,7 @@ $playlistCurrentUser = array();
                             <!------------------------------------- thumbnail album ----------------------------->
                             <div id="player">	
                                 <div class="icon-header" id='header-box-thum'>
-                                    <img src="<?php echo DEFRECORDTHUMB; ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $currentUser->getUsername(); ?>">
+                                    <img src="<?php echo DEFRECORDTHUMB; ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $userUsername; ?>">
                                 </div>				
 
                                 <!------------------------------------- PLAYER ----------------------------->
@@ -120,7 +119,7 @@ $playlistCurrentUser = array();
                     <!------------------------------------- LOGO --------------------------------------------->
                     <div class="large-2 columns logo" id="header-box-logo">				
                         <div id="logo">
-                            <a href="stream.php?user=<?php echo $currentUser->getId(); ?>"><img src="resources/images/header/logo.png" border="0" alt="Jamyourself: Meritocratic Social Music Discovering"></a>
+                            <a href="stream.php?user=<?php echo $userId; ?>"><img src="resources/images/header/logo.png" border="0" alt="Jamyourself: Meritocratic Social Music Discovering"></a>
                         </div>					
                     </div>
                     <!------------------------------------- SWITCH -------------------------------------------->
@@ -154,7 +153,7 @@ $playlistCurrentUser = array();
                                         <div class="header inline" style="float: right;">
                                             <!--a class="ico-label _flag inline" onclick="headerShow()" ><span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span></a-->
 					    <a class="ico-label _flag inline" onclick="headerShow()" ></a>
-					    <a href="stream.php?user=<?php echo $currentUser->getId(); ?>" class="ico-label _stream inline"></a>
+					    <a href="stream.php?user=<?php echo $userId; ?>" class="ico-label _stream inline"></a>
                                             <a class="ico-label _setting inline"></a>
                                         </div>
                                     </div>
