@@ -447,4 +447,80 @@ function updateRecord($connection, $record) {
     }
 }
 
+/**
+ * updateUser function 
+ * @param   $connection
+ * @param User $user User class instance
+ * @return BOOL true if update OK, false otherwise
+ */
+function updateUser($connection, $user) {
+    $autocommit = 0;
+    $result = mysqli_query($connection, "SELECT @@autocommit");
+    if ($result === false) {
+	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	return false;
+    } else {
+	$row = mysqli_fetch_row($result);
+	$autocommit = $row[0];
+    }
+    mysqli_autocommit($connection, false);
+    $sql = "UPDATE event SET ";
+    $sql .= "active = '" . $user->getActive() . "',";
+    $sql .= "password = '" . $user->getPassword() . "',";
+    $sql .= "address = '" . $user->getAddress() . "',";
+    $sql .= "avatar = '" . $user->getAvatar() . "',";
+    $sql .= "background = '" . $user->getBackground() . "',";
+    $sql .= "birthday = '" . $user->getBirthday() . "',";
+    $sql .= "city = '" . $user->getCity() . "',";
+    $sql .= "collaborationcounter = '" . $user->getCollaborationcounter() . "',";
+    $sql .= "description = '" . $user->getDescription() . "',";
+    $sql .= "email = '" . $user->getEmail() . "',";
+    $sql .= "facebookid = '" . $user->getFacebookid() . "',";
+    $sql .= "facebookpage = '" . $user->getFacebookpage() . "',";
+    $sql .= "firstname = '" . $user->getFirstname() . "',";
+    $sql .= "followercounter = '" . $user->getFollowercounter() . "',";
+    $sql .= "followingcounter = '" . $user->getFollowingcounter() . "',";
+    $sql .= "friendshipcounter = '" . $user->getFriendshipcounter() . "',";
+    $sql .= "googlepluspage = '" . $user->getGooglepluspage() . "',";
+    $sql .= "jammercounter = '" . $user->getJammercounter() . "',";
+    $sql .= "jammertype = '" . $user->getJammertype() . "',";
+    $sql .= "lastname = '" . $user->getLastname() . "',";
+    $sql .= "latitude = '" . $user->getLatitude() . "',";
+    $sql .= "level = '" . $user->getLevel() . "',";
+    $sql .= "levelvalue = '" . $user->getLevelvalue() . "',";
+    $sql .= "longitude = '" . $user->getLongitude() . "',";
+    $sql .= "premium = '" . $user->getPremium() . "',";
+    $sql .= "premiumexpirationdate = '" . $user->getPremiumexpirationdate() . "',";
+    $sql .= "thumbnail = '" . $user->getThumbnail() . "',";
+    $sql .= "sex = '" . $user->getSex() . "',";
+    $sql .= "twitterpage = '" . $user->getTwitterpage() . "',";
+    $sql .= "type = '" . $user->getType() . "',";
+    $sql .= "username = '" . $user->getUsername() . "',";
+    $sql .= "venuecounter = '" . $user->getVenuecounter() . "',";
+    $sql .= "website = '" . $user->getWebsite() . "',";
+    $sql .= "youtubechannel = '" . $user->getYoutubechannel() . "',";
+    $sql .= "updatedat = '" . date('Y-m-d H:i:s') . "'";
+    $sql .= " WHERE id = " . $user->getId();
+    $resultsUpdate = mysqli_query($connection, $sql);
+    $sql = "DELETE FROM user_settings WHERE id = " . $user->getId();
+    $resultsDelete = mysqli_query($connection, $sql);
+    $resultsInsert = true;
+    foreach ($user->getSettings() as $setting) {
+	$sql = "INSERT INTO user_settings (id, setting) VALUES (" . $user->getId() . ", '" . $setting . "')";
+	$results = mysqli_query($connection, $sql);
+	if ($results === false) {
+	    $resultsInsert = false;
+	}
+    }
+    if ($resultsUpdate === false || $resultsDelete === false || $resultsInsert === false) {
+	mysqli_rollback($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return false;
+    } else {
+	mysqli_commit($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return true;
+    }
+}
+
 ?>
