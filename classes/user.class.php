@@ -36,7 +36,7 @@ class User {
     private $facebookid;
     private $facebookpage;
     private $firstname;
-    private $followerscounter;
+    private $followercounter;
     private $followingcounter;
     private $friendshipcounter;
     private $googlepluspage;
@@ -47,6 +47,7 @@ class User {
     private $level;
     private $levelvalue;
     private $longitude;
+    private $member;
     private $premium;
     private $premiumexpirationdate;
     private $thumbnail;
@@ -208,8 +209,8 @@ class User {
      * \brief	Return the number of User followed
      * @return	number
      */
-    public function getFollowerscounter() {
-	return $this->followerscounter;
+    public function getFollowercounter() {
+	return $this->followercounter;
     }
 
     /**
@@ -300,6 +301,15 @@ class User {
      */
     public function getLongitude() {
 	return $this->longitude;
+    }
+
+    /**
+     * \fn	getMember()
+     * \brief	Return the member value
+     * @return	member
+     */
+    public function getMember() {
+	return $this->member;
     }
 
     /**
@@ -555,12 +565,12 @@ class User {
     }
 
     /**
-     * \fn	void setFollowerscounter($followerscounter)
-     * \brief	Sets the followerscounter of the User
+     * \fn	void setFollowercounter($followercounter)
+     * \brief	Sets the followercounter of the User
      * @param	number
      */
-    public function setFollowerscounter($followerscounter) {
-	$this->followerscounter = $followerscounter;
+    public function setFollowercounter($followercounter) {
+	$this->followercounter = $followercounter;
     }
 
     /**
@@ -654,12 +664,12 @@ class User {
     }
 
     /**
-     * \fn		void setMembers($members)
+     * \fn		void setMember($member)
      * \brief	Sets an array of id of the User related with the User
      * @param	array
      */
-    public function setMembers($members) {
-	$this->members = $members;
+    public function setMember($member) {
+	$this->members = $member;
     }
 
     /**
@@ -795,7 +805,7 @@ class User {
 	$string .= '[facebookid] => ' . $this->getFacebookid() . '<br />';
 	$string .= '[facebookpage] => ' . $this->getFacebookpage() . '<br />';
 	$string .= '[firstname] => ' . $this->getFirstname() . '<br />';
-	$string .= '[followerscounter] => ' . $this->getFollowerscounter() . '<br />';
+	$string .= '[followercounter] => ' . $this->getFollowercounter() . '<br />';
 	$string .= '[followingcounter] => ' . $this->getFollowingcounter() . '<br />';
 	$string .= '[friendshipcounter] => ' . $this->getFriendshipcounter() . '<br />';
 	$string .= '[googlepluspage] => ' . $this->getGooglepluspage() . '<br />';
@@ -806,6 +816,10 @@ class User {
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[level] => ' . $this->getLevel() . '<br />';
 	$string .= '[levelvalue] => ' . $this->getLevelvalue() . '<br />';
+	foreach ($this->getMember() as $member) {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[member] => ' . $member . '<br />';
+	}
 	$string .= '[password] => ' . $this->getPassword() . '<br />';
 	$string .= '[premium] => ' . $this->getPremium() . '<br />';
 	$premiumexpirationdate = new DateTime($this->getPremiumexpirationdate());
