@@ -1,20 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * @author		Luca Gianneschi
- * @version		1.0
- * @since		2013
- * @copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller di inserimento commenti
- * \details		controller di inserimento commenti
- * \par			Commenti:
- * @warning
- * @bug
- * @todo		fare API su Wiki; avviare invio mail
- *
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -24,24 +9,38 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
+require_once SERVICES_DIR . 'update.service.php';
 
 /**
- * \brief	CommentController class 
- * \details	controller di inserimento commenti
+ * CommentController class
+ * controller di inserimento commenti
+ * 
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class CommentController extends REST {
 
+    /**
+     * @var array Array di config values
+     */
     public $config;
 
+    /**
+     * Configura oggetto CommentController
+     */
     function __construct() {
 	parent::__construct();
 	$this->config = json_decode(file_get_contents(CONFIG_DIR . "commentController.config.json"), false);
     }
 
     /**
-     * \fn		comment()
-     * \brief   salva un commento
-     * @todo    testare con sessione
+     * Salva un commento sul DB mySQL, crea nodi sul grafo, crea relazione nodi utente - nodo commento
+     * @todo    testare e prevedere rollback
      */
     public function comment() {
 	global $controllers;
@@ -59,7 +58,8 @@ class CommentController extends REST {
 	    } elseif (!isset($this->request['classType'])) {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
 	    }
-	    $fromuser = $_SESSION['id'];
+	    $fromuserId = $_SESSION['id'];
+	    $levelValue = $_SESSION['levelvalue'];
 	    $toUserId = $this->request['toUser'];
 	    $comment = $this->request['comment'];
 	    $classType = $this->request['classType'];
@@ -69,15 +69,20 @@ class CommentController extends REST {
 	    } elseif (strlen($comment) > $this->config->maxCommentSize) {
 		$this->response(array('status' => $controllers['LONGCOMMENT'] . strlen($comment)), 406);
 	    }
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
 	    $cmt = new Comment();
 	    $cmt->setActive(1);
 	    $cmt->setCommentcounter(0);
-	    $cmt->setFromuser($fromuser->getId());
+	    $cmt->setCounter(0);
+	    $cmt->setFromuser($fromuserId);
 	    $cmt->setLatitude(null);
 	    $cmt->setLongitude(null);
 	    $cmt->setLovecounter(0);
-	    $cmt->setLovers(array());
 	    $cmt->setSharecounter(0);
 	    $cmt->setTag(array());
 	    $cmt->setTitle(null);
@@ -87,55 +92,38 @@ class CommentController extends REST {
 	    $cmt->setVote(null);
 	    switch ($classType) {
 		case 'Album':
-		    require_once CLASSES_DIR . 'album.class.php';
-		    $album = new Album();
-		    $album->setId($id);
 		    $cmt->setAlbum($id);
-		    //INCREMENTARE COMMENT COUNTER ALBUM e FARE RELAZIONE USER - ALBUM
 		    break;
 		case 'Comment':
-		    $comment = selectComments($id);
-		    if ($comment instanceOf Error) {
-			$this->response(array('status' => $comment->getErrorMessage()), 503);
-		    }
-		    //INCREMENTARE COMMENT COUNTER COMMENT e FARE RELAZIONE USER - COMMENT
 		    $cmt->setComment($id);
 		    break;
 		case 'Event':
-		    require_once CLASSES_DIR . 'event.class.php';
-		    $event = new Event();
-		    $cmt->setEvent($event);
-		    //INCREMENTARE COMMENT COUNTER EVENT e FARE RELAZIONE USER - EVENT
+		    $cmt->setEvent($id);
 		    break;
 		case 'Image':
-		    require_once CLASSES_DIR . 'image.class.php';
-		    $image = new Image();
-		    $cmt->setImage($image);
-		     //INCREMENTARE COMMENT COUNTER IMAGE e FARE RELAZIONE USER - IMAGE
+		    $cmt->setImage($id);
 		    break;
 		case 'Record':
-		    require_once CLASSES_DIR . 'record.class.php';
-		    $record = new Record();
-		    $cmt->setRecord($record);
-		     //INCREMENTARE COMMENT COUNTER RECORD e FARE RELAZIONE USER - RECORD
+		    $cmt->setRecord($id);
 		    break;
 		case 'Video':
-		    require_once CLASSES_DIR . 'video.class.php';
-		    $video = new Video();
-		    $cmt->setVideo($video);
-		     //INCREMENTARE COMMENT COUNTER VIDEO e FARE RELAZIONE USER - VIDEO
+		    $cmt->setVideo($id);
 		    break;
 	    }
-	    $resCmt = insertComment($cmt);
-	    $node = createNode('comment', $cmt->getId());
-	    if ($resCmt instanceof Error) {
-		$this->response(array('status' => $resCmt->getErrorMessage()), 503);
+	    $resCmt = insertComment($connection, $cmt);
+	    if (!$resCmt) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    }
-	    if(!$node){
+	    $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('commentcounter' => 1 * $levelValue));
+	    if (!$commentCounter) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    }
+	    $commentNode = createNode($connection, 'comment', $cmt->getId());
+	    $node = createRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'comment');
+	    if (!$node || $commentNode) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
 	    global $mail_files;
-	    require_once CLASSES_DIR . 'user.class.php';
 	    $user = selectUsers($toUserId);
 	    $address = $user->getEmail();
 	    $subject = $controllers['SBJCOMMENT'];
