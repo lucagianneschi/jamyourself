@@ -351,7 +351,7 @@ require_once ROOT_DIR . 'config.php';
     			var json_data = {};
     			json_data.id = '<?php echo $user->getId(); ?>';
     			json_data.type = '<?php echo $user->getType(); ?>';
-    			json_data.followersCounter = '<?php echo $user->getFollowersCounter(); ?>';
+    			json_data.followersCounter = '<?php echo $user->getFollowerscounter(); ?>';
     			$.ajax({
     			    type: "POST",
     			    url: "content/profile/box/box-followers.php",

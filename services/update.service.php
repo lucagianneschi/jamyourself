@@ -478,7 +478,7 @@ function updateUser($connection, $user) {
     $sql .= "facebookid = '" . $user->getFacebookid() . "',";
     $sql .= "facebookpage = '" . $user->getFacebookpage() . "',";
     $sql .= "firstname = '" . $user->getFirstname() . "',";
-    $sql .= "followercounter = '" . $user->getFollowercounter() . "',";
+    $sql .= "followercounter = '" . $user->getFollowerscounter() . "',";
     $sql .= "followingcounter = '" . $user->getFollowingcounter() . "',";
     $sql .= "friendshipcounter = '" . $user->getFriendshipcounter() . "',";
     $sql .= "googlepluspage = '" . $user->getGooglepluspage() . "',";
