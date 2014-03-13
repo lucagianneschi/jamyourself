@@ -209,7 +209,7 @@ class User {
      * \brief	Return the number of User followed
      * @return	number
      */
-    public function getFollowercounter() {
+    public function getFollowerscounter() {
 	return $this->followercounter;
     }
 
@@ -805,7 +805,7 @@ class User {
 	$string .= '[facebookid] => ' . $this->getFacebookid() . '<br />';
 	$string .= '[facebookpage] => ' . $this->getFacebookpage() . '<br />';
 	$string .= '[firstname] => ' . $this->getFirstname() . '<br />';
-	$string .= '[followercounter] => ' . $this->getFollowercounter() . '<br />';
+	$string .= '[followercounter] => ' . $this->getFollowerscounter() . '<br />';
 	$string .= '[followingcounter] => ' . $this->getFollowingcounter() . '<br />';
 	$string .= '[friendshipcounter] => ' . $this->getFriendshipcounter() . '<br />';
 	$string .= '[googlepluspage] => ' . $this->getGooglepluspage() . '<br />';
