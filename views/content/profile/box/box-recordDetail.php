@@ -29,8 +29,7 @@ $pathCover = $_POST['pathCover'];
 $userId = $_POST['userId'];
 $fileManagerService = new FileManagerService();
 //debug("", 'debug.txt', json_encode($songs));
-if (isset($_SESSION['currentUser']))
-    $currentUser = $_SESSION['currentUser'];
+
 $indice = 0;
 if (is_array($songs) && count($songs) > 0) {
     foreach ($songs as $key => $value) {

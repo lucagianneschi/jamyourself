@@ -29,8 +29,6 @@ $skip = intval($_POST['skip']);
 
 if (session_id() == '')
     session_start();
-if (isset($_SESSION['currentUser']))
-    $currentUser = $_SESSION['currentUser'];
 $currentUserId = $_SESSION['id'];
 $albumDetail = new AlbumBox();
 $albumDetail->initForDetail($id, $limit, $skip);

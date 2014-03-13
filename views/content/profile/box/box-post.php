@@ -19,8 +19,7 @@ session_start();
 $postBox = new PostBox();
 $postBox->init($_POST['id']);
 
-if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
-    $currentUser = $_SESSION['currentUser'];
+if (is_null($postBox->error)) {
     $currentUserId = $_SESSION['id'];
     $posts = $postBox->postArray;
     $postCounter = count($posts);

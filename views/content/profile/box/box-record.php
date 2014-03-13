@@ -27,8 +27,6 @@ $recordBox = new RecordBox();
 $recordBox->init($_POST['id']);
 
 if (is_null($recordBox->error)) {
-    if (isset($_SESSION['currentUser']))
-	$currentUser = $_SESSION['currentUser'];
     $currentUserId = $_SESSION['id'];
     $records = $recordBox->recordArray;
     $recordCounter = count($records);

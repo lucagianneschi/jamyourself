@@ -25,8 +25,6 @@ $eventBox->init($_POST['id']);
 $typeUser = $_POST['typeUser'];
 
 if (is_null($eventBox->error)) {
-    if (isset($_SESSION['currentUser']))
-	$currentUser = $_SESSION['currentUser'];
     $currentUserId = $_SESSION['id'];
     $events = $eventBox->eventArray;
     $eventCounter = count($events);

@@ -25,8 +25,7 @@ $reviewToShow = 3;
 
 $reviewBox = new ReviewEventBox();
 $reviewBox->initForMediaPage($id, $limit, $skip);
-if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
-    $currentUser = $_SESSION['currentUser'];
+if (is_null($reviewBox->error) || $currentUserId) {
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);
     ?>

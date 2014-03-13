@@ -17,16 +17,14 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 session_start();
 
-$currentUser = $_SESSION['currentUser'];
-$currentUserId = $_SESSION['id'];
 $id = $_POST['id'];
 $limit = $_POST['limit'];
 $skip = $_POST['skip'];
 $reviewToShow = 3;
 $reviewBox = new ReviewRecordBox();
 $reviewBox->initForMediaPage($id, $limit, $skip);
-if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
-    $currentUser = $_SESSION['currentUser'];
+if (is_null($reviewBox->error)) {
+    $currentUserId = $_SESSION['id'];
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);
     ?>

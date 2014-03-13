@@ -152,7 +152,7 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 		    $toType = $touser->getType();
 		    if (session_id() == '')
 			session_start();
-		    $currentUser = $_SESSION['currentUser'];
+		    $currentUser = $_SESSION['id'];
 		    $fromType = $_SESSION['type'];
 
 //			if($fromType == 'SPOTTER' || ($fromType != 'SPOTTER' && $toType != 'SPOTTER')){

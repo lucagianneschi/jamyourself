@@ -24,8 +24,7 @@ $type = $_POST['type'];
 
 $reviewBox = new ReviewRecordBox();
 $reviewBox->initForPersonalPage($id, $type);
-if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
-    $currentUser = $_SESSION['currentUser'];
+if (is_null($reviewBox->error)) {
     $currentUserId = $_SESSION['id'];
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);

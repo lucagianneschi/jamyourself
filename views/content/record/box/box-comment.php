@@ -26,8 +26,8 @@ $commentToShow = 3;
 
 $commentBox = new CommentBox();
 $commentBox->init($id, $limit, $skip);
-if (is_null($commentBox->error) || isset($_SESSION['id'])) {
-    $currentUser = $_SESSION['currentUser'];
+if (is_null($commentBox->error)) {
+    $currentUserId = $_SESSION['id'];
     $comments = $commentBox->commentArray;
     $commentcounter = count($comments);
     ?>
@@ -74,7 +74,7 @@ if (is_null($commentBox->error) || isset($_SESSION['id'])) {
 			    $comment_counter_love = $value->getLovecounter();
 			    $comment_counter_comment = $value->getCommentcounter();
 			    $comment_counter_share = $value->getSharecounter();
-			    if(existsRelation('user', $currentUser->getId(), 'comment', $comment_objectId, 'loved')){
+			    if(existsRelation('user', $currentUserId, 'comment', $comment_objectId, 'loved')){
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {
@@ -138,7 +138,7 @@ if (is_null($commentBox->error) || isset($_SESSION['id'])) {
 	    			<div class="row">
 	    			    <div class="box-propriety">
 	    				<div class="small-5 columns ">
-	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $comment_objectId; ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $comment_objectId; ?>', '<?php echo $currentUserId; ?>')"><?php echo $text_love; ?></a>
 	    				</div>
 	    				<div class="small-5 columns propriety ">
 	    				    <a class="icon-propriety <?php echo $css_love; ?>"><?php echo $comment_counter_love; ?></a>

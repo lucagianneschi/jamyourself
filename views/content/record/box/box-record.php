@@ -25,8 +25,7 @@ $userId = $_POST['userId'];
 $recordBox = new RecordBox();
 $recordBox->initForTracklist($_POST['id']);
 $tracklist = $recordBox->tracklist;
-if (isset($_SESSION['currentUser']))
-    $currentUser = $_SESSION['currentUser'];
+$currentUserId = $_SESSION['id'];
 ?>
 <!----------------------------------------- PLAYER ALBUM ----------------------------------------------->
 <div class="row" id="profile-Record">
@@ -85,7 +84,7 @@ if (isset($_SESSION['currentUser']))
 				<div class="row track-propriety" >
 				    <div class="box-propriety album-single-propriety">
 					<div class="small-5 columns ">
-					    <a class="note white" onclick="love(this, 'Song', '<?php echo $record_objectId ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $views['love']; ?></a>
+					    <a class="note white" onclick="love(this, 'Song', '<?php echo $record_objectId ?>', '<?php echo $currentUserId; ?>')"><?php echo $views['love']; ?></a>
 					    <!--a class="note white" onclick="setCounter(this, '<?php echo $record_objectId ?>', 'Song')"><?php echo $views['share']; ?></a-->        
 					</div>
 					<div class="small-5 columns propriety ">                                        

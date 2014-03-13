@@ -19,17 +19,12 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'select.service.php';
 require_once SERVICES_DIR . 'connection.service.php';
 
-
-session_start();
-
 $objectIdUser = $_POST['objectIdUser'];
 
 $albumBox = new AlbumBox();
 $albumBox->init($_POST['id']);
 
 if (is_null($albumBox->error)) {
-    if (isset($_SESSION['currentUser']))
-	$currentUser = $_SESSION['currentUser'];
     $currentUserId = $_SESSION['id'];
     $albums = $albumBox->albumArray;
     $albumCounter = count($albums);
@@ -129,7 +124,9 @@ if (is_null($albumBox->error)) {
 		$album_love = $value->getLovecounter();
 		$album_comment = $value->getCommentcounter();
 		$album_share = $value->getSharecounter();
-		if (existsRelation('user', $currentUserId, 'album', $album_id, 'loved')) {
+		
+		$connectionService = new ConnectionService();
+		if (existsRelation($connectionService,'user', $currentUserId, 'album', $album_id, 'loved')) {
 		    $css_love = '_love orange';
 		    $text_love = $views['unlove'];
 		} else {
