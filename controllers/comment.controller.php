@@ -8,6 +8,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'utils.service.php';
+require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
 require_once SERVICES_DIR . 'update.service.php';
 
@@ -114,7 +115,7 @@ class CommentController extends REST {
 	    if (!$resCmt) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    }
-	    $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('commentcounter' => 1 * $levelValue));
+	    $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('commentcounter' => 1, 'counter' => 1 * $levelValue));
 	    if (!$commentCounter) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    }
