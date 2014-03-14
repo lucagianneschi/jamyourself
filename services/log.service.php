@@ -1,28 +1,39 @@
 <?php
 
-/* ! \par		Info Generali:
- *  @author		Daniele Caldelli
- *  @version            0.3
- *  @since		2013
- *  @copyright          Jamyourself.com 2013
- *  \par		Info :
- *  \brief		Debub function
- *  \details            Funzione per scrivere su file un bug
- *  \par		Commenti:
- *  @warning
- *  @bug
- *  @todo
- *
+/**
+ * Debub & log function
+ * 
+ * author Daniele Caldelli
+ * @version		0.2
+ * @since		2014-03-14
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 require_once ROOT_DIR . 'config.php';
 
 /**
- * \fn		jamLog($where, $lineError, $error)
- * \brief	log servive
- * @return	connection or false
+ * @param file $file File in cui scrive il debug
+ * @param string $msg messaggio di errore
+ * @return	void
+ */
+function jamDebug($file, $msg) {
+    if (!is_dir(DEBUG_DIR)) {
+	mkdir(DEBUG_DIR);
+    }
+    $fp = fopen(DEBUG_DIR . $file, 'a+');
+    fwrite($fp, '[' . date('Y-m-d H:i:s') . '] ' . $msg . "\n");
+    fclose($fp);
+}
+
+/**
+ * @param string $where Posizione del log nel codice
+ * @param int $lineError Riga del codice in cui ho errore
+ * @param string $error Tipo di errore
+ * @return	void
  */
 function jamLog($where, $lineError, $error) {
     if (LOG) {
@@ -33,20 +44,6 @@ function jamLog($where, $lineError, $error) {
 	fwrite($fp, '[' . date('Y-m-d H:i:s') . ' | ' . substr($where, strrpos($where, '\\') + 1) . ' (' . $lineError . ')] => ' . $error . "\n");
 	fclose($fp);
     }
-}
-
-/**
- * \fn		jamDebug($file, $msg)
- * \brief	debug service
- * @return	connection or false
- */
-function jamDebug($file, $msg) {
-    if (!is_dir(DEBUG_DIR)) {
-	mkdir(DEBUG_DIR);
-    }
-    $fp = fopen(DEBUG_DIR . $file, 'a+');
-    fwrite($fp, '[' . date('Y-m-d H:i:s') . '] ' . $msg . "\n");
-    fclose($fp);
 }
 
 ?>
