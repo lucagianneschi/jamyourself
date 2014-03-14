@@ -3,7 +3,7 @@
 /**
  * Debub & log function
  * 
- * author Daniele Caldelli
+ * @author Daniele Caldelli
  * @version		0.2
  * @since		2014-03-14
  * @copyright		Jamyourself.com 2013	
