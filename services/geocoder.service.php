@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Geocoder Service class, for DB connections
+ * Geocoder Service class
  * Funzione per determinare latitudine e longitudine
  * 
  * author Stafano Muscas
