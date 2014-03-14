@@ -1,37 +1,108 @@
 <?php
 
 /**
- * Album  class 
+ * Album  class
  * Classe raccoglitore per immagini
- * 
+ *
  * @author		Maria Laura Fresu
  * @version		0.2
  * @since		2013
- * @copyright		Jamyourself.com 2013	
+ * @copyright		Jamyourself.com 2013
  * @warning
  * @bug
  * @todo
- * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Album definizione classe                
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Album definizione classe
  */
 class Album {
 
+    /**
+     * @var int id istanza
+     */
     private $id;
+
+    /**
+     * @var date data creazione istanza
+     */
     private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
     private $updatedat;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
     private $active;
+
+    /**
+     * @var int numero di commenti
+     */
     private $commentcounter;
+
+    /**
+     * @var int indice di gradimento
+     */
     private $counter;
+
+    /**
+     * @var string per l'immagine di copertina
+     */
     private $cover;
+
+    /**
+     * @var string per descrizione album
+     */
     private $description;
+
+    /**
+     * @var int id dell'utente che fa upload dell'album
+     */
     private $fromuser;
+
+    /**
+     * @var int numero di immagini contenute
+     */
     private $imagecounter;
+
+    /**
+     * @var array di id delle immagini
+     */
     private $images;
+
+    /**
+     * @var float latitudine
+     */
     private $latitude;
+
+    /**
+     * @var float longitudine
+     */
     private $longitude;
+
+    /**
+     * @var int contatore di azioni love
+     */
     private $lovecounter;
+
+    /**
+     * @var int contatore di azioni share
+     */
     private $sharecounter;
+
+    /**
+     * @var array di tag (int)
+     */
     private $tag;
+
+    /**
+     * @var string path al thumbnail della cover
+     */
     private $thumbnail;
+
+    /**
+     * @var string titolo album
+     */
     private $title;
 
     /**
@@ -44,7 +115,7 @@ class Album {
 
     /**
      * Return the Album creation date
-     * @return	DateTime 
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
