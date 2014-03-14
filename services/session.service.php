@@ -1,18 +1,15 @@
 <?php
 
-/* ! \par		Info Generali:
- * @author		Daniele Caldelli
- * @version		1.0
- * @since		2013
- * @copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		classe per la gestione delle operazioni iniziali
- * \details		
- * \par			
+/**
+ * Servizio verfica della sessione
+ * 
+ * @author Daniele Caldelli
+ * @version		0.2
+ * @since		2014-03-14
+ * @copyright		Jamyourself.com 2013	
  * @warning
  * @bug
- * @todo
- *
+ * @todo                
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');

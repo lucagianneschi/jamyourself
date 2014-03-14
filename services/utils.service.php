@@ -1,18 +1,16 @@
 <?php
 
-/* ! \par		Info Generali:
- *  @author		Stefano Muscas
- *  @version		0.3
- *  @since		2013
- *  @copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		Utils class
- *  \details		Classe di utilità sfruttata delle classi modello per snellire il codice
- *  \par		Commenti:
- *  @warning
- *  @bug
- *  @todo		Fare API su Wiki
- *
+/**
+ * Servizio  di funzioni di utilities
+ * 
+ * @author Stefano Muscas
+ * @author Daniele Caldelli
+ * @version		0.2
+ * @since		2014-03-14
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 
 if (!defined('ROOT_DIR'))
@@ -21,8 +19,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 
 /**
- * \fn		number executionTime($start, $end)
- * \brief	The function returns the difference between $end and $start parameter in microseconds
+ * The function returns the difference between $end and $start parameter in microseconds
  * @param	$start	represent the microsecond time of the begin of the operation
  * @param	$end	represent the microsecond time of the end of the operation
  * @return	number	the number representing the difference in microsecond
@@ -48,8 +45,7 @@ function executionTime($start, $end) {
 }
 
 /**
- * \fn		string decode_string($string)
- * \brief	The function returns a string read from DB that can be interpreted by the user
+ * The function returns a string read from DB that can be interpreted by the user
  * @param	$string 	represent the string from DB to decode
  * @return	string		the decoded string
  */
@@ -60,8 +56,7 @@ function decode_string($string) {
 }
 
 /**
- * \fn		string encode_string($string)
- * \brief	The function returns a string that can be saved to DB
+ * The function returns a string that can be saved to DB
  * @param	$string 	represent the string to be saved
  * @return	string		the string encoded for DB
  */
@@ -72,8 +67,7 @@ function encode_string($string) {
 }
 
 /**
- * \fn	    filterFeaturingByValue($array, $value)
- * \brief   filtra featuind per tipo
+ * filtra featuind per tipo
  * @param   $array, $value
  * @return  $newarray
  * @todo    
@@ -91,8 +85,7 @@ function filterFeaturingByValue($array, $value) {
 }
 
 /**
- * \fn	    getCroppedImages($decoded)
- * \brief   funzione per recupero immagini dopo crop
+ * funzione per recupero immagini dopo crop
  * @param   $decoded
  * @todo   check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
  */
@@ -135,8 +128,7 @@ function getCroppedImages($decoded) {
 }
 
 /**
- * \fn	    sendMailForNotification($address, $subject, $html)
- * \brief   invia mail ad utente
+ * invia mail ad utente
  * @param   $address, $subject, $html
  * @todo    testare
  */
@@ -157,8 +149,7 @@ function sendMailForNotification($address, $subject, $html) {
 }
 
 /**
- * \fn		sessionChecker()
- * \brief	The function returns a string wiht the id of the user in session, if there's no user return a invalid ID used (valid for the code)
+ * The function returns a string wiht the id of the user in session, if there's no user return a invalid ID used (valid for the code)
  * @return	string $currentUserId;
  */
 function sessionChecker() {
