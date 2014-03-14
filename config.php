@@ -400,7 +400,7 @@ define('LOG_DIR', ROOT_DIR . 'logs/');
 /**
  *  Define the host for the DB
  */
-define('MYSQL_HOST', 'jam-db-dev.cloudapp.net');
+define('MYSQL_HOST', 'jam-db-dev-2.cloudapp.net');
 
 /**
  *  Define the Username for DB
@@ -420,7 +420,7 @@ define('MYSQL_DB', 'jamdatabase');
 /**
  *  Define the host for Node DB
  */
-define('NEO4J_HOST', 'jam-db-dev.cloudapp.net');
+define('NEO4J_HOST', 'jam-db-dev-2.cloudapp.net');
 
 /**
  *  Define the Post for Node DB
