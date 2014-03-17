@@ -70,8 +70,7 @@ if (is_null($reviewBox->error)) {
 				    $recordObjectId = $value->getRecord()->getId();
 				    $recordReview_title = $value->getRecord()->getTitle();
 				    $recordReview_data = $value->getCreatedat();
-				    #TODO
-				    //$recordReview_rating = $value->getRecord()->getRating();
+				    $recordReview_rating = $value->getVote();
 				    $recordReview_text = $value->getText();
 				    $recordReview_love = $value->getLovecounter();
 				    $recordReview_comment = $value->getCommentcounter();
@@ -143,7 +142,7 @@ if (is_null($reviewBox->error)) {
 	    					    <div class="row ">						
 	    						<div  class="small-12 columns ">
 								<?php
-								for ($index = 0; $index < 5; $index++) {
+								for ($index = 1; $index <= 5; $index++) {
 								    if ($index <= $recordReview_rating) {
 									echo '<a class="icon-propriety _star-orange"></a>';
 								    } else {

@@ -76,8 +76,7 @@ if (is_null($reviewBox->error)) {
 				    $eventReview_thumbnailCover = $value->getEvent()->getThumbnail();
 				    $event_objectId = $value->getEvent()->getId();
 				    $eventReview_title = $value->getTitle();
-				    #TODO
-				    //$eventReview_rating = $value->getRating();
+				    $eventReview_rating = $value->getVote();
 				    $eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
 				    $eventReview_text = $value->getText();
 				    $eventReview_love = $value->getLovecounter();
