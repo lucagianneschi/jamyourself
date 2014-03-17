@@ -1521,20 +1521,20 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
  */
 function selectReviewEvent($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT	   rw.id id_rw,
-                           rw.active,
-                           rw.commentcounter,
-                           rw.counter,
+                           rw.active active_rw,
+                           rw.commentcounter commentcounter_rw,
+                           rw.counter counter_rw,
                            rw.fromuser,
-                           rw.latitude,
-                           rw.longitude,
-                           rw.lovecounter,
-                           rw.sharecounter,
-                           rw.text,
+                           rw.latitude latitude_rw,
+                           rw.longitude longitude_rw,
+                           rw.lovecounter lovecounter_rw,
+                           rw.sharecounter sharecounter_rw,
+                           rw.text text_rw,
                            rw.touser,
                            rw.type type_p,
-                           rw.vote,
-                           rw.createdat,
-                           rw.updatedat,
+                           rw.vote vote_rw,
+                           rw.createdat createdat_rw,
+                           rw.updatedat updatedat_rw,
                            fu.id id_fu,
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
@@ -1704,8 +1704,8 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 	    $tags_review[] = $row_tag_review;
 	}
 	$reviewEvent->setTag($tags_event);
-	$reviewEvent->setText($row['text']);
-	$reviewEvent->setTitle($row['title']);
+	$reviewEvent->setText($row['text_rw']);
+	$reviewEvent->setTitle($row['title_rw']);
 	$touser = new User();
 	$touser->setId($row['id_u']);
 	$touser->setThumbnail($row['thumbnail_u']);
@@ -1713,7 +1713,7 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 	$touser->setType($row['type_u']);
 	$reviewEvent->setTouser($touser);
 	$reviewEvent->setType($row['type_rw']);
-	$reviewEvent->setVote($row['vote']);
+	$reviewEvent->setVote($row['vote_rw']);
 	$reviewEvent->setCreatedat($row['createdat_rw']);
 	$reviewEvent->setUpdatedat($row['updatedat_rw']);
 	$reviewEvents[$row['id_rw']] = $reviewEvent;
@@ -1734,25 +1734,25 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
  */
 function selectReviewRecord($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT	   rw.id id_rw,
-                           rw.active,
-                           rw.commentcounter,
-                           rw.counter,
+                           rw.active active_rw,
+                           rw.commentcounter commentcounter_rw,
+                           rw.counter counter_rw,
                            rw.fromuser,
-                           rw.latitude,
-                           rw.longitude,
-                           rw.lovecounter,
-                           rw.sharecounter,
-                           rw.text,
-                           rw.touser,
+                           rw.latitude latitude_rw,
+                           rw.longitude longitude_rw,
+                           rw.lovecounter lovecounter_rw,
+                           rw.sharecounter sharecounter_rw,
+                           rw.text text_rw,
+                           rw.touser touser_rw,
                            rw.type type_p,
-                           rw.vote,
-                           rw.createdat,
-                           rw.updatedat,
+                           rw.vote vote_rw,
+                           rw.createdat createdat_rw,
+                           rw.updatedat updatedat_rw,
                            fu.id id_fu,
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu,
-			   r.id id_r,
+			   			   r.id id_r,
                            r.active active_r,
                            r.buylink,
                            r.city,
@@ -1898,8 +1898,8 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 	    $tags[] = $row_tag;
 	}
 	$reviewRecord->setTag($tags);
-	$reviewRecord->setText($row['text']);
-	$reviewRecord->setTitle($row['title']);
+	$reviewRecord->setText($row['text_rw']);
+	$reviewRecord->setTitle($row['title_rw']);
 	$touser = new User();
 	$touser->setId($row['id_u']);
 	$touser->setThumbnail($row['thumbnail_u']);
@@ -1907,7 +1907,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 	$touser->setType($row['type_u']);
 	$reviewRecord->setTouser($touser);
 	$reviewRecord->setType($row['type_rw']);
-	$reviewRecord->setVote($row['vote']);
+	$reviewRecord->setVote($row['vote_rw']);
 	$reviewRecord->setCreatedat($row['createdat_rw']);
 	$reviewRecord->setUpdatedat($row['updatedat_rw']);
 	$reviewRecords[$row['id_rw']] = $reviewRecord;
