@@ -18,7 +18,9 @@ $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
 $tot = intval($_POST['tot']);
 $connectionService = new ConnectionService();	
-$arrayRelation = getRelatedNodes($connectionService,'user', $id, 'user', $relation);
+$arrayRelation = getRelatedNodes($connectionService,'user', $id, 'user', strtoupper($relation));
+
+
 
 if ($relation == 'friendship')
     $rel = 'friends';
@@ -34,7 +36,14 @@ if (is_null($arrayRelation) || count($arrayRelation) == 0) {
 } else {
     $count = count($arrayRelation);
     $index = 0;
-    foreach ($arrayRelation as $value) {
+	$relation = Array();
+	$where = array();
+	$connection = $connectionService->connect();
+    foreach ($arrayRelation as $id) {    		    	
+		$user = selectUsers($connection,$id);
+		array_push($relation, $user[$id]);
+	}
+    foreach ($relation as $value) {
 	switch ($value->getType()) {
 	    case 'JAMMER':
 		$defaultThum = DEFTHUMBJAMMER;
