@@ -77,7 +77,7 @@ if (is_null($reviewBox->error)) {
 				    $event_objectId = $value->getEvent()->getId();
 				    $eventReview_title = $value->getTitle();
 				    $eventReview_rating = $value->getVote();
-					$eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()));
+					$eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", strtotime($value->getCreatedat())));
 				    $eventReview_text = $value->getText();
 				    $eventReview_love = $value->getLovecounter();
 				    $eventReview_comment = $value->getCommentcounter();
