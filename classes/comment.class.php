@@ -11,7 +11,7 @@
  * @copyright		Jamyourself.com 2013	
  * @warning
  * @bug
- * @todo
+ * @todo                terminare commenti standard per le get
  * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Comment definizione classe                
  */
 class Comment {
@@ -137,8 +137,7 @@ class Comment {
     private $vote;
 
     /**
-     * \fn	getId()
-     * \brief	Return the id value
+     * Return the id value
      * @return	int
      */
     public function getId() {
@@ -146,8 +145,7 @@ class Comment {
     }
 
     /**
-     * \fn	DateTime getCreatedat()
-     * \brief	Return the Comment creation date
+     * Return the Comment creation date
      * @return	DateTime
      */
     public function getCreatedat() {
@@ -155,8 +153,7 @@ class Comment {
     }
 
     /**
-     * \fn	DateTime getUpdatedat()
-     * \brief	Return the Comment modification date
+     * Return the Comment modification date
      * @return	DateTime
      */
     public function getUpdatedat() {
@@ -164,8 +161,7 @@ class Comment {
     }
 
     /**
-     * \fn	BOOL getActive()
-     * \brief	Return the active valure
+     * Return the active valure
      * @return	BOOL
      */
     public function getActive() {
@@ -173,8 +169,7 @@ class Comment {
     }
 
     /**
-     * \fn	getAlbum()
-     * \brief	Return the int value id to album
+     * Return the int value id to album
      * @return	int
      */
     public function getAlbum() {
@@ -182,8 +177,7 @@ class Comment {
     }
 
     /**
-     * \fn	getComment()
-     * \brief	Return the related comment id
+     * Return the related comment id
      * @return	int
      */
     public function getComment() {
@@ -191,8 +185,7 @@ class Comment {
     }
 
     /**
-     * \fn	int getCommentcounter()
-     * \brief	Return the comment counter value (number of comments)
+     * Return the comment counter value (number of comments)
      * @return	int
      */
     public function getCommentcounter() {
@@ -200,8 +193,7 @@ class Comment {
     }
 
     /**
-     * \fn	int getCounter()
-     * \brief	Return the counter value
+     * Return the counter value
      * @return	int
      */
     public function getCounter() {
@@ -209,8 +201,7 @@ class Comment {
     }
 
     /**
-     * \fn	getEvent()
-     * \brief	Return the related event id
+     * Return the related event id
      * @return	int
      */
     public function getEvent() {
@@ -218,8 +209,7 @@ class Comment {
     }
 
     /**
-     * \fn	getFromuser()
-     * \brief	Return the id value for the fromUser
+     * Return the id value for the fromUser
      * @return	int
      */
     public function getFromuser() {
@@ -227,8 +217,7 @@ class Comment {
     }
 
     /**
-     * \fn	getImage()
-     * \brief	Return the related image id
+     * Return the related image id
      * @return	int
      */
     public function getImage() {
@@ -236,8 +225,7 @@ class Comment {
     }
 
     /**
-     * \fn	getLatitude()
-     * \brief	Return the latitude value
+     * Return the latitude value
      * @return	latitude
      */
     public function getLatitude() {
@@ -245,8 +233,7 @@ class Comment {
     }
 
     /**
-     * \fn	getLongitude()
-     * \brief	Return the longitude value
+     * Return the longitude value
      * @return	long
      */
     public function getLongitude() {
@@ -254,8 +241,7 @@ class Comment {
     }
 
     /**
-     * \fn	int getLovecounter()
-     * \brief	Return the int value of loveCounter, counting the love action on the comment
+     * Return the int value of loveCounter, counting the love action on the comment
      * @return	int
      */
     public function getLovecounter() {
@@ -263,8 +249,7 @@ class Comment {
     }
 
     /**
-     * \fn	getRecord()
-     * \brief	Return the record value id
+     * Return the record value id
      * @return	string
      */
     public function getRecord() {
@@ -272,8 +257,7 @@ class Comment {
     }
 
     /**
-     * \fn	int getSharecounter()
-     * \brief	Return the counter for sharing action
+     * Return the counter for sharing action
      * @return	int
      */
     public function getSharecounter() {
@@ -281,8 +265,7 @@ class Comment {
     }
 
     /**
-     * \fn	getSong()
-     * \brief	Return the song value id
+     * Return the song value id
      * @return	int
      */
     public function getSong() {
@@ -290,17 +273,15 @@ class Comment {
     }
 
     /**
-     * \fn	getTag()
-     * \brief	Return the tags value
-     * @return	int
+     * Return the tags value
+     * @return	array of int
      */
     public function getTag() {
 	return $this->tag;
     }
 
     /**
-     * \fn	getText()
-     * \brief	Return the text value
+     * Return the text value
      * @return	string
      */
     public function getText() {
@@ -308,17 +289,15 @@ class Comment {
     }
 
     /**
-     * \fn	getTitle()
-     * \brief	Return the title value, NULL for any type but Review R
-     * @return	array
+     * Return the title value, NULL for any type but Review R
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
     }
 
     /**
-     * \fn	getTouser()
-     * \brief	Return the toUser value, id
+     * Return the toUser value, id
      * @return	int
      */
     public function getTouser() {
@@ -326,8 +305,7 @@ class Comment {
     }
 
     /**
-     * \fn	getType()
-     * \brief	Return the type value
+     * Return the type value
      * @return	string
      */
     public function getType() {
@@ -335,8 +313,7 @@ class Comment {
     }
 
     /**
-     * \fn	getVideo()
-     * \brief	Return the video value id
+     * Return the video value id
      * @return	string
      */
     public function getVideo() {
@@ -344,8 +321,7 @@ class Comment {
     }
 
     /**
-     * \fn	getVote()
-     * \brief	Return the vote, from 1 to 5
+     * Return the vote, from 1 to 5
      * @return	int
      */
     public function getVote() {
@@ -353,35 +329,31 @@ class Comment {
     }
 
     /**
-     * \fn	void setId($id)
-     * \brief	Sets the id value
-     * @param	int
+     * Sets the id value
+     * @param	int object id
      */
     public function setId($id) {
 	$this->id = $id;
     }
 
     /**
-     * \fn		void setCreatedat($createdat)
-     * \brief	Sets the Comment creation date
-     * @param	DateTime
+     * Sets the Comment creation date
+     * @param	DateTime $createdat date of creation
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
     }
 
     /**
-     * \fn		void setUpdatedat($updatedat)
-     * \brief	Sets the Comment modification date
-     * @param	DateTime
+     * Sets the Comment modification date
+     * @param	DateTime $updatedat date of last update
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
     }
 
     /**
-     * \fn	void setActive($active)
-     * \brief	Sets the active value
+     * Sets the active value
      * @param	BOOL
      */
     public function setActive($active) {
@@ -389,180 +361,160 @@ class Comment {
     }
 
     /**
-     * \fn	void setAlbum($album)
-     * \brief	Sets the album value
-     * @param	int
+     * Sets the album value
+     * @param	int $album album id
      */
     public function setAlbum($album) {
 	$this->album = $album;
     }
 
     /**
-     * \fn	void setComment($comment)
-     * \brief	Sets the comment value
-     * @param	int
+     * Sets the comment value
+     * @param	int $comment comment id
      */
     public function setComment($comment) {
 	$this->comment = $comment;
     }
 
     /**
-     * \fn		void setCommentcounter($commentcounter)
-     * \brief	Sets the commnetCounter value
-     * @param	int
+     * Sets the commnetCounter value
+     * @param	int $commentcounter numero di commenti
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
     }
 
     /**
-     * \fn	void setCounter($counter)
-     * \brief	Sets the counter value
-     * @param	int
+     * Sets the counter value
+     * @param	int $counter counter di gradimento media
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
     }
 
     /**
-     * \fn	void setEvent($event)
-     * \brief	Sets the event id value
-     * @param	int
+     * Sets the event id value
+     * @param	int $event event id
      */
     public function setEvent($event) {
 	$this->event = $event;
     }
 
     /**
-     * \fn	void setFromuser($fromuser))
-     * \brief	Sets the fromUser value
-     * @param	int
+     * Sets the fromUser value
+     * @param	int $fromuser fromuser id
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
     }
 
     /**
-     * \fn	void setImage($image)
-     * \brief	Sets the image id value
-     * @param	int
+     * Sets the image id value
+     * @param	int $image image id
      */
     public function setImage($image) {
 	$this->image = $image;
     }
 
     /**
-     * \fn	void setLatitude($latitude)
-     * \brief	Sets the latitude value
-     * @param	$longitude
+     * Sets the latitude value
+     * @param	float $latitude latitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
     }
 
     /**
-     * \fn	void setLongitude($longitude)
-     * \brief	Sets the longitude value
-     * @param	$longitude
+     * Sets the longitude value
+     * @param	float $longitude longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
     }
 
     /**
-     * \fn	void setLovecounter($lovecounter)
-     * \brief	Sets the loveCounter value
-     * @param	int
+     * Sets the loveCounter value
+     * @param	int $lovecounter number of love actions
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
     }
 
     /**
-     * \fn	void setRecord($record)
-     * \brief	Sets the record id value
-     * @param	int
+     * Sets the record id value
+     * @param	int $record record id
      */
     public function setRecord($record) {
 	$this->record = $record;
     }
 
     /**
-     * \fn		void setCounter($sharecounter)
-     * \brief	Sets the sharecounter value
-     * @param	int
+     * Sets the sharecounter value
+     * @param	int $sharecounter number of share actions
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
     }
 
     /**
-     * \fn	void setSong($song)
-     * \brief	Sets the song id value
-     * @param	int
+     * Sets the song id value
+     * @param	int $song song id
      */
     public function setSong($song) {
 	$this->song = $song;
     }
 
     /**
-     * \fn	void setTag($tag)
-     * \brief	Sets the tags value
-     * @param	int
+     * Sets the tags value
+     * @param	array $tag ids of tags
      */
     public function setTag($tag) {
 	$this->tag = $tag;
     }
 
     /**
-     * \fn	void setText($text)
-     * \brief	Sets the text value
-     * @param	string
+     * Sets the text value
+     * @param	string $text text for every kind of comment instance
      */
     public function setText($text) {
 	$this->text = $text;
     }
 
     /**
-     * \fn	void setTitle($title)
-     * \brief	Sets the title
-     * @param	string
+     * Sets the title
+     * @param	string $title title of the review, null in other cases
      */
     public function setTitle($title) {
 	$this->title = $title;
     }
 
     /**
-     * \fn	void setTouser($touser)
-     * \brief	Sets the toUser id value
-     * @param	int
+     * Sets the toUser id value
+     * @param	int $touser touser id
      */
     public function setTouser($touser) {
 	$this->touser = $touser;
     }
 
     /**
-     * \fn	void setType($type)
-     * \brief	Sets the type id value
-     * @param	string
+     * Sets the type id value
+     * @param	string $type C for comment, P for post, M for message, RE for review event, RR for review record
      */
     public function setType($type) {
 	$this->type = $type;
     }
 
     /**
-     * \fn	void setVideo($video)
-     * \brief	Sets the video id value
-     * @param	int
+     * Sets the video id value
+     * @param	int $video video id
      */
     public function setVideo($video) {
 	$this->video = $video;
     }
 
     /**
-     * \fn		void setVote($vote)
-     * \brief	Sets the vote value
-     * @param	int
+     * Sets the vote value
+     * @param int $vote vote for the review
      */
     public function setVote($vote) {
 	$this->vote = $vote;
