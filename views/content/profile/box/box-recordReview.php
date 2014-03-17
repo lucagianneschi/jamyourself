@@ -69,7 +69,7 @@ if (is_null($reviewBox->error)) {
 				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnail();
 				    $recordObjectId = $value->getRecord()->getId();
 				    $recordReview_title = $value->getRecord()->getTitle();
-				    $recordReview_data = $value->getCreatedat();
+					$recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()));
 				    $recordReview_rating = $value->getVote();
 				    $recordReview_text = $value->getText();
 				    $recordReview_love = $value->getLovecounter();
