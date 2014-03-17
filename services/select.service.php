@@ -64,7 +64,7 @@ function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType) {
     $query = '
 	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
-	WHERE n.id = {fromNodeId}
+	WHERE n.id = '.$fromNodeId.'
 	RETURN m
 	ORDER BY r.createdat DESC
 	';
