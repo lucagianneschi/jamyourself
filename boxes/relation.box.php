@@ -46,11 +46,12 @@ class CollaboratorsBox {
 	try {
 	    $venueArray = array();
 	    $jammerArray = array();
-		$connectionService = new ConnectionService();	
-	    $data = getRelatedNodes($connectionService,'user', $id, 'user', 'collaboration');
-	    foreach ($data as $id) {
-		$user = selectUsers($id);
-		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
+		$connectionService = new ConnectionService();
+		$connection = $connectionService->connect();	
+	    $data = getRelatedNodes($connectionService,'user', $id, 'user', 'COLLABORATION');
+	    foreach ($data as $id) {	    	
+			$user = selectUsers($connection,$id);
+			($user[$id]->getType() == 'VENUE') ? array_push($venueArray, $user[$id]) : array_push($jammerArray, $user[$id]);
 	    }
 	    $this->venueArray = $venueArray;
 	    $this->jammerArray = $jammerArray;
@@ -97,8 +98,8 @@ class FollowersBox {
 		$connectionService = new ConnectionService();	
 	    $data = getRelatedNodes($connectionService,'user', $id, 'user', 'followers');
 	    foreach ($data as $id) {
-		$user = selectUsers($id);
-		array_push($followers, $user);
+			$user = selectUsers($id);
+			array_push($followers, $user[$id]);
 	    }
 	    $this->followersArray = $followers;
 	} catch (Exception $e) {
@@ -148,10 +149,10 @@ class FollowingsBox {
 	    $venueArray = array();
 	    $jammerArray = array();
 		$connectionService = new ConnectionService();	
-	    $data = getRelatedNodes($connectionService,'user', $id, 'user', 'following');
+	    $data = getRelatedNodes($connectionService,'user', $id, 'user', 'FOLLOWING');
 	    foreach ($data as $id) {
 		$user = selectUsers($id);
-		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
+		($user[$id]->getType() == 'VENUE') ? array_push($venueArray, $user[$id]) : array_push($jammerArray, $user[$id]);
 	    }
 	    $this->venueArray = $venueArray;
 	    $this->jammerArray = $jammerArray;
@@ -196,10 +197,10 @@ class FriendsBox {
 	try {
 	    $followings = array();
 		$connectionService = new ConnectionService();	
-	    $data = getRelatedNodes($connectionService,'user', $id, 'user', 'following');
+	    $data = getRelatedNodes($connectionService,'user', $id, 'user', 'FRIENDSHIP');
 	    foreach ($data as $id) {
 		$user = selectUsers($id);
-		array_push($followings, $user);
+		array_push($followings, $user[$id]);
 	    }
 	    $this->followersArray = $followings;
 	} catch (Exception $e) {
