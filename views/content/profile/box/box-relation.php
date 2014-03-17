@@ -17,8 +17,8 @@ $relation = $_POST['relation'];
 $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
 $tot = intval($_POST['tot']);
-
-$arrayRelation = getRelatedNodes('user', $id, 'user', $relation);
+$connectionService = new ConnectionService();	
+$arrayRelation = getRelatedNodes($connectionService,'user', $id, 'user', $relation);
 
 if ($relation == 'friendship')
     $rel = 'friends';
