@@ -103,7 +103,7 @@ class Record {
     /**
      * @var int contatore di azioni review
      */
-    private $reviewCounter;
+    private $reviewcounter;
 
     /**
      * @var int contatore di azioni share
@@ -276,7 +276,7 @@ class Record {
      * @return	int
      */
     public function getReviewcounter() {
-	return $this->reviewCounter;
+	return $this->reviewcounter;
     }
 
     /**
@@ -464,11 +464,11 @@ class Record {
     }
 
     /**
-     * Sets the reviewCounter value
+     * Sets the reviewcounter value
      * @param	int
      */
-    public function setReviewCounter($reviewCounter) {
-	$this->reviewCounter = $reviewCounter;
+    public function setReviewcounter($reviewcounter) {
+	$this->reviewcounter = $reviewcounter;
     }
 
     /**
@@ -547,7 +547,7 @@ class Record {
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[lovecounter] .= > ' . $this->getLovecounter() . '<br/>';
-	$string .= '[reviewCounter] => ' . $this->getReviewcounter() . '<br />';
+	$string .= '[reviewcounter] => ' . $this->getReviewcounter() . '<br />';
 	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
 	$string .= '[songcounter] => ' . $this->getSongcounter() . '<br />';
 	$string .= '[thumbnailCover] .= > ' . $this->getThumbnail() . '<br/>';

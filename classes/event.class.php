@@ -1,54 +1,152 @@
 <?php
 
-/* ! \par	    Info Generali:
- *  @author	    Maria Laura Fresu
- *  @version	    0.3
- *  @since	    2013
- *  @copyright	    Jamyourself.com 2013
- *  \par Info	    Classe:
- *  \brief	    Event
- *  \details	    Classe dedicata agli eventi, solo JAMMER e VENUE possono istanziare questa classe
- *  \par	    Commenti:
- *  @warning
- *  @bug
- *  @todo		
+/**
+ * Event class
+ * Classe dedicata agli eventi, solo JAMMER e VENUE possono istanziare questa classe
  *
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Event">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Event">API</a>
+ * @author		Maria Laura Fresu
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Event
  */
-
 class Event {
 
+    /**
+     * @var int id istanza
+     */
     private $id;
+
+    /**
+     * @var date data creazione istanza
+     */
     private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
     private $updatedat;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
     private $active;
+
+    /**
+     * @var string di indirizzo della venue
+     */
     private $address;
+
+    /**
+     * @var int numero di partecipanti all'event
+     */
     private $attendeecounter;
+
+    /**
+     * @var int numero di partecipanti cancellati dall'event
+     */
     private $cancelledcounter;
+
+    /**
+     * @var string city for the record
+     */
     private $city;
+
+    /**
+     * @var int numero di commenti
+     */
     private $commentcounter;
+
+    /**
+     * @var int indice di gradimento
+     */
     private $counter;
+
+    /**
+     * @var string per l'immagine di copertina
+     */
     private $cover;
+
+    /**
+     * @var string descrizione del video
+     */
     private $description;
+
+    /**
+     * @var Datetime data dell'evento
+     */
     private $eventdate;
+
+    /**
+     * @var int id del formuser
+     */
     private $fromuser;
+
+    /**
+     * @var array di id del genere
+     */
     private $genre;
+
+    /**
+     * @var int numero di invitati all'evento
+     */
     private $invitedcounter;
+
+    /**
+     * @var float latitudine
+     */
     private $latitude;
+
+    /**
+     * @var string per il nome della location
+     */
     private $locationname;
+
+    /**
+     * @var float longitudine
+     */
     private $longitude;
+
+    /**
+     * @var int contatore di azioni love
+     */
     private $lovecounter;
+
+    /**
+     * @var int contatore di azioni review
+     */
     private $reviewcounter;
+
+    /**
+     * @var int contatore di utenti che hanno rifiutato invito
+     */
     private $refusedcounter;
+
+    /**
+     * @var int contatore di azioni share
+     */
     private $sharecounter;
+
+    /**
+     * @var array di id di tag
+     */
     private $tag;
+
+    /**
+     * @var string path al thumbnail della cover
+     */
     private $thumbnail;
+
+    /**
+     * @var string titolo album
+     */
     private $title;
 
     /**
-     * \fn	getId()
-     * \brief	Return the id value
+     * Return the id value
      * @return	int
      */
     public function getId() {
@@ -56,8 +154,7 @@ class Event {
     }
 
     /**
-     * \fn	DateTime getCreatedat()
-     * \brief	Return the Event creation date
+     * Return the Event creation date
      * @return	DateTime
      */
     public function getCreatedat() {
@@ -65,8 +162,7 @@ class Event {
     }
 
     /**
-     * \fn	DateTime getUpdatedat()
-     * \brief	Return the Event modification date
+     * Return the Event modification date
      * @return	DateTime
      */
     public function getUpdatedat() {
@@ -74,8 +170,7 @@ class Event {
     }
 
     /**
-     * \fn	BOOL getActive()
-     * \brief	Return the active value
+     * Return the active value
      * @return	BOOL
      */
     public function getActive() {
@@ -83,8 +178,7 @@ class Event {
     }
 
     /**
-     * \fn	getAddress()
-     * \brief	Return the address value
+     * Return the address value
      * @return	string
      */
     public function getAddress() {
@@ -92,8 +186,7 @@ class Event {
     }
 
     /**
-     * \fn	getAttendeeCounter()
-     * \brief	Return the number of attendees value
+     * Return the number of attendees value
      * @return	string
      */
     public function getAttendeecounter() {
@@ -101,8 +194,7 @@ class Event {
     }
 
     /**
-     * \fn	getCancelledCounter()
-     * \brief	Return the number of attendees value
+     * Return the number of attendees value
      * @return	string
      */
     public function getCancelledcounter() {
@@ -110,8 +202,7 @@ class Event {
     }
 
     /**
-     * \fn	getCity()
-     * \brief	Return the city value
+     * Return the city value
      * @return	string
      */
     public function getCity() {
@@ -119,8 +210,7 @@ class Event {
     }
 
     /**
-     * \fn	int getCommentcounter()
-     * \brief	Return the comment counter value (number of comments)
+     * Return the comment counter value (number of comments)
      * @return	int
      */
     public function getCommentcounter() {
@@ -128,8 +218,7 @@ class Event {
     }
 
     /**
-     * \fn	int getCounter()
-     * \brief	Return the counter value
+     * Return the counter value
      * @return	int
      */
     public function getCounter() {
@@ -137,8 +226,7 @@ class Event {
     }
 
     /**
-     * \fn	getCover()
-     * \brief	Return the city value
+     * Return the city value
      * @return	string
      */
     public function getCover() {
@@ -146,8 +234,7 @@ class Event {
     }
 
     /**
-     * \fn	string getDescription()
-     * \brief	Return the description value
+     * Return the description value
      * @return	string
      */
     public function getDescription() {
@@ -155,8 +242,7 @@ class Event {
     }
 
     /**
-     * \fn	DateTime getEventdate()
-     * \brief	Return the Event Date 
+     * Return the Event Date 
      * @return	DateTime
      */
     public function getEventdate() {
@@ -164,8 +250,7 @@ class Event {
     }
 
     /**
-     * \fn	string getFromuser()
-     * \brief	Return the id value for the fromUser
+     * Return the id value for the fromUser
      * @return	string
      */
     public function getFromuser() {
@@ -173,8 +258,7 @@ class Event {
     }
 
     /**
-     * \fn	array getGenre()
-     * \brief	Return the genre (array) value for the genre
+     * Return the genre (array) value for the genre
      * @return	array
      */
     public function getGenre() {
@@ -182,8 +266,7 @@ class Event {
     }
 
     /**
-     * \fn	getInvitedCounter()
-     * \brief	Return the number of invited value
+     * Return the number of invited value
      * @return	string
      */
     public function getInvitedcounter() {
@@ -191,8 +274,7 @@ class Event {
     }
 
     /**
-     * \fn	getLatitude()
-     * \brief	Return the latitude value
+     * Return the latitude value
      * @return	latitude
      */
     public function getLatitude() {
@@ -200,8 +282,7 @@ class Event {
     }
 
     /**
-     * \fn	string getLocationname()
-     * \brief	Return the name of the location
+     * Return the name of the location
      * @return	string
      */
     public function getLocationname() {
@@ -209,8 +290,7 @@ class Event {
     }
 
     /**
-     * \fn	getLongitude()
-     * \brief	Return the longitude value
+     * Return the longitude value
      * @return	long
      */
     public function getLongitude() {
@@ -218,8 +298,7 @@ class Event {
     }
 
     /**
-     * \fn	int getLovecounter()
-     * \brief	Return the int value of loveCounter, counting the love action on the event
+     * Return the int value of loveCounter, counting the love action on the event
      * @return	int
      */
     public function getLovecounter() {
@@ -227,8 +306,7 @@ class Event {
     }
 
     /**
-     * \fn	getRefusedCounter()
-     * \brief	Return the number of attendees value
+     * Return the number of attendees value
      * @return	string
      */
     public function getRefusedCounter() {
@@ -236,8 +314,7 @@ class Event {
     }
 
     /**
-     * \fn	int getReviewcounter()
-     * \brief	Return the review counter value (number of review)
+     * Return the review counter value (number of review)
      * @return	int
      */
     public function getReviewcounter() {
@@ -245,8 +322,7 @@ class Event {
     }
 
     /**
-     * \fn	int getSharecounter()
-     * \brief	Return the counter for sharing action
+     * Return the counter for sharing action
      * @return	int
      */
     public function getSharecounter() {
@@ -254,8 +330,7 @@ class Event {
     }
 
     /**
-     * \fn	array getTag()
-     * \brief	Return the tags value, array of string to categorize the event
+     * Return the tags value, array of string to categorize the event
      * @return	int
      */
     public function getTag() {
@@ -263,8 +338,7 @@ class Event {
     }
 
     /**
-     * \fn	string getThumbnail()
-     * \brief	Return the thumbnail value
+     * Return the thumbnail value
      * @return	string
      */
     public function getThumbnail() {
@@ -272,8 +346,7 @@ class Event {
     }
 
     /**
-     * \fn	string getTitle()
-     * \brief	Return the title value
+     * Return the title value
      * @return	string
      */
     public function getTitle() {
@@ -281,8 +354,7 @@ class Event {
     }
 
     /**
-     * \fn	void setId($id)
-     * \brief	Sets the id value
+     * Sets the id value
      * @param	string
      */
     public function setId($id) {
@@ -299,8 +371,7 @@ class Event {
     }
 
     /**
-     * \fn	void setUpdatedat($updatedat)
-     * \brief	Sets the Event modification date
+     * Sets the Event modification date
      * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
@@ -308,17 +379,15 @@ class Event {
     }
 
     /**
-     * \fn	void setActive($active)
-     * \brief	Sets the active value
-     * @param	BOOL
+     * Sets the active value
+     * @param	int
      */
     public function setActive($active) {
 	$this->active = $active;
     }
 
     /**
-     * \fn		void setAddress($address)
-     * \brief	Sets the address value
+     * Sets the address value
      * @param	string
      */
     public function setAddress($address) {
@@ -326,8 +395,7 @@ class Event {
     }
 
     /**
-     * \fn	void setAttendeecounter($attendeecounter)
-     * \brief	Sets the attendeeCounter value
+     * Sets the attendeeCounter value
      * @param	int
      */
     public function setAttendeecounter($attendeecounter) {
@@ -335,8 +403,7 @@ class Event {
     }
 
     /**
-     * \fn	void setCancelledcounter($cancelledCounter)
-     * \brief	Sets the cancelledcounter value
+     * Sets the cancelledcounter value
      * @param	int
      */
     public function setCancelledcounter($cancelledcounter) {
@@ -344,8 +411,7 @@ class Event {
     }
 
     /**
-     * \fn	void setCity($city)
-     * \brief	Sets the city value
+     * Sets the city value
      * @param	string
      */
     public function setCity($city) {
@@ -353,8 +419,7 @@ class Event {
     }
 
     /**
-     * \fn	void setCommentcounter($commentcounter)
-     * \brief	Sets the commnetCounter value
+     * Sets the commnetCounter value
      * @param	int
      */
     public function setCommentcounter($commentcounter) {
@@ -362,8 +427,7 @@ class Event {
     }
 
     /**
-     * \fn		void setCounter($counter)
-     * \brief	Sets the counter value
+     * Sets the counter value
      * @param	int
      */
     public function setCounter($counter) {
@@ -371,8 +435,7 @@ class Event {
     }
 
     /**
-     * \fn	void setCover($cover)
-     * \brief	Sets the cover value
+     * Sets the cover value
      * @param	string
      */
     public function setCover($cover) {
@@ -380,8 +443,7 @@ class Event {
     }
 
     /**
-     * \fn	void setDescription($description)
-     * \brief	Sets the description value
+     * Sets the description value
      * @param	string
      */
     public function setDescription($description) {
@@ -389,8 +451,7 @@ class Event {
     }
 
     /**
-     * \fn	setEventDate($eventDate)
-     * \brief	Sets the Event Date date
+     * Sets the Event Date date
      * @param	DateTime
      */
     public function setEventdate($eventdate) {
@@ -398,8 +459,7 @@ class Event {
     }
 
     /**
-     * \fn	void setFromuser($fromuser))
-     * \brief	Sets the fromUser value
+     * Sets the fromUser value
      * @param	int
      */
     public function setFromuser($fromuser) {
@@ -407,8 +467,7 @@ class Event {
     }
 
     /**
-     * \fn	void setGenre($genre)
-     * \brief	Sets the genre value, array for genres
+     * Sets the genre value, array for genres
      * @param	int
      */
     public function setGenre($genre) {
@@ -416,8 +475,7 @@ class Event {
     }
 
     /**
-     * \fn	setInvitedCounter($invitedCounter)
-     * \brief	Sets the invitedCounter value
+     * Sets the invitedCounter value
      * @param	int
      */
     public function setInvitedCounter($invitedCounter) {
@@ -425,8 +483,7 @@ class Event {
     }
 
     /**
-     * \fn	void setLatitude($latitude)
-     * \brief	Sets the latitude value
+     * Sets the latitude value
      * @param	$longitude
      */
     public function setLatitude($latitude) {
@@ -434,8 +491,7 @@ class Event {
     }
 
     /**
-     * \fn	void setLocationName($locationName)
-     * \brief	Sets the locationName value
+     * Sets the locationName value
      * @param	string
      */
     public function setLocationname($locationname) {
@@ -443,8 +499,7 @@ class Event {
     }
 
     /**
-     * \fn	void setLongitude($longitude)
-     * \brief	Sets the longitude value
+     * Sets the longitude value
      * @param	$longitude
      */
     public function setLongitude($longitude) {
@@ -452,8 +507,7 @@ class Event {
     }
 
     /**
-     * \fn	void setLovecounter($lovecounter)
-     * \brief	Sets the loveCounter value
+     * Sets the loveCounter value
      * @param	int
      */
     public function setLovecounter($lovecounter) {
@@ -461,8 +515,7 @@ class Event {
     }
 
     /**
-     * \fn	void  setRefusedCounter($refusedcounter)
-     * \brief	Sets the refusedCounter value
+     * Sets the refusedCounter value
      * @param	int
      */
     public function setRefusedcounter($refusedcounter) {
@@ -470,8 +523,7 @@ class Event {
     }
 
     /**
-     * \fn	void setReviewcounter($reviewcounter)
-     * \brief	Sets the reviewcounter value
+     * Sets the reviewcounter value
      * @param	int
      */
     public function setReviewcounter($reviewcounter) {
@@ -479,8 +531,7 @@ class Event {
     }
 
     /**
-     * \fn	void setCounter($sharecounter)
-     * \brief	Sets the sharecounter value
+     * Sets the sharecounter value
      * @param	int
      */
     public function setSharecounter($sharecounter) {
@@ -488,8 +539,7 @@ class Event {
     }
 
     /**
-     * \fn	void setTag($tag)
-     * \brief	Sets the tags value
+     * Sets the tags value
      * @param	int
      */
     public function setTag($tag) {
@@ -497,8 +547,7 @@ class Event {
     }
 
     /**
-     * \fn	void setThumbnail($thumbnail)
-     * \brief	Sets the thumbnail value
+     * Sets the thumbnail value
      * @param	string
      */
     public function setThumbnail($thumbnail) {
@@ -506,8 +555,7 @@ class Event {
     }
 
     /**
-     * \fn	void setTitle($title)
-     * \brief	Sets the title value
+     * Sets the title value
      * @param	string
      */
     public function setTitle($title) {
@@ -515,8 +563,7 @@ class Event {
     }
 
     /**
-     * \fn	string __toString()
-     * \brief	Return a printable string representing the Event object
+     * Return a printable string representing the Event object
      * @return	string
      */
     function __toString() {
