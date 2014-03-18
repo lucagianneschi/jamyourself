@@ -49,11 +49,11 @@ class CollaboratorsBox {
 		$connectionService = new ConnectionService();
 		$connection = $connectionService->connect();	
 	    $data = getRelatedNodes($connectionService,'user', $id, 'user', 'COLLABORATION');
-	    foreach ($data as $id) {	    	
-			$user = selectUsers($connection,$id);
-			($user[$id]->getType() == 'VENUE') ? array_push($venueArray, $user[$id]) : array_push($jammerArray, $user[$id]);
-	    }
-	    $this->venueArray = $venueArray;
+		$users = selectUsers($connection, null, array('id' => $data));
+		foreach ($users as $user) {
+			($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
+		}
+		$this->venueArray = $venueArray;
 	    $this->jammerArray = $jammerArray;
 	} catch (Exception $e) {
 	    $this->error = $e->getMessage();
