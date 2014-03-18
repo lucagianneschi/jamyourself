@@ -44,7 +44,7 @@ class CollaboratorsBox {
      * @param   int $skip, number of album to skip 
      * @todo    
      */
-    public function init($id, $limit = 3, $skip = 0) {
+    public function init($id, $limit = 100, $skip = 0) {
 	try {
 	    $venueArray = array();
 	    $jammerArray = array();
@@ -94,7 +94,7 @@ class FollowersBox {
      * @param   int $skip, number of album to skip 
      * @todo 
      */
-    public function init($id, $limit = 3, $skip = 0) {
+    public function init($id, $limit = 4, $skip = 0) {
 	try {
 	    $followers = array();
 	    $connectionService = new ConnectionService();
@@ -147,7 +147,7 @@ class FollowingsBox {
      * @param   int $skip, number of album to skip 
      * @todo   
      */
-    public function init($id, $limit = 3, $skip = 0) {
+    public function init($id, $limit = 100, $skip = 0) {
 	try {
 	    $venueArray = array();
 	    $jammerArray = array();
@@ -197,7 +197,7 @@ class FriendsBox {
      * @param   int $skip, number of album to skip 
      * @todo   
      */
-    public function init($id, $limit = 3, $skip = 0) {
+    public function init($id, $limit = 4, $skip = 0) {
 	try {
 	    $followings = array();
 	    $connectionService = new ConnectionService();
