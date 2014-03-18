@@ -61,13 +61,15 @@ function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
  * @return 
  * @todo
  */
-function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType) {
+function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType, $skip = null, $limit = null) {
     $query = '
 	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
 	WHERE n.id = '.$fromNodeId.'
 	RETURN m
 	ORDER BY r.createdat DESC
 	';
+	if (!is_null($skip)) $query .= ' SKIP ' . $skip;
+	if (!is_null($limit)) $query .= ' LIMIT ' . $limit;
     $params = array(
 	'fromNodeId' => $fromNodeId
     );
@@ -91,17 +93,6 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
 	}
 	return $relatedNodes;
     }
-    $connectionService = new ConnectionService();
-    $res = $connectionService->curl($query, $params);
-    $list = array();
-    if (is_array($res['data'])) {
-	foreach ($res['data'] as $value) {
-	    if ($fromNodeId != $value[0]['data']['id']) {
-		$list[] = $value[0]['data']['id'];
-	    }
-	}
-    }
-    return $list;
 }
 
 /**
