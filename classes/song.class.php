@@ -1,45 +1,106 @@
 <?php
 
-/* ! \par		Info Generali:
- *  @author		Stefano Muscas
- *  @version		0.3
- *  @since		2013
- *  @copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		Song Class
- *  \details		Classe dedicata al singolo brano, puo' essere istanziata solo da Jammer
- *  \par		Commenti:
- *  @warning
- *  @bug
- *  @todo
+/**
+ * Classe dedicata al singolo brano, puo' essere istanziata solo da Jammer
  *
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Song">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Song">API</a>
+ * @author		Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Song
  */
-
 class Song {
 
+    /**
+     * @var int id istanza
+     */
     private $id;
+
+    /**
+     * @var date data creazione istanza
+     */
     private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
     private $updatedat;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
     private $active;
+
+    /**
+     * @var int numero di commenti
+     */
     private $commentcounter;
+
+    /**
+     * @var int indice di gradimento
+     */
     private $counter;
+
+    /**
+     * @var int durata in secondi
+     */
     private $duration;
+
+    /**
+     * @var int id dell'utente che fa upload dell'album
+     */
     private $fromuser;
+
+    /**
+     * @var int id del genre della song
+     */
     private $genre;
+
+    /**
+     * @var float latitudine
+     */
     private $latitude;
+
+    /**
+     * @var float longitudine
+     */
     private $longitude;
+
+    /**
+     * @var int contatore azioni love
+     */
     private $lovecounter;
+
+    /**
+     * @var string del path dell'mp3
+     */
     private $path;
+
+    /**
+     * @var int posizione nella tracklist
+     */
     private $position;
+
+    /**
+     * @var int id del record
+     */
     private $record;
+
+    /**
+     * @var int contatore di azioni share
+     */
     private $sharecounter;
+
+    /**
+     * @var string titolo della song
+     */
     private $title;
 
     /**
-     * \fn	int getId()
-     * \brief	Return the id value
+     * Return the id value
      * @return	string
      */
     public function getId() {
@@ -47,8 +108,7 @@ class Song {
     }
 
     /**
-     * \fn	DateTime getCreatedat()
-     * \brief	Return the Song creation date
+     * Return the Song creation date
      * @return	DateTime
      */
     public function getCreatedat() {
@@ -56,8 +116,7 @@ class Song {
     }
 
     /**
-     * \fn	DateTime getUpdatedat()
-     * \brief	Return the Song modification date
+     * Return the Song modification date
      * @return	DateTime
      */
     public function getUpdatedat() {
@@ -65,8 +124,7 @@ class Song {
     }
 
     /**
-     * \fn	BOOL getId()
-     * \brief	Return the active value
+     * Return the active value
      * @return	BOOL
      */
     public function getActive() {
@@ -74,8 +132,7 @@ class Song {
     }
 
     /**
-     * \fn	int getCommentcounter()
-     * \brief	Return the comment counter value (number of comments)
+     * Return the comment counter value (number of comments)
      * @return	int
      */
     public function getCommentcounter() {
@@ -83,8 +140,7 @@ class Song {
     }
 
     /**
-     * \fn	int getCounter()
-     * \brief	Return the counter value
+     * Return the counter value
      * @return	int
      */
     public function getCounter() {
@@ -92,8 +148,7 @@ class Song {
     }
 
     /**
-     * \fn	int getDuration()
-     * \brief	Return the duration value in second
+     * Return the duration value in second
      * @return	int
      */
     public function getDuration() {
@@ -101,8 +156,7 @@ class Song {
     }
 
     /**
-     * \fn	int getFromuser()
-     * \brief	Return the id value for the fromUser
+     * Return the id value for the fromUser
      * @return	int
      */
     public function getFromuser() {
@@ -110,8 +164,7 @@ class Song {
     }
 
     /**
-     * \fn	string getGenre()
-     * \brief	Return the genre value 
+     * Return the genre value 
      * @return	string
      */
     public function getGenre() {
@@ -119,8 +172,7 @@ class Song {
     }
 
     /**
-     * \fn	getLatitude()
-     * \brief	Return the latitude value
+     * Return the latitude value
      * @return	latitude
      */
     public function getLatitude() {
@@ -128,8 +180,7 @@ class Song {
     }
 
     /**
-     * \fn	getLongitude()
-     * \brief	Return the longitude value
+     * Return the longitude value
      * @return	long
      */
     public function getLongitude() {
@@ -137,8 +188,7 @@ class Song {
     }
 
     /**
-     * \fn	int getLovecounter()
-     * \brief	Return the loveCounter value, number of users who love the song
+     * Return the loveCounter value, number of users who love the song
      * @return	int
      */
     public function getLovecounter() {
@@ -146,8 +196,7 @@ class Song {
     }
 
     /**
-     * \fn	string getPath()
-     * \brief	Return the path value
+     * Return the path value
      * @return	string
      */
     public function getPath() {
@@ -155,8 +204,7 @@ class Song {
     }
 
     /**
-     * \fn	string getPosition()
-     * \brief	Return the position value,number of the song in the tracklist of its record
+     * Return the position value,number of the song in the tracklist of its record
      * @return	string
      */
     public function getPosition() {
@@ -164,8 +212,7 @@ class Song {
     }
 
     /**
-     * \fn	int getRecord()
-     * \brief	Return the record value,string of the id of the related record
+     * Return the record value,string of the id of the related record
      * @return	int
      */
     public function getRecord() {
@@ -173,8 +220,7 @@ class Song {
     }
 
     /**
-     * \fn	int getSharecounter()
-     * \brief	Return the counter for sharing action
+     * Return the counter for sharing action
      * @return	int
      */
     public function getSharecounter() {
@@ -182,8 +228,7 @@ class Song {
     }
 
     /**
-     * \fn	string getTitle()
-     * \brief	Return the title value
+     * Return the title value
      * @return	string
      */
     public function getTitle() {
@@ -191,8 +236,7 @@ class Song {
     }
 
     /**
-     * \fn	void setId($id)
-     * \brief	Sets the id value
+     * Sets the id value
      * @param	int
      */
     public function setId($id) {
@@ -200,8 +244,7 @@ class Song {
     }
 
     /**
-     * \fn	void setCreatedat($createdat)
-     * \brief	Sets the Song creation date
+     * Sets the Song creation date
      * @param	DateTime
      */
     public function setCreatedat($createdat) {
@@ -209,8 +252,7 @@ class Song {
     }
 
     /**
-     * \fn	void setUpdatedat($updatedat)
-     * \brief	Sets the Song modification date
+     * Sets the Song modification date
      * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
@@ -218,8 +260,7 @@ class Song {
     }
 
     /**
-     * \fn	void setActive($active)
-     * \brief	Sets the active  value
+     * Sets the active  value
      * @param	BOOL
      */
     public function setActive($active) {
@@ -227,8 +268,7 @@ class Song {
     }
 
     /**
-     * \fn	void setCommentcounter($commentcounter)
-     * \brief	Sets the commnetCounter value
+     * Sets the commnetCounter value
      * @param	int
      */
     public function setCommentcounter($commentcounter) {
@@ -236,8 +276,7 @@ class Song {
     }
 
     /**
-     * \fn	void setCounter($counter)
-     * \brief	Sets the counter  value
+     * Sets the counter  value
      * @param	int
      */
     public function setCounter($counter) {
@@ -245,8 +284,7 @@ class Song {
     }
 
     /**
-     * \fn	void setDuration($duration)
-     * \brief	Sets the duration value
+     * Sets the duration value
      * @param	int
      */
     public function setDuration($duration) {
@@ -254,8 +292,7 @@ class Song {
     }
 
     /**
-     * \fn	void setFromuser($fromuser)
-     * \brief	Sets the fromUser id  value
+     * Sets the fromUser id  value
      * @param	string
      */
     public function setFromuser($fromuser) {
@@ -263,8 +300,7 @@ class Song {
     }
 
     /**
-     * \fn	void setGenre($genre) 
-     * \brief	Sets the genre value
+     * Sets the genre value
      * @param	string
      */
     public function setGenre($genre) {
@@ -272,8 +308,7 @@ class Song {
     }
 
     /**
-     * \fn	void setLatitude($latitude)
-     * \brief	Sets the latitude value
+     * Sets the latitude value
      * @param	$longitude
      */
     public function setLatitude($latitude) {
@@ -281,8 +316,7 @@ class Song {
     }
 
     /**
-     * \fn	void setLongitude($longitude)
-     * \brief	Sets the longitude value
+     * Sets the longitude value
      * @param	$longitude
      */
     public function setLongitude($longitude) {
@@ -290,8 +324,7 @@ class Song {
     }
 
     /**
-     * \fn	void setLovecounter($lovecounter)
-     * \brief	Sets the LoveCounter  value
+     * Sets the LoveCounter  value
      * @param	int
      */
     public function setLovecounter($lovecounter) {
@@ -299,8 +332,7 @@ class Song {
     }
 
     /**
-     * \fn	void setpath($pPath)
-     * \brief	Sets the path value
+     * Sets the path value
      * @param	string
      */
     public function setPath($path) {
@@ -308,8 +340,7 @@ class Song {
     }
 
     /**
-     * \fn	setPosition($position)
-     * \brief	Sets the position value
+     * Sets the position value
      * @param	string
      */
     public function setPosition($position) {
@@ -317,8 +348,7 @@ class Song {
     }
 
     /**
-     * \fn	void setRecord($record) 
-     * \brief	Sets the record id value
+     * Sets the record id value
      * @param	int
      */
     public function setRecord($record) {
@@ -326,8 +356,7 @@ class Song {
     }
 
     /**
-     * \fn	void setCounter($sharecounter)
-     * \brief	Sets the sharecounter value
+     * Sets the sharecounter value
      * @param	int
      */
     public function setSharecounter($sharecounter) {
@@ -335,8 +364,7 @@ class Song {
     }
 
     /**
-     * \fn	void setTitle($title) 
-     * \brief	Sets the title value
+     * Sets the title value
      * @param	string
      */
     public function setTitle($title) {
@@ -344,8 +372,7 @@ class Song {
     }
 
     /**
-     * \fn	string __toString()
-     * \brief	Return a printable string representing the Song object
+     * Return a printable string representing the Song object
      * @return	string
      */
     public function __toString() {
