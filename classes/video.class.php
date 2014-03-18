@@ -1,43 +1,96 @@
 <?php
 
-/* ! \par		Info Generali:
- *  @author		Stefano Muscas
- *  @version		0.3
- *  @since		2013
- *  @copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		Video 
- *  \details		Classe che contiene i video presi da Vimeo e Youtube e segnalati dagli utenti 
- *  \par		Commenti:
- *  @warning
- *  @bug
- *  @todo
+/**
+ * Classe che contiene i video presi da Vimeo e Youtube e segnalati dagli utenti
  *
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Video">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Video">API</a>
+ * @author		Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Video
  */
-
 class Video {
 
+    /**
+     * @var int id istanza
+     */
     private $id;
+
+    /**
+     * @var date data creazione istanza
+     */
     private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
     private $updatedat;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
     private $active;
+
+    /**
+     * @var string the author of the video (outside jamyourself)
+     */
     private $author;
+
+    /**
+     * @var int contatore di gradimento
+     */
     private $counter;
+
+    /**
+     * @var string alla cover del video (in hosting)
+     */
     private $cover;
+
+    /**
+     * @var string descrizione del video
+     */
     private $description;
+
+    /**
+     * @var int durata in secondi
+     */
     private $duration;
+
+    /**
+     * @var int id del formuser
+     */
     private $fromuser;
+
+    /**
+     * @var int contatore azioni love
+     */
     private $lovecounter;
+
+    /**
+     * @var array di id di tag
+     */
     private $tag;
+
+    /**
+     * @var string indirizzo del thumb (in hosting)
+     */
     private $thumbnail;
+
+    /**
+     * @var string titolo del video
+     */
     private $title;
+
+    /**
+     * @var string URL video
+     */
     private $URL;
 
     /**
-     * \fn	int getId()
-     * \brief	Return the id value
+     * Return the id value
      * @return	int
      */
     public function getId() {
@@ -45,8 +98,7 @@ class Video {
     }
 
     /**
-     * \fn	DateTime getCreatedat()
-     * \brief	Return the Video creation date
+     * Return the Video creation date
      * @return	DateTime
      */
     public function getCreatedat() {
@@ -54,8 +106,7 @@ class Video {
     }
 
     /**
-     * \fn	DateTime getUpdatedat()
-     * \brief	Return the Video modification date
+     * Return the Video modification date
      * @return	DateTime
      */
     public function getUpdatedat() {
@@ -63,8 +114,7 @@ class Video {
     }
 
     /**
-     * \fn	boolean getActive()
-     * \brief	Return the active value
+     * Return the active value
      * @return	boolean
      */
     public function getActive() {
@@ -72,8 +122,7 @@ class Video {
     }
 
     /**
-     * \fn	string getAuthor()
-     * \brief	Return the author value; author is the uploader on YouTube or Vimeo
+     * Return the author value; author is the uploader on YouTube or Vimeo
      * @return	string
      */
     public function getAuthor() {
@@ -81,8 +130,7 @@ class Video {
     }
 
     /**
-     * \fn	int getCounter()
-     * \brief	Return the counter value
+     * Return the counter value
      * @return	int
      */
     public function getCounter() {
@@ -90,8 +138,7 @@ class Video {
     }
 
     /**
-     * \fn	string getCover()
-     * \brief	Return the cover (path file) value
+     * Return the cover (path file) value
      * @return	string
      */
     public function getCover() {
@@ -99,8 +146,7 @@ class Video {
     }
 
     /**
-     * \fn	string getDescription()
-     * \brief	Return the description value
+     * Return the description value
      * @return	string
      */
     public function getDescription() {
@@ -108,8 +154,7 @@ class Video {
     }
 
     /**
-     * \fn	int getDuration()
-     * \brief	Return the duration value in second
+     * Return the duration value in second
      * @return	int
      */
     public function getDuration() {
@@ -117,8 +162,7 @@ class Video {
     }
 
     /**
-     * \fn	int getFromuser()
-     * \brief	Return the id value for the fromUser
+     * Return the id value for the fromUser
      * @return	int
      */
     public function getFromuser() {
@@ -126,8 +170,7 @@ class Video {
     }
 
     /**
-     * \fn	int getLovecounter()
-     * \brief	Return the int value of loveCounter, counting the love action on the video
+     * Return the int value of loveCounter, counting the love action on the video
      * @return	int
      */
     public function getLovecounter() {
@@ -135,8 +178,7 @@ class Video {
     }
 
     /**
-     * \fn	int getTag()
-     * \brief	Return the tags value, array of string to categorize the video
+     * Return the tags value, array of string to categorize the video
      * @return	int
      */
     public function getTag() {
@@ -144,8 +186,7 @@ class Video {
     }
 
     /**
-     * \fn	string getThumbnail()
-     * \brief	Return the thumbnail value, URL of the video cover image
+     * Return the thumbnail value, URL of the video cover image
      * @return	string
      */
     public function getThumbnail() {
@@ -153,8 +194,7 @@ class Video {
     }
 
     /**
-     * \fn	string getTitle()
-     * \brief	Return the title value
+     * Return the title value
      * @return	string
      */
     public function getTitle() {
@@ -162,8 +202,7 @@ class Video {
     }
 
     /**
-     * \fn	string getURL()
-     * \brief	Return the URL value
+     * Return the URL value
      * @return	string
      */
     public function getURL() {
@@ -171,8 +210,7 @@ class Video {
     }
 
     /**
-     * \fn	void setId($id)
-     * \brief	Sets the id value
+     * Sets the id value
      * @param	int
      */
     public function setId($id) {
@@ -180,8 +218,7 @@ class Video {
     }
 
     /**
-     * \fn	void setCreatedat($createdat)
-     * \brief	Sets the Video creation date
+     * Sets the Video creation date
      * @param	DateTime
      */
     public function setCreatedat($createdat) {
@@ -189,8 +226,7 @@ class Video {
     }
 
     /**
-     * \fn	void setUpdatedat($updatedat)
-     * \brief	Sets the Video modification date
+     * Sets the Video modification date
      * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
@@ -198,8 +234,7 @@ class Video {
     }
 
     /**
-     * \fn	void setActive($active)
-     * \brief	Sets the active value
+     * Sets the active value
      * @param	BOOL
      */
     public function setActive($active) {
@@ -207,8 +242,7 @@ class Video {
     }
 
     /**
-     * \fn	void setAuthor($author)
-     * \brief	Sets the author value
+     * Sets the author value
      * @param	string
      */
     public function setAuthor($author) {
@@ -216,8 +250,7 @@ class Video {
     }
 
     /**
-     * \fn	void setCounter($counter)
-     * \brief	Sets the counter value
+     * Sets the counter value
      * @param	int
      */
     public function setCounter($counter) {
@@ -225,8 +258,7 @@ class Video {
     }
 
     /**
-     * \fn	void setCover($cover))
-     * \brief	Sets the cover value
+     * Sets the cover value
      * @param	string
      */
     public function setCover($cover) {
@@ -234,8 +266,7 @@ class Video {
     }
 
     /**
-     * \fn	void setDescription($description)
-     * \brief	Sets the description value
+     * Sets the description value
      * @param	string
      */
     public function setDescription($description) {
@@ -243,8 +274,7 @@ class Video {
     }
 
     /**
-     * \fn	void setDuration($duration)
-     * \brief	Sets the duration value
+     * Sets the duration value
      * @param	int
      */
     public function setDuration($duration) {
@@ -252,8 +282,7 @@ class Video {
     }
 
     /**
-     * \fn	void setFromuser($fromuser))
-     * \brief	Sets the fromUser value
+     * Sets the fromUser value
      * @param	int
      */
     public function setFromuser($fromuser) {
@@ -261,8 +290,7 @@ class Video {
     }
 
     /**
-     * \fn	void setLovecounter($lovecounter)
-     * \brief	Sets the loveCounter value
+     * Sets the loveCounter value
      * @param	int
      */
     public function setLovecounter($lovecounter) {
@@ -270,8 +298,7 @@ class Video {
     }
 
     /**
-     * \fn	void setTag($tag)
-     * \brief	Sets the tags value,array of strings
+     * Sets the tags value,array of strings
      * @param	int
      */
     public function setTag($tag) {
@@ -279,8 +306,7 @@ class Video {
     }
 
     /**
-     * \fn	void setThumbnail($thumbnail)
-     * \brief	Sets the thumbnail value, url of the cover image of the video
+     * Sets the thumbnail value, url of the cover image of the video
      * @param	string
      */
     public function setThumbnail($thumbnail) {
@@ -288,8 +314,7 @@ class Video {
     }
 
     /**
-     * \fn	void setTitle($title)
-     * \brief	Sets the title value
+     * Sets the title value
      * @param	string
      */
     public function setTitle($title) {
@@ -297,8 +322,7 @@ class Video {
     }
 
     /**
-     * \fn	void setURL($URL)
-     * \brief	Sets the URL value, url of the video
+     * Sets the URL value, url of the video
      * @param	string
      */
     public function setURL($URL) {
@@ -306,8 +330,7 @@ class Video {
     }
 
     /**
-     * \fn	string __toString()
-     * \brief	Return a printable string representing the Video object
+     * Return a printable string representing the Video object
      * @return	string
      */
     public function __toString() {
