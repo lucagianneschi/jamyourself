@@ -11,7 +11,7 @@
  * @warning
  * @bug
  * @todo
- * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Album definizione classe
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Album
  */
 class Album {
 
