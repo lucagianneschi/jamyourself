@@ -1,20 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * @author		Luca Gianneschi
- * @version		0.3
- * @since		2013
- * @copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		box caricamento playlist utente
- * \details		Recupera la playlist utente
- * \par			Commenti:
- * @warning
- * @bug
- * @todo		comprendere i profili premium
- *
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
