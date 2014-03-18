@@ -7,3 +7,5 @@ Disallow: /controllers/
 Disallow: /languages/
 Disallow: /cache/
 Disallow: /services/
+Disallow: /views/resources/
+Disallow: /views/utilities/
