@@ -1,25 +1,26 @@
 <?php
 
-/* ! \par		Info Generali:
- * @author		Luca Gianneschi
- * @version		1.0
- * @since		2013
- * @copyright	        Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller di gestione delle rollback dei controller
- * \details		gestisce le azioni in caso di fallimento di alcune azioni dei controller
- * \par			Commenti:
- * @warning
- * @bug
- * @todo		aggiornare al momento in cui vengono messe nuove rollback per i controller, fare API su Wiki
- *
- */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
+
+/**
+ * Rollbackutils 
+ * gestisce le azioni in caso di fallimento di alcune azioni dei controller
+ * 
+ * @author		Luca Gianneschi
+ * @author		Stefano Muscas
+ * @author		Daniele Caldelli
+ * @version		0.2
+ * @since		2014-03-17
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                aggiornare le funzioni con i nuovi DB            
+ */
 
 /**
  * \fn	    rollbackAcceptRelation($operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType)

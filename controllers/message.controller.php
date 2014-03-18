@@ -1,18 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * @author		Luca Gianneschi
- * @version		0.3
- * @since		2013
- * @copyright           Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller per l'azione di mesaggio
- * \details		invia il messaggio e corrispondente activity;legge il messaggio
- * \par			Commenti:
- * @warning
- * @bug
- * @todo		fare API su Wiki, eliminare TODO per invio mail
- */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -22,18 +9,26 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
+require_once SERVICES_DIR . 'connection.service.php';
 
 /**
- * \brief	MessageController class 
- * \details	controller per l'invio di messaggi
+ * MessageController class 
+ * invia il messaggio e corrispondente relation;legge il messaggio
+ * 
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2014-03-17
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class MessageController extends REST {
 
     public $config;
 
     /**
-     * \fn		construct()
-     * \brief   load config file for the controller
+     * load config file for the controller
      */
     function __construct() {
 	parent::__construct();
@@ -41,9 +36,7 @@ class MessageController extends REST {
     }
 
     /**
-     * \fn	deleteConversation()
-     * \brief   private function to delete activity class instance
-     * @param   $id
+     * private function to delete activity class instance
      */
     public function deleteConversation() {
 	global $controllers;
@@ -68,8 +61,7 @@ class MessageController extends REST {
     }
 
     /**
-     * \fn	message()
-     * \brief   save a message an the related activity
+     * save a message an the related activity
      * @todo    testare, possibilità di invio a utenti multipli, controllo della relazione
      */
     public function message() {
@@ -137,8 +129,7 @@ class MessageController extends REST {
     }
 
     /**
-     * \fn	read()
-     * \brief   update activity for the current read message
+     * update activity for the current read message
      * @todo    testare
      */
     public function read() {
@@ -151,7 +142,15 @@ class MessageController extends REST {
 	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    }
-
+	    $userId = $this->request['id'];
+	    $messageId = $this->request['messageId'];
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    $read = update($connection, 'comment', array('updatedat' => date('Y-m-d- H:i:s')), array('read' => 1));
+	    
 	    $this->response(array($controllers['MESSAGEREAD']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
