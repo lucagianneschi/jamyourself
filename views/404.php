@@ -1,1 +1,3 @@
-Questa è la pagina di 404!
+<?php
+echo 'PAGINA 404';
+?>

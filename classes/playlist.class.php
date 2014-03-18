@@ -1,277 +1,226 @@
 <?php
 
-/* ! \par		Info Generali:
- *  \author		Stefano Muscas
- *  \version		1.0
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		Playslist
- *  \details		Classe che accoglie le canzoni che andranno nel player della pagina utente
- *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+/**
+ * Playslist class
+ * Classe che accoglie le canzoni che andranno nel player della pagina utente
  *
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Playlists">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Playlist">API</a>
+ * @author		Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Playlists
  */
-
 class Playlist {
 
-    private $objectId;
-    private $active;
-    private $fromUser;
-    private $name;
-    private $songs;
-    private $songsArray;
-    private $unlimited;
-    private $createdAt;
-    private $updatedAt;
-    private $ACL;
+    /**
+     * @var int id istanza
+     */
+    private $id;
 
     /**
-     * \fn		string getObjectId()
-     * \brief	Return the objectId value
-     * \return	string
+     * @var date data creazione istanza
      */
-    public function getObjectId() {
-	return $this->objectId;
+    private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
+    private $updatedat;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
+    private $active;
+
+    /**
+     * @var int id del formuser
+     */
+    private $fromuser;
+
+    /**
+     * @var string name of the playlist
+     */
+    private $name;
+
+    /**
+     * @var int numero di canzoni nella playlist
+     */
+    private $songcounter;
+
+    /**
+     * @var array di id di song in playlist
+     */
+    private $songs;
+
+    /**
+     * @var int 1 = YES, 0 = NO
+     */
+    private $unlimited;
+
+    /**
+     * Return the id value
+     * @return	int
+     */
+    public function getId() {
+	return $this->id;
     }
 
     /**
-     * \fn		BOOL getActive()
-     * \brief	Return the active value
-     * \return	BOOL
+     * Return the Playlist creation date
+     * @return	DateTime
+     */
+    public function getCreatedat() {
+	return $this->createdat;
+    }
+
+    /**
+     * Return the Playlist modification date
+     * @return	DateTime
+     */
+    public function getUpdatedat() {
+	return $this->updatedat;
+    }
+
+    /**
+     * Return the active value
+     * @return	int
      */
     public function getActive() {
 	return $this->active;
     }
 
     /**
-     * \fn		string getFromUser()
-     * \brief	Return the objectId value for the fromUser
-     * \return	string
+     * Return the id value for the fromUser
+     * @return	int
      */
-    public function getFromUser() {
-	return $this->fromUser;
+    public function getFromuser() {
+	return $this->fromuser;
     }
 
     /**
-     * \fn		string getName()
-     * \brief	Return the name value for playlist
-     * \return	string
+     * Return the name value for playlist
+     * @return	string
      */
     public function getName() {
 	return $this->name;
     }
 
     /**
-     * \fn	array getSongs()
-     * \brief	Return an array of object of istances of the Song class
-     * \return	array
+     * Return the song counter value (number of songs)
+     * @return	int
+     */
+    public function getSongcounter() {
+	return $this->songcounter;
+    }
+
+    /**
+     * Return the song counter value (number of songs)
+     * @return	int
      */
     public function getSongs() {
 	return $this->songs;
     }
 
     /**
-     * \fn	array getSongsArray()
-     * \brief	Return an array of objectId of istances of the Song class
-     * \return	array
-     */
-    public function getSongsArray() {
-	return $this->songsArray;
-    }
-
-    /**
-     * \fn		BOOL getUnlimited()
-     * \brief	Return the unlimited value (YES just for premium account)
-     * \return	BOOL
+     * Return the unlimited value (YES just for premium account)
+     * @return	BOOL
      */
     public function getUnlimited() {
 	return $this->unlimited;
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
-     * \brief	Return the Playlist creation date
-     * \return	DateTime
+     * Sets the id value
+     * @param	string
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function setId($id) {
+	$this->id = $id;
     }
 
     /**
-     * \fn		DateTime getUpdatedAt()
-     * \brief	Return the Playlist modification date
-     * \return	DateTime
+     * Sets the Playlist creation date
+     * @param	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function setCreatedat($createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn		parseACL getACL()
-     * \brief	Return the parseACL object representing the Playlist ACL 
-     * \return	parseACL
+     * Sets the Playlist modification date
+     * @param	DateTime
      */
-    public function getACL() {
-	return $this->ACL;
+    public function setUpdatedat($updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
-     * \fn		void setObjectId($objectId)
-     * \brief	Sets the objectId value
-     * \param	string
-     */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
-    }
-
-    /**
-     * \fn		void setActive($active)
-     * \brief	Sets the active value
-     * \param	BOOL
+     * Sets the active value
+     * @param	int
      */
     public function setActive($active) {
 	$this->active = $active;
     }
 
     /**
-     * \fn		void setFromUser($fromUser))
-     * \brief	Sets the fromUser value,pointer to ParseUser
-     * \param	string
+     * Sets the fromUser value
+     * @param	int
      */
-    public function setFromUser($fromUser) {
-	$this->fromUser = $fromUser;
+    public function setFromuser($fromuser) {
+	$this->fromuser = $fromuser;
     }
 
     /**
-     * \fn		void  setName($name)
-     * \brief	Sets the name for the playlist
-     * \param	string
+     * Sets the name for the playlist
+     * @param	string
      */
     public function setName($name) {
 	$this->name = $name;
     }
 
     /**
-     * \fn		void setSongs($songs)
-     * \brief	Sets the songs value,array of pointer to Song
-     * \param	array
+     * Sets the songs value
+     * @param	int
      */
     public function setSongs($songs) {
 	$this->songs = $songs;
     }
 
     /**
-     * \fn		void setSongs($songs)
-     * \brief	Sets the songs value,array of pointer to Song
-     * \param	array
+     * Sets the songcounter value
+     * @param	int
      */
-    public function setSongsArray($songsArray) {
-	$this->songsArray = $songsArray;
+    public function setSongcounter($songcounter) {
+	$this->songcounter = $songcounter;
     }
 
     /**
-     * \fn		void setUnlimited($unlimited)
-     * \brief	Sets the unlimited value
-     * \param	BOOL
+     * Sets the unlimited value
+     * @param	BOOL
      */
     public function setUnlimited($unlimited) {
 	$this->unlimited = $unlimited;
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
-     * \brief	Sets the Playlist creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn		void setUpdatedAt($updatedAt)
-     * \brief	Sets the Playlist modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Playlist ACL
-     * \param	parseACL
-     */
-    public function setACL($ACL) {
-	$this->ACL = $ACL;
-    }
-
-    /**
-     * \fn		string __toString()
-     * \brief	Return a printable string representing the Playlist object
-     * \return	string
+     * Return a printable string representing the Playlist object
+     * @return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-	if (is_null($this->getActive())) {
-	    $string .= '[active] => NULL<br />';
-	} else {
-	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
-	}
-	$string.= '[fromUser] => ' . $this->getFromUser() . '<br />';
-	$string.= '[name] => ' . $this->getName() . '<br />';
-	if (count($this->getSongs()) != 0) {
-	    foreach ($this->getSongs() as $song) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[songs] => ' . $song . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[songs] => NULL<br />';
-	}
-	if (count($this->getSongsArray()) != 0) {
-	    foreach ($this->getSongsArray() as $songId) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[songId] => ' . $songId . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[songId] => NULL<br />';
-	}
-	if ($this->getUnlimited() === null) {
-	    $string .= '[unlimited] => NULL<br />';
-	} else {
-	    $this->getUnlimited() ? $string .= '[unlimited] => 1<br />' : $string .= '[unlimited] => 0<br />';
-	}
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
-	if ($this->getACL() != null) {
-	    foreach ($this->getACL()->acl as $key => $acl) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[ACL] => ' . $key . '<br />';
-		foreach ($acl as $access => $value) {
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-		}
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[ACL] => NULL<br />';
-	}
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$createdAt = new DateTime($this->getCreatedat());
+	$string .= '[createdat] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+	$updatedAt = new DateTime($this->getUpdatedat());
+	$string .= '[updatedat] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[active] => ' . $this->getActive() . '<br />';
+	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
+	$string .= '[name] => ' . $this->getName() . '<br />';
+	$string .= '[songcounter] => ' . $this->getSongcounter() . '<br />';
+	$string .= '[songs] => ' . $this->getSongs() . '<br />';
+	$string .= '[unlimited] => ' . $this->getUnlimited() . '<br />';
 	return $string;
     }
 

@@ -1,126 +1,153 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller di login e logout
- * \details		effettua operazioni di login e logut utente
- * \par			Commenti:
- * \warning
- * \bug
- * \todo		terminare la funzione logout e socialLogin; fare API su Wiki
- *
- */
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../');
+	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once CLASSES_DIR . 'user.class.php';
+require_once SERVICES_DIR . 'connection.service.php';
 
 /**
- * \brief	ReviewController class 
- * \details	controller di inserimento di una review 
+ * AccessController class
+ * effettua operazioni di login e logut utente
+ *
+ * @author Daniele Caldelli
+ * @author Maria Laura Fresu
+ * @version		0.2
+ * @since		2014-03-12
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
  */
 class AccessController extends REST {
 
-    /**
-     * \fn      createActivity($type, $fromUser)
-     * \brief   private function to create ad hoc activity
-     * \param   $type, $fromUser
-     */
-    private function createActivity($type, $fromUser) {
-	require_once CLASSES_DIR . 'activity.class.php';
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setAlbum(null);
-	$activity->setComment(null);
-	$activity->setCounter(0);
-	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
-	$activity->setImage(null);
-	$activity->setPlaylist(null);
-	$activity->setQuestion(null);
-	$activity->setRecord(null);
-	$activity->setRead(true);
-	$activity->setSong(null);
-	$activity->setStatus('A');
-	$activity->setToUser(null);
-	$activity->setType($type);
-	$activity->setVideo(null);
-	return $activity;
-    }
+	/**
+	 * Effettua il login dell'utente, inserendo i dati che servono in sessione
+	 * @todo    testare
+	 */
+	public function login() {
+		try {
+			global $controllers;
+			if ($_SESSION['id'] && $_SESSION['username']) {
+				#TODO
+				//			$this -> response(array('status' => $controllers['ALREADYLOGGEDIND']), 405);
+			}
+			if ($this -> get_request_method() != "POST") {
+				$this -> response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+			}
+			if (!isset($this -> request['usernameOrEmail']) || !isset($this -> request['password'])) {
+				$this -> response(array('status' => $controllers['NO CREDENTIALS']), 405);
+			}
+			$connectionService = new ConnectionService();
+			$connection = $connectionService -> connect();
+			if ($connection != false) {
+				$name = mysqli_real_escape_string($connection, stripslashes($this -> request['usernameOrEmail']));
+				$password = mysqli_real_escape_string($connection, stripslashes($this -> request['password']));
+				$user = $this -> checkEmailOrUsername($connection, $password, $name);
 
-    /**
-     * \fn      login()
-     * \brief   user login
-     * \todo    
-     */
-    public function login() {
-	try {
-	    global $controllers;
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    }
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $usernameOrEmail = $this->request['usernameOrEmail'];
-	    $password = $this->request['password'];
-	    $userParse = new UserParse();
-	    $resLogin = $userParse->loginUser($usernameOrEmail, $password);
-	    if ($resLogin instanceof Error) {
-		$this->response(array('status' => $resLogin->getErrorMessage()), 406);
-	    }
-	    $activity = $this->createActivity('LOGGEDIN', $resLogin->getObjectId());
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityParse = new ActivityParse();
-	    $activityParse->saveActivity($activity);
-	    $_SESSION['currentUser'] = $resLogin;
-	    require_once BOXES_DIR . 'notification.box.php';
-	    $notificationBox = new NotificationBox();
-	    $notificationBox->initForCounter($resLogin->getObjectId(), $resLogin->getType());
-	    $_SESSION['invitationCounter'] = $notificationBox->invitationCounter;
-	    $_SESSION['messageCounter'] = $notificationBox->messageCounter;
-	    $_SESSION['relationCounter'] = $notificationBox->relationCounter;
-	    $this->response(array('status' => $controllers['OKLOGIN']), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
+				if (!$user) {
+					$this -> response(array('status' => 'INVALID CREDENTIALS'), 503);
+				}
+				#TODO currentUser da eliminare
+				$_SESSION['currentUser'] = $user;
+				$_SESSION['id'] = $user->getId();
+                $_SESSION['username'] = $user->getUsername();
+                $_SESSION['type'] = $user->getType();
+                $_SESSION['settings'] = $user->getSettings();
+                $_SESSION['levelvalue'] = $user->getLevelvalue();
+                $_SESSION['premium'] = $user->getPremium();
+                $_SESSION['premiumexpirationdate'] = $user->getPremiumexpirationdate();				
+               
+                $connectionService->disconnect($connection);
+				$this->response(array('status' => $controllers['OKLOGIN']), 200);
+			} else
+				$this -> response(array('status' => 'ERROR CONNECT'), 503);
+			#TODO
+		} catch (Exception $e) {
+			$this -> response(array('status' => $e -> getMessage()), 503);
+		}
 	}
-    }
 
-    /**
-     * \fn      logout()
-     * \brief   user logout
-     * \todo    
-     */
-    public function logout() {
-	try {
-	    global $controllers;
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    }
-	    $currentUser = $_SESSION['currentUser'];
-	    $currentUserId = $currentUser->getObjectId();
-	    session_unset();
-	    session_destroy();
-	    $activity = $this->createActivity('LOGGEDOUT', $currentUserId);
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityParse = new ActivityParse();
-	    $res = $activityParse->saveActivity($activity);
-	    if ($res instanceof Error) {
-		//rifaccio login??
-	    }
-	    $this->response(array('status' => $controllers['OKLOGOUT']), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
+	/**
+	 * Effettua il logout dell'utente, distruggendo la sessione
+	 * @todo    testare
+	 */
+	public function logout() {
+		try {
+			global $controllers;
+			if ($this -> get_request_method() != "POST") {
+				$this -> response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+			} elseif (!isset($_SESSION['id']) || !isset($_SESSION['username'])) {
+				$this -> response(array('status' => $controllers['USERNOSES']), 403);
+			}
+			session_unset();
+			session_destroy();
+			$this -> response(array('status' => $controllers['OKLOGOUT']), 200);
+		} catch (Exception $e) {
+			$this -> response(array('status' => $e -> getMessage()), 503);
+		}
 	}
-    }
+
+	/**
+	 * Check if user credentials are correct
+	 * @param string $connection Connessione
+	 * @param string $password password
+	 * @param string $name name or email
+	 * @return User User instance
+	 * @todo Testare
+	 */
+	private function checkEmailOrUsername($connection, $password, $name) {
+		$sql = "SELECT id,
+                       levelvalue,
+                       latitude,
+                       longitude,
+                       premium,
+                       premiumexpirationdate,
+                       type,
+                       username
+	      		FROM user
+	      		WHERE password='$password' AND active = 1
+	       			  AND (username='$name' OR email='$name')";
+		$result = mysqli_query($connection, $sql);
+		if (!$result || (mysqli_num_rows($result) != 1)) {
+			jamLog(__FILE__, __LINE__, 'Unable to execute query on Login');
+			return false;
+		}
+		
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		$user = new User();
+		$user -> setId($row['id']);
+		$user -> setLevelvalue($row['levelvalue']);
+		$user -> setLatitude($row['latitude']);
+		$user -> setLongitude($row['longitude']);
+		$user -> setPremium($row['premium']);
+		$user -> setPremiumexpirationdate($row['premiumexpirationdate']);
+		/*
+		 $sql = "SELECT setting
+		 FROM user_setting
+		 WHERE id = " . $row['id'];
+		 $results = mysqli_query($connection, $sql);
+		 if (!$results) {
+		 jamLog(__FILE__, __LINE__, 'Unable to execute query for user setting on Login');
+		 return false;
+		 }
+		 while ($row_setting = mysqli_fetch_array($results, MYSQLI_ASSOC))
+		 $rows_setting[] = $row_setting;
+		 $settings = array();
+		 foreach ($rows_setting as $row_setting) {
+		 $settings[] = $row_setting;
+		 }
+		 $user -> setSettings($settings); */
+		$user -> setType($row['type']);
+		$user -> setUsername($row['username']);
+		return $user;
+		
+	}
 
 }
-
 ?>

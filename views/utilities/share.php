@@ -1,22 +1,22 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Daniele Caldelli
- * \version		1.0
- * \date		2013
- * \copyright	Jamyourself.com 2013
+ * @author		Daniele Caldelli
+ * @version		1.0
+ * @since		2013
+ * @copyright	Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		define the share parameters
  */
 
 /**
- * \fn		getShareParameters($classType, $objectId, $imgPath)
+ * \fn		getShareParameters($classType, $id, $imgPath)
  * \brief	define the share parameters
- * \param	$classType:	the type of the Parse class
- * 			$objectId:	the objectId of the object of the $classType
+ * @param	$classType:	the type of the Parse class
+ * 			$id:	the id of the object of the $classType
  * 			$imgPath:	the path of the image to share in case that $classType is Event, Image, Record and Song
  */
-function getShareParameters($classType, $objectId, $imgPath) {
+function getShareParameters($classType, $id, $imgPath) {
 
     $parameters = array();
 
@@ -42,7 +42,7 @@ function getShareParameters($classType, $objectId, $imgPath) {
 	case 'Event':
 	    $parameters['title'] = 'Titolo di un Event';
 	    $parameters['description'] = 'Descrizione della pagina di Event';
-	    $parameters['url'] = 'http://www.socialmusicdiscovering.com/views/mediaEvent.php?objectIdMedia=' . $objectId;
+	    $parameters['url'] = 'http://www.socialmusicdiscovering.com/views/mediaEvent.php?objectIdMedia=' . $id;
 	    #TODO
 	    //$parameters['img'] = <settare il valore corretto dell'immagine dell'evento>
 	    $parameters['img'] = 'http://www.socialmusicdiscovering.com/media/images/default/defaultBackground.png';
@@ -68,7 +68,7 @@ function getShareParameters($classType, $objectId, $imgPath) {
 	case 'Record':
 	    $parameters['title'] = 'Titolo di un Record';
 	    $parameters['description'] = 'Descrizione della pagina di Record';
-	    $parameters['url'] = 'http://www.socialmusicdiscovering.com/views/mediaRecord.php?objectIdMedia=' . $objectId;
+	    $parameters['url'] = 'http://www.socialmusicdiscovering.com/views/mediaRecord.php?objectIdMedia=' . $id;
 	    #TODO
 	    //$parameters['img'] = <settare il valore corretto dell'immagine del record>
 	    $parameters['img'] = 'http://www.socialmusicdiscovering.com/media/images/default/defaultBackground.png';
@@ -76,7 +76,7 @@ function getShareParameters($classType, $objectId, $imgPath) {
 	case 'Song':
 	    $parameters['title'] = 'Titolo di un Song';
 	    $parameters['description'] = 'Descrizione della pagina di Song';
-	    $parameters['url'] = 'http://www.socialmusicdiscovering.com/views/mediaRecord.php?objectIdMedia=' . $objectId;
+	    $parameters['url'] = 'http://www.socialmusicdiscovering.com/views/mediaRecord.php?objectIdMedia=' . $id;
 	    #TODO
 	    //$parameters['img'] = <settare il valore corretto dell'immagine della song>
 	    $parameters['img'] = 'http://www.socialmusicdiscovering.com/media/images/default/defaultBackground.png';

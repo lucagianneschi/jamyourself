@@ -1,4 +1,4 @@
-function love(_this, classType, objectId, objectIdUser) {
+function love(_this, classType, id, objectIdUser) {
     var json_love = {};
     typeOpt = $(_this).text();
     switch (typeOpt) {
@@ -10,7 +10,7 @@ function love(_this, classType, objectId, objectIdUser) {
 	    break;
     }
     json_love.classType = classType;
-    json_love.objectId = objectId;
+    json_love.id = id;
     json_love.objectIdUser = objectIdUser;
 
     $.ajax({

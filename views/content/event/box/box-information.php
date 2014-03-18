@@ -15,16 +15,16 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
-$objectId = $event->getObjectId();
+$id = $event->getId();
 $city = $event->getCity();
 $description = $event->getDescription();
-$eventDate = $event->getEventDate()->format('l j F Y - H:i');
-$lat = $event->getLocation()->lat;
-$lon = $event->getLocation()->long;
-$fromUserObjectId = $event->getFromUser()->getObjectId();
-$fromUserThumbnail = $event->getFromUser()->getProfileThumbnail();
-$fromUserUsername = $event->getFromUser()->getUsername();
-switch ($event->getFromUser()->getType()) {
+$eventDate = $event->getEventdate()->format('l j F Y - H:i');
+$lat = $event->getLatitude();
+$lon = $event->getLongitude();
+$fromUserObjectId = $event->getFromuser()->getId();
+$fromUserThumbnail = $event->getFromuser()->getThumbnail();
+$fromUserUsername = $event->getFromuser()->getUsername();
+switch ($event->getFromuser()->getType()) {
     case 'JAMMER':
 	$defaultThum = DEFTHUMBJAMMER;
 	break;
@@ -82,7 +82,7 @@ $thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumb
 	    <script type="text/javascript">
 		    function loadBoxInformationFeaturing() {
 			var json_data = {};
-			json_data.objectId = '<?php echo $objectId; ?>';
+			json_data.id = '<?php echo $id; ?>';
 			$.ajax({
 			    type: "POST",
 			    url: "content/event/box/box-informationFeaturing.php",
@@ -127,7 +127,7 @@ $thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumb
 	    <script type="text/javascript">
 		    function loadBoxInformationAttendee() {
 			var json_data = {};
-			json_data.objectId = '<?php echo $objectId; ?>';
+			json_data.id = '<?php echo $id; ?>';
 			$.ajax({
 			    type: "POST",
 			    url: "content/event/box/box-informationAttendee.php",
@@ -156,7 +156,7 @@ $thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumb
 	    <script type="text/javascript">
 		function loadBoxInformationInvited() {
 		    var json_data = {};
-		    json_data.objectId = '<?php echo $objectId; ?>';
+		    json_data.id = '<?php echo $id; ?>';
 		    $.ajax({
 			type: "POST",
 			url: "content/event/box/box-informationInvited.php",

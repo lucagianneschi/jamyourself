@@ -15,15 +15,12 @@ $uploadRecordController->init();
 <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
 
     <head>
-
-        <title>Jamyourself</title>
+	<title><?php echo $views['metatag']['uploadRecord']['title'] ?></title>
+	<meta name="description" content="<?php echo $views['metatag']['uploadRecord']['description'] ?>">
+	<meta name="keywords" content="<?php echo $views['metatag']['uploadRecord']['keywords'] ?>">
         <!-------------------------- METADATI --------------------------->
-	<?php
-	require_once(VIEWS_DIR . "content/general/meta.php");
-	?>
-
+	<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
     </head>
-
     <body>
 
         <!-------------------------- HEADER --------------------------->

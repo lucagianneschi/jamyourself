@@ -1,20 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller di inserimento commenti
- * \details		controller di inserimento commenti
- * \par			Commenti:
- * \warning
- * \bug
- * \todo		fare API su Wiki; avviare invio mail
- *
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -22,29 +7,44 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CONTROLLERS_DIR . 'utilsController.php';
+require_once SERVICES_DIR . 'utils.service.php';
+require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'insert.service.php';
+require_once SERVICES_DIR . 'update.service.php';
 
 /**
- * \brief	CommentController class 
- * \details	controller di inserimento commenti
+ * CommentController class
+ * controller di inserimento commenti
+ * 
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class CommentController extends REST {
 
+    /**
+     * @var array Array di config values
+     */
     public $config;
 
+    /**
+     * Configura oggetto CommentController
+     */
     function __construct() {
 	parent::__construct();
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/comment.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "commentController.config.json"), false);
     }
 
     /**
-     * \fn		comment()
-     * \brief   salva un commento
-     * \todo    testare con sessione
+     * Salva un commento sul DB mySQL, crea nodi sul grafo, crea relazione nodi utente - nodo commento
+     * @todo    testare e prevedere rollback
      */
     public function comment() {
 	global $controllers;
-
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
@@ -54,134 +54,83 @@ class CommentController extends REST {
 		$this->response(array('status' => $controllers['NOCOMMENT']), 400);
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
-	    } elseif (!isset($this->request['objectId'])) {
+	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    } elseif (!isset($this->request['classType'])) {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
 	    }
-	    $fromUser = $_SESSION['currentUser'];
-	    $toUserObjectId = $this->request['toUser'];
+	    $fromuserId = $_SESSION['id'];
+	    $levelValue = $_SESSION['levelvalue'];
+	    $toUserId = $this->request['toUser'];
 	    $comment = $this->request['comment'];
 	    $classType = $this->request['classType'];
-	    $objectId = $this->request['objectId'];
+	    $id = $this->request['id'];
 	    if (strlen($comment) < $this->config->minCommentSize) {
 		$this->response(array('status' => $controllers['SHORTCOMMENT'] . strlen($comment)), 406);
 	    } elseif (strlen($comment) > $this->config->maxCommentSize) {
 		$this->response(array('status' => $controllers['LONGCOMMENT'] . strlen($comment)), 406);
 	    }
-	    require_once CLASSES_DIR . 'activity.class.php';
-	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
-	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $cmt = new Comment();
-	    $cmt->setActive(true);
-	    $cmt->setCommentCounter(0);
-	    $cmt->setFromUser($fromUser->getObjectId());
-	    $cmt->setLocation(null);
-	    $cmt->setLoveCounter(0);
-	    $cmt->setLovers(array());
-	    $cmt->setShareCounter(0);
-	    $cmt->setTags(array());
+	    $cmt->setActive(1);
+	    $cmt->setCommentcounter(0);
+	    $cmt->setCounter(0);
+	    $cmt->setFromuser($fromuserId);
+	    $cmt->setLatitude(null);
+	    $cmt->setLongitude(null);
+	    $cmt->setLovecounter(0);
+	    $cmt->setSharecounter(0);
+	    $cmt->setTag(array());
 	    $cmt->setTitle(null);
 	    $cmt->setText($comment);
-	    $cmt->setToUser($toUserObjectId);
+	    $cmt->setTouser($toUserId);
 	    $cmt->setType('C');
 	    $cmt->setVote(null);
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setCounter(0);
-	    $activity->setFromUser($fromUser->getObjectId());
-	    $activity->setPlaylist(null);
-	    $activity->setQuestion(null);
-	    $activity->setRead(false);
-	    $activity->setStatus('A');
-	    $activity->setToUser($toUserObjectId);
 	    switch ($classType) {
 		case 'Album':
-		    require_once CLASSES_DIR . 'albumParse.class.php';
-		    $albumParse = new AlbumParse();
-		    $res = $albumParse->incrementAlbum($objectId, 'commentCounter', 1);
-		    $cmt->setAlbum($objectId);
-		    $activity->setAlbum($objectId);
-		    $activity->setType('COMMENTEDONALBUM');
+		    $cmt->setAlbum($id);
 		    break;
 		case 'Comment':
-		    require_once CLASSES_DIR . 'commentParse.class.php';
-		    $commentParse = new CommentParse();
-		    $comment = $commentParse->getComment($objectId);
-		    if ($comment instanceOf Error) {
-			$this->response(array('status' => $comment->getErrorMessage()), 503);
-		    }
-		    $res = $commentParse->incrementComment($objectId, 'commentCounter', 1);
-		    $cmt->setComment($objectId);
-		    $activity->setComment($objectId);
-		    switch ($comment->getType()) {
-			case 'P':
-			    $activity->setType('COMMENTEDONPOST');
-			    break;
-			case 'RE':
-			    $activity->setType('COMMENTEDONEVENTREVIEW');
-			    break;
-			case 'RR':
-			    $activity->setType('COMMENTEDONRECORDREVIEW');
-			    break;
-		    }
+		    $cmt->setComment($id);
 		    break;
 		case 'Event':
-		    require_once CLASSES_DIR . 'eventParse.class.php';
-		    $eventParse = new EventParse();
-		    $res = $eventParse->incrementEvent($objectId, 'commentCounter', 1);
-		    $cmt->setEvent($objectId);
-		    $activity->setEvent($objectId);
-		    $activity->setType('COMMENTEDONEVENT');
+		    $cmt->setEvent($id);
 		    break;
 		case 'Image':
-		    require_once CLASSES_DIR . 'imageParse.class.php';
-		    $imageParse = new ImageParse();
-		    $res = $imageParse->incrementImage($objectId, 'commentCounter', 1);
-		    $cmt->setImage($objectId);
-		    $activity->setImage($objectId);
-		    $activity->setType('COMMENTEDONIMAGE');
+		    $cmt->setImage($id);
 		    break;
 		case 'Record':
-		    require_once CLASSES_DIR . 'recordParse.class.php';
-		    $recordParse = new RecordParse();
-		    $res = $recordParse->incrementRecord($objectId, 'commentCounter', 1);
-		    $cmt->setRecord($objectId);
-		    $activity->setRecord($objectId);
-		    $activity->setType('COMMENTEDONRECORD');
+		    $cmt->setRecord($id);
 		    break;
 		case 'Video':
-		    require_once CLASSES_DIR . 'videoParse.class.php';
-		    $videoParse = new VideoParse();
-		    $res = $videoParse->incrementVideo($objectId, 'commentCounter', 1);
-		    $cmt->setVideo($objectId);
-		    $activity->setVideo($objectId);
-		    $activity->setType('COMMENTEDONVIDEO');
+		    $cmt->setVideo($id);
 		    break;
 	    }
-	    $commentParse = new CommentParse();
-	    $resCmt = $commentParse->saveComment($cmt);
-	    if ($resCmt instanceof Error) {
-		$this->response(array('status' => $resCmt->getErrorMessage()), 503);
-	    } else {
-		$activityParse = new ActivityParse();
-		$resActivity = $activityParse->saveActivity($activity);
-		if ($resActivity instanceof Error || $res instanceof Error) {
-		    require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		    $message = rollbackCommentController($objectId, $classType);
-		    $this->response(array('status' => $message), 503);
-		}
+	    $resCmt = insertComment($connection, $cmt);
+	    if (!$resCmt) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    }
+	    $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('commentcounter' => 1, 'counter' => 1 * $levelValue));
+	    if (!$commentCounter) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    }
+	    $node = createNode($connection, 'comment', $cmt->getId());
+	    $relation = createRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'comment');
+	    if (!$relation || !$node) {
+		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
 	    global $mail_files;
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $userParse = new UserParse();
-	    $user = $userParse->getUser($toUserObjectId);
+	    $user = selectUsers($toUserId);
 	    $address = $user->getEmail();
 	    $subject = $controllers['SBJCOMMENT'];
 	    $html = $mail_files['COMMENTEMAIL'];
 	    sendMailForNotification($address, $subject, $html);
-	    $this->response(array('status' => $res), 200);
+	    $this->response(array('status' => $controllers['COMMENTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}

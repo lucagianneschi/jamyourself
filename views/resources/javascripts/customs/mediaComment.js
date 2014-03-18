@@ -1,8 +1,8 @@
-function sendComment(toUser, comment, objectId, classType, classBox) {
+function sendComment(toUser, comment, id, classType, classBox) {
     var json_comment = {};
     json_comment.toUser = toUser;
     json_comment.comment = comment;
-    json_comment.objectId = objectId;
+    json_comment.id = id;
     json_comment.classType = classType;
     json_comment.request = 'comment';
 
@@ -16,7 +16,7 @@ function sendComment(toUser, comment, objectId, classType, classBox) {
     })
 	    .done(function(message, status, xhr) {
 	//callBoxMedia.load('comment');
-	callBoxMedia.objectId = objectId;
+	callBoxMedia.id = id;
 	callBoxMedia.fromUserObjectId = toUser;
 	callBoxMedia.classBox = classBox;
 	callBoxMedia.load('commentReview');

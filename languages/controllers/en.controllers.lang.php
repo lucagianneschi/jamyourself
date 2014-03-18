@@ -1,18 +1,16 @@
 <?php
 
-/* ! \par Info Generali:
- *  \author    Luca Gianneschi
- *  \version   1.0
- *  \date      2013
- *  \copyright Jamyourself.com 2013
- *
- *  \par       Info:
- *  \brief     English strings for controllers
- *  \warning
- *  \bug
- *  \todo 
+/**
+ * English Strings for controllers
+ * 
+ * @author Luca Gianneschi
+ * @version		0.2
+ * @since		2014-03-12
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
-
 $controllers = array(
     //GENERAL
     'INVALIDEMAIL' => 'Invalid e-Mail',
@@ -20,7 +18,7 @@ $controllers = array(
     'NOTOUSERTYPE' => 'No toUser type specified',
     'NOFROMUSER' => 'No fromUser specified',
     'NOCLASSTYPE' => 'No classType specified',
-    'NOOBJECTID' => 'No objectId specified',
+    'NOOBJECTID' => 'No id specified',
     'ROLLKO' => 'ROLLBACK KO',
     'ROLLOK' => 'ROLLBACK OK',
     'NOUSERID' => 'User ID non definito',
@@ -32,6 +30,7 @@ $controllers = array(
     'NOMAIL' => 'Unable to send mail',
     'nodata' => 'No data available',
     'NOEXPIRED' => 'Expired unset',
+    'NODEERROR' => 'Unable to create node',
     //SUBSCRIBE
     'SUBSCRIPTIONOK' => 'You have been subscribed',
     'SUBSCRIPTIONERROR' => 'An error occurred',
@@ -54,6 +53,7 @@ $controllers = array(
     'SHORTPOST' => 'Your post is too short | lenght:',
     'LONGPOST' => 'Your post is too long | lenght:',
     'NOPOST' => 'No post specified',
+    'POSTERROR' => 'Error Saving Your Post',
     //COMMENT
     'NOCOMMENT' => 'No comment specified',
     'SHORTCOMMENT' => 'Your comment is too short | lenght:',
@@ -268,49 +268,5 @@ $mail_files = array(
     'EVENTINVITATION' => 'en.eventInvitation.html',
     'COMMENTEMAIL' => 'en.commentEmail.html',
     'MESSAGEEMAIL' => 'en.messageEmail.php'
-);
-
-$rest_strings = array(
-    '100' => 'Continue',
-    '101' => 'Switching Protocols',
-    '200' => 'OK',
-    '201' => 'Created',
-    '202' => 'Accepted',
-    '203' => 'Non-Authoritative Information',
-    '204' => 'No Content',
-    '205' => 'Reset Content',
-    '206' => 'Partial Content',
-    '300' => 'Multiple Choices',
-    '301' => 'Moved Permanently',
-    '302' => 'Found',
-    '303' => 'See Other',
-    '304' => 'Not Modified',
-    '305' => 'Use Proxy',
-    '306' => '(Unused)',
-    '307' => 'Temporary Redirect',
-    '400' => 'Bad Request',
-    '401' => 'Unauthorized',
-    '402' => 'Payment Required',
-    '403' => 'Forbidden',
-    '404' => 'Not Found',
-    '405' => 'Method Not Allowed',
-    '406' => 'Not Acceptable',
-    '407' => 'Proxy Authentication Required',
-    '408' => 'Request Timeout',
-    '409' => 'Conflict',
-    '410' => 'Gone',
-    '411' => 'Length Required',
-    '412' => 'Precondition Failed',
-    '413' => 'Request Entity Too Large',
-    '414' => 'Request-URI Too Long',
-    '415' => 'Unsupported Media Type',
-    '416' => 'Requested Range Not Satisfiable',
-    '417' => 'Expectation Failed',
-    '500' => 'Internal Server Error',
-    '501' => 'Not Implemented',
-    '502' => 'Bad Gateway',
-    '503' => 'Service Unavailable',
-    '504' => 'Gateway Timeout',
-    '505' => 'HTTP Version Not Supported'
 );
 ?>

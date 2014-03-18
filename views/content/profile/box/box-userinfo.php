@@ -12,7 +12,7 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
@@ -30,16 +30,19 @@ switch ($user->getType()) {
 }
 $music = '';
 $space = '';
+
+#TODO
+/*
 foreach ($user->getMusic() as $key => $value) {
     $music = $music . $space . $views['tag']['music'][$value];
     $space = ', ';
 }
-
+*/
 $userinfo_pin = $city == '' ? '' : '_pin';
 $userinfo_note = $music == '' ? '' : '_note';
 $fileManagerService = new FileManagerService();
-$pathPicture = $fileManagerService->getPhotoPath($user->getObjectId(), $user->getProfilePicture());
-$pathBackground = $fileManagerService->getPhotoPath($user->getObjectId(), $user->getBackground());
+$pathPicture = $fileManagerService->getPhotoPath($user->getId(), $user->getAvatar());
+$pathBackground = $fileManagerService->getPhotoPath($user->getId(), $user->getBackground());
 ?>
 <div class="row" id="profile-userInfo">
     <div class="large-12 columns">

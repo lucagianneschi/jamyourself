@@ -14,13 +14,16 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'utilsBox.php';
+require_once SERVICES_DIR . 'select.service.php';
 
-$objectId = $_POST['objectId'];
-$featurings = getRelatedUsers($objectId, 'featuring', 'Event', false, 10, 0);
+$id = $_POST['id'];
+$featurings = array();
+
+$featurings = getRelatedNodes('user', $id, 'event', 'featuring');
 $featuringsCounter = count($featurings);
 
 if ($featuringsCounter > 0) {
@@ -44,14 +47,14 @@ if ($featuringsCounter > 0) {
 		}
 		?>
 		<div  class="small-6 columns">
-		    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-			<div class="row " id="featuring_<?php echo $value->getObjectId(); ?>">
+		    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getId(); ?>'">
+			<div class="row " id="featuring_<?php echo $value->getId(); ?>">
 			    <div  class="small-3 columns ">
 				<div class="icon-header">
 				    <!-- THUMB USER-->
 				    <?php
 				    $fileManagerService = new FileManagerService();
-				    $thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+				    $thumbPath = $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail());
 				    ?>
 				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?> ">
 				</div>

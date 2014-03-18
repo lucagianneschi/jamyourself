@@ -1,614 +1,560 @@
 <?php
 
-/* ! \par		Info Generali:
- *  \author		Daniele Caldelli, Stefano Muscas
- *  \version		1.0
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		Comment 
- *  \details		Classe dedicata a POST, REVIEW, COMMENT & MESSAGGI 
- *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+/**
+ * Comment class 
+ * Classe dedicata a POST, REVIEW, COMMENT & MESSAGGI
  * 
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Comment">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Comment">API</a>
+ * @author		Daniele Caldelli 
+ * @author              Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                terminare commenti standard per le get
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Comment definizione classe                
  */
-
 class Comment {
 
-    private $objectId;
-    private $active;
-    private $album;
-    private $comment;
-    private $commentCounter;
-    private $counter;
-    private $event;
-    private $fromUser;
-    private $image;
-    private $location;
-    private $loveCounter;
-    private $lovers;
-    private $record;
-    private $shareCounter;
-    private $song;
-    private $tags;
-    private $title;
-    private $text;
-    private $toUser;
-    private $type;
-    private $video;
-    private $vote;
-    private $createdAt;
-    private $updatedAt;
-    private $ACL;
+    /**
+     * @var int id istanza
+     */
+    private $id;
 
     /**
-     * \fn		string getObjectId()
-     * \brief	Return the objectId value
-     * \return	string
+     * @var date data creazione istanza
      */
-    public function getObjectId() {
-	return $this->objectId;
+    private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
+    private $updatedat;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
+    private $active;
+
+    /**
+     * @var int id dell'album associato
+     */
+    private $album;
+
+    /**
+     * @var int id del comment associato
+     */
+    private $comment;
+
+    /**
+     * @var int numero di commenti
+     */
+    private $commentcounter;
+
+    /**
+     * @var int indice di gradimento
+     */
+    private $counter;
+
+    /**
+     * @var int id del event associato
+     */
+    private $event;
+
+    /**
+     * @var int id dell'utente che fa upload dell'album
+     */
+    private $fromuser;
+
+    /**
+     * @var int id dell image associatas
+     */
+    private $image;
+
+    /**
+     * @var float latitudine
+     */
+    private $latitude;
+
+    /**
+     * @var float longitudine
+     */
+    private $longitude;
+
+    /**
+     * @var int contatore di azioni love
+     */
+    private $lovecounter;
+
+    /**
+     * @var int id del record associato
+     */
+    private $record;
+
+    /**
+     * @var int contatore di azioni share
+     */
+    private $sharecounter;
+
+    /**
+     * @var int id della song associata
+     */
+    private $song;
+
+    /**
+     * @var array di tag (int)
+     */
+    private $tag;
+
+    /**
+     * @var string testo del comment
+     */
+    private $text;
+
+    /**
+     * @var string testo del titolo (solo per review)
+     */
+    private $title;
+
+    /**
+     * @var int id del toser
+     */
+    private $touser;
+
+    /**
+     * @var string tipo di istanza di comment C = comment, P = post, M = message, RE = reviewEvent, RR = revieRecord
+     */
+    private $type;
+
+    /**
+     * @var int id del video associato
+     */
+    private $video;
+
+    /**
+     * @var int voto (valido solo in caso di review)
+     */
+    private $vote;
+
+    /**
+     * Return the id value
+     * @return	int
+     */
+    public function getId() {
+	return $this->id;
     }
 
     /**
-     * \fn		BOOL getActive()
-     * \brief	Return the active valure
-     * \return	BOOL
+     * Return the Comment creation date
+     * @return	DateTime
+     */
+    public function getCreatedat() {
+	return $this->createdat;
+    }
+
+    /**
+     * Return the Comment modification date
+     * @return	DateTime
+     */
+    public function getUpdatedat() {
+	return $this->updatedat;
+    }
+
+    /**
+     * Return the active valure
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
     }
 
     /**
-     * \fn		string getAlbum()
-     * \brief	Return the string value objectId to parseAlbum
-     * \return	string
+     * Return the int value id to album
+     * @return	int
      */
     public function getAlbum() {
 	return $this->album;
     }
 
     /**
-     * \fn		string getComment()
-     * \brief	Return the related comment objectId
-     * \return	string
+     * Return the related comment id
+     * @return	int
      */
     public function getComment() {
 	return $this->comment;
     }
 
     /**
-     * \fn		int getCommentCounter()
-     * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * Return the comment counter value (number of comments)
+     * @return	int
      */
-    public function getCommentCounter() {
-	return $this->commentCounter;
+    public function getCommentcounter() {
+	return $this->commentcounter;
     }
 
     /**
-     * \fn		int getCounter()
-     * \brief	Return the counter value
-     * \return	int
+     * Return the counter value
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
     }
 
     /**
-     * \fn		string getEvent()
-     * \brief	Return the related event objectId
-     * \return	string
+     * Return the related event id
+     * @return	int
      */
     public function getEvent() {
 	return $this->event;
     }
 
     /**
-     * \fn		string getFromUser()
-     * \brief	Return the objectId value for the fromUser
-     * \return	string
+     * Return the id value for the fromUser
+     * @return	int
      */
-    public function getFromUser() {
-	return $this->fromUser;
+    public function getFromuser() {
+	return $this->fromuser;
     }
 
     /**
-     * \fn		string getImage()
-     * \brief	Return the related image objectId
-     * \return	string
+     * Return the related image id
+     * @return	int
      */
     public function getImage() {
 	return $this->image;
     }
 
     /**
-     * \fn		geopoint getLocation()
-     * \brief	Return the location  value
-     * \return	geopoint
+     * Return the latitude value
+     * @return	latitude
      */
-    public function getLocation() {
-	return $this->location;
+    public function getLatitude() {
+	return $this->latitude;
     }
 
     /**
-     * \fn		int getLoveCounter()
-     * \brief	Return the int value of loveCounter, counting the love action on the comment
-     * \return	int
+     * Return the longitude value
+     * @return	long
      */
-    public function getLoveCounter() {
-	return $this->loveCounter;
+    public function getLongitude() {
+	return $this->longitude;
     }
 
     /**
-     * \fn		array  getLovers()
-     * \brief	Return the lovers value, array of objectId to istances of the _User, people who love the comment
-     * \return	array
+     * Return the int value of loveCounter, counting the love action on the comment
+     * @return	int
      */
-    public function getLovers() {
-	return $this->lovers;
+    public function getLovecounter() {
+	return $this->lovecounter;
     }
 
     /**
-     * \fn		string getRecord()
-     * \brief	Return the record value objectId
-     * \return	string
+     * Return the record value id
+     * @return	string
      */
     public function getRecord() {
 	return $this->record;
     }
 
     /**
-     * \fn		int getShareCounter()
-     * \brief	Return the counter for sharing action
-     * \return	int
+     * Return the counter for sharing action
+     * @return	int
      */
-    public function getShareCounter() {
-	return $this->shareCounter;
+    public function getSharecounter() {
+	return $this->sharecounter;
     }
 
     /**
-     * \fn		string getSong()
-     * \brief	Return the song value objectId
-     * \return	string
+     * Return the song value id
+     * @return	int
      */
     public function getSong() {
 	return $this->song;
     }
 
     /**
-     * \fn		array getTags()
-     * \brief	Return the tags value, array of string to categorize the comment
-     * \return	array
+     * Return the tags value
+     * @return	array of int
      */
-    public function getTags() {
-	return $this->tags;
+    public function getTag() {
+	return $this->tag;
     }
 
     /**
-     * \fn		string getText()
-     * \brief	Return the text value
-     * \return	string
+     * Return the text value
+     * @return	string
      */
     public function getText() {
 	return $this->text;
     }
 
     /**
-     * \fn		string getTitle()
-     * \brief	Return the title value, NULL for any type but Review R
-     * \return	array
+     * Return the title value, NULL for any type but Review R
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
     }
 
     /**
-     * \fn		string getToUser()
-     * \brief	Return the toUser value, objectId
-     * \return	string
+     * Return the toUser value, id
+     * @return	int
      */
-    public function getToUser() {
-	return $this->toUser;
+    public function getTouser() {
+	return $this->touser;
     }
 
     /**
-     * \fn		string getType()
-     * \brief	Return the type value
-     * \return	string
+     * Return the type value
+     * @return	string
      */
     public function getType() {
 	return $this->type;
     }
 
     /**
-     * \fn		string getVideo()
-     * \brief	Return the video value objectId
-     * \return	string
+     * Return the video value id
+     * @return	string
      */
     public function getVideo() {
 	return $this->video;
     }
 
     /**
-     * \fn		int getVote()
-     * \brief	Return the vote, from 1 to 5
-     * \return	int
+     * Return the vote, from 1 to 5
+     * @return	int
      */
     public function getVote() {
 	return $this->vote;
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
-     * \brief	Return the Comment creation date
-     * \return	DateTime
+     * Sets the id value
+     * @param	int object id
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function setId($id) {
+	$this->id = $id;
     }
 
     /**
-     * \fn		DateTime getUpdatedAt()
-     * \brief	Return the Comment modification date
-     * \return	DateTime
+     * Sets the Comment creation date
+     * @param	DateTime $createdat date of creation
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function setCreatedat($createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn		parseACL getACL()
-     * \brief	Return the parseACL object representing the Comment ACL 
-     * \return	parseACL
+     * Sets the Comment modification date
+     * @param	DateTime $updatedat date of last update
      */
-    public function getACL() {
-	return $this->ACL;
+    public function setUpdatedat($updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
-     * \fn		void setObjectId($objectId)
-     * \brief	Sets the objectId value
-     * \param	string
-     */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
-    }
-
-    /**
-     * \fn		void setActive($active)
-     * \brief	Sets the active value
-     * \param	BOOL
+     * Sets the active value
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
     }
 
     /**
-     * \fn		void setAlbum($album)
-     * \brief	Sets the album value
-     * \param	string
+     * Sets the album value
+     * @param	int $album album id
      */
     public function setAlbum($album) {
 	$this->album = $album;
     }
 
     /**
-     * \fn		void setComment($comment)
-     * \brief	Sets the comment value
-     * \param	string
+     * Sets the comment value
+     * @param	int $comment comment id
      */
     public function setComment($comment) {
 	$this->comment = $comment;
     }
 
     /**
-     * \fn		void setCommentCounter($commentCounter)
-     * \brief	Sets the commnetCounter value
-     * \param	int
+     * Sets the commnetCounter value
+     * @param	int $commentcounter numero di commenti
      */
-    public function setCommentCounter($commentCounter) {
-	$this->commentCounter = $commentCounter;
+    public function setCommentcounter($commentcounter) {
+	$this->commentcounter = $commentcounter;
     }
 
     /**
-     * \fn		void setCounter($counter)
-     * \brief	Sets the counter value
-     * \param	int
+     * Sets the counter value
+     * @param	int $counter counter di gradimento media
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
     }
 
     /**
-     * \fn		void setEvent($event)
-     * \brief	Sets the event objectId value
-     * \param	string
+     * Sets the event id value
+     * @param	int $event event id
      */
     public function setEvent($event) {
 	$this->event = $event;
     }
 
     /**
-     * \fn		void setFromUser($fromUser))
-     * \brief	Sets the fromUser value,pointer to ParseUser
-     * \param	string
+     * Sets the fromUser value
+     * @param	int $fromuser fromuser id
      */
-    public function setFromUser($fromUser) {
-	$this->fromUser = $fromUser;
+    public function setFromuser($fromuser) {
+	$this->fromuser = $fromuser;
     }
 
     /**
-     * \fn		void setImage($image)
-     * \brief	Sets the image objectId value
-     * \param	string
+     * Sets the image id value
+     * @param	int $image image id
      */
     public function setImage($image) {
 	$this->image = $image;
     }
 
     /**
-     * \fn		void setLocation($location)
-     * \brief	Sets the location value
-     * \param	parseGeopoint
+     * Sets the latitude value
+     * @param	float $latitude latitude
      */
-    public function setLocation($location) {
-	$this->location = $location;
+    public function setLatitude($latitude) {
+	$this->latitude = $latitude;
     }
 
     /**
-     * \fn		void setLoveCounter($loveCounter)
-     * \brief	Sets the loveCounter value
-     * \param	int
+     * Sets the longitude value
+     * @param	float $longitude longitude
      */
-    public function setLoveCounter($loveCounter) {
-	$this->loveCounter = $loveCounter;
+    public function setLongitude($longitude) {
+	$this->longitude = $longitude;
     }
 
     /**
-     * \fn		void setLovers($lovers)
-     * \brief	Sets the lovers value,array of pointer to ParseUser
-     * \param	array
+     * Sets the loveCounter value
+     * @param	int $lovecounter number of love actions
      */
-    public function setLovers($lovers) {
-	$this->lovers = $lovers;
+    public function setLovecounter($lovecounter) {
+	$this->lovecounter = $lovecounter;
     }
 
     /**
-     * \fn		void setRecord($record)
-     * \brief	Sets the record objectId value
-     * \param	string
+     * Sets the record id value
+     * @param	int $record record id
      */
     public function setRecord($record) {
 	$this->record = $record;
     }
 
     /**
-     * \fn		void setCounter($shareCounter)
-     * \brief	Sets the shareCounter value
-     * \param	int
+     * Sets the sharecounter value
+     * @param	int $sharecounter number of share actions
      */
-    public function setShareCounter($shareCounter) {
-	$this->shareCounter = $shareCounter;
+    public function setSharecounter($sharecounter) {
+	$this->sharecounter = $sharecounter;
     }
 
     /**
-     * \fn		void setSong($song)
-     * \brief	Sets the song objectId value
-     * \param	string
+     * Sets the song id value
+     * @param	int $song song id
      */
     public function setSong($song) {
 	$this->song = $song;
     }
 
     /**
-     * \fn		void setTags($tags)
-     * \brief	Sets the tags value,array of strings
-     * \param	array
+     * Sets the tags value
+     * @param	array $tag ids of tags
      */
-    public function setTags($tags) {
-	$this->tags = $tags;
+    public function setTag($tag) {
+	$this->tag = $tag;
     }
 
     /**
-     * \fn		void setText($text)
-     * \brief	Sets the text value
-     * \param	string
+     * Sets the text value
+     * @param	string $text text for every kind of comment instance
      */
     public function setText($text) {
 	$this->text = $text;
     }
 
     /**
-     * \fn		void setTitle($title)
-     * \brief	Sets the title
-     * \param	string
+     * Sets the title
+     * @param	string $title title of the review, null in other cases
      */
     public function setTitle($title) {
 	$this->title = $title;
     }
 
     /**
-     * \fn		void setToUser($toUser)
-     * \brief	Sets the toUser objectId value
-     * \param	string
+     * Sets the toUser id value
+     * @param	int $touser touser id
      */
-    public function setToUser($toUser) {
-	$this->toUser = $toUser;
+    public function setTouser($touser) {
+	$this->touser = $touser;
     }
 
     /**
-     * \fn		void setType($type)
-     * \brief	Sets the type objectId value
-     * \param	string
+     * Sets the type id value
+     * @param	string $type C for comment, P for post, M for message, RE for review event, RR for review record
      */
     public function setType($type) {
 	$this->type = $type;
     }
 
     /**
-     * \fn		void setVideo($video)
-     * \brief	Sets the video objectId value
-     * \param	string
+     * Sets the video id value
+     * @param	int $video video id
      */
     public function setVideo($video) {
 	$this->video = $video;
     }
 
     /**
-     * \fn		void setVote($vote)
-     * \brief	Sets the vote value
-     * \param	int
+     * Sets the vote value
+     * @param int $vote vote for the review
      */
     public function setVote($vote) {
 	$this->vote = $vote;
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
-     * \brief	Sets the Comment creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn		void setUpdatedAt($updatedAt)
-     * \brief	Sets the Comment modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Comment ACL
-     * \param	parseACL
-     */
-    public function setACL($ACL) {
-	$this->ACL = $ACL;
-    }
-
-    /**
-     * \fn		string __toString()
-     * \brief	Return a printable string representing the Comment object
-     * \return	string
+     * Return a printable string representing the Album object
+     * @return	string
      */
     public function __toString() {
 	$string = '';
-
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-	if (is_null($this->getActive())) {
-	    $string .= '[active] => NULL<br />';
-	} else {
-	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
-	}
-	if ($this->getAlbum() != null) {
-	    $string .= '[album] => ' . $this->getAlbum() . '<br />';
-	} else {
-	    $string .= '[album] => NULL<br />';
-	}
-	if ($this->getComment() != null) {
-	    $string .= '[comment] => ' . $this->getComment() . '<br />';
-	} else {
-	    $string .= '[comment] => NULL<br />';
-	}
-	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$createdAt = new DateTime($this->getCreatedat());
+	$string .= '[createdat] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+	$updatedAt = new DateTime($this->getUpdatedat());
+	$string .= '[updatedat] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[active] => ' . $this->getActive() . '<br />';
+	$string .= '[album] => ' . $this->getAlbum() . '<br />';
+	$string .= '[comment] => ' . $this->getComment() . '<br />';
+	$string .= '[commentcounter] => ' . $this->getCommentcounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
-	if ($this->getEvent() != null) {
-	    $string .= '[event] => ' . $this->getEvent() . '<br />';
-	} else {
-	    $string .= '[event] => NULL<br />';
-	}
-	if ($this->getFromUser() != null) {
-	    $string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
-	} else {
-	    $string .= '[fromUser] => NULL<br />';
-	}
-	if ($this->getImage() != null) {
-	    $string .= '[image] => ' . $this->getImage() . '<br />';
-	} else {
-	    $string .= '[image] => NULL<br />';
-	}
-	if (($geopoint = $this->getLocation()) != null) {
-	    $string .= '[location] => ' . $geopoint->location['latitude'] . ', ' . $geopoint->location['longitude'] . '<br />';
-	} else {
-	    $string .= '[location] => NULL<br />';
-	}
-	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-	if (count($this->getLovers()) != 0) {
-	    foreach ($this->getLovers() as $lovers) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[lovers] => ' . $lovers . '<br />';
-	    }
-	} else {
+	$string .= '[event] => ' . $this->getEvent() . '<br />';
+	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
+	$string .= '[image] => ' . $this->getImage() . '<br />';
+	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
+	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
+	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
+	$string .= '[record] => ' . $this->getRecord() . '<br />';
+	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
+	$string .= '[song] => ' . $this->getSong() . '<br />';
+	foreach ($this->getTag() as $tag) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[lovers] => NULL<br />';
-	}
-	if ($this->getRecord() != null) {
-	    $string .= '[record] => ' . $this->getRecord() . '<br />';
-	} else {
-	    $string .= '[record] => NULL<br />';
-	}
-	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-	if ($this->getSong() != null) {
-	    $string .= '[song] => ' . $this->getSong() . '<br />';
-	} else {
-	    $string .= '[song] => NULL<br />';
-	}
-	if (count($this->getTags()) != 0) {
-	    foreach ($this->getTags() as $tags) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[tags] => ' . $tags . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[tags] => NULL<br />';
+	    $string .= '[tag] => ' . $tag . '<br />';
 	}
 	$string .= '[text] => ' . $this->getText() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
-	if ($this->getToUser() != null) {
-	    $string .= '[toUser] => ' . $this->getToUser() . '<br />';
-	} else {
-	    $string .= '[toUser] => NULL<br />';
-	}
+	$string .= '[touser] => ' . $this->getTouser() . '<br />';
 	$string .= '[type] => ' . $this->getType() . '<br />';
-	if ($this->getVideo() != null) {
-	    $string .= '[video] => ' . $this->getVideo() . '<br />';
-	} else {
-	    $string .= '[video] => NULL<br />';
-	}
+	$string .= '[video] => ' . $this->getVideo() . '<br />';
 	$string .= '[vote] => ' . $this->getVote() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
-	if ($this->getACL() != null) {
-	    foreach ($this->getACL()->acl as $key => $acl) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[ACL] => ' . $key . '<br />';
-		foreach ($acl as $access => $value) {
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-		}
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[ACL] => NULL<br />';
-	}
 	return $string;
     }
 

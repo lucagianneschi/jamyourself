@@ -57,10 +57,10 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 					}
 					$risultato = array_reverse($messageBox->messageArray);
 					foreach ($risultato as $key => $value) {
-					    $data = $value->createdAt->format('d F Y');
-					    $dataFormato = $value->createdAt->format('j n Y');
-					    $time = $value->createdAt->format('H:i');
-					    $time = ucwords(strftime("%H:%M", $value->createdAt->getTimestamp()));
+					    $data = $value->createdat->format('d F Y');
+					    $dataFormato = $value->createdat->format('j n Y');
+					    $time = $value->createdat->format('H:i');
+					    $time = ucwords(strftime("%H:%M", $value->createdat->getTimestamp()));
 					    if ($data != $dataPrec) {
 						?>		
 						<div class="row">
@@ -147,13 +147,13 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 		$userInfoBox = new UserInfoBox();
 		$userInfoBox->init($user);
 		if (is_null($userInfoBox->error)) {
-		    $toUser = $userInfoBox->user;
-		    $toUsername = $toUser->getUsername();
-		    $toType = $toUser->getType();
+		    $touser = $userInfoBox->user;
+		    $toUsername = $touser->getUsername();
+		    $toType = $touser->getType();
 		    if (session_id() == '')
 			session_start();
-		    $currentUser = $_SESSION['currentUser'];
-		    $fromType = $currentUser->getType();
+		    $currentUser = $_SESSION['id'];
+		    $fromType = $_SESSION['type'];
 
 //			if($fromType == 'SPOTTER' || ($fromType != 'SPOTTER' && $toType != 'SPOTTER')){
 		    if (!is_null($toType)) {

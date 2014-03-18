@@ -14,7 +14,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 $title = $event->getTitle();
 $genre = '';
@@ -24,7 +24,7 @@ foreach ($event->getGenre() as $key => $value) {
     $space = ', ';
 }
 $fileManagerService = new FileManagerService();
-$pathImage = $fileManagerService->getEventPhotoPath($event->getFromUser()->getObjectId(), $event->getImage());
+$pathImage = $fileManagerService->getEventPhotoPath($event->getFromuser()->getId(), $event->getCover());
 ?>
 <div class="row" id="profile-userInfo">
     <div class="large-12 columns">

@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Daniele Caldelli
- *  \version		1.0
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
+ *  @author		Daniele Caldelli
+ *  @version		0.3
+ *  @since		2013
+ *  @copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Question
  *  \details		Classe dedicata alle domande e alle risposte tra utenti e amministrazione
  *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+ *  @warning
+ *  @bug
+ *  @todo
  *
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Question">Descrizione della classe</a>
  *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Question">API</a>
@@ -19,7 +19,9 @@
 
 class Question {
 
-    private $objectId;
+    private $id;
+    private $createdat;
+    private $updatedat;
     private $answer;
     private $mailFrom;
     private $mailTo;
@@ -27,23 +29,38 @@ class Question {
     private $replied;
     private $subject;
     private $text;
-    private $createdAt;
-    private $updatedAt;
-    private $ACL;
 
     /**
-     * \fn		string getObjectId()
-     * \brief	Return the objectId value
-     * \return	string
+     * \fn		string getId()
+     * \brief	Return the id value
+     * @return	string
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
+    }
+
+    /**
+     * \fn		DateTime getCreatedat()
+     * \brief	Return the Question creation date
+     * @return	DateTime
+     */
+    public function getCreatedat() {
+	return $this->createdat;
+    }
+
+    /**
+     * \fn		DateTime getUpdatedat()
+     * \brief	Return the Question modification date
+     * @return	DateTime
+     */
+    public function getUpdatedat() {
+	return $this->updatedat;
     }
 
     /**
      * \fn		string getAnswer()
      * \brief	Return the answer value
-     * \return	string
+     * @return	string
      */
     public function getAnswer() {
 	return $this->answer;
@@ -52,7 +69,7 @@ class Question {
     /**
      * \fn		string getMailFrom()
      * \brief	Return the mailFrom value
-     * \return	string
+     * @return	string
      */
     public function getMailFrom() {
 	return $this->mailFrom;
@@ -61,7 +78,7 @@ class Question {
     /**
      * \fn		string getMailTo()
      * \brief	Return the mailTo value
-     * \return	string
+     * @return	string
      */
     public function getMailTo() {
 	return $this->mailTo;
@@ -70,7 +87,7 @@ class Question {
     /**
      * \fn		string getName()
      * \brief	Return the name value
-     * \return	string
+     * @return	string
      */
     public function getName() {
 	return $this->name;
@@ -79,7 +96,7 @@ class Question {
     /**
      * \fn		BOOL getReplied()
      * \brief	Return the replied value
-     * \return	BOOL
+     * @return	BOOL
      */
     public function getReplied() {
 	return $this->replied;
@@ -88,7 +105,7 @@ class Question {
     /**
      * \fn		string getSubject()
      * \brief	Return the subject value
-     * \return	string
+     * @return	string
      */
     public function getSubject() {
 	return $this->subject;
@@ -97,52 +114,43 @@ class Question {
     /**
      * \fn		string getText()
      * \brief	Return the text value
-     * \return	string
+     * @return	string
      */
     public function getText() {
 	return $this->text;
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
-     * \brief	Return the Question creation date
-     * \return	DateTime
+     * \fn		void setId($id)
+     * \brief	Sets the id value
+     * @param	string
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function setId($id) {
+	$this->id = $id;
     }
 
     /**
-     * \fn		DateTime getUpdatedAt()
-     * \brief	Return the Question modification date
-     * \return	DateTime
+     * \fn		void setCreatedat($createdat)
+     * \brief	Sets the Question creation date
+     * @param	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function setCreatedat($createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn		parseACL getACL()
-     * \brief	Return the parseACL object representing the Question ACL 
-     * \return	parseACL
+     * \fn		void setUpdatedat($updatedat)
+     * \brief	Sets the Question modification date
+     * @param	DateTime
      */
-    public function getACL() {
-	return $this->ACL;
-    }
-
-    /**
-     * \fn		void setObjectId($objectId)
-     * \brief	Sets the objectId value
-     * \param	string
-     */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setUpdatedat($updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
      * \fn		void setAnswer($value)
      * \brief	Sets the answer value
-     * \param	string
+     * @param	string
      */
     public function setAnswer($value) {
 	$this->answer = $value;
@@ -151,7 +159,7 @@ class Question {
     /**
      * \fn		void setMailFrom($value)
      * \brief	Sets the mailFrom value
-     * \param	string
+     * @param	string
      */
     public function setMailFrom($value) {
 	$this->mailFrom = $value;
@@ -160,7 +168,7 @@ class Question {
     /**
      * \fn		void setMailTo($value)
      * \brief	Sets the mailTo value
-     * \param	string
+     * @param	string
      */
     public function setMailTo($value) {
 	$this->mailTo = $value;
@@ -169,7 +177,7 @@ class Question {
     /**
      * \fn		void setName($value)
      * \brief	Sets the name value
-     * \param	string
+     * @param	string
      */
     public function setName($value) {
 	$this->name = $value;
@@ -178,7 +186,7 @@ class Question {
     /**
      * \fn		void setReplied($value)
      * \brief	Sets the replied value
-     * \param	BOOL
+     * @param	BOOL
      */
     public function setReplied($value) {
 	$this->replied = $value;
@@ -187,7 +195,7 @@ class Question {
     /**
      * \fn		void setSubject($value)
      * \brief	Sets the subject value
-     * \param	string
+     * @param	string
      */
     public function setSubject($value) {
 	$this->subject = $value;
@@ -196,47 +204,24 @@ class Question {
     /**
      * \fn		void setText($value)
      * \brief	Sets the text value
-     * \param	string
+     * @param	string
      */
     public function setText($value) {
 	$this->text = $value;
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
-     * \brief	Sets the Question creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn		void setUpdatedAt($updatedAt)
-     * \brief	Sets the Question modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Question ACL
-     * \param	parseACL
-     */
-    public function setACL($ACL) {
-	$this->ACL = $ACL;
-    }
-
-    /**
      * \fn		string __toString()
      * \brief	Return a printable string representing the Question object
-     * \return	string
+     * @return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$createdAt = new DateTime($this->getCreatedat());
+	$string .= '[createdat] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+	$updatedAt = new DateTime($this->getUpdatedat());
+	$string .= '[updatedat] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[answer] => ' . $this->getAnswer() . '<br />';
 	$string .= '[mailFrom] => ' . $this->getMailFrom() . '<br />';
 	$string .= '[mailTo] => ' . $this->getMailTo() . '<br />';
@@ -244,30 +229,6 @@ class Question {
 	$string .= '[replied] => ' . $this->getReplied() . '<br />';
 	$string .= '[subject] => ' . $this->getSubject() . '<br />';
 	$string .= '[text] => ' . $this->getText() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
-	if ($this->getACL() != null) {
-	    foreach ($this->getACL()->acl as $key => $acl) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[ACL] => ' . $key . '<br />';
-		foreach ($acl as $access => $value) {
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-		}
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[ACL] => NULL<br />';
-	}
 	return $string;
     }
 

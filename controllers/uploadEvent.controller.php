@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Stefano Muscas
- * \version		1.0
- * \date		2013
- * \copyright           Jamyourself.com 2013
+ * @author		Stefano Muscas
+ * @version		1.0
+ * @since		2013
+ * @copyright           Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di upload event 
  * \details		si collega al form di upload di un evet, effettua controlli, scrive su DB
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		Fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		Fare API su Wiki
  */
 
 if (!defined('ROOT_DIR'))
@@ -23,9 +23,8 @@ require_once CLASSES_DIR . 'userParse.class.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CONTROLLERS_DIR . 'utilsController.php';
-require_once BOXES_DIR . "utilsBox.php";
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'utils.service.php';
 
 /**
  * \brief	UploadEventController class 
@@ -83,7 +82,7 @@ class UploadEventController extends REST {
 		$this->response(array('status' => $controllers['NOEVENTADDRESS']), 400);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
-	    $userId = $currentUser->getObjectId();
+	    $userId = $currentUser->getId();
 	    require_once CLASSES_DIR . 'event.class.php';
 	    $event = new Event();
 	    $event->setActive(true);
@@ -98,25 +97,23 @@ class UploadEventController extends REST {
 	    if (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
 		$event->setFeaturing($this->request['jammers']);
 	    }
-	    $event->setFromUser($userId);
+	    $event->setFromuser($userId);
 	    $imgInfo = getCroppedImages($this->request);
 	    $event->setImage($imgInfo['picture']);
 	    $event->setThumbnail($imgInfo['thumbnail']);
 	    $event->setInvited(null);
 	    $event->setLocationName($this->request['venue']);
-
 	    require_once SERVICES_DIR . 'geocoder.service.php';
 	    $infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
-	    $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
-	    $event->setLocation($parseGeoPoint);
+	    $event->setLatitude($infoLocation["latitude"]);
+	    $event->setLongitude($infoLocation["longitude"]);
 	    $event->setAddress($infoLocation["address"] . ", " . $infoLocation['number']);
 	    $event->setCity($infoLocation["city"]);
-	    $event->setLoveCounter(0);
-	    $event->setLovers(array());
+	    $event->setLovecounter(0);
 	    $event->setRefused(null);
-	    $event->setReviewCounter(0);
-	    $event->setShareCounter(0);
-	    $event->setTags($this->request['tags']);
+	    $event->setReviewcounter(0);
+	    $event->setSharecounter(0);
+	    $event->setTag($this->request['tags']);
 	    $event->setGenre($this->request['music']);
 	    $event->setTitle($this->request['title']);
 	    require_once CLASSES_DIR . 'eventParse.class.php';
@@ -133,50 +130,26 @@ class UploadEventController extends REST {
 		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $eventSave->getImage(), $imageSrc);
 	    }
 	    unset($_SESSION['currentUserFeaturingArray']);
-	    $activity = $this->createActivity($userId, $eventSave->getObjectId());
+	    $activity = $this->createActivity($userId, $eventSave->getId());
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
 	    $activitySave = $activityP->saveActivity($activity);
 	    if ($activitySave instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackUploadEventController($eventSave->getObjectId());
+		$message = rollbackUploadEventController($eventSave->getId());
 		$this->response(array('status' => $message), 503);
 	    }
-	    $this->response(array('status' => $controllers['EVENTCREATED'], "id" => $eventSave->getObjectId()), 200);
+	    $this->response(array('status' => $controllers['EVENTCREATED'], "id" => $eventSave->getId()), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
 
-    /**
-     * \fn	createActivity($fromUser, $eventId)
-     * \brief   funzione per la creazione dell'activity legata alla creazione dell'event
-     */
-    private function createActivity($fromUser, $eventId) {
-	require_once CLASSES_DIR . 'activity.class.php';
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setAlbum(null);
-	$activity->setCounter(0);
-	$activity->setEvent($eventId);
-	$activity->setFromUser($fromUser);
-	$activity->setImage(null);
-	$activity->setPlaylist(null);
-	$activity->setQuestion(null);
-	$activity->setRead(true);
-	$activity->setRecord(null);
-	$activity->setSong(null);
-	$activity->setStatus("A");
-	$activity->setToUser(null);
-	$activity->setType("EVENTCREATED");
-	$activity->setVideo(null);
-	return $activity;
-    }
 
     /**
      * \fn	getDate($day, $hours)
      * \brief   funzione per formattazione della data
-     * \todo    check su utilizzo funzioni della utilsClass
+     * @todo    check su utilizzo funzioni della utilsClass
      */
     private function getDate($day, $hours) {
 	try {
@@ -195,7 +168,7 @@ class UploadEventController extends REST {
     /**
      * \fn	getFeaturingJSON() 
      * \brief   funzione per il recupero dei featuring per l'event
-     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+     * @todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
      */
     public function getFeaturingJSON() {
 	try {

@@ -1,1 +1,52 @@
-<?php/* ! \par		Info Generali: * \author		Luca Gianneschi * \version		1.0 * \date		2013 * \copyright		Jamyourself.com 2013 * \par			Info Classe: * \brief		box caricamento info utente * \details		Recupera le informazioni dell'utente, le inserisce in un array da passare alla view * \par			Commenti: * \warning * \bug * \todo		 * */if (!defined('ROOT_DIR'))    define('ROOT_DIR', '../');require_once ROOT_DIR . 'config.php';require_once CLASSES_DIR . 'user.class.php';require_once CLASSES_DIR . 'userParse.class.php';/** * \brief	UserInfoBox class  * \details	box class to pass info to the view  */class UserInfoBox {    public $user;    public $error;    /**     * \fn	initForPersonalPage($objectId)     * \brief	Init InfoBox instance for Personal Page     * \param	$objectId for user that owns the page     */    public function init($objectId) {	$userParse = new UserParse();	$user = $userParse->getUser($objectId);	if ($user instanceof Error) {	    $this->error = $user->getErrorMessage();	    $this->user = null;	    return;	} else {	    $this->error = null;	    $this->user = $user;	}    }}?>
+<?php
+
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'select.service.php';
+
+/**
+ * UserInfoBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
+ */
+class UserInfoBox {
+
+    /**
+     * @var string stringa di errore
+     */
+    public $error = null;
+
+    /**
+     * @var user istanza di uno user
+     */
+    public $user = null;
+
+    /**
+     * Init InfoBox instance for Personal Page
+     * @param	int $id for user that owns the page
+     */
+    public function init($id) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
+	$user = selectUsers($connection, $id);
+	if ($user === false) {
+	    $this->error = 'Errore nella query';
+	}
+	$this->user = $user;
+    }
+
+}
+
+?>

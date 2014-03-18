@@ -7,30 +7,27 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
-$objectId = $_POST['objectId'];
+$id = $_POST['id'];
 $relation = $_POST['relation'];
 $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
 $tot = intval($_POST['tot']);
+$connectionService = new ConnectionService();	
+$arrayRelation = getRelatedNodes($connectionService,'user', $id, 'user', strtoupper($relation));
 
-$arrayRelation = getRelatedUsers($objectId, $relation, '_User', false, $limit, $skip);
+
 
 if ($relation == 'friendship')
     $rel = 'friends';
 else
     $rel = $relation;
 
-if ($arrayRelation instanceof Error) {
-    ?>
-
-    <h3 class="red">Error</h3>
-
-<?php } elseif (is_null($arrayRelation) || count($arrayRelation) == 0) {
+if (is_null($arrayRelation) || count($arrayRelation) == 0) {
     ?>
 
     <div class="grey "><?php echo $views[$rel]['nodata'] ?></div>
@@ -39,7 +36,14 @@ if ($arrayRelation instanceof Error) {
 } else {
     $count = count($arrayRelation);
     $index = 0;
-    foreach ($arrayRelation as $value) {
+	$relation = Array();
+	$where = array();
+	$connection = $connectionService->connect();
+    foreach ($arrayRelation as $id) {    		    	
+		$user = selectUsers($connection,$id);
+		array_push($relation, $user[$id]);
+	}
+    foreach ($relation as $value) {
 	switch ($value->getType()) {
 	    case 'JAMMER':
 		$defaultThum = DEFTHUMBJAMMER;
@@ -52,16 +56,16 @@ if ($arrayRelation instanceof Error) {
 		break;
 	}
 	$fileManagerService = new FileManagerService();
-	$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+	$pathPicture = $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail());
 	if ($index % 3 == 0) {
 	    ?> <div class="row">	<?php } ?>
 	    <div class="small-4 columns">
-		<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+		<a href="profile.php?user=<?php echo $value->getId(); ?>">
 		    <div class="box-membre">
 			<div class="row">
 			    <div  class="small-3 columns hide-for-medium-down">
 				<div class="icon-header">
-				    <img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
+				    <img src="<?php echo $pathPicture . $value->getThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 				</div>
 			    </div>
 			    <div  class="small-9 columns">

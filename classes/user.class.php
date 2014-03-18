@@ -1,1162 +1,915 @@
 <?php
 
-/* ! \par 		Info Generali:
- *  \author		Stefano Muscas
- *  \version		1.0
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		User Class
- *  \details		Classe utente
- *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+/**
+ * User Class
  *
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-User">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-User">API</a>
+ * @author		Stefano Muscas
+ * @author		Daniele Caldelli
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-User
  */
-
 class User {
 
-    private $objectId;
-    private $username;
+    /**
+     * @var int id istanza
+     */
+    private $id;
+
+    /**
+     * @var date data creazione istanza
+     */
+    private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
+    private $updatedat;
+
+    /**
+     * @var string di password (con criptazione)
+     */
     private $password;
-    private $authData;
-    private $emailVerified;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
     private $active;
+
+    /**
+     * @var string di indirizzo dello user
+     */
     private $address;
+
+    /**
+     * @var string di indirizzo dell'avatar
+     */
+    private $avatar;
+
+    /**
+     * @var string di indirizzo del background
+     */
     private $background;
-    private $badge;
-    private $birthDay;
+
+    /**
+     * @var string data nascita user
+     */
+    private $birthday;
+
+    /**
+     * @var string città dello user
+     */
     private $city;
-    private $collaboration;
-    private $collaborationCounter;
+
+    /**
+     * @var int numero di collaboratori dello user (solo JAMMER e VENUE)
+     */
+    private $collaborationcounter;
+
+    /**
+     * @var string country dello user
+     */
     private $country;
+
+    /**
+     * @var string descrizione dello user
+     */
     private $description;
+
+    /**
+     * @var string email dello user
+     */
     private $email;
-    private $facebookId;
-    private $fbPage;
+
+    /**
+     * @var string id facebook dello user
+     */
+    private $facebookid;
+
+    /**
+     * @var string pagina facebook dello user
+     */
+    private $facebookpage;
+
+    /**
+     * @var string nome dello user
+     */
     private $firstname;
-    private $followers;
-    private $followersCounter;
-    private $following;
-    private $followingCounter;
-    private $friendship;
-    private $friendshipCounter;
-    private $geoCoding;
-    private $googlePlusPage;
-    private $jammerCounter;
-    private $jammerType;
+
+    /**
+     * @var int numero di followers dello user (solo JAMMER e VENUE)
+     */
+    private $followercounter;
+
+    /**
+     * @var int numero di following dello user (solo SPOTTER)
+     */
+    private $followingcounter;
+
+    /**
+     * @var int numero di friends dello user (solo SPOTTER)
+     */
+    private $friendshipcounter;
+
+    /**
+     * @var string pagina google+
+     */
+    private $googlepluspage;
+
+    /**
+     * @var int numero di jammer delle relazioni collaboration (JAMMER e VENUE) e followin (SPOTTER)
+     */
+    private $jammercounter;
+
+    /**
+     * @var string tipo di jammer (BAND/SINGOLO)
+     */
+    private $jammertype;
+
+    /**
+     * @var string cognome dell'utente
+     */
     private $lastname;
+
+    /**
+     * @var float latitudine
+     */
+    private $latitude;
+
+    /**
+     * @var int contatore punti
+     */
     private $level;
-    private $levelValue;
-    private $localType;
-    private $loveSongs;
-    private $members;
-    private $music;
+
+    /**
+     * @var int levelvalue of the user -> 1 to 5
+     */
+    private $levelvalue;
+
+    /**
+     * @var float longitudine
+     */
+    private $longitude;
+
+    /**
+     * @var array di string
+     */
+    private $member;
+
+    /**
+     * @var int 1 = PREMIUM, 0 = STANDARD
+     */
     private $premium;
-    private $premiumExpirationDate;
-    private $profilePicture;
-    private $profileThumbnail;
+
+    /**
+     * @var DateTime of the expitation if the user is PREMIUM
+     */
+    private $premiumexpirationdate;
+
+    /**
+     * @var string path per il thumb dell'utente
+     */
+    private $thumbnail;
+
+    /**
+     * @var array of ids of setting
+     */
     private $settings;
+
+    /**
+     * @var string per il sesso dell'utente M/F/ND
+     */
     private $sex;
-    private $twitterPage;
+
+    /**
+     * @var string per la pagina di twitter
+     */
+    private $twitterpage;
+
+    /**
+     * @var string JAMMER/VENUE/SPOTTER
+     */
     private $type;
-    private $venueCounter;
+
+    /**
+     * @var string username
+     */
+    private $username;
+
+    /**
+     * @var int numero di venue delle relazioni collaboration (JAMMER e VENUE) e followin (SPOTTER)
+     */
+    private $venuecounter;
+
+    /**
+     * @var string link sito web utente
+     */
     private $website;
-    private $youtubeChannel;
-    private $createdAt;
-    private $updatedAt;
-    private $ACL;
-    private $sessionToken;
 
     /**
-     * \fn		void __construct($type)
-     * \brief	The constructor instantiate the type of the User
-     * \param	$type the string which represent the User type (VENUE|JAMMER|SPOTTER)
+     * @var string cancale youtube
      */
-    public function __construct($type) {
-	if (is_null($type) || !in_array($type, array('VENUE', 'JAMMER', 'SPOTTER'))) {
-	    $e = new Exception('User Class type must be defined');
-	    throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-	    throw $e;
-	} else {
-	    $this->setType($type);
-	}
+    private $youtubechannel;
+
+    /**
+     * Return the id value
+     * @return	string
+     */
+    public function getId() {
+	return $this->id;
     }
 
     /**
-     * \fn		string getObjectId()
-     * \brief	Return the objectId value
-     * \return	string
+     * Return the User creation date
+     * @return	DateTime
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getCreatedat() {
+	return $this->createdat;
     }
 
     /**
-     * \fn		string getUsername()
-     * \brief	Return the username of the User
-     * \return	string
+     * Return the User modification date
+     * @return	DateTime
      */
-    public function getUsername() {
-	return $this->username;
+    public function getUpdatedat() {
+	return $this->updatedat;
     }
 
     /**
-     * \fn		string getPassword()
-     * \brief	Return the password of the User
-     * \return	string
-     */
-    public function getPassword() {
-	return $this->password;
-    }
-
-    /**
-     * \fn		string getAuthData()
-     * \brief	Return the authorization data of the User
-     * \return	string
-     * \warning	the function is not used yet
-     */
-    public function getAuthData() {
-	return $this->authData;
-    }
-
-    /**
-     * \fn		string getEmailVerified()
-     * \brief	Return the email verification of the User
-     * \return	string
-     * \warning	the function is not used yet
-     */
-    public function getEmailVerified() {
-	return $this->emailVerified;
-    }
-
-    /**
-     * \fn		boolean getActive()
-     * \brief	Return the activation state of the User
-     * \return	boolean
+     * Return the activation state of the User
+     * @return	boolean
      */
     public function getActive() {
 	return $this->active;
     }
 
     /**
-     * \fn		string getAddress()
-     * \brief	Return the address of the User
-     * \return	string
+     * Return the address of the User
+     * @return	string
      */
     public function getAddress() {
 	return $this->address;
     }
 
     /**
-     * \fn		string getBackground()
-     * \brief	Return the background link of the User
-     * \return	string
+     * Return the profile picture link of the User
+     * @return	string
+     */
+    public function getAvatar() {
+	return $this->avatar;
+    }
+
+    /**
+     * Return the background link of the User
+     * @return	string
      */
     public function getBackground() {
 	return $this->background;
     }
 
     /**
-     * \fn	array getBadge()
-     * \brief	Return the badge array 
-     * \return	array
+     * Return the birthday of the User represented by a string with format YYYY-MM-DD
+     * @return	string
      */
-    public function getBadge() {
-	return $this->badge;
+    public function getBirthday() {
+	return $this->birthday;
     }
 
     /**
-     * \fn		string getBirthDay()
-     * \brief	Return the birthday of the User represented by a string with format YYYY-MM-DD
-     * \return	string
-     */
-    public function getBirthDay() {
-	return $this->birthDay;
-    }
-
-    /**
-     * \fn		string getCity()
-     * \brief	Return the city of the User
-     * \return	string
+     * Return the city of the User
+     * @return	string
      */
     public function getCity() {
 	return $this->city;
     }
 
     /**
-     * \fn		array getCollaboration()
-     * \brief	Return an array of objectId of the User related with the User
-     * \return	array
+     * Return the number of User in collaboration with
+     * @return	number
      */
-    public function getCollaboration() {
-	return $this->collaboration;
+    public function getCollaborationcounter() {
+	return $this->collaborationcounter;
     }
 
     /**
-     * \fn		number getCollaborationCounter()
-     * \brief	Return the number of User in collaboration with
-     * \return	number
-     */
-    public function getCollaborationCounter() {
-	return $this->collaborationCounter;
-    }
-
-    /**
-     * \fn		string getCountry()
-     * \brief	Return the country of the User
-     * \return	string
+     * Return the country of the User
+     * @return	string
      */
     public function getCountry() {
 	return $this->country;
     }
 
     /**
-     * \fn		string getDescription()
-     * \brief	Return the description of the User
-     * \return	string
+     * Return the description of the User
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
     }
 
     /**
-     * \fn		string getEmail()
-     * \brief	Return the email of the User
-     * \return	string
+     * Return the email of the User
+     * @return	string
      */
     public function getEmail() {
 	return $this->email;
     }
 
     /**
-     * \fn		string getFacebookId()
-     * \brief	Return the facebook id of the User
-     * \return	string
+     * Return the facebook id of the User
+     * @return	string
      */
-    public function getFacebookId() {
-	return $this->facebookId;
+    public function getFacebookid() {
+	return $this->facebookid;
     }
 
     /**
-     * \fn		string getFbPage()
-     * \brief	Return the facebook page link of the User
-     * \return	string
+     * Return the facebook page link of the User
+     * @return	string
      */
-    public function getFbPage() {
-	return $this->fbPage;
+    public function getFacebookpage() {
+	return $this->facebookpage;
     }
 
     /**
-     * \fn		string getFirstname()
-     * \brief	Return the firstname of the User
-     * \return	string
+     * Return the firstname of the User
+     * @return	string
      */
     public function getFirstname() {
 	return $this->firstname;
     }
 
     /**
-     * \fn		array getFollowers()
-     * \brief	Return an array of objectId of the User who are following the User
-     * \return	array
+     * Return the number of User followed
+     * @return	number
      */
-    public function getFollowers() {
-	return $this->followers;
+    public function getFollowerscounter() {
+	return $this->followercounter;
     }
 
     /**
-     * \fn		number getLevel()
-     * \brief	Return the number of User followed
-     * \return	number
+     * Return the number of User followed
+     * @return	number
      */
-    public function getFollowersCounter() {
-	return $this->followersCounter;
+    public function getFollowingcounter() {
+	return $this->followingcounter;
     }
 
     /**
-     * \fn		array getFollowing()
-     * \brief	Return an array of objectId of the User related with the User
-     * \return	array
+     * Return the number of User in friendship relation
+     * @return	number
      */
-    public function getFollowing() {
-	return $this->following;
+    public function getFriendshipcounter() {
+	return $this->friendshipcounter;
     }
 
     /**
-     * \fn		number getFollowingCounter()
-     * \brief	Return the number of User followed
-     * \return	number
+     * Return the googlePlus page link of the User
+     * @return	string
      */
-    public function getFollowingCounter() {
-	return $this->followingCounter;
+    public function getGooglepluspage() {
+	return $this->googlepluspage;
     }
 
     /**
-     * \fn		array getFriendship()
-     * \brief	Return an array of objectId of the User related with the User
-     * \return	array
+     * Return the jammer counter, number of Jammer in collaboration
+     * @return	number
      */
-    public function getFriendship() {
-	return $this->friendship;
+    public function getJammercounter() {
+	return $this->jammercounter;
     }
 
     /**
-     * \fn		number getLevel()
-     * \brief	Return the number of User in friendship relation
-     * \return	number
+     * Return the jammer type of the User
+     * @return	string
      */
-    public function getFriendshipCounter() {
-	return $this->friendshipCounter;
+    public function getJammertype() {
+	return $this->jammertype;
     }
 
     /**
-     * \fn		parseGeoPoint getGeoCoding()
-     * \brief	Return the parseGeoPoint object of the User
-     * \return	parseGeoPoint
-     */
-    public function getGeoCoding() {
-	return $this->geoCoding;
-    }
-
-    /**
-     * \fn		string getGooglePlusPage()
-     * \brief	Return the googlePlus page link of the User
-     * \return	string
-     */
-    public function getGooglePlusPage() {
-	return $this->googlePlusPage;
-    }
-
-    /**
-     * \fn		number getJammerCounter()
-     * \brief	Return the jammer counter, number of Jammer in collaboration
-     * \return	number
-     */
-    public function getJammerCounter() {
-	return $this->jammerCounter;
-    }
-
-    /**
-     * \fn		string getJammerType()
-     * \brief	Return the jammer type of the User
-     * \return	string
-     */
-    public function getJammerType() {
-	return $this->jammerType;
-    }
-
-    /**
-     * \fn		string getLastname()
-     * \brief	Return the lastname of the User
-     * \return	string
+     * Return the lastname of the User
+     * @return	string
      */
     public function getLastname() {
 	return $this->lastname;
     }
 
     /**
-     * \fn		number getLevel()
-     * \brief	Return the level of the User
-     * \return	number
+     * Return the latitude value
+     * @return	latitude
+     */
+    public function getLatitude() {
+	return $this->latitude;
+    }
+
+    /**
+     * Return the level of the User
+     * @return	number
      */
     public function getLevel() {
 	return $this->level;
     }
 
     /**
-     * \fn		number getLevelValue()
-     * \brief	Return the level value of the User
-     * \return	number
+     * Return the level value of the User
+     * @return	number
      */
-    public function getLevelValue() {
-	return $this->levelValue;
+    public function getLevelvalue() {
+	return $this->levelvalue;
     }
 
     /**
-     * \fn		string getLocalType()
-     * \brief	Return the local type of the User
-     * \return	string
+     * Return the longitude value
+     * @return	long
      */
-    public function getLocalType() {
-	return $this->localType;
+    public function getLongitude() {
+	return $this->longitude;
     }
 
     /**
-     * \fn		array getLoveSongs()
-     * \brief	Return an array of objectId of the Song related with the User
-     * \return	array
+     * Return the member value
+     * @return	member
      */
-    public function getLoveSongs() {
-	return $this->loveSongs;
+    public function getMember() {
+	return $this->member;
     }
 
     /**
-     * \fn		array getMembers()
-     * \brief	Return an array of objectId of the User related with the User
-     * \return	array
+     * Return the password of the User
+     * @return	string
      */
-    public function getMembers() {
-	return $this->members;
+    public function getPassword() {
+	return $this->password;
     }
 
     /**
-     * \fn		array getMusic()
-     * \brief	Return an array of the type of music preferred by the User
-     * \return	array
-     */
-    public function getMusic() {
-	return $this->music;
-    }
-
-    /**
-     * \fn		boolean getPremium()
-     * \brief	Return if the User has a Premium account
-     * \return	boolean
+     * Return if the User has a Premium account
+     * @return	boolean
      */
     public function getPremium() {
 	return $this->premium;
     }
 
     /**
-     * \fn		DateTime getPremiumExpirationDate()
-     * \brief	Return the expiration date of the premium account of the User
-     * \return	DateTime
+     * Return the expiration date of the premium account of the User
+     * @return	DateTime
      */
-    public function getPremiumExpirationDate() {
-	return $this->premiumExpirationDate;
+    public function getPremiumexpirationdate() {
+	return $this->premiumexpirationdate;
     }
 
     /**
-     * \fn		string getProfilePicture()
-     * \brief	Return the profile picture link of the User
-     * \return	string
+     * Return the thumbnail profile picture link of the User
+     * @return	string
      */
-    public function getProfilePicture() {
-	return $this->profilePicture;
+    public function getThumbnail() {
+	return $this->thumbnail;
     }
 
     /**
-     * \fn		string getProfilePictureFile()
-     * \brief	Return the thumbnail profile picture link of the User
-     * \return	string
-     */
-    public function getProfileThumbnail() {
-	return $this->profileThumbnail;
-    }
-
-    /**
-     * \fn		array getSettings()
-     * \brief	Return an array of the setting of the User
-     * \return	array
+     * Return an array of the setting of the User
+     * @return	array
      */
     public function getSettings() {
 	return $this->settings;
     }
 
     /**
-     * \fn		string getSex()
-     * \brief	Return the sex of the User
-     * \return	string
+     * Return the sex of the User
+     * @return	string
      */
     public function getSex() {
 	return $this->sex;
     }
 
     /**
-     * \fn		string getTwitterPage()
-     * \brief	Return the twitter page link of the User
-     * \return	string
+     * Return the twitter page link of the User
+     * @return	string
      */
-    public function getTwitterPage() {
-	return $this->twitterPage;
+    public function getTwitterpage() {
+	return $this->twitterpage;
     }
 
     /**
-     * \fn		string getType()
-     * \brief	Return the type of the User
-     * \return	string
+     * Return the type of the User
+     * @return	string
      */
     public function getType() {
 	return $this->type;
     }
 
     /**
-     * \fn		number getVenueCounter()
-     * \brief	Return venue counter, number of venue in collaboration
-     * \return	number
+     * Return the username of the User
+     * @return	string
      */
-    public function getVenueCounter() {
-	return $this->venueCounter;
+    public function getUsername() {
+	return $this->username;
     }
 
     /**
-     * \fn		string getWebsite()
-     * \brief	Return the website link of the User
-     * \return	string
+     * Return venue counter, number of venue in collaboration
+     * @return	number
+     */
+    public function getVenuecounter() {
+	return $this->venuecounter;
+    }
+
+    /**
+     * Return the website link of the User
+     * @return	string
      */
     public function getWebsite() {
 	return $this->website;
     }
 
     /**
-     * \fn		string getYoutubeChannel()
-     * \brief	Return the youtube channel link of the User
-     * \return	string
+     * Return the youtube channel link of the User
+     * @return	string
      */
-    public function getYoutubeChannel() {
-	return $this->youtubeChannel;
+    public function getYoutubechannel() {
+	return $this->youtubechannel;
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
-     * \brief	Return the User creation date
-     * \return	DateTime
+     * Sets the id value
+     * @param	string
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function setId($id) {
+	$this->id = $id;
     }
 
     /**
-     * \fn		DateTime getUpdatedAt()
-     * \brief	Return the User modification date
-     * \return	DateTime
+     * Sets the User creation date
+     * @param	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function setUpdatedat(DateTime $updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
-     * \fn		parseACL getACL()
-     * \brief	Return the parseACL object representing the User ACL 
-     * \return	parseACL
+     * Sets the User modification date
+     * @param	DateTime
      */
-    public function getACL() {
-	return $this->ACL;
+    public function setCreatedat(DateTime $createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn		string getSessionToken()
-     * \brief	Return the session token of the User
-     * \return	string
-     */
-    public function getSessionToken() {
-	return $this->sessionToken;
-    }
-
-    /**
-     * \fn		void setObjectId($objectId)
-     * \brief	Sets the objectId value
-     * \param	string
-     */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
-    }
-
-    /**
-     * \fn		void setUsername($username)
-     * \brief	Sets the username value of the User
-     * \param	string
-     */
-    public function setUsername($username) {
-	$this->username = $username;
-    }
-
-    /**
-     * \fn		void setPassword($password)
-     * \brief	Sets the password value of the User
-     * \param	string
-     */
-    public function setPassword($password) {
-	$this->password = $password;
-    }
-
-    /**
-     * \fn		void setAuthData($authData)
-     * \brief	Sets the authorization data of the User
-     * \param	string
-     * \warning	the function is not used yet
-     */
-    public function setAuthData($authData) {
-	$this->authData = $authData;
-    }
-
-    /**
-     * \fn		void setEmailVerified($emailVerified)
-     * \brief	Sets the email verification of the User
-     * \param	string
-     * \warning	the function is not used yet
-     */
-    public function setEmailVerified($emailVerified) {
-	$this->emailVerified = $emailVerified;
-    }
-
-    /**
-     * \fn		void setActive($active)
-     * \brief	Sets the active value of the User
-     * \param	boolean
+     * Sets the active value of the User
+     * @param	boolean
      */
     public function setActive($active) {
 	$this->active = $active;
     }
 
     /**
-     * \fn		void setAddress($address)
-     * \brief	Sets the address of the User
-     * \param	string
+     * Sets the address of the User
+     * @param	string
      */
     public function setAddress($address) {
 	$this->address = $address;
     }
 
     /**
-     * \fn		void setBackground($background)
-     * \brief	Sets the background value of the User
-     * \param	string
+     * Sets the avatar of the User
+     * @param	string
+     */
+    public function setAvatar($avatar) {
+	$this->avatar = $avatar;
+    }
+
+    /**
+     * Sets the background value of the User
+     * @param	string
      */
     public function setBackground($background) {
 	$this->background = $background;
     }
 
     /**
-     * \fn	void setBadge($badge)
-     * \brief	Sets the badge value for user
-     * \param	array
+     * Sets the birthday of the User represented by a string with format YYYY-MM-DD
+     * @param	string
      */
-    public function setBadge($badge) {
-	$this->badge = $badge;
+    public function setBirthday($birthday) {
+	$this->birthday = $birthday;
     }
 
     /**
-     * \fn		string setBirthDay($birthDay)
-     * \brief	Sets the birthday of the User represented by a string with format YYYY-MM-DD
-     * \param	string
-     */
-    public function setBirthDay($birthDay) {
-	$this->birthDay = $birthDay;
-    }
-
-    /**
-     * \fn		void setCity($city)
-     * \brief	Sets the city value of the User
-     * \param	string
+     * Sets the city value of the User
+     * @param	string
      */
     public function setCity($city) {
 	$this->city = $city;
     }
 
     /**
-     * \fn		void setCollaboration($collaboration)
-     * \brief	Sets an array of objectId of the User related with the User
-     * \param	array
+     * Sets the collaborationcounter of the User
+     * @param	number
      */
-    public function setCollaboration($collaboration) {
-	$this->collaboration = $collaboration;
+    public function setCollaborationcounter($collaborationcounter) {
+	$this->collaborationcounter = $collaborationcounter;
     }
 
     /**
-     * \fn		void setLevel($collaborationCounter)
-     * \brief	Sets the collaborationCounter of the User
-     * \param	number
-     */
-    public function setCollaborationCounter($collaborationCounter) {
-	$this->collaborationCounter = $collaborationCounter;
-    }
-
-    /**
-     * \fn		void setCountry($country)
-     * \brief	Sets the country value of the User
-     * \param	string
+     * Sets the country value of the User
+     * @param	string
      */
     public function setCountry($country) {
 	$this->country = $country;
     }
 
     /**
-     * \fn		void setDescription($description)
-     * \brief	Sets the description value of the User
-     * \param	string
+     * Sets the description value of the User
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
     }
 
     /**
-     * \fn		void setEmail($email)
-     * \brief	Sets the email value of the User
-     * \param	string
+     * Sets the email value of the User
+     * @param	string
      */
     public function setEmail($email) {
 	$this->email = $email;
     }
 
     /**
-     * \fn		string setFacebookId($facebookId)
-     * \brief	Sets the facebook id of the User
-     * \param	string
+     * Sets the facebook id of the User
+     * @param	string
      */
-    public function setFacebookId($facebookId) {
-	$this->facebookId = $facebookId;
+    public function setFacebookid($facebookid) {
+	$this->facebookid = $facebookid;
     }
 
     /**
-     * \fn		void setFbPage($fbPage)
-     * \brief	Sets the facebook page link of the User
-     * \param	string
+     * Sets the facebook page link of the User
+     * @param	string
      */
-    public function setFbPage($fbPage) {
-	$this->fbPage = $fbPage;
+    public function setFacebookpage($facebookpage) {
+	$this->facebookpage = $facebookpage;
     }
 
     /**
-     * \fn		string setFirstname($firstname)
-     * \brief	Sets the firstname id of the User
-     * \param	string
+     * Sets the firstname id of the User
+     * @param	string
      */
     public function setFirstname($firstname) {
 	$this->firstname = $firstname;
     }
 
     /**
-     * \fn		void setFollowers($followers)
-     * \brief	Sets an array of objectId of the User related with the User
-     * \param	array
+     * Sets the followercounter of the User
+     * @param	number
      */
-    public function setFollowers($followers) {
-	$this->followers = $followers;
+    public function setFollowercounter($followercounter) {
+	$this->followercounter = $followercounter;
     }
 
     /**
-     * \fn		void setLevel($followersCounter)
-     * \brief	Sets the followersCounter of the User
-     * \param	number
+     * Sets the followingcounter of the User
+     * @param	number
      */
-    public function setFollowersCounter($followersCounter) {
-	$this->followersCounter = $followersCounter;
+    public function setFollowingcounter($followingcounter) {
+	$this->followingcounter = $followingcounter;
     }
 
     /**
-     * \fn		void setFollowing($following)
-     * \brief	Sets an array of objectId of the User related with the User
-     * \param	array
+     * Sets the friendshipcounter of the User
+     * @param	number
      */
-    public function setFollowing($following) {
-	$this->following = $following;
+    public function setFriendshipcounter($friendshipcounter) {
+	$this->friendshipcounter = $friendshipcounter;
     }
 
     /**
-     * \fn		void setFollowingCounter($followingCounter)
-     * \brief	Sets the followingCounter of the User
-     * \param	number
+     * Sets the google plus page link of the User
+     * @param	string
      */
-    public function setFollowingCounter($followingCounter) {
-	$this->followingCounter = $followingCounter;
+    public function setGooglepluspage($googlepluspage) {
+	$this->googlepluspage = $googlepluspage;
     }
 
     /**
-     * \fn		void setFriendship($friendship)
-     * \brief	Sets an array of objectId of the User related with the User
-     * \param	array
+     * Sets the jammer counter
+     * @param	number
      */
-    public function setFriendship($friendship) {
-	$this->friendship = $friendship;
+    public function setJammercounter($jammercounter) {
+	$this->jammercounter = $jammercounter;
     }
 
     /**
-     * \fn		void setFriendshipCounter($friendshipCounter)
-     * \brief	Sets the friendshipCounter of the User
-     * \param	number
+     * Sets the jammer type of the User
+     * @param	string
      */
-    public function setFriendshipCounter($friendshipCounter) {
-	$this->friendshipCounter = $friendshipCounter;
+    public function setJammertype($jammertype) {
+	$this->jammertype = $jammertype;
     }
 
     /**
-     * \fn		void setGeoCoding($geoCoding)
-     * \brief	Sets the parseGeoPoint object of the User
-     * \param	parseGeoPoint
-     */
-    public function setGeoCoding($geoCoding) {
-	$this->geoCoding = $geoCoding;
-    }
-
-    /**
-     * \fn		void setGooglePlusPage($googlePlusPage)
-     * \brief	Sets the google plus page link of the User
-     * \param	string
-     */
-    public function setGooglePlusPage($googlePlusPage) {
-	$this->googlePlusPage = $googlePlusPage;
-    }
-
-    /**
-     * \fn		void setJammerCounter($jammerCounter)
-     * \brief	Sets the jammer counter 
-     * \param	number
-     */
-    public function setJammerCounter($jammerCounter) {
-	$this->jammerCounter = $jammerCounter;
-    }
-
-    /**
-     * \fn		void setJammerType($jammerType)
-     * \brief	Sets the jammer type of the User
-     * \param	string
-     */
-    public function setJammerType($jammerType) {
-	$this->jammerType = $jammerType;
-    }
-
-    /**
-     * \fn		string setLastname($lastname)
-     * \brief	Sets the lastname id of the User
-     * \param	string
+     * Sets the lastname id of the User
+     * @param	string
      */
     public function setLastname($lastname) {
 	$this->lastname = $lastname;
     }
 
     /**
-     * \fn		void setLevel($level)
-     * \brief	Sets the level of the User
-     * \param	number
+     * Sets the latitude value
+     * @param	$longitude
+     */
+    public function setLatitude($latitude) {
+	$this->latitude = $latitude;
+    }
+
+    /**
+     * Sets the level of the User
+     * @param	number
      */
     public function setLevel($level) {
 	$this->level = $level;
     }
 
     /**
-     * \fn		void setLevelValue($levelValue)
-     * \brief	Sets the level value of the User
-     * \param	number
+     * Sets the level value of the User
+     * @param	number
      */
-    public function setLevelValue($levelValue) {
-	$this->view = $levelValue;
+    public function setLevelvalue($levelvalue) {
+	$this->view = $levelvalue;
     }
 
     /**
-     * \fn		void setLocalType($localType)
-     * \brief	Sets the local type of the User
-     * \param	string
+     * Sets the longitude value
+     * @param	$longitude
      */
-    public function setLocalType($localType) {
-	$this->localType = $localType;
+    public function setLongitude($longitude) {
+	$this->longitude = $longitude;
     }
 
     /**
-     * \fn		void setLoveSongs($loveSongs)
-     * \brief	Sets an array of objectId of the Song related with the User
-     * \param	array
+     * Sets an array of id of the User related with the User
+     * @param	array
      */
-    public function setLoveSongs($loveSongs) {
-	$this->loveSongs = $loveSongs;
+    public function setMember($member) {
+	$this->members = $member;
     }
 
     /**
-     * \fn		void setMembers($members)
-     * \brief	Sets an array of objectId of the User related with the User
-     * \param	array
+     * Sets the password value of the User
+     * @param	string
      */
-    public function setMembers($members) {
-	$this->members = $members;
+    public function setPassword($password) {
+	$this->password = $password;
     }
 
     /**
-     * \fn		void setMusic($music)
-     * \brief	Sets an array of the type of music preferred by the User
-     * \param	array
-     */
-    public function setMusic($music) {
-	$this->music = $music;
-    }
-
-    /**
-     * \fn		void setPremium($premium)
-     * \brief	Sets if the User has a Premium account
-     * \param	boolean
+     * Sets if the User has a Premium account
+     * @param	boolean
      */
     public function setPremium($premium) {
 	$this->premium = $premium;
     }
 
     /**
-     * \fn		void setPremiumExpirationDate($premiumExpirationDate)
-     * \brief	Sets the expiration date of the User Premium account
-     * \param	DateTime
+     * Sets the expiration date of the User Premium account
+     * @param	DateTime
      */
-    public function setPremiumExpirationDate($premiumExpirationDate) {
-	$this->premiumExpirationDate = $premiumExpirationDate;
+    public function setPremiumexpirationdate($premiumexpirationdate) {
+	$this->premiumexpirationdate = $premiumexpirationdate;
     }
 
     /**
-     * \fn		void setProfilePicture($profilePicture)
-     * \brief	Sets the profile picture link of the User
-     * \param	string
+     * Sets the profile picture thumbnail link of the User
+     * @param	string
      */
-    public function setProfilePicture($profilePicture) {
-	$this->profilePicture = $profilePicture;
+    public function setThumbnail($thumbnail) {
+	$this->thumbnail = $thumbnail;
     }
 
     /**
-     * \fn		void setProfileThumbnail($profileThumbnail)
-     * \brief	Sets the profile picture thumbnail link of the User
-     * \param	string
-     */
-    public function setProfileThumbnail($profileThumbnail) {
-	$this->profileThumbnail = $profileThumbnail;
-    }
-
-    /**
-     * \fn		void setSettings($settings)
-     * \brief	Sets an array of settings of the User
-     * \param	array
+     * Sets an array of settings of the User
+     * @param	array
      */
     public function setSettings($settings) {
 	$this->settings = $settings;
     }
 
     /**
-     * \fn		string setSex($sex)
-     * \brief	Sets the sex id of the User
-     * \param	string
+     * Sets the sex id of the User
+     * @param	string
      */
     public function setSex($sex) {
 	$this->sex = $sex;
     }
 
     /**
-     * \fn		void setTwitterPage($twitterPage)
-     * \brief	Sets the twitter page link of the User
-     * \param	string
+     * Sets the twitter page link of the User
+     * @param	string
      */
-    public function setTwitterPage($twitterPage) {
-	$this->twitterPage = $twitterPage;
+    public function setTwitterpage($twitterpage) {
+	$this->twitterpage = $twitterpage;
     }
 
     /**
-     * \fn		void setType($type)
-     * \brief	Sets the type of the User
-     * \param	string
+     * Sets the type of the User
+     * @param	string
      */
     public function setType($type) {
 	$this->type = $type;
     }
 
     /**
-     * \fn		void setVenueCounter($venueCounter)
-     * \brief	Sets the venue counter 
-     * \param	number
+     * Sets the username value of the User
+     * @param	string
      */
-    public function setVenueCounter($venueCounter) {
-	$this->venueCounter = $venueCounter;
+    public function setUsername($username) {
+	$this->username = $username;
     }
 
     /**
-     * \fn		void setWebsite($website)
-     * \brief	Sets the website link of the User
-     * \param	string
+     * Sets the venue counter
+     * @param	number
+     */
+    public function setVenuecounter($venuecounter) {
+	$this->venuecounter = $venuecounter;
+    }
+
+    /**
+     * Sets the website link of the User
+     * @param	string
      */
     public function setWebsite($website) {
 	$this->website = $website;
     }
 
     /**
-     * \fn		void setYoutubeChannel($youtubeChannel)
-     * \brief	Sets the youtube channel link of the User
-     * \param	string
+     * Sets the youtube channel link of the User
+     * @param	string
      */
-    public function setYoutubeChannel($youtubeChannel) {
-	$this->youtubeChannel = $youtubeChannel;
+    public function setYoutubechannel($youtubechannel) {
+	$this->youtubechannel = $youtubechannel;
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
-     * \brief	Sets the User creation date
-     * \param	DateTime
-     */
-    public function setUpdatedAt(DateTime $updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * \fn		void setUpdatedAt($updatedAt)
-     * \brief	Sets the User modification date
-     * \param	DateTime
-     */
-    public function setCreatedAt(DateTime $createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the User ACL
-     * \param	parseACL
-     */
-    public function setACL($ACL) {
-	$this->ACL = $ACL;
-    }
-
-    /**
-     * \fn		void setSessionToken($sessionToken)
-     * \brief	Sets the session token of the User
-     * \param	string
-     */
-    public function setSessionToken($sessionToken) {
-	$this->sessionToken = $sessionToken;
-    }
-
-    /**
-     * \fn		string __toString()
-     * \brief	Return a printable string representing the User object
-     * \return	string
+     * Return a printable string representing the User object
+     * @return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-	$string .= '[username] => ' . $this->getUsername() . '<br />';
-	$string .= '[password] => ' . $this->getPassword() . '<br />';
-	$string .= '[authData] => ' . $this->getAuthData() . '<br />';
-	$string .= '[emailVerified] => ' . $this->getEmailVerified() . '<br />';
-	if (is_null($this->getActive())) {
-	    $string .= '[active] => NULL<br />';
-	} else {
-	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
-	}
-	$string.= '[address] => ' . $this->getAddress() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$createdat = new DateTime($this->getCreatedat());
+	$string .= '[createdat] => ' . $createdat->format('d-m-Y H:i:s') . '<br />';
+	$updatedat = new DateTime($this->getUpdatedat());
+	$string .= '[updatedat] => ' . $updatedat->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[active] => ' . $this->getActive() . '<br />';
+	$string .= '[address] => ' . $this->getAddress() . '<br />';
+	$string .= '[avatar] => ' . $this->getAvatar() . '<br />';
 	$string .= '[background] => ' . $this->getBackground() . '<br />';
-	foreach ($this->getBadge() as $badge) {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[music] => ' . $badge . '<br />';
-	}
-	$string .= '[birthDay] => ' . $this->getBirthDay() . '<br />';
+	$string .= '[birthday] => ' . $this->getBirthday() . '<br />';
 	$string .= '[city] => ' . $this->getCity() . '<br />';
-	if (count($this->getCollaboration()) != 0) {
-	    foreach ($this->getCollaboration() as $collaboration) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[collaboration] => ' . $collaboration . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[collaboration] => NULL<br />';
-	}
-	$string .= '[collaborationCounter] => ' . $this->getCollaborationCounter() . '<br />';
+	$string .= '[collaborationcounter] => ' . $this->getCollaborationcounter() . '<br />';
 	$string .= '[country] => ' . $this->getCountry() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	$string .= '[email] => ' . $this->getEmail() . '<br />';
-	$string .= '[facebookId] => ' . $this->getFacebookId() . '<br />';
-	$string .= '[fbPage] => ' . $this->getFbPage() . '<br />';
+	$string .= '[facebookid] => ' . $this->getFacebookid() . '<br />';
+	$string .= '[facebookpage] => ' . $this->getFacebookpage() . '<br />';
 	$string .= '[firstname] => ' . $this->getFirstname() . '<br />';
-	if (count($this->getFollowers()) != 0) {
-	    foreach ($this->getFollowers() as $follower) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[follower] => ' . $follower . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[follower] => NULL<br />';
-	}
-	$string .= '[followersCounter] => ' . $this->getFollowersCounter() . '<br />';
-	if (count($this->getFollowing()) != 0) {
-	    foreach ($this->getFollowing() as $following) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[following] => ' . $following . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[following] => NULL<br />';
-	}
-	$string .= '[followingCounter] => ' . $this->getFollowingCounter() . '<br />';
-	if (count($this->getFriendship()) != 0) {
-	    foreach ($this->getFriendship() as $friendship) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[friendship] => ' . $friendship . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[friendship] => NULL<br />';
-	}
-	$string .= '[friendshipCounter] => ' . $this->getFriendshipCounter() . '<br />';
-	$string .= '[googlePlusPage] => ' . $this->getGooglePlusPage() . '<br />';
-	if ($this->getGeoCoding() != null) {
-	    $geoCoding = $this->getGeoCoding();
-	    $string .= '[geoCoding] => ' . $geoCoding->lat . ', ' . $geoCoding->long . '<br />';
-	} else {
-	    $string .= '[geoCoding] => NULL<br />';
-	}
-	$string .= '[jammerCounter] => ' . $this->getJammerCounter() . '<br />';
-	$string .= '[jammerType] => ' . $this->getJammerType() . '<br />';
+	$string .= '[followercounter] => ' . $this->getFollowerscounter() . '<br />';
+	$string .= '[followingcounter] => ' . $this->getFollowingcounter() . '<br />';
+	$string .= '[friendshipcounter] => ' . $this->getFriendshipcounter() . '<br />';
+	$string .= '[googlepluspage] => ' . $this->getGooglepluspage() . '<br />';
+	$string .= '[jammercounter] => ' . $this->getJammercounter() . '<br />';
+	$string .= '[jammertype] => ' . $this->getJammertype() . '<br />';
 	$string .= '[lastname] => ' . $this->getLastname() . '<br />';
+	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
+	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[level] => ' . $this->getLevel() . '<br />';
-	$string .= '[levelValue] => ' . $this->getLevelValue() . '<br />';
-	$string .= '[localType] => ' . implode(",", $this->getLocalType()) . '<br />';
-	if (count($this->getLoveSongs()) != 0) {
-	    foreach ($this->getLoveSongs() as $loveSong) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[loveSongs] => ' . $loveSong . '<br />';
-	    }
-	} else {
+	$string .= '[levelvalue] => ' . $this->getLevelvalue() . '<br />';
+	foreach ($this->getMember() as $member) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[loveSongs] => NULL<br />';
+	    $string .= '[member] => ' . $member . '<br />';
 	}
-	if ($this->getMembers() != null && count($this->getMembers()) > 0) {
-	    foreach ($this->getMembers() as $member) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[members] => ' . $member . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[members] => NULL<br />';
-	}
-	foreach ($this->getMusic() as $music) {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[music] => ' . $music . '<br />';
-	}
+	$string .= '[password] => ' . $this->getPassword() . '<br />';
 	$string .= '[premium] => ' . $this->getPremium() . '<br />';
-	if ($this->getPremiumExpirationDate() != null) {
-	    $string .= '[premiumExpirationDate] => ' . $this->getPremiumExpirationDate()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[premiumExpirationDate] => NULL<br />';
-	}
-	$string .= '[profilePicture] => ' . $this->getProfilePicture() . '<br />';
-	$string .= '[profileThumbnail] => ' . $this->getProfileThumbnail() . '<br />';
-	$string .= '[sessionToken] => ' . $this->getSessionToken() . '<br />';
+	$premiumexpirationdate = new DateTime($this->getPremiumexpirationdate());
+	$string .= '[premiumexpirationdate] => ' . $premiumexpirationdate->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	foreach ($this->getSettings() as $settings) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 	    $string .= '[settings] => ' . $settings . '<br />';
 	}
 	$string .= '[sex] => ' . $this->getSex() . '<br />';
-	$string .= '[twitterPage] => ' . $this->getTwitterPage() . '<br />';
+	$string .= '[twitterpage] => ' . $this->getTwitterpage() . '<br />';
 	$string .= '[type] => ' . $this->getType() . '<br />';
-	$string .= '[venueCounter] => ' . $this->getVenueCounter() . '<br />';
+	$string .= '[username] => ' . $this->getUsername() . '<br />';
+	$string .= '[venuecounter] => ' . $this->getVenuecounter() . '<br />';
 	$string .= '[website] => ' . $this->getWebsite() . '<br />';
-	$string .= '[youtubeChannel] => ' . $this->getYoutubeChannel() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
-	if ($this->getACL() != null) {
-	    foreach ($this->getACL()->acl as $key => $acl) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[ACL] => ' . $key . '<br />';
-		foreach ($acl as $access => $value) {
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-		}
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[ACL] => NULL<br />';
-	}
+	$string .= '[youtubechannel] => ' . $this->getYoutubechannel() . '<br />';
 	return $string;
     }
 

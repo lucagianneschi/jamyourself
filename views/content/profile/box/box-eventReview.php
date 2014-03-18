@@ -12,20 +12,21 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'review.box.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 session_start();
 
-$objectId = $_POST['objectId'];
+$id = $_POST['id'];
 $type = $_POST['type'];
 
-$reviewBox = new ReviewBox();
-$reviewBox->initForPersonalPage($objectId, $type, 'Event');
-if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
-    $currentUser = $_SESSION['currentUser'];
+$reviewBox = new ReviewEventBox();
+$reviewBox->init($id, $type);
+if (is_null($reviewBox->error)) {
+    $currentUserId = $_SESSION['id'];
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);
     ?>
@@ -60,29 +61,29 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 			    <?php
 			    if ($reviewCounter > 0) {
 				foreach ($reviews as $key => $value) {
-				    $eventReview_objectId = $value->getObjectId();
+				    $eventReview_objectId = $value->getId();
 				    if ($type == 'SPOTTER') {
-					$eventReview_user_objectId = $value->getEvent()->getFromUser()->getObjectId();
-					$eventReview_user_thumbnail = $value->getEvent()->getFromUser()->getProfileThumbnail();
-					$eventReview_user_username = $value->getEvent()->getFromUser()->getUsername();
-					$eventReview_user_type = $value->getEvent()->getFromUser()->getType();
+					$eventReview_user_objectId = $value->getEvent()->getFromuser()->getId();
+					$eventReview_user_thumbnail = $value->getEvent()->getFromuser()->getThumbnail();
+					$eventReview_user_username = $value->getEvent()->getFromuser()->getUsername();
+					$eventReview_user_type = $value->getEvent()->getFromuser()->getType();
 				    } else {
-					$eventReview_user_objectId = $value->getFromUser()->getObjectId();
-					$eventReview_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
-					$eventReview_user_username = $value->getFromUser()->getUsername();
-					$eventReview_user_type = $value->getFromUser()->getType();
+					$eventReview_user_objectId = $value->getFromuser()->getId();
+					$eventReview_user_thumbnail = $value->getFromuser()->getThumbnail();
+					$eventReview_user_username = $value->getFromuser()->getUsername();
+					$eventReview_user_type = $value->getFromuser()->getType();
 				    }
 				    $eventReview_thumbnailCover = $value->getEvent()->getThumbnail();
-				    $event_objectId = $value->getEvent()->getObjectId();
+				    $event_objectId = $value->getEvent()->getId();
 				    $eventReview_title = $value->getTitle();
-				    #TODO
-				    //$eventReview_rating = $value->getRating();
-				    $eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
+				    $eventReview_rating = $value->getVote();
+					$eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", strtotime($value->getCreatedat())));
 				    $eventReview_text = $value->getText();
-				    $eventReview_love = $value->getLoveCounter();
-				    $eventReview_comment = $value->getCommentCounter();
-				    $eventReview_share = $value->getShareCounter();
-				    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+				    $eventReview_love = $value->getLovecounter();
+				    $eventReview_comment = $value->getCommentcounter();
+				    $eventReview_share = $value->getSharecounter();
+					$connectionService = new ConnectionService();
+				    if (existsRelation($connectionService,'user', $currentUserId, 'comment', $eventReview_objectId, 'loved')) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 				    } else {
@@ -96,7 +97,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 					    if ($type != "SPOTTER") {
 						$fileManagerService = new FileManagerService();
 						$pathUser = $fileManagerService->getPhotoPath($eventReview_user_objectId, $eventReview_user_thumbnail);
-						$pathEvent = $fileManagerService->getEventPhotoPath($currentUser->getObjectId(), $eventReview_thumbnailCover);
+						$pathEvent = $fileManagerService->getEventPhotoPath($currentUserId, $eventReview_thumbnailCover);
 						?>
 						<a href="profile.php?user=<?php echo $eventReview_user_objectId ?>">
 						    <div class="row">

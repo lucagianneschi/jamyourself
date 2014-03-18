@@ -1,600 +1,559 @@
 <?php
 
-/* ! \par		Info Generali:
- *  \author		Stefano Muscas
- *  \version		1.0
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		Record 
- *  \details		Classe dedicata ad un album di brani musicali, puo' essere istanziata solo da Jammer
- *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
+/**
+ * Record class
+ * Classe dedicata ad un album di brani musicali, puo' essere istanziata solo da Jammer
  *
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Record">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Record">API</a>
+ * @author		Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Record
  */
-
 class Record {
 
-    private $objectId;
-    private $active;
-    private $buyLink;
-    private $city;
-    private $commentCounter;
-    private $counter;
-    private $cover;
-    private $description;
-    private $duration;
-    private $featuring;
-    private $fromUser;
-    private $genre;
-    private $label;
-    private $location;
-    private $loveCounter;
-    private $lovers;
-    private $reviewCounter;
-    private $shareCounter;
-    private $songCounter;
-    private $thumbnailCover;
-    private $title;
-    private $tracklist;
-    private $year;
-    private $createdAt;
-    private $updatedAt;
-    private $ACL;
+    /**
+     * @var int id istanza
+     */
+    private $id;
 
     /**
-     * \fn		string getObjectId()
-     * \brief	Return the objectId value
-     * \return	string
+     * @var date data creazione istanza
      */
-    public function getObjectId() {
-	return $this->objectId;
+    private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
+    private $updatedat;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
+    private $active;
+
+    /**
+     * @var string url for buying the record
+     */
+    private $buylink;
+
+    /**
+     * @var string city for the record
+     */
+    private $city;
+
+    /**
+     * @var int numero di commenti
+     */
+    private $commentcounter;
+
+    /**
+     * @var int indice di gradimento
+     */
+    private $counter;
+
+    /**
+     * @var string per l'immagine di copertina
+     */
+    private $cover;
+
+    /**
+     * @var string descrizione del video
+     */
+    private $description;
+
+    /**
+     * @var int durata in secondi
+     */
+    private $duration;
+
+    /**
+     * @var int id del formuser
+     */
+    private $fromuser;
+
+    /**
+     * @var array di id del genere
+     */
+    private $genre;
+
+    /**
+     * @var string di definizione della label
+     */
+    private $label;
+
+    /**
+     * @var float latitudine
+     */
+    private $latitude;
+
+    /**
+     * @var float longitudine
+     */
+    private $longitude;
+
+    /**
+     * @var int contatore di azioni love
+     */
+    private $lovecounter;
+
+    /**
+     * @var int contatore di azioni review
+     */
+    private $reviewcounter;
+
+    /**
+     * @var int contatore di azioni share
+     */
+    private $sharecounter;
+
+    /**
+     * @var int contatore di canzoni
+     */
+    private $songcounter;
+
+    /**
+     * @var string path al thumbnail della cover
+     */
+    private $thumbnail;
+
+    /**
+     * @var string titolo album
+     */
+    private $title;
+
+    /**
+     * @var array id song
+     */
+    private $tracklist;
+
+    /**
+     * @var int anno realizzazione disco
+     */
+    private $year;
+
+    /**
+     * Return the id value
+     * @return	int
+     */
+    public function getId() {
+	return $this->id;
     }
 
     /**
-     * \fn		BOOL getObjectId()
-     * \brief	Return the active value
-     * \return	BOOL
+     * Return the Record creation date
+     * @return	DateTime
+     */
+    public function getCreatedat() {
+	return $this->createdat;
+    }
+
+    /**
+     * Return the Record modification date
+     * @return	DateTime
+     */
+    public function getUpdatedat() {
+	return $this->updatedat;
+    }
+
+    /**
+     * Return the active value
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
     }
 
     /**
-     * \fn		string getBuyLink()
-     * \brief	Return the buyLink value
-     * \return	string
+     * Return the buylink value
+     * @return	string
      */
-    public function getBuyLink() {
-	return $this->buyLink;
+    public function getBuylink() {
+	return $this->buylink;
     }
 
     /**
-     * \fn		string getCity
-     * \brief	Return the city value
-     * \return	string
+     * Return the city value
+     * @return	string
      */
     public function getCity() {
 	return $this->city;
     }
 
     /**
-     * \fn		int getCommentCounter()
-     * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * Return the comment counter value (number of comments)
+     * @return	int
      */
-    public function getCommentCounter() {
-	return $this->commentCounter;
+    public function getCommentcounter() {
+	return $this->commentcounter;
     }
 
     /**
-     * \fn		int getCounter()
-     * \brief	Return the counter value
-     * \return	int
+     * Return the counter value
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
     }
 
     /**
-     * \fn		string getCover()
-     * \brief	Return the cover (path file) value
-     * \return	string
+     * Return the cover (path file) value
+     * @return	string
      */
     public function getCover() {
 	return $this->cover;
     }
 
     /**
-     * \fn		string getDescription()
-     * \brief	Return the description value
-     * \return	string
+     * Return the description value
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
     }
 
     /**
-     * \fn		int getDuration()
-     * \brief	Return the duration value in second
-     * \return	int
+     * Return the duration value in second
+     * @return	int
      */
     public function getDuration() {
 	return $this->duration;
     }
 
     /**
-     * \fn		array getFeaturing()
-     * \brief	Return the featuring value,array of objectId of istance of the _User class who feat the record
-     * \return	array
+     * Return the id value for the fromUser
+     * @return	int
      */
-    public function getFeaturing() {
-	return $this->featuring;
+    public function getFromuser() {
+	return $this->fromuser;
     }
 
     /**
-     * \fn		string getFromUser()
-     * \brief	Return the objectId value for the fromUser
-     * \return	string
-     */
-    public function getFromUser() {
-	return $this->fromUser;
-    }
-
-    /**
-     * \fn		string getGenre()
-     * \brief	Return the genre value 
-     * \return	string
+     * Return the genre value 
+     * @return	int
      */
     public function getGenre() {
 	return $this->genre;
     }
 
     /**
-     * \fn		string getLabel()
-     * \brief	Return the label value
-     * \return	string
+     * Return the label value
+     * @return	string
      */
     public function getLabel() {
 	return $this->label;
     }
 
     /**
-     * \fn		parseGoPoint getLocation()
-     * \brief	Return the location value 
-     * \return	parseGoPoint
+     * Return the latitude value
+     * @return	latitude
      */
-    public function getLocation() {
-	return $this->location;
+    public function getLatitude() {
+	return $this->latitude;
     }
 
     /**
-     * \fn		int getLoveCounter()
-     * \brief	Return the loveCounter value, number of users who love the record
-     * \return	int
+     * Return the longitude value
+     * @return	long
      */
-    public function getLoveCounter() {
-	return $this->loveCounter;
+    public function getLongitude() {
+	return $this->longitude;
     }
 
     /**
-     * \fn		array getLovers()
-     * \brief	Return the lovers value,array of objectId of istance of the _User class who love the record
-     * \return	array
+     * Return the loveCounter value, number of users who love the record
+     * @return	int
      */
-    public function getLovers() {
-	return $this->lovers;
+    public function getLovecounter() {
+	return $this->lovecounter;
     }
 
     /**
-     * \fn		int getReviewCounter()
-     * \brief	Return the review counter value (number of review)
-     * \return	int
+     * Return the review counter value (number of review)
+     * @return	int
      */
-    public function getReviewCounter() {
-	return $this->reviewCounter;
+    public function getReviewcounter() {
+	return $this->reviewcounter;
     }
 
     /**
-     * \fn		int getShareCounter()
-     * \brief	Return the counter for sharing action
-     * \return	int
+     * Return the counter for sharing action
+     * @return	int
      */
-    public function getShareCounter() {
-	return $this->shareCounter;
+    public function getSharecounter() {
+	return $this->sharecounter;
     }
 
     /**
-     * \fn		int getSongCounter()
-     * \brief	Return the song counter value (number of songs)
-     * \return	int
+     * Return the song counter value (number of songs)
+     * @return	int
      */
-    public function getSongCounter() {
-	return $this->songCounter;
+    public function getSongcounter() {
+	return $this->songcounter;
     }
 
     /**
-     * \fn		string getThumbnailCover()
-     * \brief	Return the thumbnailCover (path file) value
-     * \return	string
+     * Return the thumbnail (path file) value
+     * @return	string
      */
-    public function getThumbnailCover() {
-	return $this->thumbnailCover;
+    public function getThumbnail() {
+	return $this->thumbnail;
     }
 
     /**
-     * \fn		string getTitle()
-     * \brief	Return the title value
-     * \return	string
+     * Return the title value
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
     }
 
     /**
-     * \fn		array getTracklist()
-     * \brief	Return the tracklist value,array of Ids of song
-     * \return	array
+     * Return the tracklist value,array of Ids of song
+     * @return	int
      */
     public function getTracklist() {
 	return $this->tracklist;
     }
 
     /**
-     * \fn		string getYear()
-     * \brief	Return the year value
-     * \return	string
+     * Return the year value
+     * @return	string
      */
     public function getYear() {
 	return $this->year;
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
-     * \brief	Return the Record creation date
-     * \return	DateTime
+     * Sets the id value
+     * @param	int
      */
-    public function getCreatedAt() {
-	return $this->createdAt;
+    public function setId($id) {
+	$this->id = $id;
     }
 
     /**
-     * \fn		DateTime getUpdatedAt()
-     * \brief	Return the Record modification date
-     * \return	DateTime
+     * Sets the Song creation date
+     * @param	DateTime
      */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
+    public function setCreatedat($createdat) {
+	$this->createdat = $createdat;
     }
 
     /**
-     * \fn		parseACL getACL()
-     * \brief	Return the parseACL object representing the Record ACL 
-     * \return	parseACL
+     * Sets the Song modification date
+     * @param	DateTime
      */
-    public function getACL() {
-	return $this->ACL;
+    public function setUpdatedat($updatedat) {
+	$this->updatedat = $updatedat;
     }
 
     /**
-     * \fn		void setObjectId($objectId)
-     * \brief	Sets the objectId value
-     * \param	string
-     */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
-    }
-
-    /**
-     * \fn		void setActive($active)
-     * \brief	Sets the active  value
-     * \param	BOOL
+     * Sets the active  value
+     * @param	BOOL
      */
     public function setActive($active) {
 	$this->active = $active;
     }
 
     /**
-     * \fn		void setBuyLink($buyLink)
-     * \brief	Sets the buyLink value
-     * \param	string
+     * Sets the buylink value
+     * @param	string
      */
-    public function setBuyLink($buyLink) {
-	$this->buyLink = $buyLink;
+    public function setBuylink($buylink) {
+	$this->buylink = $buylink;
     }
 
     /**
-     * \fn		setCity($city)
-     * \brief	Sets the city value
-     * \param	string
+     * Sets the city value
+     * @param	string
      */
     public function setCity($city) {
 	$this->city = $city;
     }
 
     /**
-     * \fn		void setCommentCounter($commentCounter)
-     * \brief	Sets the commnetCounter value
-     * \param	int
+     * Sets the commnetCounter value
+     * @param	int
      */
-    public function setCommentCounter($commentCounter) {
-	$this->commentCounter = $commentCounter;
+    public function setCommentcounter($commentcounter) {
+	$this->commentcounter = $commentcounter;
     }
 
     /**
-     * \fn		void setCounter($counter)
-     * \brief	Sets the counter  value
-     * \param	int
+     * Sets the counter  value
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
     }
 
     /**
-     * \fn		void setCover($cover))
-     * \brief	Sets the cover value
-     * \param	string
+     * Sets the cover value
+     * @param	string
      */
     public function setCover($cover) {
 	$this->cover = $cover;
     }
 
     /**
-     * \fn		void setDescription($description)
-     * \brief	Sets the description value
-     * \param	string
+     * Sets the description value
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
     }
 
     /**
-     * \fn		void setDuration($duration)
-     * \brief	Sets the duration  value
-     * \param	int
+     * Sets the duration  value
+     * @param	int
      */
     public function setDuration($duration) {
 	$this->duration = $duration;
     }
 
     /**
-     * \fn		void setFeaturing($featuring)
-     * \brief	Sets the featuring  value
-     * \param	array
+     * Sets the fromUser id  value
+     * @param	int
      */
-    public function setFeaturing($featuring) {
-	$this->featuring = $featuring;
+    public function setFromuser($fromuser) {
+	$this->fromuser = $fromuser;
     }
 
     /**
-     * \fn		void setFromUser($fromUser)
-     * \brief	Sets the fromUser objectId  value
-     * \param	string
-     */
-    public function setFromUser($fromUser) {
-	$this->fromUser = $fromUser;
-    }
-
-    /**
-     * \fn		void setGenre($genre) 
-     * \brief	Sets the genre value
-     * \param	string
+     * Sets the genre value
+     * @param	int
      */
     public function setGenre($genre) {
 	$this->genre = $genre;
     }
 
     /**
-     * \fn		void setLabel($label) 
-     * \brief	Sets the label value
-     * \param	string
+     * Sets the label value
+     * @param	string
      */
     public function setLabel($label) {
 	$this->label = $label;
     }
 
     /**
-     * \fn		void setLocation($location) 
-     * \brief	Sets the location value
-     * \param	parseGeopoint
+     * Sets the latitude value
+     * @param	$longitude
      */
-    public function setLocation($location) {
-	$this->location = $location;
+    public function setLatitude($latitude) {
+	$this->latitude = $latitude;
     }
 
     /**
-     * \fn		void setLovers($lovers)
-     * \brief	Sets the lovers  value
-     * \param	array
+     * Sets the longitude value
+     * @param	$longitude
      */
-    public function setLovers($lovers) {
-	$this->lovers = $lovers;
+    public function setLongitude($longitude) {
+	$this->longitude = $longitude;
     }
 
     /**
-     * \fn		void setLoveCounter($loveCounter)
-     * \brief	Sets the LoveCounter  value
-     * \param	int
+     * Sets the LoveCounter  value
+     * @param	int
      */
-    public function setLoveCounter($loveCounter) {
-	$this->loveCounter = $loveCounter;
+    public function setLovecounter($lovecounter) {
+	$this->lovecounter = $lovecounter;
     }
 
     /**
-     * \fn		void setReviewCounter($reviewCounter)
-     * \brief	Sets the reviewCounter value
-     * \param	int
+     * Sets the reviewcounter value
+     * @param	int
      */
-    public function setReviewCounter($reviewCounter) {
-	$this->reviewCounter = $reviewCounter;
+    public function setReviewcounter($reviewcounter) {
+	$this->reviewcounter = $reviewcounter;
     }
 
     /**
-     * \fn		void setCounter($shareCounter)
-     * \brief	Sets the shareCounter value
-     * \param	int
+     * Sets the sharecounter value
+     * @param	int
      */
-    public function setShareCounter($shareCounter) {
-	$this->shareCounter = $shareCounter;
+    public function setSharecounter($sharecounter) {
+	$this->sharecounter = $sharecounter;
     }
 
     /**
-     * \fn		void  setSongCounter($songCounter)
-     * \brief	Sets the songCounter value
-     * \param	int
+     * Sets the songcounter value
+     * @param	int
      */
-    public function setSongCounter($songCounter) {
-	$this->songCounter = $songCounter;
+    public function setSongcounter($songcounter) {
+	$this->songcounter = $songcounter;
     }
 
     /**
-     * \fn		void setThumbnailCover($thumbnailCover) 
-     * \brief	Sets the thumbnailCover (path file) value
-     * \param	string
+     * Sets the thumbnail (path file) value
+     * @param	string
      */
-    public function setThumbnailCover($thumbnailCover) {
-	$this->thumbnailCover = $thumbnailCover;
+    public function setThumbnail($thumbnail) {
+	$this->thumbnail = $thumbnail;
     }
 
     /**
-     * \fn		void setTitle($title) 
-     * \brief	Sets the title value
-     * \param	string
+     * Sets the title value
+     * @param	string
      */
     public function setTitle($title) {
 	$this->title = $title;
     }
 
     /**
-     * \fn		void setTracklist($tracklist)
-     * \brief	Sets the tracklist  value (list of id)
-     * \param	array
+     * Sets the tracklist  value (list of id)
+     * @param	array
      */
     public function setTracklist($tracklist) {
 	$this->tracklist = $tracklist;
     }
 
     /**
-     * \fn		void setYear($year) 
-     * \brief	Sets the year value
-     * \param	string
+     * Sets the year value
+     * @param	string
      */
     public function setYear($year) {
 	$this->year = $year;
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
-     * \brief	Sets the Song creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn		void setUpdatedAt($updatedAt)
-     * \brief	Sets the Song modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Song ACL
-     * \param	parseACL
-     */
-    public function setACL($ACL) {
-	$this->ACL = $ACL;
-    }
-
-    /**
-     * \fn		string __toString()
-     * \brief	Return a printable string representing the Record object
-     * \return	string
+     * Return a printable string representing the Record object
+     * @return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-	if (is_null($this->getActive())) {
-	    $string .= '[active] => NULL<br />';
-	} else {
-	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
-	}
-	$string .= '[buyLink] => ' . $this->buyLink . '<br/>';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$createdAt = new DateTime($this->getCreatedat());
+	$string .= '[createdat] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+	$updatedAt = new DateTime($this->getUpdatedat());
+	$string .= '[updatedat] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[active] => ' . $this->getActive() . '<br />';
+	$string .= '[buylink] => ' . $this->getBuylink() . '<br/>';
 	$string .= '[city] => ' . $this->getCity() . '<br />';
-	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
+	$string .= '[commentcounter] => ' . $this->getCommentcounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
-	$string .= '[cover] => ' . $this->cover . '<br/>';
-	$string .= '[description] => ' . $this->description . '<br/>';
-	$string .= '[duration] => ' . $this->duration . '<br/>';
-	if ($this->featuring && count($this->featuring > 0)) {
-	    foreach ($this->featuring as $featuring) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[featuring] => ' . $featuring . '<br />';
-	    }
-	}
-	if ($this->getFromUser() != null) {
-	    $string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
-	} else {
-	    $string .= '[fromUser] => NULL<br />';
-	}
-	$string .= '[genre] .= > ' . $this->genre . '<br/>';
-	$string .= '[label] .= > ' . $this->label . '<br/>';
-	if (($geopoint = $this->getLocation()) != null) {
-	    $string .= '[location] => ' . $geopoint->location['latitude'] . ', ' . $geopoint->location['longitude'] . '<br />';
-	} else {
-	    $string .= '[location] => NULL<br />';
-	}
-	$string .= '[loveCounter] .= > ' . $this->loveCounter . '<br/>';
-	if ($this->lovers && count($this->lovers > 0)) {
-	    foreach ($this->lovers as $lovers) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[lovers] => ' . $lovers . '<br />';
-	    }
-	}
-	$string .= '[reviewCounter] => ' . $this->getReviewCounter() . '<br />';
-	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-	$string .= '[songCounter] => ' . $this->getSongCounter() . '<br />';
-	$string .= '[thumbnailCover] .= > ' . $this->thumbnailCover . '<br/>';
-	$string .= '[title] .= > ' . $this->title . '<br/>';
-	if ($this->tracklist && count($this->tracklist > 0)) {
-	    foreach ($this->tracklist as $tracklist) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[tracklist] => ' . $tracklist . '<br />';
-	    }
-	}
-	$string .= '[year] .= > ' . $this->year . '<br/>';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
-	if ($this->getACL() != null) {
-	    foreach ($this->getACL()->acl as $key => $acl) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[ACL] => ' . $key . '<br />';
-		foreach ($acl as $access => $value) {
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-		}
-	    }
-	} else {
+	$string .= '[cover] => ' . $this->getCover() . '<br/>';
+	$string .= '[description] => ' . $this->getDescription() . '<br/>';
+	$string .= '[duration] => ' . $this->getDuration() . '<br/>';
+	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
+	foreach ($this->getGenre() as $genre) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[ACL] => NULL<br />';
+	    $string .= '[genre] => ' . $genre . '<br />';
 	}
+	$string .= '[label] .= > ' . $this->getLabel() . '<br/>';
+	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
+	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
+	$string .= '[lovecounter] .= > ' . $this->getLovecounter() . '<br/>';
+	$string .= '[reviewcounter] => ' . $this->getReviewcounter() . '<br />';
+	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
+	$string .= '[songcounter] => ' . $this->getSongcounter() . '<br />';
+	$string .= '[thumbnailCover] .= > ' . $this->getThumbnail() . '<br/>';
+	$string .= '[title] .= > ' . $this->getTitle() . '<br/>';
+	$string .= '[tracklist] => ' . $this->getTracklist() . '<br />';
+	$string .= '[year] .= > ' . $this->getYear() . '<br/>';
 	return $string;
     }
 

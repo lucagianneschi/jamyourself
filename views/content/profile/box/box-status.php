@@ -11,35 +11,31 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-require_once CLASSES_DIR . 'userParse.class.php';
-
-require_once SERVICES_DIR . 'relationChecker.service.php';
+require_once CLASSES_DIR . 'user.class.php';
+require_once SERVICES_DIR . 'select.service.php';
 //session_start();
 
-$currentUser = $_SESSION['currentUser'];
-
 $level = $user->getLevel();
-$levelValue = $user->getLevelValue();
+$levelValue = $user->getLevelvalue();
 $type = $user->getType();
-$objectId = $user->getObjectId();
+$id = $user->getId();
 
-$currentUserType = $currentUser->getType();
-$currentUser = $currentUser->getObjectId();
-$badge = $user->getBadge();
+$currentUserType = $_SESSION['type'];
+$currentUser = $_SESSION['id'];
+#TODO
+//$badge = $user->getBadge();
 $noBadge = 10 - count($badge);
-
 $css_message = '';
 $css_relation = 'no-display';
-if (!relationChecker($currentUser, $currentUserType, $objectId, $type)) {
+$connectionService = new ConnectionService();
+if (!existsRelation($connectionService, 'user', $currentUser, 'user', $id, $relationType)) {
     $css_message = 'no-display';
     $css_relation = '';
 }
 ?>
-
 <!------------------------------------------- STATUS ----------------------------------->
-
 <div id="social-status">
     <div class="row">
 	<div class="small-12 columns status">			
@@ -94,15 +90,15 @@ if (!relationChecker($currentUser, $currentUserType, $objectId, $type)) {
     <div class="row <?php echo $type . ' ' . $currentUserType ?>" >
 	<div  class="large-12 columns"><div class="line"></div></div>
     </div>
-    <?php if ($currentUser != $objectId) { ?>
+    <?php if ($currentUser != $id) { ?>
         <div class="row">
     	<div  class="large-12 columns">
     	    <div class="status-button">
-    		<a href="message.php?user=<?php echo $objectId ?>" class="button bg-grey <?php echo $css_message ?>"><div class="icon-button _message_status"> <?php echo $views['status']['sendmsg']; ?></div></a>
+    		<a href="message.php?user=<?php echo $id ?>" class="button bg-grey <?php echo $css_message ?>"><div class="icon-button _message_status"> <?php echo $views['status']['sendmsg']; ?></div></a>
 		    <?php if ($currentUserType == "SPOTTER" && $type == "SPOTTER") { ?>
 			<a href="#" class="button bg-orange"><div class="icon-button _friend_status <?php echo $css_relation ?>"><?php echo $views['status']['addfriend']; ?></div></a>
 		    <?php } elseif (($currentUserType == "JAMMER" || $currentUserType == "VENUE") && ($type == "JAMMER" || $type == "VENUE")) { ?>
-			<a href="#" class="button bg-orange <?php echo $css_relation ?>" onclick="sendRelation('<?php echo $objectId ?>');">
+			<a href="#" class="button bg-orange <?php echo $css_relation ?>" onclick="sendRelation('<?php echo $id ?>');">
 			    <div class="icon-button _follower_status">
 				<?php echo $views['status']['coll']; ?>
 			    </div>

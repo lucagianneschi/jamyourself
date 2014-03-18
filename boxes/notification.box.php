@@ -1,54 +1,40 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		0.2
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento notifiche utente
  * \details		Recupera le notifiche da mostrare nell'header
  * \par			Commenti:
- * \warning
- * \bug
- * \todo			
+ * @warning
+ * @bug
+ * @todo			
  *
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 require_once ROOT_DIR . 'config.php';
-require_once CLASSES_DIR . 'activity.class.php';
-require_once CLASSES_DIR . 'activityParse.class.php';
+require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 /**
  * \brief	ActionsCounterBox 
  * \details	counter for activity INVITED
- * \todo	inserire nella whereOr le activity corrette
+ * @todo	inserire nella whereOr le activity corrette
  */
 class ActionCounterBox {
 
-    public $counter;
+    public $counter = 0;
 
     /**
      * \fn	init()
      * \brief	Init ActionsBoxCounter instance
-     * \return	actionsBoxCounter
+     * @return	actionsBoxCounter
      */
     public function init() {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$value = array(array('type' => 'LOVEDALBUM'), array('type' => 'LOVEDCOMMENT'), array('type' => 'LOVEDEVENT'), array('type' => 'LOVEDIMAGE'), array('type' => 'LOVEDRECORD'), array('type' => 'LOVEDSONG'), array('type' => 'LOVEDVIDEO'),
-	    array('type' => 'COMMENTEDONALBUM'), array('type' => 'COMMENTEDONPOST'), array('type' => 'COMMENTEDONEVENTREVIEW'), array('type' => 'COMMENTEDONRECORDREVIEW'), array('type' => 'COMMENTEDONEVENT'), array('type' => 'COMMENTEDONIMAGE'), array('type' => 'COMMENTEDONRECORD'), array('type' => 'COMMENTEDONVIDEO'));
-	$activity = new ActivityParse();
-	$activity->wherePointer('toUser', '_User', $currentUserId);
-	$activity->whereOr($value);
-	$activity->where('status', 'P');
-	$activity->where('read', false);
-	$activity->where('active', true);
-	$this->counter = $activity->getCount();
     }
 
 }
@@ -56,52 +42,20 @@ class ActionCounterBox {
 /**
  * \brief	ActionsListBox 
  * \details	lista di activies per cui si ha notifica
- * \todo	
+ * @todo	
  */
 class ActionListBox {
 
-    public $actions;
-    public $error;
+    public $actions = array();
+    public $error = null;
 
     /**
      * \fn	init()
      * \brief	Init ActionListBox instance
-     * \return	actionsListBox
+     * @return	actionsListBox
      */
-    public function init() {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$value = array(array('type' => 'LOVEDALBUM'), array('type' => 'LOVEDCOMMENT'), array('type' => 'LOVEDEVENT'), array('type' => 'LOVEDIMAGE'), array('type' => 'LOVEDRECORD'), array('type' => 'LOVEDSONG'), array('type' => 'LOVEDVIDEO'),
-	    array('type' => 'COMMENTEDONALBUM'), array('type' => 'COMMENTEDONPOST'), array('type' => 'COMMENTEDONEVENTREVIEW'), array('type' => 'COMMENTEDONRECORDREVIEW'), array('type' => 'COMMENTEDONEVENT'), array('type' => 'COMMENTEDONIMAGE'), array('type' => 'COMMENTEDONRECORD'), array('type' => 'COMMENTEDONVIDEO'));
-	$activity = new ActivityParse();
-	$activity->wherePointer('toUser', '_User', $currentUserId);
-	$activity->whereOr($value);
-	$activity->where('status', 'P');
-	$activity->where('read', false);
-	$activity->where('active', true);
-	$activity->whereInclude('fromUser,album,comment,event,image,record,song,video');
-	$activities = $activity->getActivities();
-	if ($activities instanceof Error) {
-	    $this->error = $activities->getErrorMessage();
-	    $this->actions = array();
-	    return;
-	} elseif (is_null($activities)) {
-	    $this->error = null;
-	    $this->actions = array();
-	    return;
-	} else {
-	    $this->error = null;
-	    $actions = array();
-	    foreach ($activities as $act)
-		if (!is_null($act->getFromUser()) &&
-			(!is_null($act->getAlbum()) || !is_null($act->getComment())) || !is_null($act->getEvent()) || !is_null($act->getImage()) || !is_null($act->getRecord()) || !is_null($act->getSong()) || !is_null($act->getVideo())) {
-		    array_push($actions, $act);
-		}
-	}
-	$this->actions = $actions;
+    public function init($limit, $skip) {
+
     }
 
 }
@@ -112,54 +66,15 @@ class ActionListBox {
  */
 class EventListBox {
 
-    public $error;
-    public $events;
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
-    }
+    public $error = null;
+    public $events = array();
 
     /**
      * \fn	init()
      * \brief	class for quering events for header
      */
-    public function init() {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$activity = new ActivityParse();
-	$activity->wherePointer('toUser', '_User', $currentUserId);
-	$activity->where('type', 'INVITED');
-	$activity->where('read', false);
-	$activity->where('status', 'P');
-	$activity->where('active', true);
-	$activity->setLimit($this->config->limitForMessageList);
-	$activity->orderByDescending('createdAt');
-	$activity->whereInclude('fromUser,event');
-	$activities = $activity->getActivities();
-	if ($activities instanceof Error) {
-	    $this->error = $activities->getErrorMessage();
-	    $this->events = array();
-	    return;
-	} elseif (is_null($activities)) {
-	    $this->error = null;
-	    $this->events = array();
-	    return;
-	} else {
-	    $this->error = null;
-	    $events = array();
-	    foreach ($activities as $act)
-		if (!is_null($act->getFromUser()) && !is_null($act->getEvent())) {
-		    array_push($events, $act);
-		}
-	}
-	$this->events = $events;
+    public function init($limit, $skip) {
+
     }
 
 }
@@ -170,26 +85,15 @@ class EventListBox {
  */
 class InvitedCounterBox {
 
-    public $counter;
+    public $counter = 0;
 
     /**
      * \fn	init()
      * \brief	Init InvitedBoxCounter instance
-     * \return	invitedBoxCounter
+     * @return	invitedBoxCounter
      */
     public function init() {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$activity = new ActivityParse();
-	$activity->wherePointer('toUser', '_User', $currentUserId);
-	$activity->where('type', 'INVITED');
-	$activity->where('read', false);
-	$activity->where('status', 'P');
-	$activity->where('active', true);
-	$this->counter = $activity->getCount();
+
     }
 
 }
@@ -200,26 +104,15 @@ class InvitedCounterBox {
  */
 class MessageCounterBox {
 
-    public $counter;
+    public $counter = 0;
 
     /**
      * \fn	init()
      * \brief	Init MessageBoxCounter instance
-     * \return	messageBoxCounter
+     * @return	messageBoxCounter
      */
     public function init() {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$activity = new ActivityParse();
-	$activity->wherePointer('toUser', '_User', $currentUserId);
-	$activity->where('type', 'MESSAGESENT');
-	$activity->where('status', 'P');
-	$activity->where('read', false);
-	$activity->where('active', true);
-	$this->counter = $activity->getCount();
+
     }
 
 }
@@ -230,55 +123,16 @@ class MessageCounterBox {
  */
 class MessageListBox {
 
-    public $error;
-    public $messages;
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
-    }
+    public $error = null;
+    public $messages = array();
 
     /**
      * \fn	init()
      * \brief	Init MessageListBox instance
-     * \return	messageListBox
+     * @return	messageListBox
      */
-    public function init() {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$activity = new ActivityParse();
-	$activity->wherePointer('toUser', '_User', $currentUserId);
-	$activity->where('type', 'MESSAGESENT');
-	$activity->where('read', false);
-	$activity->where('status', 'P');
-	$activity->where('active', true);
-	$activity->setLimit($this->config->limitForEventList);
-	$activity->orderByDescending('createdAt');
-	$activity->whereInclude('comment,fromUser');
-	$activities = $activity->getActivities();
-	if ($activities instanceof Error) {
-	    $this->error = $activities->getErrorMessage();
-	    $this->messages = array();
-	    return;
-	} elseif (is_null($activities)) {
-	    $this->error = null;
-	    $this->messages = array();
-	    return;
-	} else {
-	    $this->error = null;
-	    $messages = array();
-	    foreach ($activities as $act)
-		if (!is_null($act->getFromUser()) && !is_null($act->getComment())) {
-		    array_push($messages, $act);
-		}
-	}
-	$this->messages = $messages;
+    public function init($limit, $skip) {
+
     }
 
 }
@@ -289,31 +143,15 @@ class MessageListBox {
  */
 class RelationCounterBox {
 
-    public $counter;
+    public $counter = 0;
 
     /**
      * \fn	init()
      * \brief	Init MessageBoxCounter instance
-     * \return	messageBoxCounter
+     * @return	messageBoxCounter
      */
     public function init($type) {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$activity = new ActivityParse();
-	$activity->wherePointer('toUser', '_User', $currentUserId);
-	if ($type == 'SPOTTER') {
-	    $activity->where('type', 'FRIENDSHIPREQUEST');
-	} else {
-	    $value = array(array('fromUser' => 'COLLABORATIONREQUEST'), array('fromUser' => 'FOLLOWING'));
-	    $activity->whereOr($value);
-	}
-	$activity->where('status', 'P');
-	$activity->where('read', false);
-	$activity->where('active', true);
-	$this->counter = $activity->getCount();
+
     }
 
 }
@@ -324,60 +162,16 @@ class RelationCounterBox {
  */
 class RelationListBox {
 
-    public $error;
-    public $relations;
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
-    }
+    public $error = null;
+    public $relations = array();
 
     /**
      * \fn	init()
      * \brief	Init RelationListBox instance
-     * \return	relationListBox 
+     * @return	relationListBox 
      */
-    public function init($type) {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$activity = new ActivityParse();
-	$activity->wherePointer('toUser', '_User', $currentUserId);
-	if ($type == 'SPOTTER') {
-	    $activity->where('type', 'FRIENDSHIPREQUEST');
-	} else {
-	    $activityTypes = array(array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));
-	    $activity->whereOr($activityTypes);
-	}
-	$activity->where('read', false);
-	$activity->where('status', 'P');
-	$activity->where('active', true);
-	$activity->setLimit($this->config->limitForRelationList);
-	$activity->orderByDescending('createdAt');
-	$activity->whereInclude('fromUser');
-	$activities = $activity->getActivities();
-	if ($activities instanceof Error) {
-	    $this->error = $activities->getErrorMessage();
-	    $this->relations = array();
-	    return;
-	} elseif (is_null($activities)) {
-	    $this->error = null;
-	    $this->relations = array();
-	    return;
-	} else {
-	    $this->error = null;
-	    $relations = array();
-	    foreach ($activities as $act)
-		if (!is_null($act->getFromUser())) {
-		    array_push($relations, $act);
-		}
-	}
-	$this->relations = $relations;
+    public function init($type, $limit, $skip) {
+
     }
 
 }

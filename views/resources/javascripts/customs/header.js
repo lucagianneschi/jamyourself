@@ -1,8 +1,8 @@
-function loadBoxSocial(notification, objectId, userType) {
+function loadBoxSocial(notification, id, userType) {
     $.ajax({
 	url: './content/header/box-social.php',
 	data: {
-	    userObjectId: objectId,
+	    userObjectId: id,
 	    userType: userType,
 	    typeNotification: notification
 	},

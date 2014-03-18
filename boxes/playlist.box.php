@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		0.2
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @author		Luca Gianneschi
+ * @version		0.3
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento playlist utente
  * \details		Recupera la playlist utente
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		comprendere i profili premium
+ * @warning
+ * @bug
+ * @todo		comprendere i profili premium
  *
  */
 
@@ -19,124 +19,91 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 /**
- * \brief	PlaylistInfoBox class 
- * \details	box to display user's playlist info in each page of the website 
+ * PlaylistInfoBox class, box to display user's playlist info in each page of the website
+ * Recupera le informazioni dell'evento, le inserisce in un array da passare alla view
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class PlaylistInfoBox {
 
-    public $config;
-    public $error;
-    public $playlists;
-
     /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
+     * @var string stringa di errore
      */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
-    }
+    public $error = null;
 
     /**
-     * \fn	init()
-     * \brief	Init PlaylistInfoBox instance
-     * \return	playlistInfoBox
+     * @var array Array di playlist
+     */
+    public $playlistArray = array();
+
+    /**
+     * PlaylistInfoBox init
      */
     public function init() {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
+	$userId = $_SESSION['id'];
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
 	}
-	require_once CLASSES_DIR . 'playlist.class.php';
-	require_once CLASSES_DIR . 'playlistParse.class.php';
-	$playlist = new PlaylistParse();
-	$playlist->wherePointer('fromUser', '_User', $currentUserId);
-	$playlist->where('active', true);
-	$playlist->orderByDescending('createdAt');
-	$playlist->setLimit($this->config->limitForPlaylist);
-	$playlists = $playlist->getPlaylists();
-	if ($playlists instanceof Error) {
-	    $this->error = $playlists->getErrorMessage();
-	    $this->playlists = array();
-	    return;
-	} elseif (is_null($playlists)) {
-	    $this->error = null;
-	    $this->playlists = array();
-	    return;
-	} else {
-	    $this->error = null;
-	    $this->playlists = $playlists;
+	$playlists = selectPlaylists($connection, null, array('fromuser' => $userId));
+	if ($playlists === false) {
+	    $this->error = 'Errore nella query';
 	}
+	$this->playlistArray = $playlists;
     }
 
 }
 
 /**
- * \brief	PlaylistSongBox class 
- * \details	box to display user's playlist song info 
+ * PlaylistSongBox class, box to display user's playlist info in each page of the website
+ * Recupera le informazioni dell'evento, le inserisce in un array da passare alla view
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class PlaylistSongBox {
 
-    public $config;
-    public $error;
-    public $tracklist;
+    /**
+     * @var string stringa di errore
+     */
+    public $error = null;
 
     /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
+     * @var array Array di song
      */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
-    }
+    public $songArray = array();
 
     /**
-     * \fn	init($playlistId, $sonsArray)
-     * \brief	Init PlaylistSongBox instance
-     * \return	playlistSongBox
+     * Init PlaylistSongBox instance
+     * @param	int $playlistId
      */
-    public function init($playlistId, $sonsArray) {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
+    public function init($playlistId) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
 	}
-	require_once CLASSES_DIR . 'song.class.php';
-	require_once CLASSES_DIR . 'songParse.class.php';
-	$song = new SongParse();
-	$song->whereRelatedTo('songs', 'Playlist', $playlistId);
-	$song->where('active', true);
-	$song->setLimit($this->config->limitForTracklist);
-	$song->whereInclude('fromUser,record');
-	$songs = $song->getSongs();
-	if ($songs instanceof Error) {
-	    $this->error = $songs->getErrorMessage();
-	    $this->tracklist = array();
-	    return;
-	} elseif (is_null($songs)) {
-	    $this->error = null;
-	    $this->tracklist = array();
-	    return;
-	} else {
-	    foreach ($sonsArray as $value) {
-		$orderSongs[$value] = $songs[$value];
-	    }
-	    if (is_null($orderSongs)) {
-		$this->error = null;
-		$this->tracklist = array();
-		return;
-	    } else {
-		$tracklist = array();
-		$this->error = null;
-		foreach ($orderSongs as $song) {
-		    if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
-			array_push($tracklist, $song);
-		}
-	    }
-	    $this->tracklist = $tracklist;
+	$songs = selectSongsInPlaylist($connection, $playlistId, 20, 0);
+	if ($songs === false) {
+	    $this->error = 'Errore nella query';
 	}
+	$this->songArray = $songs;
     }
 
 }
+
 ?>

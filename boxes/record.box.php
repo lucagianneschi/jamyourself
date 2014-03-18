@@ -1,1 +1,113 @@
-<?php/* ! \par		Info Generali: * \author		Luca Gianneschi * \version		1.0 * \date		2013 * \copyright		Jamyourself.com 2013 * \par			Info Classe: * \brief		box caricamento info event * \details		Recupera le informazioni dell'evento, le inserisce in un array da passare alla view * \par			Commenti: * \warning * \bug * \todo		 * */if (!defined('ROOT_DIR'))    define('ROOT_DIR', '../');require_once ROOT_DIR . 'config.php';require_once CLASSES_DIR . 'record.class.php';require_once CLASSES_DIR . 'recordParse.class.php';require_once SERVICES_DIR . 'debug.service.php';/** * \brief	RecordBox class  * \details	box class to pass info to the view for personal page, media page & uploadRecord page */class RecordBox {    public $config;    public $error;    public $recordArray;    /**     * \fn	__construct()     * \brief	class construct to import config file     */    function __construct() {	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/record.config.json"), false);    }    /**     * \fn	initForMediaPage($objectId)     * \brief	init for Media Page     * \param	$objectId of the record to display in Media Page     * \todo         */    public function initForMediaPage($objectId) {	$recordP = new RecordParse();	$recordP->where('objectId', $objectId);	$recordP->where('active', true);	$recordP->whereInclude('fromUser');	$recordP->setLimit(MIN);	$records = $recordP->getRecords();	if ($records instanceof Error) {	    $this->errorManagement($records->getErrorMessage());	    return;	} elseif (is_null($records)) {	    $this->errorManagement();	    return;	} else {	    $this->error = null;	    $this->recordArray = $records;	}    }    /**     * \fn	initForPersonalPage($objectId)     * \brief	init for recordBox for personal Page     * \param	$objectId of the user who owns the page     * \todo	     */    public function initForPersonalPage($objectId, $limit = null, $skip = null) {	$record = new RecordParse();	$record->wherePointer('fromUser', '_User', $objectId);	$record->where('active', true);	$record->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : DEFAULTQUERY);	$record->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);	$record->orderByDescending('createdAt');	$records = $record->getRecords();	if ($records instanceof Error) {	    $this->errorManagement($records->getErrorMessage());	    return;	} elseif (is_null($records)) {	    $this->errorManagement();	    return;	} else {	    $this->error = null;	    $this->recordArray = $records;	}    }    /**     * \fn	init($genre = null, $limit = null, $skip = null)     * \brief	Init RecordFilter instance for TimeLine     * \param	$genre = null, $limit = null, $skip = null     * \todo     */    public function initForStream($lat = null, $long = null, $city = null, $country = null, $genre = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = 'loveCounter') {	require_once BOXES_DIR . 'utilsBox.php';	$currentUserId = sessionChecker();	if (is_null($currentUserId)) {	    $this->errorManagement(ONLYIFLOGGEDIN);	    return;	}	$record = new RecordParse();	if (!is_null($lat) && !is_null($long)) {	    $record->whereNearSphere($lat, $long, (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForRecord : $distance, ($unit == 'km') ? $unit : 'mi');	} elseif (!is_null($city) || !is_null($country)) {	    $locations = findLocationCoordinates($city, $country);	    if (!($locations instanceof Error) && !is_null($locations)) {		$lat = current($locations)->getGeopoint()->location['latitude'];		$long = current($locations)->getGeopoint()->location['longitude'];	    }	    $record->whereNearSphere($lat, $long, (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForRecord : $distance, ($unit == 'km') ? $unit : 'mi');	}	if (!is_null($genre)) {	    $record->whereContainedIn('genre', $genre);	}	$record->whereGreaterThanOrEqualTo('songCounter', 1);	$record->whereInclude('fromUser');	$record->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitRecordForTimeline);	$record->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);	if (((is_null($lat) && is_null($long)) && (is_null($city)) && is_null($country))) {	    $record->orderByDescending($field);	}	$records = $record->getRecords();	if ($records instanceof Error) {	    $this->errorManagement($records->getErrorMessage());	    return;	} elseif (is_null($records)) {	    $this->errorManagement();	    return;	} else {	    $this->error = null;	    $this->recordArray = $records;	}    }    /**     * \fn	initForUploadRecordPage($objectId)     * \brief	init for recordBox for upload record page     * \param	$objectId of the user who owns the record     */    public function initForUploadRecordPage() {	require_once BOXES_DIR . 'utilsBox.php';	$currentUserId = sessionChecker();	if (is_null($currentUserId)) {	    $this->errorManagement(ONLYIFLOGGEDIN);	    return;	}	$record = new RecordParse();	$record->wherePointer('fromUser', '_User', $currentUserId);	$record->where('active', true);	$record->setLimit($this->config->limitRecordForUploadRecordPage);	$record->orderByDescending('createdAt');	$records = $record->getRecords();	if ($records instanceof Error) {	    $this->errorManagement($records->getErrorMessage());	    return;	} elseif (is_null($records)) {	    $this->errorManagement();	    return;	} else {	    $this->error = null;	    $this->recordArray = $records;	}    }    /**     * \fn	errorManagement($errorMessage = null)     * \brief	set values in case of error or nothing to send to the view     * \param	$errorMessage     */    private function errorManagement($errorMessage = null) {	$this->config = null;	$this->error = $errorMessage;	$this->recordArray = array();    }}?>
+<?php
+
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'select.service.php';
+
+/**
+ * RecordBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
+ */
+class RecordBox {
+
+    /**
+     * @var string stringa di errore
+     */
+    public $error = null;
+
+    /**
+     * @var array Array di record
+     */
+    public $recordArray = array();
+
+    /**
+     * @var array Array di song
+     */
+    public $tracklist = array();
+
+    /**
+     * init for recordBox for personal Page
+     * @param	$id of the user who owns the page
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip
+     */
+    public function init($id, $limit = 3, $skip = 0) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
+	$records = selectRecords($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+	if ($records === false) {
+	    $this->error = 'Errore nella query';
+	}
+	$this->recordArray = $records;
+    }
+
+    /**
+     * init for Media Page
+     * @param	int $id of the record to display in Media Page
+     */
+    public function initForMediaPage($id) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
+	$records = selectRecords($connection, $id);
+	if ($records === false) {
+	    $this->error = 'Errore nella query';
+	}
+	$this->recordArray = $records;
+    }
+
+    /**
+     * Init  RecordFilter instance for TimeLine
+     * @param   float $lat = null, goal set for latitude
+     * @param   float $long = null, goal set for longitude
+     * @param	string $city = null, city to search record nearby
+     * @param	string $country = null, country for the city
+     * @param	array $genre = null, genre for record
+     * @param   string $type = null, type of the record
+     * @param   date $eventDate = null, date of the record
+     * @param   float $distance, maximum distance fo the record
+     * @param	string  $unit, 'km' (kilometers) or 'mi'(miles)
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @param   string $field, field for ordering results
+     * @todo
+     */
+    public function initForStream($lat = null, $long = null, $city = null, $country = null, $genre = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = 'loveCounter') {
+	
+    }
+
+    /**
+     * init for Tracklist
+     * @param	$id of the record to display
+     */
+    public function initForTracklist($id) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
+	}
+	$tracklist = selectSongs($connection, null, array('record' => $id), array('position' => 'ASC'));
+	if ($tracklist === false) {
+	    $this->error = 'Errore nella query';
+	}
+	$this->tracklist = $tracklist;
+    }
+
+}
+
+?>

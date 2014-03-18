@@ -11,20 +11,21 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'review.box.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 session_start();
 
-$objectId = $_POST['objectId'];
+$id = $_POST['id'];
 $type = $_POST['type'];
 
-$reviewBox = new ReviewBox();
-$reviewBox->initForPersonalPage($objectId, $type, 'Record');
-if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
-    $currentUser = $_SESSION['currentUser'];
+$reviewBox = new ReviewRecordBox();
+$reviewBox->initForPersonalPage($id, $type);
+if (is_null($reviewBox->error)) {
+    $currentUserId = $_SESSION['id'];
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);
     ?>
@@ -60,22 +61,22 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 			    <?php
 			    if ($reviewCounter > 0) {
 				foreach ($reviews as $key => $value) {
-				    $recordReview_objectId = $value->getObjectId();
-				    $recordReview_user_objectId = $value->getFromUser()->getObjectId();
-				    $recordReview_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
-				    $recordReview_user_username = $value->getFromUser()->getUsername();
-				    $recordReview_user_type = $value->getFromUser()->getType();
-				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnailCover();
-				    $recordObjectId = $value->getRecord()->getObjectId();
+				    $recordReview_objectId = $value->getId();
+				    $recordReview_user_objectId = $value->getFromuser()->getId();
+				    $recordReview_user_thumbnail = $value->getFromuser()->getThumbnail();
+				    $recordReview_user_username = $value->getFromuser()->getUsername();
+				    $recordReview_user_type = $value->getFromuser()->getType();
+				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnail();
+				    $recordObjectId = $value->getRecord()->getId();
 				    $recordReview_title = $value->getRecord()->getTitle();
-				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
-				    #TODO
-				    //$recordReview_rating = $value->getRecord()->getRating();
+					$recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", strtotime($value->getCreatedat())));
+				    $recordReview_rating = $value->getVote();
 				    $recordReview_text = $value->getText();
-				    $recordReview_love = $value->getLoveCounter();
-				    $recordReview_comment = $value->getCommentCounter();
-				    $recordReview_share = $value->getShareCounter();
-				    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+				    $recordReview_love = $value->getLovecounter();
+				    $recordReview_comment = $value->getCommentcounter();
+				    $recordReview_share = $value->getSharecounter();
+					$connectionService = new ConnectionService();						
+				    if (existsRelation($connectionService,'user', $currentUserId, 'comment',$recordReview_objectId, 'loved')) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 				    } else {
@@ -97,7 +98,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						}
 						$fileManagerService = new FileManagerService();
 						$pathUser = $fileManagerService->getPhotoPath($eventReview_user_objectId, $recordReview_user_thumbnail);
-						$pathRecord = $fileManagerService->getPhotoPath($currentUser->getObjectId(), $recordReview_thumbnailCover);
+						$pathRecord = $fileManagerService->getPhotoPath($currentUserId, $recordReview_thumbnailCover);
 						?>
 						<a href="profile.php?user=<?php echo $recordReview_user_objectId ?>">	
 						    <div class="row">
@@ -141,7 +142,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    					    <div class="row ">						
 	    						<div  class="small-12 columns ">
 								<?php
-								for ($index = 0; $index < 5; $index++) {
+								for ($index = 1; $index <= 5; $index++) {
 								    if ($index <= $recordReview_rating) {
 									echo '<a class="icon-propriety _star-orange"></a>';
 								    } else {

@@ -10,11 +10,10 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../../../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'event.box.php';
-require_once CLASSES_DIR . 'utilsClass.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
 $lat = $_POST['latitude'];
@@ -25,7 +24,6 @@ $tags = $_POST['tags'];
 $eventDate = $_POST['eventDate'];
 
 if (!is_null($eventDate) && $eventDate != '')
-    $data = toParseDate(DateTime::createFromFormat("d/m/Y", $eventDate));
 
 $eventBox = new EventBox();
 $eventBox->initForStream($lat, $lon, $city, $country, $tags, $data);
@@ -59,33 +57,33 @@ if (is_null($eventBox->error)) {
 		}
 		if ($index % 3 == 0) {
 		    ?><div class="rsContent"> <?php } ?>
-	    	<div id="<?php echo $value->getObjectId(); ?>">
+	    	<div id="<?php echo $value->getId(); ?>">
 	    	    <div class="box ">
-	    		<a href="profile.php?user=<?php echo $value->getFromUser()->getObjectId() ?>">
+	    		<a href="profile.php?user=<?php echo $value->getFromuser()->getId() ?>">
 	    		    <div class="row line">
 	    			<div class="small-1 columns ">
 	    			    <div class="icon-header">
 	    				<!--THUMB FROMUSER-->
 					    <?php
 					    $fileManagerService = new FileManagerService();
-					    $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getFromUser()->getProfileThumbnail());
+					    $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromuser()->getId(), $value->getFromuser()->getThumbnail());
 					    ?>
-	    				<img src="<?php echo $pathPictureThumbFromUser; ?>" onerror="this.src='<?php echo DEFAVATARJAMMER; ?>'" alt="<?php echo $value->getFromUser()->getUsername(); ?>">
+	    				<img src="<?php echo $pathPictureThumbFromUser; ?>" onerror="this.src='<?php echo DEFAVATARJAMMER; ?>'" alt="<?php echo $value->getFromuser()->getUsername(); ?>">
 	    			    </div>
 	    			</div>
 	    			<div class="small-5 columns">
 	    			    <div class="text grey" style="margin-bottom: 0px;">
-	    				<strong><?php echo $value->getFromUser()->getUsername(); ?></strong>
+	    				<strong><?php echo $value->getFromuser()->getUsername(); ?></strong>
 	    			    </div>
 	    			    <div class="note orange">
-	    				<strong><?php echo $value->getFromUser()->getType(); ?></strong>
+	    				<strong><?php echo $value->getFromuser()->getType(); ?></strong>
 	    			    </div>
 	    			</div>
 	    			<div class="small-6 columns propriety">
 	    			</div>
 	    		    </div>
 	    		</a>
-	    		<a href="event.php?event=<?php echo $value->getObjectId() ?>">
+	    		<a href="event.php?event=<?php echo $value->getId() ?>">
 	    		    <div class="row">
 	    			<div class="small-12 columns box-detail">
 	    			    <div class="row ">
@@ -93,7 +91,7 @@ if (is_null($eventBox->error)) {
 	    				    <div class="row">
 	    					<div class="small-2 columns ">
 							<?php
-							$pathEventThumb = $fileManagerService->getEventPhotoPath($value->getFromUser()->getObjectId(), $value->getThumbnail());
+							$pathEventThumb = $fileManagerService->getEventPhotoPath($value->getFromuser()->getId(), $value->getThumbnail());
 							?>
 	    					    <div class="coverThumb"><img src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $value->getTitle(); ?>"></div>						
 	    					</div>

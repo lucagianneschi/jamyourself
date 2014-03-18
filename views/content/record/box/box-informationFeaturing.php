@@ -16,13 +16,14 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'select.service.php';
+$id = $_POST['id'];
+$connectionService = new ConnectionService();
+$featurings = getRelatedNodes($connectionService,'user', $id, 'record', 'featuring');
 
-$objectId = $_POST['objectId'];
-$featurings = getRelatedUsers($objectId, 'featuring', 'Record', false, 10, 0);
 $featuringsCounter = count($featurings);
 
 if ($featuringsCounter > 0) {
@@ -37,15 +38,15 @@ if ($featuringsCounter > 0) {
 	    foreach ($featurings as $key => $value) {
 		$defaultThum = $value->getType() == 'JAMMER' ? DEFTHUMBJAMMER : DEFTHUMBVENUE;
 		$fileManagerService = new FileManagerService();
-		$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+		$pathPicture = $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail());
 		?>
 		<div  class="small-6 columns">
-		    <a href="profile.php?user=<?php echo $value->getObjectId(); ?> ">
+		    <a href="profile.php?user=<?php echo $value->getId(); ?> ">
 			<div class="box-membre">
 			    <div class="row ">
 				<div  class="small-3 columns ">
 				    <div class="icon-header">
-					<img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?> ">
+					<img src="<?php echo $pathPicture . $value->getThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?> ">
 				    </div>
 				</div>
 				<div  class="small-9 columns ">

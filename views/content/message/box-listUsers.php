@@ -49,7 +49,7 @@ foreach ($messageBox->userInfoArray as $key => $value) {
     		<div class="icon-header">
 			<?php
 			$fileManagerService = new FileManagerService();
-			$thumbPath = $fileManagerService->getPhotoPath($value->userInfo->objectId, $value->userInfo->thumbnail);
+			$thumbPath = $fileManagerService->getPhotoPath($value->userInfo->id, $value->userInfo->thumbnail);
 			?>
     		    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $tumb; ?>'" alt="<?php echo $value->userInfo->username; ?>">
     		    <input type="hidden" name="type" value="<?php echo $value->userInfo->type ?>"/>

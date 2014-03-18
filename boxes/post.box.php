@@ -1,118 +1,52 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		1.0
- * \date		2013
- * \copyright	Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		box Post
- * \details		Recupera gli ultimi 3 post attivi (valido per ogni tipologia di utente)
- * \par			Commenti:
- * \warning
- * \bug
- * \todo
- *
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once CLASSES_DIR . 'comment.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
+require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 /**
- * \brief	PostBox class 
- * \details	box class to pass info to the view for personal page
+ * PostBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class PostBox {
 
-    public $config;
-    public $error;
-    public $postArray;
+    /**
+     * @var string stringa di errore
+     */
+    public $error = null;
 
     /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
+     * @var array Array di post
      */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/post.config.json"), false);
-    }
+    public $postArray = array();
 
     /**
-     * \fn	init($objectId)
-     * \brief	Init PostBox instance for Personal Page
-     * \param	$objectId for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
-     * \return	postBox
-     * \todo
+     * Init PostBox instance for Personal Page
+     * @param	$id for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip
      */
-    public function init($objectId, $limit = null, $skip = null) {
-	$info = array();
-	$post = new CommentParse();
-	$post->wherePointer('toUser', '_User', $objectId);
-	$post->where('type', 'P');
-	$post->where('active', true);
-	$post->whereInclude('fromUser');
-	$post->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitForPersonalPage);
-	$post->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-	$post->orderByDescending('createdAt');
-	$posts = $post->getComments();
-	if ($posts instanceof Error) {
-	    $this->config = null;
-	    $this->error = $posts->getErrorMessage();
-	    $this->postArray = array();
-	    return;
-	} elseif (is_null($posts)) {
-	    $this->config = null;
-	    $this->error = null;
-	    $this->postArray = array();
-	    return;
-	} else {
-	    foreach ($posts as $post) {
-		if (!is_null($post->getFromUser()))
-		    array_push($info, $post);
-	    }
-	    $this->error = null;
-	    $this->postArray = $info;
+    public function init($id, $limit = 5, $skip = 0) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    $this->error = 'Errore nella connessione';
 	}
-    }
-
-    /**
-     * \fn	initForPersonalPage($objectId, $limit, $skip, $currentUserId)
-     * \brief	Init PostBox instance for Personal Page
-     * \param	$objectId for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
-     * \return	postBox
-     * \todo
-     */
-    public function initForStream($objectId, $limit) {
-	$info = array();
-	$post = new CommentParse();
-	$post->wherePointer('toUser', '_User', $objectId);
-	$post->wherePointer('fromUser', '_User', $objectId);
-	$post->where('type', 'P');
-	$post->where('active', true);
-	$post->setLimit($limit);
-	$post->orderByDescending('createdAt');
-	$posts = $post->getComments();
-	if ($posts instanceof Error) {
-	    $this->config = null;
-	    $this->error = $posts->getErrorMessage();
-	    $this->postArray = array();
-	    return;
-	} elseif (is_null($posts)) {
-	    $this->config = null;
-	    $this->error = null;
-	    $this->postArray = array();
-	    return;
-	} else {
-	    foreach ($posts as $post) {
-		if (!is_null($post->getFromUser()))
-		    array_push($info, $post);
-	    }
-	    $this->error = null;
-	    $this->postArray = $info;
+	$posts = selectPosts($connection, null, array('touser' => $id, 'type' => 'P'), array('createdat' => 'DESC'), $limit, $skip);
+	if ($posts === false) {
+	    $this->error = 'Errore nella connessione';
 	}
+	$this->postArray = $posts;
     }
 
 }

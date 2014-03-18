@@ -1,19 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		1.0
- * \date		2013
- * \copyright	        Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller di gestione delle rollback dei controller
- * \details		gestisce le azioni in caso di fallimento di alcune azioni dei controller
- * \par			Commenti:
- * \warning
- * \bug
- * \todo		aggiornare al momento in cui vengono messe nuove rollback per i controller, fare API su Wiki
- *
- */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -22,9 +8,24 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 
 /**
+ * Rollbackutils 
+ * gestisce le azioni in caso di fallimento di alcune azioni dei controller
+ * 
+ * @author		Luca Gianneschi
+ * @author		Stefano Muscas
+ * @author		Daniele Caldelli
+ * @version		0.2
+ * @since		2014-03-17
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                aggiornare le funzioni con i nuovi DB            
+ */
+
+/**
  * \fn	    rollbackAcceptRelation($operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType)
  * \brief   rollback for accept Relation in relation.controller.php
- * \param   $operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType
+ * @param   $operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType
  */
 function rollbackAcceptRelation($operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType) {
     global $controllers;
@@ -76,43 +77,43 @@ function rollbackAcceptRelation($operation, $activityObjectId, $activityField, $
 }
 
 /**
- * \fn	    rollbackCommentController($objectId, $classType)
+ * \fn	    rollbackCommentController($id, $classType)
  * \brief   rollback for comment.controller.php
- * \param   $objectId, $classType
+ * @param   $id, $classType
  */
-function rollbackCommentController($objectId, $classType) {
+function rollbackCommentController($id, $classType) {
     global $controllers;
     require_once CLASSES_DIR . 'commentParse.class.php';
     $commentParse = new CommentParse();
-    $resCmt = $commentParse->deleteComment($objectId);
+    $resCmt = $commentParse->deleteComment($id);
     switch ($classType) {
 	case 'Album':
 	    require_once CLASSES_DIR . 'albumParse.class.php';
 	    $albumParse = new AlbumParse();
-	    $res = $albumParse->decrementAlbum($objectId, 'commentCounter', 1);
+	    $res = $albumParse->decrementAlbum($id, 'commentCounter', 1);
 	    break;
 	case 'Comment':
-	    $res = $commentParse->decrementComment($objectId, 'commentCounter', 1);
+	    $res = $commentParse->decrementComment($id, 'commentCounter', 1);
 	    break;
 	case 'Event':
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventParse = new EventParse();
-	    $res = $eventParse->decrementEvent($objectId, 'commentCounter', 1);
+	    $res = $eventParse->decrementEvent($id, 'commentCounter', 1);
 	    break;
 	case 'Image':
 	    require_once CLASSES_DIR . 'imageParse.class.php';
 	    $imageParse = new ImageParse();
-	    $res = $imageParse->decrementImage($objectId, 'commentCounter', 1);
+	    $res = $imageParse->decrementImage($id, 'commentCounter', 1);
 	    break;
 	case 'Record':
 	    require_once CLASSES_DIR . 'recordParse.class.php';
 	    $recordParse = new RecordParse();
-	    $res = $recordParse->decrementRecord($objectId, 'commentCounter', 1);
+	    $res = $recordParse->decrementRecord($id, 'commentCounter', 1);
 	    break;
 	case 'Video':
 	    require_once CLASSES_DIR . 'videoParse.class.php';
 	    $videoParse = new VideoParse();
-	    $res = $videoParse->incrementVideo($objectId, 'commentCounter', 1);
+	    $res = $videoParse->incrementVideo($id, 'commentCounter', 1);
 	    break;
     }
     $message = ($res instanceof Error || $resCmt instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
@@ -122,7 +123,7 @@ function rollbackCommentController($objectId, $classType) {
 /**
  * \fn	    rollbackDeclineRelation($activityObjectId, $activityField, $activityValue)
  * \brief   rollback for Decline function of relation.controller.php
- * \param   $activityObjectId, $activityField, $activityValue
+ * @param   $activityObjectId, $activityField, $activityValue
  */
 function rollbackDeclineRelation($activityObjectId, $activityField, $activityValue) {
     global $controllers;
@@ -134,57 +135,57 @@ function rollbackDeclineRelation($activityObjectId, $activityField, $activityVal
 }
 
 /**
- * \fn	rollbackDeleteController($classType, $objectId)
+ * \fn	rollbackDeleteController($classType, $id)
  * \brief   rollback for DeleteController
- * \param   $objectId dell'oggetto su cui fare rollback della delete, $classType
+ * @param   $id dell'oggetto su cui fare rollback della delete, $classType
  */
-function rollbackDeleteController($classType, $objectId) {
+function rollbackDeleteController($classType, $id) {
     global $controllers;
     switch ($classType) {
 	case 'Activity':
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
-	    $res = $activityParse->updateField($objectId, 'active', true);
+	    $res = $activityParse->updateField($id, 'active', true);
 	    break;
 	case 'Album':
 	    require_once CLASSES_DIR . 'albumParse.class.php';
 	    $albumParse = new AlbumParse();
-	    $res = $albumParse->updateField($objectId, 'active', true);
+	    $res = $albumParse->updateField($id, 'active', true);
 	    break;
 	case 'Comment':
 	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $commentParse = new CommentParse();
-	    $res = $commentParse->updateField($objectId, 'active', true);
+	    $res = $commentParse->updateField($id, 'active', true);
 	    break;
 	case 'Event':
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventParse = new EventParse();
-	    $res = $eventParse->updateField($objectId, 'active', true);
+	    $res = $eventParse->updateField($id, 'active', true);
 	    break;
 	case 'Image':
 	    require_once CLASSES_DIR . 'imageParse.class.php';
 	    $imageParse = new ImageParse();
-	    $res = $imageParse->updateField($objectId, 'active', true);
+	    $res = $imageParse->updateField($id, 'active', true);
 	    break;
 	case 'Playlist':
 	    require_once CLASSES_DIR . 'playlistParse.class.php';
 	    $playlistParse = new PlaylistParse();
-	    $res = $playlistParse->updateField($objectId, 'active', true);
+	    $res = $playlistParse->updateField($id, 'active', true);
 	    break;
 	case 'Record':
 	    require_once CLASSES_DIR . 'recordParse.class.php';
 	    $recordParse = new RecordParse();
-	    $res = $recordParse->updateField($objectId, 'active', true);
+	    $res = $recordParse->updateField($id, 'active', true);
 	    break;
 	case 'Song':
 	    require_once CLASSES_DIR . 'songParse.class.php';
 	    $songParse = new SongParse();
-	    $res = $songParse->updateField($objectId, 'active', true);
+	    $res = $songParse->updateField($id, 'active', true);
 	    break;
 	case 'Video':
 	    require_once CLASSES_DIR . 'videoParse.class.php';
 	    $videoParse = new VideoParse();
-	    $res = $videoParse->updateField($objectId, 'active', true);
+	    $res = $videoParse->updateField($id, 'active', true);
 	    break;
     }
     $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
@@ -192,9 +193,9 @@ function rollbackDeleteController($classType, $objectId) {
 }
 
 /**
- * \fn	    rollbackEventController($objectId, $operation)
+ * \fn	    rollbackEventController($id, $operation)
  * \brief   EventManagementController
- * \param   $objectId dell'oggetto su cui fare rollback della eventmanagement, operation -> sendInvitation, accept, refuse o maybe
+ * @param   $id dell'oggetto su cui fare rollback della eventmanagement, operation -> sendInvitation, accept, refuse o maybe
  */
 function rollbackEventController($activityId, $operation, $userId = null, $eventId = null) {
     global $controllers;
@@ -234,74 +235,74 @@ function rollbackEventController($activityId, $operation, $userId = null, $event
 }
 
 /**
- * \fn	rollbackLoveController($classType, $objectId, $operation, $fromUser)
+ * \fn	rollbackLoveController($classType, $id, $operation, $fromuser)
  * \brief   rollback for LoveController
- * \param   $objectId dell'oggetto su cui fare rollback della love, $classType, operation (love or unlove), $fromUser
+ * @param   $id dell'oggetto su cui fare rollback della love, $classType, operation (love or unlove), $fromuser
  */
-function rollbackLoveController($classType, $objectId, $operation, $fromUser) {
+function rollbackLoveController($classType, $id, $operation, $fromuser) {
     global $controllers;
     switch ($classType) {
 	case 'Album':
 	    require_once CLASSES_DIR . 'albumParse.class.php';
 	    $albumParse = new AlbumParse();
 	    if ($operation == 'increment') {
-		$res = $albumParse->incrementAlbum($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $albumParse->incrementAlbum($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $albumParse->decrementAlbum($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $albumParse->decrementAlbum($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Comment':
 	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $commentParse = new CommentParse();
 	    if ($operation == 'increment') {
-		$res = $commentParse->incrementComment($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $commentParse->incrementComment($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $commentParse->decrementComment($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $commentParse->decrementComment($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Event':
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventParse = new EventParse();
 	    if ($operation == 'increment') {
-		$res = $eventParse->incrementEvent($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $eventParse->incrementEvent($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $eventParse->decrementEvent($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $eventParse->decrementEvent($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Image':
 	    require_once CLASSES_DIR . 'imageParse.class.php';
 	    $imageParse = new ImageParse();
 	    if ($operation == 'increment') {
-		$res = $imageParse->incrementImage($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $imageParse->incrementImage($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $imageParse->decrementImage($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $imageParse->decrementImage($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Record':
 	    require_once CLASSES_DIR . 'recordParse.class.php';
 	    $recordParse = new RecordParse();
 	    if ($operation == 'increment') {
-		$res = $recordParse->incrementRecord($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $recordParse->incrementRecord($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $recordParse->decrementRecord($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $recordParse->decrementRecord($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Song':
 	    require_once CLASSES_DIR . 'songParse.class.php';
 	    $songParse = new SongParse();
 	    if ($operation == 'increment') {
-		$res = $songParse->incrementSong($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $songParse->incrementSong($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $songParse->decrementSong($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $songParse->decrementSong($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
 	case 'Video':
 	    require_once CLASSES_DIR . 'videoParse.class.php';
 	    $videoParse = new VideoParse();
 	    if ($operation == 'increment') {
-		$res = $videoParse->incrementVideo($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $videoParse->incrementVideo($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    } elseif ($operation == 'decrement') {
-		$res = $videoParse->decrementVideo($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		$res = $videoParse->decrementVideo($id, 'loveCounter', 1, true, 'lovers', array($fromuser->getId()));
 	    }
 	    break;
     }
@@ -310,20 +311,20 @@ function rollbackLoveController($classType, $objectId, $operation, $fromUser) {
 }
 
 /**
- * \fn	rollbackMessageController($objectId, $function)
+ * \fn	rollbackMessageController($id, $function)
  * \brief   rollback for MessageController
- * \param   $objectId dell'oggetto su cui fare rollback della message, function (sendMessage or readMessage)
+ * @param   $id dell'oggetto su cui fare rollback della message, function (sendMessage or readMessage)
  */
-function rollbackMessageController($objectId, $function) {
+function rollbackMessageController($id, $function) {
     global $controllers;
     if ($function == 'sendMessage') {
 	require_once CLASSES_DIR . 'commentParse.class.php';
 	$commentParse = new CommentParse();
-	$res = $commentParse->deleteComment($objectId);
+	$res = $commentParse->deleteComment($id);
     } else {
 	require_once CLASSES_DIR . 'activityParse.class.php';
 	$activityParse = new ActivityParse();
-	$res = $activityParse->updateField($objectId, 'read', true);
+	$res = $activityParse->updateField($id, 'read', true);
     }
     $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
     return $message;
@@ -332,8 +333,8 @@ function rollbackMessageController($objectId, $function) {
 /**
  * \fn	rollbackPlaylistController($playlistId, $songId, $operation, $premium, $limit)
  * \brief   rollback for addSong() e removeSong()
- * \param   $playslitId-> playlist objectId, $songId -> song objectId , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())$premium, $limit for the currentUser
- * \todo    
+ * @param   $playslitId-> playlist id, $songId -> song id , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())$premium, $limit for the currentUser
+ * @todo    
  */
 function rollbackPlaylistController($playlistId, $songId, $operation, $premium, $limit) {
     global $controllers;
@@ -354,15 +355,15 @@ function rollbackPlaylistController($playlistId, $songId, $operation, $premium, 
 }
 
 /**
- * \fn	rollbackPostController($objectId)
+ * \fn	rollbackPostController($id)
  * \brief   rollback for PostController
- * \param   $objectId dell'oggetto su cui fare delete
+ * @param   $id dell'oggetto su cui fare delete
  */
-function rollbackPostController($objectId) {
+function rollbackPostController($id) {
     global $controllers;
     require_once CLASSES_DIR . 'commentParse.class.php';
     $postParse = new CommentParse();
-    $res = $postParse->deleteComment($objectId);
+    $res = $postParse->deleteComment($id);
     $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
     return $message;
 }
@@ -370,7 +371,7 @@ function rollbackPostController($objectId) {
 /**
  * \fn	    rollbackRemoveRelation($operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType)
  * \brief   rollback for relation.controller.php for Remove Relation
- * \param   $operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType
+ * @param   $operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType
  */
 function rollbackRemoveRelation($operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType) {
     global $controllers;
@@ -424,7 +425,7 @@ function rollbackRemoveRelation($operation, $activityObjectId, $activityField, $
 /**
  * \fn	    rollbackSendRelation($toUserObjectId)
  * \brief   rollback for relation.controller.php send relation 
- * \param   $toUserObjectId
+ * @param   $toUserObjectId
  */
 function rollbackSendRelation($toUserObjectId) {
     global $controllers;
@@ -436,47 +437,47 @@ function rollbackSendRelation($toUserObjectId) {
 }
 
 /**
- * \fn	rollbackSocialController($classType, $objectId)
+ * \fn	rollbackSocialController($classType, $id)
  * \brief   rollback for SocialController
- * \param   $classType, $objectId 
+ * @param   $classType, $id 
  */
-function rollbackSocialController($classType, $objectId) {
+function rollbackSocialController($classType, $id) {
     global $controllers;
     switch ($classType) {
 	case 'Album':
 	    require_once CLASSES_DIR . 'albumParse.class.php';
 	    $albumParse = new AlbumParse();
-	    $res = $albumParse->decrementAlbum($objectId, 'shareCounter', 1);
+	    $res = $albumParse->decrementAlbum($id, 'sharecounter', 1);
 	    break;
 	case 'AlbumReview':
 	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $commentParse = new CommentParse();
-	    $res = $commentParse->decrementComment($objectId, 'shareCounter', 1);
+	    $res = $commentParse->decrementComment($id, 'sharecounter', 1);
 	    break;
 	case 'Event':
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventParse = new EventParse();
-	    $res = $eventParse->decrementEvent($objectId, 'shareCounter', 1);
+	    $res = $eventParse->decrementEvent($id, 'sharecounter', 1);
 	    break;
 	case 'EventReview':
 	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $commentParse = new CommentParse();
-	    $res = $commentParse->decrementComment($objectId, 'shareCounter', 1);
+	    $res = $commentParse->decrementComment($id, 'sharecounter', 1);
 	    break;
 	case 'Image':
 	    require_once CLASSES_DIR . 'imageParse.class.php';
 	    $imageParse = new ImageParse();
-	    $res = $imageParse->decrementImage($objectId, 'shareCounter', 1);
+	    $res = $imageParse->decrementImage($id, 'sharecounter', 1);
 	    break;
 	case 'Record':
 	    require_once CLASSES_DIR . 'recordParse.class.php';
 	    $recordParse = new RecordParse();
-	    $res = $recordParse->decrementRecord($objectId, 'shareCounter', 1);
+	    $res = $recordParse->decrementRecord($id, 'sharecounter', 1);
 	    break;
 	case 'Song':
 	    require_once CLASSES_DIR . 'songParse.class.php';
 	    $songParse = new SongParse();
-	    $res = $songParse->decrementSong($objectId, 'shareCounter', 1);
+	    $res = $songParse->decrementSong($id, 'sharecounter', 1);
 	    break;
     }
     $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
@@ -484,39 +485,39 @@ function rollbackSocialController($classType, $objectId) {
 }
 
 /**
- * \fn	rollbackUploadReviewController($objectId)
+ * \fn	rollbackUploadReviewController($id)
  * \brief   rollback for UploadReviewController
- * \param   $objectId 
+ * @param   $id 
  */
-function rollbackUploadReviewController($objectId) {
+function rollbackUploadReviewController($id) {
     global $controllers;
     require_once CLASSES_DIR . 'commentParse.class.php';
     $commentParse = new CommentParse();
-    $res = $commentParse->deleteComment($objectId);
+    $res = $commentParse->deleteComment($id);
     $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
     return $message;
 }
 
 /**
- * \fn	rollbackUploadRecordPublishSongController($objectId)
+ * \fn	rollbackUploadRecordPublishSongController($id)
  * \brief   rollback for UploadRecordController
- * \param   $objectId 
+ * @param   $id 
  */
-function rollbackUploadRecordController($objectId, $classType) {
+function rollbackUploadRecordController($id, $classType) {
     global $controllers;
     $message = null;
     switch ($classType) {
 	case "Song":
 	    require_once CLASSES_DIR . 'songParse.class.php';
 	    $songParse = new SongParse();
-	    $res = $songParse->deleteSong($objectId);
+	    $res = $songParse->deleteSong($id);
 	    $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
 
 	    break;
 	case "Record":
 	    require_once CLASSES_DIR . 'recordParse.class.php';
 	    $recordParse = new SongParse();
-	    $res = $recordParse->deleteSong($objectId);
+	    $res = $recordParse->deleteSong($id);
 	    $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
 	    break;
 
@@ -528,31 +529,31 @@ function rollbackUploadRecordController($objectId, $classType) {
 }
 
 /**
- * \fn      rollbackUploadEventController($objectId)
+ * \fn      rollbackUploadEventController($id)
  * \brief   rollback for UploadEventController
- * \param   $objectId 
+ * @param   $id 
  */
-function rollbackUploadEventController($objectId) {
+function rollbackUploadEventController($id) {
     global $controllers;
     require_once CLASSES_DIR . 'eventParse.class.php';
     $eventParse = new EventParse();
-    $res = $eventParse->deleteEvent($objectId);
+    $res = $eventParse->deleteEvent($id);
     $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
     return $message;
 }
 
-function rollbackUploadAlbumController($objectId, $classType) {
+function rollbackUploadAlbumController($id, $classType) {
     global $controllers;
     $message = null;
     switch ($classType) {
 	case "Album":
 	    $albumParse = new AlbumParse();
-	    $res = $albumParse->deleteAlbum($objectId);
+	    $res = $albumParse->deleteAlbum($id);
 	    $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
 	    break;
 	case "Image" :
 	    $imageParse = new ImageParse();
-	    $res = $imageParse->deleteImage($objectId);
+	    $res = $imageParse->deleteImage($id);
 	    $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
 	    break;
     }

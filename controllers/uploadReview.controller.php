@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Stefano Muscas
- * \version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @author		Stefano Muscas
+ * @version		0.3
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di upload review 
  * \details		si collega al form di upload di una review, effettua controlli, scrive su DB
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		Fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		Fare API su Wiki
  */
 
 if (!defined('ROOT_DIR'))
@@ -50,6 +50,7 @@ class UploadReviewController extends REST {
 	if (isset($_GET["rewiewId"]) && strlen($_GET["rewiewId"]) > 0 && (isset($_GET["type"]) && strlen($_GET["type"]) > 0) && ( ($_GET["type"] == "Event" ) || ($_GET["type"] == "Record" ))) {
 	    $this->reviewedId = $_GET["rewiewId"];
 	    $this->reviewedClassType = $_GET["type"];
+	    //qui se == record allora fai selectRecord, altrimenti fai selectEvent
 	    $revieBox = new ReviewBox();
 	    $revieBox->initForUploadReviewPage($this->reviewedId, $this->reviewedClassType);
 	    if (!is_null($revieBox->error)) {
@@ -58,8 +59,9 @@ class UploadReviewController extends REST {
 		die("Errore");
 	    } else {
 		$this->reviewed = $revieBox->mediaInfo[0];
+		//getRelatedUsers non esiste più!
 		$this->reviewedFeaturing = getRelatedUsers($this->reviewedId, "featuring", $this->reviewedClassType);
-		$this->reviewedFromUser = $this->reviewed->getFromUser();
+		$this->reviewedFromUser = $this->reviewed->getFromuser();
 		if ($this->reviewedFeaturing instanceof Error) {
 		    die("Errore");
 		}
@@ -110,8 +112,8 @@ class UploadReviewController extends REST {
 	    } elseif ($this->reviewed instanceof Error || is_null($this->reviewed)) {
 		$this->response(array("status" => $controllers['nodata']), 406);
 	    }
-	    $toUser = $this->reviewed->getFromUser();
-	    if ($toUser->getObjectId() == $currentUser->getObjectId()) {
+	    $touser = $this->reviewed->getFromuser();
+	    if ($touser->getId() == $currentUser->getId()) {
 		$this->response(array("status" => $controllers['NOSELFREVIEW']), 403);
 	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
@@ -120,17 +122,16 @@ class UploadReviewController extends REST {
 	    $review->setActive(true);
 	    $review->setAlbum(null);
 	    $review->setCounter(0);
-	    $review->setFromUser($currentUser->getObjectId());
+	    $review->setFromuser($currentUser->getId());
 	    $review->setImage(null);
 	    $review->setLocation(null);
-	    $review->setLoveCounter(0);
-	    $review->setLovers(array());
-	    $review->setShareCounter(0);
+	    $review->setLovecounter(0);
+	    $review->setSharecounter(0);
 	    $review->setSong(null);
-	    $review->setTags(array());
+	    $review->setTag(array());
 	    $review->setTitle(null);
 	    $review->setText($reviewRequest->review);
-	    $review->setToUser($toUser->getObjectId());
+	    $review->setTouser($touser->getId());
 	    $review->setVideo(null);
 	    $review->setVote($rating);
 	    switch ($this->reviewedClassType) {
@@ -151,51 +152,17 @@ class UploadReviewController extends REST {
 		    $html = $mail_files['RECORDREVIEWEMAIL'];
 		    break;
 	    }
-	    require_once CONTROLLERS_DIR . "utilsController.php";
-	    sendMailForNotification($toUser->getEmail(), $subject, $html);
+	    require_once SERVICES_DIR . 'utils.service.php';
+	    sendMailForNotification($touser->getEmail(), $subject, $html);
 	    $commentParse = new CommentParse();
 	    $resRev = $commentParse->saveComment($review);
 	    if ($resRev instanceof Error) {
 		$this->response(array("status" => $controllers['NOSAVEDREVIEW']), 503);
-	    } elseif ($this->saveActivityForNewReview($type, $toUser->getObjectId()) instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackUploadReviewController($resRev->getObjectId());
-		$this->response(array('status' => $message), 503);
-	    }
+	    } 
 	    $this->response(array("status" => $controllers['REWSAVED'], "id" => $this->reviewedId), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
-    }
-
-    /**
-     * \fn	saveActivityForNewReview($type, $toUser)
-     * \brief   funzione per il salvataggio dell'activity connessa all'inserimento della review
-     * \todo    differenziare il caso event o record
-     */
-    private function saveActivityForNewReview($type, $toUser) {
-	require_once CLASSES_DIR . 'user.class.php';
-	require_once CLASSES_DIR . 'activity.class.php';
-	require_once CLASSES_DIR . 'activityParse.class.php';
-	$currentUser = $_SESSION['currentUser'];
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setCounter(0);
-	$activity->setFromUser($currentUser->getObjectId());
-	$activity->setRead(false);
-	$activity->setStatus('A');
-	$activity->setType($type);
-	$activity->setToUser($toUser);
-	if ($type == "NEWEVENTREVIEW") {
-	    $activity->setEvent($this->reviewed->getObjectId());
-	    $activity->setRecord(null);
-	} else {
-	    $activity->setEvent(null);
-	    $activity->setRecord($this->reviewed->getObjectId());
-	}
-	$activityParse = new ActivityParse();
-	$resActivity = $activityParse->saveActivity($activity);
-	return $resActivity;
     }
 
 }

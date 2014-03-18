@@ -39,14 +39,14 @@ function playSongPlayList(song, play) {
 	jQuery.each($('#header-profile .songTitle'), function(index, obj) {
 	    $(obj).removeClass('orange');
 	});
-	var title = $('#pl_' + song.objectId + ' .songTitle').html();
-	var mp3 = $('#pl_' + song.objectId + ' input[name="song"]').val();
-	var index = parseInt($('#pl_' + song.objectId + ' input[name="index"]').val());
+	var title = $('#pl_' + song.id + ' .songTitle').html();
+	var mp3 = $('#pl_' + song.id + ' input[name="song"]').val();
+	var index = parseInt($('#pl_' + song.id + ' input[name="index"]').val());
 	$('#header-box-thum img').attr('src', song.pathCover);
 	$('#header-box-menu .title-player').html(title);
 	if (play)
 	    myPlaylist.play(index);
-	$('#pl_' + song.objectId + ' .songTitle').addClass('orange');
+	$('#pl_' + song.id + ' .songTitle').addClass('orange');
 	$('#play').hide();
 	$('#pause').show();
     } catch (err) {
@@ -56,18 +56,18 @@ function playSongPlayList(song, play) {
 /*
  * play song da box record
  */
-function playSong(objectId, pathCover) {
+function playSong(id, pathCover) {
     try {
 	jQuery.each($('#box-record a.jpPlay'), function(index, obj) {
 	    $(obj).removeClass('orange');
 	});
-	var title = $('#' + objectId + ' .songTitle').html();
-	var mp3 = $('#' + objectId + ' input[name="song"]').val();
+	var title = $('#' + id + ' .songTitle').html();
+	var mp3 = $('#' + id + ' input[name="song"]').val();
 
 	$('#header-box-thum img').attr('src', pathCover);
 	$('#header-box-menu .title-player').html(title);
 
-	$('#' + objectId + ' .jpPlay').addClass('orange');
+	$('#' + id + ' .jpPlay').addClass('orange');
 	$("#jquery_jplayer_N").jPlayer("setMedia", {
 	    mp3: mp3
 	});
@@ -152,7 +152,7 @@ function getTime(time) {
 /*
  * aggiunge track alla playlist
  */
-function addTrackPlaylist(_this, objectId) {
+function addTrackPlaylist(_this, id) {
     //chiama il controller per aggiungere la song alla playlist
     var json_playlist = {};
 
@@ -165,7 +165,7 @@ function addTrackPlaylist(_this, objectId) {
 	    json_playlist.request = "removeSong";
 	    break;
     }
-    json_playlist.songId = objectId;
+    json_playlist.songId = id;
     $.ajax({
 	data: json_playlist,
 	type: "POST",
@@ -178,7 +178,7 @@ function addTrackPlaylist(_this, objectId) {
 	} else {
 	    playlist = myPlaylist.playlist;
 	    jQuery.each(playlist, function(index, obj) {
-		if (obj.objectId == objectId) {
+		if (obj.id == id) {
 		    myPlaylist.remove(index);
 
 		} // if condition end
@@ -217,7 +217,7 @@ function playlist(_this, opt, song) {
 		json_playlist.request = "removeSong";
 		break;
 	}
-	json_playlist.songId = song.objectId;
+	json_playlist.songId = song.id;
 	$.ajax({
 	    data: json_playlist,
 	    type: "POST",
@@ -226,7 +226,7 @@ function playlist(_this, opt, song) {
 		.done(function(response, status, xhr) {
 	    if (opt == 'add') {
 		myPlaylist.add({
-		    objectId: song.objectId,
+		    id: song.id,
 		    title: song.title,
 		    artist: song.artist,
 		    mp3: song.mp3, //ci va l'url dell'mp3  -> song.mp3
@@ -241,7 +241,7 @@ function playlist(_this, opt, song) {
 		var songs = myPlaylist.playlist;
 
 		jQuery.each(songs, function(index, obj) {
-		    if (obj.objectId === song.objectId) {
+		    if (obj.id === song.id) {
 			myPlaylist.remove(index);
 
 		    }

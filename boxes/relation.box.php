@@ -1,1 +1,218 @@
-<?php/* ! \par		Info Generali: * \author		Luca Gianneschi * \version		1.0 * \date		2013 * \copyright	Jamyourself.com 2013 * \par			Info Classe: * \brief		box Relations * \details		Recupera le ultime relazioni per tipologia di utente * \par			Commenti: * \warning * \bug * \todo		 * */if (!defined('ROOT_DIR'))    define('ROOT_DIR', '../');require_once ROOT_DIR . 'config.php';require_once SERVICES_DIR . 'debug.service.php';require_once BOXES_DIR . 'utilsBox.php';/** * \brief	CollaboratorsBox class  * \details	box class to pass info to the view for personal page for JAMMER & VENUE  */class CollaboratorsBox {    public $config;    public $error;    public $venueArray;    public $jammerArray;    /**     * \fn	__construct()     * \brief	class construct to import config file     */    function __construct() {	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/relation.config.json"), false);    }    /**     * \fn	init($objectId)     * \brief	Init CollaboratorsBox      * \param	$objectId for user that owns the page $limit, $skip     * \todo         */    public function init($objectId) {	$venuesArray = array();	$jammersArray = array();	$collaborators = getAllUsersInRelation($objectId, 'collaboration');	if ($collaborators instanceof Error) {	    $this->config = null;	    $this->error = $collaborators->getErrorMessage();	    $this->venueArray = array();	    $this->jammerArray = array();	    return;	} elseif (is_null($collaborators)) {	    $this->config = null;	    $this->error = null;	    $this->venueArray = array();	    $this->jammerArray = array();	    return;	} else {	    foreach ($collaborators as $collaborator) {		($collaborator->getType() == 'VENUE') ? array_push($venuesArray, $collaborator) : array_push($jammersArray, $collaborator);	    }	    $this->error = null;	    $this->venueArray = $venuesArray;	    $this->jammerArray = $jammersArray;	}    }}/** * \brief	FollowersBox class  * \details	box class to pass info to the view for personal page for JAMMER & VENUE  */class FollowersBox {    public $config;    public $error;    public $followersArray;    /**     * \fn	__construct()     * \brief	class construct to import config file     */    function __construct() {	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/relation.config.json"), false);    }    /**     * \fn	init($objectId)     * \brief	Init FollowersBox      * \param	$objectId for user that owns the page      * \todo         */    public function init($objectId) {	$followers = getRelatedUsers($objectId, 'followers', '_User', false, $this->config->followers, 0);	if ($followers instanceof Error) {	    $this->config = null;	    $this->error = $followers->getErrorMessage();	    $this->followersArray = array();	    return;	} elseif (is_null($followers)) {	    $this->config = null;	    $this->error = null;	    $this->followersArray = array();	    return;	} else {	    $this->error = null;	    $this->followersArray = $followers;	}    }}/** * \brief	FollowingsBox class  * \details	box class to pass info to the view for personal page for SPOTTER  */class FollowingsBox {    public $config;    public $error;    public $venueArray;    public $jammerArray;    /**     * \fn	__construct()     * \brief	class construct to import config file     */    function __construct() {	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/relation.config.json"), false);    }    /**     * \fn	init($objectId)     * \brief	Init FollowingsBox     * \param	$objectId for user that owns the page      * \todo         */    public function init($objectId) {	$venuesArray = array();	$jammersArray = array();	$followings = getAllUsersInRelation($objectId, 'following');	if ($followings instanceof Error) {	    $this->config = null;	    $this->error = $followings->getErrorMessage();	    $this->venueArray = array();	    $this->jammerArray = array();	    return;	} elseif (is_null($followings)) {	    $this->config = null;	    $this->error = null;	    $this->venueArray = array();	    $this->jammerArray = array();	    return;	} else {	    foreach ($followings as $following) {		($following->getType() == 'VENUE') ? array_push($venuesArray, $following) : array_push($jammersArray, $following);	    }	    $this->error = null;	    $this->venueArray = $venuesArray;	    $this->jammerArray = $jammersArray;	}    }}/** * \brief	FriendsBox class  * \details	box class to pass info to the view for personal page for SPOTTER  */class FriendsBox {    public $config;    public $error;    public $friendsArray;    /**     * \fn	__construct()     * \brief	class construct to import config file     */    function __construct() {	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/relation.config.json"), false);    }    /**     * \fn	init($objectId)     * \brief	Init FriendsBox     * \param	$objectId for user that owns the page      * \todo         */    public function init($objectId) {	$friends = getRelatedUsers($objectId, 'friendship', '_User', false, $this->config->friends, 0);	if ($friends instanceof Error) {	    $this->config = null;	    $this->error = $friends->getErrorMessage();	    $this->friendsArray = array();	    return;	} elseif (is_null($friends)) {	    $this->config = null;	    $this->error = null;	    $this->friendsArray = array();	    return;	} else {	    $this->error = null;	    $this->friendsArray = $friends;	}    }}?>
+<?php
+
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'select.service.php';
+require_once SERVICES_DIR . 'log.service.php';
+
+/**
+ * CollaboratorsBox, box class to pass info to the view
+ * Recupera le informazioni degli utenti in collaborazione
+ * @author		Luca Gianneschi
+ * @author		Daniele Caldelli
+ * @author		Maria Laura Fresu
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
+ */
+class CollaboratorsBox {
+
+    /**
+     * @var string stringa di errore
+     */
+    public $error = null;
+
+    /**
+     * @var array Array di venue
+     */
+    public $venueArray = array();
+
+    /**
+     * @var array Array di jammer
+     */
+    public $jammerArray = array();
+
+    /**
+     * Init CollaboratorsBox 
+     * @param	$id for user that owns the page
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo    
+     */
+    public function init($id, $limit = 100, $skip = 0) {
+	try {
+	    $venueArray = array();
+	    $jammerArray = array();
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'COLLABORATION', $skip, $limit);
+	    $users = selectUsers($connection, null, array('id' => $data));
+	    foreach ($users as $user) {
+		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
+	    }
+	    $this->venueArray = $venueArray;
+	    $this->jammerArray = $jammerArray;
+	} catch (Exception $e) {
+	    $this->error = $e->getMessage();
+	}
+    }
+
+}
+
+/**
+ * FollowersBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
+ */
+class FollowersBox {
+
+    /**
+     * @var string stringa di errore
+     */
+    public $error = null;
+
+    /**
+     * @var array Array di followers (jammer/venue - spotter)
+     */
+    public $followersArray = array();
+
+    /**
+     * Init CollaboratorsBox 
+     * @param	$id for user that owns the page $limit, $skip
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo 
+     */
+    public function init($id, $limit = 4, $skip = 0) {
+	try {
+	    $followers = array();
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FOLLOWING', $skip, $limit);
+	    $users = selectUsers($connection, null, array('id' => $data));
+	    foreach ($users as $user) {
+		array_push($followers, $user);
+	    }
+	    $this->followersArray = $followers;
+	} catch (Exception $e) {
+	    $this->error = $e->getMessage();
+	}
+    }
+
+}
+
+/**
+ * FollowingsBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
+ */
+class FollowingsBox {
+
+    /**
+     * @var string stringa di errore
+     */
+    public $error = null;
+
+    /**
+     * @var array Array di venue
+     */
+    public $venueArray = array();
+
+    /**
+     * @var array Array di jammer
+     */
+    public $jammerArray = array();
+
+    /**
+     * Init CollaboratorsBox 
+     * @param	$id for user that owns the page $limit, $skip
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo   
+     */
+    public function init($id, $limit = 100, $skip = 0) {
+	try {
+	    $venueArray = array();
+	    $jammerArray = array();
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FOLLOWING', $skip, $limit);
+	    $users = selectUsers($connection, null, array('id' => $data));
+	    foreach ($users as $user) {
+		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
+	    }
+	    $this->venueArray = $venueArray;
+	    $this->jammerArray = $jammerArray;
+	} catch (Exception $e) {
+	    $this->error = $e->getMessage();
+	}
+    }
+
+}
+
+/**
+ * FriendsBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
+ */
+class FriendsBox {
+
+    /**
+     * @var string stringa di errore
+     */
+    public $error = null;
+
+    /**
+     * @var array Array di frinds (spotter - spotter)
+     */
+    public $friendsArray = array();
+
+    /**
+     * Init FriendsBox 
+     * @param	$id for user that owns the page $limit, $skip
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo   
+     */
+    public function init($id, $limit = 4, $skip = 0) {
+	try {
+	    $followings = array();
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FRIENDSHIP', $skip, $limit);
+	    $users = selectUsers($connection, null, array('id' => $data));
+	    foreach ($users as $user) {
+		array_push($followings, $user);
+	    }
+	    $this->followersArray = $followings;
+	} catch (Exception $e) {
+	    $this->error = $e->getMessage();
+	}
+    }
+
+}
+
+?>

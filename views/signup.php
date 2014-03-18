@@ -19,8 +19,9 @@ $captchaPublicKey = $_SESSION['captchaPublicKey'];
 <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
 
     <head>
-
-        <title>Jamyourself</title>
+	<title><?php echo $views['metatag']['signup']['title'] ?></title>
+	<meta name="description" content="<?php echo $views['metatag']['signup']['description'] ?>">
+	<meta name="keywords" content="<?php echo $views['metatag']['signup']['keywords'] ?>">
         <!-------------------------- METADATI --------------------------->
 	<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
 	<!--	<script type="text/javascript" src="resources/javascripts/customs/signup.js"></script> -->

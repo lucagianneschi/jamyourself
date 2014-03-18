@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Stefano Muscas
- * \version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
+ * @author		Stefano Muscas
+ * @version		1.0
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
  * \par			Info Funzione:
  * \brief		servizio di gestione delle cartelle, valido in fase di creazione e reperimento path e URL
  * \details		
  * \par			Commenti:
- * \warning
- * \bug			
- * \todo		
+ * @warning
+ * @bug			
+ * @todo		
  */
 
 if (!defined('ROOT_DIR'))
@@ -36,7 +36,7 @@ class FileManagerService {
     /**
      * \fn	createPhotoDir($userId)
      * \brief   crate users/images/photos/images/events/ folder in the filesystem
-     * \return  users/USERID/images/events/ dir
+     * @return  users/USERID/images/events/ dir
      */
     public function createEventPhotoDir($userId) {
 	return mkdir(USERS_DIR . $this->usersFolder . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder, $this->access, true);
@@ -45,7 +45,7 @@ class FileManagerService {
     /**
      * \fn	createImagesDir($userId)
      * \brief   crate users/images folder in the filesystem
-     * \return  users/USERID/images dir
+     * @return  users/USERID/images dir
      */
     public function createImagesDir($userId) {
 	return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder, $this->access, true);
@@ -54,7 +54,7 @@ class FileManagerService {
     /**
      * \fn	createPhotoDir($userId)
      * \brief   crate users/images/photos folder in the filesystem
-     * \return  users/USERID/images/photos/ dir
+     * @return  users/USERID/images/photos/ dir
      */
     public function createPhotoDir($userId) {
 	return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder, $this->access, true);
@@ -63,7 +63,7 @@ class FileManagerService {
     /**
      * \fn	createRecordPhotoDir($userId)
      * \brief   crate  users/USERID/images/records/ folder in the filesystem
-     * \return  users/USERID/images/records/ dir
+     * @return  users/USERID/images/records/ dir
      */
     public function createRecordPhotoDir($userId) {
 	return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder, $this->access, true);
@@ -72,7 +72,7 @@ class FileManagerService {
     /**
      * \fn	createSongsDir($userId)
      * \brief   crate users/images/photos folder in the filesystem
-     * \return  users/USERID/images/records/ dir
+     * @return  users/USERID/images/records/ dir
      */
     public function createSongsDir($userId) {
 	return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder, $this->access, true);
@@ -81,7 +81,7 @@ class FileManagerService {
     /**
      * \fn	createUserDir($userId)
      * \brief   crate users/ folder in the filesystem
-     * \return  users/USERID dir
+     * @return  users/USERID dir
      */
     public function createUserDir($userId) {
 	return mkdir(USERS_DIR . $userId, $this->access, true);
@@ -90,7 +90,7 @@ class FileManagerService {
     /**
      * \fn	getEventPhotoPath($userId, $photoId)
      * \brief   get event cover path
-     * \return  path if found
+     * @return  path if found
      */
     public function getEventPhotoPath($userId, $photoId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
@@ -102,9 +102,18 @@ class FileManagerService {
     }
 
     /**
+     * \fn	getDomainName()
+     * \brief   get domain name
+     * @return  domain name
+     */
+    public function getDomainName() {
+	return $_SERVER['SERVER_NAME'];
+    }
+
+    /**
      * \fn	getEventPhotoURL($userId, $photoId)
      * \brief   get event photo URL
-     * \return  URL if found
+     * @return  URL if found
      */
     public function getEventPhotoURL($userId, $photoId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
@@ -119,7 +128,7 @@ class FileManagerService {
     /**
      * \fn	getPhotoPath($userId, $photoId)
      * \brief   get photo path
-     * \return  path if found
+     * @return  path if found
      */
     public function getPhotoPath($userId, $photoId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder . DIRECTORY_SEPARATOR . $photoId;
@@ -133,7 +142,7 @@ class FileManagerService {
     /**
      * \fn	getPhotoURL($userId, $photoId)
      * \brief   get photo URL
-     * \return  URL if found
+     * @return  URL if found
      */
     public function getPhotoURL($userId, $photoId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder . DIRECTORY_SEPARATOR . $photoId;
@@ -148,7 +157,7 @@ class FileManagerService {
     /**
      * \fn	getRecordPhotoPath($userId, $photoId)
      * \brief   get record cover path
-     * \return  path if found
+     * @return  path if found
      */
     public function getRecordPhotoPath($userId, $photoId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
@@ -162,7 +171,7 @@ class FileManagerService {
     /**
      * \fn	getRecordPhotoURL($userId, $photoId)
      * \brief   get record photo URL
-     * \return  URL if found
+     * @return  URL if found
      */
     public function getRecordPhotoURL($userId, $photoId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
@@ -178,7 +187,7 @@ class FileManagerService {
     /**
      * \fn	getSongPath($userId, $songId)
      * \brief   get song path
-     * \return  path if found
+     * @return  path if found
      */
     public function getSongPath($userId, $songId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder . DIRECTORY_SEPARATOR . $songId;
@@ -192,7 +201,7 @@ class FileManagerService {
     /**
      * \fn	getSongURL($userId, $photoId)
      * \brief   get song URL
-     * \return  URL if found
+     * @return  URL if found
      */
     public function getSongURL($userId, $songId) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder . DIRECTORY_SEPARATOR . $songId;
@@ -295,15 +304,6 @@ class FileManagerService {
 	    return true;
 	else
 	    return $this->createSongsDir($userId);
-    }
-    
-        /**
-     * \fn	getDomainName()
-     * \brief   get domain name
-     * \return  domain name
-     */
-    public function getDomainName(){
-        return $_SERVER['SERVER_NAME'];
     }
 
 }

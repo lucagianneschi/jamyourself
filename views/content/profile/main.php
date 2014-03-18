@@ -20,7 +20,7 @@ require_once ROOT_DIR . 'config.php';
 		<script type="text/javascript">
 		    function loadBoxRecord() {
 			var json_data = {};
-			json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+			json_data.id = '<?php echo $user->getId(); ?>';
 			json_data.username = '<?php echo $user->getUsername(); ?>';
 			$.ajax({
 			    type: "POST",
@@ -62,7 +62,7 @@ require_once ROOT_DIR . 'config.php';
     		<script type="text/javascript">
     		    function loadBoxEvent() {
     			var json_data = {typeUser: '<?php echo $type ?>'};
-    			json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+    			json_data.id = '<?php echo $user->getId(); ?>';
     			$.ajax({
     			    type: "POST",
     			    url: "content/profile/box/box-event.php",
@@ -103,7 +103,7 @@ require_once ROOT_DIR . 'config.php';
     		<script type="text/javascript">
     		    function loadBoxFriends() {
     			var json_data = {};
-    			json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+    			json_data.id = '<?php echo $user->getId(); ?>';
     			json_data.friendshipCounter = '<?php echo $user->getFriendshipCounter(); ?>';
     			$.ajax({
     			    type: "POST",
@@ -135,7 +135,7 @@ require_once ROOT_DIR . 'config.php';
     		<script type="text/javascript">
     		    function loadBoxFollowing() {
     			var json_data = {};
-    			json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+    			json_data.id = '<?php echo $user->getId(); ?>';
     			json_data.followingCounter = '<?php echo $user->getFollowingCounter(); ?>';
     			$.ajax({
     			    type: "POST",
@@ -169,8 +169,8 @@ require_once ROOT_DIR . 'config.php';
 		<div id='box-album'></div>
 		<script type="text/javascript">
 		    function loadBoxAlbum() {
-			var json_data = {objectIdUser: '<?php echo $user->getObjectId() ?>'};
-			json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+			var json_data = {objectIdUser: '<?php echo $user->getId() ?>'};
+			json_data.id = '<?php echo $user->getId(); ?>';
 			$.ajax({
 			    type: "POST",
 			    url: "content/profile/box/box-album.php",
@@ -211,7 +211,7 @@ require_once ROOT_DIR . 'config.php';
 		<script type="text/javascript">
 		    function loadBoxRecordReview() {
 			var json_data = {};
-			json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+			json_data.id = '<?php echo $user->getId(); ?>';
 			json_data.type = '<?php echo $user->getType(); ?>';
 			$.ajax({
 			    type: "POST",
@@ -247,7 +247,7 @@ require_once ROOT_DIR . 'config.php';
 		<script type="text/javascript">
 		    function loadBoxEventReview() {
 			var json_data = {};
-			json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+			json_data.id = '<?php echo $user->getId(); ?>';
 			json_data.type = '<?php echo $user->getType(); ?>';
 			$.ajax({
 			    type: "POST",
@@ -283,7 +283,7 @@ require_once ROOT_DIR . 'config.php';
 		<script type="text/javascript">
 		    function loadBoxActivity() {
 			var json_data = {};
-			json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+			json_data.id = '<?php echo $user->getId(); ?>';
 			json_data.type = '<?php echo $user->getType(); ?>';
 			$.ajax({
 			    type: "POST",
@@ -318,7 +318,7 @@ require_once ROOT_DIR . 'config.php';
     		<script type="text/javascript">
     		    function loadBoxCollaboration() {
     			var json_data = {};
-    			json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+    			json_data.id = '<?php echo $user->getId(); ?>';
     			$.ajax({
     			    type: "POST",
     			    url: "content/profile/box/box-collaboration.php",
@@ -349,9 +349,9 @@ require_once ROOT_DIR . 'config.php';
     		<script type="text/javascript">
     		    function loadBoxFollowers() {
     			var json_data = {};
-    			json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+    			json_data.id = '<?php echo $user->getId(); ?>';
     			json_data.type = '<?php echo $user->getType(); ?>';
-    			json_data.followersCounter = '<?php echo $user->getFollowersCounter(); ?>';
+    			json_data.followersCounter = '<?php echo $user->getFollowerscounter(); ?>';
     			$.ajax({
     			    type: "POST",
     			    url: "content/profile/box/box-followers.php",
@@ -385,7 +385,7 @@ require_once ROOT_DIR . 'config.php';
 		<script type="text/javascript">
 		    function loadBoxPost() {
 			var json_data = {};
-			json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+			json_data.id = '<?php echo $user->getId(); ?>';
 			json_data.type = '<?php echo $user->getType(); ?>';
 			$.ajax({
 			    type: "POST",
@@ -414,10 +414,10 @@ require_once ROOT_DIR . 'config.php';
 		</script>
 
 		<script type="text/javascript">
-		    function loadBoxOpinion(objectId, toUser, classBox, box, limit, skip) {
+		    function loadBoxOpinion(id, toUser, classBox, box, limit, skip) {
 			if ($(box).hasClass('no-display')) {
 			    var json_data = {};
-			    json_data.objectId = objectId;
+			    json_data.id = id;
 			    json_data.toUser = toUser;
 			    json_data.classBox = classBox;
 			    json_data.box = box;
@@ -431,7 +431,7 @@ require_once ROOT_DIR . 'config.php';
 				beforeSend: function(xhr) {
 				    //spinner.show();											
 				    goSpinnerBox(box, '');
-				    console.log('Sono partito loadBoxOpinion(' + objectId + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
+				    console.log('Sono partito loadBoxOpinion(' + id + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
 				}
 			    })
 				    .done(function(message, status, xhr) {
@@ -468,10 +468,10 @@ require_once ROOT_DIR . 'config.php';
 	<div id="modalRelation" class="reveal-modal medium"></div>
     </div>
     <script type="text/javascript">
-	//$objectId, 'following', '_User', false, $this->config->followings, 0
+	//$id, 'following', '_User', false, $this->config->followings, 0
 	function loadBoxRelation(relation, limit, skip, tot) {
 	    var json_data = {};
-	    json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+	    json_data.id = '<?php echo $user->getId(); ?>';
 	    json_data.relation = relation;
 	    json_data.limit = limit;
 	    json_data.skip = skip;
