@@ -1,37 +1,67 @@
 <?php
 
-/* ! \par		Info Generali:
- *  @author		Stefano Muscas
- *  @version		0.3
- *  @since		2013
- *  @copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		Playslist
- *  \details		Classe che accoglie le canzoni che andranno nel player della pagina utente
- *  \par		Commenti:
- *  @warning
- *  @bug
- *  @todo
+/**
+ * Playslist class
+ * Classe che accoglie le canzoni che andranno nel player della pagina utente
  *
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Playlists">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Playlist">API</a>
+ * @author		Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Playlists
  */
-
 class Playlist {
 
+    /**
+     * @var int id istanza
+     */
     private $id;
+
+    /**
+     * @var date data creazione istanza
+     */
     private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
     private $updatedat;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
     private $active;
+
+    /**
+     * @var int id del formuser
+     */
     private $fromuser;
+
+    /**
+     * @var string name of the playlist
+     */
     private $name;
+
+    /**
+     * @var int numero di canzoni nella playlist
+     */
     private $songcounter;
+
+    /**
+     * @var array di id di song in playlist
+     */
     private $songs;
+
+    /**
+     * @var int 1 = YES, 0 = NO
+     */
     private $unlimited;
 
     /**
-     * \fn	int getId()
-     * \brief	Return the id value
+     * Return the id value
      * @return	int
      */
     public function getId() {
@@ -39,8 +69,7 @@ class Playlist {
     }
 
     /**
-     * \fn	DateTime getCreatedat()
-     * \brief	Return the Playlist creation date
+     * Return the Playlist creation date
      * @return	DateTime
      */
     public function getCreatedat() {
@@ -48,8 +77,7 @@ class Playlist {
     }
 
     /**
-     * \fn	DateTime getUpdatedat()
-     * \brief	Return the Playlist modification date
+     * Return the Playlist modification date
      * @return	DateTime
      */
     public function getUpdatedat() {
@@ -57,17 +85,15 @@ class Playlist {
     }
 
     /**
-     * \fn	BOOL getActive()
-     * \brief	Return the active value
-     * @return	BOOL
+     * Return the active value
+     * @return	int
      */
     public function getActive() {
 	return $this->active;
     }
 
     /**
-     * \fn	getFromuser()
-     * \brief	Return the id value for the fromUser
+     * Return the id value for the fromUser
      * @return	int
      */
     public function getFromuser() {
@@ -75,8 +101,7 @@ class Playlist {
     }
 
     /**
-     * \fn	string getName()
-     * \brief	Return the name value for playlist
+     * Return the name value for playlist
      * @return	string
      */
     public function getName() {
@@ -84,8 +109,7 @@ class Playlist {
     }
 
     /**
-     * \fn	int getsongcounter()
-     * \brief	Return the song counter value (number of songs)
+     * Return the song counter value (number of songs)
      * @return	int
      */
     public function getSongcounter() {
@@ -93,8 +117,7 @@ class Playlist {
     }
 
     /**
-     * \fn	int getsongs()
-     * \brief	Return the song counter value (number of songs)
+     * Return the song counter value (number of songs)
      * @return	int
      */
     public function getSongs() {
@@ -102,8 +125,7 @@ class Playlist {
     }
 
     /**
-     * \fn	BOOL getUnlimited()
-     * \brief	Return the unlimited value (YES just for premium account)
+     * Return the unlimited value (YES just for premium account)
      * @return	BOOL
      */
     public function getUnlimited() {
@@ -111,8 +133,7 @@ class Playlist {
     }
 
     /**
-     * \fn	void setId($id)
-     * \brief	Sets the id value
+     * Sets the id value
      * @param	string
      */
     public function setId($id) {
@@ -120,8 +141,7 @@ class Playlist {
     }
 
     /**
-     * \fn		void setCreatedat($createdat)
-     * \brief	Sets the Playlist creation date
+     * Sets the Playlist creation date
      * @param	DateTime
      */
     public function setCreatedat($createdat) {
@@ -129,8 +149,7 @@ class Playlist {
     }
 
     /**
-     * \fn		void setUpdatedat($updatedat)
-     * \brief	Sets the Playlist modification date
+     * Sets the Playlist modification date
      * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
@@ -138,17 +157,15 @@ class Playlist {
     }
 
     /**
-     * \fn	void setActive($active)
-     * \brief	Sets the active value
-     * @param	BOOL
+     * Sets the active value
+     * @param	int
      */
     public function setActive($active) {
 	$this->active = $active;
     }
 
     /**
-     * \fn	void setFromuser($fromuser))
-     * \brief	Sets the fromUser value
+     * Sets the fromUser value
      * @param	int
      */
     public function setFromuser($fromuser) {
@@ -156,8 +173,7 @@ class Playlist {
     }
 
     /**
-     * \fn	void  setName($name)
-     * \brief	Sets the name for the playlist
+     * Sets the name for the playlist
      * @param	string
      */
     public function setName($name) {
@@ -165,8 +181,7 @@ class Playlist {
     }
 
     /**
-     * \fn	void  setSongs($songs)
-     * \brief	Sets the songs value
+     * Sets the songs value
      * @param	int
      */
     public function setSongs($songs) {
@@ -174,8 +189,7 @@ class Playlist {
     }
 
     /**
-     * \fn	void  setsongcounter($songcounter)
-     * \brief	Sets the songcounter value
+     * Sets the songcounter value
      * @param	int
      */
     public function setSongcounter($songcounter) {
@@ -183,8 +197,7 @@ class Playlist {
     }
 
     /**
-     * \fn	void setUnlimited($unlimited)
-     * \brief	Sets the unlimited value
+     * Sets the unlimited value
      * @param	BOOL
      */
     public function setUnlimited($unlimited) {
@@ -192,8 +205,7 @@ class Playlist {
     }
 
     /**
-     * \fn	string __toString()
-     * \brief	Return a printable string representing the Playlist object
+     * Return a printable string representing the Playlist object
      * @return	string
      */
     public function __toString() {
