@@ -58,6 +58,8 @@ function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
  * @param  $fromNodeId
  * @param  $toNodeType 
  * @param  $relationType
+ * @param  $skip
+ * @param  $limit
  * @return 
  * @todo
  */
