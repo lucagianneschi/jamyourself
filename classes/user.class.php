@@ -1,68 +1,222 @@
 <?php
 
-/* ! \par 		Info Generali:
- *  @author		Stefano Muscas
- *  @version		0.3
- *  @since		2013
- *  @copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		User Class
- *  \details		Classe utente
- *  \par		Commenti:
- *  @warning
- *  @bug
- *  @todo
+/**
+ * User Class
  *
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-User">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-User">API</a>
+ * @author		Stefano Muscas
+ * @author		Daniele Caldelli
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-User
  */
-
 class User {
 
+    /**
+     * @var int id istanza
+     */
     private $id;
+
+    /**
+     * @var date data creazione istanza
+     */
     private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
     private $updatedat;
+
+    /**
+     * @var string di password (con criptazione)
+     */
     private $password;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
     private $active;
+
+    /**
+     * @var string di indirizzo dello user
+     */
     private $address;
+
+    /**
+     * @var string di indirizzo dell'avatar
+     */
     private $avatar;
+
+    /**
+     * @var string di indirizzo del background
+     */
     private $background;
+
+    /**
+     * @var string data nascita user
+     */
     private $birthday;
+
+    /**
+     * @var string città dello user
+     */
     private $city;
+
+    /**
+     * @var int numero di collaboratori dello user (solo JAMMER e VENUE)
+     */
     private $collaborationcounter;
+
+    /**
+     * @var string country dello user
+     */
     private $country;
+
+    /**
+     * @var string descrizione dello user
+     */
     private $description;
+
+    /**
+     * @var string email dello user
+     */
     private $email;
+
+    /**
+     * @var string id facebook dello user
+     */
     private $facebookid;
+
+    /**
+     * @var string pagina facebook dello user
+     */
     private $facebookpage;
+
+    /**
+     * @var string nome dello user
+     */
     private $firstname;
+
+    /**
+     * @var int numero di followers dello user (solo JAMMER e VENUE)
+     */
     private $followercounter;
+
+    /**
+     * @var int numero di following dello user (solo SPOTTER)
+     */
     private $followingcounter;
+
+    /**
+     * @var int numero di friends dello user (solo SPOTTER)
+     */
     private $friendshipcounter;
+
+    /**
+     * @var string pagina google+
+     */
     private $googlepluspage;
+
+    /**
+     * @var int numero di jammer delle relazioni collaboration (JAMMER e VENUE) e followin (SPOTTER)
+     */
     private $jammercounter;
+
+    /**
+     * @var string tipo di jammer (BAND/SINGOLO)
+     */
     private $jammertype;
+
+    /**
+     * @var string cognome dell'utente
+     */
     private $lastname;
+
+    /**
+     * @var float latitudine
+     */
     private $latitude;
+
+    /**
+     * @var int contatore punti
+     */
     private $level;
+
+    /**
+     * @var int levelvalue of the user -> 1 to 5
+     */
     private $levelvalue;
+
+    /**
+     * @var float longitudine
+     */
     private $longitude;
+
+    /**
+     * @var array di string
+     */
     private $member;
+
+    /**
+     * @var int 1 = PREMIUM, 0 = STANDARD
+     */
     private $premium;
+
+    /**
+     * @var DateTime of the expitation if the user is PREMIUM
+     */
     private $premiumexpirationdate;
+
+    /**
+     * @var string path per il thumb dell'utente
+     */
     private $thumbnail;
+
+    /**
+     * @var array of ids of setting
+     */
     private $settings;
+
+    /**
+     * @var string per il sesso dell'utente M/F/ND
+     */
     private $sex;
+
+    /**
+     * @var string per la pagina di twitter
+     */
     private $twitterpage;
+
+    /**
+     * @var string JAMMER/VENUE/SPOTTER
+     */
     private $type;
+
+    /**
+     * @var string username
+     */
     private $username;
+
+    /**
+     * @var int numero di venue delle relazioni collaboration (JAMMER e VENUE) e followin (SPOTTER)
+     */
     private $venuecounter;
+
+    /**
+     * @var string link sito web utente
+     */
     private $website;
+
+    /**
+     * @var string cancale youtube
+     */
     private $youtubechannel;
 
     /**
-     * \fn	int getId()
-     * \brief	Return the id value
+     * Return the id value
      * @return	string
      */
     public function getId() {
@@ -70,8 +224,7 @@ class User {
     }
 
     /**
-     * \fn		DateTime getCreatedat()
-     * \brief	Return the User creation date
+     * Return the User creation date
      * @return	DateTime
      */
     public function getCreatedat() {
@@ -79,8 +232,7 @@ class User {
     }
 
     /**
-     * \fn		DateTime getUpdatedat()
-     * \brief	Return the User modification date
+     * Return the User modification date
      * @return	DateTime
      */
     public function getUpdatedat() {
@@ -88,8 +240,7 @@ class User {
     }
 
     /**
-     * \fn		boolean getActive()
-     * \brief	Return the activation state of the User
+     * Return the activation state of the User
      * @return	boolean
      */
     public function getActive() {
@@ -97,8 +248,7 @@ class User {
     }
 
     /**
-     * \fn		string getAddress()
-     * \brief	Return the address of the User
+     * Return the address of the User
      * @return	string
      */
     public function getAddress() {
@@ -106,8 +256,7 @@ class User {
     }
 
     /**
-     * \fn	string getAvatar()
-     * \brief	Return the profile picture link of the User
+     * Return the profile picture link of the User
      * @return	string
      */
     public function getAvatar() {
@@ -115,8 +264,7 @@ class User {
     }
 
     /**
-     * \fn		string getBackground()
-     * \brief	Return the background link of the User
+     * Return the background link of the User
      * @return	string
      */
     public function getBackground() {
@@ -124,8 +272,7 @@ class User {
     }
 
     /**
-     * \fn		string getBirthday()
-     * \brief	Return the birthday of the User represented by a string with format YYYY-MM-DD
+     * Return the birthday of the User represented by a string with format YYYY-MM-DD
      * @return	string
      */
     public function getBirthday() {
@@ -133,8 +280,7 @@ class User {
     }
 
     /**
-     * \fn		string getCity()
-     * \brief	Return the city of the User
+     * Return the city of the User
      * @return	string
      */
     public function getCity() {
@@ -142,8 +288,7 @@ class User {
     }
 
     /**
-     * \fn		number getCollaborationcounter()
-     * \brief	Return the number of User in collaboration with
+     * Return the number of User in collaboration with
      * @return	number
      */
     public function getCollaborationcounter() {
@@ -151,8 +296,7 @@ class User {
     }
 
     /**
-     * \fn		string getCountry()
-     * \brief	Return the country of the User
+     * Return the country of the User
      * @return	string
      */
     public function getCountry() {
@@ -160,8 +304,7 @@ class User {
     }
 
     /**
-     * \fn		string getDescription()
-     * \brief	Return the description of the User
+     * Return the description of the User
      * @return	string
      */
     public function getDescription() {
@@ -169,8 +312,7 @@ class User {
     }
 
     /**
-     * \fn		string getEmail()
-     * \brief	Return the email of the User
+     * Return the email of the User
      * @return	string
      */
     public function getEmail() {
@@ -178,8 +320,7 @@ class User {
     }
 
     /**
-     * \fn		string getFacebookId()
-     * \brief	Return the facebook id of the User
+     * Return the facebook id of the User
      * @return	string
      */
     public function getFacebookid() {
@@ -187,8 +328,7 @@ class User {
     }
 
     /**
-     * \fn		string getFbPage()
-     * \brief	Return the facebook page link of the User
+     * Return the facebook page link of the User
      * @return	string
      */
     public function getFacebookpage() {
@@ -196,8 +336,7 @@ class User {
     }
 
     /**
-     * \fn		string getFirstname()
-     * \brief	Return the firstname of the User
+     * Return the firstname of the User
      * @return	string
      */
     public function getFirstname() {
@@ -205,8 +344,7 @@ class User {
     }
 
     /**
-     * \fn		number getLevel()
-     * \brief	Return the number of User followed
+     * Return the number of User followed
      * @return	number
      */
     public function getFollowerscounter() {
@@ -214,8 +352,7 @@ class User {
     }
 
     /**
-     * \fn		number getFollowingcounter()
-     * \brief	Return the number of User followed
+     * Return the number of User followed
      * @return	number
      */
     public function getFollowingcounter() {
@@ -223,8 +360,7 @@ class User {
     }
 
     /**
-     * \fn		number getLevel()
-     * \brief	Return the number of User in friendship relation
+     * Return the number of User in friendship relation
      * @return	number
      */
     public function getFriendshipcounter() {
@@ -232,8 +368,7 @@ class User {
     }
 
     /**
-     * \fn		string getGooglepluspage()
-     * \brief	Return the googlePlus page link of the User
+     * Return the googlePlus page link of the User
      * @return	string
      */
     public function getGooglepluspage() {
@@ -241,8 +376,7 @@ class User {
     }
 
     /**
-     * \fn		number getJammercounter()
-     * \brief	Return the jammer counter, number of Jammer in collaboration
+     * Return the jammer counter, number of Jammer in collaboration
      * @return	number
      */
     public function getJammercounter() {
@@ -250,8 +384,7 @@ class User {
     }
 
     /**
-     * \fn		string getJammertype()
-     * \brief	Return the jammer type of the User
+     * Return the jammer type of the User
      * @return	string
      */
     public function getJammertype() {
@@ -259,8 +392,7 @@ class User {
     }
 
     /**
-     * \fn		string getLastname()
-     * \brief	Return the lastname of the User
+     * Return the lastname of the User
      * @return	string
      */
     public function getLastname() {
@@ -268,8 +400,7 @@ class User {
     }
 
     /**
-     * \fn	getLatitude()
-     * \brief	Return the latitude value
+     * Return the latitude value
      * @return	latitude
      */
     public function getLatitude() {
@@ -277,8 +408,7 @@ class User {
     }
 
     /**
-     * \fn		number getLevel()
-     * \brief	Return the level of the User
+     * Return the level of the User
      * @return	number
      */
     public function getLevel() {
@@ -286,8 +416,7 @@ class User {
     }
 
     /**
-     * \fn		number getLevelvalue()
-     * \brief	Return the level value of the User
+     * Return the level value of the User
      * @return	number
      */
     public function getLevelvalue() {
@@ -295,8 +424,7 @@ class User {
     }
 
     /**
-     * \fn	getLongitude()
-     * \brief	Return the longitude value
+     * Return the longitude value
      * @return	long
      */
     public function getLongitude() {
@@ -304,8 +432,7 @@ class User {
     }
 
     /**
-     * \fn	getMember()
-     * \brief	Return the member value
+     * Return the member value
      * @return	member
      */
     public function getMember() {
@@ -313,8 +440,7 @@ class User {
     }
 
     /**
-     * \fn	string getPassword()
-     * \brief	Return the password of the User
+     * Return the password of the User
      * @return	string
      */
     public function getPassword() {
@@ -322,8 +448,7 @@ class User {
     }
 
     /**
-     * \fn		boolean getPremium()
-     * \brief	Return if the User has a Premium account
+     * Return if the User has a Premium account
      * @return	boolean
      */
     public function getPremium() {
@@ -331,8 +456,7 @@ class User {
     }
 
     /**
-     * \fn		DateTime getPremiumexpirationdate()
-     * \brief	Return the expiration date of the premium account of the User
+     * Return the expiration date of the premium account of the User
      * @return	DateTime
      */
     public function getPremiumexpirationdate() {
@@ -340,8 +464,7 @@ class User {
     }
 
     /**
-     * \fn	string getThumbnail()
-     * \brief	Return the thumbnail profile picture link of the User
+     * Return the thumbnail profile picture link of the User
      * @return	string
      */
     public function getThumbnail() {
@@ -349,8 +472,7 @@ class User {
     }
 
     /**
-     * \fn		array getSettings()
-     * \brief	Return an array of the setting of the User
+     * Return an array of the setting of the User
      * @return	array
      */
     public function getSettings() {
@@ -358,8 +480,7 @@ class User {
     }
 
     /**
-     * \fn		string getSex()
-     * \brief	Return the sex of the User
+     * Return the sex of the User
      * @return	string
      */
     public function getSex() {
@@ -367,8 +488,7 @@ class User {
     }
 
     /**
-     * \fn		string getTwitterpage()
-     * \brief	Return the twitter page link of the User
+     * Return the twitter page link of the User
      * @return	string
      */
     public function getTwitterpage() {
@@ -376,8 +496,7 @@ class User {
     }
 
     /**
-     * \fn		string getType()
-     * \brief	Return the type of the User
+     * Return the type of the User
      * @return	string
      */
     public function getType() {
@@ -385,8 +504,7 @@ class User {
     }
 
     /**
-     * \fn		string getUsername()
-     * \brief	Return the username of the User
+     * Return the username of the User
      * @return	string
      */
     public function getUsername() {
@@ -394,8 +512,7 @@ class User {
     }
 
     /**
-     * \fn		number getVenuecounter()
-     * \brief	Return venue counter, number of venue in collaboration
+     * Return venue counter, number of venue in collaboration
      * @return	number
      */
     public function getVenuecounter() {
@@ -403,8 +520,7 @@ class User {
     }
 
     /**
-     * \fn		string getWebsite()
-     * \brief	Return the website link of the User
+     * Return the website link of the User
      * @return	string
      */
     public function getWebsite() {
@@ -412,8 +528,7 @@ class User {
     }
 
     /**
-     * \fn		string getYoutubechannel()
-     * \brief	Return the youtube channel link of the User
+     * Return the youtube channel link of the User
      * @return	string
      */
     public function getYoutubechannel() {
@@ -421,8 +536,7 @@ class User {
     }
 
     /**
-     * \fn		void setId($id)
-     * \brief	Sets the id value
+     * Sets the id value
      * @param	string
      */
     public function setId($id) {
@@ -430,8 +544,7 @@ class User {
     }
 
     /**
-     * \fn	void setCreatedat($createdat)
-     * \brief	Sets the User creation date
+     * Sets the User creation date
      * @param	DateTime
      */
     public function setUpdatedat(DateTime $updatedat) {
@@ -439,8 +552,7 @@ class User {
     }
 
     /**
-     * \fn	void setUpdatedat($updatedat)
-     * \brief	Sets the User modification date
+     * Sets the User modification date
      * @param	DateTime
      */
     public function setCreatedat(DateTime $createdat) {
@@ -448,8 +560,7 @@ class User {
     }
 
     /**
-     * \fn		void setActive($active)
-     * \brief	Sets the active value of the User
+     * Sets the active value of the User
      * @param	boolean
      */
     public function setActive($active) {
@@ -457,8 +568,7 @@ class User {
     }
 
     /**
-     * \fn		void setAddress($address)
-     * \brief	Sets the address of the User
+     * Sets the address of the User
      * @param	string
      */
     public function setAddress($address) {
@@ -466,8 +576,7 @@ class User {
     }
 
     /**
-     * \fn	void setAvatar($avatar)
-     * \brief	Sets the avatar of the User
+     * Sets the avatar of the User
      * @param	string
      */
     public function setAvatar($avatar) {
@@ -475,8 +584,7 @@ class User {
     }
 
     /**
-     * \fn		void setBackground($background)
-     * \brief	Sets the background value of the User
+     * Sets the background value of the User
      * @param	string
      */
     public function setBackground($background) {
@@ -484,8 +592,7 @@ class User {
     }
 
     /**
-     * \fn	string setBirthday($birthday)
-     * \brief	Sets the birthday of the User represented by a string with format YYYY-MM-DD
+     * Sets the birthday of the User represented by a string with format YYYY-MM-DD
      * @param	string
      */
     public function setBirthday($birthday) {
@@ -493,8 +600,7 @@ class User {
     }
 
     /**
-     * \fn	void setCity($city)
-     * \brief	Sets the city value of the User
+     * Sets the city value of the User
      * @param	string
      */
     public function setCity($city) {
@@ -502,8 +608,7 @@ class User {
     }
 
     /**
-     * \fn	void setLevel($collaborationcounter)
-     * \brief	Sets the collaborationcounter of the User
+     * Sets the collaborationcounter of the User
      * @param	number
      */
     public function setCollaborationcounter($collaborationcounter) {
@@ -511,8 +616,7 @@ class User {
     }
 
     /**
-     * \fn	void setCountry($country)
-     * \brief	Sets the country value of the User
+     * Sets the country value of the User
      * @param	string
      */
     public function setCountry($country) {
@@ -520,8 +624,7 @@ class User {
     }
 
     /**
-     * \fn	void setDescription($description)
-     * \brief	Sets the description value of the User
+     * Sets the description value of the User
      * @param	string
      */
     public function setDescription($description) {
@@ -529,8 +632,7 @@ class User {
     }
 
     /**
-     * \fn	void setEmail($email)
-     * \brief	Sets the email value of the User
+     * Sets the email value of the User
      * @param	string
      */
     public function setEmail($email) {
@@ -538,8 +640,7 @@ class User {
     }
 
     /**
-     * \fn	string setFacebookid($facebookId)
-     * \brief	Sets the facebook id of the User
+     * Sets the facebook id of the User
      * @param	string
      */
     public function setFacebookid($facebookid) {
@@ -547,8 +648,7 @@ class User {
     }
 
     /**
-     * \fn	void setFacebookpage($facebookpage)
-     * \brief	Sets the facebook page link of the User
+     * Sets the facebook page link of the User
      * @param	string
      */
     public function setFacebookpage($facebookpage) {
@@ -556,8 +656,7 @@ class User {
     }
 
     /**
-     * \fn	string setFirstname($firstname)
-     * \brief	Sets the firstname id of the User
+     * Sets the firstname id of the User
      * @param	string
      */
     public function setFirstname($firstname) {
@@ -565,8 +664,7 @@ class User {
     }
 
     /**
-     * \fn	void setFollowercounter($followercounter)
-     * \brief	Sets the followercounter of the User
+     * Sets the followercounter of the User
      * @param	number
      */
     public function setFollowercounter($followercounter) {
@@ -574,8 +672,7 @@ class User {
     }
 
     /**
-     * \fn	void setFollowingcounter($followingcounter)
-     * \brief	Sets the followingcounter of the User
+     * Sets the followingcounter of the User
      * @param	number
      */
     public function setFollowingcounter($followingcounter) {
@@ -583,8 +680,7 @@ class User {
     }
 
     /**
-     * \fn	void setFriendshipcounter($friendshipcounter)
-     * \brief	Sets the friendshipcounter of the User
+     * Sets the friendshipcounter of the User
      * @param	number
      */
     public function setFriendshipcounter($friendshipcounter) {
@@ -592,8 +688,7 @@ class User {
     }
 
     /**
-     * \fn	void setGooglepluspage($googlepluspage)
-     * \brief	Sets the google plus page link of the User
+     * Sets the google plus page link of the User
      * @param	string
      */
     public function setGooglepluspage($googlepluspage) {
@@ -601,8 +696,7 @@ class User {
     }
 
     /**
-     * \fn	void setJammercounter($jammercounter)
-     * \brief	Sets the jammer counter 
+     * Sets the jammer counter
      * @param	number
      */
     public function setJammercounter($jammercounter) {
@@ -610,8 +704,7 @@ class User {
     }
 
     /**
-     * \fn	void setJammertype($jammertype)
-     * \brief	Sets the jammer type of the User
+     * Sets the jammer type of the User
      * @param	string
      */
     public function setJammertype($jammertype) {
@@ -619,8 +712,7 @@ class User {
     }
 
     /**
-     * \fn	string setLastname($lastname)
-     * \brief	Sets the lastname id of the User
+     * Sets the lastname id of the User
      * @param	string
      */
     public function setLastname($lastname) {
@@ -628,8 +720,7 @@ class User {
     }
 
     /**
-     * \fn	void setLatitude($latitude)
-     * \brief	Sets the latitude value
+     * Sets the latitude value
      * @param	$longitude
      */
     public function setLatitude($latitude) {
@@ -637,8 +728,7 @@ class User {
     }
 
     /**
-     * \fn		void setLevel($level)
-     * \brief	Sets the level of the User
+     * Sets the level of the User
      * @param	number
      */
     public function setLevel($level) {
@@ -646,8 +736,7 @@ class User {
     }
 
     /**
-     * \fn		void setLevelvalue($levelvalue)
-     * \brief	Sets the level value of the User
+     * Sets the level value of the User
      * @param	number
      */
     public function setLevelvalue($levelvalue) {
@@ -655,8 +744,7 @@ class User {
     }
 
     /**
-     * \fn	void setLongitude($longitude)
-     * \brief	Sets the longitude value
+     * Sets the longitude value
      * @param	$longitude
      */
     public function setLongitude($longitude) {
@@ -664,8 +752,7 @@ class User {
     }
 
     /**
-     * \fn		void setMember($member)
-     * \brief	Sets an array of id of the User related with the User
+     * Sets an array of id of the User related with the User
      * @param	array
      */
     public function setMember($member) {
@@ -673,8 +760,7 @@ class User {
     }
 
     /**
-     * \fn		void setPassword($password)
-     * \brief	Sets the password value of the User
+     * Sets the password value of the User
      * @param	string
      */
     public function setPassword($password) {
@@ -682,8 +768,7 @@ class User {
     }
 
     /**
-     * \fn		void setPremium($premium)
-     * \brief	Sets if the User has a Premium account
+     * Sets if the User has a Premium account
      * @param	boolean
      */
     public function setPremium($premium) {
@@ -691,8 +776,7 @@ class User {
     }
 
     /**
-     * \fn		void setPremiumexpirationdate($premiumexpirationdate)
-     * \brief	Sets the expiration date of the User Premium account
+     * Sets the expiration date of the User Premium account
      * @param	DateTime
      */
     public function setPremiumexpirationdate($premiumexpirationdate) {
@@ -700,8 +784,7 @@ class User {
     }
 
     /**
-     * \fn	void setThumbnail($thumbnail)
-     * \brief	Sets the profile picture thumbnail link of the User
+     * Sets the profile picture thumbnail link of the User
      * @param	string
      */
     public function setThumbnail($thumbnail) {
@@ -709,8 +792,7 @@ class User {
     }
 
     /**
-     * \fn	void setSettings($settings)
-     * \brief	Sets an array of settings of the User
+     * Sets an array of settings of the User
      * @param	array
      */
     public function setSettings($settings) {
@@ -718,8 +800,7 @@ class User {
     }
 
     /**
-     * \fn	string setSex($sex)
-     * \brief	Sets the sex id of the User
+     * Sets the sex id of the User
      * @param	string
      */
     public function setSex($sex) {
@@ -727,8 +808,7 @@ class User {
     }
 
     /**
-     * \fn	void setTwitterpage($twitterpage)
-     * \brief	Sets the twitter page link of the User
+     * Sets the twitter page link of the User
      * @param	string
      */
     public function setTwitterpage($twitterpage) {
@@ -736,8 +816,7 @@ class User {
     }
 
     /**
-     * \fn	void setType($type)
-     * \brief	Sets the type of the User
+     * Sets the type of the User
      * @param	string
      */
     public function setType($type) {
@@ -745,8 +824,7 @@ class User {
     }
 
     /**
-     * \fn		void setUsername($username)
-     * \brief	Sets the username value of the User
+     * Sets the username value of the User
      * @param	string
      */
     public function setUsername($username) {
@@ -754,8 +832,7 @@ class User {
     }
 
     /**
-     * \fn	void setVenuecounter($venuecounter)
-     * \brief	Sets the venue counter 
+     * Sets the venue counter
      * @param	number
      */
     public function setVenuecounter($venuecounter) {
@@ -763,8 +840,7 @@ class User {
     }
 
     /**
-     * \fn	void setWebsite($website)
-     * \brief	Sets the website link of the User
+     * Sets the website link of the User
      * @param	string
      */
     public function setWebsite($website) {
@@ -772,8 +848,7 @@ class User {
     }
 
     /**
-     * \fn	void setYoutubechannel($youtubechannel)
-     * \brief	Sets the youtube channel link of the User
+     * Sets the youtube channel link of the User
      * @param	string
      */
     public function setYoutubechannel($youtubechannel) {
@@ -781,8 +856,7 @@ class User {
     }
 
     /**
-     * \fn	string __toString()
-     * \brief	Return a printable string representing the User object
+     * Return a printable string representing the User object
      * @return	string
      */
     public function __toString() {
