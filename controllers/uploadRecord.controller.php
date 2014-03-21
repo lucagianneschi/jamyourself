@@ -272,8 +272,7 @@ class UploadRecordController extends REST {
             }
             $songId = $this->request['songId'];
             $recordId = $this->request['recordId'];
-            $pRecord = new RecordParse();
-            $record = $pRecord->getRecord($recordId);
+            $record = $this->getRecord($recordId);
             if ($record instanceof Error) {
                 $this->response(array('status' => $controllers['NORECORD']), 406);
             }
@@ -564,6 +563,25 @@ class UploadRecordController extends REST {
         return null;
     }
 
+        /**
+     * \fn	getRecord()
+     * \brief   funzione privata per il recupero del record dal DB
+     * \param   $recordId
+     */
+    private function getRecord($recordId) {
+        require_once SERVICES_DIR . 'connection.service.php';
+        $connectionService = new ConnectionService();
+        $connection = $connectionService->connect();
+        if ($connection != false) {
+            require_once SERVICES_DIR . 'select.service.php';
+            $records = selectRecords($connection, $recordId);
+            if (count($records) > 0) {
+                return $records[0];
+            }
+        }
+        return null;
+    }
+    
     /**
      * \fn	getSongsByRecordId()
      * \brief   funzione privata per il recupero della lista di song del record dal DB
