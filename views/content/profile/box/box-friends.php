@@ -16,7 +16,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 
 $friendshipCounter = $_POST['friendshipCounter'];
 $friendsBox = new FriendsBox();
-$friendsBox->init($_POST['id']);
+$friendsBox->init($_POST['id'],4,0);
 
 if (is_null($friendsBox->error)) {
     $friends = $friendsBox->friendsArray;

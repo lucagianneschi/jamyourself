@@ -15,14 +15,14 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 
 $collaboratorsBox = new CollaboratorsBox();
-$collaboratorsBox->init($_POST['id']);
+$collaboratorsBox->init($_POST['id'],8,0);
 
 if (is_null($collaboratorsBox->error)) {
     $venuesCollaborators = $collaboratorsBox->venueArray;
     $jammersCollaborators = $collaboratorsBox->jammerArray;
     $venuesCollaboratorsCounter = count($venuesCollaborators);
     $jammersCollaboratorsCounter = count($jammersCollaborators);
-    $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
+    $totCollaborators = $_POST['collaborationcounter']; 
     ?>
     <!------------------------------------- Collaboration ------------------------------------>
     <div class="row" id="social-collaboration">
@@ -37,7 +37,7 @@ if (is_null($collaboratorsBox->error)) {
 				?>
 	    		    <div class="row  ">
 	    			<div  class="large-12 columns ">
-	    			    <div class="text orange">Venue <span class="grey">[<?php echo $venuesCollaboratorsCounter ?>]</span></div>
+	    			    <div class="text orange">Venue <!--span class="grey">[<?php echo $venuesCollaboratorsCounter ?>]</span--></div>
 	    			</div>
 	    		    </div>
 
@@ -93,7 +93,7 @@ if (is_null($collaboratorsBox->error)) {
 				?>
 	    		    <div class="row  ">
 	    			<div  class="large-12 columns ">
-	    			    <div class="text orange">Jammer <span class="grey">[<?php echo $jammersCollaboratorsCounter ?>]</span></div>
+	    			    <div class="text orange">Jammer <!--span class="grey">[<?php echo $jammersCollaboratorsCounter ?>]</span--></div>
 	    			</div>
 	    		    </div>
 
