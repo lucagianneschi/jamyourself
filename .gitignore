@@ -21,3 +21,4 @@ config.rb
 
 /temp/
 /cache/
+/api/
