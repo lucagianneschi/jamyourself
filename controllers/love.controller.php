@@ -1,19 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Daniele Caldelli
- * \version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller di love/unlove 
- * \details		incrementa/decrementa il loveCounter di una classe e istanza corrispondente activity
- * \par			Commenti:
- * \warning
- * \bug
- * \todo		fare API su Wiki
- *
- */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -21,17 +7,32 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'insert.service.php';
+require_once SERVICES_DIR . 'update.service.php';
 
 /**
- * \brief	LoveController class 
- * \details	controller di love/unlove
+ * LoveController class
+ * controller di love/unlove
+ * 
+ * @author		Daniele Caldelli
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
+ */
+
+/**
+ * LoveController class 
+ * controller di love/unlove
  */
 class LoveController extends REST {
 
     /**
-     * \fn		incrementLove()
-     * \brief   increments loveCounter property of an istance of a class
-     * \todo    usare la sessione, prendere il toUser per la incrementLove, poichè il propietario del media deve avere notifica
+     * increments loveCounter property of an istance of a class
+     * @todo    invio mail? creazione notifica per proprietario media
      */
     public function incrementLove() {
 	global $controllers;
@@ -51,56 +52,35 @@ class LoveController extends REST {
 	    } elseif (!isset($this->request['objectIdUser'])) {
 		$this->response(array('status' => 'NOUSERID'), 400);
 	    }
-	    $fromuser = $_SESSION['currentUser'];
+	    $fromuserId = $_SESSION['id'];
 	    $classType = $this->request['classType'];
 	    $id = $this->request['id'];
-	    $toUserObjectId = $this->request['objectIdUser'];
-
-	    //controllo se non ho già lovvato
-	    if ($this->isLoved($fromuser->getId(), $id, $classType)) {
-		$this->response(array('status' => 'ALREADYLOVED'), 500);
+	    $toUserObjectId = $this->request['objectIdUser'];//serve per la notifica
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
-	    //CREO ACTIVITY DI LOVE CHE LEGA UTENTE e oggetto
-	    //INCREMENTO LOVECOUNTER DELL'OGGETTO LOVVATO
-	    switch ($classType) {
-		case 'Album':
-
-
-		    break;
-		case 'Comment':
-
-		    break;
-		case 'Event':
-
-		    break;
-		case 'Image':
-
-		    break;
-		case 'Record':
-
-		    break;
-		case 'Song':
-
-		    break;
-		case 'Video':
-
-		    break;
+	    if (existsRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love')) {
+		$this->response(array('status' => 'ALREADYLOVED'), 400);
 	    }
-	    if ($res instanceof Error) {
+	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('lovecounter' => 1));
+	    if (!$loveCounter) {
 		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
-	    } else {
-		
 	    }
-	    $this->response(array('status' => $res), 200);
+	    $relation = createRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love');
+	    if (!$relation) {
+		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
+	    }
+	    $this->response(array('status' => $controllers['LOVE']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
 
     /**
-     * \fn		decrementLove()
-     * \brief   decrements loveCounter property of an istance of a class
-     * \todo    usare la sessione
+     * decrements loveCounter property of an istance of a class
+     * @todo    eliminare la relazione tra user e oggetto lovvato
      */
     public function decrementLove() {
 	global $controllers;
@@ -120,81 +100,30 @@ class LoveController extends REST {
 	    } elseif (!isset($this->request['objectIdUser'])) {
 		$this->response(array('status' => 'NOUSERID'), 400);
 	    }
-	    $fromuser = $_SESSION['currentUser'];
+	    $fromuserId = $_SESSION['currentUser'];
 	    $classType = $this->request['classType'];
 	    $id = $this->request['id'];
-	    $toUserObjectId = $this->request['objectIdUser'];
-	    //elimino ACTIVITY DI LOVE CHE LEGA UTENTE e oggetto
-	    //deCREMENTO LOVECOUNTER DELL'OGGETTO LOVVATO
-	    
-	    
-	    #TODO
-	    //devo farmi passare questo per poter avere la notifica
-	    //$touser = $this->request['toUser'];
-	    //controllo se non ho già lovvato
-	    if (!$this->isLoved($fromuser->getId(), $id, $classType)) {
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    if (!existsRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love')) {
 		$this->response(array('status' => 'NOLOVE'), 400);
 	    }
-	    switch ($classType) {
-		case 'Album':
-
-		    break;
-		case 'Comment':
-
-		    break;
-		case 'Event':
-
-		    break;
-		case 'Image':
-
-		    break;
-		case 'Record':
-
-		    break;
-		case 'Song':
-
-		    break;
-		case 'Video':
-
-		    break;
+	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('lovecounter' => -1));
+	    if (!$loveCounter) {
+		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
 	    }
-	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['LOVEMINUSERR']), 503);
-	    } else {
-		
+	    //@todo eliminare rekazione tra utente e oggetto lovvato
+	    $relation = createRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love');
+	    if (!$relation) {
+		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
 	    }
-	    $this->response(array('status' => $res), 200);
+	    $this->response(array('status' => $controllers['UNLOVE']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
-    }
-
-    private function isLoved($objectIdUser, $id, $classType) {
-	switch ($classType) {
-	    case 'Album':
-
-		break;
-	    case 'Comment':
-
-		break;
-	    case 'Event':
-
-		break;
-	    case 'Image':
-
-		break;
-	    case 'Record':
-
-		break;
-	    case 'Song':
-
-		break;
-	    case 'Video':
-
-		break;
-	}
-	$loved = in_array(array()) ? true : false;
-	return $loved;
     }
 
 }
