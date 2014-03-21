@@ -20,8 +20,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 if (session_id() == '')
     session_start();
 
-$currentUser = $_SESSION['currentUser'];
-
+$currentUserId = $_SESSION['id'];
 $streamBox = new StreamBox();
 $streamBox->init(10, 0);
 if (is_null($streamBox->error)) {
@@ -40,7 +39,7 @@ if (is_null($streamBox->error)) {
                             <input id="post" type="text" class="post inline" placeholder="<?php echo $views['stream']['spread_world']; ?>">
                         </div>
                         <div class="small-3 columns ">
-                            <input type="button" id="button-post" class="post-button inline" value="<?php echo $views['post_button']; ?>" onclick="sendPost('<?php echo $currentUser->getId(); ?>', $('#post').val())">
+                            <input type="button" id="button-post" class="post-button inline" value="<?php echo $views['post_button']; ?>" onclick="sendPost('<?php echo $currentUserId; ?>', $('#post').val())">
                         </div>
                     </div>
                 </div>

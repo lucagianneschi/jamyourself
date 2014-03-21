@@ -19,9 +19,9 @@ require_once CLASSES_DIR . 'user.class.php';
 if (session_id() == '')
     session_start();
 
-$currentUser = $_SESSION['currentUser'];
+$currentUserId = $_SESSION['id'];
 $postBox = new PostBox();
-$postBox->initForStream($currentUser->getId(), 1);
+$postBox->initForStream($currentUserId, 1);
 $posts = $postBox->postArray;
 if (count($posts) == 0) {
     ?>

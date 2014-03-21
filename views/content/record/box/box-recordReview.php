@@ -17,7 +17,7 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 session_start();
 
-$currentUser = $_SESSION['currentUser'];
+$currentUser = $_SESSION['id'];
 $id = $_POST['id'];
 $limit = $_POST['limit'];
 $skip = $_POST['skip'];
@@ -25,8 +25,8 @@ $reviewToShow = 3;
 
 $reviewBox = new ReviewRecordBox();
 $reviewBox->initForMediaPage($id, $limit, $skip);
-if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
-    $currentUser = $_SESSION['currentUser'];
+if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
+    $currentUserId = $_SESSION['id'];
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);
     ?>
@@ -55,7 +55,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    $review_counter_love = $value->getLovecounter();
 		    $review_counter_comment = $value->getCommentcounter();
 		    $review_counter_share = $value->getSharecounter();
-		    if(existsRelation('user', $currentUser->getId(), 'comment', $review_objectId, 'loved')){
+		    if(existsRelation('user', $currentUserId, 'comment', $review_objectId, 'loved')){
 			$css_love = '_love orange';
 			$text_love = $views['unlove'];
 		    } else {
@@ -135,7 +135,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    			<div class="row recordReview-propriety">
 	    			    <div class="box-propriety">
 	    				<div class="small-6 columns ">
-	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUserId; ?>')"><?php echo $text_love; ?></a>
 	    				    <a class="note grey" onclick="loadBoxOpinion('<?php echo $review_objectId; ?>', '<?php echo $review_user_objectId; ?>', 'Comment', '#social-RecordReview-<?php echo $review_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 	    				<!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','recordReview')"><?php echo $views['share']; ?></a -->
 	    				</div>

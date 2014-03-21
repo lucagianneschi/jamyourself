@@ -10,16 +10,12 @@ require_once SERVICES_DIR . 'session.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-
 require_once BOXES_DIR . 'userInfo.box.php';
 
-$currentUser = $_SESSION['currentUser'];
-$userObjectId = $currentUser->getId();
-
+$userObjectId = $_SESSION['id'];
 if (isset($_GET['user'])) {
     $userPageId = $_GET['user'];
 }
-
 $userInfoBox = new UserInfoBox();
 $userInfoBox->init($userPageId);
 

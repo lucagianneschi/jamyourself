@@ -8,7 +8,7 @@ require_once SERVICES_DIR . 'session.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
-$currentUser = $_SESSION['currentUser'];
+$currentUser = $_SESSION['id'];
 
 //esempio: id dell'utente a cui si vuole vedere il profilo 
 $user = $_GET['user'];
