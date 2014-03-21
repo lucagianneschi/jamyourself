@@ -319,6 +319,7 @@ require_once ROOT_DIR . 'config.php';
     		    function loadBoxCollaboration() {
     			var json_data = {};
     			json_data.id = '<?php echo $user->getId(); ?>';
+    			json_data.collaborationcounter = '<?php echo $user->getCollaborationcounter() ?>';
     			$.ajax({
     			    type: "POST",
     			    url: "content/profile/box/box-collaboration.php",
