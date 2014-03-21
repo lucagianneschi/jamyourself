@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Stefano Muscas
- * \version		1.0
- * \date		2013
- * \copyright           Jamyourself.com 2013
+ * @author		Stefano Muscas
+ * @version		1.0
+ * @since		2013
+ * @copyright           Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di upload album 
  * \details		si collega al form di upload di un album, effettua controlli, scrive su DB
  * \par			Commenti:
- * \warning
- * \bug
- * \todo		Fare API su Wiki
+ * @warning
+ * @bug
+ * @todo		Fare API su Wiki
  */
 
 if (!defined('ROOT_DIR'))
@@ -21,12 +21,9 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'album.class.php';
-require_once CLASSES_DIR . 'albumParse.class.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CLASSES_DIR . 'activityParse.class.php';
 require_once BOXES_DIR . "utilsBox.php";
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
@@ -84,8 +81,8 @@ class UploadAlbumController extends REST {
 	    $album->setImagecounter(0);
 	    if (isset($this->request['city']) && !is_null($this->request['city'])) {
 		$infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
-		$parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
-		$album->setLocation($parseGeoPoint);
+                $album->getLatitude($infoLocation['latitude']);
+                $album->setLongitude($infoLocation['longitude']);
 	    }
 	    $album->setLovecounter(0);
 	    $album->setLovers(array());
@@ -93,15 +90,17 @@ class UploadAlbumController extends REST {
 	    $album->setTag(array());
 	    $album->setThumbnail(DEFALBUMTHUMB);
 	    $album->setTitle($this->request['albumTitle']);
-	    $albumParse = new AlbumParse();
-	    $albumSaved = $albumParse->saveAlbum($album);
-	    if ($albumSaved instanceof Error) {
+
+            $resSaveAlbum = $this->saveAlbum($album);
+	    if ($resSaveAlbum == false) {
 		$this->response(array('status' => $controllers['ALBUMNOTSAVED']), 407);
 	    }
-	    $albumId = $albumSaved->getId();
-	    $resActivity = $this->createActivity($currentUser->getId(), $albumId);
-	    if ($resActivity instanceof Error) {
-		rollbackUploadAlbumController($albumId, "Album");
+	    $albumId = $resSaveAlbum;
+            
+            //@TODO: gestione vecchia activity
+	    $resActivity = false;
+	    if ($resActivity == false) {
+		//rollbackUploadAlbumController($albumId, "Album");
 		$this->response(array("status" => $controllers['ALBUMNOTSAVED']), 409);
 	    }
 	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUser);
@@ -134,10 +133,9 @@ class UploadAlbumController extends REST {
 		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 404);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
-	    $albumParse = new AlbumParse();
 	    $albumId = $this->request['albumId'];
-	    $album = $albumParse->getAlbum($albumId);
-	    if ($album instanceof Error) {
+	    $album = $this->getAlbum($albumId);
+	    if ($album == false) {
 		$this->response(array('status' => $controllers['NOALBUMFOUNDED']), 405);
 	    }
 	    //ora devo aggiungere tutte le foto
@@ -159,36 +157,9 @@ class UploadAlbumController extends REST {
     }
 
     /**
-     * \fn	createActivity($fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null)
-     * \brief   funzione per creazione activity per questo controller
-     * \param   $fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null
-     */
-    private function createActivity($fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null) {
-	require_once CLASSES_DIR . 'activity.class.php';
-	require_once CLASSES_DIR . 'activityParse.class.php';
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setAlbum($albumId);
-	$activity->setCounter(0);
-	$activity->setEvent(null);
-	$activity->setFromuser($fromUser);
-	$activity->setImage($imageId);
-	$activity->setPlaylist(null);
-	$activity->setQuestion(null);
-	$activity->setRead(true);
-	$activity->setSong(null);
-	$activity->setStatus(null);
-	$activity->setTouser(null);
-	$activity->setType($type);
-	$activity->setVideo(null);
-	$pActivity = new ActivityParse();
-	return $pActivity->saveActivity($activity);
-    }
-
-    /**
      * \fn	getFeaturingJSON() 
      * \brief   funzione per il recupero dei featuring per l'event
-     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+     * @todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
      */
     public function getFeaturingJSON() {
 	try {
@@ -237,16 +208,16 @@ class UploadAlbumController extends REST {
 		$this->response(array("status" => $controllers['NOOBJECTID']), 403);
 	    }
 	    $albumId = $this->request['albumId'];
-	    $imagesList = imagelistGenerator($albumId);
-	    if ($imagesList instanceof Error) {
+	    $imagesList = $this->getImagesByAlbumId($albumId);
+	    if ($imagesList == null) {
 		$this->response(array("status" => $controllers['nodata']), 200);
 	    } elseif (is_null($imagesList) || count($imagesList) == 0) {
 		$this->response(array("status" => $controllers['NOIMAGEFORALBUM'], "imageList" => null, "count" => 0), 200);
 	    }
 	    $returnInfo = array();
 	    foreach ($imagesList as $image) {
-// info utili
-// mi serve: id, src, 
+            // info utili
+            // mi serve: id, src, 
 		$returnInfo[] = json_encode(array("id" => $image->getId(), "src" => $image->getPath()));
 	    }
 	    $this->response(array("status" => $controllers['COUNTALBUMOK'], "imageList" => $returnInfo, "count" => count($imagesList)), 200);
@@ -352,17 +323,16 @@ class UploadAlbumController extends REST {
 	}
     }
 
-    public function getAlbums() {
+    private function getAlbums() {
 	global $controllers;
 	if ($this->get_request_method() != "POST") {
 	    $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
 	} elseif (!isset($_SESSION['currentUser'])) {
 	    $this->response($controllers['USERNOSES'], 402);
 	}
-
 	require_once BOXES_DIR . "album.box.php";
 	$albumBox = new AlbumBox();
-	$albumBox->init($_SESSION['currentUser'], $limit = 10, $skip = 0, $upload = true);
+	$albumBox->init($_SESSION['currentUser'], $limit = 10);
 	$albumList = array();
 	if (is_null($albumBox->error) && count($albumBox->albumArray) > 0) {
 	    foreach ($albumBox->albumArray as $album) {
