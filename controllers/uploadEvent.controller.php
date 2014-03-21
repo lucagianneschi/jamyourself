@@ -118,11 +118,11 @@ class UploadEventController extends REST {
 	    $result = insertEvent($connection, $event);
 	    $node = createNode('event', $event->getId());
 	    $relation = createRelation($connection, 'user', $userId, 'event', $event->getId(), 'ADD');
-	    if ($result == false) {
+	    if ($result === false) {
 		$this->response(array("status" => $controllers['EVENTCREATEERROR']), 503);
-	    } elseif (!$node) {
+	    } elseif ($node === false) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
-	    } elseif (!$relation) {
+	    } elseif ($relation === false) {
 		$this->response(array('status' => $controllers['RELATIONERROR']), 503);
 	    }
 	    unset($_SESSION['currentUserFeaturingArray']);
@@ -163,7 +163,6 @@ class UploadEventController extends REST {
 	    error_reporting(E_ALL ^ E_NOTICE);
 	    $force = false;
 	    $filter = null;
-
 	    if (!isset($_SESSION['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 400);
 	    }
