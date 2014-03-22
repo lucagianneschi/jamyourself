@@ -72,6 +72,7 @@ class LoveController extends REST {
 	    if (!$relation) {
 		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
 	    }
+	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['LOVE']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
@@ -120,6 +121,7 @@ class LoveController extends REST {
 	    if (!$relation) {
 		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
 	    }
+	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['UNLOVE']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);

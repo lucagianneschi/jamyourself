@@ -98,6 +98,7 @@ class PostController extends REST {
 	    if (!$relation || !$node) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
+	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['POSTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);

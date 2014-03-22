@@ -125,7 +125,8 @@ class CommentController extends REST {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
 	    global $mail_files;
-	    $user = selectUsers($toUserId);
+	    $user = selectUsers($connection, $toUserId);
+	    $connectionService->disconnect($connection);
 	    $address = $user->getEmail();
 	    $subject = $controllers['SBJCOMMENT'];
 	    $html = $mail_files['COMMENTEMAIL'];

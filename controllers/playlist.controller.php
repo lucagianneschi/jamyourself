@@ -65,6 +65,7 @@ class PlaylistController extends REST {
 	    if (!$relation) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
+	    $connectionService->disconnect($connection);
 	    $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
