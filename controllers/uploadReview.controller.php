@@ -32,7 +32,7 @@ class UploadReviewController extends REST {
      * inizializzazione della pagina
      */
     public function init() {
-	if (!isset($_SESSION['currentUser'])) {
+	if (!isset($_SESSION['id'])) {
 	    header('Location: login.php?from=uploadReview.php');
 	    exit;
 	}
@@ -75,7 +75,7 @@ class UploadReviewController extends REST {
 	    } elseif ((!isset($this->request['type']) || is_null($this->request['type']) || !(strlen($this->request['type']) > 0 ))) {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
 	    }
-	    $currentUser = $_SESSION['id'];
+	    $currentUserId = $_SESSION['id'];
 	    $reviewRequest = json_decode(json_encode($this->request), false);
 	    $this->reviewedId = $reviewRequest->reviewedId;
 	    $this->reviewedClassType = $reviewRequest->type;
@@ -88,7 +88,7 @@ class UploadReviewController extends REST {
 		$this->response(array('status' => $controllers['ERRORREVIEW']), 403);
 	    }
 	    $touser = $this->reviewed->getFromuser();
-	    if ($touser->getId() == $currentUser) {
+	    if ($touser->getId() == $currentUserId) {
 		$this->response(array("status" => $controllers['NOSELFREVIEW']), 403);
 	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
@@ -97,7 +97,7 @@ class UploadReviewController extends REST {
 	    $review->setAlbum(null);
 	    $review->setCommentcounter(0);
 	    $review->setCounter(0);
-	    $review->setFromuser($currentUser);
+	    $review->setFromuser($currentUserId);
 	    $review->setImage(null);
 	    $review->setLatitude(null);
 	    $review->setLongitude(null);

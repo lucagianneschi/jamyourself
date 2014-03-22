@@ -45,7 +45,7 @@ class UploadRecordController extends REST {
     public function init() {
 //utente non loggato
 
-        if (!isset($_SESSION['currentUser'])) {
+        if (!isset($_SESSION['id'])) {
             /* This will give an error. Note the output
              * above, which is before the header() call */
             header('Location: login.php?from=uploadRecord.php');
@@ -66,12 +66,11 @@ class UploadRecordController extends REST {
                 $this->response(array("status" => $controllers['NODESCRIPTION']), 404);
             } elseif (!isset($record['tags']) || is_null($record['tags']) || !is_array($record['tags']) || !(count($record['tags']) > 0)) {
                 $this->response(array("status" => $controllers['NOTAGS']), 405);
-            } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
+            } elseif ($_SESSION['type'] != "JAMMER") {
                 $this->response(array("status" => $controllers['CLASSTYPEKO']), 406);
             }
             $newRecord = json_decode(json_encode($record), false);
-            $user = $_SESSION['currentUser'];
-            $userId = $user->getId();
+            $userId = $_SESSION['id'];
             $record = new Record();
             $record->setActive(true);
             $record->setBuyLink((strlen($newRecord->urlBuy) ? $newRecord->urlBuy : null));
@@ -131,7 +130,7 @@ class UploadRecordController extends REST {
             global $controllers;
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 400);
-            } elseif (!isset($_SESSION['currentUser'])) {
+            } elseif (!isset($_SESSION['id'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 400);
             } elseif (!isset($this->request['list'])) {
                 $this->response(array('status' => $controllers['NOSONGLIST']), 400);
@@ -152,7 +151,7 @@ class UploadRecordController extends REST {
                 $recordId = $this->request['recordId'];
             }
 
-            $currentUser = $_SESSION['currentUser'];
+            $currentUserId = $_SESSION['id'];
             $songList = $this->request['list'];
             if (is_null($record)) {
                 $record = $this->getRecord($recordId);
@@ -184,7 +183,7 @@ class UploadRecordController extends REST {
                             $song->setFeaturing(array());
                         }
                         $song->setPath($element->src);
-                        $song->setFromuser($currentUser->getId());
+                        $song->setFromuser($currentUserId);
                         $song->setGenre($element->tags);
                         $song->setLocation(null);
                         $song->setLovers(array());
@@ -207,7 +206,7 @@ class UploadRecordController extends REST {
                             
                             $fileManager = new FileManagerService();
                             
-                            if ($fileManager->saveSong($currentUser->getId(), $song->getPath()) == false) {
+                            if ($fileManager->saveSong($currentUserId, $song->getPath()) == false) {
                                 //@TODO : GESTIRE LA CALLBACK SE SERVONO ANCORA
                                 //require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                                 //rollbackUploadRecordController($savedSong->getId(), "Song");
@@ -261,9 +260,9 @@ class UploadRecordController extends REST {
             global $controllers;
             if ($this->get_request_method() != "POST") {
                 $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
-            } elseif (!isset($_SESSION['currentUser'])) {
+            } elseif (!isset($_SESSION['id'])) {
                 $this->response($controllers['USERNOSES'], 402);
-            } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
+            } elseif ($_SESSION['type'] != "JAMMER") {
                 $this->response(array("status" => $controllers['CLASSTYPEKO']), 403);
             } elseif (!isset($this->request['recordId']) || is_null($this->request['recordId']) || !(strlen($this->request['recordId']) > 0)) {
                 $this->response(array("status" => $controllers['NORECORDID']), 404);
@@ -309,19 +308,15 @@ class UploadRecordController extends REST {
      */
     private function addSongToRecord($record, $song) {
         try {
-            $currentUser = $_SESSION['currentUser'];
-
+            $currentUser = $_SESSION['id'];
             $recordId = $record->getId();
-
             //@TODO: aggiorno la relazione record/song
             $resRelationCreation = false;
             if ($resRelationCreation == false) {
                 return false;
             }
-
             //@TODO: aggiungere activity per aggiunta song ad un record
             $resCreationActivity = false;
-
             if ($resCreationActivity == false) {
                 return false;
             }
@@ -361,7 +356,7 @@ class UploadRecordController extends REST {
             $force = false;
             $filter = null;
 
-            if (!isset($_SESSION['currentUser'])) {
+            if (!isset($_SESSION['id'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 400);
             }
             if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {

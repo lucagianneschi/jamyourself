@@ -38,10 +38,9 @@ class SocialController extends REST {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
-
 	    if (!isset($this->request['classType'])) {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
 	    } elseif (!isset($this->request['id'])) {
@@ -49,9 +48,8 @@ class SocialController extends REST {
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-
 	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $fromuser = $_SESSION['currentUser'];
+	    $fromuser = $_SESSION['id'];
 	    $classType = $this->request['classType'];
 	    $id = $this->request['id'];
 	    $toUserObjectId = $this->request['toUser'];
@@ -120,7 +118,7 @@ class SocialController extends REST {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
 
@@ -185,7 +183,7 @@ class SocialController extends REST {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
 

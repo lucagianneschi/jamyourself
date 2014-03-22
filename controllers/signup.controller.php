@@ -1,24 +1,10 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Stafano Muscas
- * \version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		signup.controller
- * \details		Iscrizione dell'utente a Jamyourself
- * \par			Commenti:
- * \warning
- * \bug
- * \todo		query su Location, fare API su Wiki
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'validateNewUser.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
@@ -27,18 +13,30 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
+require_once SERVICES_DIR . 'insert.service.php';
 
 define("CAPTCHA_PUBLIC_KEY", "6Lei6NYSAAAAAENpHWBBkHtd0ZbfAdRAtKMcvlaQ");
 define("CAPTCHA_PRIVATE_KEY", "6Lei6NYSAAAAAOXsGrRhJxUqdFGt03jcqaABdJMn");
 
+/**
+ * SignupController class
+ * Iscrizione dell'utente a Jamyourself
+ * 
+ * @author		Stafano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
+ */
 class SignupController extends REST {
 
     private $config;
     private $userValidator;
 
     /**
-     * \fn	__construct()
-     * \brief	imposta il file di cunfigurazione e chiama il servizio di validazione utente
+     * imposta il file di cunfigurazione e chiama il servizio di validazione utente
      * \todo
      */
     function __construct() {
@@ -50,8 +48,6 @@ class SignupController extends REST {
     /**
      * \fn	signup()
      * \brief	mette in sessione le informazioni per corretta visualizzazione
-     * \return
-     * \todo
      */
     public function init() {
 	session_start();
@@ -188,16 +184,14 @@ class SignupController extends REST {
 	    if ($user instanceof Error) {
 		$this->response(array('status' => $controllers['NEWUSERCREATIONFAILED']), 503);
 	    }
-	    require_once CLASSES_DIR . 'activity.class.php';
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setFromuser($user->getId());
-	    $activity->setRead(true);
-	    $activity->setStatus("A");
-	    $activity->setType("SIGNEDUP");
-	    $pActivity = new ActivityParse();
-	    $pActivity->saveActivity($activity);
+
+
+
+
+
+
+
+
 	    $_SESSION['currentUser'] = $user;
 	    $this->createFileSystemStructure($user->getId(), $user->getType());
 	    $this->createDefaultAlbum($user->getId());

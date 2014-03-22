@@ -39,11 +39,7 @@ class UploadAlbumController extends REST {
      * \brief   inizializzazione della pagina
      */
     public function init() {
-//utente non loggato
-
-	if (!isset($_SESSION['currentUser'])) {
-	    /* This will give an error. Note the output
-	     * above, which is before the header() call */
+	if (!isset($_SESSION['id'])) {
 	    header('Location: login.php?from=uploadAlbum.php');
 	    exit;
 	}
@@ -58,7 +54,7 @@ class UploadAlbumController extends REST {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response($controllers['USERNOSES'], 402);
 	    } elseif (!isset($this->request['albumTitle']) || is_null($this->request['albumTitle']) || !(strlen($this->request['albumTitle']) > 0)) {
 		$this->response(array('status' => $controllers['NOALBUMTITLE']), 403);
@@ -67,7 +63,7 @@ class UploadAlbumController extends REST {
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
 		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 406);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUserId = $_SESSION['id'];
 	    $album = new Album();
 	    $album->setActive(true);
 	    $album->setCommentcounter(0);
@@ -77,7 +73,7 @@ class UploadAlbumController extends REST {
 	    if (isset($this->request['featuring']) && is_array($this->request['featuring']) && count($this->request['featuring']) > 0) {
 		$album->setFeaturing($this->request['featuring']);
 	    }
-	    $album->setFromuser($currentUser->getId());
+	    $album->setFromuser($currentUserId);
 	    $album->setImagecounter(0);
 	    if (isset($this->request['city']) && !is_null($this->request['city'])) {
 		$infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
@@ -90,7 +86,6 @@ class UploadAlbumController extends REST {
 	    $album->setTag(array());
 	    $album->setThumbnail(DEFALBUMTHUMB);
 	    $album->setTitle($this->request['albumTitle']);
-
             $resSaveAlbum = $this->saveAlbum($album);
 	    if ($resSaveAlbum == false) {
 		$this->response(array('status' => $controllers['ALBUMNOTSAVED']), 407);
@@ -103,8 +98,7 @@ class UploadAlbumController extends REST {
 		//rollbackUploadAlbumController($albumId, "Album");
 		$this->response(array("status" => $controllers['ALBUMNOTSAVED']), 409);
 	    }
-	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUser);
-
+	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUserId);
 	    if (count($errorImages) == count($this->request['images'])) {
 		//nessuna immagine salvata, ma album creato
 		$this->response(array("status" => $controllers['ALBUMSAVENOIMGSAVED'], "id" => $albumSaved->getId()), 200);
@@ -125,22 +119,21 @@ class UploadAlbumController extends REST {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response($controllers['USERNOSES'], 402);
 	    } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
 		$this->response(array('status' => $controllers['NOALBUMID']), 403);
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
 		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 404);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUserId = $_SESSION['id'];
 	    $albumId = $this->request['albumId'];
 	    $album = $this->getAlbum($albumId);
 	    if ($album == false) {
 		$this->response(array('status' => $controllers['NOALBUMFOUNDED']), 405);
 	    }
 	    //ora devo aggiungere tutte le foto
-	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUser);
-
+	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUserId);
 	    if (count($errorImages) == count($this->request['images'])) {
 		//nessuna immagine salvata
 		$this->response(array("status" => $controllers['NOIMAGESAVED'], "id" => $albumId), 200);
@@ -168,7 +161,7 @@ class UploadAlbumController extends REST {
 	    $force = false;
 	    $filter = null;
 
-	    if (!isset($_SESSION['currentUser'])) {
+	    if (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 400);
 	    }
 	    if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {

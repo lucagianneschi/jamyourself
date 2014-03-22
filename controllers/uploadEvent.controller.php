@@ -32,7 +32,7 @@ class UploadEventController extends REST {
      * inizializzazione della pagina
      */
     public function init() {
-	if (!isset($_SESSION['currentUser'])) {
+	if (!isset($_SESSION['id'])) {
 	    header('Location: login.php?from=uploadEvent.php');
 	    exit;
 	}
@@ -163,7 +163,7 @@ class UploadEventController extends REST {
 	    error_reporting(E_ALL ^ E_NOTICE);
 	    $force = false;
 	    $filter = null;
-	    if (!isset($_SESSION['currentUser'])) {
+	    if (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 400);
 	    }
 	    if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {

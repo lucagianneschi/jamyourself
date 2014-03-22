@@ -27,11 +27,11 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
  * \todo  getRelatedUsers non esiste più
  */
 function getFeaturingArray() {
-    if (isset($_SESSION['currentUser'])) {
-	$currentUser = $_SESSION['currentUser'];
-	$currentUserId = $currentUser->getId();
+    if (isset($_SESSION['id'])) {
+	$currentUserId = $_SESSION['id'];
+	$currentUserType =  $_SESSION['type'];
 	$userArray = null;
-	switch ($currentUser->getType()) {
+	switch ($currentUserType) {
 	    case "SPOTTER":
 		$userArrayFriend = getRelatedUsers($currentUserId, 'friendship', '_User');
 		if (($userArrayFriend instanceof Error) || is_null($userArrayFriend)) {

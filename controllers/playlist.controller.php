@@ -85,7 +85,7 @@ class PlaylistController extends REST {
 	    }
 	    $playlistId = $_SESSION['playlist']['id'];
 	    $songId = $this->request['songId'];
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUserId = $_SESSION['id'];
 	    require_once CLASSES_DIR . 'playlistParse.class.php';
 	    $playlistP = new PlaylistParse();
 	    $playlist = $playlistP->getPlaylist($playlistId);
