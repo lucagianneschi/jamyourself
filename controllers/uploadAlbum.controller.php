@@ -97,13 +97,10 @@ class UploadAlbumController extends REST {
 	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUserId);
 	    $connectionService->disconnect($connection);
 	    if (count($errorImages) == count($this->request['images'])) {
-		//nessuna immagine salvata, ma album creato
 		$this->response(array("status" => $controllers['ALBUMSAVENOIMGSAVED'], "id" => $albumId), 200);
 	    } elseif (count($errorImages) > 0) {
-		//immagini salvate, ma non tutte....
 		$this->response(array("status" => $controllers['ALBUMSAVEDWITHERRORS'], "id" => $albumId), 200);
 	    } else {
-		//tutto OK
 		$this->response(array("status" => $controllers['ALBUMSAVED'], "id" => $albumId), 200);
 	    }
 	} catch (Exception $e) {
@@ -126,22 +123,24 @@ class UploadAlbumController extends REST {
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
 		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 404);
 	    }
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
 	    $currentUserId = $_SESSION['id'];
 	    $albumId = $this->request['albumId'];
-	    $album = $this->getAlbum($albumId);
+	    $album = selectAlbums($connection, $albumId);
 	    if ($album == false) {
 		$this->response(array('status' => $controllers['NOALBUMFOUNDED']), 405);
 	    }
-	    //ora devo aggiungere tutte le foto
 	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUserId);
+	    $connectionService->disconnect($connection);
 	    if (count($errorImages) == count($this->request['images'])) {
-		//nessuna immagine salvata
 		$this->response(array("status" => $controllers['NOIMAGESAVED'], "id" => $albumId), 200);
 	    } elseif (count($errorImages) > 0) {
-		//immagini salvate, ma non tutte....
 		$this->response(array("status" => $controllers['IMAGESSAVEDWITHERRORS'], "id" => $albumId), 200);
 	    } else {
-		//tutto OK
 		$this->response(array("status" => $controllers['IMAGESSAVED'], "id" => $albumId), 200);
 	    }
 	} catch (Exception $e) {
@@ -263,7 +262,7 @@ class UploadAlbumController extends REST {
 		return $pImage;
 	    }
 	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 500);
+	    return $e;
 	}
     }
 
