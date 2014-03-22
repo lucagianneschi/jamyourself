@@ -22,6 +22,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
+require_once SERVICES_DIR . 'update.service.php';
 
 /**
  * \brief	MessageController class 
@@ -55,12 +56,6 @@ class MessageController extends REST {
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-	    $currentUserId = $_SESSION['id'];
-	    $touser = $this->request['toUser'];
-
-
-
-
 	    $this->response(array($controllers['CONVERSATION_DEL']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
@@ -97,13 +92,19 @@ class MessageController extends REST {
 	    if (strlen($text) < $this->config->minMessageSize) {
 		$this->response(array('status' => $controllers['SHORTMESSAGE'] . strlen($text)), 406);
 	    }
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
 	    $message = new Comment();
 	    $message->setActive(1);
 	    $message->setAlbum(null);
 	    $message->setCommentcounter(0);
+	    $message->setCounter(0);
 	    $message->setEvent(null);
-	    $message->setFromuser($currentUser->getId());
+	    $message->setFromuser($currentUserId);
 	    $message->setImage(null);
 	    $message->setLatitude(null);
 	    $message->setLongitude(null);
@@ -115,7 +116,7 @@ class MessageController extends REST {
 	    $message->setType('M');
 	    $message->setVideo(null);
 	    $message->setVote(null);
-	    $message_id = insertComment($message);
+	    $message_id = insertComment($connection, $message);
 	    if ($message_id instanceof Error) {
 		$this->response(array('status' => 'NOSAVEMESS'), 503);
 	    }
@@ -123,14 +124,18 @@ class MessageController extends REST {
 	    if (!$node) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
+	    $relation = createRelation($connection, 'user', $currentUserId, 'message', $message->getId(), 'message');
+	    if (!$relation || !$node) {
+		$this->response(array('status' => $controllers['NODEERROR']), 503);
+	    }
 	    global $mail_files;
-	    require_once CLASSES_DIR . 'user.class.php';
 	    require_once CONTROLLERS_DIR . 'utils.service.php';
-	    $user = selectUsers($currentUser);
+	    $user = selectUsers($connection, $currentUserId);
 	    $address = $user->getEmail();
 	    $subject = $controllers['SBJMESSAGE'];
 	    $html = $mail_files['MESSAGEEMAIL'];
 	    sendMailForNotification($address, $subject, $html);
+	    $connectionService->disconnect($connection);
 	    $this->response(array($controllers['MESSAGESAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
@@ -152,7 +157,18 @@ class MessageController extends REST {
 	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    }
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    $read = update($connection, 'comment', array('read' => 1));
+	    if (!$read) {
+		$this->response(array('status' => $controllers['READERROR']), 503);
+	    }
 
+
+	    $connectionService->disconnect($connection);
 	    $this->response(array($controllers['MESSAGEREAD']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
