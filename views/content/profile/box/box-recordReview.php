@@ -24,8 +24,8 @@ $type = $_POST['type'];
 
 $reviewBox = new ReviewRecordBox();
 $reviewBox->initForPersonalPage($id, $type);
-if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
-    $currentUser = $_SESSION['currentUser'];
+if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
+    $currentUserId = $_SESSION['id'];
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);
     ?>
@@ -77,7 +77,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $recordReview_comment = $value->getCommentcounter();
 				    $recordReview_share = $value->getSharecounter();
 					$connectionService = new ConnectionService();						
-				    if (existsRelation($connectionService,'user', $currentUser->getId(), 'comment',$recordReview_objectId, 'loved')) {
+				    if (existsRelation($connectionService,'user', $currentUserId, 'comment',$recordReview_objectId, 'loved')) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 				    } else {
@@ -99,7 +99,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						}
 						$fileManagerService = new FileManagerService();
 						$pathUser = $fileManagerService->getPhotoPath($eventReview_user_objectId, $recordReview_user_thumbnail);
-						$pathRecord = $fileManagerService->getPhotoPath($currentUser->getId(), $recordReview_thumbnailCover);
+						$pathRecord = $fileManagerService->getPhotoPath($currentUserId, $recordReview_thumbnailCover);
 						?>
 						<a href="profile.php?user=<?php echo $recordReview_user_objectId ?>">	
 						    <div class="row">

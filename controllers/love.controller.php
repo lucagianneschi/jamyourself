@@ -39,7 +39,7 @@ class LoveController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
 	    $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Video');
@@ -87,7 +87,7 @@ class LoveController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
 	    $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Video');
@@ -100,7 +100,7 @@ class LoveController extends REST {
 	    } elseif (!isset($this->request['objectIdUser'])) {
 		$this->response(array('status' => 'NOUSERID'), 400);
 	    }
-	    $fromuserId = $_SESSION['currentUser'];
+	    $fromuserId = $_SESSION['id'];
 	    $classType = $this->request['classType'];
 	    $id = $this->request['id'];
 	    $connectionService = new ConnectionService();

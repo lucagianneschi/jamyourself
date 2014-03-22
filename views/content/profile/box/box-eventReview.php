@@ -25,8 +25,8 @@ $type = $_POST['type'];
 
 $reviewBox = new ReviewEventBox();
 $reviewBox->init($id, $type);
-if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
-    $currentUser = $_SESSION['currentUser'];
+if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
+    $currentUserId = $_SESSION['id'];
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);
     ?>
@@ -84,7 +84,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $eventReview_comment = $value->getCommentcounter();
 				    $eventReview_share = $value->getSharecounter();
 					$connectionService = new ConnectionService();
-				    if (existsRelation($connectionService,'user', $currentUser->getId(), 'comment', $eventReview_objectId, 'loved')) {
+				    if (existsRelation($connectionService,'user', $currentUserId, 'comment', $eventReview_objectId, 'loved')) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 				    } else {
@@ -98,7 +98,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 					    if ($type != "SPOTTER") {
 						$fileManagerService = new FileManagerService();
 						$pathUser = $fileManagerService->getPhotoPath($eventReview_user_objectId, $eventReview_user_thumbnail);
-						$pathEvent = $fileManagerService->getEventPhotoPath($currentUser->getId(), $eventReview_thumbnailCover);
+						$pathEvent = $fileManagerService->getEventPhotoPath($currentUserId, $eventReview_thumbnailCover);
 						?>
 						<a href="profile.php?user=<?php echo $eventReview_user_objectId ?>">
 						    <div class="row">

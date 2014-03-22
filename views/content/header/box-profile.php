@@ -11,9 +11,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 
 $playlist = new PlaylistInfoBox();
 $playlist->init();
-
-$currentUser = $_SESSION['currentUser'];
-
+$currentUserId = $_SESSION['id'];
 $playlistArray = $playlist->playlistArray;
 
 #TODO da modificare quando ci saranno più playlist 
@@ -73,7 +71,7 @@ $_SESSION['playlist']['songs'] = array();
 		));
 		
 		$connectionService = new ConnectionService();		
-		if (existsRelation($connectionService,'user', $currentUser->getId(), 'song', $id, 'LOVE')) {
+		if (existsRelation($connectionService,'user', $currentUserId, 'song', $id, 'LOVE')) {
 		    $track_css_love = '_love orange';
 		    $track_text_love = $views['unlove'];
 		} else {

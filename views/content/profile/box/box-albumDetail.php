@@ -26,15 +26,12 @@ $id = $_POST['id'];
 $countImage = $_POST['countImage'];
 $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
-
 if (session_id() == '')
     session_start();
-if (isset($_SESSION['currentUser']))
-    $currentUser = $_SESSION['currentUser'];
-
+if (isset($_SESSION['id']))
+    $currentUserId = $_SESSION['id'];
 $albumDetail = new AlbumBox();
 $albumDetail->initForDetail($id, $limit, $skip);
-
 $css_other = 'no-display';
 $other = 0;
 if (($limit + $skip) < $countImage) {
@@ -74,7 +71,7 @@ $fileManagerService = new FileManagerService();
 	<?php
 	foreach ($albumDetail->imageArray as $key => $value) {
 		$connectionService = new ConnectionService();
-	    if (existsRelation($connectionService,'user', $currentUser->getId(), 'image', $value->getId(), 'loved')) {
+	    if (existsRelation($connectionService,'user', $currentUserId, 'image', $value->getId(), 'loved')) {
 			$css_love = '_love orange';
 			$text_love = $views['unlove'];
 	    } else {

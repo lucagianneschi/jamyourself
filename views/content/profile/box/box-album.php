@@ -23,16 +23,13 @@ require_once SERVICES_DIR . 'connection.service.php';
 session_start();
 
 $objectIdUser = $_POST['objectIdUser'];
-
 $albumBox = new AlbumBox();
 $albumBox->init($_POST['id']);
-
 if (is_null($albumBox->error)) {
-    if (isset($_SESSION['currentUser']))
-	$currentUser = $_SESSION['currentUser'];
+    if (isset($_SESSION['id']))
+	$currentUserId = $_SESSION['id'];
     $albums = $albumBox->albumArray;
     $albumCounter = count($albums);
-
     $fileManagerService = new FileManagerService();
     ?>
     <!----------------------------------- Photography -------------------------------------------------->
@@ -75,7 +72,7 @@ if (is_null($albumBox->error)) {
 				$album_share = $value->getSharecounter();
 				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['id'], $album_thumbnail);
 				$connectionService = new ConnectionService();				
-				if (existsRelation($connectionService,'user', $currentUser->getId(), 'album', $album_id, 'loved')) {
+				if (existsRelation($connectionService,'user', $currentUserId, 'album', $album_id, 'loved')) {
 				    $css_love = '_love orange';
 				    $text_love = $views['unlove'];
 				} else {
@@ -129,7 +126,7 @@ if (is_null($albumBox->error)) {
 		$album_love = $value->getLovecounter();
 		$album_comment = $value->getCommentcounter();
 		$album_share = $value->getSharecounter();
-		if (existsRelation('user', $currentUser->getId(), 'album', $album_id, 'loved')) {
+		if (existsRelation('user', $currentUserId, 'album', $album_id, 'loved')) {
 		    $css_love = '_love orange';
 		    $text_love = $views['unlove'];
 		} else {

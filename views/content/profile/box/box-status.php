@@ -17,29 +17,24 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'select.service.php';
 //session_start();
 
-$currentUser = $_SESSION['currentUser'];
-
+$currentUserId = $_SESSION['id'];
 $level = $user->getLevel();
 $levelValue = $user->getLevelvalue();
 $type = $user->getType();
 $id = $user->getId();
-
-$currentUserType = $currentUser->getType();
-$currentUser = $currentUser->getId();
+$currentUserType = $_SESSION['type'];
 #TODO
 //$badge = $user->getBadge();
 $noBadge = 10 - count($badge);
 $css_message = '';
 $css_relation = 'no-display';
 $connectionService = new ConnectionService();
-if(!existsRelation($connectionService,'user', $currentUser, 'user', $id, $relationType)) {
+if(!existsRelation($connectionService,'user', $currentUserId, 'user', $id, $relationType)) {
     $css_message = 'no-display';
     $css_relation = '';
 }
 ?>
-
 <!------------------------------------------- STATUS ----------------------------------->
-
 <div id="social-status">
     <div class="row">
 	<div class="small-12 columns status">			

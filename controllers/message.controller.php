@@ -55,7 +55,7 @@ class MessageController extends REST {
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUserId = $_SESSION['id'];
 	    $touser = $this->request['toUser'];
 
 
@@ -77,7 +77,7 @@ class MessageController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
@@ -86,10 +86,11 @@ class MessageController extends REST {
 	    } elseif (!isset($this->request['message'])) {
 		$this->response(array('status' => $controllers['NOMESSAGE']), 403);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUserId = $_SESSION['id'];
+	    $currentUserType = $_SESSION['type'];
 	    $toUserId = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
-	    if (!relationChecker($currentUser->getId(), $currentUser->getType(), $toUserId, $toUserType)) {
+	    if (!relationChecker($currentUserId, $currentUserType, $toUserId, $toUserType)) {
 		$this->response(array('status' => $controllers['NOSPAM']), 401);
 	    }
 	    $text = $this->request['message'];

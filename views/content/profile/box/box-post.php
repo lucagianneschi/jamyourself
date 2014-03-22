@@ -18,21 +18,17 @@ session_start();
 
 $postBox = new PostBox();
 $postBox->init($_POST['id']);
-
-if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
-    $currentUser = $_SESSION['currentUser'];
+if (is_null($postBox->error) || isset($_SESSION['id'])) {
+    $currentUserId = $_SESSION['id'];
     $posts = $postBox->postArray;
     $postCounter = count($posts);
     ?>
-
     <!------------------------------------- Post ------------------------------------>
     <div class="row" id="social-Post" style='margin-bottom: 40px;'>
         <div  class="large-12 columns">
     	<h3><?php echo $views['post']['title'] ?></h3>
-
     	<div class="row ">
     	    <div  class="large-12 columns ">
-
     		<div class="row  ">
     		    <div  class="large-12 columns ">
     			  <form action="" class="box-write" onsubmit="sendPost('<?php echo $_POST['id']; ?>', $('#post').val());
@@ -66,7 +62,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 			    $post_loveCounter = $value->getLovecounter();
 			    $post_commentCounter = $value->getCommentcounter();
 			    $connectionService = new ConnectionService();
-			    if (existsRelation($connectionService,'user', $currentUser->getId(), 'comment', $post_objectId, 'loved')) {
+			    if (existsRelation($connectionService,'user', $currentUserId, 'comment', $post_objectId, 'loved')) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {
@@ -126,7 +122,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 	    			<div class="row">
 	    			    <div class="box-propriety">
 	    				<div class="small-5 columns ">
-	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>', '<?php echo $currentUserId; ?>')"><?php echo $text_love; ?></a>
 	    				    <a class="note grey" onclick="loadBoxOpinion('<?php echo $post_objectId; ?>', '<?php echo $post_fromUser_objectId; ?>', 'Comment', '#<?php echo $post_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 	    				</div>
 	    				<div class="small-5 columns propriety ">
