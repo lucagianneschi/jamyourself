@@ -131,6 +131,7 @@ class CommentController extends REST {
 	    $subject = $controllers['SBJCOMMENT'];
 	    $html = $mail_files['COMMENTEMAIL'];
 	    sendMailForNotification($address, $subject, $html);
+	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['COMMENTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
