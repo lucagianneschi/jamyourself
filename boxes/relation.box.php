@@ -1,19 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		box Relations
- * \details		Recupera le ultime relazioni per tipologia di utente
- * \par			Commenti:
- * \warning
- * \bug
- * \todo		
- *
- */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -22,28 +8,51 @@ require_once SERVICES_DIR . 'select.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 
 /**
- * \brief	CollaboratorsBox class 
- * \details	box class to pass info to the view for personal page for JAMMER & VENUE 
+ * CollaboratorsBox, box class to pass info to the view
+ * Recupera le informazioni degli utenti in collaborazione
+ * @author		Luca Gianneschi
+ * @author		Daniele Caldelli
+ * @author		Maria Laura Fresu
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class CollaboratorsBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di venue
+     */
     public $venueArray = array();
+
+    /**
+     * @var array Array di jammer
+     */
     public $jammerArray = array();
 
     /**
-     * \fn	init($id)
-     * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * Init CollaboratorsBox 
+     * @param	$id for user that owns the page
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo    
      */
-    public function init($id, $limit = 3, $skip = 0) {
+    public function init($id, $limit = 100, $skip = 0) {
 	try {
 	    $venueArray = array();
 	    $jammerArray = array();
-	    $data = getRelatedNodes('user', $id, 'user', 'collaboration');
-	    foreach ($data as $id) {
-		$user = selectUsers($id);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'COLLABORATION', $skip, $limit);
+	    $users = selectUsers($connection, null, array('id' => $data));
+	    foreach ($users as $user) {
 		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
 	    }
 	    $this->venueArray = $venueArray;
@@ -56,26 +65,43 @@ class CollaboratorsBox {
 }
 
 /**
- * \brief	FollowersBox class 
- * \details	box class to pass info to the view for personal page for JAMMER & VENUE 
+ * FollowersBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class FollowersBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di followers (jammer/venue - spotter)
+     */
     public $followersArray = array();
 
     /**
-     * \fn	init($id)
-     * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * Init CollaboratorsBox 
+     * @param	$id for user that owns the page $limit, $skip
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo 
      */
-    public function init($id, $limit = 3, $skip = 0) {
+    public function init($id, $limit = 4, $skip = 0) {
 	try {
 	    $followers = array();
-	    $data = getRelatedNodes('user', $id, 'user', 'followers');
-	    foreach ($data as $id) {
-		$user = selectUsers($id);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FOLLOWING', $skip, $limit);
+	    $users = selectUsers($connection, null, array('id' => $data));
+	    foreach ($users as $user) {
 		array_push($followers, $user);
 	    }
 	    $this->followersArray = $followers;
@@ -87,28 +113,49 @@ class FollowersBox {
 }
 
 /**
- * \brief	FollowingsBox class 
- * \details	box class to pass info to the view for personal page for SPOTTER 
+ * FollowingsBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class FollowingsBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di venue
+     */
     public $venueArray = array();
+
+    /**
+     * @var array Array di jammer
+     */
     public $jammerArray = array();
 
     /**
-     * \fn	init($id)
-     * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * Init CollaboratorsBox 
+     * @param	$id for user that owns the page $limit, $skip
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo   
      */
-    public function init($id, $limit = 3, $skip = 0) {
+    public function init($id, $limit = 100, $skip = 0) {
 	try {
 	    $venueArray = array();
 	    $jammerArray = array();
-	    $data = getRelatedNodes('user', $id, 'user', 'following');
-	    foreach ($data as $id) {
-		$user = selectUsers($id);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FOLLOWING', $skip, $limit);
+	    $users = selectUsers($connection, null, array('id' => $data));
+	    foreach ($users as $user) {
 		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
 	    }
 	    $this->venueArray = $venueArray;
@@ -121,29 +168,46 @@ class FollowingsBox {
 }
 
 /**
- * \brief	FriendsBox class 
- * \details	box class to pass info to the view for personal page for SPOTTER 
+ * FriendsBox class, box class to pass info to the view
+ * Recupera le informazioni del post e le mette in oggetto postBox
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class FriendsBox {
 
+    /**
+     * @var string stringa di errore
+     */
     public $error = null;
+
+    /**
+     * @var array Array di frinds (spotter - spotter)
+     */
     public $friendsArray = array();
 
     /**
-     * \fn	init($id)
-     * \brief	Init CollaboratorsBox 
-     * \param	$id for user that owns the page $limit, $skip
-     * \todo    
+     * Init FriendsBox 
+     * @param	$id for user that owns the page $limit, $skip
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip 
+     * @todo   
      */
-    public function init($id, $limit = 3, $skip = 0) {
+    public function init($id, $limit = 4, $skip = 0) {
 	try {
 	    $followings = array();
-	    $data = getRelatedNodes('user', $id, 'user', 'following');
-	    foreach ($data as $id) {
-		$user = selectUsers($id);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FRIENDSHIP', $skip, $limit);
+	    $users = selectUsers($connection, null, array('id' => $data));
+	    foreach ($users as $user) {
 		array_push($followings, $user);
 	    }
-	    $this->followersArray = $followers;
+	    $this->followersArray = $followings;
 	} catch (Exception $e) {
 	    $this->error = $e->getMessage();
 	}
