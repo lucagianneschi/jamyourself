@@ -119,8 +119,8 @@ class CommentController extends REST {
 	    if (!$commentCounter) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    }
-	    $node = createNode($connection, 'comment', $cmt->getId());
-	    $relation = createRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'comment');
+	    $node = createNode($connectionService, 'comment', $cmt->getId());
+	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'comment');
 	    if (!$relation || !$node) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }

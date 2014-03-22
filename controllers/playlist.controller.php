@@ -61,7 +61,7 @@ class PlaylistController extends REST {
 	    if (!$song) {
 		$this->response(array('status' => $controllers['POSTERROR']), 503);
 	    }
-	    $relation = createRelation($connection, 'user', $currentUser, 'song', $songId, 'ADDTOPLAYLIST');
+	    $relation = createRelation($connectionService, 'user', $currentUser, 'song', $songId, 'ADDTOPLAYLIST');
 	    if (!$relation) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }

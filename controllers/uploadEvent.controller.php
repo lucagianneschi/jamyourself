@@ -116,8 +116,8 @@ class UploadEventController extends REST {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $result = insertEvent($connection, $event);
-	    $node = createNode('event', $event->getId());
-	    $relation = createRelation($connection, 'user', $userId, 'event', $event->getId(), 'ADD');
+	    $node = createNode($connectionService,'event', $event->getId());
+	    $relation = createRelation($connectionService, 'user', $userId, 'event', $event->getId(), 'ADD');
 	    if ($result === false) {
 		$this->response(array("status" => $controllers['EVENTCREATEERROR']), 503);
 	    } elseif ($node === false) {
@@ -126,6 +126,7 @@ class UploadEventController extends REST {
 		$this->response(array('status' => $controllers['RELATIONERROR']), 503);
 	    }
 	    unset($_SESSION['currentUserFeaturingArray']);
+	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['EVENTCREATED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);

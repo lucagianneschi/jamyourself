@@ -89,8 +89,8 @@ class UploadAlbumController extends REST {
 		$this->response(array('status' => $controllers['ALBUMNOTSAVED']), 407);
 	    }
 	    $albumId = $resSaveAlbum;
-	    $node = createNode($connection, 'album', $albumId);
-	    $relation = createRelation($connection, 'user', $currentUserId, 'album', $albumId, 'ADDs');
+	    $node = createNode($connectionService, 'album', $albumId);
+	    $relation = createRelation($connectionService, 'user', $currentUserId, 'album', $albumId, 'ADDs');
 	    if (!$relation || !$node) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }

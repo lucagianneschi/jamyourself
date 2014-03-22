@@ -44,7 +44,7 @@ class PlayerController extends REST {
 	    $songId = $this->request['id'];
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
-	    $relation = createRelation($connection, 'user', $_SESSION['id'], 'song', $songId, 'PLAY');
+	    $relation = createRelation($connectionService, 'user', $_SESSION['id'], 'song', $songId, 'PLAY');
 	    if (!$relation) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }

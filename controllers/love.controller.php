@@ -68,7 +68,7 @@ class LoveController extends REST {
 	    if (!$loveCounter) {
 		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
 	    }
-	    $relation = createRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love');
+	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'love');
 	    if (!$relation) {
 		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
 	    }
@@ -109,7 +109,7 @@ class LoveController extends REST {
 	    if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
-	    if (!existsRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love')) {
+	    if (!existsRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'love')) {
 		$this->response(array('status' => 'NOLOVE'), 400);
 	    }
 	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('lovecounter' => -1));
@@ -117,7 +117,7 @@ class LoveController extends REST {
 		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
 	    }
 	    //@todo eliminare rekazione tra utente e oggetto lovvato
-	    $relation = createRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love');
+	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'love');
 	    if (!$relation) {
 		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
 	    }

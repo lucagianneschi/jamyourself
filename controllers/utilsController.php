@@ -32,25 +32,21 @@ function getFeaturingArray() {
 	switch ($currentUserType) {
 	    case "SPOTTER":
 		$connectionService = new ConnectionService();
-		$userArrayFriend = getRelatedNodes($connection, 'user', $currentUserId, 'user', 'friendship');
+		$userArrayFriend = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'friendship');
 		if ((!$userArrayFriend) || is_null($userArrayFriend)) {
 		    $userArrayFriend = array();
 		}
-		$userArrayFollowing = getRelatedNodes($connection, 'user', $currentUserId, 'user', 'following');
+		$userArrayFollowing = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'following');
 		if ((!$userArrayFollowing) || is_null($userArrayFollowing)) {
 		    $userArrayFollowing = array();
 		}
 		$userArray = array_merge($userArrayFriend, $userArrayFollowing);
 		break;
-	    case "JAMMER":
-	    case "VENUE":
-		$userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
-		break;
 	    default:
+		$userArray = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'collaboration');
 		break;
 	}
-
-	if (($userArray instanceof Error) || is_null($userArray)) {
+	if ((!$userArray) || is_null($userArray)) {
 	    return array();
 	} else {
 	    $userArrayInfo = array();
@@ -67,9 +63,5 @@ function getFeaturingArray() {
     else
 	return array();
 }
-
-
-
-
 
 ?>

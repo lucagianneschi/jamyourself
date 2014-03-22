@@ -120,11 +120,11 @@ class MessageController extends REST {
 	    if ($message_id instanceof Error) {
 		$this->response(array('status' => 'NOSAVEMESS'), 503);
 	    }
-	    $node = createNode('message', $message->getId());
+	    $node = createNode($connectionService, 'message', $message->getId());
 	    if (!$node) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
-	    $relation = createRelation($connection, 'user', $currentUserId, 'message', $message->getId(), 'message');
+	    $relation = createRelation($connectionService, 'user', $currentUserId, 'message', $message->getId(), 'message');
 	    if (!$relation || !$node) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
