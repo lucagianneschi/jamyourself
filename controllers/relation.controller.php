@@ -42,7 +42,7 @@ class RelationController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
@@ -50,7 +50,7 @@ class RelationController extends REST {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
 
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUserId = $_SESSION['id'];
 	    $id = $this->request['id'];
 	    $toUserId = $this->request['toUserId'];
 
@@ -58,7 +58,7 @@ class RelationController extends REST {
 	    $userParse = new UserParse();
 	    $touser = $userParse->getUser($toUserId);
 
-	    if ($currentUser->getId() == $touser->getId()) {
+	    if ($currentUserId == $touser->getId()) {
 		$this->response(array('status' => $controllers['SELF']), 503);
 	    }
 	    require_once SERVICES_DIR . 'select.service.php';
@@ -193,7 +193,7 @@ class RelationController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
@@ -233,14 +233,14 @@ class RelationController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    } elseif (!isset($this->request['toUserId'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUserId = $_SESSION['id'];
 	    $id = $this->request['id'];
 	    $toUserId = $this->request['toUserId'];
 
@@ -248,7 +248,7 @@ class RelationController extends REST {
 	    $userParse = new UserParse();
 	    $touser = $userParse->getUser($toUserId);
 	    //definire il relationType
-	    if(!existsRelation('user', $currentUser->getId(), 'user', $touser->getId(), $relationType)){
+	    if(!existsRelation('user', $currentUserId, 'user', $touser->getId(), $relationType)){
 		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
 	    }
 	    require_once CLASSES_DIR . 'activityParse.class.php';
@@ -376,15 +376,15 @@ class RelationController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
 
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUserId = $_SESSION['id'];
 	    $toUserId = $this->request['toUser'];
-	    if ($currentUser->getId() == $toUserId) {
+	    if ($currentUserId == $toUserId) {
 		$this->response(array('status' => $controllers['SELF']), 503);
 	    }
 

@@ -57,9 +57,6 @@ class AccessController extends REST {
 				if (!$user) {
 					$this -> response(array('status' => 'INVALID CREDENTIALS'), 503);
 				}
-				#TODO currentUser da eliminare 
-				$_SESSION['currentUser'] = $user;
-				$this -> response(array('status' => $_SESSION['currentUser']-> getId() ), 200);
 				$_SESSION['id'] = $user -> getId();
 				$_SESSION['username'] = $user -> getUsername();
 				$_SESSION['type'] = $user -> getType();

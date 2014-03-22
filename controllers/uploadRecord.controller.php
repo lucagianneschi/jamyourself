@@ -404,11 +404,11 @@ class UploadRecordController extends REST {
             global $controllers;
             if ($this->get_request_method() != "POST") {
                 $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($_SESSION['currentUser'])) {
+            } elseif (!isset($_SESSION['id'])) {
                 $this->response($controllers['USERNOSES'], 403);
             } elseif (!isset($this->request['recordId']) || is_null($this->request['recordId']) || !(strlen($this->request['recordId']) > 0)) {
                 $this->response(array("status" => $controllers['NOOBJECTID']), 403);
-            } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
+            } elseif ($_SESSION['type'] != "JAMMER") {
                 $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
             }
             $recordId = $this->request['recordId'];
@@ -455,16 +455,16 @@ class UploadRecordController extends REST {
             global $controllers;
             if ($this->get_request_method() != "POST") {
                 $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($_SESSION['currentUser'])) {
+            } elseif (!isset($_SESSION['id'])) {
                 $this->response($controllers['USERNOSES'], 403);
             }
-            $currentUser = $_SESSION['currentUser'];
+            $currentUserId = $_SESSION['id'];
             $recordIdList = $this->getRecordsByUserId($currentUser->getId());
             $fileManager = new FileManagerService();
             if (!is_null($recordIdList) && count($recordIdList) > 0) {
                 foreach ($recordIdList as $record) {
                     $retObj = array();
-                    $retObj["thumbnail"] = $fileManager->getRecordPhotoURL($currentUser->getId(), $record->getThumbnail());
+                    $retObj["thumbnail"] = $fileManager->getRecordPhotoURL($currentUserId, $record->getThumbnail());
                     $retObj["title"] = $record->getTitle();
                     $retObj["songs"] = $record->getSongCounter();
                     $retObj["recordId"] = $record->getId();
@@ -485,7 +485,7 @@ class UploadRecordController extends REST {
      */
     private function removeSongFromRecord($record, $song) {
         try {
-            $currentUser = $_SESSION['currentUser'];
+            $currentUser = $_SESSION['id'];
             require_once CLASSES_DIR . 'recordParse.class.php';
             $recordId = $record->getId();
 
@@ -528,7 +528,6 @@ class UploadRecordController extends REST {
         require_once SERVICES_DIR . 'connection.service.php';
         $connectionService = new ConnectionService();
         $connection = $connectionService->connect();
-
         if ($connection != false) {
             require_once SERVICES_DIR . 'insert.service.php';
             $result = insertSong($connection, $song);
@@ -628,7 +627,6 @@ class UploadRecordController extends REST {
         require_once SERVICES_DIR . 'connection.service.php';
         $connectionService = new ConnectionService();
         $connection = $connectionService->connect();
-
         if ($connection != false) {
             require_once SERVICES_DIR . 'insert.service.php';
             $result = insertRecord($connection, $record);

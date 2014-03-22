@@ -195,7 +195,7 @@ class UploadAlbumController extends REST {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response($controllers['USERNOSES'], 403);
 	    } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
 		$this->response(array("status" => $controllers['NOOBJECTID']), 403);
@@ -222,12 +222,12 @@ class UploadAlbumController extends REST {
 //    private function saveImage($src, $description, $featuringArray, $albumId) {
     private function saveImage($imgInfo, $albumId) {
 	try {
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUserId = $_SESSION['id'];
 	    $cachedFile = CACHE_DIR . $imgInfo['src'];
 	    if (!file_exists($cachedFile)) {
 		return null;
 	    } else {
-		$imgMoved = $this->moveFile($currentUser->getId(), $albumId, $imgInfo['src']);
+		$imgMoved = $this->moveFile($currentUserId, $albumId, $imgInfo['src']);
 		$image = new Image();
 		$image->setActive(true);
 		$image->setAlbum($albumId);
@@ -257,7 +257,7 @@ class UploadAlbumController extends REST {
 
     private function addImageToAlbum($albumId, $imageId) {
 	try {
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUser = $_SESSION['id'];
 	    $pAlbum = new AlbumParse();
 	    //aggiorno la relazione album/image
 	    $res = $pAlbum->updateField($albumId, 'images', array($imageId), true, 'add', 'Image');
@@ -320,12 +320,12 @@ class UploadAlbumController extends REST {
 	global $controllers;
 	if ($this->get_request_method() != "POST") {
 	    $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
-	} elseif (!isset($_SESSION['currentUser'])) {
+	} elseif (!isset($_SESSION['id'])) {
 	    $this->response($controllers['USERNOSES'], 402);
 	}
 	require_once BOXES_DIR . "album.box.php";
 	$albumBox = new AlbumBox();
-	$albumBox->init($_SESSION['currentUser'], $limit = 10);
+	$albumBox->init($_SESSION['id'], $limit = 10);
 	$albumList = array();
 	if (is_null($albumBox->error) && count($albumBox->albumArray) > 0) {
 	    foreach ($albumBox->albumArray as $album) {
