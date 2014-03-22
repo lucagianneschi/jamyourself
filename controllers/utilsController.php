@@ -1,17 +1,15 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Luca Gianneschi
- * \version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		file per funzioni di utilità per controller
- * \details		file per funzioni di utilità per controller
- * \par			Commenti:
- * \warning
- * \bug
- * \todo		eliminare dopo realizzazione recupero featuring
+/**
+ * funzioni utilità per controller
+ * 
+ * @author		Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                da eliminare e portare le funzioni che servono dentro utils.service.php
  */
 
 if (!defined('ROOT_DIR'))
@@ -20,10 +18,10 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
+require_once SERVICES_DIR . 'connection.service.php';
 
 /**
- * \fn	getFeaturingArray() 
- * \brief   funzione per il recupero dei featuring per l'event
+ * funzione per il recupero dei featuring per l'event
  * \todo  getRelatedUsers non esiste più
  */
 function getFeaturingArray() {
@@ -33,12 +31,13 @@ function getFeaturingArray() {
 	$userArray = null;
 	switch ($currentUserType) {
 	    case "SPOTTER":
-		$userArrayFriend = getRelatedUsers($currentUserId, 'friendship', '_User');
-		if (($userArrayFriend instanceof Error) || is_null($userArrayFriend)) {
+		$connectionService = new ConnectionService();
+		$userArrayFriend = getRelatedNodes($connection, 'user', $currentUserId, 'user', 'friendship');
+		if ((!$userArrayFriend) || is_null($userArrayFriend)) {
 		    $userArrayFriend = array();
 		}
-		$userArrayFollowing = getRelatedUsers($currentUserId, 'following', '_User');
-		if (($userArrayFollowing instanceof Error) || is_null($userArrayFollowing)) {
+		$userArrayFollowing = getRelatedNodes($connection, 'user', $currentUserId, 'user', 'following');
+		if ((!$userArrayFollowing) || is_null($userArrayFollowing)) {
 		    $userArrayFollowing = array();
 		}
 		$userArray = array_merge($userArrayFriend, $userArrayFollowing);
