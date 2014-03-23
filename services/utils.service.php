@@ -204,7 +204,6 @@ function getFeaturingJSON() {
 	if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
 	    $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
 	} else {
-	    require_once CONTROLLERS_DIR . 'utilsController.php';
 	    $currentUserFeaturingArray = getFeaturingArray();
 	    $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
 	}
