@@ -75,7 +75,7 @@ class UploadRecordController extends REST {
 	    $record->setActive(true);
 	    $record->setBuyLink((strlen($newRecord->urlBuy) ? $newRecord->urlBuy : null));
 	    $record->setCounter(0);
-	    require_once CONTROLLERS_DIR . "utilsController.php";
+	    require_once SERVICES_DIR . "utils.service.php";
 	    $imgInfo = getCroppedImages($newRecord);
 	    $record->setCover($imgInfo['picture']);
 	    $record->setThumbnail($imgInfo['thumbnail']);

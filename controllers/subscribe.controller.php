@@ -32,7 +32,6 @@ class SubscribeController extends REST {
 	    $this->response(array("status" => $controllers['INVALIDEMAIL']), 401);
 	}
 	$html = $this->request['email'];
-	require_once SERVICES_DIR . "utils.service.php";
 	$res_send_email = sendMailForNotification(SUB_ADD, SUB_SBJ, $html);
 	if ($res_send_email) {
 	    $this->response(array("status" => $controllers['SUBSCRIPTIONOK']), 200);
