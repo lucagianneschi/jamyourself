@@ -1,32 +1,34 @@
 <?php
 
-/* ! \par		Info Generali:
- *  \author		Stefano Muscas
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		Utils class
- *  \details		Classe di utilità sfruttata delle classi modello per snellire il codice
- *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo		Fare API su Wiki
- *
+/**
+ * funzioni utilità per controller
+ * 
+ * @author		Maria Laura Fresu
+ * @author		Stefano Muscas
+ * @author		Daniele Caldelli
+ * @author		Luca Gianneschi
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                da eliminare e portare le funzioni che servono dentro utils.service.php
  */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
+require_once SERVICES_DIR . 'connection.service.php';
 
 /**
- * \fn		number executionTime($start, $end)
- * \brief	The function returns the difference between $end and $start parameter in microseconds
- * \param	$start	represent the microsecond time of the begin of the operation
- * \param	$end	represent the microsecond time of the end of the operation
- * \return	number	the number representing the difference in microsecond
- * \return	Error	if the parameters are null
+ * The function returns the difference between $end and $start parameter in microseconds
+ * 
+ * @param	$start	represent the microsecond time of the begin of the operation
+ * @param	$end	represent the microsecond time of the end of the operation
+ * @return	number	the number representing the difference in microsecond
+ * @return	Error	if the parameters are null
  */
 function executionTime($start, $end) {
     if (is_null($start) || is_null($end))
@@ -48,10 +50,10 @@ function executionTime($start, $end) {
 }
 
 /**
- * \fn		string decode_string($string)
- * \brief	The function returns a string read from DB that can be interpreted by the user
- * \param	$string 	represent the string from DB to decode
- * \return	string		the decoded string
+ * The function returns a string read from DB that can be interpreted by the user
+ * 
+ * @param	$string 	represent the string from DB to decode
+ * @return	string		the decoded string
  */
 function decode_string($string) {
     $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
@@ -60,10 +62,10 @@ function decode_string($string) {
 }
 
 /**
- * \fn		string encode_string($string)
- * \brief	The function returns a string that can be saved to DB
- * \param	$string 	represent the string to be saved
- * \return	string		the string encoded for DB
+ * The function returns a string that can be saved to DB
+ * 
+ * @param	$string 	represent the string to be saved
+ * @return	string		the string encoded for DB
  */
 function encode_string($string) {
     $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
@@ -72,11 +74,11 @@ function encode_string($string) {
 }
 
 /**
- * \fn	    filterFeaturingByValue($array, $value)
- * \brief   filtra featuind per tipo
- * \param   $array, $value
- * \return  $newarray
- * \todo    
+ * filtra featuind per tipo
+ * 
+ * @param   $array, $value
+ * @return  $newarray
+ *    
  */
 function filterFeaturingByValue($array, $value) {
     $newarray = array();
@@ -91,10 +93,10 @@ function filterFeaturingByValue($array, $value) {
 }
 
 /**
- * \fn	    getCroppedImages($decoded)
- * \brief   funzione per recupero immagini dopo crop
- * \param   $decoded
- * \todo   check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+ * funzione per recupero immagini dopo crop
+ * 
+ * @param   $decoded
+ * @todo   check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
  */
 function getCroppedImages($decoded) {
 //in caso di anomalie ---> default
@@ -135,10 +137,92 @@ function getCroppedImages($decoded) {
 }
 
 /**
- * \fn	    sendMailForNotification($address, $subject, $html)
- * \brief   invia mail ad utente
- * \param   $address, $subject, $html
- * \todo    testare
+ * funzione per il recupero dei featuring per l'event
+ * 
+ * @todo  getRelatedUsers non esiste più, verificare le funzioni usate
+ */
+function getFeaturingArray() {
+    if (isset($_SESSION['id'])) {
+	$currentUserId = $_SESSION['id'];
+	$currentUserType = $_SESSION['type'];
+	$userArray = null;
+	switch ($currentUserType) {
+	    case "SPOTTER":
+		$connectionService = new ConnectionService();
+		$userArrayFriend = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'friendship');
+		if ((!$userArrayFriend) || is_null($userArrayFriend)) {
+		    $userArrayFriend = array();
+		}
+		$userArrayFollowing = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'following');
+		if ((!$userArrayFollowing) || is_null($userArrayFollowing)) {
+		    $userArrayFollowing = array();
+		}
+		$userArray = array_merge($userArrayFriend, $userArrayFollowing);
+		break;
+	    default:
+		$userArray = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'collaboration');
+		break;
+	}
+	if ((!$userArray) || is_null($userArray)) {
+	    return array();
+	} else {
+	    $userArrayInfo = array();
+	    foreach ($userArray as $user) {
+		require_once CLASSES_DIR . "user.class.php";
+		$username = $user->getUsername();
+		$userId = $user->getId();
+		$userType = $user->getType();
+		array_push($userArrayInfo, array("id" => $userId, "text" => $username, 'type' => $userType));
+	    }
+	    return $userArrayInfo;
+	}
+    }
+    else
+	return array();
+}
+
+/**
+ * funzione per il recupero dei featuring per l'event
+ * @todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+ */
+function getFeaturingJSON() {
+    try {
+	global $controllers;
+	error_reporting(E_ALL ^ E_NOTICE);
+	$force = false;
+	$filter = null;
+	if (!isset($_SESSION['id'])) {
+	    $this->response(array('status' => $controllers['USERNOSES']), 400);
+	}
+	if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
+	    $force = true;
+	}
+	if (isset($this->request['term']) && !is_null($this->request['term']) && (strlen($this->request['term']) > 0)) {
+	    $filter = $this->request['term'];
+	}
+	$currentUserFeaturingArray = null;
+	if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
+	    $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
+	} else {
+	    require_once CONTROLLERS_DIR . 'utilsController.php';
+	    $currentUserFeaturingArray = getFeaturingArray();
+	    $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
+	}
+	if (!is_null($filter)) {
+	    echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
+	} else {
+	    echo json_encode($currentUserFeaturingArray);
+	}
+    } catch (Exception $e) {
+	$this->response(array('status' => $e->getMessage()), 503);
+    }
+}
+
+/**
+ * invia mail ad utente
+ * 
+ * @param   $address, $subject, $html
+ * @todo    testare
  */
 function sendMailForNotification($address, $subject, $html) {
     global $controllers;
@@ -157,9 +241,9 @@ function sendMailForNotification($address, $subject, $html) {
 }
 
 /**
- * \fn		sessionChecker()
- * \brief	The function returns a string wiht the id of the user in session, if there's no user return a invalid ID used (valid for the code)
- * \return	string $currentUserId;
+ * The function returns a string wiht the id of the user in session, if there's no user return a invalid ID used (valid for the code)
+ * 
+ * @return	string $currentUserId;
  */
 function sessionChecker() {
     if (session_id() == '')

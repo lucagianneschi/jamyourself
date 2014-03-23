@@ -149,45 +149,6 @@ class UploadAlbumController extends REST {
     }
 
     /**
-     * funzione per il recupero dei featuring per l'event
-     * @todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
-     */
-    public function getFeaturingJSON() {
-	try {
-	    global $controllers;
-	    error_reporting(E_ALL ^ E_NOTICE);
-	    $force = false;
-	    $filter = null;
-	    if (!isset($_SESSION['id'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 400);
-	    }
-	    if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
-		$force = true;
-	    }
-	    if (isset($this->request['term']) && !is_null($this->request['term']) && (strlen($this->request['term']) > 0)) {
-		$filter = $this->request['term'];
-	    }
-	    $currentUserFeaturingArray = null;
-	    if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
-		$currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
-	    } else {
-		require_once CONTROLLERS_DIR . 'utilsController.php';
-		$currentUserFeaturingArray = getFeaturingArray();
-		$_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
-	    }
-
-	    if (!is_null($filter)) {
-		require_once CONTROLLERS_DIR . 'utilsController.php';
-		echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
-	    } else {
-		echo json_encode($currentUserFeaturingArray);
-	    }
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
-    }
-
-    /**
      * recupera una lista di immagini
      */
     public function getImagesList() {
