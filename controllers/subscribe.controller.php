@@ -1,19 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Stefano Muscas
- * \version		1.0
- * \date		2013
- * \copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller per subscribe, home, solo per fare BETA
- * \details		invia mail ad indirizzo predefinito per tenere elenco di subscriber
- * \par			Commenti:
- * \warning
- * \bug
- * \todo		Fare APi su Wiki
- *
- */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -24,23 +10,29 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once SERVICES_DIR . 'utils.service.php';
 
 /**
- * \brief	SubscribeController class 
- * \details	controller di richiesta di sottoscrizione dalla home
+ * SubscribeController class
+ * invia mail ad indirizzo predefinito per tenere elenco di subscriber
+ * 
+ * @author		Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class SubscribeController extends REST {
 
     /**
-     * \brief	subscribe() 
-     * \details	invia mail ad indirizzo predefinito
+     * invia mail ad indirizzo predefinito
      */
     public function subscribe() {
 	global $controllers;
-
 	if (!isset($this->request['email']) || is_null($this->request['email']) || strlen($this->request['email']) == 0 || !$this->checkEmail($this->request['email'])) {
 	    $this->response(array("status" => $controllers['INVALIDEMAIL']), 401);
 	}
 	$html = $this->request['email'];
-	require_once CONTROLLERS_DIR . "utilsController.php";
+	require_once SERVICES_DIR . "utils.service.php";
 	$res_send_email = sendMailForNotification(SUB_ADD, SUB_SBJ, $html);
 	if ($res_send_email) {
 	    $this->response(array("status" => $controllers['SUBSCRIPTIONOK']), 200);
@@ -50,8 +42,7 @@ class SubscribeController extends REST {
     }
 
     /**
-     * \brief	private function checkEmail($email)
-     * \details	verifica che l'indirizzo inserito sia un indirizzo valido
+     * verifica che l'indirizzo inserito sia un indirizzo valido
      */
     private function checkEmail($email) {
 	if (strlen($email) > 50)
