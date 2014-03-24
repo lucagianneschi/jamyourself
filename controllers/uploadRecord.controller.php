@@ -1,19 +1,17 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Stefano Muscas
- * \version		1.0
- * \date		2013
- * \copyright           Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller di upload record 
- * \details		si collega al form di upload di un record, effettua controlli, scrive su DB
- * \par			Commenti:
- * \warning
- * \bug
- * \todo		Fare API su Wiki
+/**
+ * UploadRecordController class
+ * si collega al form di upload di un record, effettua controlli, scrive su DB
+ * 
+ * @author		Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -24,43 +22,38 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'song.class.php';
-require_once BOXES_DIR . "record.box.php";
+require_once BOXES_DIR . 'record.box.php';
 require_once SERVICES_DIR . 'mp3.service.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
-/**
- * \brief	UploadRecordController class 
- * \details	controller di upload record
- */
 class UploadRecordController extends REST {
 
     public $viewRecordList;
     private $connection;
 
     /**
-     * \fn	init()
-     * \brief   inizializzazione della pagina
+     * inizializzazione della pagina
      */
     public function init() {
-//utente non loggato
-
 	if (!isset($_SESSION['id'])) {
-	    /* This will give an error. Note the output
-	     * above, which is before the header() call */
 	    header('Location: login.php?from=uploadRecord.php');
 	    exit;
 	}
     }
 
     /**
-     * \fn	createRecord($record)
-     * \brief   funzione per pubblicazione del record
+     * funzione per pubblicazione del record
      */
     private function createRecord($record) {
 	try {
 	    global $controllers;
-	    if (!isset($record['recordTitle']) || is_null($record['recordTitle']) || !(strlen($record['recordTitle']) > 0)) {
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 400);
+	    } elseif (!isset($_SESSION['id'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 400);
+	    } elseif (!isset($record['recordTitle']) || is_null($record['recordTitle']) || !(strlen($record['recordTitle']) > 0)) {
 		$this->response(array("status" => $controllers['NOTITLE']), 403);
 	    } elseif (!isset($record['description']) || is_null($record['description']) || !(strlen($record['description']) > 0)) {
 		$this->response(array("status" => $controllers['NODESCRIPTION']), 404);
@@ -71,15 +64,15 @@ class UploadRecordController extends REST {
 	    }
 	    $newRecord = json_decode(json_encode($record), false);
 	    $userId = $_SESSION['id'];
+	    $imgInfo = getCroppedImages($newRecord);
+	    $infoLocation = GeocoderService::getCompleteLocationInfo($newRecord->city);
 	    $record = new Record();
 	    $record->setActive(true);
 	    $record->setBuyLink((strlen($newRecord->urlBuy) ? $newRecord->urlBuy : null));
+	    $record->setCity($infoLocation['city']);
+	    $record->setCommentcounter(0);
 	    $record->setCounter(0);
-	    require_once SERVICES_DIR . "utils.service.php";
-	    $imgInfo = getCroppedImages($newRecord);
 	    $record->setCover($imgInfo['picture']);
-	    $record->setThumbnail($imgInfo['thumbnail']);
-	    $record->setSongcounter(0);
 	    $record->setDescription($newRecord->description);
 	    $record->setDuration(0);
 	    if (isset($newRecord->albumFeaturing) && !is_null($newRecord->albumFeaturing) && count($newRecord->albumFeaturing) > 0)
@@ -87,43 +80,45 @@ class UploadRecordController extends REST {
 	    $record->setFromuser($userId);
 	    $record->setGenre($this->getTags($newRecord->tags));
 	    $record->setLabel($newRecord->label);
-	    $infoLocation = GeocoderService::getCompleteLocationInfo($newRecord->city);
 	    $record->setLatitude($infoLocation["latitude"]);
 	    $record->setLongitude($infoLocation["longitude"]);
-	    $record->setCity($infoLocation['city']);
 	    $record->setLovecounter(0);
-	    $record->setLovers(array());
 	    $record->setReviewcounter(0);
 	    $record->setSharecounter(0);
+	    $record->setSongcounter(0);
+	    $record->setThumbnail($imgInfo['thumbnail']);
 	    $record->setTitle($newRecord->recordTitle);
 	    $record->setYear($newRecord->year);
-
-	    //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE         
 	    $filemanager = new FileManagerService();
 	    $res_image = $filemanager->saveRecordPhoto($userId, $record->getCover());
 	    $res_thumb = $filemanager->saveRecordPhoto($userId, $record->getThumbnail());
 	    if (!$res_image || !$res_thumb) {
 		$this->response(array("status" => $controllers['RECORDCREATEERROR']), 503);
 	    }
-
-	    $result = $this->saveRecord($record); //non funziona perché non mi rende nessun id o record...
-	    if ($result == false) {
-		$this->response(array("status" => $controllers['RECORDCREATEERROR']), 503);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
-
-	    unset($_SESSION['currentUserFeaturingArray']);
-
-//@TODO SALVARE IL NODO COME LA VECCHIA ACTIVITY
-
-	    return $result;
+	    $result = insertRecord($connection, $record);
+	    $node = createNode($connectionService, 'record', $record->getId());
+	    $relation = createRelation($connectionService, 'user', $userId, 'record', $record->getId(), 'ADD');
+	    if ($result === false) {
+		$this->response(array("status" => $controllers['RECORDCREATEERROR']), 503);
+	    } elseif ($node === false) {
+		$this->response(array('status' => $controllers['NODEERROR']), 503);
+	    } elseif ($relation === false) {
+		$this->response(array('status' => $controllers['RELATIONERROR']), 503);
+	    }
+	    $connectionService->disconnect($connection);
+	    $this->response(array('status' => $controllers['RECORDCREATED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
 
     /**
-     * \fn	publishSongs()
-     * \brief   funzione per pubblicazione di song
+     * funzione per pubblicazione di song
      */
     public function publish() {
 	try {
@@ -132,10 +127,13 @@ class UploadRecordController extends REST {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 400);
 	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 400);
+	    } elseif ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 400);
+	    } elseif (!isset($_SESSION['id'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 400);
 	    } elseif (!isset($this->request['list'])) {
 		$this->response(array('status' => $controllers['NOSONGLIST']), 400);
 	    } elseif (!isset($this->request['recordId']) || is_null($this->request['recordId']) || strlen($this->request['recordId']) == 0) {
-		//se non c'e' recordId allora sto creando un nuovo album
 		if (!isset($this->request['record']) || is_null($this->request['record'])) {
 		    $this->response(array('status' => $controllers['NORECORDID']), 400);
 		}
@@ -150,31 +148,34 @@ class UploadRecordController extends REST {
 	    } elseif (isset($this->request['recordId'])) {
 		$recordId = $this->request['recordId'];
 	    }
-
 	    $currentUserId = $_SESSION['id'];
 	    $songList = $this->request['list'];
 	    if (is_null($record)) {
 		$record = $this->getRecord($recordId);
 	    }
-
 	    if ($record instanceof Error) {
 		$this->response(array('status' => $controllers['NORECORD']), 204);
 	    }
-	    $position = $record->getSongCounter();
+	    $position = $record->getSongcounter();
+	    $latitude = $record->getLatitude();
+	    $longitude = $record->getLongitude();
 	    $songErrorList = array(); //lista canzoni non caricate
 	    $songSavedList = array(); //lista canzoni salvate correttamente
 	    if (count($songList) > 0) {
+		$connectionService = new ConnectionService();
+		$connection = $connectionService->connect();
+		if ($connection === false) {
+		    $this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+		}
 		foreach ($songList as $songIstance) {
 		    $element = json_decode(json_encode($songIstance), false);
 		    $cachedFile = CACHE_DIR . $element->src;
 		    if (!file_exists($cachedFile) || !isset($element->tags) || !isset($element->title)) {
-			//errore... il file non e' piu' in cache... :(
-			// tags non presenti
-			// titolo non presente
 			$songErrorList[] = $element;
 		    } else {
 			$song = new Song();
 			$song->setActive(true);
+			$song->setCommentcounter(0);
 			$song->setCounter(0);
 			$song->setDuration($this->getRealLength($cachedFile));
 			if (isset($element->featuring) && is_array($element->featuring)) {
@@ -182,67 +183,46 @@ class UploadRecordController extends REST {
 			} else {
 			    $song->setFeaturing(array());
 			}
-			$song->setPath($element->src);
 			$song->setFromuser($currentUserId);
 			$song->setGenre($element->tags);
-			$song->setLocation(null);
-			$song->setLovers(array());
+			$song->setLatitude($latitude);
+			$song->setLongitude($longitude);
 			$song->setLovecounter(0);
 			$position++;
+			$song->setPath($element->src);
 			$song->setPosition($position);
 			$song->setRecord($recordId);
-			$song->setCounter(0);
 			$song->setSharecounter(0);
 			$song->setTitle($element->title);
-			$result = $this->saveSong($song);
-			if ($result == false) {
-			    //errore
+			$fileManager = new FileManagerService();
+			$res = $fileManager->saveSong($currentUserId, $song->getId());
+			if (!$res) {
 			    $songErrorList[] = $element;
-			    //decremento il contatore
 			    $position--;
-			    //cancello l'mp3 dalla cache
-			    unlink(CACHE_DIR . $element->src);
-			} else {
-
-			    $fileManager = new FileManagerService();
-
-			    if ($fileManager->saveSong($currentUserId, $song->getPath()) == false) {
-				//@TODO : GESTIRE LA CALLBACK SE SERVONO ANCORA
-				//require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-				//rollbackUploadRecordController($savedSong->getId(), "Song");
-				$songErrorList[] = $element;
-				$position--;
-			    } else {
-				//aggiungo il songId alla lista degli elementi salvati
-				#TODO: ggiungere relazione tra record e song
-				$resAddRelation = false;
-				if ($resAddRelation == false) {
-				    //errore creazione relazione fra record e song
-				    $songErrorList[] = $element;
-				    $position--;
-				} else {
-				    //tutto bene
-				    $element->id = $savedSong->getId();
-				    $songSavedList[] = $element;
-				}
-			    }
 			}
+			$result = insertSong($connection, $song);
+			$node = createNode($connectionService, 'song', $song->getId());
+			$relation = createRelation($connectionService, 'user', $currentUserId, 'song', $song->getId(), 'ADD');
+			if ($result === false || $node === false || $relation === false) {
+			    $songErrorList[] = $element;
+			    $position--;
+			    unlink(CACHE_DIR . $element->src);
+			}
+			$element->id = $result;
+			$songSavedList[] = $element;
 		    }
 		}
 	    }
-	    //gestione risposte
+	    $connectionService->disconnect($connection);
 	    if (count($songErrorList) == 0) {
-		//nessun errore
 		$this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList, "id" => $recordId), 200);
 	    } else {
 		foreach ($songErrorList as $toRemove) {
 		    $this->deleteMp3FromCache($toRemove->src);
 		}
 		if (count($songSavedList) == 0) {
-		    //nessuna canzone salvata => tutti errori  
 		    $this->response(array("status" => $controllers['NOSONGSAVED'], "id" => $recordId), 200);
 		} else {
-		    //salvate parzialmente, qualche errore
 		    $this->response(array("status" => $controllers['SONGSAVEDWITHERROR'], "errorList" => $songErrorList, "savedList" => $songSavedList, "id" => $recordId), 200);
 		}
 	    }
@@ -252,8 +232,7 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	deleteSong()
-     * \brief   funzione per pubblicazione di song
+     * funzione per pubblicazione di song
      */
     public function deleteSong() {
 	try {
@@ -302,9 +281,9 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	addSongToRecord($record, $songId)
-     * \brief   funzione per aggiunta song a record esistente
-     * \param   $record, instance of record.class e songId
+     * funzione per aggiunta song a record esistente
+     * @param   $record, instance of record.class
+     * @param   $songId
      */
     private function addSongToRecord($record, $song) {
 	try {
@@ -334,9 +313,11 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	deleteMp3($userId,  $songId)
-     * \brief   funzione per cancellazione mp3 dalla cache
-     * \param   $userId, $recordId, $songId
+     * funzione per cancellazione mp3 dalla cache
+     * 
+     * @param   $userId, 
+     * @param   $recordId, 
+     * @param   $songId
      */
     private function deleteMp3FromCache($songId) {
 	if (file_exists(CACHE_DIR . $songId)) {
@@ -345,8 +326,7 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	getRealLength($cachedFile) 
-     * \brief   funzione per il recupero della durata di mp3
+     * funzione per il recupero della durata di mp3
      */
     private function getRealLength($cachedFile) {
 	$mp3Analysis = new Mp3file($cachedFile);
@@ -355,8 +335,7 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	getSongsList()
-     * \brief   funzione per il recupero delle immagini della lista canzoni
+     * funzione per il recupero delle immagini della lista canzoni
      */
     public function getSongsList() {
 	try {
@@ -394,8 +373,7 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	getSongsList()
-     * \brief   funzione per il recupero dei tags
+     * funzione per il recupero dei tags
      */
     private function getTags($list) {
 	if (is_array($list) && count($list) > 0) {
@@ -406,8 +384,7 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	getUserRecords()
-     * \brief   funzione per il recupero dei record dell'utente che fa upload record/song
+     * funzione per il recupero dei record dell'utente che fa upload record/song
      */
     public function getUserRecords() {
 	try {
@@ -438,9 +415,9 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	removeSongFromRecord($record, $songId)
-     * \brief   funzione per la rimozione di una song da un record
-     * \param   $record, $songId
+     * funzione per la rimozione di una song da un record
+     * @param   $record, 
+     * @param   $songId
      */
     private function removeSongFromRecord($record, $song) {
 	try {
@@ -476,28 +453,8 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	saveSong()
-     * \brief   funzione privata per il salvataggio nel DB di un commento
-     * \param   $song
-     */
-    private function saveSong($song) {
-	require_once SERVICES_DIR . 'connection.service.php';
-	$connectionService = new ConnectionService();
-	$connection = $connectionService->connect();
-	if ($connection != false) {
-	    require_once SERVICES_DIR . 'insert.service.php';
-	    $result = insertSong($connection, $song);
-	    $connectionService->disconnect();
-	    return $result;
-	} else {
-	    return false;
-	}
-    }
-
-    /**
-     * \fn	getSong()
-     * \brief   funzione privata per il recupero della song dal DB
-     * \param   $songId
+     * funzione privata per il recupero della song dal DB
+     * @param   $songId
      */
     private function getSong($songId) {
 	require_once SERVICES_DIR . 'connection.service.php';
@@ -514,9 +471,8 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	getRecord()
-     * \brief   funzione privata per il recupero del record dal DB
-     * \param   $recordId
+     * funzione privata per il recupero del record dal DB
+     * @param   $recordId
      */
     private function getRecord($recordId) {
 	require_once SERVICES_DIR . 'connection.service.php';
@@ -533,9 +489,8 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	getSongsByRecordId()
-     * \brief   funzione privata per il recupero della lista di song del record dal DB
-     * \param   $recordId
+     * funzione privata per il recupero della lista di song del record dal DB
+     * @param   $recordId
      */
     private function getSongsByRecordId($recordId) {
 	require_once SERVICES_DIR . 'connection.service.php';
@@ -554,9 +509,8 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	getRecord()
-     * \brief   funzione privata per il recupero del record dal DB
-     * \param   $recordId
+     * funzione privata per il recupero del record dal DB
+     * @param   $recordId
      */
     private function getRecordsByUserId($userId) {
 	require_once SERVICES_DIR . 'connection.service.php';
@@ -572,25 +526,6 @@ class UploadRecordController extends REST {
 	    }
 	}
 	return null;
-    }
-
-    /**
-     * \fn	saveRecord()
-     * \brief   funzione privata per il salvataggio nel DB di un record
-     * \param   $record
-     */
-    private function saveRecord($record) {
-	require_once SERVICES_DIR . 'connection.service.php';
-	$connectionService = new ConnectionService();
-	$connection = $connectionService->connect();
-	if ($connection != false) {
-	    require_once SERVICES_DIR . 'insert.service.php';
-	    $result = insertRecord($connection, $record);
-	    $connectionService->disconnect();
-	    return $result;
-	} else {
-	    return false;
-	}
     }
 
 }
