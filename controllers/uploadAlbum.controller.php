@@ -11,7 +11,6 @@ require_once CLASSES_DIR . 'album.class.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once BOXES_DIR . "utilsBox.php";
-require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
 
@@ -75,11 +74,15 @@ class UploadAlbumController extends REST {
 	    $album->setImagecounter(0);
 	    if (isset($this->request['city']) && !is_null($this->request['city'])) {
 		$infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
-		$album->getLatitude($infoLocation['latitude']);
-		$album->setLongitude($infoLocation['longitude']);
+		$latitude = $infoLocation['latitude'];
+		$longitude = $infoLocation['longitude'];
+	    } else {
+		$latitude = null;
+		$longitude = null;
 	    }
 	    $album->setLovecounter(0);
-	    $album->setLovers(array());
+	    $album->setLatitude($latitude);
+	    $album->setLongitude($longitude);
 	    $album->setSharecounter(0);
 	    $album->setTag(array());
 	    $album->setThumbnail(DEFALBUMTHUMB);
