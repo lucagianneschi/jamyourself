@@ -20,82 +20,82 @@
 class Image {
 
     /**
-     * @var int id istanza
+     * @property int id istanza
      */
     private $id;
 
     /**
-     * @var date data creazione istanza
+     * @property date data creazione istanza
      */
     private $createdat;
 
     /**
-     * @var date data modifica istanza
+     * @property date data modifica istanza
      */
     private $updatedat;
 
     /**
-     * @var int istanza attiva/non attiva
+     * @property int istanza attiva/non attiva
      */
     private $active;
 
     /**
-     * @var int istanza attiva/non attiva
+     * @property int istanza attiva/non attiva
      */
     private $album;
 
     /**
-     * @var int numero di commenti
+     * @property int numero di commenti
      */
     private $commentcounter;
 
     /**
-     * @var int indice di gradimento
+     * @property int indice di gradimento
      */
     private $counter;
 
     /**
-     * @var string descrizione del video
+     * @property string descrizione del video
      */
     private $description;
 
     /**
-     * @var int id del formuser
+     * @property int id del formuser
      */
     private $fromuser;
 
     /**
-     * @var float latitudine
+     * @property float latitudine
      */
     private $latitude;
 
     /**
-     * @var float longitudine
+     * @property float longitudine
      */
     private $longitude;
 
     /**
-     * @var int contatore di azioni love
+     * @property int contatore di azioni love
      */
     private $lovecounter;
 
     /**
-     * @var string path all'immagine
+     * @property string path all'immagine
      */
     private $path;
 
     /**
-     * @var int contatore di azioni share
+     * @property int contatore di azioni share
      */
     private $sharecounter;
 
     /**
-     * @var array di id di tag
+     * @property array di id di tag
      */
     private $tag;
 
     /**
-     * @var string path al thumbnail della cover
+     * @property string path al thumbnail della cover
      */
     private $thumbnail;
 

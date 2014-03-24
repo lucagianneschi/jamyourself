@@ -16,122 +16,122 @@
 class Record {
 
     /**
-     * @var int id istanza
+     * @property int id istanza
      */
     private $id;
 
     /**
-     * @var date data creazione istanza
+     * @property date data creazione istanza
      */
     private $createdat;
 
     /**
-     * @var date data modifica istanza
+     * @property date data modifica istanza
      */
     private $updatedat;
 
     /**
-     * @var int istanza attiva/non attiva
+     * @property int istanza attiva/non attiva
      */
     private $active;
 
     /**
-     * @var string url for buying the record
+     * @property string url for buying the record
      */
     private $buylink;
 
     /**
-     * @var string city for the record
+     * @property string city for the record
      */
     private $city;
 
     /**
-     * @var int numero di commenti
+     * @property int numero di commenti
      */
     private $commentcounter;
 
     /**
-     * @var int indice di gradimento
+     * @property int indice di gradimento
      */
     private $counter;
 
     /**
-     * @var string per l'immagine di copertina
+     * @property string per l'immagine di copertina
      */
     private $cover;
 
     /**
-     * @var string descrizione del video
+     * @property string descrizione del video
      */
     private $description;
 
     /**
-     * @var int durata in secondi
+     * @property int durata in secondi
      */
     private $duration;
 
     /**
-     * @var int id del formuser
+     * @property int id del formuser
      */
     private $fromuser;
 
     /**
-     * @var array di id del genere
+     * @property array di id del genere
      */
     private $genre;
 
     /**
-     * @var string di definizione della label
+     * @property string di definizione della label
      */
     private $label;
 
     /**
-     * @var float latitudine
+     * @property float latitudine
      */
     private $latitude;
 
     /**
-     * @var float longitudine
+     * @property float longitudine
      */
     private $longitude;
 
     /**
-     * @var int contatore di azioni love
+     * @property int contatore di azioni love
      */
     private $lovecounter;
 
     /**
-     * @var int contatore di azioni review
+     * @property int contatore di azioni review
      */
     private $reviewcounter;
 
     /**
-     * @var int contatore di azioni share
+     * @property int contatore di azioni share
      */
     private $sharecounter;
 
     /**
-     * @var int contatore di canzoni
+     * @property int contatore di canzoni
      */
     private $songcounter;
 
     /**
-     * @var string path al thumbnail della cover
+     * @property string path al thumbnail della cover
      */
     private $thumbnail;
 
     /**
-     * @var string titolo album
+     * @property string titolo album
      */
     private $title;
 
     /**
-     * @var array id song
+     * @property array id song
      */
     private $tracklist;
 
     /**
-     * @var int anno realizzazione disco
+     * @property int anno realizzazione disco
      */
     private $year;
 

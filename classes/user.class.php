@@ -16,202 +16,202 @@
 class User {
 
     /**
-     * @var int id istanza
+     * @property int id istanza
      */
     private $id;
 
     /**
-     * @var date data creazione istanza
+     * @property date data creazione istanza
      */
     private $createdat;
 
     /**
-     * @var date data modifica istanza
+     * @property date data modifica istanza
      */
     private $updatedat;
 
     /**
-     * @var string di password (con criptazione)
+     * @property string di password (con criptazione)
      */
     private $password;
 
     /**
-     * @var int istanza attiva/non attiva
+     * @property int istanza attiva/non attiva
      */
     private $active;
 
     /**
-     * @var string di indirizzo dello user
+     * @property string di indirizzo dello user
      */
     private $address;
 
     /**
-     * @var string di indirizzo dell'avatar
+     * @property string di indirizzo dell'avatar
      */
     private $avatar;
 
     /**
-     * @var string di indirizzo del background
+     * @property string di indirizzo del background
      */
     private $background;
 
     /**
-     * @var string data nascita user
+     * @property string data nascita user
      */
     private $birthday;
 
     /**
-     * @var string città dello user
+     * @property string città dello user
      */
     private $city;
 
     /**
-     * @var int numero di collaboratori dello user (solo JAMMER e VENUE)
+     * @property int numero di collaboratori dello user (solo JAMMER e VENUE)
      */
     private $collaborationcounter;
 
     /**
-     * @var string country dello user
+     * @property string country dello user
      */
     private $country;
 
     /**
-     * @var string descrizione dello user
+     * @property string descrizione dello user
      */
     private $description;
 
     /**
-     * @var string email dello user
+     * @property string email dello user
      */
     private $email;
 
     /**
-     * @var string id facebook dello user
+     * @property string id facebook dello user
      */
     private $facebookid;
 
     /**
-     * @var string pagina facebook dello user
+     * @property string pagina facebook dello user
      */
     private $facebookpage;
 
     /**
-     * @var string nome dello user
+     * @property string nome dello user
      */
     private $firstname;
 
     /**
-     * @var int numero di followers dello user (solo JAMMER e VENUE)
+     * @property int numero di followers dello user (solo JAMMER e VENUE)
      */
     private $followercounter;
 
     /**
-     * @var int numero di following dello user (solo SPOTTER)
+     * @property int numero di following dello user (solo SPOTTER)
      */
     private $followingcounter;
 
     /**
-     * @var int numero di friends dello user (solo SPOTTER)
+     * @property int numero di friends dello user (solo SPOTTER)
      */
     private $friendshipcounter;
 
     /**
-     * @var string pagina google+
+     * @property string pagina google+
      */
     private $googlepluspage;
 
     /**
-     * @var int numero di jammer delle relazioni collaboration (JAMMER e VENUE) e followin (SPOTTER)
+     * @property int numero di jammer delle relazioni collaboration (JAMMER e VENUE) e followin (SPOTTER)
      */
     private $jammercounter;
 
     /**
-     * @var string tipo di jammer (BAND/SINGOLO)
+     * @property string tipo di jammer (BAND/SINGOLO)
      */
     private $jammertype;
 
     /**
-     * @var string cognome dell'utente
+     * @property string cognome dell'utente
      */
     private $lastname;
 
     /**
-     * @var float latitudine
+     * @property float latitudine
      */
     private $latitude;
 
     /**
-     * @var int contatore punti
+     * @property int contatore punti
      */
     private $level;
 
     /**
-     * @var int levelvalue of the user -> 1 to 5
+     * @property int levelvalue of the user -> 1 to 5
      */
     private $levelvalue;
 
     /**
-     * @var float longitudine
+     * @property float longitudine
      */
     private $longitude;
 
     /**
-     * @var array di string
+     * @property array di string
      */
     private $member;
 
     /**
-     * @var int 1 = PREMIUM, 0 = STANDARD
+     * @property int 1 = PREMIUM, 0 = STANDARD
      */
     private $premium;
 
     /**
-     * @var DateTime of the expitation if the user is PREMIUM
+     * @property DateTime of the expitation if the user is PREMIUM
      */
     private $premiumexpirationdate;
 
     /**
-     * @var string path per il thumb dell'utente
+     * @property string path per il thumb dell'utente
      */
     private $thumbnail;
 
     /**
-     * @var array of ids of setting
+     * @property array of ids of setting
      */
     private $settings;
 
     /**
-     * @var string per il sesso dell'utente M/F/ND
+     * @property string per il sesso dell'utente M/F/ND
      */
     private $sex;
 
     /**
-     * @var string per la pagina di twitter
+     * @property string per la pagina di twitter
      */
     private $twitterpage;
 
     /**
-     * @var string JAMMER/VENUE/SPOTTER
+     * @property string JAMMER/VENUE/SPOTTER
      */
     private $type;
 
     /**
-     * @var string username
+     * @property string username
      */
     private $username;
 
     /**
-     * @var int numero di venue delle relazioni collaboration (JAMMER e VENUE) e followin (SPOTTER)
+     * @property int numero di venue delle relazioni collaboration (JAMMER e VENUE) e followin (SPOTTER)
      */
     private $venuecounter;
 
     /**
-     * @var string link sito web utente
+     * @property string link sito web utente
      */
     private $website;
 
     /**
-     * @var string cancale youtube
+     * @property string cancale youtube
      */
     private $youtubechannel;
 

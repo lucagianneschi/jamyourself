@@ -27,7 +27,7 @@ require_once SERVICES_DIR . 'update.service.php';
 class CommentController extends REST {
 
     /**
-     * @var array Array di config values
+     * @property array Array di config values
      */
     public $config;
 

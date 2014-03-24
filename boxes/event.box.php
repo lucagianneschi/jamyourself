@@ -21,12 +21,12 @@ require_once SERVICES_DIR . 'select.service.php';
 class EventBox {
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di event
+     * @property array Array di event
      */
     public $eventArray = array();
 

@@ -21,12 +21,12 @@ require_once SERVICES_DIR . 'select.service.php';
 class PostBox {
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di post
+     * @property array Array di post
      */
     public $postArray = array();
 

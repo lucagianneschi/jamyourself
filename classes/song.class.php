@@ -15,87 +15,87 @@
 class Song {
 
     /**
-     * @var int id istanza
+     * @property int id istanza
      */
     private $id;
 
     /**
-     * @var date data creazione istanza
+     * @property date data creazione istanza
      */
     private $createdat;
 
     /**
-     * @var date data modifica istanza
+     * @property date data modifica istanza
      */
     private $updatedat;
 
     /**
-     * @var int istanza attiva/non attiva
+     * @property int istanza attiva/non attiva
      */
     private $active;
 
     /**
-     * @var int numero di commenti
+     * @property int numero di commenti
      */
     private $commentcounter;
 
     /**
-     * @var int indice di gradimento
+     * @property int indice di gradimento
      */
     private $counter;
 
     /**
-     * @var int durata in secondi
+     * @property int durata in secondi
      */
     private $duration;
 
     /**
-     * @var int id dell'utente che fa upload dell'album
+     * @property int id dell'utente che fa upload dell'album
      */
     private $fromuser;
 
     /**
-     * @var int id del genre della song
+     * @property int id del genre della song
      */
     private $genre;
 
     /**
-     * @var float latitudine
+     * @property float latitudine
      */
     private $latitude;
 
     /**
-     * @var float longitudine
+     * @property float longitudine
      */
     private $longitude;
 
     /**
-     * @var int contatore azioni love
+     * @property int contatore azioni love
      */
     private $lovecounter;
 
     /**
-     * @var string del path dell'mp3
+     * @property string del path dell'mp3
      */
     private $path;
 
     /**
-     * @var int posizione nella tracklist
+     * @property int posizione nella tracklist
      */
     private $position;
 
     /**
-     * @var int id del record
+     * @property int id del record
      */
     private $record;
 
     /**
-     * @var int contatore di azioni share
+     * @property int contatore di azioni share
      */
     private $sharecounter;
 
     /**
-     * @var string titolo della song
+     * @property string titolo della song
      */
     private $title;
 

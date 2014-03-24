@@ -11,97 +11,98 @@
  * @warning
  * @bug
  * @todo
+ * @
  * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Album
  */
 class Album {
 
     /**
-     * @var int id istanza
+     * @property int id istanza
      */
     private $id;
 
     /**
-     * @var date data creazione istanza
+     * @property date data creazione istanza
      */
     private $createdat;
 
     /**
-     * @var date data modifica istanza
+     * @property date data modifica istanza
      */
     private $updatedat;
 
     /**
-     * @var int istanza attiva/non attiva
+     * @property int istanza attiva/non attiva
      */
     private $active;
 
     /**
-     * @var int numero di commenti
+     * @property int numero di commenti
      */
     private $commentcounter;
 
     /**
-     * @var int indice di gradimento
+     * @property int indice di gradimento
      */
     private $counter;
 
     /**
-     * @var string per l'immagine di copertina
+     * @property string per l'immagine di copertina
      */
     private $cover;
 
     /**
-     * @var string per descrizione album
+     * @property string per descrizione album
      */
     private $description;
 
     /**
-     * @var int id dell'utente che fa upload dell'album
+     * @property int id dell'utente che fa upload dell'album
      */
     private $fromuser;
 
     /**
-     * @var int numero di immagini contenute
+     * @property int numero di immagini contenute
      */
     private $imagecounter;
 
     /**
-     * @var array di id delle immagini
+     * @property array di id delle immagini
      */
     private $images;
 
     /**
-     * @var float latitudine
+     * @property float latitudine
      */
     private $latitude;
 
     /**
-     * @var float longitudine
+     * @property float longitudine
      */
     private $longitude;
 
     /**
-     * @var int contatore di azioni love
+     * @property int contatore di azioni love
      */
     private $lovecounter;
 
     /**
-     * @var int contatore di azioni share
+     * @property int contatore di azioni share
      */
     private $sharecounter;
 
     /**
-     * @var array di tag (int)
+     * @property array di tag (int)
      */
     private $tag;
 
     /**
-     * @var string path al thumbnail della cover
+     * @property string path al thumbnail della cover
      */
     private $thumbnail;
 
     /**
-     * @var string titolo album
+     * @property string titolo album
      */
     private $title;
 
