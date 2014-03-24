@@ -125,7 +125,6 @@ class UploadEventController extends REST {
 	    } elseif ($relation === false) {
 		$this->response(array('status' => $controllers['RELATIONERROR']), 503);
 	    }
-	    unset($_SESSION['currentUserFeaturingArray']);
 	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['EVENTCREATED']), 200);
 	} catch (Exception $e) {
