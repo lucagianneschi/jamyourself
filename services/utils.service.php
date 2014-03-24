@@ -137,9 +137,7 @@ function getCroppedImages($decoded) {
 }
 
 /**
- * funzione per il recupero dei featuring per l'event
- * 
- * @todo  getRelatedUsers non esiste più, verificare le funzioni usate
+ * funzione per il recupero dei featuring, da usare nei form che prevedono l'inserimento di featuring
  */
 function getFeaturingArray() {
 	if (session_id() == '') session_start();
@@ -182,42 +180,6 @@ function getFeaturingArray() {
     }
     else
 	return array();
-}
-
-/**
- * funzione per il recupero dei featuring per l'event
- * @todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
- */
-function getFeaturingJSON() {
-    try {
-	global $controllers;
-	error_reporting(E_ALL ^ E_NOTICE);
-	$force = false;
-	$filter = null;
-	if (!isset($_SESSION['id'])) {
-	    $this->response(array('status' => $controllers['USERNOSES']), 400);
-	}
-	if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
-	    $force = true;
-	}
-	if (isset($this->request['term']) && !is_null($this->request['term']) && (strlen($this->request['term']) > 0)) {
-	    $filter = $this->request['term'];
-	}
-	$currentUserFeaturingArray = null;
-	if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
-	    $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
-	} else {
-	    $currentUserFeaturingArray = getFeaturingArray();
-	    $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
-	}
-	if (!is_null($filter)) {
-	    echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
-	} else {
-	    echo json_encode($currentUserFeaturingArray);
-	}
-    } catch (Exception $e) {
-	$this->response(array('status' => $e->getMessage()), 503);
-    }
 }
 
 /**
