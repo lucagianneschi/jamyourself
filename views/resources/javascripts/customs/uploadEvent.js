@@ -21,7 +21,7 @@ var maxCheckGenre = 0;
 var maxCheckLocalType = 0;
 
 $(document).ready(function() {
-    initJammersJSON();
+ //   initJammersJSON();
     initGeocomplete();
     initImgUploader();
 
