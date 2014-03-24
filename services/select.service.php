@@ -2162,7 +2162,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 	$user->setFacebookId($row['facebookid']);
 	$user->setFacebookpage($row['facebookpage']);
 	$user->setFirstname($row['firstname']);
-	$user->setFollowerscounter($row['followerscounter']);
+	$user->setFollowercounter($row['followercounter']);
 	$user->setFollowingcounter($row['followingcounter']);
 	$user->setFriendshipcounter($row['friendshipcounter']);
 	$user->setGooglepluspage($row['googlepluspage']);
