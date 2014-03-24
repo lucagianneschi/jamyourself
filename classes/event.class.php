@@ -1,289 +1,361 @@
 <?php
 
-/* ! \par	    Info Generali:
- *  \author	    Maria Laura Fresu
- *  \version	    0.3
- *  \date	    2013
- *  \copyright	    Jamyourself.com 2013
- *  \par Info	    Classe:
- *  \brief	    Event
- *  \details	    Classe dedicata agli eventi, solo JAMMER e VENUE possono istanziare questa classe
- *  \par	    Commenti:
- *  \warning
- *  \bug
- *  \todo		
+/**
+ * Event class
+ * Classe dedicata agli eventi, solo JAMMER e VENUE possono istanziare questa classe
  *
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Event">Descrizione della classe</a>
- *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Event">API</a>
+ * @author		Maria Laura Fresu
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
+ * @link https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Event
  */
-
 class Event {
 
+    /**
+     * @var int id istanza
+     */
     private $id;
+
+    /**
+     * @var date data creazione istanza
+     */
     private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
     private $updatedat;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
     private $active;
+
+    /**
+     * @var string di indirizzo della venue
+     */
     private $address;
+
+    /**
+     * @var int numero di partecipanti all'event
+     */
     private $attendeecounter;
+
+    /**
+     * @var int numero di partecipanti cancellati dall'event
+     */
     private $cancelledcounter;
+
+    /**
+     * @var string city for the record
+     */
     private $city;
+
+    /**
+     * @var int numero di commenti
+     */
     private $commentcounter;
+
+    /**
+     * @var int indice di gradimento
+     */
     private $counter;
+
+    /**
+     * @var string per l'immagine di copertina
+     */
     private $cover;
+
+    /**
+     * @var string descrizione del video
+     */
     private $description;
+
+    /**
+     * @var Datetime data dell'evento
+     */
     private $eventdate;
+
+    /**
+     * @var int id del formuser
+     */
     private $fromuser;
+
+    /**
+     * @var array di id del genere
+     */
     private $genre;
+
+    /**
+     * @var int numero di invitati all'evento
+     */
     private $invitedcounter;
+
+    /**
+     * @var float latitudine
+     */
     private $latitude;
-    private $longitude;
+
+    /**
+     * @var string per il nome della location
+     */
     private $locationname;
+
+    /**
+     * @var float longitudine
+     */
+    private $longitude;
+
+    /**
+     * @var int contatore di azioni love
+     */
     private $lovecounter;
+
+    /**
+     * @var int contatore di azioni review
+     */
     private $reviewcounter;
+
+    /**
+     * @var int contatore di utenti che hanno rifiutato invito
+     */
     private $refusedcounter;
+
+    /**
+     * @var int contatore di azioni share
+     */
     private $sharecounter;
+
+    /**
+     * @var array di id di tag
+     */
     private $tag;
+
+    /**
+     * @var string path al thumbnail della cover
+     */
     private $thumbnail;
+
+    /**
+     * @var string titolo album
+     */
     private $title;
 
     /**
-     * \fn	getId()
-     * \brief	Return the id value
-     * \return	int
+     * Return the id value
+     * @return	int
      */
     public function getId() {
 	return $this->id;
     }
 
     /**
-     * \fn	DateTime getCreatedat()
-     * \brief	Return the Event creation date
-     * \return	DateTime
+     * Return the Event creation date
+     * @return	DateTime
      */
     public function getCreatedat() {
 	return $this->createdat;
     }
 
     /**
-     * \fn	DateTime getUpdatedat()
-     * \brief	Return the Event modification date
-     * \return	DateTime
+     * Return the Event modification date
+     * @return	DateTime
      */
     public function getUpdatedat() {
 	return $this->updatedat;
     }
 
     /**
-     * \fn	BOOL getActive()
-     * \brief	Return the active value
-     * \return	BOOL
+     * Return the active value
+     * @return	BOOL
      */
     public function getActive() {
 	return $this->active;
     }
 
     /**
-     * \fn	getAddress()
-     * \brief	Return the address value
-     * \return	string
+     * Return the address value
+     * @return	string
      */
     public function getAddress() {
 	return $this->address;
     }
 
     /**
-     * \fn	getAttendeeCounter()
-     * \brief	Return the number of attendees value
-     * \return	string
+     * Return the number of attendees value
+     * @return	string
      */
     public function getAttendeecounter() {
 	return $this->attendeecounter;
     }
 
     /**
-     * \fn	getCancelledCounter()
-     * \brief	Return the number of attendees value
-     * \return	string
+     * Return the number of attendees value
+     * @return	string
      */
     public function getCancelledcounter() {
 	return $this->cancelledcounter;
     }
 
     /**
-     * \fn	getCity()
-     * \brief	Return the city value
-     * \return	string
+     * Return the city value
+     * @return	string
      */
     public function getCity() {
 	return $this->city;
     }
 
     /**
-     * \fn	int getCommentcounter()
-     * \brief	Return the comment counter value (number of comments)
-     * \return	int
+     * Return the comment counter value (number of comments)
+     * @return	int
      */
     public function getCommentcounter() {
 	return $this->commentcounter;
     }
 
     /**
-     * \fn	int getCounter()
-     * \brief	Return the counter value
-     * \return	int
+     * Return the counter value
+     * @return	int
      */
     public function getCounter() {
 	return $this->counter;
     }
 
     /**
-     * \fn	getCover()
-     * \brief	Return the city value
-     * \return	string
+     * Return the city value
+     * @return	string
      */
     public function getCover() {
 	return $this->cover;
     }
 
     /**
-     * \fn	string getDescription()
-     * \brief	Return the description value
-     * \return	string
+     * Return the description value
+     * @return	string
      */
     public function getDescription() {
 	return $this->description;
     }
 
     /**
-     * \fn	DateTime getEventdate()
-     * \brief	Return the Event Date 
-     * \return	DateTime
+     * Return the Event Date 
+     * @return	DateTime
      */
     public function getEventdate() {
 	return $this->eventdate;
     }
 
     /**
-     * \fn	string getFromuser()
-     * \brief	Return the id value for the fromUser
-     * \return	string
+     * Return the id value for the fromUser
+     * @return	string
      */
     public function getFromuser() {
 	return $this->fromuser;
     }
 
     /**
-     * \fn	array getGenre()
-     * \brief	Return the genre (array) value for the genre
-     * \return	array
+     * Return the genre (array) value for the genre
+     * @return	array
      */
     public function getGenre() {
 	return $this->genre;
     }
 
     /**
-     * \fn	getInvitedCounter()
-     * \brief	Return the number of invited value
-     * \return	string
+     * Return the number of invited value
+     * @return	string
      */
     public function getInvitedcounter() {
 	return $this->invitedcounter;
     }
 
     /**
-     * \fn	getLatitude()
-     * \brief	Return the latitude value
-     * \return	latitude
+     * Return the latitude value
+     * @return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
     }
 
     /**
-     * \fn	getLongitude()
-     * \brief	Return the longitude value
-     * \return	long
-     */
-    public function getLongitude() {
-	return $this->longitude;
-    }
-
-    /**
-     * \fn	string getLocationname()
-     * \brief	Return the name of the location
-     * \return	string
+     * Return the name of the location
+     * @return	string
      */
     public function getLocationname() {
 	return $this->locationname;
     }
 
     /**
-     * \fn	int getLovecounter()
-     * \brief	Return the int value of loveCounter, counting the love action on the event
-     * \return	int
+     * Return the longitude value
+     * @return	long
+     */
+    public function getLongitude() {
+	return $this->longitude;
+    }
+
+    /**
+     * Return the int value of loveCounter, counting the love action on the event
+     * @return	int
      */
     public function getLovecounter() {
 	return $this->lovecounter;
     }
 
     /**
-     * \fn	getRefusedCounter()
-     * \brief	Return the number of attendees value
-     * \return	string
+     * Return the number of attendees value
+     * @return	string
      */
     public function getRefusedCounter() {
 	return $this->refusedCounter;
     }
 
     /**
-     * \fn	int getReviewcounter()
-     * \brief	Return the review counter value (number of review)
-     * \return	int
+     * Return the review counter value (number of review)
+     * @return	int
      */
     public function getReviewcounter() {
 	return $this->reviewcounter;
     }
 
     /**
-     * \fn	int getSharecounter()
-     * \brief	Return the counter for sharing action
-     * \return	int
+     * Return the counter for sharing action
+     * @return	int
      */
     public function getSharecounter() {
 	return $this->sharecounter;
     }
 
     /**
-     * \fn	array getTag()
-     * \brief	Return the tags value, array of string to categorize the event
-     * \return	int
+     * Return the tags value, array of string to categorize the event
+     * @return	int
      */
     public function getTag() {
 	return $this->tag;
     }
 
     /**
-     * \fn	string getThumbnail()
-     * \brief	Return the thumbnail value
-     * \return	string
+     * Return the thumbnail value
+     * @return	string
      */
     public function getThumbnail() {
 	return $this->thumbnail;
     }
 
     /**
-     * \fn	string getTitle()
-     * \brief	Return the title value
-     * \return	string
+     * Return the title value
+     * @return	string
      */
     public function getTitle() {
 	return $this->title;
     }
 
     /**
-     * \fn	void setId($id)
-     * \brief	Sets the id value
-     * \param	string
+     * Sets the id value
+     * @param	string
      */
     public function setId($id) {
 	$this->id = $id;
@@ -292,232 +364,207 @@ class Event {
     /**
      * \fn	void setCreatedat($createdat)
      * \brief	Sets the Event creation date
-     * \param	DateTime
+     * @param	DateTime
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
     }
 
     /**
-     * \fn	void setUpdatedat($updatedat)
-     * \brief	Sets the Event modification date
-     * \param	DateTime
+     * Sets the Event modification date
+     * @param	DateTime
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
     }
 
     /**
-     * \fn	void setActive($active)
-     * \brief	Sets the active value
-     * \param	BOOL
+     * Sets the active value
+     * @param	int
      */
     public function setActive($active) {
 	$this->active = $active;
     }
 
     /**
-     * \fn		void setAddress($address)
-     * \brief	Sets the address value
-     * \param	string
+     * Sets the address value
+     * @param	string
      */
     public function setAddress($address) {
 	$this->address = $address;
     }
 
     /**
-     * \fn	void setAttendeecounter($attendeecounter)
-     * \brief	Sets the attendeeCounter value
-     * \param	int
+     * Sets the attendeeCounter value
+     * @param	int
      */
     public function setAttendeecounter($attendeecounter) {
 	$this->attendeecounter = $attendeecounter;
     }
 
     /**
-     * \fn	void setCancelledcounter($cancelledCounter)
-     * \brief	Sets the cancelledcounter value
-     * \param	int
+     * Sets the cancelledcounter value
+     * @param	int
      */
     public function setCancelledcounter($cancelledcounter) {
 	$this->cancelledcounter = $cancelledcounter;
     }
 
     /**
-     * \fn	void setCity($city)
-     * \brief	Sets the city value
-     * \param	string
+     * Sets the city value
+     * @param	string
      */
     public function setCity($city) {
 	$this->city = $city;
     }
 
     /**
-     * \fn	void setCommentcounter($commentcounter)
-     * \brief	Sets the commnetCounter value
-     * \param	int
+     * Sets the commnetCounter value
+     * @param	int
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
     }
 
     /**
-     * \fn		void setCounter($counter)
-     * \brief	Sets the counter value
-     * \param	int
+     * Sets the counter value
+     * @param	int
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
     }
 
     /**
-     * \fn	void setCover($cover)
-     * \brief	Sets the cover value
-     * \param	string
+     * Sets the cover value
+     * @param	string
      */
     public function setCover($cover) {
 	$this->cover = $cover;
     }
 
     /**
-     * \fn	void setDescription($description)
-     * \brief	Sets the description value
-     * \param	string
+     * Sets the description value
+     * @param	string
      */
     public function setDescription($description) {
 	$this->description = $description;
     }
 
     /**
-     * \fn	setEventDate($eventDate)
-     * \brief	Sets the Event Date date
-     * \param	DateTime
+     * Sets the Event Date date
+     * @param	DateTime
      */
     public function setEventdate($eventdate) {
 	$this->eventdate = $eventdate;
     }
 
     /**
-     * \fn	void setFromuser($fromuser))
-     * \brief	Sets the fromUser value
-     * \param	int
+     * Sets the fromUser value
+     * @param	int
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
     }
 
     /**
-     * \fn	void setGenre($genre)
-     * \brief	Sets the genre value, array for genres
-     * \param	int
+     * Sets the genre value, array for genres
+     * @param	int
      */
     public function setGenre($genre) {
 	$this->genre = $genre;
     }
 
     /**
-     * \fn	setInvitedCounter($invitedCounter)
-     * \brief	Sets the invitedCounter value
-     * \param	int
+     * Sets the invitedCounter value
+     * @param	int
      */
     public function setInvitedCounter($invitedCounter) {
 	$this->invitedCounter = $invitedCounter;
     }
 
     /**
-     * \fn	void setLatitude($latitude)
-     * \brief	Sets the latitude value
-     * \param	$longitude
+     * Sets the latitude value
+     * @param	$longitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
     }
 
     /**
-     * \fn	void setLongitude($longitude)
-     * \brief	Sets the longitude value
-     * \param	$longitude
-     */
-    public function setLongitude($longitude) {
-	$this->longitude = $longitude;
-    }
-
-    /**
-     * \fn	void setLocationName($locationName)
-     * \brief	Sets the locationName value
-     * \param	string
+     * Sets the locationName value
+     * @param	string
      */
     public function setLocationname($locationname) {
 	$this->locationname = $locationname;
     }
 
     /**
-     * \fn	void setLovecounter($lovecounter)
-     * \brief	Sets the loveCounter value
-     * \param	int
+     * Sets the longitude value
+     * @param	$longitude
+     */
+    public function setLongitude($longitude) {
+	$this->longitude = $longitude;
+    }
+
+    /**
+     * Sets the loveCounter value
+     * @param	int
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
     }
 
     /**
-     * \fn	void  setRefusedCounter($refusedcounter)
-     * \brief	Sets the refusedCounter value
-     * \param	int
+     * Sets the refusedCounter value
+     * @param	int
      */
     public function setRefusedcounter($refusedcounter) {
 	$this->refusedcounter = $refusedcounter;
     }
 
     /**
-     * \fn	void setReviewcounter($reviewcounter)
-     * \brief	Sets the reviewcounter value
-     * \param	int
+     * Sets the reviewcounter value
+     * @param	int
      */
     public function setReviewcounter($reviewcounter) {
 	$this->reviewcounter = $reviewcounter;
     }
 
     /**
-     * \fn	void setCounter($sharecounter)
-     * \brief	Sets the sharecounter value
-     * \param	int
+     * Sets the sharecounter value
+     * @param	int
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
     }
 
     /**
-     * \fn	void setTag($tag)
-     * \brief	Sets the tags value
-     * \param	int
+     * Sets the tags value
+     * @param	int
      */
     public function setTag($tag) {
 	$this->tag = $tag;
     }
 
     /**
-     * \fn	void setThumbnail($thumbnail)
-     * \brief	Sets the thumbnail value
-     * \param	string
+     * Sets the thumbnail value
+     * @param	string
      */
     public function setThumbnail($thumbnail) {
 	$this->thumbnail = $thumbnail;
     }
 
     /**
-     * \fn	void setTitle($title)
-     * \brief	Sets the title value
-     * \param	string
+     * Sets the title value
+     * @param	string
      */
     public function setTitle($title) {
 	$this->title = $title;
     }
 
     /**
-     * \fn	string __toString()
-     * \brief	Return a printable string representing the Event object
-     * \return	string
+     * Return a printable string representing the Event object
+     * @return	string
      */
     function __toString() {
 	$string = '';
@@ -536,7 +583,7 @@ class Event {
 	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	$eventDate = new DateTime($this->getEventdate());
-	$string .= '[eventdate] => ' . $evetDate->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[eventdate] => ' . $eventDate->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	foreach ($this->getGenre() as $genre) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -544,8 +591,8 @@ class Event {
 	}
 	$string .= '[invitedcounter] => ' . $this->getInvitedcounter() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
-	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[locationname] => ' . $this->getLocationname() . '<br />';
+	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
 	$string .= '[reviewcounter] => ' . $this->getReviewcounter() . '<br />';
 	$string .= '[refusedcounter] => ' . $this->getRefusedCounter() . '<br />';
