@@ -119,7 +119,7 @@ class UploadReviewController extends REST {
 		    $subject = $controllers['SBJE'];
 		    $html = $mail_files['EVENTREVIEWEMAIL'];
 		    break;
-		case 'Record';
+		case 'Record':
 		    $review->setEvent(null);
 		    $review->setRecord($this->reviewedId);
 		    $review->setType('RR');
@@ -128,12 +128,12 @@ class UploadReviewController extends REST {
 		    $html = $mail_files['RECORDREVIEWEMAIL'];
 		    break;
 	    }
-	    require_once SERVICES_DIR . 'utils.service.php';
-	    sendMailForNotification($touser->getEmail(), $subject, $html);
 	    $resRev = $this->saveReview($review);
 	    if ($resRev === false) {
 		$this->response(array("status" => $controllers['NOSAVEDREVIEW']), 503);
 	    }
+	    require_once SERVICES_DIR . 'utils.service.php';
+	    sendMailForNotification($touser->getEmail(), $subject, $html);
 	    $this->response(array("status" => $controllers['REWSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
@@ -146,27 +146,20 @@ class UploadReviewController extends REST {
      * @return  $result id of the comment or false, in case of error
      * @todo    creare il nodo e la relazione
      */
-    private function saveReview($review) {
+    private function saveReview($review, $id, $userId) {
 	require_once SERVICES_DIR . 'connection.service.php';
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection != false) {
 	    require_once SERVICES_DIR . 'insert.service.php';
 	    $result = insertComment($connection, $review);
-	    	    if ($id instanceof Error) {
-		$this->response(array('status' => $id->getMessage()), 503);
+	    $node = createNode($connectionService, 'review', $id);
+	    $relation = createRelation($connectionService, 'user', $userId, 'review', $id, 'ADD');
+	    if ($result === false || $node === false || $relation === false) {
+		return false;
 	    }
-	    if(!$node){
-		$this->response(array('status' => $controllers['NODEERROR']), 503);
-	    }
-	    
-	    
-	    
-	    
 	    $connectionService->disconnect();
 	    return $result;
-	} else {
-	    return false;
 	}
     }
 
