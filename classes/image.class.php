@@ -19,26 +19,88 @@
 
 class Image {
 
+    /**
+     * @var int id istanza
+     */
     private $id;
+
+    /**
+     * @var date data creazione istanza
+     */
     private $createdat;
+
+    /**
+     * @var date data modifica istanza
+     */
     private $updatedat;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
     private $active;
+
+    /**
+     * @var int istanza attiva/non attiva
+     */
     private $album;
+
+    /**
+     * @var int numero di commenti
+     */
     private $commentcounter;
+
+    /**
+     * @var int indice di gradimento
+     */
     private $counter;
+
+    /**
+     * @var string descrizione del video
+     */
     private $description;
+
+    /**
+     * @var int id del formuser
+     */
     private $fromuser;
+
+    /**
+     * @var float latitudine
+     */
     private $latitude;
+
+    /**
+     * @var float longitudine
+     */
     private $longitude;
+
+    /**
+     * @var int contatore di azioni love
+     */
     private $lovecounter;
+
+    /**
+     * @var string path all'immagine
+     */
     private $path;
+
+    /**
+     * @var int contatore di azioni share
+     */
     private $sharecounter;
+
+    /**
+     * @var array di id di tag
+     */
     private $tag;
+
+    /**
+     * @var string path al thumbnail della cover
+     */
     private $thumbnail;
 
     /**
-     * \fn	int getId()
-     * \brief	Return the id value
+     * Return the id value
      * @return	int
      */
     public function getId() {
@@ -46,8 +108,7 @@ class Image {
     }
 
     /**
-     * \fn	DateTime getCreatedat()
-     * \brief	Return the Image creation date
+     * Return the Event creation date
      * @return	DateTime
      */
     public function getCreatedat() {
@@ -55,8 +116,7 @@ class Image {
     }
 
     /**
-     * \fn	DateTime getUpdatedat()
-     * \brief	Return the Image modification date
+     * Return the Event modification date
      * @return	DateTime
      */
     public function getUpdatedat() {
@@ -64,8 +124,7 @@ class Image {
     }
 
     /**
-     * \fn	BOOL getActive()
-     * \brief	Return the active value
+     * Return the active value
      * @return	BOOL
      */
     public function getActive() {
@@ -73,8 +132,7 @@ class Image {
     }
 
     /**
-     * \fn	int getAlbum()
-     * \brief	Return the album value
+     * Return the int value id to album
      * @return	int
      */
     public function getAlbum() {
@@ -82,8 +140,7 @@ class Image {
     }
 
     /**
-     * \fn	int getCommentcounter()
-     * \brief	Return the comment counter value (number of comments)
+     * Return the comment counter value (number of comments)
      * @return	int
      */
     public function getCommentcounter() {
@@ -91,8 +148,7 @@ class Image {
     }
 
     /**
-     * \fn	int getCounter()
-     * \brief	Return the counter value
+     * Return the counter value
      * @return	int
      */
     public function getCounter() {
@@ -100,8 +156,7 @@ class Image {
     }
 
     /**
-     * \fn	string getDescription()
-     * \brief	Return the description value
+     * Return the description value
      * @return	string
      */
     public function getDescription() {
@@ -109,17 +164,15 @@ class Image {
     }
 
     /**
-     * \fn	int getFromuser()
-     * \brief	Return the id value for the fromUser
-     * @return	int
+     * Return the id value for the fromUser
+     * @return	string
      */
     public function getFromuser() {
 	return $this->fromuser;
     }
 
     /**
-     * \fn	getLatitude()
-     * \brief	Return the latitude value
+     * Return the latitude value
      * @return	latitude
      */
     public function getLatitude() {
@@ -127,8 +180,7 @@ class Image {
     }
 
     /**
-     * \fn	getLongitude()
-     * \brief	Return the longitude value
+     * Return the longitude value
      * @return	long
      */
     public function getLongitude() {
@@ -136,8 +188,7 @@ class Image {
     }
 
     /**
-     * \fn	int getLovecounter()
-     * \brief	Return the int value of loveCounter, counting the love action on the image
+     * Return the int value of loveCounter, counting the love action on the comment
      * @return	int
      */
     public function getLovecounter() {
@@ -145,17 +196,15 @@ class Image {
     }
 
     /**
-     * \fn	string getPath()
-     * \brief	Return the path value
+     * Return the path value
      * @return	string
      */
     public function getPath() {
-	return $this->path;
+	return $this->pathath;
     }
 
     /**
-     * \fn	int getSharecounter()
-     * \brief	Return the counter for sharing action
+     * Return the counter for sharing action
      * @return	int
      */
     public function getSharecounter() {
@@ -163,17 +212,15 @@ class Image {
     }
 
     /**
-     * \fn	getTag()
-     * \brief	Return the tags value
-     * @return	int
+     * Return the tags value
+     * @return	array of int
      */
     public function getTag() {
 	return $this->tag;
     }
 
     /**
-     * \fn	string getThumbnail()
-     * \brief	Return the thumbnail value, path for the thumnail
+     * Return the thumbnail value
      * @return	string
      */
     public function getThumbnail() {
@@ -181,35 +228,31 @@ class Image {
     }
 
     /**
-     * \fn	void setId($id)
-     * \brief	Sets the id value
-     * @param	int
+     * Sets the id value
+     * @param	int object id
      */
     public function setId($id) {
 	$this->id = $id;
     }
 
     /**
-     * \fn	void setCreatedat($createdat)
-     * \brief	Sets the Image creation date
-     * @param	DateTime
+     * Sets the Comment creation date
+     * @param	DateTime $createdat date of creation
      */
     public function setCreatedat($createdat) {
 	$this->createdat = $createdat;
     }
 
     /**
-     * \fn	void setUpdatedat($updatedat)
-     * \brief	Sets the Image modification date
-     * @param	DateTime
+     * Sets the Comment modification date
+     * @param	DateTime $updatedat date of last update
      */
     public function setUpdatedat($updatedat) {
 	$this->updatedat = $updatedat;
     }
 
     /**
-     * \fn	void setActive($active)
-     * \brief	Sets the active value
+     * Sets the active value
      * @param	BOOL
      */
     public function setActive($active) {
@@ -217,35 +260,31 @@ class Image {
     }
 
     /**
-     * \fn	void setAlbum($album)
-     * \brief	Sets the album value
-     * @param	int
+     * Sets the album value
+     * @param	int $album album id
      */
     public function setAlbum($album) {
 	$this->album = $album;
     }
 
     /**
-     * \fn	void setCommentcounter($commentcounter)
-     * \brief	Sets the commentCounter value
-     * @param	int
+     * Sets the commnetCounter value
+     * @param	int $commentcounter numero di commenti
      */
     public function setCommentcounter($commentcounter) {
 	$this->commentcounter = $commentcounter;
     }
 
     /**
-     * \fn	void setCounter($counter)
-     * \brief	Sets the counter value
-     * @param	int
+     * Sets the counter value
+     * @param	int $counter counter di gradimento media
      */
     public function setCounter($counter) {
 	$this->counter = $counter;
     }
 
     /**
-     * \fn	void setDescription($description)
-     * \brief	Sets the description value
+     * Sets the description value
      * @param	string
      */
     public function setDescription($description) {
@@ -253,44 +292,39 @@ class Image {
     }
 
     /**
-     * \fn	void setFromuser($fromuser))
-     * \brief	Sets the fromUser value
-     * @param	int
+     * Sets the fromUser value
+     * @param	int $fromuser fromuser id
      */
     public function setFromuser($fromuser) {
 	$this->fromuser = $fromuser;
     }
 
     /**
-     * \fn	void setLatitude($latitude)
-     * \brief	Sets the latitude value
-     * @param	$longitude
+     * Sets the latitude value
+     * @param	float $latitude latitude
      */
     public function setLatitude($latitude) {
 	$this->latitude = $latitude;
     }
 
     /**
-     * \fn	void setLongitude($longitude)
-     * \brief	Sets the longitude value
-     * @param	$longitude
+     * Sets the longitude value
+     * @param	float $longitude longitude
      */
     public function setLongitude($longitude) {
 	$this->longitude = $longitude;
     }
 
     /**
-     * \fn	void setLovecounter($lovecounter)
-     * \brief	Sets the loveCounter value
-     * @param	int
+     * Sets the loveCounter value
+     * @param	int $lovecounter number of love actions
      */
     public function setLovecounter($lovecounter) {
 	$this->lovecounter = $lovecounter;
     }
 
     /**
-     * \fn	void setpath($pPath)
-     * \brief	Sets the path value
+     * Sets the path value
      * @param	string
      */
     public function setPath($path) {
@@ -298,35 +332,31 @@ class Image {
     }
 
     /**
-     * \fn	void setCounter($sharecounter)
-     * \brief	Sets the sharecounter value
-     * @param	int
+     * Sets the sharecounter value
+     * @param	int $sharecounter number of share actions
      */
     public function setSharecounter($sharecounter) {
 	$this->sharecounter = $sharecounter;
     }
 
     /**
-     * \fn	void setTag($tag)
-     * \brief	Sets the tags value
-     * @param	int
+     * Sets the tags value
+     * @param	array $tag ids of tags
      */
     public function setTag($tag) {
 	$this->tag = $tag;
     }
 
     /**
-     * \fn	void setThumbnail($thumbnail)
-     * \brief	Sets the thumbnail value,string fot the thumbnail
-     * @param	array
+     * Sets the thumbnail value
+     * @param	string
      */
     public function setThumbnail($thumbnail) {
 	$this->thumbnail = $thumbnail;
     }
 
     /**
-     * \fn	string __toString()
-     * \brief	Return a printable string representing the Image object
+     * Return a printable string representing the Image object
      * @return	string
      */
     public function __toString() {
