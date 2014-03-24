@@ -1,16 +1,15 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Daniele Caldelli
- * \version		0.3
- * \date		2013
- * \copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		file di request per il controller post
- * \par			Commenti:
- * \warning
- * \bug
- *
+/**
+ * PostController request
+ * 
+ * @author Daniele Caldelli
+ * @version		0.2
+ * @since		2014-03-12
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
