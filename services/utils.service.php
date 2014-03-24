@@ -21,7 +21,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once SERVICES_DIR . 'connection.service.php';
-
+require_once SERVICES_DIR . 'select.service.php';
 /**
  * The function returns the difference between $end and $start parameter in microseconds
  * 
@@ -142,37 +142,40 @@ function getCroppedImages($decoded) {
  * @todo  getRelatedUsers non esiste più, verificare le funzioni usate
  */
 function getFeaturingArray() {
+	if (session_id() == '') session_start();
     if (isset($_SESSION['id'])) {
 	$currentUserId = $_SESSION['id'];
 	$currentUserType = $_SESSION['type'];
 	$userArray = null;
+	$connectionService = new ConnectionService();
 	switch ($currentUserType) {
 	    case "SPOTTER":
-		$connectionService = new ConnectionService();
-		$userArrayFriend = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'friendship');
+		$userArrayFriend = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'FRIENDSHIP');
 		if ((!$userArrayFriend) || is_null($userArrayFriend)) {
 		    $userArrayFriend = array();
 		}
-		$userArrayFollowing = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'following');
+		$userArrayFollowing = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'FOLLOWING');
 		if ((!$userArrayFollowing) || is_null($userArrayFollowing)) {
 		    $userArrayFollowing = array();
 		}
 		$userArray = array_merge($userArrayFriend, $userArrayFollowing);
 		break;
 	    default:
-		$userArray = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'collaboration');
+		$userArray = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'COLLABORATION');
 		break;
 	}
 	if ((!$userArray) || is_null($userArray)) {
 	    return array();
 	} else {
 	    $userArrayInfo = array();
-	    foreach ($userArray as $user) {
-		require_once CLASSES_DIR . "user.class.php";
-		$username = $user->getUsername();
-		$userId = $user->getId();
-		$userType = $user->getType();
-		array_push($userArrayInfo, array("id" => $userId, "text" => $username, 'type' => $userType));
+		$connection = $connectionService->connect();
+		$users = selectUsers($connection, null, array('id' => $userArray));
+	    foreach ($users as $user) {
+			require_once CLASSES_DIR . "user.class.php";			
+			$username = $user->getUsername();
+			$userId = $user->getId();
+			$userType = $user->getType();
+			array_push($userArrayInfo, array("id" => $userId, "text" => $username, 'type' => $userType));
 	    }
 	    return $userArrayInfo;
 	}
