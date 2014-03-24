@@ -7,6 +7,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once SERVICES_DIR . 'connection.service.php';
 
 /**
  * UploadReviewController class
@@ -128,38 +129,26 @@ class UploadReviewController extends REST {
 		    $html = $mail_files['RECORDREVIEWEMAIL'];
 		    break;
 	    }
-	    $resRev = $this->saveReview($review);
-	    if ($resRev === false) {
-		$this->response(array("status" => $controllers['NOSAVEDREVIEW']), 503);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    $result = insertComment($connection, $review);
+	    $node = createNode($connectionService, 'review', $id);
+	    $relation = createRelation($connectionService, 'user', $userId, 'review', $id, 'ADD');
+	    if ($result === false) {
+		$this->response(array("status" => $controllers['REVIEWCREATEERROR']), 503);
+	    } elseif ($node === false) {
+		$this->response(array('status' => $controllers['NODEERROR']), 503);
+	    } elseif ($relation === false) {
+		$this->response(array('status' => $controllers['RELATIONERROR']), 503);
 	    }
 	    require_once SERVICES_DIR . 'utils.service.php';
 	    sendMailForNotification($touser->getEmail(), $subject, $html);
 	    $this->response(array("status" => $controllers['REWSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
-	}
-    }
-
-    /**
-     * funzione privata per il salvataggio nel DB di un commento
-     * @param   $review
-     * @return  $result id of the comment or false, in case of error
-     * @todo    creare il nodo e la relazione
-     */
-    private function saveReview($review, $id, $userId) {
-	require_once SERVICES_DIR . 'connection.service.php';
-	$connectionService = new ConnectionService();
-	$connection = $connectionService->connect();
-	if ($connection != false) {
-	    require_once SERVICES_DIR . 'insert.service.php';
-	    $result = insertComment($connection, $review);
-	    $node = createNode($connectionService, 'review', $id);
-	    $relation = createRelation($connectionService, 'user', $userId, 'review', $id, 'ADD');
-	    if ($result === false || $node === false || $relation === false) {
-		return false;
-	    }
-	    $connectionService->disconnect();
-	    return $result;
 	}
     }
 
