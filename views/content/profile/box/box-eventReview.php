@@ -77,8 +77,8 @@ if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
 				    $event_objectId = $value->getEvent()->getId();
 				    $eventReview_title = $value->getTitle();
 				    #TODO
-				    //$eventReview_rating = $value->getRating();
-				    $eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
+				    $eventReview_rating = $value->getVote();
+				    $eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", strtotime($value->getCreatedat())));
 				    $eventReview_text = $value->getText();
 				    $eventReview_love = $value->getLovecounter();
 				    $eventReview_comment = $value->getCommentcounter();
@@ -142,7 +142,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
 	    					    <div class="row ">						
 	    						<div  class="small-12 columns ">
 								<?php
-								for ($index = 0; $index < 5; $index++) {
+								for ($index = 1; $index <= 5; $index++) {
 								    if ($index <= $eventReview_rating) {
 									echo '<a class="icon-propriety _star-orange"></a>';
 								    } else {

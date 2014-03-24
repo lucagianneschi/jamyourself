@@ -69,9 +69,8 @@ if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
 				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnail();
 				    $recordObjectId = $value->getRecord()->getId();
 				    $recordReview_title = $value->getRecord()->getTitle();
-				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedat()->getTimestamp()));
-				    #TODO
-				    //$recordReview_rating = $value->getRecord()->getRating();
+				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", strtotime($value->getCreatedat())));
+				    $recordReview_rating = $value->getVote();
 				    $recordReview_text = $value->getText();
 				    $recordReview_love = $value->getLovecounter();
 				    $recordReview_comment = $value->getCommentcounter();
@@ -143,7 +142,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
 	    					    <div class="row ">						
 	    						<div  class="small-12 columns ">
 								<?php
-								for ($index = 0; $index < 5; $index++) {
+								for ($index = 1; $index <= 5; $index++) {
 								    if ($index <= $recordReview_rating) {
 									echo '<a class="icon-propriety _star-orange"></a>';
 								    } else {
