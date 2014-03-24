@@ -29,7 +29,7 @@ class UploadReviewController extends REST {
     public $reviewedClassType;
     public $reviewedFromUser;
 
-    /**
+        /**
      * inizializzazione della pagina
      */
     public function init() {
@@ -37,6 +37,10 @@ class UploadReviewController extends REST {
 	    header('Location: login.php?from=uploadReview.php');
 	    exit;
 	}
+    }
+    
+    
+    public function init2() {
 	if (isset($_GET["rewiewId"]) && strlen($_GET["rewiewId"]) > 0 && (isset($_GET["type"]) && strlen($_GET["type"]) > 0) && ( ($_GET["type"] == "Event" ) || ($_GET["type"] == "Record" ))) {
 	    $this->reviewedId = $_GET["rewiewId"];
 	    $this->reviewedClassType = $_GET["type"];
