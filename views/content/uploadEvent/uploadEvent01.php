@@ -5,6 +5,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'utils.service.php';
 ?>
 <div class="row" id="uploadEvent01">
     <div  class="large-12 columns formBlack-title">
@@ -77,8 +78,30 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		<label for="hours"><?php echo $views['uploadEvent']['hours']; ?></label>
 	    </div>
 	</div>
+		
+		<script>
+			/*
+			 * select2 e' il plugin per le featuring con id jamers
+			 */
+			$(document).ready(function() {
+	   			$('#jammers').select2({
+				    multiple: true,
+				    minimumInputLength: 1,
+				    width: "100%",
+				    data:[
+				    <?php 
+				    $arrayFeaturing = getFeaturingArray();
+				    foreach ($arrayFeaturing as  $value) {
+				    	if($value['type'] == 'JAMMER')
+				    		echo '{id:'.$value['id'].',text:"'.$value['text'].'"},';										
+					 }  ?>			   
+				    ]
+				});
 
-        <label for="url"><input type="text" name="featuring" id="jammers" pattern="">
+			});
+		</script>		
+        <label for="jammers">
+        	<input type="text" name="jammers" id="jammers" pattern="">        	
 	    <?php echo $views['uploadEvent']['jammer_name']; ?><small class="error"><?php echo $views['uploadEvent']['valid_jammer']; ?></small></label>
 
 	<label for="venueName"><input type="text" name="venueName" id="venueName" required pattern="general" >
