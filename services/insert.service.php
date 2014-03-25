@@ -135,7 +135,7 @@ function insertAlbum($connection, $album) {
  * \todo
  */
 function insertComment($connection, $comment) {
-    require_once 'comment.class.php';
+    require_once CLASSES_DIR . 'comment.class.php';
     $sql = "INSERT INTO comment (id,
                                     active,
                                     album,
@@ -154,7 +154,7 @@ function insertComment($connection, $comment) {
                                     title,
                                     touser,
                                     type,
-                                    vote
+                                    vote,
                                     createdat,
                                     updatedat)
                           VALUES (NULL,
