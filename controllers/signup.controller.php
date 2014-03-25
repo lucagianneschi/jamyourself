@@ -263,6 +263,7 @@ class SignupController extends REST {
 	$album->setThumbnail(DEFALBUMTHUMB);
 	$album->setTitle(DEF_ALBUM);
 	$res = insertAlbum($connection, $album);
+	$connectionService->disconnect($connection);
 	return (!$res) ? false : $res;
     }
 
@@ -273,17 +274,36 @@ class SignupController extends REST {
      * @todo
      */
     private function createDefaultRecord($userId) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    return false;
+	}
 	require_once CLASSES_DIR . 'record.class.php';
 	$record = new Record();
-	$record->setActive(true);
+	$record->setActive(1);
+	$record->getBuylink(null);
+	$record->setCity(null);
+	$record->setCommentcounter(0);
+	$record->setCounter(0);
+	$record->setCover(DEFRECORDCOVER);
+	$record->setDescription(null);
 	$record->setDuration(0);
 	$record->setFromuser($userId);
+	$record->getGenre(array());
+	$record->getLabel(null);
+	$record->setLatitude(null);
+	$record->setLongitude(null);
 	$record->setLovecounter(0);
 	$record->setReviewcounter(0);
 	$record->setSharecounter(0);
+	$record->setThumbnail(DEFRECORDTHUMB);
+	$record->setSongcounter(0);
 	$record->setTitle(DEF_REC);
 	$record->setYear(date("Y"));
-	return $record;
+	$res = insertRecord($connection, $record);
+	$connectionService->disconnect($connection);
+	return (!$res) ? false : $res;
     }
 
     /**
