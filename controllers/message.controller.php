@@ -83,7 +83,7 @@ class MessageController extends REST {
 	    $text = $this->request['message'];
 	    $connectionService = new ConnectionService();
 	    if ($currentUserType == 'VENUE' || $currentUserType == 'VENUE') {
-		$relationType = ($toUserType == 'SPOTTER') ? 'following' : 'collaboration';
+		$relationType = ($toUserType == 'SPOTTER') ? 'FOLLOWING' : 'COLLABORATION';
 		$relation = existsRelation($connectionService, 'user', $currentUserId, 'user', $toUserId, $relationType);
 	    } else {
 		$relation = existsRelation($connectionService, 'user', $currentUserId, 'user', $toUserId, 'friendship');

@@ -94,7 +94,7 @@ class PostController extends REST {
 		$this->response(array('status' => $controllers['POSTERROR']), 503);
 	    }
 	    $node = createNode($connectionService, 'post', $post->getId());
-	    $relation = createRelation($connectionService, 'user', $fromuser, 'post', $post->getId(), 'posted');
+	    $relation = createRelation($connectionService, 'user', $fromuser, 'post', $post->getId(), 'POST');
 	    if (!$relation || !$node) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }

@@ -93,7 +93,7 @@ class UploadAlbumController extends REST {
 	    }
 	    $albumId = $resSaveAlbum;
 	    $node = createNode($connectionService, 'album', $albumId);
-	    $relation = createRelation($connectionService, 'user', $currentUserId, 'album', $albumId, 'ADDs');
+	    $relation = createRelation($connectionService, 'user', $currentUserId, 'album', $albumId, 'ADD');
 	    if (!$relation || !$node) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }

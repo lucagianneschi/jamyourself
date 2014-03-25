@@ -157,7 +157,6 @@ class SignupController extends REST {
 
     /**
      * registrazione utente al sito
-     * 
      * verifico che l'utente abbia effettivamente completato il captcha,
      * 
      * @todo
@@ -334,7 +333,6 @@ class SignupController extends REST {
 
     /**
      * crea le cartelle per tipologia di utente
-     * 
      * 
      * @todo
      */
