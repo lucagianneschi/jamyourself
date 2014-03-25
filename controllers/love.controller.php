@@ -55,7 +55,7 @@ class LoveController extends REST {
 	    $fromuserId = $_SESSION['id'];
 	    $classType = $this->request['classType'];
 	    $id = $this->request['id'];
-	    $toUserObjectId = $this->request['objectIdUser'];//serve per la notifica
+	    $toUserObjectId = $this->request['objectIdUser']; //serve per la notifica
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
@@ -64,7 +64,7 @@ class LoveController extends REST {
 	    if (existsRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love')) {
 		$this->response(array('status' => 'ALREADYLOVED'), 400);
 	    }
-	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('lovecounter' => 1));
+	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('lovecounter' => 1), null, $id);
 	    if (!$loveCounter) {
 		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
 	    }
@@ -112,7 +112,7 @@ class LoveController extends REST {
 	    if (!existsRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'love')) {
 		$this->response(array('status' => 'NOLOVE'), 400);
 	    }
-	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('lovecounter' => -1));
+	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), null, array('lovecounter' => 1), $id);
 	    if (!$loveCounter) {
 		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
 	    }
