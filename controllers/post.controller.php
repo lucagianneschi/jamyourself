@@ -9,7 +9,6 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'insert.service.php';
-require_once SERVICES_DIR . 'update.service.php';
 
 /**
  * PostController class
@@ -40,6 +39,7 @@ class PostController extends REST {
 
     /**
      * Salva un post sul DB mySQL, crea nodi sul grafo, crea relazione nodi utente - nodo post
+     * 
      * @todo    testare e prevedere rollback
      */
     public function post() {
