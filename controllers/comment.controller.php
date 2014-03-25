@@ -111,6 +111,25 @@ class CommentController extends REST {
 		    $cmt->setVideo($id);
 		    break;
 	    }
+        
+        $connection->autocommit(false);
+        $connectionService->autocommit(false);
+        
+        $resCmt = insertComment($connection, $cmt);
+        $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('commentcounter' => 1, 'counter' => 1 * $levelValue));
+	    $node = createNode($connectionService, 'comment', $cmt->getId());
+	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'comment');
+
+        if ($resCmt !== false &&
+            $commentCounter !== false &&
+            $node !== false &&
+            $relation !== false) {
+            
+            $connection->commit();
+            $connectionService->commit();
+        }
+        
+        /*
 	    $resCmt = insertComment($connection, $cmt);
 	    if (!$resCmt) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
@@ -121,7 +140,7 @@ class CommentController extends REST {
 	    }
 	    $node = createNode($connectionService, 'comment', $cmt->getId());
 	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'comment');
-	    if (!$relation || !$node) {
+        if (!$relation || !$node) {
 		$this->response(array('status' => $controllers['NODEERROR']), 503);
 	    }
 	    global $mail_files;
@@ -132,6 +151,7 @@ class CommentController extends REST {
 	    $html = $mail_files['COMMENTEMAIL'];
 	    sendMailForNotification($address, $subject, $html);
 	    $connectionService->disconnect($connection);
+	    */
 	    $this->response(array('status' => $controllers['COMMENTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
