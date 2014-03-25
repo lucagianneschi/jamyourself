@@ -42,7 +42,7 @@ class PostBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$posts = selectPosts($connection, null, array('touser' => $id, 'type' => 'P'), array('createdat' => 'DESC'), $limit, $skip);
+	$posts = selectPosts($connection, null, array('touser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($posts === false) {
 	    $this->error = 'Errore nella connessione';
 	}
