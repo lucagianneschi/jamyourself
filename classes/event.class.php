@@ -79,7 +79,12 @@ class Event {
      * @property Datetime data dell'evento
      */
     private $eventdate;
-
+	
+	/**
+     * @property int id del featuring
+     */
+    private $featuring;
+	
     /**
      * @property int id del formuser
      */
@@ -248,7 +253,15 @@ class Event {
     public function getEventdate() {
 	return $this->eventdate;
     }
-
+	
+	/**
+     * Return the id value for the featuring
+     * @return	array
+     */
+    public function getFeaturing() {
+	return $this->featuring;
+    }
+	
     /**
      * Return the id value for the fromUser
      * @return	string
@@ -456,6 +469,14 @@ class Event {
      */
     public function setEventdate($eventdate) {
 	$this->eventdate = $eventdate;
+    }
+	
+	/**
+     * Sets the featuring value
+     * @param	int
+     */
+    public function setFeaturing($featuring) {
+	$this->featuring = $featuring;
     }
 
     /**

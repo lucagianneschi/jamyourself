@@ -64,7 +64,7 @@ class FileManagerService {
      * @return  users/USERID/images/events/ dir
      */
     public function createEventPhotoDir($userId) {
-	return mkdir(USERS_DIR . $this->usersFolder . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder, $this->access, true);
+	return mkdir(USERS_DIR .  DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder, $this->access, true);
     }
 
     /**
@@ -287,7 +287,7 @@ class FileManagerService {
      * check if the images/events/ exists
      */
     private function checkEventPhotoDir($userId) {
-	if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder))
+	if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder))
 	    return true;
 	else
 	    return $this->createEventPhotoDir($userId);
