@@ -157,6 +157,8 @@ class SignupController extends REST {
     /**
      * registrazione utente al sito
      * 
+     * verifico che l'utente abbia effettivamente completato il captcha,
+     * 
      * @todo
      */
     public function signup() {
@@ -165,9 +167,7 @@ class SignupController extends REST {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    }
-	    //verifico che l'utente abbia effettivamente completato il captcha
 	    if (!isset($_SESSION['SignupCaptchaValidation']) || is_null($_SESSION['SignupCaptchaValidation']) || $_SESSION['SignupCaptchaValidation'] == false) {
-		// If invalid inputs "Bad Request" status message and reason
 		$this->response(array('status' => $controllers['NOCAPTCHAVALIDATION']), 401);
 	    } else {
 		unset($_SESSION['SignupCaptchaValidation']);
@@ -190,25 +190,24 @@ class SignupController extends REST {
 		    $newUser = $this->createVenue($newUser);
 		    break;
 	    }
-	    $pUser = new UserParse();
-	    $user = $pUser->saveUser($newUser);
-	    if ($user instanceof Error) {
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    $user = insertUser($connection, $newUser);
+	    if (!$user) {
 		$this->response(array('status' => $controllers['NEWUSERCREATIONFAILED']), 503);
 	    }
-
-
-
-
-
-
-
-
-	    $_SESSION['currentUser'] = $user;
-	    $this->createFileSystemStructure($user->getId(), $user->getType());
-	    $this->createDefaultAlbum($user->getId());
-	    $this->createDefaultPlaylist($user->getId());
+	    $userId = $user->getId();
+	    //$_SESSION['id'];
+	    $userType = $user->getType();
+	    //$_SESSION['type'];
+	    $this->createFileSystemStructure($userId, $userType);
+	    $this->createDefaultAlbum($userId);
+	    $this->createDefaultPlaylist($userId);
 	    if ($user->getType() == "JAMMER") {
-		$this->createDefaultRecord($user->getId());
+		$this->createDefaultRecord($userId);
 	    }
 	    if (!is_null($user->getThumbnail()) && strlen($user->getThumbnail()) > 0 && strlen($user->getAvatar()) && !is_null($user->getAvatar())) {
 		$res_1 = false;
@@ -216,8 +215,8 @@ class SignupController extends REST {
 		$src_img = CACHE_DIR . $user->getAvatar();
 		$src_thumb = CACHE_DIR . $user->getThumbnail();
 		$fileManager = new FileManagerService();
-		$dest_img = $fileManager->getPhotoPath($user->getId(), $user->getAvatar());
-		$dest_thumb = $fileManager->getPhotoPath($user->getId(), $user->getThumbnail());
+		$dest_img = $fileManager->getPhotoPath($userId, $user->getAvatar());
+		$dest_thumb = $fileManager->getPhotoPath($userId, $user->getThumbnail());
 		if (file_exists($src_img)) {
 		    $res_1 = rename($src_img, $dest_img);
 		}
@@ -234,8 +233,9 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	createDefaultAlbum($userId)
-     * \brief	crea album di default
+     * crea album di default
+     * 
+     * @return $album
      * @todo
      */
     private function createDefaultAlbum($userId) {
@@ -253,9 +253,9 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	createDefaultRecord($userId)
-     * \brief	crea record di default
-     * \return  $record
+     * crea record di default
+     * 
+     * @return  $record
      * @todo
      */
     private function createDefaultRecord($userId) {
@@ -273,8 +273,10 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	createDefaultPlaylist($userId)
-     * \brief	crea playslit di default
+     * 
+     * playslit di default
+     * 
+     * @return $playlist
      * @todo
      */
     private function createDefaultPlaylist($userId) {
@@ -288,8 +290,9 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	createFileSystemStructure($userId, $type)
-     * \brief	crea le cartelle per tipologia di utente
+     * crea le cartelle per tipologia di utente
+     * 
+     * 
      * @todo
      */
     private function createFileSystemStructure($userId, $type) {
@@ -311,8 +314,8 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	createSpotter($userJSON)
-     * \brief	crea un utente di tipo SPOTTER
+     * crea un utente di tipo SPOTTER
+     * 
      * @todo
      */
     private function createSpotter($userJSON) {
@@ -346,8 +349,8 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	createVenue$userJSON)
-     * \brief	crea un utente di tipo VENUE
+     * crea un utente di tipo VENUE
+     * 
      * @todo
      */
     private function createVenue($userJSON) {
@@ -375,12 +378,15 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	createJammer($userJSON)
-     * \brief	crea un utente di tipo JAMMER
+     * crea un utente di tipo JAMMER
+     * 
      * @todo
      */
     private function createJammer($userJSON) {
 	if (!is_null($userJSON)) {
+	    $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
+	    $latitude = $infoLocation["latitude"];
+	    $longitude = $infoLocation["longitude"];
 	    $user = new User("JAMMER");
 	    $user->setCity($infoLocation['city']);
 	    $user->setCountry($infoLocation['country']);
@@ -392,9 +398,6 @@ class SignupController extends REST {
 	    $user->setJammercounter(0);
 	    $user->setVenuecounter(0);
 	    $user->setJammerType($userJSON->jammerType);
-	    $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
-	    $latitude = $infoLocation["latitude"];
-	    $longitude = $infoLocation["longitude"];
 	    $user->setLatitude($latitude);
 	    $user->setLongitude($longitude);
 	    if ($userJSON->jammerType == "band") {
@@ -407,8 +410,8 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	defineSettings($user_type, $language, $localTime, $imgProfile)
-     * \brief	Inizializza la variabile in funzione dell'utente
+     * Inizializza la variabile in funzione dell'utente
+     * 
      * @todo
      */
     private function defineSettings($user_type, $language, $localTime, $imgProfile) {
@@ -435,8 +438,9 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	getLocalTypeArray($genre)
-     * \brief	
+     * getLocalTypeArray($genre)
+     * 
+     * @param 	$genre
      * @todo
      */
     private function getLocalTypeArray($genre) {
@@ -452,8 +456,9 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	getMembersArray($members)
-     * \brief	
+     * getMembersArray($members)
+     * 
+     * @param $members
      * @todo
      */
     private function getMembersArray($members) {
@@ -470,8 +475,9 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	getMusicArray($genre)
-     * \brief	
+     * getMusicArray($genre)	
+     * 
+     * @param $members
      * @todo
      */
     private function getMusicArray($genre) {
@@ -487,8 +493,12 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	init_common_settings($language, $localTime, $imgProfile)
-     * \brief	Inizializza con le impostazioni di default alcuni valori comuni a tutti gli utenti
+     * Inizializza con le impostazioni di default alcuni valori comuni a tutti gli utenti
+     * 
+     * @param $language
+     * @param $localTime
+     * @param $imgProfile
+     * @return array $settings settings comuni a tutti i profili
      * @todo
      */
     private function init_common_settings($language, $localTime, $imgProfile) {
@@ -511,8 +521,9 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	init_spotter_settings()
-     * \brief	Inizializza con le impostazioni di default per SPOTTER
+     * Inizializza con le impostazioni di default per SPOTTER
+     * 
+     * @return array $settings settings per spotter
      * @todo
      */
     private function init_spotter_settings() {
@@ -531,8 +542,9 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	init_venue_settings($settings)
-     * \brief	Inizializza con le impostazioni di default per VENUE
+     * Inizializza con le impostazioni di default per VENUE
+     * 
+     * @return array $settings settings per venue
      * @todo
      */
     private function init_venue_settings($settings) {
@@ -553,8 +565,9 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	init_jammer_settings()
-     * \brief	Inizializza con le impostazioni di default per JAMMER
+     * Inizializza con le impostazioni di default per JAMMER
+     * 
+     * @return array $settings settings per jammer
      * @todo
      */
     private function init_jammer_settings() {
@@ -579,8 +592,8 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	passwordEncryption()
-     * \brief	cripta la password prima di scriverla sul DB
+     * cripta la password prima di scriverla sul DB
+     * 
      * @todo    VEDI ISSUE #78
      */
     private function passwordEncryption() {
@@ -588,8 +601,10 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	setCommonValues($user, $decoded)
-     * \brief	setta i valori comuni ai 3 tipi di utenti
+     * setta i valori comuni ai 3 tipi di utenti
+     * 
+     * @param $user
+     * @param $decoded
      * @todo
      */
     private function setCommonValues($user, $decoded) {
