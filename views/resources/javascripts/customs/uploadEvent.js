@@ -110,7 +110,7 @@ function creteEvent() {
 	json_event_create.jammers = getFeaturingList("jammers");
 	json_event_create.tags = getTagsEventCreate();
 	json_event_create.music = getMusicEventCreate();
-
+	json_event_create.city = $("#city").val();
 	if (json_event_create.tags.length > 0) {
 	    $("#label-tag-music .error").css({'display': 'none'});
 	    sendRequest("uploadEvent", "createEvent", json_event_create, eventCreateCallback, false);
@@ -128,14 +128,17 @@ function creteEvent() {
 
 function eventCreateCallback(data, status, xhr) {
     try {
+    	
 	if (status === "success" && data !== undefined && data !== null && data.id !== undefined && data.id !== null) {
 	    alert(data.status);
+	    console.log(data.responseText);
 //            clearAll();
-	    redirect("event.php?event=" + data.id);
+//	    redirect("event.php?event=" + data.id);
 	}
 	else {
 	    alert(data.status);
-	    location.reload();
+	    console.log(data.responseText);
+	//    location.reload();
 	}
     } catch (err) {
 	window.console.log("eventCreateCallback | An error occurred - message : " + err.message);
