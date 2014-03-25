@@ -268,6 +268,32 @@ class SignupController extends REST {
     }
 
     /**
+     * 
+     * playlist di default
+     * 
+     * @return $playlist
+     * @todo
+     */
+    private function createDefaultPlaylist($userId) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    return false;
+	}
+	require_once CLASSES_DIR . 'playlist.class.php';
+	$playlist = new Playlist();
+	$playlist->setActive(1);
+	$playlist->setFromuser($userId);
+	$playlist->setName(DEF_PLAY);
+	$playlist->setUnlimited(false);
+	$playlist->setSongs(array());
+	$playlist->setSongcounter(0);
+	$res = insertPlaylist($connection, $playlist);
+	$connectionService->disconnect($connection);
+	return (!$res) ? false : $res;
+    }
+
+    /**
      * crea record di default
      * 
      * @return  $record
@@ -304,23 +330,6 @@ class SignupController extends REST {
 	$res = insertRecord($connection, $record);
 	$connectionService->disconnect($connection);
 	return (!$res) ? false : $res;
-    }
-
-    /**
-     * 
-     * playslit di default
-     * 
-     * @return $playlist
-     * @todo
-     */
-    private function createDefaultPlaylist($userId) {
-	require_once CLASSES_DIR . 'playlist.class.php';
-	$playlist = new Playlist();
-	$playlist->setActive(true);
-	$playlist->setFromuser($userId);
-	$playlist->setName(DEF_PLAY);
-	$playlist->setUnlimited(false);
-	return $playlist;
     }
 
     /**
