@@ -626,7 +626,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 	$rows_genres_record = array();
 	while ($row_genres_record = mysqli_fetch_array($results_genre_record, MYSQLI_ASSOC))
 	    $rows_genres_record[] = $row_genres_record;
-	foreach ($rows_record_event as $row_genres_record) {
+	foreach ($rows_genres_record as $row_genres_record) {
 	    $genres_record[] = $row_genres_record;
 	}
 	$record->setGenre($genres_record);
@@ -1265,7 +1265,7 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
                            u.username,
                            u.thumbnail,
                            u.type type_u,
-			   			   fu.id id_fu,
+			   fu.id id_fu,
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu
@@ -1368,7 +1368,7 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
 }
 
 /**
- * Select on Post Class
+ * Select on Record Class
  * 
  * @param $id = null, 
  * @param $where = null, 
