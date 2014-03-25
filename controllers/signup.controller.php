@@ -47,8 +47,7 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	signup()
-     * \brief	mette in sessione le informazioni per corretta visualizzazione
+     * mette in sessione le informazioni per corretta visualizzazione
      */
     public function init() {
 	session_start();
@@ -61,7 +60,6 @@ class SignupController extends REST {
 
     /**
      * verifica esistenza della mail
-     * 
      */
     public function checkEmailExists() {
 	global $controllers;
@@ -79,12 +77,12 @@ class SignupController extends REST {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $res = selectUsers($connection, null, $where);
-	    if($res === false){
+	    if ($res === false) {
 		$this->response(array("status" => $controllers["MAILCHECKERROR"]), 403);
 	    }
 	    $connectionService->disconnect($connection);
 	    if (count($res) === 0) {
-		$this->response(array("status" => $controllers["INVALIDMAIL"]), 200);
+		$this->response(array("status" => $controllers["VALIDMAIL"]), 200);
 	    } else {
 		$this->response(array("status" => $controllers["MAILERROREXISTS"]), 403);
 	    }
@@ -95,8 +93,6 @@ class SignupController extends REST {
 
     /**
      * verifica esistenza dello userName
-     * 
-     * @todo    vedi ISSUE #79
      */
     public function checkUsernameExists() {
 	global $controllers;
@@ -107,13 +103,21 @@ class SignupController extends REST {
 		$this->response(array('status' => $controllers["NOUSERNAMESPECIFIED"]), 400);
 	    }
 	    $username = $this->request['username'];
-	    $up = new UserParse();
-	    $up->where("username", $username);
-	    $res = $up->getCount();
-	    if ($res < 1) {
+	    $where = array("username" => $username);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    $res = selectUsers($connection, null, $where);
+	    if ($res === false) {
+		$this->response(array("status" => $controllers["USERNAMECHECKERROR"]), 403);
+	    }
+	    $connectionService->disconnect($connection);
+	    if (count($res) === 0) {
 		$this->response(array("status" => $controllers["VALIDUSERNAME"]), 200);
 	    } else {
-		$this->response(array("status" => $controllers["USERNAMEALREADYEXISTS"]), 200);
+		$this->response(array("status" => $controllers["USERNAMEERROREXISTS"]), 403);
 	    }
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
@@ -121,8 +125,8 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	recaptcha()
-     * \brief	funzione di recaptcha
+     * funzione di recaptcha
+     * 
      * @todo    ancora da implementare
      */
     public function recaptcha() {
@@ -151,9 +155,8 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	signup()
-     * \brief	registrazione utente al sito
-     * \return
+     * registrazione utente al sito
+     * 
      * @todo
      */
     public function signup() {
