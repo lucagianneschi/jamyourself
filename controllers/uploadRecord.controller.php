@@ -101,8 +101,8 @@ class UploadRecordController extends REST {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $result = insertRecord($connection, $record);
-	    $node = createNode($connectionService, 'record', $record->getId());
-	    $relation = createRelation($connectionService, 'user', $userId, 'record', $record->getId(), 'ADD');
+	    $node = createNode($connectionService, 'record', $result->getId());
+	    $relation = createRelation($connectionService, 'user', $userId, 'record', $result->getId(), 'ADD');
 	    if ($result === false) {
 		$this->response(array("status" => $controllers['RECORDCREATEERROR']), 503);
 	    } elseif ($node === false) {
@@ -194,15 +194,15 @@ class UploadRecordController extends REST {
 			$song->setRecord($recordId);
 			$song->setSharecounter(0);
 			$song->setTitle($element->title);
+			$result = insertSong($connection, $song);
 			$fileManager = new FileManagerService();
-			$res = $fileManager->saveSong($currentUserId, $song->getId());
+			$res = $fileManager->saveSong($currentUserId, $result->getId());
 			if (!$res) {
 			    $songErrorList[] = $element;
 			    $position--;
 			}
-			$result = insertSong($connection, $song);
-			$node = createNode($connectionService, 'song', $song->getId());
-			$relation = createRelation($connectionService, 'user', $currentUserId, 'song', $song->getId(), 'ADD');
+			$node = createNode($connectionService, 'song', $result->getId());
+			$relation = createRelation($connectionService, 'user', $currentUserId, 'song', $result->getId(), 'ADD');
 			if ($result === false || $node === false || $relation === false) {
 			    $songErrorList[] = $element;
 			    $position--;
