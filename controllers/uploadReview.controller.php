@@ -23,40 +23,13 @@ require_once SERVICES_DIR . 'connection.service.php';
  */
 class UploadReviewController extends REST {
 
-    public $reviewedId;
-    public $reviewed;
-    public $reviewedFeaturing;
-    public $reviewedClassType;
-    public $reviewedFromUser;
-
-        /**
+    /**
      * inizializzazione della pagina
      */
     public function init() {
 	if (!isset($_SESSION['id'])) {
 	    header('Location: login.php?from=uploadReview.php');
 	    exit;
-	}
-    }
-    
-    
-    public function init2() {
-	if (isset($_GET["rewiewId"]) && strlen($_GET["rewiewId"]) > 0 && (isset($_GET["type"]) && strlen($_GET["type"]) > 0) && ( ($_GET["type"] == "Event" ) || ($_GET["type"] == "Record" ))) {
-	    $this->reviewedId = $_GET["rewiewId"];
-	    $this->reviewedClassType = $_GET["type"];
-	    $this->reviewed = $this->getReviewdById($this->reviewedId, $this->reviewedClassType);
-	    if (is_null($this->reviewed) || $this->reviewed == false) {
-		die("Errore");
-	    } else {
-		//@todo 1
-//                $this->reviewedFeaturing = getRelatedUsers($this->reviewedId, "featuring", $this->reviewedClassType);
-		$this->reviewedFromUser = $this->reviewed->getFromuser();
-		if ($this->reviewedFeaturing instanceof Error) {
-		    die("Errore");
-		}
-	    }
-	} else {
-	    die("Errore");
 	}
     }
 
@@ -81,18 +54,18 @@ class UploadReviewController extends REST {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
 	    }
 	    $currentUserId = $_SESSION['id'];
-	    $reviewRequest = json_decode(json_encode($this->request), false);
-	    $this->reviewedId = $reviewRequest->reviewedId;
-	    $this->reviewedClassType = $reviewRequest->type;
+	    $commentedObjectId = $this->request['id'];
+	    $commentedType = $this->request['rewiewId'];
 	    $rating = intval($this->request['rating']);
-	    if (!in_array($this->reviewedClassType, array('Event', 'Record'))) {
+	    $text = $this->request['rewiew'];
+	    if (!in_array($commentedType, array('Event', 'Record'))) {
 		$this->response(array("status" => $controllers['CLASSTYPEKO']), 406);
 	    }
-	    $this->reviewed = $this->getReviewdById($this->reviewedId, $this->reviewedClassType);
-	    if (is_null($this->reviewed) || ($this->reviewed == false)) {
+	    $commentedObject = $this->getReviewdById($commentedObjectId, $commentedType);
+	    if ((count($commentedObject) != 1) || ($commentedObject == false)) {
 		$this->response(array('status' => $controllers['ERRORREVIEW']), 403);
 	    }
-	    $touser = $this->reviewed->getFromuser();
+	    $touser = $commentedObject->getFromuser();
 	    if ($touser->getId() == $currentUserId) {
 		$this->response(array("status" => $controllers['NOSELFREVIEW']), 403);
 	    }
@@ -111,13 +84,13 @@ class UploadReviewController extends REST {
 	    $review->setSong(null);
 	    $review->setTag(array());
 	    $review->setTitle(null);
-	    $review->setText($reviewRequest->review);
+	    $review->setText($text);
 	    $review->setTouser($touser->getId());
 	    $review->setVideo(null);
 	    $review->setVote($rating);
-	    switch ($this->reviewedClassType) {
+	    switch ($commentedType) {
 		case 'Event' :
-		    $review->setEvent($this->reviewedId);
+		    $review->setEvent($commentedObject);
 		    $review->setRecord(null);
 		    $review->setType('RE');
 		    $type = "NEWEVENTREVIEW";
@@ -126,7 +99,7 @@ class UploadReviewController extends REST {
 		    break;
 		case 'Record':
 		    $review->setEvent(null);
-		    $review->setRecord($this->reviewedId);
+		    $review->setRecord($commentedObjectId);
 		    $review->setType('RR');
 		    $type = "NEWRECORDREVIEW";
 		    $subject = $controllers['SBJR'];
@@ -139,8 +112,8 @@ class UploadReviewController extends REST {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $result = insertComment($connection, $review);
-	    $node = createNode($connectionService, 'review', $id);
-	    $relation = createRelation($connectionService, 'user', $userId, 'review', $id, 'ADD');
+	    $node = createNode($connectionService, 'review', $commentedObjectId);
+	    $relation = createRelation($connectionService, 'user', $currentUserId, 'review', $commentedObjectId, 'ADD');
 	    if ($result === false) {
 		$this->response(array("status" => $controllers['REVIEWCREATEERROR']), 503);
 	    } elseif ($node === false) {
@@ -157,13 +130,13 @@ class UploadReviewController extends REST {
     }
 
     /**
-     * \fn	getReviewdById()
-     * \brief   funzione privata per il recupero di un commento dal DB
-     * @param   $id, 
-     * @param   $type
+     * funzione privata per il recupero di un commento dal DB
+     * 
+     * @param   $id of the reviewed object
+     * @param   $type of the reviewed object
+     * @return false, in case of error; id of the object in case of oko select
      */
     private function getReviewdById($id, $type) {
-	require_once SERVICES_DIR . 'connection.service.php';
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	$rows = null;
@@ -178,13 +151,7 @@ class UploadReviewController extends REST {
 		    break;
 	    }
 	    $connectionService->disconnect();
-	    if (count($rows) > 0) {
-		return $rows[0];
-	    }
-	    else
-		return null;
-	} else {
-	    return false;
+	    return $rows;
 	}
     }
 
