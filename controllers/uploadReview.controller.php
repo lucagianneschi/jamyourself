@@ -134,7 +134,7 @@ class UploadReviewController extends REST {
      * 
      * @param   $id of the reviewed object
      * @param   $type of the reviewed object
-     * @return false, in case of error; id of the object in case of oko select
+     * @return false, in case of error; id of the object in case of ok select
      */
     private function getReviewdById($id, $type) {
 	$connectionService = new ConnectionService();

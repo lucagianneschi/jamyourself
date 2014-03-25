@@ -138,6 +138,7 @@ class UploadAlbumController extends REST {
 		$this->response(array('status' => $controllers['NOALBUMFOUNDED']), 405);
 	    }
 	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUserId);
+
 	    $connectionService->disconnect($connection);
 	    if (count($errorImages) == count($this->request['images'])) {
 		$this->response(array("status" => $controllers['NOIMAGESAVED'], "id" => $albumId), 200);
@@ -185,6 +186,9 @@ class UploadAlbumController extends REST {
 
     /**
      * salva un'immagine
+     * 
+     * @param $imgInfo
+     * @param $albumId
      * @return $imageId or
      */
     private function saveImage($imgInfo, $albumId) {
@@ -230,6 +234,13 @@ class UploadAlbumController extends REST {
 	}
     }
 
+    /**
+     * salva un'immagine
+     * 
+     * @param $imgId
+     * @param $albumId
+     * @return $imageId or
+     */
     private function addImageToAlbum($albumId, $imageId) {
 	try {
 	    $currentUser = $_SESSION['id'];
@@ -256,6 +267,13 @@ class UploadAlbumController extends REST {
 	}
     }
 
+    /**
+     * sposta il file dalla chace alla corretta cartella di destinazione
+     * 
+     * @param $userId
+     * @param $albumId
+     * @return $fileInCache
+     */
     private function moveFile($userId, $albumId, $fileInCache) {
 	if (file_exists(CACHE_DIR . $fileInCache)) {
 	    if (!is_null($userId) && !is_null($albumId) && !is_null($fileInCache)) {

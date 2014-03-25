@@ -1,17 +1,5 @@
 <?php
 
-/**
- * UploadRecordController class
- * si collega al form di upload di un record, effettua controlli, scrive su DB
- * 
- * @author		Stefano Muscas
- * @version		0.2
- * @since		2013
- * @copyright		Jamyourself.com 2013	
- * @warning
- * @bug
- * @todo                
- */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -28,10 +16,22 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'select.service.php';
 
+/**
+ * UploadRecordController class
+ * si collega al form di upload di un record, effettua controlli, scrive su DB
+ * 
+ * @author		Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
+ */
+
 class UploadRecordController extends REST {
 
     public $viewRecordList;
-    private $connection;
 
     /**
      * inizializzazione della pagina
@@ -174,7 +174,7 @@ class UploadRecordController extends REST {
 			$songErrorList[] = $element;
 		    } else {
 			$song = new Song();
-			$song->setActive(true);
+			$song->setActive(1);
 			$song->setCommentcounter(0);
 			$song->setCounter(0);
 			$song->setDuration($this->getRealLength($cachedFile));
@@ -232,7 +232,7 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * funzione per pubblicazione di song
+     * funzione per cancellazione di song
      */
     public function deleteSong() {
 	try {
@@ -327,6 +327,8 @@ class UploadRecordController extends REST {
 
     /**
      * funzione per il recupero della durata di mp3
+     * @param $cachedFile string per indicare il file dal eliminare
+     * @return int durata in secondi del file
      */
     private function getRealLength($cachedFile) {
 	$mp3Analysis = new Mp3file($cachedFile);
@@ -395,7 +397,7 @@ class UploadRecordController extends REST {
 		$this->response($controllers['USERNOSES'], 403);
 	    }
 	    $currentUserId = $_SESSION['id'];
-	    $recordIdList = $this->getRecordsByUserId($currentUser->getId());
+	    $recordIdList = $this->getRecordsByUserId($currentUserId);
 	    $fileManager = new FileManagerService();
 	    if (!is_null($recordIdList) && count($recordIdList) > 0) {
 		foreach ($recordIdList as $record) {
