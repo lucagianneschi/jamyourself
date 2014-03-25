@@ -45,7 +45,7 @@ class CommentController extends REST {
      * @todo    testare e prevedere rollback
      */
     public function comment() {
-    global $controllers;
+	global $controllers;
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
@@ -60,20 +60,20 @@ class CommentController extends REST {
 	    } elseif (!isset($this->request['classType'])) {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
 	    }
-        $fromuserId = $_SESSION['id'];
+	    $fromuserId = $_SESSION['id'];
 	    $levelValue = $_SESSION['levelvalue'];
-        $toUserId = $this->request['toUser'];
+	    $toUserId = $this->request['toUser'];
 	    $comment = $this->request['comment'];
 	    $classType = $this->request['classType'];
 	    $id = $this->request['id'];
-        if (strlen($comment) < $this->config->minCommentSize) {
+	    if (strlen($comment) < $this->config->minCommentSize) {
 		$this->response(array('status' => $controllers['SHORTCOMMENT'] . strlen($comment)), 406);
 	    } elseif (strlen($comment) > $this->config->maxCommentSize) {
 		$this->response(array('status' => $controllers['LONGCOMMENT'] . strlen($comment)), 406);
 	    }
-        $connectionService = new ConnectionService();
+	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
-        if ($connection === false) {
+	    if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
@@ -112,39 +112,18 @@ class CommentController extends REST {
 		    $cmt->setVideo($id);
 		    break;
 	    }
-        
-        $connection->autocommit(false);
-        $connectionService->autocommit(false);
-        
-        $resCmt = insertComment($connection, $cmt);
-        $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), array('commentcounter' => 1, 'counter' => 1 * $levelValue), null, $id);
-	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'COMMENT');
-
-        if ($resCmt === false ||
-            $commentCounter === false ||
-            $relation === false) {
-            #TODO
-            $this->response(array('status' => 'KO'), 200);
-        } else {
-            $connection->commit();
-            $connectionService->commit();
-            #TODO
-            $this->response(array('status' => 'OK'), 200);
-        }
-        
-        /*
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
 	    $resCmt = insertComment($connection, $cmt);
-	    if (!$resCmt) {
+	    $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), array('commentcounter' => 1, 'counter' => 1 * $levelValue), null, $id);
+	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'COMMENT');
+	    if ($resCmt === false ||
+		    $commentCounter === false ||
+		    $relation === false) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
-	    }
-	    $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('commentcounter' => 1, 'counter' => 1 * $levelValue));
-	    if (!$commentCounter) {
-		$this->response(array('status' => $controllers['COMMENTERR']), 503);
-	    }
-	    $node = createNode($connectionService, 'comment', $cmt->getId());
-	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'comment');
-        if (!$relation || !$node) {
-		$this->response(array('status' => $controllers['NODEERROR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
 	    global $mail_files;
 	    $user = selectUsers($connection, $toUserId);
@@ -155,7 +134,6 @@ class CommentController extends REST {
 	    sendMailForNotification($address, $subject, $html);
 	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['COMMENTSAVED']), 200);
-        */
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}
