@@ -15,6 +15,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
 require_once SERVICES_DIR . 'select.service.php';
+require_once SERVICES_DIR . 'connection.service.php';
 
 define("CAPTCHA_PUBLIC_KEY", "6Lei6NYSAAAAAENpHWBBkHtd0ZbfAdRAtKMcvlaQ");
 define("CAPTCHA_PRIVATE_KEY", "6Lei6NYSAAAAAOXsGrRhJxUqdFGt03jcqaABdJMn");
@@ -239,17 +240,30 @@ class SignupController extends REST {
      * @todo
      */
     private function createDefaultAlbum($userId) {
+	$connectionService = new ConnectionService();
+	$connection = $connectionService->connect();
+	if ($connection === false) {
+	    return false;
+	}
 	require_once CLASSES_DIR . 'album.class.php';
-	require_once CLASSES_DIR . 'albumParse.class.php';
 	$album = new Album();
-	$album->setActive(true);
+	$album->setActive(1);
+	$album->setCommentcounter();
 	$album->setCounter(0);
+	$album->setCover(DEFALBUMCOVER);
+	$album->setDescription(null);
 	$album->setFromuser($userId);
+	$album->setImagecounter(0);
+	$album->setImages(array());
+	$album->setLatitude(null);
+	$album->setLongitude(null);
 	$album->setLovecounter(0);
 	$album->setSharecounter(0);
+	$album->setTag(array());
+	$album->setThumbnail(DEFALBUMTHUMB);
 	$album->setTitle(DEF_ALBUM);
-	$pAlbum = new AlbumParse();
-	return $pAlbum->saveAlbum($album);
+	$res = insertAlbum($connection, $album);
+	return (!$res) ? false : $res;
     }
 
     /**
