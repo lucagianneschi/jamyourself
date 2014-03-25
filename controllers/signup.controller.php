@@ -359,33 +359,33 @@ class SignupController extends REST {
     /**
      * crea un utente di tipo SPOTTER
      * 
-     * @todo
+     * @return false in case of error, $user otherwise
      */
     private function createSpotter($userJSON) {
 	if (!is_null($userJSON)) {
-	    $user = new User("SPOTTER");
-	    $this->setCommonValues($user, $userJSON);
-	    $user->setCollaborationCounter(-1);
-	    $user->setFollowerscounter(-1);
-	    $user->setFollowingcounter(0);
-	    $user->setFriendshipCounter(0);
-	    $user->setJammercounter(0);
-	    $user->setVenuecounter(0);
-	    $user->setFirstname($userJSON->firstname);
-	    $user->setLastname($userJSON->lastname);
 	    $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
 	    $latitude = $infoLocation["latitude"];
 	    $longitude = $infoLocation["longitude"];
-	    $user->setLatitude($latitude);
-	    $user->setLongitude($longitude);
-	    $user->setCity($infoLocation['city']);
-	    $user->setCountry($infoLocation['country']);
-	    $user->setMusic($this->getMusicArray($userJSON->genre));
-	    $user->setSex($userJSON->sex);
+	    $user = new User("SPOTTER");
 	    $birthday = json_decode(json_encode($userJSON->birthday), false);
 	    if (strlen($birthday->year) > 0 && strlen($birthday->month) > 0 && strlen($birthday->day) > 0) {
 		$user->setBirthday($birthday->day . "-" . $birthday->month . "-" . $birthday->year);
 	    }
+	    $user->setCity($infoLocation['city']);
+	    $user->setCountry($infoLocation['country']);
+	    $this->setCommonValues($user, $userJSON);
+	    $user->setCollaborationCounter(-1);
+	    $user->setFirstname($userJSON->firstname);
+	    $user->setFollowerscounter(-1);
+	    $user->setFollowingcounter(0);
+	    $user->setFriendshipCounter(0);
+	    $user->setLastname($userJSON->lastname);
+	    $user->setLatitude($latitude);
+	    $user->setLongitude($longitude);
+	    $user->setMusic($this->getMusicArray($userJSON->genre));
+	    $user->setSex($userJSON->sex);
+	    $user->setJammercounter(0);
+	    $user->setVenuecounter(0);
 	    return $user;
 	}
 	return null;
@@ -398,23 +398,23 @@ class SignupController extends REST {
      */
     private function createVenue($userJSON) {
 	if (!is_null($userJSON)) {
+	    $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
+	    $latitude = $infoLocation["latitude"];
+	    $longitude = $infoLocation["longitude"];
 	    $user = new User("VENUE");
+	    $user->setAddress($infoLocation['formattedAddress']);
+	    $user->setCity($infoLocation['city']);
+	    $user->setCountry($infoLocation['country']);
 	    $this->setCommonValues($user, $userJSON);
 	    $user->setCollaborationcounter(0);
 	    $user->setFollowerscounter(0);
 	    $user->setFollowingcounter(-1);
 	    $user->setFriendshipcounter(-1);
+	    $user->setLatitude($latitude);
+	    $user->setLocalType($this->getLocalTypeArray($userJSON->genre));
+	    $user->setLongitude($longitude);
 	    $user->setJammercounter(0);
 	    $user->setVenuecounter(0);
-	    $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
-	    $latitude = $infoLocation["latitude"];
-	    $longitude = $infoLocation["longitude"];
-	    $user->setLatitude($latitude);
-	    $user->setLongitude($longitude);
-	    $user->setCity($infoLocation['city']);
-	    $user->setCountry($infoLocation['country']);
-	    $user->setAddress($infoLocation['formattedAddress']);
-	    $user->setLocalType($this->getLocalTypeArray($userJSON->genre));
 	    return $user;
 	}
 	return null;
@@ -651,33 +651,30 @@ class SignupController extends REST {
      * @todo
      */
     private function setCommonValues($user, $decoded) {
-	$user->setUsername($decoded->username);
-	$user->setEmail($decoded->email);
-	$user->setPassword($decoded->password);
-	$user->setDescription($decoded->description);
 	$imgInfo = getCroppedImages($decoded);
-	$user->setSettings($this->defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['picture']));
-	$user->setProfilePicture($imgInfo['picture']);
-	$user->setProfileThumbnail($imgInfo['thumbnail']);
+	$user->setActive(true);
+	$user->setAvatar($imgInfo['picture']);
+	$user->setBackground(DEFBGD);
+	$user->setBadge(array());
+	$user->setDescription($decoded->description);
+	$user->setEmail($decoded->email);
 	if (strlen($decoded->facebook))
 	    $user->setFbPage($decoded->facebook);
-	if (strlen($decoded->twitter))
-	    $user->setTwitterPage($decoded->twitter);
 	if (strlen($decoded->google))
 	    $user->setGooglePlusPage($decoded->google);
+	$user->setLevel(0);
+	$user->setLevelValue(1);
+	$user->setPassword($decoded->password);
+	$user->setPremium(0);
+	$user->setSettings($this->defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['picture']));
+	$user->setThumbnail($imgInfo['thumbnail']);
+	if (strlen($decoded->twitter))
+	    $user->setTwitterPage($decoded->twitter);
+	$user->setUsername($decoded->username);
 	if (strlen($decoded->youtube))
 	    $user->setYoutubeChannel($decoded->youtube);
 	if (strlen($decoded->web))
 	    $user->setWebsite($decoded->web);
-	$user->setBadge(array());
-	$parseACL = new parseACL();
-	$parseACL->setPublicReadAccess(true);
-	$user->setACL($parseACL);
-	$user->setActive(true);
-	$user->setBackground(DEFBGD);
-	$user->setLevel(0);
-	$user->setLevelValue(1);
-	$user->setPremium(false);
     }
 
 }
