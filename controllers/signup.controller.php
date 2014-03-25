@@ -14,6 +14,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 define("CAPTCHA_PUBLIC_KEY", "6Lei6NYSAAAAAENpHWBBkHtd0ZbfAdRAtKMcvlaQ");
 define("CAPTCHA_PRIVATE_KEY", "6Lei6NYSAAAAAOXsGrRhJxUqdFGt03jcqaABdJMn");
@@ -37,7 +38,7 @@ class SignupController extends REST {
 
     /**
      * imposta il file di cunfigurazione e chiama il servizio di validazione utente
-     * \todo
+     * @todo
      */
     function __construct() {
 	parent::__construct();
@@ -59,9 +60,8 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	checkEmailExists()
-     * \brief	verifica esistenza della mail
-     * \todo    vedi ISSUE #79
+     * verifica esistenza della mail
+     * 
      */
     public function checkEmailExists() {
 	global $controllers;
@@ -72,13 +72,21 @@ class SignupController extends REST {
 		$this->response(array('status' => $controllers['NOMAILSPECIFIED']), 403);
 	    }
 	    $email = $this->request['email'];
-	    $up = new UserParse();
-	    $up->where("email", $email);
-	    $res = $up->getCount();
-	    if ($res < 1) {
-		$this->response(array("status" => $controllers["VALIDMAIL"]), 200);
+	    $where = array("email" => $email);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    $res = selectUsers($connection, null, $where);
+	    if($res === false){
+		$this->response(array("status" => $controllers["MAILCHECKERROR"]), 403);
+	    }
+	    $connectionService->disconnect($connection);
+	    if (count($res) === 0) {
+		$this->response(array("status" => $controllers["INVALIDMAIL"]), 200);
 	    } else {
-		$this->response(array("status" => $controllers["MAILALREADYEXISTS"]), 403);
+		$this->response(array("status" => $controllers["MAILERROREXISTS"]), 403);
 	    }
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
@@ -86,9 +94,9 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	checkUsernameExists()
-     * \brief	verifica esistenza dello userName
-     * \todo    vedi ISSUE #79
+     * verifica esistenza dello userName
+     * 
+     * @todo    vedi ISSUE #79
      */
     public function checkUsernameExists() {
 	global $controllers;
@@ -115,7 +123,7 @@ class SignupController extends REST {
     /**
      * \fn	recaptcha()
      * \brief	funzione di recaptcha
-     * \todo    ancora da implementare
+     * @todo    ancora da implementare
      */
     public function recaptcha() {
 	global $controllers;
@@ -146,7 +154,7 @@ class SignupController extends REST {
      * \fn	signup()
      * \brief	registrazione utente al sito
      * \return
-     * \todo
+     * @todo
      */
     public function signup() {
 	global $controllers;
@@ -225,7 +233,7 @@ class SignupController extends REST {
     /**
      * \fn	createDefaultAlbum($userId)
      * \brief	crea album di default
-     * \todo
+     * @todo
      */
     private function createDefaultAlbum($userId) {
 	require_once CLASSES_DIR . 'album.class.php';
@@ -245,7 +253,7 @@ class SignupController extends REST {
      * \fn	createDefaultRecord($userId)
      * \brief	crea record di default
      * \return  $record
-     * \todo
+     * @todo
      */
     private function createDefaultRecord($userId) {
 	require_once CLASSES_DIR . 'record.class.php';
@@ -264,7 +272,7 @@ class SignupController extends REST {
     /**
      * \fn	createDefaultPlaylist($userId)
      * \brief	crea playslit di default
-     * \todo
+     * @todo
      */
     private function createDefaultPlaylist($userId) {
 	require_once CLASSES_DIR . 'playlist.class.php';
@@ -279,7 +287,7 @@ class SignupController extends REST {
     /**
      * \fn	createFileSystemStructure($userId, $type)
      * \brief	crea le cartelle per tipologia di utente
-     * \todo
+     * @todo
      */
     private function createFileSystemStructure($userId, $type) {
 	try {
@@ -302,7 +310,7 @@ class SignupController extends REST {
     /**
      * \fn	createSpotter($userJSON)
      * \brief	crea un utente di tipo SPOTTER
-     * \todo
+     * @todo
      */
     private function createSpotter($userJSON) {
 	if (!is_null($userJSON)) {
@@ -337,7 +345,7 @@ class SignupController extends REST {
     /**
      * \fn	createVenue$userJSON)
      * \brief	crea un utente di tipo VENUE
-     * \todo
+     * @todo
      */
     private function createVenue($userJSON) {
 	if (!is_null($userJSON)) {
@@ -366,7 +374,7 @@ class SignupController extends REST {
     /**
      * \fn	createJammer($userJSON)
      * \brief	crea un utente di tipo JAMMER
-     * \todo
+     * @todo
      */
     private function createJammer($userJSON) {
 	if (!is_null($userJSON)) {
@@ -398,7 +406,7 @@ class SignupController extends REST {
     /**
      * \fn	defineSettings($user_type, $language, $localTime, $imgProfile)
      * \brief	Inizializza la variabile in funzione dell'utente
-     * \todo
+     * @todo
      */
     private function defineSettings($user_type, $language, $localTime, $imgProfile) {
 	$settings = array();
@@ -426,7 +434,7 @@ class SignupController extends REST {
     /**
      * \fn	getLocalTypeArray($genre)
      * \brief	
-     * \todo
+     * @todo
      */
     private function getLocalTypeArray($genre) {
 	if (count($genre) > 0) {
@@ -443,7 +451,7 @@ class SignupController extends REST {
     /**
      * \fn	getMembersArray($members)
      * \brief	
-     * \todo
+     * @todo
      */
     private function getMembersArray($members) {
 	if (count($members) > 0) {
@@ -461,7 +469,7 @@ class SignupController extends REST {
     /**
      * \fn	getMusicArray($genre)
      * \brief	
-     * \todo
+     * @todo
      */
     private function getMusicArray($genre) {
 	if (count($genre) > 0) {
@@ -478,7 +486,7 @@ class SignupController extends REST {
     /**
      * \fn	init_common_settings($language, $localTime, $imgProfile)
      * \brief	Inizializza con le impostazioni di default alcuni valori comuni a tutti gli utenti
-     * \todo
+     * @todo
      */
     private function init_common_settings($language, $localTime, $imgProfile) {
 	$settings = array();
@@ -502,7 +510,7 @@ class SignupController extends REST {
     /**
      * \fn	init_spotter_settings()
      * \brief	Inizializza con le impostazioni di default per SPOTTER
-     * \todo
+     * @todo
      */
     private function init_spotter_settings() {
 	$settings = array();
@@ -522,7 +530,7 @@ class SignupController extends REST {
     /**
      * \fn	init_venue_settings($settings)
      * \brief	Inizializza con le impostazioni di default per VENUE
-     * \todo
+     * @todo
      */
     private function init_venue_settings($settings) {
 	$settings = array();
@@ -544,7 +552,7 @@ class SignupController extends REST {
     /**
      * \fn	init_jammer_settings()
      * \brief	Inizializza con le impostazioni di default per JAMMER
-     * \todo
+     * @todo
      */
     private function init_jammer_settings() {
 	$settings = array();
@@ -570,7 +578,7 @@ class SignupController extends REST {
     /**
      * \fn	passwordEncryption()
      * \brief	cripta la password prima di scriverla sul DB
-     * \todo    VEDI ISSUE #78
+     * @todo    VEDI ISSUE #78
      */
     private function passwordEncryption() {
 	
@@ -579,7 +587,7 @@ class SignupController extends REST {
     /**
      * \fn	setCommonValues($user, $decoded)
      * \brief	setta i valori comuni ai 3 tipi di utenti
-     * \todo
+     * @todo
      */
     private function setCommonValues($user, $decoded) {
 	$user->setUsername($decoded->username);
