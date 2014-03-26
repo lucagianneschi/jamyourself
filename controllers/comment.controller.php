@@ -117,9 +117,7 @@ class CommentController extends REST {
 	    $resCmt = insertComment($connection, $cmt);
 	    $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), array('commentcounter' => 1, 'counter' => 1 * $levelValue), null, $id);
 	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'COMMENT');
-	    if ($resCmt === false ||
-		    $commentCounter === false ||
-		    $relation === false) {
+	    if ($resCmt === false || $commentCounter === false || $relation === false) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {
 		$connection->commit();
