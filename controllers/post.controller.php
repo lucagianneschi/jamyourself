@@ -55,7 +55,7 @@ class PostController extends REST {
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-	    $fromuser = $_SESSION['id'];
+	    $fromuserId = $_SESSION['id'];
 	    $toUserId = $this->request['toUser'];
 	    $postTxt = $_REQUEST['post'];
 	    if (strlen($postTxt) < $this->config->minPostSize) {
@@ -75,7 +75,7 @@ class PostController extends REST {
 	    $post->setCommentcounter(0);
 	    $post->setCounter(0);
 	    $post->setEvent(null);
-	    $post->setFromuser($fromuser);
+	    $post->setFromuser($fromuserId);
 	    $post->setImage(null);
 	    $post->setLatitude(null);
 	    $post->setLongitude(null);
@@ -89,14 +89,15 @@ class PostController extends REST {
 	    $post->setType('P');
 	    $post->setVideo(null);
 	    $post->setVote(null);
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
 	    $resPost = insertComment($connection, $post);
-	    if (!$resPost) {
-		$this->response(array('status' => $controllers['POSTERROR']), 503);
-	    }
-	    $node = createNode($connectionService, 'post', $post->getId());
-	    $relation = createRelation($connectionService, 'user', $fromuser, 'post', $post->getId(), 'POST');
-	    if (!$relation || !$node) {
-		$this->response(array('status' => $controllers['NODEERROR']), 503);
+	    $relation = createRelation($connectionService, 'user', $fromuserId, 'comment', $resPost->getId(), 'POST');
+	    if ($resPost === false || $relation === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
 	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['POSTSAVED']), 200);
