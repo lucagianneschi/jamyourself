@@ -281,7 +281,7 @@ class UploadAlbumController extends REST {
         }
     }
 
-    private function getAlbums() {
+    public function getAlbums() {
         global $controllers;
         if ($this->get_request_method() != "POST") {
             $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
