@@ -111,15 +111,16 @@ class UploadReviewController extends REST {
 	    if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
 	    $result = insertComment($connection, $review);
-	    $node = createNode($connectionService, 'review', $commentedObjectId);
-	    $relation = createRelation($connectionService, 'user', $currentUserId, 'review', $commentedObjectId, 'ADD');
-	    if ($result === false) {
-		$this->response(array("status" => $controllers['REVIEWCREATEERROR']), 503);
-	    } elseif ($node === false) {
-		$this->response(array('status' => $controllers['NODEERROR']), 503);
-	    } elseif ($relation === false) {
-		$this->response(array('status' => $controllers['RELATIONERROR']), 503);
+	    $node = createNode($connectionService, 'comment', $commentedObjectId);
+	    $relation = createRelation($connectionService, 'user', $currentUserId, 'comment', $commentedObjectId, 'ADD');
+	    if ($result === false || $relation === false || $node === false) {
+		$this->response(array('status' => $controllers['REVIEWERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
 	    require_once SERVICES_DIR . 'utils.service.php';
 	    sendMailForNotification($touser->getEmail(), $subject, $html);
