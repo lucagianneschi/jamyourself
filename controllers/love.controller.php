@@ -64,13 +64,15 @@ class LoveController extends REST {
 	    if (existsRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'LOVE')) {
 		$this->response(array('status' => 'ALREADYLOVED'), 400);
 	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
 	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), array('lovecounter' => 1), null, $id);
-	    if (!$loveCounter) {
-		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
-	    }
 	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'LOVE');
-	    if (!$relation) {
-		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
+	    if ($loveCounter === false || $relation === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
 	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['LOVE']), 200);
@@ -112,14 +114,15 @@ class LoveController extends REST {
 	    if (!existsRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'LOVE')) {
 		$this->response(array('status' => 'NOLOVE'), 400);
 	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
 	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), null, array('lovecounter' => 1), $id);
-	    if (!$loveCounter) {
-		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
-	    }
-	    //@todo eliminare rekazione tra utente e oggetto lovvato
 	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'LOVE');
-	    if (!$relation) {
-		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
+	    if ($loveCounter === false || $relation === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
 	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['UNLOVE']), 200);
