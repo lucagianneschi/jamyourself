@@ -246,7 +246,7 @@ class FileManagerService {
 	$src = CACHE_DIR . $photoId;
 	$dest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
 	if (file_exists($src) && $this->checkEventPhotoDir($userId)) {
-	    return rename($dest, $src);
+	    return copy($src, $dest);
 	}
     }
 
