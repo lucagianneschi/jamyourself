@@ -1,19 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- *  \author		Luca Gianneschi
- *  \version		0.3
- *  \date		2013
- *  \copyright		Jamyourself.com 2013
- *  \par		Info Classe:
- *  \brief		Servizio di inserimento nel DB
- *  \details		Servizio inserimento dei record nel DB
- *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo		terminare funzioni per ogni classe
- *
- */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -22,10 +8,23 @@ require_once CLASSES_DIR . 'error.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
 
 /**
- * \fn	    createNode($nodeType, $nodeId)
- * \brief   Create node on the node4J DB
- * \param   $nodeType, $nodeId
- * \todo
+ * Servizio inserimento dei record nel DB
+ *
+ * @author Daniele Caldelli
+ * @author Maria Laura Fresu
+ * @version		0.2
+ * @since		2014-03-12
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
+ */
+
+/**
+ * Create node on the node4J DB
+ * 
+ * @param  $nodeType, $nodeId
+ * @todo
  */
 function createNode($connection, $nodeType, $nodeId) {
     $query = '
@@ -33,22 +32,22 @@ function createNode($connection, $nodeType, $nodeId) {
 	RETURN count(n)
 	';
     $res = $connection->curl($query);
-	if ($res === false) {
-		return false;
+    if ($res === false) {
+	return false;
+    } else {
+	if ($connection->getAutocommit()) {
+	    return $res['data'][0][0];
 	} else {
-		if ($connection->getAutocommit()) {
-			return $res['data'][0][0];
-		} else {
-			return $res['results'][0]['data'][0]['row'][0];
-		}
+	    return $res['results'][0]['data'][0]['row'][0];
 	}
+    }
 }
 
 /**
- * \fn	    createRelation($fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType)
- * \brief   Create relation between nodes on the node4J DB
- * \param   $nodeType, $nodeId
- * \todo
+ * Create relation between nodes on the node4J DB
+ * 
+ * @param  $nodeType, $nodeId
+ * @todo
  */
 function createRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType) {
     $query = '
@@ -58,23 +57,23 @@ function createRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 	ON MATCH SET r.createdat = ' . date('YmdHis') . '
 	RETURN count(r)
 	';
-	$res = $connection->curl($query);
-	if ($res === false) {
-		return false;
+    $res = $connection->curl($query);
+    if ($res === false) {
+	return false;
+    } else {
+	if ($connection->getAutocommit()) {
+	    return $res['data'][0][0];
 	} else {
-		if ($connection->getAutocommit()) {
-			return $res['data'][0][0];
-		} else {
-			return $res['results'][0]['data'][0]['row'][0];
-		}
+	    return $res['results'][0]['data'][0]['row'][0];
 	}
+    }
 }
 
 /**
- * \fn	    insertAlbum($album)
- * \brief   Execute an insert operation of the $album
- * \param   $album object the user to insert
- * \todo
+ * Execute an insert operation of the $album
+ * 
+ * @param  $album object the user to insert
+ * @todo
  */
 function insertAlbum($connection, $album) {
     $sql = "INSERT INTO album (id,
@@ -111,28 +110,28 @@ function insertAlbum($connection, $album) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jamLog(__FILE__, __LINE__, 'Unable to execute insertAlbum');
-        return false;
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertAlbum');
+	return false;
     } else {
-        $insert_id = mysqli_insert_id($connection);
-        if (is_array($album->getTag())) {
-            foreach ($album->getTag() as $tag) {
-                $sql = "INSERT INTO album_tag (id,
+	$insert_id = mysqli_insert_id($connection);
+	if (is_array($album->getTag())) {
+	    foreach ($album->getTag() as $tag) {
+		$sql = "INSERT INTO album_tag (id,
 						tag)
 						VALUES (" . $insert_id . ",
 							'" . $tag . "')";
-                mysqli_query($connection, $sql);
-            }
-        }
-        return $insert_id;
+		mysqli_query($connection, $sql);
+	    }
+	}
+	return $insert_id;
     }
 }
 
 /**
- * \fn	    insertComment($connection,$comment)
- * \brief   Execute an insert operation of the $comment
- * \param   $comment object the user to insert
- * \todo
+ * Execute an insert operation of the $comment
+ * 
+ * @param  $comment object the user to insert
+ * @todo
  */
 function insertComment($connection, $comment) {
     require_once CLASSES_DIR . 'comment.class.php';
@@ -180,31 +179,31 @@ function insertComment($connection, $comment) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jamLog(__FILE__, __LINE__, 'Unable to execute insertComment');
-        return false;
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertComment');
+	return false;
     } else {
-        $insert_id = mysqli_insert_id($connection);
-        if (is_array($comment->getTag())) {
-            foreach ($comment->getTag() as $tag) {
-                $sql = "INSERT INTO comment_tag (id,
+	$insert_id = mysqli_insert_id($connection);
+	if (is_array($comment->getTag())) {
+	    foreach ($comment->getTag() as $tag) {
+		$sql = "INSERT INTO comment_tag (id,
 						tag)
 						VALUES (" . $insert_id . ",
 							'" . $tag . "')";
-                mysqli_query($connection, $sql);
-            }
-        }
-        return $insert_id;
+		mysqli_query($connection, $sql);
+	    }
+	}
+	return $insert_id;
     }
 }
 
 /**
- * \fn	    insertEvent($connection,$event)
- * \brief   Execute an insert operation of the $event
- * \param   $event object the user to insert
- * \todo
+ * Execute an insert operation of the $event
+ * 
+ * @param  $event object the user to insert
+ * @todo
  */
 function insertEvent($connection, $event) {
-    require_once 'event.class.php';
+    require_once CLASSES_DIR . 'event.class.php';
     $sql = "INSERT INTO event ( id,
                                     active,
                                     address,
@@ -256,41 +255,41 @@ function insertEvent($connection, $event) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent');
-        return false;
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent');
+	return false;
     } else {
-        $insert_id_genre = mysqli_insert_id($connection);
-        if (is_array($event->getGenre())) {
-            foreach ($event->getGenre() as $genre) {
-                $sql = "INSERT INTO event_genre (id,
+	$insert_id_genre = mysqli_insert_id($connection);
+	if (is_array($event->getGenre())) {
+	    foreach ($event->getGenre() as $genre) {
+		$sql = "INSERT INTO event_genre (id,
 						genre)
 						VALUES (" . $insert_id_genre . ",
 							'" . $genre . "')";
-                mysqli_query($connection, $sql);
-            }
-        }
-        $insert_id_tag = mysqli_insert_id($connection);
-        if (is_array($event->getTag())) {
-            foreach ($event->getTag() as $tag) {
-                $sql = "INSERT INTO event_tag (id,
+		mysqli_query($connection, $sql);
+	    }
+	}
+	$insert_id_tag = mysqli_insert_id($connection);
+	if (is_array($event->getTag())) {
+	    foreach ($event->getTag() as $tag) {
+		$sql = "INSERT INTO event_tag (id,
 						tag)
 						VALUES (" . $insert_id_tag . ",
 							'" . $tag . "')";
-                mysqli_query($connection, $sql);
-            }
-        }
+		mysqli_query($connection, $sql);
+	    }
+	}
     }
     return ($insert_id_genre && $insert_id_tag);
 }
 
 /**
- * \fn	    insertImage($connection, $image)
- * \brief   Execute an insert operation of the $image
- * \param   $image object the user to insert
- * \todo
+ * Execute an insert operation of the $image
+ * 
+ * @param  $image object the user to insert
+ * @todo
  */
 function insertImage($connection, $image) {
-    require_once 'image.class.php';
+    require_once CLASSES_DIR . 'image.class.php';
     $sql = "INSERT INTO image ( id,
                                     active,
                                     commentcounter,
@@ -319,31 +318,31 @@ function insertImage($connection, $image) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jamLog(__FILE__, __LINE__, 'Unable to execute insertImage');
-        return false;
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertImage');
+	return false;
     } else {
-        $insert_id = mysqli_insert_id($connection);
-        if (is_array($image->getTag())) {
-            foreach ($image->getTag() as $tag) {
-                $sql = "INSERT INTO image_tag (id,
+	$insert_id = mysqli_insert_id($connection);
+	if (is_array($image->getTag())) {
+	    foreach ($image->getTag() as $tag) {
+		$sql = "INSERT INTO image_tag (id,
 						tag)
 						VALUES (" . $insert_id . ",
 							'" . $tag . "')";
-                mysqli_query($connection, $sql);
-            }
-        }
+		mysqli_query($connection, $sql);
+	    }
+	}
     }
     return $insert_id;
 }
 
 /**
- * \fn	    insertPlaylist($connection,$playlist)
- * \brief   Execute an insert operation of the $playlist
- * \param   $playlist object the user to insert
- * \todo
+ * Execute an insert operation of the $playlist
+ * 
+ * @param  $playlist object the user to insert
+ * @todo
  */
 function insertPlaylist($connection, $playlist) {
-    require_once 'playlist.class.php';
+    require_once CLASSES_DIR . 'playlist.class.php';
     $sql = "INSERT INTO playlist ( id,
                                     active,
                                     fromuser,
@@ -361,20 +360,20 @@ function insertPlaylist($connection, $playlist) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jamLog(__FILE__, __LINE__, 'Unable to execute insertPlaylist');
-        return false;
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertPlaylist');
+	return false;
     }
     return true;
 }
 
 /**
- * \fn	    insertRecord($connection, $record)
- * \brief   Execute an insert operation of the $record
- * \param   $record object the user to insert
- * \todo
+ * Execute an insert operation of the $record
+ * 
+ * @param  $record object the user to insert
+ * @todo
  */
 function insertRecord($connection, $record) {
-    require_once 'record.class.php';
+    require_once CLASSES_DIR . 'record.class.php';
     $sql = "INSERT INTO record ( id,
                                     active,
                                     buylink,
@@ -420,41 +419,41 @@ function insertRecord($connection, $record) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jamLog(__FILE__, __LINE__, 'Unable to execute insertRecord');
-        return false;
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertRecord');
+	return false;
     } else {
-        $insert_id_genre = mysqli_insert_id($connection);
-        if (is_array($record->getGenre())) {
-            foreach ($record->getGenre() as $genre) {
-                $sql = "INSERT INTO record_genre (id,
+	$insert_id_genre = mysqli_insert_id($connection);
+	if (is_array($record->getGenre())) {
+	    foreach ($record->getGenre() as $genre) {
+		$sql = "INSERT INTO record_genre (id,
 						genre)
 						VALUES (" . $insert_id_genre . ",
 							'" . $genre . "')";
-                mysqli_query($connection, $sql);
-            }
-        }
-        $insert_id_tag = mysqli_insert_id($connection);
-        if (is_array($record->getTag())) {
-            foreach ($record->getTag() as $tag) {
-                $sql = "INSERT INTO record_tag (id,
+		mysqli_query($connection, $sql);
+	    }
+	}
+	$insert_id_tag = mysqli_insert_id($connection);
+	if (is_array($record->getTag())) {
+	    foreach ($record->getTag() as $tag) {
+		$sql = "INSERT INTO record_tag (id,
 						tag)
 						VALUES (" . $insert_id_tag . ",
 							'" . $tag . "')";
-                mysqli_query($connection, $sql);
-            }
-        }
+		mysqli_query($connection, $sql);
+	    }
+	}
     }
     return ($insert_id_genre && $insert_id_tag);
 }
 
 /**
- * \fn	    insertSong($song)
- * \brief   Execute an insert operation of the $song
- * \param   $songobject the user to insert
- * \todo
+ * Execute an insert operation of the $song
+ * 
+ * @param  $songobject the user to insert
+ * @todo
  */
 function insertSong($connection, $song) {
-    require_once 'song.class.php';
+    require_once CLASSES_DIR . 'song.class.php';
     $sql = "INSERT INTO song( id,
                                     active,
                                     commentcounter,
@@ -491,21 +490,21 @@ function insertSong($connection, $song) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jamLog(__FILE__, __LINE__, 'Unable to execute insertSong');
-        return false;
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertSong');
+	return false;
     }
     return true;
 }
 
 /**
- * \fn	    insertSong($connection,$song)
- * \brief   Execute an insert operation of the $song
- * \param   $songobject the user to insert
- * \todo
+ * Execute an insert operation of the $song
+ * 
+ * @param  $songobject the user to insert
+ * @todo
  */
 function insertSongInPlayslist($connection, $song, $playlist) {
-    require_once 'song.class.php';
-    require_once 'playlist.class.php';
+    require_once CLASSES_DIR . 'song.class.php';
+    require_once CLASSES_DIR . 'playlist.class.php';
     $sql = "INSERT INTO playlist_song ( id,
                                     id_playlist,
                                     id_song,
@@ -514,17 +513,17 @@ function insertSongInPlayslist($connection, $song, $playlist) {
                                   '" . (is_null($playlist->getId()) ? 0 : $playlist->getId()) . "'";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jamLog(__FILE__, __LINE__, 'Unable to execute insertsongoIntoPlaylist');
-        return false;
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertsongoIntoPlaylist');
+	return false;
     }
     return true;
 }
 
 /**
- * \fn	    insertUser($connection, $user)
- * \brief   Execute an insert operation of the $user
- * \param   $user object the user to insert
- * \todo
+ * Execute an insert operation of the $user
+ * 
+ * @param  $user object the user to insert
+ * @todo
  */
 function insertUser($connection, $user) {
     $sql = "INSERT INTO user (id,
@@ -608,41 +607,41 @@ function insertUser($connection, $user) {
 
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jamLog(__FILE__, __LINE__, 'Unable to execute insertUser');
-        return false;
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertUser');
+	return false;
     } else {
-        $insert_id_members = mysqli_insert_id($connection);
-        if (is_array($user->getMember())) {
-            foreach ($user->getMember() as $member) {
-                $sql = "INSERT INTO user_member (id,
+	$insert_id_members = mysqli_insert_id($connection);
+	if (is_array($user->getMember())) {
+	    foreach ($user->getMember() as $member) {
+		$sql = "INSERT INTO user_member (id,
 						member)
 						VALUES (" . $insert_id_members . ",
 							'" . $member . "')";
-                mysqli_query($connection, $sql);
-            }
-        }
-        $insert_id_setting = mysqli_insert_id($connection);
-        if (is_array($user->getSetting())) {
-            foreach ($user->getSetting() as $setting) {
-                $sql = "INSERT INTO user_setting (id,
+		mysqli_query($connection, $sql);
+	    }
+	}
+	$insert_id_setting = mysqli_insert_id($connection);
+	if (is_array($user->getSetting())) {
+	    foreach ($user->getSetting() as $setting) {
+		$sql = "INSERT INTO user_setting (id,
 						setting)
 						VALUES (" . $insert_id_setting . ",
 							'" . $setting . "')";
-                mysqli_query($connection, $sql);
-            }
-        }
-        return ($insert_id_setting && $insert_id_members);
+		mysqli_query($connection, $sql);
+	    }
+	}
+	return ($insert_id_setting && $insert_id_members);
     }
 }
 
 /**
- * \fn	    insertVideo($connection, $video) 
- * \brief   Execute an insert operation of the $video
- * \param   $video object the user to insert
- * \todo
+ * Execute an insert operation of the $video
+ * 
+ * @param  $video object the user to insert
+ * @todo
  */
 function insertVideo($connection, $video) {
-    require_once 'video.class.php';
+    require_once CLASSES_DIR . 'video.class.php';
     $sql = "INSERT INTO video ( id,
                                     active,
                                     author,
@@ -667,19 +666,19 @@ function insertVideo($connection, $video) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jamLog(__FILE__, __LINE__, 'Unable to execute insertVideo');
-        return false;
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertVideo');
+	return false;
     } else {
-        $insert_id = mysqli_insert_id($connection);
-        if (is_array($video->getTag())) {
-            foreach ($video->getTag() as $tag) {
-                $sql = "INSERT INTO video_tag (id,
+	$insert_id = mysqli_insert_id($connection);
+	if (is_array($video->getTag())) {
+	    foreach ($video->getTag() as $tag) {
+		$sql = "INSERT INTO video_tag (id,
 						tag)
 						VALUES (" . $insert_id . ",
 							'" . $tag . "')";
-                mysqli_query($connection, $sql);
-            }
-        }
+		mysqli_query($connection, $sql);
+	    }
+	}
     }
     return $insert_id;
 }
