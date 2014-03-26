@@ -58,12 +58,13 @@ class PlaylistController extends REST {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $song = insertSongInPlayslist($connection, $songId, $playlistId);
-	    if (!$song) {
-		$this->response(array('status' => $controllers['POSTERROR']), 503);
-	    }
+	    $songCounter = update($connection, 'playlist', array('updatedat' => date('Y-m-d H:i:s')), array('songcounter' => 1), null, $playlistId);
 	    $relation = createRelation($connectionService, 'user', $currentUser, 'song', $songId, 'ADDTOPLAYLIST');
-	    if (!$relation) {
-		$this->response(array('status' => $controllers['NODEERROR']), 503);
+	    if ($song === false || $relation === false || $songCounter === false) {
+		$this->response(array('status' => $controllers['PLAYLISTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
 	    $connectionService->disconnect($connection);
 	    $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);

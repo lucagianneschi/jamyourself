@@ -82,6 +82,7 @@ class MessageController extends REST {
 	    $toUserType = $this->request['toUserType'];
 	    $text = $this->request['message'];
 	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
 	    if ($currentUserType == 'VENUE' || $currentUserType == 'VENUE') {
 		$relationType = ($toUserType == 'SPOTTER') ? 'FOLLOWING' : 'COLLABORATION';
 		$relation = existsRelation($connectionService, 'user', $currentUserId, 'user', $toUserId, $relationType);
@@ -112,14 +113,17 @@ class MessageController extends REST {
 	    $message->setType('M');
 	    $message->setVideo(null);
 	    $message->setVote(null);
-	    $message_id = insertComment($message);
-	    if ($message_id instanceof Error) {
-		$this->response(array('status' => 'NOSAVEMESS'), 503);
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $resMess = insertComment($connection, $message);
+	    $relation = createRelation($connectionService, 'user', $currentUserId, 'comment', $resMess->getId(), 'MESSAGE');
+	    if ($resMess === false || $relation === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
-	    $node = createNode('message', $message->getId());
-	    if (!$node) {
-		$this->response(array('status' => $controllers['NODEERROR']), 503);
-	    }
+	    $connectionService->disconnect($connection);
 	    global $mail_files;
 	    require_once CLASSES_DIR . 'user.class.php';
 	    require_once CONTROLLERS_DIR . 'utils.service.php';
@@ -156,8 +160,16 @@ class MessageController extends REST {
 	    if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
-	    $read = update($connection, 'comment', array('updatedat' => date('Y-m-d- H:i:s')), array('read' => 1));
-
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $read = update($connection, 'comment', array('updatedat' => date('Y-m-d H:i:s')), array('read' => 1));
+	    if ($read === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
+	    }
+	    $connectionService->disconnect($connection);
 	    $this->response(array($controllers['MESSAGEREAD']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);

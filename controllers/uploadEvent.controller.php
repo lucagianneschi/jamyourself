@@ -104,26 +104,24 @@ class UploadEventController extends REST {
 	    $event->setTag($this->request['tags']);
 	    $event->setThumbnail($imgInfo['thumbnail']);
 	    $event->setTitle($this->request['title']);
-	    $fileManager = new FileManagerService();
-	    $res_1 = $fileManager->saveEventPhoto($userId, $event->getThumbnail());
-	    $res_2 = $fileManager->saveEventPhoto($userId, $event->getCover());
-	    if (!$res_1 || !$res_2) {
-		$this->response(array("status" => $controllers['EVENTCREATEERROR']), 503);
-	    }
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
 	    $result = insertEvent($connection, $event);
 	    $node = createNode($connectionService, 'event', $result->getId());
 	    $relation = createRelation($connectionService, 'user', $userId, 'event', $result->getId(), 'ADD');
-	    if ($result === false) {
-		$this->response(array("status" => $controllers['EVENTCREATEERROR']), 503);
-	    } elseif ($node === false) {
-		$this->response(array('status' => $controllers['NODEERROR']), 503);
-	    } elseif ($relation === false) {
-		$this->response(array('status' => $controllers['RELATIONERROR']), 503);
+	    $fileManager = new FileManagerService();
+	    $res_1 = $fileManager->saveEventPhoto($userId, $result->getThumbnail());
+	    $res_2 = $fileManager->saveEventPhoto($userId, $result->getCover());
+	    if ($result === false || $relation === false || $node === false || $res_1 === false || $res_2 === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
 	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['EVENTCREATED']), 200);
