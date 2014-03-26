@@ -55,11 +55,6 @@ class UploadAlbumController extends REST {
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
 		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 406);
 	    }
-	    $connectionService = new ConnectionService();
-	    $connection = $connectionService->connect();
-	    if ($connection === false) {
-		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
-	    }
 	    $currentUserId = $_SESSION['id'];
 	    $album = new Album();
 	    $album->setActive(1);
@@ -87,18 +82,25 @@ class UploadAlbumController extends REST {
 	    $album->setTag(array());
 	    $album->setThumbnail(DEFALBUMTHUMB);
 	    $album->setTitle($this->request['albumTitle']);
-	    $resSaveAlbum = insertAlbum($connection, $album);
-	    if ($resSaveAlbum == false) {
-		$this->response(array('status' => $controllers['ALBUMNOTSAVED']), 407);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
-	    $albumId = $resSaveAlbum;
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $result = insertAlbum($connection, $album);
+	    $albumId = $result;
 	    $node = createNode($connectionService, 'album', $albumId);
 	    $relation = createRelation($connectionService, 'user', $currentUserId, 'album', $albumId, 'ADD');
-	    if (!$relation || !$node) {
-		$this->response(array('status' => $controllers['NODEERROR']), 503);
+	    if ($result === false || $relation === false || $node === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
-	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUserId);
 	    $connectionService->disconnect($connection);
+	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUserId);  
 	    if (count($errorImages) == count($this->request['images'])) {
 		$this->response(array("status" => $controllers['ALBUMSAVENOIMGSAVED'], "id" => $albumId), 200);
 	    } elseif (count($errorImages) > 0) {

@@ -89,26 +89,27 @@ class UploadRecordController extends REST {
 	    $record->setThumbnail($imgInfo['thumbnail']);
 	    $record->setTitle($newRecord->recordTitle);
 	    $record->setYear($newRecord->year);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $result = insertRecord($connection, $record);
+	    $node = createNode($connectionService, 'record', $result->getId());
+	    $relation = createRelation($connectionService, 'user', $userId, 'record', $result->getId(), 'ADD');
 	    $filemanager = new FileManagerService();
 	    $res_image = $filemanager->saveRecordPhoto($userId, $record->getCover());
 	    $res_thumb = $filemanager->saveRecordPhoto($userId, $record->getThumbnail());
 	    if (!$res_image || !$res_thumb) {
 		$this->response(array("status" => $controllers['RECORDCREATEERROR']), 503);
 	    }
-	    $connectionService = new ConnectionService();
-	    $connection = $connectionService->connect();
-	    if ($connection === false) {
-		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
-	    }
-	    $result = insertRecord($connection, $record);
-	    $node = createNode($connectionService, 'record', $result->getId());
-	    $relation = createRelation($connectionService, 'user', $userId, 'record', $result->getId(), 'ADD');
-	    if ($result === false) {
-		$this->response(array("status" => $controllers['RECORDCREATEERROR']), 503);
-	    } elseif ($node === false) {
-		$this->response(array('status' => $controllers['NODEERROR']), 503);
-	    } elseif ($relation === false) {
-		$this->response(array('status' => $controllers['RELATIONERROR']), 503);
+	    if ($result === false || $relation === false || $node === false || $res_image === false || $res_thumb === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
 	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['RECORDCREATED']), 200);
@@ -195,14 +196,14 @@ class UploadRecordController extends REST {
 			$song->setSharecounter(0);
 			$song->setTitle($element->title);
 			$result = insertSong($connection, $song);
+			$node = createNode($connectionService, 'song', $result->getId());
+			$relation = createRelation($connectionService, 'user', $currentUserId, 'song', $result->getId(), 'ADD');
 			$fileManager = new FileManagerService();
 			$res = $fileManager->saveSong($currentUserId, $result->getId());
 			if (!$res) {
 			    $songErrorList[] = $element;
 			    $position--;
 			}
-			$node = createNode($connectionService, 'song', $result->getId());
-			$relation = createRelation($connectionService, 'user', $currentUserId, 'song', $result->getId(), 'ADD');
 			if ($result === false || $node === false || $relation === false) {
 			    $songErrorList[] = $element;
 			    $position--;
