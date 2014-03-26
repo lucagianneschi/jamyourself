@@ -195,12 +195,19 @@ class SignupController extends REST {
 	    if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
 	    $user = insertUser($connection, $newUser);
-	    if (!$user) {
+	    $node = createNode($connection, 'user', $user->getId());
+	    if (!$user || !$node) {
 		$this->response(array('status' => $controllers['NEWUSERCREATIONFAILED']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
+	    $connectionService->disconnect($connection);
 	    $userId = $user->getId();
-	    //$_SESSION['id'];
+	    //$_SESSION['id'] == $userId;
 	    $userType = $user->getType();
 	    //$_SESSION['type'];
 	    $this->createFileSystemStructure($userId, $userType);
