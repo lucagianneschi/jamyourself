@@ -22,6 +22,25 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
+
+/**
+ * verifica che l'indirizzo inserito sia un indirizzo valido
+ * 
+ * @param $email string email inserita
+ * @return true in case of success, false otherwise
+ */
+function checkEmail($email) {
+    if (strlen($email) > 50)
+	return false;
+    if (stripos($email, " ") !== false)
+	return false;
+    if (!(stripos($email, "@") !== false))
+	return false;
+    if (!(filter_var($email, FILTER_VALIDATE_EMAIL)))
+	return false;
+    return true;
+}
+
 /**
  * The function returns the difference between $end and $start parameter in microseconds
  * 
@@ -140,7 +159,8 @@ function getCroppedImages($decoded) {
  * funzione per il recupero dei featuring, da usare nei form che prevedono l'inserimento di featuring
  */
 function getFeaturingArray() {
-	if (session_id() == '') session_start();
+    if (session_id() == '')
+	session_start();
     if (isset($_SESSION['id'])) {
 	$currentUserId = $_SESSION['id'];
 	$currentUserType = $_SESSION['type'];
@@ -166,14 +186,14 @@ function getFeaturingArray() {
 	    return array();
 	} else {
 	    $userArrayInfo = array();
-		$connection = $connectionService->connect();
-		$users = selectUsers($connection, null, array('id' => $userArray));
+	    $connection = $connectionService->connect();
+	    $users = selectUsers($connection, null, array('id' => $userArray));
 	    foreach ($users as $user) {
-			require_once CLASSES_DIR . "user.class.php";			
-			$username = $user->getUsername();
-			$userId = $user->getId();
-			$userType = $user->getType();
-			array_push($userArrayInfo, array("id" => $userId, "text" => $username, 'type' => $userType));
+		require_once CLASSES_DIR . "user.class.php";
+		$username = $user->getUsername();
+		$userId = $user->getId();
+		$userType = $user->getType();
+		array_push($userArrayInfo, array("id" => $userId, "text" => $username, 'type' => $userType));
 	    }
 	    return $userArrayInfo;
 	}

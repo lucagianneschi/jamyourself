@@ -100,7 +100,7 @@ class UploadAlbumController extends REST {
 		$connectionService->commit();
 	    }
 	    $connectionService->disconnect($connection);
-	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUserId);  
+	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUserId);
 	    if (count($errorImages) == count($this->request['images'])) {
 		$this->response(array("status" => $controllers['ALBUMSAVENOIMGSAVED'], "id" => $albumId), 200);
 	    } elseif (count($errorImages) > 0) {
@@ -133,6 +133,8 @@ class UploadAlbumController extends REST {
 	    if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
 	    $currentUserId = $_SESSION['id'];
 	    $albumId = $this->request['albumId'];
 	    $album = selectAlbums($connection, $albumId);
@@ -140,7 +142,6 @@ class UploadAlbumController extends REST {
 		$this->response(array('status' => $controllers['NOALBUMFOUNDED']), 405);
 	    }
 	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUserId);
-
 	    $connectionService->disconnect($connection);
 	    if (count($errorImages) == count($this->request['images'])) {
 		$this->response(array("status" => $controllers['NOIMAGESAVED'], "id" => $albumId), 200);
@@ -207,6 +208,8 @@ class UploadAlbumController extends REST {
 		if ($connection === false) {
 		    $this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 		}
+		$connection->autocommit(false);
+		$connectionService->autocommit(false);
 		$image = new Image();
 		$image->setActive(1);
 		$image->setAlbum($albumId);
@@ -227,12 +230,20 @@ class UploadAlbumController extends REST {
 		$image->setSharecounter(0);
 		$image->setTag(array());
 		$image->setThumbnail($imgMoved['thumbnail']);
-		$pImage = insertImage($connection, $image);
+		$result = insertImage($connection, $image);
+		$node = createNode($connectionService, 'image', $result->getId());
+		$relation = createRelation($connectionService, 'user', $currentUserId, 'image', $result->getId(), 'ADD');
+		if ($result === false || $relation === false || $node === false) {
+		    return false;
+		} else {
+		    $connection->commit();
+		    $connectionService->commit();
+		}
 		$connectionService->disconnect($connection);
-		return $pImage;
+		return $result;
 	    }
 	} catch (Exception $e) {
-	    return $e;
+	    return false;
 	}
     }
 
@@ -271,6 +282,8 @@ class UploadAlbumController extends REST {
 
     /**
      * sposta il file dalla chace alla corretta cartella di destinazione
+     * reperisco le info sull'immagine, Preparo l'oggetto per l'editing della foto, gestisco immagine
+     * creo thumbnail,cancello il vecchio file dalla cache
      * 
      * @param $userId
      * @param $albumId
@@ -279,26 +292,16 @@ class UploadAlbumController extends REST {
     private function moveFile($userId, $albumId, $fileInCache) {
 	if (file_exists(CACHE_DIR . $fileInCache)) {
 	    if (!is_null($userId) && !is_null($albumId) && !is_null($fileInCache)) {
-
-		//reperisco le info sull'immagine
 		list($width, $height, $type, $attr) = getimagesize(CACHE_DIR . $fileInCache);
-
 		require_once SERVICES_DIR . 'cropImage.service.php';
-		//Preparo l'oggetto per l'editing della foto
 		$cis = new CropImageService();
-
-		//immagine 
 		$jpg = $cis->resizeImageFromSrc($fileInCache, $width);
 		$fileManager = new FileManagerService();
 		$destName = $fileManager->getPhotoPath($userId, $fileInCache) . $jpg;
 		$res_1 = rename(CACHE_DIR . $jpg, $destName);
-
-		//thumbnail
 		$thumbnail = $cis->resizeImageFromSrc($fileInCache, THUMBNAIL_IMG_SIZE);
 		$destName = $fileManager->getPhotoPath($userId, $fileInCache) . $thumbnail;
 		$res_2 = rename(CACHE_DIR . $thumbnail, $destName);
-
-		//cancello il vecchio file
 		unlink(CACHE_DIR . $fileInCache);
 		if ($res_1 && $res_2) {
 		    return array("image" => $jpg, "thumbnail" => $thumbnail);

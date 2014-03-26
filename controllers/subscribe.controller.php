@@ -28,7 +28,8 @@ class SubscribeController extends REST {
      */
     public function subscribe() {
 	global $controllers;
-	if (!isset($this->request['email']) || is_null($this->request['email']) || strlen($this->request['email']) == 0 || !$this->checkEmail($this->request['email'])) {
+	$mail = checkEmail($this->request['email']);
+	if (!isset($this->request['email']) || is_null($this->request['email']) || strlen($this->request['email']) == 0 || !$mail) {
 	    $this->response(array("status" => $controllers['INVALIDEMAIL']), 401);
 	}
 	$html = $this->request['email'];
@@ -38,21 +39,6 @@ class SubscribeController extends REST {
 	} else {
 	    $this->response(array("status" => $controllers['SUBSCRIPTIONERROR']), 503);
 	}
-    }
-
-    /**
-     * verifica che l'indirizzo inserito sia un indirizzo valido
-     */
-    private function checkEmail($email) {
-	if (strlen($email) > 50)
-	    return false;
-	if (stripos($email, " ") !== false)
-	    return false;
-	if (!(stripos($email, "@") !== false))
-	    return false;
-	if (!(filter_var($email, FILTER_VALIDATE_EMAIL)))
-	    return false;
-	return true;
     }
 
 }
