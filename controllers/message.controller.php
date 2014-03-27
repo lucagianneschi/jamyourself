@@ -148,7 +148,7 @@ class MessageController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
@@ -162,7 +162,7 @@ class MessageController extends REST {
 	    }
 	    $connection->autocommit(false);
 	    $connectionService->autocommit(false);
-	    $read = update($connection, 'comment', array('updatedat' => date('Y-m-d H:i:s')), array('read' => 1));
+	    $read = update($connection, 'comment', array('updatedat' => date('Y-m-d H:i:s')), array('read' => 1), null, $messageId);
 	    if ($read === false) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {

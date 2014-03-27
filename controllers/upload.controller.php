@@ -145,7 +145,6 @@ class UploadController extends REST {
 	    if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
 		die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
 	    }
-
 	    if (!empty($_FILES)) {
 		if ($_FILES["file"]["error"] || !is_uploaded_file($_FILES["file"]["tmp_name"])) {
 		    die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
