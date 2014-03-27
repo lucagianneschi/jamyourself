@@ -84,7 +84,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
 				    $eventReview_comment = $value->getCommentcounter();
 				    $eventReview_share = $value->getSharecounter();
 					$connectionService = new ConnectionService();
-				    if (existsRelation($connectionService,'user', $currentUserId, 'comment', $eventReview_objectId, 'loved')) {
+				    if (existsRelation($connectionService,'user', $currentUserId, 'comment', $eventReview_objectId, 'LOVE')) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 				    } else {

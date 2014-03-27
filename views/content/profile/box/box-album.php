@@ -72,7 +72,7 @@ if (is_null($albumBox->error)) {
 				$album_share = $value->getSharecounter();
 				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['id'], $album_thumbnail);
 				$connectionService = new ConnectionService();				
-				if (existsRelation($connectionService,'user', $currentUserId, 'album', $album_id, 'loved')) {
+				if (existsRelation($connectionService,'user', $currentUserId, 'album', $album_id, 'LOVE')) {
 				    $css_love = '_love orange';
 				    $text_love = $views['unlove'];
 				} else {
@@ -126,7 +126,7 @@ if (is_null($albumBox->error)) {
 		$album_love = $value->getLovecounter();
 		$album_comment = $value->getCommentcounter();
 		$album_share = $value->getSharecounter();
-		if (existsRelation('user', $currentUserId, 'album', $album_id, 'loved')) {
+		if (existsRelation('user', $currentUserId, 'album', $album_id, 'LOVE')) {
 		    $css_love = '_love orange';
 		    $text_love = $views['unlove'];
 		} else {

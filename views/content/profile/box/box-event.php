@@ -116,7 +116,7 @@ if (is_null($eventBox->error)) {
 			    $event_share = $value->getSharecounter();
 			    $pathCoverEvent = $fileManagerService->getEventPhotoPath($_POST['id'], $event_thumbnail);
 				$connectionService = new ConnectionService();
-			    if (existsRelation($connectionService,'user', $currentUserId, 'event', $event_id, 'loved')) {
+			    if (existsRelation($connectionService,'user', $currentUserId, 'event', $event_id, 'LOVE')) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {

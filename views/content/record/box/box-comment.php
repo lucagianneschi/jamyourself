@@ -74,7 +74,7 @@ if (is_null($commentBox->error) || isset($_SESSION['id'])) {
 			    $comment_counter_love = $value->getLovecounter();
 			    $comment_counter_comment = $value->getCommentcounter();
 			    $comment_counter_share = $value->getSharecounter();
-			    if(existsRelation('user', $currentUserId, 'comment', $comment_objectId, 'loved')){
+			    if(existsRelation('user', $currentUserId, 'comment', $comment_objectId, 'LOVE')){
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {
