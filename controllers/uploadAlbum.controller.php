@@ -182,6 +182,7 @@ class UploadAlbumController extends REST {
     private function getAlbumThumbnailURL($userId, $albumCoverThumb) {
 	try {
 	    if (!is_null($albumCoverThumb) && strlen($albumCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
+	    require_once SERVICES_DIR . 'fileManager.service.php';		
 		$fileManager = new FileManagerService();
 		$path = $fileManager->getPhotoPath($userId, $albumCoverThumb);
 		if (!file_exists($path)) {
