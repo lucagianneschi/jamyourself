@@ -9,7 +9,8 @@ var uploader = null;
 $(document).ready(function() {
 
     getAlbums();
-    initFeaturing();
+    //#TODO eliminare la funzione initFeaturing
+ //   initFeaturing();
     //gesione button create new 
     $('#uploadAlbum-new').click(function() {
 	$("#uploadAlbum01").fadeOut(100, function() {
