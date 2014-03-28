@@ -216,7 +216,7 @@ function initImgUploader() {
     uploader.bind('FilesAdded', function(up, files) {
 	//avvio subito l'upload
 //        window.console.log("initImgUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
-
+	goSpinner('#uploadImage_preview_box');
 	uploader.start();
     });
 
@@ -271,7 +271,7 @@ function onUploadedImage(img) {
     html_uploadImage_preview_box += '<input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/>';
     html_uploadImage_preview_box += '<input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/>';
     html_uploadImage_preview_box += '<input type="hidden" id="' + input_h + '" name="' + input_h + '" value="100"/>';
-
+	stopSpinner('#uploadImage_preview_box');
     //mostra a video la preview dell'immagine:
     $('#uploadImage_preview_box').html(html_uploadImage_preview_box);
     preview = $('#uploadImage_preview_box');
