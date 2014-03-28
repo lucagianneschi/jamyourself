@@ -58,7 +58,7 @@ class UploadController extends REST {
 	    } else {
 		$fileName = uniqid("file_");
 	    }
-	    $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+	    $filePath = $targetDir . $fileName;
 	    $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
 	    $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
 	    if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
@@ -89,7 +89,7 @@ class UploadController extends REST {
 		}
 		$ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 		$fileName = (md5(time() . rand())) . "." . $ext;
-		$randomName = CACHE_DIR . DIRECTORY_SEPARATOR . $fileName;
+		$randomName = CACHE_DIR . $fileName;
 		$resRename = rename($filePath, $randomName);
 		if (!$resRename) {
 		    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Error renaming file."}, "id" : "id"}');
