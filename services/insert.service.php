@@ -237,7 +237,7 @@ function insertEvent($connection, $event) {
 				  			'" . (is_null($event->getCommentcounter()) ? 0 : $event->getCommentcounter()) . "',
                             '" . (is_null($event->getCounter()) ? 0 : $event->getCounter()) . "',
                             '" . $event->getCover() . "',
-                            '" . $event->getDescription() . "',                            
+                            '" . $event->getDescription() . "',
 				  			'" . (is_null($event->getEventdate()) ? 0 : $event->getEventdate()->format('Y-m-d H:i:s')) . "',
 				  			'" . (is_null($event->getFromuser()) ? 0 : $event->getFromuser()) . "', 
 				  			'" . (is_null($event->getInvitedcounter()) ? 0 : $event->getInvitedcounter()) . "',       
@@ -254,31 +254,39 @@ function insertEvent($connection, $event) {
                             NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent');
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent - event');
 	return false;
     } else {
-	$insert_id_genre = mysqli_insert_id($connection);
+	$insert_id = mysqli_insert_id($connection);
 	if (is_array($event->getGenre())) {
 	    foreach ($event->getGenre() as $genre) {
-		$sql = "INSERT INTO event_genre (id,
-						genre)
-						VALUES (" . $insert_id_genre . ",
-							'" . $genre . "')";
-		mysqli_query($connection, $sql);
+			$sql = "INSERT INTO event_genre (id_event,
+							id_genre)
+							VALUES (" . $insert_id . ",
+								'" . $genre . "')";
+			$result = mysqli_query($connection, $sql);
+		    if ($result === false) {
+				jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent - event_genre');
+				return false;
+			}
 	    }
 	}
-	$insert_id_tag = mysqli_insert_id($connection);
 	if (is_array($event->getTag())) {
 	    foreach ($event->getTag() as $tag) {
 		$sql = "INSERT INTO event_tag (id,
 						tag)
-						VALUES (" . $insert_id_tag . ",
+						VALUES (" . $insert_id . ",
 							'" . $tag . "')";
-		mysqli_query($connection, $sql);
+		$result = mysqli_query($connection, $sql);
+		    if ($result === false) {
+				jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent - event_tag');
+				return false;
+			}
 	    }
 	}
     }
-    return ($insert_id_genre && $insert_id_tag);
+	$event->setId($insert_id);
+    return ($event);
 }
 
 /**
