@@ -110,7 +110,6 @@ function creteEvent() {
 	json_event_create.jammers = getFeaturingList("jammers");
 	json_event_create.tags = getTagsEventCreate();
 	json_event_create.music = getMusicEventCreate();
-	json_event_create.city = $("#city").val();
 	if (json_event_create.tags.length > 0) {
 	    $("#label-tag-music .error").css({'display': 'none'});
 	    sendRequest("uploadEvent", "createEvent", json_event_create, eventCreateCallback, false);
