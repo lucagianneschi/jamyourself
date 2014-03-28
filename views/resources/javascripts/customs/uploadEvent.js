@@ -132,12 +132,12 @@ function eventCreateCallback(data, status, xhr) {
 	    alert(data.status);
 	    console.log(data.responseText);
 //            clearAll();
-//	    redirect("event.php?event=" + data.id);
+	    redirect("event.php?event=" + data.id);
 	}
 	else {
 	    alert(data.status);
 	    console.log(data.responseText);
-	//    location.reload();
+	    location.reload();
 	}
     } catch (err) {
 	window.console.log("eventCreateCallback | An error occurred - message : " + err.message);
