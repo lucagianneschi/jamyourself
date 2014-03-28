@@ -95,7 +95,7 @@ if (is_null($eventBox->error)) {
 			      }
 			      }
 			     */
-			    $event_eventDate = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getEventDate()->getTimestamp()));
+			    $event_eventDate = ucwords(strftime("%A %d %B %Y - %H:%M", strtotime($value->getEventDate())));
 			    $css_location = '';
 			    if (is_null($value->getCity()) || $value->getCity() == '') {
 				if (is_null($value->getAddress()) || $value->getAddress() == '' || $value->getAddress() == ', ') {
