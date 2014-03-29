@@ -99,9 +99,18 @@ class UploadAlbumController extends REST {
 	    } else {
 		$connection->commit();
 		$connectionService->commit();
-	    }
-	    $connectionService->disconnect($connection);
+	    }	    
 	    $errorImages = $this->saveImagesList($connection, $connectionService, $this->request['images'], $albumId, $currentUserId);
+		$imagesSaved = count($this->request['images']) - count($errorImages);
+		if($imagesSaved > 0){
+			require_once SERVICES_DIR . 'update.service.php';
+			$resUpdateCover = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s')), array('imagecounter' => $imagesSaved), null, $albumId, null);		
+			if($resUpdateCover == false){
+				$this->response(array('status' => $controllers['COMMENTERR']), 503);
+			} 
+			else $connection->commit();
+		}
+		$connectionService->disconnect($connection);
 	    if (count($errorImages) == count($this->request['images'])) {
 		$this->response(array("status" => $controllers['ALBUMSAVENOIMGSAVED'], "id" => $albumId), 200);
 	    } elseif (count($errorImages) > 0) {
@@ -147,6 +156,10 @@ class UploadAlbumController extends REST {
 		if($imagesSaved > 0){
 			require_once SERVICES_DIR . 'update.service.php';
 			$resUpdateCover = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s')), array('imagecounter' => $imagesSaved), null, $albumId, null);		
+			if($resUpdateCover == false){
+				$this->response(array('status' => $controllers['COMMENTERR']), 503);
+			} 
+			else $connection->commit();
 		}
 		$connectionService->disconnect($connection);
 	    if (count($errorImages) == count($this->request['images'])) {
@@ -343,7 +356,7 @@ class UploadAlbumController extends REST {
 		    array_push($errorImages, $image);
 		} else {
 		    if ($image['isCover'] == "true") {		    	
-			$this->createAlbumCoverFiles($currentUser->getId(), $albumId, $resImage->getPath(), $resImage->getThumbnail());
+	//		$this->createAlbumCoverFiles($currentUser->getId(), $albumId, $resImage->getPath(), $resImage->getThumbnail());
 			$connectionService = new ConnectionService();
 			$connection = $connectionService->connect();
 			if ($connection === false) {
@@ -351,11 +364,12 @@ class UploadAlbumController extends REST {
 			}
 			$connection->autocommit(false);
 			$connectionService->autocommit(false);
-			$resUpdateCover = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s')), null, null, $albumId, array('cover' => $resImage->getPath()));
-			$resUpdateThumb = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s')), null, null, $albumId, array('cover' => $resImage->getThumbnail()));
+			require_once SERVICES_DIR . 'update.service.php';
+			$resUpdateCover = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s'), 'cover' => $resImage->getPath()), null, null, $albumId, null );
+			$resUpdateThumb = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s'), 'thumbnail' => $resImage->getThumbnail()), null, null, $albumId, null);
 			$node = createNode($connectionService, 'image', $resImage->getId());
-			$relation = createRelation($connectionService, 'album', $albumId, 'image', $resImage->getId(), 'ADD');
-			if (!$resUpdateCover || !$resUpdateThumb || !$node || $relation) {
+			$relation = createRelation($connectionService, 'album', $albumId, 'image', $resImage->getId(), 'ADD');			
+			if (!$resUpdateCover || !$resUpdateThumb || !$node || !$relation) {
 			    array_push($errorImages, $image);
 			    continue;
 			} else {
