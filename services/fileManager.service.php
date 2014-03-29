@@ -257,7 +257,7 @@ class FileManagerService {
 	$src = CACHE_DIR . $photoId;
 	$dest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder . DIRECTORY_SEPARATOR . $photoId;
 	if (file_exists($src) && $this->checkPhotoDir($userId)) {
-	    return rename($dest, $src);
+	    return copy($src, $dest);
 	}
     }
 
@@ -297,7 +297,7 @@ class FileManagerService {
      * check if the images/photos/ exists
      */
     private function checkPhotoDir($userId) {
-	if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->photosFolder))
+	if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder))
 	    return true;
 	else
 	    return $this->createPhotoDir($userId);
@@ -307,7 +307,7 @@ class FileManagerService {
      * check if the images/record/ exists
      */
     private function checkRecordPhotoDir($userId) {
-	if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder))
+	if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder))
 	    return true;
 	else
 	    return $this->createRecordPhotoDir($userId);
