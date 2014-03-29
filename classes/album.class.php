@@ -55,7 +55,12 @@ class Album {
      * @property string per descrizione album
      */
     private $description;
-
+	
+	/**
+     * @property array di id utenti che rappresentano le featuring 
+     */
+    private $featuring;
+	
     /**
      * @property int id dell'utente che fa upload dell'album
      */
@@ -168,6 +173,14 @@ class Album {
      */
     public function getDescription() {
 	return $this->description;
+    }
+	
+	/**
+     * Return the featuring array
+     * @return	int
+     */
+    public function getFeaturing() {
+	return $this->featuring;
     }
 
     /**
@@ -313,6 +326,14 @@ class Album {
     public function setDescription($description) {
 	$this->description = $description;
     }
+	
+	/**
+     * Sets the fromUser value, int id
+     * @param	int
+     */
+    public function setFeaturing($featuring) {
+	$this->featuring = $featuring;
+    }
 
     /**
      * Sets the fromUser value, int id
@@ -410,6 +431,7 @@ class Album {
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
+	$string .= '[featuring] => ' . $this->getFeaturing() . '<br />';
 	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
 	$string .= '[imagecounter] => ' . $this->getImagecounter() . '<br />';
 	$string .= '[images] => ' . $this->getImages() . '<br />';
