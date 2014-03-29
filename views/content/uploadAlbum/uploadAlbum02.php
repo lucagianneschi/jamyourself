@@ -21,7 +21,11 @@ require_once SERVICES_DIR . 'utils.service.php';
 			 * select2 e' il plugin per le featuring con id featuring
 			 */
 			$(document).ready(function() {
-	   			$('#featuring').select2({
+				
+	   			getFeaturing('#featuring');
+			});
+			function getFeaturing(box){
+				$(box).select2({
 				    multiple: true,
 				    minimumInputLength: 1,
 				    width: "100%",
@@ -35,7 +39,7 @@ require_once SERVICES_DIR . 'utils.service.php';
 				    ]
 				});
 
-			});
+			}
 		</script>	
         <input type="text" name="featuring" id="featuring" pattern=""/>
         <label for="featuring"><?php echo $views['uploadAlbum']['feat']; ?></label>

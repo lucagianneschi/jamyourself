@@ -146,6 +146,8 @@ function initImgUploader() {
 		    imageList.push(elem);
 		    var row = getTableRowImage(elem.id);
 		    $('#photolist').append(row);
+		    getFeaturing('#featuringPhoto_' + elem.id);
+		    /*
 		    $('#featuringPhoto_' + elem.id).select2({
 			multiple: true,
 			minimumInputLength: 1,
@@ -164,7 +166,7 @@ function initImgUploader() {
 				};
 			    }
 			}
-		    });
+		    });*/
 		    if (supportsCanvas()) {
 			var img = new mOxie.Image();
 			startEventsImage(img, '#photo_img_' + elem.id);
