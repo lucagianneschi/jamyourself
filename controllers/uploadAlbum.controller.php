@@ -142,14 +142,19 @@ class UploadAlbumController extends REST {
 	    if ($album == false) {
 		$this->response(array('status' => $controllers['NOALBUMFOUNDED']), 405);
 	    }
-	    $errorImages = $this->saveImagesList($connection, $connectionService, $this->request['images'], $albumId, $currentUserId);
-	    $connectionService->disconnect($connection);
+	    $errorImages = $this->saveImagesList($connection, $connectionService, $this->request['images'], $albumId, $currentUserId);	    
+		$imagesSaved = count($this->request['images']) - count($errorImages);
+		if($imagesSaved > 0){
+			require_once SERVICES_DIR . 'update.service.php';
+			$resUpdateCover = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s')), array('imagecounter' => $imagesSaved), null, $albumId, null);		
+		}
+		$connectionService->disconnect($connection);
 	    if (count($errorImages) == count($this->request['images'])) {
 		$this->response(array("status" => $controllers['NOIMAGESAVED'], "id" => $albumId), 200);
-	    } elseif (count($errorImages) > 0) {
+	    } elseif (count($errorImages) > 0) {	    	
 		$this->response(array("status" => $controllers['IMAGESSAVEDWITHERRORS'], "id" => $albumId), 200);
-	    } else {
-		$this->response(array("status" => $controllers['IMAGESSAVED'], "id" => $albumId), 200);
+	    } else {				
+			$this->response(array("status" => $controllers['IMAGESSAVED'], "id" => $albumId), 200);
 	    }
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
@@ -230,29 +235,30 @@ class UploadAlbumController extends REST {
     }
 
     private function moveFile($userId, $albumId, $fileInCache) {
-	if (file_exists(CACHE_DIR . $fileInCache)) {
-	    if (!is_null($userId) && !is_null($albumId) && !is_null($fileInCache)) {
-		list($width, $height, $type, $attr) = getimagesize(CACHE_DIR . $fileInCache);
-		require_once SERVICES_DIR . 'cropImage.service.php';
-		$cis = new CropImageService();
-		$jpg = $cis->resizeImageFromSrc($fileInCache, $width);
-		
-		$fileManager = new FileManagerService();
-		$destName = $fileManager->getPhotoPath($userId, $fileInCache) . $jpg;
-		$res_1 = rename(CACHE_DIR . $jpg, $destName);
-		$thumbnail = $cis->resizeImageFromSrc($fileInCache, THUMBNAIL_IMG_SIZE);
-		$destName = $fileManager->getPhotoPath($userId, $fileInCache) . $thumbnail;
-		$res_2 = rename(CACHE_DIR . $thumbnail, $destName);
-		unlink(CACHE_DIR . $fileInCache);
-		if ($res_1 && $res_2) {
-		    return array("image" => $jpg, "thumbnail" => $thumbnail);
+		if (file_exists(CACHE_DIR . $fileInCache)) {
+			if (!is_null($userId) && !is_null($albumId) && !is_null($fileInCache)) {
+				list($width, $height, $type, $attr) = getimagesize(CACHE_DIR . $fileInCache);
+				require_once SERVICES_DIR . 'cropImage.service.php';
+				$cis = new CropImageService();
+				$jpg = $cis->resizeImageFromSrc($fileInCache, $width);		
+				$thumbnail = $cis->resizeImageFromSrc($fileInCache, THUMBNAIL_IMG_SIZE);		
+				$fileManager = new FileManagerService();				
+				if (file_exists(CACHE_DIR . $jpg) && file_exists(CACHE_DIR . $thumbnail)) {
+					$res_1 = $fileManager->savePhoto($userId, $jpg);
+					$res_2 = $fileManager->savePhoto($userId, $thumbnail);
+					unlink(CACHE_DIR . $fileInCache);
+					unlink(CACHE_DIR . $jpg);					
+					unlink(CACHE_DIR . $thumbnail);
+					if ($res_1 && $res_2) {
+					    return array("image" => $jpg, "thumbnail" => $thumbnail);
+					} else {
+					    return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
+					}	
+				}else array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
+		    }
 		} else {
 		    return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
 		}
-	    }
-	} else {
-	    return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
-	}
     }
 
     /**
