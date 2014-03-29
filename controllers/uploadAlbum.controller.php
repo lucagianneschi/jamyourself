@@ -4,15 +4,17 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'geocoder.service.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'album.class.php';
-require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
+require_once CLASSES_DIR . 'image.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
-
+require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once SERVICES_DIR . 'geocoder.service.php';
+require_once SERVICES_DIR . 'connection.service.php';
+require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 /**
  * UploadAlbumController class
  * si collega al form di upload di un album, effettua controlli, scrive su DB
@@ -44,15 +46,15 @@ class UploadAlbumController extends REST {
 	try {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
-		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
+		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 400);
 	    } elseif (!isset($_SESSION['id'])) {
-		$this->response($controllers['USERNOSES'], 402);
+		$this->response($controllers['USERNOSES'], 400);
 	    } elseif (!isset($this->request['albumTitle']) || is_null($this->request['albumTitle']) || !(strlen($this->request['albumTitle']) > 0)) {
-		$this->response(array('status' => $controllers['NOALBUMTITLE']), 403);
+		$this->response(array('status' => $controllers['NOALBUMTITLE']), 400);
 	    } elseif (!isset($this->request['description']) || is_null($this->request['description']) || !(strlen($this->request['description']) > 0)) {
-		$this->response(array('status' => $controllers['NOALBUMDESCRIPTION']), 404);
+		$this->response(array('status' => $controllers['NOALBUMDESCRIPTION']), 400);
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
-		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 406);
+		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 400);
 	    }
 	    $currentUserId = $_SESSION['id'];
 	    $album = new Album();
@@ -119,13 +121,13 @@ class UploadAlbumController extends REST {
 	try {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
-		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
+		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 400);
 	    } elseif (!isset($_SESSION['id'])) {
-		$this->response($controllers['USERNOSES'], 402);
+		$this->response($controllers['USERNOSES'], 400);
 	    } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
-		$this->response(array('status' => $controllers['NOALBUMID']), 403);
+		$this->response(array('status' => $controllers['NOALBUMID']), 400);
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
-		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 404);
+		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 400);
 	    }
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
@@ -182,7 +184,6 @@ class UploadAlbumController extends REST {
     private function getAlbumThumbnailURL($userId, $albumCoverThumb) {
 	try {
 	    if (!is_null($albumCoverThumb) && strlen($albumCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
-	    require_once SERVICES_DIR . 'fileManager.service.php';		
 		$fileManager = new FileManagerService();
 		$path = $fileManager->getPhotoPath($userId, $albumCoverThumb);
 		if (!file_exists($path)) {
@@ -235,6 +236,7 @@ class UploadAlbumController extends REST {
 		require_once SERVICES_DIR . 'cropImage.service.php';
 		$cis = new CropImageService();
 		$jpg = $cis->resizeImageFromSrc($fileInCache, $width);
+		
 		$fileManager = new FileManagerService();
 		$destName = $fileManager->getPhotoPath($userId, $fileInCache) . $jpg;
 		$res_1 = rename(CACHE_DIR . $jpg, $destName);
@@ -276,6 +278,7 @@ class UploadAlbumController extends REST {
 		}
 		$connection->autocommit(false);
 		$connectionService->autocommit(false);
+		
 		$image = new Image();
 		$image->setActive(1);
 		$image->setAlbum($albumId);
@@ -292,11 +295,13 @@ class UploadAlbumController extends REST {
 		$image->setLatitude(null);
 		$image->setLongitude(null);
 		$image->setLovecounter(0);
-		$image->setLovers(array());
 		$image->setSharecounter(0);
 		$image->setTag(array());
 		$image->setThumbnail($imgMoved['thumbnail']);
 		$result = insertImage($connection, $image);
+		if ($result === false) {
+		    $this->response(array('status' => $controllers['INSERT_ERROR']), 500);
+		}
 		$node = createNode($connectionService, 'image', $result->getId());
 		$relation = createRelation($connectionService, 'user', $currentUserId, 'image', $result->getId(), 'ADD');
 		if ($result === false || $relation === false || $node === false) {
@@ -331,7 +336,7 @@ class UploadAlbumController extends REST {
 		if (!$resImage || is_null($resImage)) {
 		    array_push($errorImages, $image);
 		} else {
-		    if ($image['isCover'] == "true") {
+		    if ($image['isCover'] == "true") {		    	
 			$this->createAlbumCoverFiles($currentUser->getId(), $albumId, $resImage->getPath(), $resImage->getThumbnail());
 			$connectionService = new ConnectionService();
 			$connection = $connectionService->connect();
@@ -351,7 +356,7 @@ class UploadAlbumController extends REST {
 			    $connection->commit();
 			    $connectionService->commit();
 			}
-		    }
+		    }		
 		}
 	    }
 	}
