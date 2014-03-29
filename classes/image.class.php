@@ -213,7 +213,7 @@ class Image {
      * @return	string
      */
     public function getPath() {
-	return $this->pathath;
+	return $this->path;
     }
 
     /**
