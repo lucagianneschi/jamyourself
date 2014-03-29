@@ -299,33 +299,37 @@ function insertImage($connection, $image) {
     require_once CLASSES_DIR . 'image.class.php';
     $sql = "INSERT INTO image ( id,
                                     active,
+                                    album,
                                     commentcounter,
                                     counter,
+                                    description,
                                     fromuser,
                                     latitude,
                                     longitude,
                                     lovecounter,
-				    path,
+				    				path,
                                     sharecounter,
                                     thumbnail,
                                     createdat,
                                     updatedat)
                           VALUES (NULL,
-				  '" . (is_null($image->getActive()) ? 0 : $image->getActive()) . "',
-                                  '" . (is_null($image->getCommentcounter()) ? 0 : $image->getCommentcounter()) . "',
-                                  '" . (is_null($image->getCounter()) ? 0 : $image->getCounter()) . "',
-                                  '" . (is_null($image->getFromuser()) ? 0 : $image->getFromuser()) . "',
-                                  '" . (is_null($image->getLatitude()) ? 0 : $image->getLatitude()) . "',                                             
-                                  '" . (is_null($image->getLongitude()) ? 0 : $image->getLongitude()) . "',                                    
-                                  '" . (is_null($image->getLovecounter()) ? 0 : $image->getLovecounter()) . "',
-				  '" . $image->getPath() . "',
-                                  '" . (is_null($image->getSharecounter()) ? 0 : $image->getSharecounter()) . "', 
-                                  '" . $image->getThumbnail() . "',   
-                                  NOW(),
-                                  NOW())";
+				  			'" . (is_null($image->getActive()) ? 0 : $image->getActive()) . "',
+				  			'" . (is_null($image->getAlbum()) ? 0 : $image->getAlbum()) . "',
+                            '" . (is_null($image->getCommentcounter()) ? 0 : $image->getCommentcounter()) . "',
+                            '" . (is_null($image->getCounter()) ? 0 : $image->getCounter()) . "',
+                            '" . (is_null($image->getDescription()) ? 0 : $image->getDescription()) . "',
+                            '" . (is_null($image->getFromuser()) ? 0 : $image->getFromuser()) . "',
+                            '" . (is_null($image->getLatitude()) ? 0 : $image->getLatitude()) . "',                                             
+                            '" . (is_null($image->getLongitude()) ? 0 : $image->getLongitude()) . "',                                    
+                            '" . (is_null($image->getLovecounter()) ? 0 : $image->getLovecounter()) . "',
+				  			'" . $image->getPath() . "',
+                            '" . (is_null($image->getSharecounter()) ? 0 : $image->getSharecounter()) . "', 
+                            '" . $image->getThumbnail() . "',   
+                            NOW(),
+                            NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertImage');
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertImage ');
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
@@ -339,7 +343,8 @@ function insertImage($connection, $image) {
 	    }
 	}
     }
-    return $insert_id;
+    $image->setId($insert_id);
+    return $image;
 }
 
 /**
