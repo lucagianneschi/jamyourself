@@ -70,6 +70,7 @@ class FileManagerService {
     /**
      * create users/images folder in the filesystem
      * 
+     * @param int $userId user id
      * @return  users/USERID/images dir
      */
     public function createImagesDir($userId) {
@@ -79,6 +80,7 @@ class FileManagerService {
     /**
      * create users/images/photos folder in the filesystem
      * 
+     * @param int $userId user id
      * @return  users/USERID/images/photos/ dir
      */
     public function createPhotoDir($userId) {
@@ -88,6 +90,7 @@ class FileManagerService {
     /**
      * create  users/USERID/images/records/ folder in the filesystem
      * 
+     * @param int $userId user id
      * @return  users/USERID/images/records/ dir
      */
     public function createRecordPhotoDir($userId) {
@@ -97,6 +100,7 @@ class FileManagerService {
     /**
      * create users/images/photos folder in the filesystem
      * 
+     * @param int $userId user id
      * @return  users/USERID/images/records/ dir
      */
     public function createSongsDir($userId) {
@@ -106,6 +110,7 @@ class FileManagerService {
     /**
      * create users/ folder in the filesystem
      * 
+     * @param int $userId user id
      * @return  users/USERID dir
      */
     public function createUserDir($userId) {
@@ -115,6 +120,8 @@ class FileManagerService {
     /**
      * get event cover path
      * 
+     * @param int $userId user id
+     * @param int $photoId photo id
      * @return  path if found
      */
     public function getEventPhotoPath($userId, $photoId) {
@@ -129,6 +136,8 @@ class FileManagerService {
     /**
      * get domain name
      * 
+     * @param int $userId user id
+     * @param int $photoId photo id
      * @return  domain name
      */
     public function getDomainName() {
@@ -138,6 +147,8 @@ class FileManagerService {
     /**
      * get event photo URL
      * 
+     * @param int $userId user id
+     * @param int $photoId photo id
      * @return  URL if found
      */
     public function getEventPhotoURL($userId, $photoId) {
@@ -153,6 +164,8 @@ class FileManagerService {
     /**
      * get photo path
      * 
+     * @param int $userId user id
+     * @param int $photoId photo id
      * @return  path if found
      */
     public function getPhotoPath($userId, $photoId) {
@@ -167,6 +180,8 @@ class FileManagerService {
     /**
      * get photo URL
      * 
+     * @param int $userId user id
+     * @param int $photoId photo id
      * @return  URL if found
      */
     public function getPhotoURL($userId, $photoId) {
@@ -182,6 +197,8 @@ class FileManagerService {
     /**
      * get record cover path
      * 
+     * @param int $userId user id
+     * @param int $photoId photo id
      * @return  path if found
      */
     public function getRecordPhotoPath($userId, $photoId) {
@@ -195,7 +212,9 @@ class FileManagerService {
 
     /**
      * get record photo URL
-     * 
+     *
+     * @param int $userId user id
+     * @param int $photoId photo id
      * @return  URL if found
      */
     public function getRecordPhotoURL($userId, $photoId) {
@@ -212,6 +231,8 @@ class FileManagerService {
     /**
      * get song path
      * 
+     * @param int $userId user id
+     * @param int $photoId photo id
      * @return  path if found
      */
     public function getSongPath($userId, $songId) {
@@ -226,6 +247,8 @@ class FileManagerService {
     /**
      * get song URL
      * 
+     * @param int $userId user id
+     * @param int $photoId photo id
      * @return  URL if found
      */
     public function getSongURL($userId, $songId) {
@@ -241,6 +264,9 @@ class FileManagerService {
 
     /**
      * save photo in the image folder
+     * 
+     * @param int $userId user id
+     * @param int $photoId photo id
      */
     public function saveEventPhoto($userId, $photoId) {
 	$src = CACHE_DIR . $photoId;
@@ -252,6 +278,9 @@ class FileManagerService {
 
     /**
      * save photo in the image folder
+     * 
+     * @param int $userId user id
+     * @param int $photoId photo id
      */
     public function savePhoto($userId, $photoId) {
 	$src = CACHE_DIR . $photoId;
@@ -263,12 +292,15 @@ class FileManagerService {
 
     /**
      * save photo in the image folder
+     * 
+     * @param int $userId user id
+     * @param int $photoId photo id
      */
     public function saveRecordPhoto($userId, $photoId) {
 	$src = CACHE_DIR . $photoId;
 	$dest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
 	if (file_exists($src) && $this->checkRecordPhotoDir($userId)) {
-	    return rename($dest, $src);
+	   return copy($src, $dest);
 	}
     }
 
@@ -279,12 +311,14 @@ class FileManagerService {
 	$src = CACHE_DIR . $songId;
 	$dest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder . DIRECTORY_SEPARATOR . $songId;
 	if (file_exists($src) && $this->checkSongsDir($userId)) {
-	    return rename($dest, $src);
+	    return copy($src, $dest);
 	}
     }
 
     /**
      * check if the images/events/ exists
+     * 
+     * @param int $userId user id
      */
     private function checkEventPhotoDir($userId) {
 	if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder))
@@ -305,6 +339,8 @@ class FileManagerService {
 
     /**
      * check if the images/record/ exists
+     * 
+     * @param int $userId user id
      */
     private function checkRecordPhotoDir($userId) {
 	if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder))
@@ -315,6 +351,8 @@ class FileManagerService {
 
     /**
      * check if the songs/ exists
+     * 
+     * @param int $userId user id
      */
     private function checkSongsDir($userId) {
 	if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder))
