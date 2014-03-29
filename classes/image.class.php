@@ -58,6 +58,11 @@ class Image {
      * @property string descrizione del video
      */
     private $description;
+	
+	/**
+     * @property int id del featuring
+     */
+    private $featuring;
 
     /**
      * @property int id del formuser
@@ -162,7 +167,15 @@ class Image {
     public function getDescription() {
 	return $this->description;
     }
-
+	
+	/**
+     * Return the id value for the featuring
+     * @return	array
+     */
+    public function getFeaturing() {
+	return $this->featuring;
+    }
+	
     /**
      * Return the id value for the fromUser
      * @return	string
@@ -289,6 +302,14 @@ class Image {
      */
     public function setDescription($description) {
 	$this->description = $description;
+    }
+
+	/**
+     * Sets the featuring value
+     * @param	array
+     */
+    public function setFeaturing($featuring) {
+	$this->featuring = $featuring;
     }
 
     /**
