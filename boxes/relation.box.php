@@ -101,6 +101,7 @@ class FollowersBox {
 	    $connection = $connectionService->connect();
 	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FOLLOWING', $skip, $limit);
 	    $users = selectUsers($connection, null, array('id' => $data));
+		if(!is_array($users)) return $followers;
 	    foreach ($users as $user) {
 		array_push($followers, $user);
 	    }
