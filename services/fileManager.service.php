@@ -306,6 +306,9 @@ class FileManagerService {
 
     /**
      * save song (mp3) in the songs folder
+     * 
+     * @param int $userId user id
+     * @param int $songId file mp3 id
      */
     public function saveSong($userId, $songId) {
 	$src = CACHE_DIR . $songId;
@@ -329,6 +332,8 @@ class FileManagerService {
 
     /**
      * check if the images/photos/ exists
+     * 
+     * @param int $userId user id
      */
     private function checkPhotoDir($userId) {
 	if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder))
