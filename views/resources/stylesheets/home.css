@@ -225,14 +225,6 @@ p {
 	margin:10px 0;
     }
 
-    .navigation{
-	width: 100%;
-	float:center;
-	list-style: none;
-	margin: 0;
-	padding:0;
-    }
-
     .navigation li{
 	float: left;
 	width:25%;
@@ -331,5 +323,3 @@ p {
     background-image: url(../images/icon/btn-loader.gif) !important;
     background-position: center center !important;  
 }
-
-
