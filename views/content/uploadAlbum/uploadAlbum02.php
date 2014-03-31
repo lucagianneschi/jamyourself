@@ -5,6 +5,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'utils.service.php';
 ?>
 <div class="row">
     <div  class="large-12 columns formBlack-title">
@@ -15,7 +16,31 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     <div  class="small-6 columns">
         <input type="text" name="albumTitle" id="albumTitle" pattern="description" required/>
         <label for="albumTitle"><?php echo $views['uploadAlbum']['title']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadAlbum']['valid_title']; ?></small></label>
+		<script>
+			/*
+			 * select2 e' il plugin per le featuring con id featuring
+			 */
+			$(document).ready(function() {
+				
+	   			getFeaturing('#featuring');
+			});
+			function getFeaturing(box){
+				$(box).select2({
+				    multiple: true,
+				    minimumInputLength: 1,
+				    width: "100%",
+				    data:[
+				    <?php 
+				    $arrayFeaturing = getFeaturingArray();
+				    foreach ($arrayFeaturing as  $value) {
+				    	if($value['type'] == 'JAMMER')
+				    		echo '{id:'.$value['id'].',text:"'.$value['text'].'"},';										
+					 }  ?>			   
+				    ]
+				});
 
+			}
+		</script>	
         <input type="text" name="featuring" id="featuring" pattern=""/>
         <label for="featuring"><?php echo $views['uploadAlbum']['feat']; ?></label>
 

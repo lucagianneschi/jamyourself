@@ -18,8 +18,7 @@ session_start();
 
 $postBox = new PostBox();
 $postBox->init($_POST['id']);
-
-if (is_null($postBox->error)) {
+if (is_null($postBox->error) || isset($_SESSION['id'])) {
     $currentUserId = $_SESSION['id'];
     $posts = $postBox->postArray;
     $postCounter = count($posts);
@@ -28,10 +27,8 @@ if (is_null($postBox->error)) {
     <div class="row" id="social-Post" style='margin-bottom: 40px;'>
         <div  class="large-12 columns">
     	<h3><?php echo $views['post']['title'] ?></h3>
-
     	<div class="row ">
     	    <div  class="large-12 columns ">
-
     		<div class="row  ">
     		    <div  class="large-12 columns ">
     			  <form action="" class="box-write" onsubmit="sendPost('<?php echo $_POST['id']; ?>', $('#post').val());
@@ -65,7 +62,7 @@ if (is_null($postBox->error)) {
 			    $post_loveCounter = $value->getLovecounter();
 			    $post_commentCounter = $value->getCommentcounter();
 			    $connectionService = new ConnectionService();
-			    if (existsRelation($connectionService,'user', $currentUserId, 'comment', $post_objectId, 'loved')) {
+			    if (existsRelation($connectionService,'user', $currentUserId, 'comment', $post_objectId, 'LOVE')) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {

@@ -39,7 +39,7 @@ class LoveController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
 	    $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Video');
@@ -55,23 +55,26 @@ class LoveController extends REST {
 	    $fromuserId = $_SESSION['id'];
 	    $classType = $this->request['classType'];
 	    $id = $this->request['id'];
-	    $toUserObjectId = $this->request['objectIdUser'];
+	    $toUserObjectId = $this->request['objectIdUser']; //serve per la notifica
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
-	    if (existsRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love')) {
+	    if (existsRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'LOVE')) {
 		$this->response(array('status' => 'ALREADYLOVED'), 400);
 	    }
-	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('lovecounter' => 1));
-	    if (!$loveCounter) {
-		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), array('lovecounter' => 1), null, $id);
+	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'LOVE');
+	    if ($loveCounter === false || $relation === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
-	    $relation = createRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love');
-	    if (!$relation) {
-		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
-	    }
+	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['LOVE']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
@@ -87,7 +90,7 @@ class LoveController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
 	    $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Video');
@@ -100,7 +103,7 @@ class LoveController extends REST {
 	    } elseif (!isset($this->request['objectIdUser'])) {
 		$this->response(array('status' => 'NOUSERID'), 400);
 	    }
-	    $fromuserId = $_SESSION['currentUser'];
+	    $fromuserId = $_SESSION['id'];
 	    $classType = $this->request['classType'];
 	    $id = $this->request['id'];
 	    $connectionService = new ConnectionService();
@@ -108,18 +111,20 @@ class LoveController extends REST {
 	    if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
-	    if (!existsRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love')) {
+	    if (!existsRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'LOVE')) {
 		$this->response(array('status' => 'NOLOVE'), 400);
 	    }
-	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('lovecounter' => -1));
-	    if (!$loveCounter) {
-		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), null, array('lovecounter' => 1), $id);
+	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'LOVE');
+	    if ($loveCounter === false || $relation === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
-	    //@todo eliminare rekazione tra utente e oggetto lovvato
-	    $relation = createRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'love');
-	    if (!$relation) {
-		$this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
-	    }
+	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['UNLOVE']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);

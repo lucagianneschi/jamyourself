@@ -26,7 +26,7 @@ $commentToShow = 3;
 
 $commentBox = new CommentBox();
 $commentBox->init($id, $limit, $skip);
-if (is_null($commentBox->error)) {
+if (is_null($commentBox->error) || isset($_SESSION['id'])) {
     $currentUserId = $_SESSION['id'];
     $comments = $commentBox->commentArray;
     $commentcounter = count($comments);
@@ -74,7 +74,7 @@ if (is_null($commentBox->error)) {
 			    $comment_counter_love = $value->getLovecounter();
 			    $comment_counter_comment = $value->getCommentcounter();
 			    $comment_counter_share = $value->getSharecounter();
-			    if(existsRelation('user', $currentUserId, 'comment', $comment_objectId, 'loved')){
+			    if(existsRelation('user', $currentUserId, 'comment', $comment_objectId, 'LOVE')){
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {

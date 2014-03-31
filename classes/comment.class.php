@@ -17,122 +17,122 @@
 class Comment {
 
     /**
-     * @var int id istanza
+     * @property int id istanza
      */
     private $id;
 
     /**
-     * @var date data creazione istanza
+     * @property date data creazione istanza
      */
     private $createdat;
 
     /**
-     * @var date data modifica istanza
+     * @property date data modifica istanza
      */
     private $updatedat;
 
     /**
-     * @var int istanza attiva/non attiva
+     * @property int istanza attiva/non attiva
      */
     private $active;
 
     /**
-     * @var int id dell'album associato
+     * @property int id dell'album associato
      */
     private $album;
 
     /**
-     * @var int id del comment associato
+     * @property int id del comment associato
      */
     private $comment;
 
     /**
-     * @var int numero di commenti
+     * @property int numero di commenti
      */
     private $commentcounter;
 
     /**
-     * @var int indice di gradimento
+     * @property int indice di gradimento
      */
     private $counter;
 
     /**
-     * @var int id del event associato
+     * @property int id del event associato
      */
     private $event;
 
     /**
-     * @var int id dell'utente che fa upload dell'album
+     * @property int id dell'utente che fa upload dell'album
      */
     private $fromuser;
 
     /**
-     * @var int id dell image associatas
+     * @property int id dell image associatas
      */
     private $image;
 
     /**
-     * @var float latitudine
+     * @property float latitudine
      */
     private $latitude;
 
     /**
-     * @var float longitudine
+     * @property float longitudine
      */
     private $longitude;
 
     /**
-     * @var int contatore di azioni love
+     * @property int contatore di azioni love
      */
     private $lovecounter;
 
     /**
-     * @var int id del record associato
+     * @property int id del record associato
      */
     private $record;
 
     /**
-     * @var int contatore di azioni share
+     * @property int contatore di azioni share
      */
     private $sharecounter;
 
     /**
-     * @var int id della song associata
+     * @property int id della song associata
      */
     private $song;
 
     /**
-     * @var array di tag (int)
+     * @property array di tag (int)
      */
     private $tag;
 
     /**
-     * @var string testo del comment
+     * @property string testo del comment
      */
     private $text;
 
     /**
-     * @var string testo del titolo (solo per review)
+     * @property string testo del titolo (solo per review)
      */
     private $title;
 
     /**
-     * @var int id del toser
+     * @property int id del toser
      */
     private $touser;
 
     /**
-     * @var string tipo di istanza di comment C = comment, P = post, M = message, RE = reviewEvent, RR = revieRecord
+     * @property string tipo di istanza di comment C = comment, P = post, M = message, RE = reviewEvent, RR = revieRecord
      */
     private $type;
 
     /**
-     * @var int id del video associato
+     * @property int id del video associato
      */
     private $video;
 
     /**
-     * @var int voto (valido solo in caso di review)
+     * @property int voto (valido solo in caso di review)
      */
     private $vote;
 

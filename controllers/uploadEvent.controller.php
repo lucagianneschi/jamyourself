@@ -1,62 +1,52 @@
 <?php
 
-/* ! \par		Info Generali:
- * @author		Stefano Muscas
- * @version		1.0
- * @since		2013
- * @copyright           Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller di upload event 
- * \details		si collega al form di upload di un evet, effettua controlli, scrive su DB
- * \par			Commenti:
- * @warning
- * @bug
- * @todo		Fare API su Wiki
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'event.class.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
+require_once SERVICES_DIR . 'insert.service.php';
+require_once SERVICES_DIR . 'connection.service.php';
 
 /**
- * \brief	UploadEventController class 
- * \details	controller di upload event
+ * UploadEventController class
+ * si collega al form di upload di un evet, effettua controlli, scrive su DB
+ * 
+ * @author		Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
 class UploadEventController extends REST {
 
     /**
-     * \fn	init()
-     * \brief   inizializzazione della pagina
+     * inizializzazione della pagina
      */
     public function init() {
-//utente non loggato
-
-	if (!isset($_SESSION['currentUser'])) {
-	    /* This will give an error. Note the output
-	     * above, which is before the header() call */
+	if (!isset($_SESSION['id'])) {
 	    header('Location: login.php?from=uploadEvent.php');
 	    exit;
 	}
     }
 
     /**
-     * \fn	createEvent()
-     * \brief   funzione per pubblicazione dell'event
+     * funzione per pubblicazione dell'event
      */
     public function createEvent() {
 	try {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 400);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 400);
 	    } elseif (!isset($this->request['title']) || is_null($this->request['title']) || !(strlen($this->request['title']) > 0)) {
 		$this->response(array('status' => $controllers['NOEVENTTITLE']), 400);
@@ -70,8 +60,6 @@ class UploadEventController extends REST {
 		$this->response(array('status' => $controllers['NOEVENTMUSIC']), 400);
 	    } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags']) > 0)) {
 		$this->response(array('status' => $controllers['NOEVENTTAGS']), 400);
-//            } elseif (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
-//                $this->response(array('status' => $controllers['NOEVENTURL']), 400);
 	    } elseif (!isset($this->request['venue']) || is_null($this->request['venue']) || !(strlen($this->request['venue']) > 0)) {
 		$this->response(array('status' => $controllers['NOEVENTVENUE']), 400);
 	    } elseif (!isset($this->request['image']) || is_null($this->request['image'])) {
@@ -81,74 +69,72 @@ class UploadEventController extends REST {
 	    } elseif (!isset($this->request['city']) || is_null($this->request['city'])) {
 		$this->response(array('status' => $controllers['NOEVENTADDRESS']), 400);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
-	    $userId = $currentUser->getId();
-	    require_once CLASSES_DIR . 'event.class.php';
+	    $userId = $_SESSION['id'];
+	    require_once SERVICES_DIR . 'geocoder.service.php';
+	    $infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
+	    $imgInfo = getCroppedImages($this->request);
 	    $event = new Event();
-	    $event->setActive(true);
-	    $event->setAttendee(null);
+	    $event->setActive(1);
+	    $event->setAttendeecounter(0);
+	    $event->setAddress($infoLocation["address"] . ", " . $infoLocation['number']);
+	    $event->setCancelledcounter(0);
+	    $event->setCity($infoLocation["city"]);
+	    $event->setCommentcounter(0);
 	    $event->setCounter(0);
+	    $event->setCover($imgInfo['picture']);
 	    $event->setDescription($this->request['description']);
 	    $eventDate = $this->getDate($this->request['date'], $this->request['hours']);
-	    if (is_null($eventDate)) {
+	    if (!$eventDate) {
 		$this->response(array('status' => $controllers['NOEVENTDATE']), 400);
 	    }
-	    $event->setEventDate($eventDate);
+	    $event->setEventdate($eventDate);
+	    $event->setFromuser($userId);
 	    if (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
 		$event->setFeaturing($this->request['jammers']);
 	    }
-	    $event->setFromuser($userId);
-	    $imgInfo = getCroppedImages($this->request);
-	    $event->setImage($imgInfo['picture']);
-	    $event->setThumbnail($imgInfo['thumbnail']);
-	    $event->setInvited(null);
+	    $event->setGenre($this->request['music']);
+	    $event->setInvitedCounter(0);
+	    $event->setLatitude($infoLocation['latitude']);
 	    $event->setLocationName($this->request['venue']);
-	    require_once SERVICES_DIR . 'geocoder.service.php';
-	    $infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
-	    $event->setLatitude($infoLocation["latitude"]);
 	    $event->setLongitude($infoLocation["longitude"]);
-	    $event->setAddress($infoLocation["address"] . ", " . $infoLocation['number']);
-	    $event->setCity($infoLocation["city"]);
 	    $event->setLovecounter(0);
-	    $event->setRefused(null);
+	    $event->setRefusedcounter(0);
 	    $event->setReviewcounter(0);
 	    $event->setSharecounter(0);
 	    $event->setTag($this->request['tags']);
-	    $event->setGenre($this->request['music']);
+	    $event->setThumbnail($imgInfo['thumbnail']);
 	    $event->setTitle($this->request['title']);
-	    require_once CLASSES_DIR . 'eventParse.class.php';
-	    $pEvent = new EventParse();
-	    $eventSave = $pEvent->saveEvent($event);
-	    if ($eventSave instanceof Error) {
-		$this->response(array("status" => $controllers['EVENTCREATEERROR']), 503);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $result = insertEvent($connection, $event);
+	    $node = createNode($connectionService, 'event', $result->getId());
+	    $relation = createRelation($connectionService, 'user', $userId, 'event', $result->getId(), 'ADD');
 	    $fileManager = new FileManagerService();
-	    $thumbSrc = $fileManager->getEventPhotoPath($userId, $eventSave->getThumbnail());
-	    $imageSrc = $fileManager->getEventPhotoPath($userId, $eventSave->getImage());
-	    if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
-		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $eventSave->getThumbnail(), $thumbSrc);
-		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $eventSave->getImage(), $imageSrc);
+	    $res_thumb = $fileManager->saveEventPhoto($userId, $result->getThumbnail());
+	    $res_image = $fileManager->saveEventPhoto($userId, $result->getCover());
+	    if ($result === false || $relation === false || $node === false || $res_image === false || $res_thumb === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
-	    unset($_SESSION['currentUserFeaturingArray']);
-	    $activity = $this->createActivity($userId, $eventSave->getId());
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityP = new ActivityParse();
-	    $activitySave = $activityP->saveActivity($activity);
-	    if ($activitySave instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackUploadEventController($eventSave->getId());
-		$this->response(array('status' => $message), 503);
-	    }
-	    $this->response(array('status' => $controllers['EVENTCREATED'], "id" => $eventSave->getId()), 200);
+	    $connectionService->disconnect($connection);
+	    $this->response(array('status' => $controllers['EVENTCREATED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
 
-
     /**
-     * \fn	getDate($day, $hours)
-     * \brief   funzione per formattazione della data
+     * funzione per formattazione della data
+     * @param int $day Day of the event
+     * @param int $day Hour of the event
+     * @return Datetime of the event
      * @todo    check su utilizzo funzioni della utilsClass
      */
     private function getDate($day, $hours) {
@@ -161,47 +147,7 @@ class UploadEventController extends REST {
 		return DateTime::createFromFormat("d/m/Y H:i", $day . " " . $hours);
 	    }
 	} catch (Exception $e) {
-	    return null;
-	}
-    }
-
-    /**
-     * \fn	getFeaturingJSON() 
-     * \brief   funzione per il recupero dei featuring per l'event
-     * @todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
-     */
-    public function getFeaturingJSON() {
-	try {
-	    global $controllers;
-	    error_reporting(E_ALL ^ E_NOTICE);
-	    $force = false;
-	    $filter = null;
-
-	    if (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 400);
-	    }
-	    if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
-		$force = true;
-	    }
-	    if (isset($this->request['term']) && !is_null($this->request['term']) && (strlen($this->request['term']) > 0)) {
-		$filter = $this->request['term'];
-	    }
-	    $currentUserFeaturingArray = null;
-	    if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
-		$currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
-	    } else {
-		require_once CONTROLLERS_DIR . 'utilsController.php';
-		$currentUserFeaturingArray = getFeaturingArray();
-		$_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
-	    }
-	    if (!is_null($filter)) {
-		require_once CONTROLLERS_DIR . 'utilsController.php';
-		echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
-	    } else {
-		echo json_encode($currentUserFeaturingArray);
-	    }
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
+	    return false;
 	}
     }
 

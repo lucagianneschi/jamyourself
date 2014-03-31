@@ -21,7 +21,7 @@ var maxCheckGenre = 0;
 var maxCheckLocalType = 0;
 
 $(document).ready(function() {
-    initJammersJSON();
+ //   initJammersJSON();
     initGeocomplete();
     initImgUploader();
 
@@ -110,7 +110,6 @@ function creteEvent() {
 	json_event_create.jammers = getFeaturingList("jammers");
 	json_event_create.tags = getTagsEventCreate();
 	json_event_create.music = getMusicEventCreate();
-
 	if (json_event_create.tags.length > 0) {
 	    $("#label-tag-music .error").css({'display': 'none'});
 	    sendRequest("uploadEvent", "createEvent", json_event_create, eventCreateCallback, false);
@@ -128,13 +127,16 @@ function creteEvent() {
 
 function eventCreateCallback(data, status, xhr) {
     try {
+    	
 	if (status === "success" && data !== undefined && data !== null && data.id !== undefined && data.id !== null) {
 	    alert(data.status);
+	    console.log(data.responseText);
 //            clearAll();
 	    redirect("event.php?event=" + data.id);
 	}
 	else {
 	    alert(data.status);
+	    console.log(data.responseText);
 	    location.reload();
 	}
     } catch (err) {
@@ -214,7 +216,7 @@ function initImgUploader() {
     uploader.bind('FilesAdded', function(up, files) {
 	//avvio subito l'upload
 //        window.console.log("initImgUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
-
+	goSpinner('#uploadImage_preview_box');
 	uploader.start();
     });
 
@@ -269,7 +271,7 @@ function onUploadedImage(img) {
     html_uploadImage_preview_box += '<input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/>';
     html_uploadImage_preview_box += '<input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/>';
     html_uploadImage_preview_box += '<input type="hidden" id="' + input_h + '" name="' + input_h + '" value="100"/>';
-
+	stopSpinner('#uploadImage_preview_box');
     //mostra a video la preview dell'immagine:
     $('#uploadImage_preview_box').html(html_uploadImage_preview_box);
     preview = $('#uploadImage_preview_box');

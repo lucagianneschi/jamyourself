@@ -1,25 +1,49 @@
 <?php
 
 /**
- * Servizio  di funzioni di utilities
+ * funzioni utilità per controller
  * 
- * @author Stefano Muscas
- * @author Daniele Caldelli
+ * @author		Maria Laura Fresu
+ * @author		Stefano Muscas
+ * @author		Daniele Caldelli
+ * @author		Luca Gianneschi
  * @version		0.2
- * @since		2014-03-14
+ * @since		2013
  * @copyright		Jamyourself.com 2013	
  * @warning
  * @bug
- * @todo                
+ * @todo                da eliminare e portare le funzioni che servono dentro utils.service.php
  */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
+require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'select.service.php';
+
+/**
+ * verifica che l'indirizzo inserito sia un indirizzo valido
+ * 
+ * @param $email string email inserita
+ * @return true in case of success, false otherwise
+ */
+function checkEmail($email) {
+    if (strlen($email) > 50)
+	return false;
+    if (stripos($email, " ") !== false)
+	return false;
+    if (!(stripos($email, "@") !== false))
+	return false;
+    if (!(filter_var($email, FILTER_VALIDATE_EMAIL)))
+	return false;
+    return true;
+}
 
 /**
  * The function returns the difference between $end and $start parameter in microseconds
+ * 
  * @param	$start	represent the microsecond time of the begin of the operation
  * @param	$end	represent the microsecond time of the end of the operation
  * @return	number	the number representing the difference in microsecond
@@ -46,6 +70,7 @@ function executionTime($start, $end) {
 
 /**
  * The function returns a string read from DB that can be interpreted by the user
+ * 
  * @param	$string 	represent the string from DB to decode
  * @return	string		the decoded string
  */
@@ -57,6 +82,7 @@ function decode_string($string) {
 
 /**
  * The function returns a string that can be saved to DB
+ * 
  * @param	$string 	represent the string to be saved
  * @return	string		the string encoded for DB
  */
@@ -68,9 +94,10 @@ function encode_string($string) {
 
 /**
  * filtra featuind per tipo
+ * 
  * @param   $array, $value
  * @return  $newarray
- * @todo    
+ *    
  */
 function filterFeaturingByValue($array, $value) {
     $newarray = array();
@@ -86,6 +113,7 @@ function filterFeaturingByValue($array, $value) {
 
 /**
  * funzione per recupero immagini dopo crop
+ * 
  * @param   $decoded
  * @todo   check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
  */
@@ -128,7 +156,55 @@ function getCroppedImages($decoded) {
 }
 
 /**
+ * funzione per il recupero dei featuring, da usare nei form che prevedono l'inserimento di featuring
+ */
+function getFeaturingArray() {
+    if (session_id() == '')
+	session_start();
+    if (isset($_SESSION['id'])) {
+	$currentUserId = $_SESSION['id'];
+	$currentUserType = $_SESSION['type'];
+	$userArray = null;
+	$connectionService = new ConnectionService();
+	switch ($currentUserType) {
+	    case "SPOTTER":
+		$userArrayFriend = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'FRIENDSHIP');
+		if ((!$userArrayFriend) || is_null($userArrayFriend)) {
+		    $userArrayFriend = array();
+		}
+		$userArrayFollowing = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'FOLLOWING');
+		if ((!$userArrayFollowing) || is_null($userArrayFollowing)) {
+		    $userArrayFollowing = array();
+		}
+		$userArray = array_merge($userArrayFriend, $userArrayFollowing);
+		break;
+	    default:
+		$userArray = getRelatedNodes($connectionService, 'user', $currentUserId, 'user', 'COLLABORATION');
+		break;
+	}
+	if ((!$userArray) || is_null($userArray)) {
+	    return array();
+	} else {
+	    $userArrayInfo = array();
+	    $connection = $connectionService->connect();
+	    $users = selectUsers($connection, null, array('id' => $userArray));
+	    foreach ($users as $user) {
+		require_once CLASSES_DIR . "user.class.php";
+		$username = $user->getUsername();
+		$userId = $user->getId();
+		$userType = $user->getType();
+		array_push($userArrayInfo, array("id" => $userId, "text" => $username, 'type' => $userType));
+	    }
+	    return $userArrayInfo;
+	}
+    }
+    else
+	return array();
+}
+
+/**
  * invia mail ad utente
+ * 
  * @param   $address, $subject, $html
  * @todo    testare
  */
@@ -150,6 +226,7 @@ function sendMailForNotification($address, $subject, $html) {
 
 /**
  * The function returns a string wiht the id of the user in session, if there's no user return a invalid ID used (valid for the code)
+ * 
  * @return	string $currentUserId;
  */
 function sessionChecker() {

@@ -37,12 +37,10 @@ $totNotification = 0;
 $invited = 0;
 $message = 0;
 $relation = 0;
-
 $css_not = $totNotification > 0 ? '' : 'no-display';
 $css_inv = $invited > 0 ? '' : 'no-display';
 $css_msg = $message > 0 ? '' : 'no-display';
 $css_rel = $relation > 0 ? '' : 'no-display';
-
 switch ($typeNotification) {
     case 'notification':
 	$detailNotification = new ActionListBox();

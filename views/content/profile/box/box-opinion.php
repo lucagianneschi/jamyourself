@@ -10,15 +10,13 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 
 $id = $_POST['id'];
 $touser = $_POST['toUser'];
-$class = $_POST['classBox'];
+$class = strtolower($_POST['classBox']);
 $box = $_POST['box'];
 $limit = (int) $_POST['limit'];
 $skip = (int) $_POST['skip'];
-
 $comment = new CommentBox();
 $comment->init($id, $class, $limit, $skip);
 $countComment = count($comment->commentArray);
-
 if ($countComment > 0) {
     /*
       ?>

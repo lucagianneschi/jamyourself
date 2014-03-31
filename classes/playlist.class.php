@@ -16,47 +16,47 @@
 class Playlist {
 
     /**
-     * @var int id istanza
+     * @property int id istanza
      */
     private $id;
 
     /**
-     * @var date data creazione istanza
+     * @property date data creazione istanza
      */
     private $createdat;
 
     /**
-     * @var date data modifica istanza
+     * @property date data modifica istanza
      */
     private $updatedat;
 
     /**
-     * @var int istanza attiva/non attiva
+     * @property int istanza attiva/non attiva
      */
     private $active;
 
     /**
-     * @var int id del formuser
+     * @property int id del formuser
      */
     private $fromuser;
 
     /**
-     * @var string name of the playlist
+     * @property string name of the playlist
      */
     private $name;
 
     /**
-     * @var int numero di canzoni nella playlist
+     * @property int numero di canzoni nella playlist
      */
     private $songcounter;
 
     /**
-     * @var array di id di song in playlist
+     * @property array di id di song in playlist
      */
     private $songs;
 
     /**
-     * @var int 1 = YES, 0 = NO
+     * @property int 1 = YES, 0 = NO
      */
     private $unlimited;
 

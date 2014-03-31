@@ -17,13 +17,15 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 session_start();
 
+$currentUser = $_SESSION['id'];
 $id = $_POST['id'];
 $limit = $_POST['limit'];
 $skip = $_POST['skip'];
 $reviewToShow = 3;
+
 $reviewBox = new ReviewRecordBox();
 $reviewBox->initForMediaPage($id, $limit, $skip);
-if (is_null($reviewBox->error)) {
+if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
     $currentUserId = $_SESSION['id'];
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);
@@ -53,7 +55,7 @@ if (is_null($reviewBox->error)) {
 		    $review_counter_love = $value->getLovecounter();
 		    $review_counter_comment = $value->getCommentcounter();
 		    $review_counter_share = $value->getSharecounter();
-		    if(existsRelation('user', $currentUserId, 'comment', $review_objectId, 'loved')){
+		    if(existsRelation('user', $currentUserId, 'comment', $review_objectId, 'LOVE')){
 			$css_love = '_love orange';
 			$text_love = $views['unlove'];
 		    } else {

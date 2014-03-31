@@ -1,20 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * @author		Luca Gianneschi
- * @version		0.3
- * @since		2013
- * @copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		box caricamento playlist utente
- * \details		Recupera la playlist utente
- * \par			Commenti:
- * @warning
- * @bug
- * @todo		comprendere i profili premium
- *
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -36,12 +21,12 @@ require_once SERVICES_DIR . 'select.service.php';
 class PlaylistInfoBox {
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di playlist
+     * @property array Array di playlist
      */
     public $playlistArray = array();
 
@@ -78,12 +63,12 @@ class PlaylistInfoBox {
 class PlaylistSongBox {
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di song
+     * @property array Array di song
      */
     public $songArray = array();
 

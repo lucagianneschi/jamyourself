@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -18,18 +19,19 @@ if (isset($_GET['user'])) {
 $userInfoBox = new UserInfoBox();
 $userInfoBox->init($userPageId);
 
-if (is_null($userInfoBox->error)) {
-    foreach ($userInfoBox->user as $key => $value) {
-	$user = $value;
-    }
+if (is_null($userInfoBox->error)) {	
+   
+	foreach ($userInfoBox->user as $key => $value) {
+		$user = $value;
+	}	
     ?>
     <!DOCTYPE html>
     <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
     <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
         <head>
-    	<title><?php echo $views['metatag']['profile']['title'] . $user->getUsername() ?></title>
-    	<meta name="description" content="<?php echo $views['metatag']['profile']['description'] ?>">
-    	<meta name="keywords" content="<?php echo $views['metatag']['profile']['keywords'] ?>">
+	<title><?php echo $views['metatag']['profile']['title'] . $user->getUsername() ?></title>
+	<meta name="description" content="<?php echo $views['metatag']['profile']['description'] ?>">
+	<meta name="keywords" content="<?php echo $views['metatag']['profile']['keywords'] ?>">
     	<!-------------------------- METADATI --------------------------->
 	    <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
         </head>

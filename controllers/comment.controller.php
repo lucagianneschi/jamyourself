@@ -5,6 +5,7 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'utils.service.php';
@@ -27,7 +28,7 @@ require_once SERVICES_DIR . 'update.service.php';
 class CommentController extends REST {
 
     /**
-     * @var array Array di config values
+     * @property array Array di config values
      */
     public $config;
 
@@ -48,7 +49,7 @@ class CommentController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['comment'])) {
 		$this->response(array('status' => $controllers['NOCOMMENT']), 400);
@@ -111,25 +112,25 @@ class CommentController extends REST {
 		    $cmt->setVideo($id);
 		    break;
 	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
 	    $resCmt = insertComment($connection, $cmt);
-	    if (!$resCmt) {
+	    $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), array('commentcounter' => 1, 'counter' => 1 * $levelValue), null, $id);
+	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'COMMENT');
+	    if ($resCmt === false || $commentCounter === false || $relation === false) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
-	    }
-	    $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d- H:i:s')), array('commentcounter' => 1, 'counter' => 1 * $levelValue));
-	    if (!$commentCounter) {
-		$this->response(array('status' => $controllers['COMMENTERR']), 503);
-	    }
-	    $node = createNode($connection, 'comment', $cmt->getId());
-	    $relation = createRelation($connection, 'user', $fromuserId, strtolower($classType), $id, 'comment');
-	    if (!$relation || !$node) {
-		$this->response(array('status' => $controllers['NODEERROR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
 	    global $mail_files;
-	    $user = selectUsers($toUserId);
+	    $user = selectUsers($connection, $toUserId);
+	    $connectionService->disconnect($connection);
 	    $address = $user->getEmail();
 	    $subject = $controllers['SBJCOMMENT'];
 	    $html = $mail_files['COMMENTEMAIL'];
 	    sendMailForNotification($address, $subject, $html);
+	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['COMMENTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);

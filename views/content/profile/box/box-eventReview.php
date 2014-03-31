@@ -25,7 +25,7 @@ $type = $_POST['type'];
 
 $reviewBox = new ReviewEventBox();
 $reviewBox->init($id, $type);
-if (is_null($reviewBox->error)) {
+if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
     $currentUserId = $_SESSION['id'];
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);
@@ -76,14 +76,15 @@ if (is_null($reviewBox->error)) {
 				    $eventReview_thumbnailCover = $value->getEvent()->getThumbnail();
 				    $event_objectId = $value->getEvent()->getId();
 				    $eventReview_title = $value->getTitle();
+				    #TODO
 				    $eventReview_rating = $value->getVote();
-					$eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", strtotime($value->getCreatedat())));
+				    $eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", strtotime($value->getCreatedat())));
 				    $eventReview_text = $value->getText();
 				    $eventReview_love = $value->getLovecounter();
 				    $eventReview_comment = $value->getCommentcounter();
 				    $eventReview_share = $value->getSharecounter();
 					$connectionService = new ConnectionService();
-				    if (existsRelation($connectionService,'user', $currentUserId, 'comment', $eventReview_objectId, 'loved')) {
+				    if (existsRelation($connectionService,'user', $currentUserId, 'comment', $eventReview_objectId, 'LOVE')) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 				    } else {
@@ -141,7 +142,7 @@ if (is_null($reviewBox->error)) {
 	    					    <div class="row ">						
 	    						<div  class="small-12 columns ">
 								<?php
-								for ($index = 0; $index < 5; $index++) {
+								for ($index = 1; $index <= 5; $index++) {
 								    if ($index <= $eventReview_rating) {
 									echo '<a class="icon-propriety _star-orange"></a>';
 								    } else {

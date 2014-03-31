@@ -1,78 +1,65 @@
 <?php
 
-/* ! \par		Info Generali:
- * @author		Stefano Muscas
- * @version		1.0
- * @since		2013
- * @copyright           Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		controller di upload album 
- * \details		si collega al form di upload di un album, effettua controlli, scrive su DB
- * \par			Commenti:
- * @warning
- * @bug
- * @todo		Fare API su Wiki
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once CLASSES_DIR . 'user.class.php';
+require_once CLASSES_DIR . 'album.class.php';
+require_once CLASSES_DIR . 'image.class.php';
+require_once CONTROLLERS_DIR . 'restController.php';
+require_once SERVICES_DIR . 'utils.service.php';
+require_once SERVICES_DIR . 'insert.service.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
-require_once CLASSES_DIR . 'album.class.php';
-require_once CLASSES_DIR . 'albumParse.class.php';
+require_once SERVICES_DIR . 'connection.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
-require_once CONTROLLERS_DIR . 'restController.php';
-require_once CLASSES_DIR . 'activityParse.class.php';
-require_once BOXES_DIR . "utilsBox.php";
-require_once SERVICES_DIR . 'lang.service.php';
-require_once SERVICES_DIR . 'utils.service.php';
 
 /**
- * \brief	UploadAlbumController class 
- * \details	controller di upload album
+ * UploadAlbumController class
+ * si collega al form di upload di un album, effettua controlli, scrive su DB
+ *
+ * @author		Stefano Muscas
+ * @version		0.2
+ * @since		2013
+ * @copyright		Jamyourself.com 2013
+ * @warning
+ * @bug
+ * @todo
  */
 class UploadAlbumController extends REST {
 
     /**
-     * \fn	init()
-     * \brief   inizializzazione della pagina
+     * inizializzazione della pagina
      */
     public function init() {
-//utente non loggato
-
-	if (!isset($_SESSION['currentUser'])) {
-	    /* This will give an error. Note the output
-	     * above, which is before the header() call */
+	if (!isset($_SESSION['id'])) {
 	    header('Location: login.php?from=uploadAlbum.php');
 	    exit;
 	}
     }
 
     /**
-     * \fn	createAlbum()
-     * \brief   funzione per pubblicazione dell'album
+     * funzione per pubblicazione dell'album
      */
     public function createAlbum() {
 	try {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
-		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response($controllers['USERNOSES'], 402);
+		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 400);
+	    } elseif (!isset($_SESSION['id'])) {
+		$this->response($controllers['USERNOSES'], 400);
 	    } elseif (!isset($this->request['albumTitle']) || is_null($this->request['albumTitle']) || !(strlen($this->request['albumTitle']) > 0)) {
-		$this->response(array('status' => $controllers['NOALBUMTITLE']), 403);
+		$this->response(array('status' => $controllers['NOALBUMTITLE']), 400);
 	    } elseif (!isset($this->request['description']) || is_null($this->request['description']) || !(strlen($this->request['description']) > 0)) {
-		$this->response(array('status' => $controllers['NOALBUMDESCRIPTION']), 404);
+		$this->response(array('status' => $controllers['NOALBUMDESCRIPTION']), 400);
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
-		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 406);
+		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 400);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUserId = $_SESSION['id'];
 	    $album = new Album();
-	    $album->setActive(true);
+	    $album->setActive(1);
 	    $album->setCommentcounter(0);
 	    $album->setCounter(0);
 	    $album->setCover(DEFALBUMCOVER);
@@ -80,77 +67,109 @@ class UploadAlbumController extends REST {
 	    if (isset($this->request['featuring']) && is_array($this->request['featuring']) && count($this->request['featuring']) > 0) {
 		$album->setFeaturing($this->request['featuring']);
 	    }
-	    $album->setFromuser($currentUser->getId());
+	    $album->setFromuser($currentUserId);
 	    $album->setImagecounter(0);
 	    if (isset($this->request['city']) && !is_null($this->request['city'])) {
 		$infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
-		$parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
-		$album->setLocation($parseGeoPoint);
+		$latitude = $infoLocation['latitude'];
+		$longitude = $infoLocation['longitude'];
+	    } else {
+		$latitude = null;
+		$longitude = null;
 	    }
 	    $album->setLovecounter(0);
-	    $album->setLovers(array());
+	    $album->setLatitude($latitude);
+	    $album->setLongitude($longitude);
 	    $album->setSharecounter(0);
 	    $album->setTag(array());
 	    $album->setThumbnail(DEFALBUMTHUMB);
 	    $album->setTitle($this->request['albumTitle']);
-	    $albumParse = new AlbumParse();
-	    $albumSaved = $albumParse->saveAlbum($album);
-	    if ($albumSaved instanceof Error) {
-		$this->response(array('status' => $controllers['ALBUMNOTSAVED']), 407);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
-	    $albumId = $albumSaved->getId();
-	    $resActivity = $this->createActivity($currentUser->getId(), $albumId);
-	    if ($resActivity instanceof Error) {
-		rollbackUploadAlbumController($albumId, "Album");
-		$this->response(array("status" => $controllers['ALBUMNOTSAVED']), 409);
-	    }
-	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUser);
-
-	    if (count($errorImages) == count($this->request['images'])) {
-		//nessuna immagine salvata, ma album creato
-		$this->response(array("status" => $controllers['ALBUMSAVENOIMGSAVED'], "id" => $albumSaved->getId()), 200);
-	    } elseif (count($errorImages) > 0) {
-		//immagini salvate, ma non tutte....
-		$this->response(array("status" => $controllers['ALBUMSAVEDWITHERRORS'], "id" => $albumSaved->getId()), 200);
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $result = insertAlbum($connection, $album);
+	    $albumId = $result;
+	    $node = createNode($connectionService, 'album', $albumId);
+	    $relation = createRelation($connectionService, 'user', $currentUserId, 'album', $albumId, 'ADD');
+	    if ($result === false || $relation === false || $node === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {
-		//tutto OK
-		$this->response(array("status" => $controllers['ALBUMSAVED'], "id" => $albumSaved->getId()), 200);
+		$connection->commit();
+		$connectionService->commit();
+	    }
+	    $errorImages = $this->saveImagesList($connection, $connectionService, $this->request['images'], $albumId, $currentUserId);
+	    $imagesSaved = count($this->request['images']) - count($errorImages);
+	    if ($imagesSaved > 0) {
+		require_once SERVICES_DIR . 'update.service.php';
+		$resUpdateCover = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s')), array('imagecounter' => $imagesSaved), null, $albumId, null);
+		if ($resUpdateCover == false) {
+		    $this->response(array('status' => $controllers['COMMENTERR']), 503);
+		}
+		else
+		    $connection->commit();
+	    }
+	    $connectionService->disconnect($connection);
+	    if (count($errorImages) == count($this->request['images'])) {
+		$this->response(array("status" => $controllers['ALBUMSAVENOIMGSAVED'], "id" => $albumId), 200);
+	    } elseif (count($errorImages) > 0) {
+		$this->response(array("status" => $controllers['ALBUMSAVEDWITHERRORS'], "id" => $albumId), 200);
+	    } else {
+		$this->response(array("status" => $controllers['ALBUMSAVED'], "id" => $albumId), 200);
 	    }
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
 
+    /**
+     * aggiorna l'album
+     */
     public function updateAlbum() {
 	try {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
-		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response($controllers['USERNOSES'], 402);
+		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 400);
+	    } elseif (!isset($_SESSION['id'])) {
+		$this->response($controllers['USERNOSES'], 400);
 	    } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
-		$this->response(array('status' => $controllers['NOALBUMID']), 403);
+		$this->response(array('status' => $controllers['NOALBUMID']), 400);
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
-		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 404);
+		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 400);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
-	    $albumParse = new AlbumParse();
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $currentUserId = $_SESSION['id'];
 	    $albumId = $this->request['albumId'];
-	    $album = $albumParse->getAlbum($albumId);
-	    if ($album instanceof Error) {
+	    $album = selectAlbums($connection, $albumId);
+	    if ($album == false) {
 		$this->response(array('status' => $controllers['NOALBUMFOUNDED']), 405);
 	    }
-	    //ora devo aggiungere tutte le foto
-	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUser);
-
+	    $errorImages = $this->saveImagesList($connection, $connectionService, $this->request['images'], $albumId, $currentUserId);
+	    $imagesSaved = count($this->request['images']) - count($errorImages);
+	    if ($imagesSaved > 0) {
+		require_once SERVICES_DIR . 'update.service.php';
+		$resUpdateCover = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s')), array('imagecounter' => $imagesSaved), null, $albumId, null);
+		if ($resUpdateCover == false) {
+		    $this->response(array('status' => $controllers['COMMENTERR']), 503);
+		}
+		else
+		    $connection->commit();
+	    }
+	    $connectionService->disconnect($connection);
 	    if (count($errorImages) == count($this->request['images'])) {
-		//nessuna immagine salvata
 		$this->response(array("status" => $controllers['NOIMAGESAVED'], "id" => $albumId), 200);
 	    } elseif (count($errorImages) > 0) {
-		//immagini salvate, ma non tutte....
 		$this->response(array("status" => $controllers['IMAGESSAVEDWITHERRORS'], "id" => $albumId), 200);
 	    } else {
-		//tutto OK
 		$this->response(array("status" => $controllers['IMAGESSAVED'], "id" => $albumId), 200);
 	    }
 	} catch (Exception $e) {
@@ -158,217 +177,23 @@ class UploadAlbumController extends REST {
 	}
     }
 
-    /**
-     * \fn	createActivity($fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null)
-     * \brief   funzione per creazione activity per questo controller
-     * @param   $fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null
-     */
-    private function createActivity($fromUser, $albumId, $type = 'ALBUMUPLOADED', $imageId = null) {
-	require_once CLASSES_DIR . 'activity.class.php';
-	require_once CLASSES_DIR . 'activityParse.class.php';
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setAlbum($albumId);
-	$activity->setCounter(0);
-	$activity->setEvent(null);
-	$activity->setFromuser($fromUser);
-	$activity->setImage($imageId);
-	$activity->setPlaylist(null);
-	$activity->setQuestion(null);
-	$activity->setRead(true);
-	$activity->setSong(null);
-	$activity->setStatus(null);
-	$activity->setTouser(null);
-	$activity->setType($type);
-	$activity->setVideo(null);
-	$pActivity = new ActivityParse();
-	return $pActivity->saveActivity($activity);
-    }
-
-    /**
-     * \fn	getFeaturingJSON() 
-     * \brief   funzione per il recupero dei featuring per l'event
-     * @todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
-     */
-    public function getFeaturingJSON() {
-	try {
-	    global $controllers;
-	    error_reporting(E_ALL ^ E_NOTICE);
-	    $force = false;
-	    $filter = null;
-
-	    if (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 400);
-	    }
-	    if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
-		$force = true;
-	    }
-	    if (isset($this->request['term']) && !is_null($this->request['term']) && (strlen($this->request['term']) > 0)) {
-		$filter = $this->request['term'];
-	    }
-	    $currentUserFeaturingArray = null;
-	    if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
-		$currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
-	    } else {
-		require_once CONTROLLERS_DIR . 'utilsController.php';
-		$currentUserFeaturingArray = getFeaturingArray();
-		$_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
-	    }
-
-	    if (!is_null($filter)) {
-		require_once CONTROLLERS_DIR . 'utilsController.php';
-		echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
-	    } else {
-		echo json_encode($currentUserFeaturingArray);
-	    }
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
-    }
-
-    public function getImagesList() {
-	try {
-	    global $controllers;
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response($controllers['USERNOSES'], 403);
-	    } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
-		$this->response(array("status" => $controllers['NOOBJECTID']), 403);
-	    }
-	    $albumId = $this->request['albumId'];
-	    $imagesList = imagelistGenerator($albumId);
-	    if ($imagesList instanceof Error) {
-		$this->response(array("status" => $controllers['nodata']), 200);
-	    } elseif (is_null($imagesList) || count($imagesList) == 0) {
-		$this->response(array("status" => $controllers['NOIMAGEFORALBUM'], "imageList" => null, "count" => 0), 200);
-	    }
-	    $returnInfo = array();
-	    foreach ($imagesList as $image) {
-// info utili
-// mi serve: id, src, 
-		$returnInfo[] = json_encode(array("id" => $image->getId(), "src" => $image->getPath()));
-	    }
-	    $this->response(array("status" => $controllers['COUNTALBUMOK'], "imageList" => $returnInfo, "count" => count($imagesList)), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
-    }
-
-//    private function saveImage($src, $description, $featuringArray, $albumId) {
-    private function saveImage($imgInfo, $albumId) {
-	try {
-	    $currentUser = $_SESSION['currentUser'];
-	    $cachedFile = CACHE_DIR . $imgInfo['src'];
-	    if (!file_exists($cachedFile)) {
-		return null;
-	    } else {
-		$imgMoved = $this->moveFile($currentUser->getId(), $albumId, $imgInfo['src']);
-		$image = new Image();
-		$image->setActive(true);
-		$image->setAlbum($albumId);
-		$image->setCommentcounter(0);
-		$image->setCounter(0);
-		$image->setDescription($imgInfo['description']);
-		if (isset($imgInfo['featuring']) && is_array($imgInfo['featuring']) && count($imgInfo['featuring']) > 0) {
-		    $image->setFeaturing($imgInfo['featuring']);
-		} else {
-		    $image->setFeaturing(null);
-		}
-		$image->setPath($imgMoved['image']);
-		$image->setFromuser($currentUser->getId());
-		$image->setLocation(null);
-		$image->setLovecounter(0);
-		$image->setLovers(array());
-		$image->setSharecounter(0);
-		$image->setTag(null);
-		$image->setThumbnail($imgMoved['thumbnail']);
-		$pImage = new ImageParse();
-		return $pImage->saveImage($image);
-	    }
-	} catch (Exception $e) {
-	    return $e;
-	}
-    }
-
-    private function addImageToAlbum($albumId, $imageId) {
-	try {
-	    $currentUser = $_SESSION['currentUser'];
-	    $pAlbum = new AlbumParse();
-	    //aggiorno la relazione album/image
-	    $res = $pAlbum->updateField($albumId, 'images', array($imageId), true, 'add', 'Image');
-	    if ($res instanceof Error) {
-		return $res;
-	    }
-	    //creo l'activity specifica 
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $resActivity = $this->createActivity($currentUser->getId(), $albumId, "IMAGEADDEDTOALBUM", $imageId);
-	    if ($resActivity instanceof Error) {
-		return $resActivity;
-	    }
-	    //aggiorno il contatore del album
-	    $resIncr = $pAlbum->incrementAlbum($albumId, "imageCounter", 1);
-	    if ($resIncr instanceof Error) {
-		return $resIncr;
-	    }
-	    return true;
-	} catch (Exception $e) {
-	    return $e;
-	}
-    }
-
-    private function moveFile($userId, $albumId, $fileInCache) {
-	if (file_exists(CACHE_DIR . $fileInCache)) {
-	    if (!is_null($userId) && !is_null($albumId) && !is_null($fileInCache)) {
-
-		//reperisco le info sull'immagine
-		list($width, $height, $type, $attr) = getimagesize(CACHE_DIR . $fileInCache);
-
-		require_once SERVICES_DIR . 'cropImage.service.php';
-		//Preparo l'oggetto per l'editing della foto
-		$cis = new CropImageService();
-
-		//immagine 
-		$jpg = $cis->resizeImageFromSrc($fileInCache, $width);
-		$fileManager = new FileManagerService();
-		$destName = $fileManager->getPhotoPath($userId, $fileInCache) . $jpg;
-		$res_1 = rename(CACHE_DIR . $jpg, $destName);
-
-		//thumbnail
-		$thumbnail = $cis->resizeImageFromSrc($fileInCache, THUMBNAIL_IMG_SIZE);
-		$destName = $fileManager->getPhotoPath($userId, $fileInCache) . $thumbnail;
-		$res_2 = rename(CACHE_DIR . $thumbnail, $destName);
-
-		//cancello il vecchio file
-		unlink(CACHE_DIR . $fileInCache);
-		if ($res_1 && $res_2) {
-		    return array("image" => $jpg, "thumbnail" => $thumbnail);
-		} else {
-		    return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
-		}
-	    }
-	} else {
-	    return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
-	}
-    }
-
-    private function getAlbums() {
+    public function getAlbums() {
 	global $controllers;
 	if ($this->get_request_method() != "POST") {
 	    $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
-	} elseif (!isset($_SESSION['currentUser'])) {
+	} elseif (!isset($_SESSION['id'])) {
 	    $this->response($controllers['USERNOSES'], 402);
 	}
 	require_once BOXES_DIR . "album.box.php";
 	$albumBox = new AlbumBox();
-	$albumBox->init($_SESSION['currentUser'], $limit = 10);
+	$albumBox->init($_SESSION['id'], $limit = 10);
 	$albumList = array();
 	if (is_null($albumBox->error) && count($albumBox->albumArray) > 0) {
 	    foreach ($albumBox->albumArray as $album) {
 		$retObj = array();
-		$retObj["thumbnail"] = $this->getAlbumThumbnailURL(sessionChecker(), $album->getThumbnailCover());
+		$retObj["thumbnail"] = $this->getAlbumThumbnailURL(sessionChecker(), $album->getThumbnail());
 		$retObj["title"] = $album->getTitle();
-		$retObj["images"] = $album->getImageCounter();
+		$retObj["images"] = $album->getImagecounter();
 		$retObj["albumId"] = $album->getId();
 		$albumList[] = $retObj;
 	    }
@@ -393,35 +218,177 @@ class UploadAlbumController extends REST {
 	}
     }
 
-    private function saveImagesList($imagesList, $albumId, $currentUser) {
+    /**
+     * recupera una lista di immagini
+     */
+    public function getImagesList() {
+	try {
+	    global $controllers;
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['id'])) {
+		$this->response($controllers['USERNOSES'], 403);
+	    } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
+		$this->response(array("status" => $controllers['NOOBJECTID']), 403);
+	    }
+	    $albumId = $this->request['albumId'];
+	    $imagesList = $this->getImagesByAlbumId($albumId);
+	    if ($imagesList == null) {
+		$this->response(array("status" => $controllers['nodata']), 200);
+	    } elseif (is_null($imagesList) || count($imagesList) == 0) {
+		$this->response(array("status" => $controllers['NOIMAGEFORALBUM'], "imageList" => null, "count" => 0), 200);
+	    }
+	    $returnInfo = array();
+	    foreach ($imagesList as $image) {
+		// info utili
+		// mi serve: id, src,
+		$returnInfo[] = json_encode(array("id" => $image->getId(), "src" => $image->getPath()));
+	    }
+	    $this->response(array("status" => $controllers['COUNTALBUMOK'], "imageList" => $returnInfo, "count" => count($imagesList)), 200);
+	} catch (Exception $e) {
+	    $this->response(array('status' => $e->getMessage()), 503);
+	}
+    }
+
+    /**
+     * salva un'immagine
+     *
+     * @param $userId
+     * @param $albumId
+     * @param $fileInCache
+     * @return array 
+     */
+    private function moveFile($userId, $albumId, $fileInCache) {
+	if (file_exists(CACHE_DIR . $fileInCache)) {
+	    if (!is_null($userId) && !is_null($albumId) && !is_null($fileInCache)) {
+		list($width, $height, $type, $attr) = getimagesize(CACHE_DIR . $fileInCache);
+		require_once SERVICES_DIR . 'cropImage.service.php';
+		$cis = new CropImageService();
+		$jpg = $cis->resizeImageFromSrc($fileInCache, $width);
+		$thumbnail = $cis->resizeImageFromSrc($fileInCache, THUMBNAIL_IMG_SIZE);
+		$fileManager = new FileManagerService();
+		if (file_exists(CACHE_DIR . $jpg) && file_exists(CACHE_DIR . $thumbnail)) {
+		    $res_1 = $fileManager->savePhoto($userId, $jpg);
+		    $res_2 = $fileManager->savePhoto($userId, $thumbnail);
+		    unlink(CACHE_DIR . $fileInCache);
+		    unlink(CACHE_DIR . $jpg);
+		    unlink(CACHE_DIR . $thumbnail);
+		    if ($res_1 && $res_2) {
+			return array("image" => $jpg, "thumbnail" => $thumbnail);
+		    } else {
+			return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
+		    }
+		}
+		else
+		    array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
+	    }
+	} else {
+	    return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
+	}
+    }
+
+    /**
+     * salva un'immagine
+     *
+     * @param $imgInfo
+     * @param $albumId
+     * @return $imageId or
+     */
+    private function saveImage($imgInfo, $albumId) {
+	try {
+	    global $controllers;
+	    $currentUserId = $_SESSION['id'];
+	    $cachedFile = CACHE_DIR . $imgInfo['src'];
+	    if (!file_exists($cachedFile)) {
+		return null;
+	    } else {
+		$imgMoved = $this->moveFile($currentUserId, $albumId, $imgInfo['src']);
+		$connectionService = new ConnectionService();
+		$connection = $connectionService->connect();
+		if ($connection === false) {
+		    $this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+		}
+		$connection->autocommit(false);
+		$connectionService->autocommit(false);
+
+		$image = new Image();
+		$image->setActive(1);
+		$image->setAlbum($albumId);
+		$image->setCommentcounter(0);
+		$image->setCounter(0);
+		$image->setDescription($imgInfo['description']);
+		if (isset($imgInfo['featuring']) && is_array($imgInfo['featuring']) && count($imgInfo['featuring']) > 0) {
+		    $image->setFeaturing($imgInfo['featuring']);
+		} else {
+		    $image->setFeaturing(null);
+		}
+		$image->setPath($imgMoved['image']);
+		$image->setFromuser($currentUserId);
+		$image->setLatitude(null);
+		$image->setLongitude(null);
+		$image->setLovecounter(0);
+		$image->setSharecounter(0);
+		$image->setTag(array());
+		$image->setThumbnail($imgMoved['thumbnail']);
+		$result = insertImage($connection, $image);
+		if ($result === false) {
+		    $this->response(array('status' => $controllers['INSERT_ERROR']), 500);
+		}
+		$node = createNode($connectionService, 'image', $result->getId());
+		$relation = createRelation($connectionService, 'user', $currentUserId, 'image', $result->getId(), 'ADD');
+		if ($result === false || $relation === false || $node === false) {
+		    return false;
+		} else {
+		    $connection->commit();
+		    $connectionService->commit();
+		}
+		$connectionService->disconnect($connection);
+		return $result;
+	    }
+	} catch (Exception $e) {
+	    return false;
+	}
+    }
+
+    /**
+     * sposta il file dalla chace alla corretta cartella di destinazione
+     * reperisco le info sull'immagine, Preparo l'oggetto per l'editing della foto, gestisco immagine
+     * creo thumbnail,cancello il vecchio file dalla cache
+     *
+     * @param $userId
+     * @param $albumId
+     * @return $fileInCache
+     */
+    private function saveImagesList($connection, $connectionService, $imagesList, $albumId, $currentUser) {
 	$errorImages = array();
+	global $controllers;
 	if (!is_null($imagesList) && is_array($imagesList) && count($imagesList) > 0) {
 	    foreach ($imagesList as $image) {
 		$resImage = $this->saveImage($image, $albumId);
-		if ($resImage instanceof Error || $resImage instanceof Exception || is_null($resImage)) {
+		if (!$resImage || is_null($resImage)) {
 		    array_push($errorImages, $image);
 		} else {
-		    //se l'immagine è quella scelta come cover:
 		    if ($image['isCover'] == "true") {
-			$copyImagesInfo = $this->createAlbumCoverFiles($currentUser->getId(), $albumId, $resImage->getPath(), $resImage->getThumbnail());
-			$albumParseUpdate = new AlbumParse();
-			$resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $resImage->getPath());
-			if ($resUpdateCover instanceof Error) {
+			//		$this->createAlbumCoverFiles($currentUser->getId(), $albumId, $resImage->getPath(), $resImage->getThumbnail());
+			$connectionService = new ConnectionService();
+			$connection = $connectionService->connect();
+			if ($connection === false) {
+			    $this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+			}
+			$connection->autocommit(false);
+			$connectionService->autocommit(false);
+			require_once SERVICES_DIR . 'update.service.php';
+			$resUpdateCover = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s'), 'cover' => $resImage->getPath()), null, null, $albumId, null);
+			$resUpdateThumb = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s'), 'thumbnail' => $resImage->getThumbnail()), null, null, $albumId, null);
+			$node = createNode($connectionService, 'image', $resImage->getId());
+			$relation = createRelation($connectionService, 'album', $albumId, 'image', $resImage->getId(), 'ADD');
+			if (!$resUpdateCover || !$resUpdateThumb || !$node || !$relation) {
 			    array_push($errorImages, $image);
 			    continue;
+			} else {
+			    $connection->commit();
+			    $connectionService->commit();
 			}
-			$resUpdateThumb = $albumParseUpdate->updateField($albumId, "thumbnailCover", $resImage->getThumbnail());
-			if ($resUpdateThumb instanceof Error) {
-			    array_push($errorImages, $image);
-			    continue;
-			}
-		    }
-		    //in ogni caso:
-		    $resRelation = $this->addImageToAlbum($albumId, $resImage->getId());
-		    if ($resRelation instanceof Error || $resRelation instanceof Exception || is_null($resRelation)) {
-			array_push($errorImages, $image);
-			rollbackUploadAlbumController($resImage->getId(), "Image");
-			continue;
 		    }
 		}
 	    }
@@ -429,6 +396,12 @@ class UploadAlbumController extends REST {
 	return $errorImages;
     }
 
+    /**
+     * 
+     *
+     * @param $imageList
+     * @return true or false in case of error 
+     */
     private function validateAlbumImages($imageList) {
 	if (is_array($imageList) && count($imageList) > 0) {
 	    foreach ($imageList as $elem) {
@@ -449,6 +422,7 @@ class UploadAlbumController extends REST {
 	}
 	return true;
     }
+
 }
 
 ?>

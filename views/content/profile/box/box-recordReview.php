@@ -24,7 +24,7 @@ $type = $_POST['type'];
 
 $reviewBox = new ReviewRecordBox();
 $reviewBox->initForPersonalPage($id, $type);
-if (is_null($reviewBox->error)) {
+if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
     $currentUserId = $_SESSION['id'];
     $reviews = $reviewBox->reviewArray;
     $reviewCounter = count($reviews);
@@ -69,14 +69,14 @@ if (is_null($reviewBox->error)) {
 				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnail();
 				    $recordObjectId = $value->getRecord()->getId();
 				    $recordReview_title = $value->getRecord()->getTitle();
-					$recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", strtotime($value->getCreatedat())));
+				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", strtotime($value->getCreatedat())));
 				    $recordReview_rating = $value->getVote();
 				    $recordReview_text = $value->getText();
 				    $recordReview_love = $value->getLovecounter();
 				    $recordReview_comment = $value->getCommentcounter();
 				    $recordReview_share = $value->getSharecounter();
 					$connectionService = new ConnectionService();						
-				    if (existsRelation($connectionService,'user', $currentUserId, 'comment',$recordReview_objectId, 'loved')) {
+				    if (existsRelation($connectionService,'user', $currentUserId, 'comment',$recordReview_objectId, 'LOVE')) {
 					$css_love = '_love orange';
 					$text_love = $views['unlove'];
 				    } else {

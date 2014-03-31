@@ -1,35 +1,47 @@
 <?php
 
-/* ! \par		Info Generali:
+/**
+ * ValidateNewUserService
+ * servizio di validazione del nuovo utente in fase di registrazione
+ * 
  * @author		Stafano Muscas
- * @version		1.0
+ * @version		0.2
  * @since		2013
- * @copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		servizio di validazione del nuovo utente in fase di registrazione
- * \par			Commenti:
+ * @copyright		Jamyourself.com 2013	
  * @warning
  * @bug
- * @todo		
+ * @todo                
  */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
-require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
-
-//Basato sul documento : http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:user
+require_once SERVICES_DIR . 'utils.service.php';
 
 class ValidateNewUserService {
 
+    /**
+     * @property int valido/non valido
+     */
     private $isValid;
-    private $errors;     //lista delle properties che sono errate
-    private $config;     //puntatore al JSON di configurazione della registsrazione
-    private $user;
 
+    /**
+     * @property array lista delle properties che sono errate
+     */
+    private $errors;
+
+    /**
+     * @property array puntatore al JSON di configurazione della registsrazione
+     */
+    private $config;
+
+    /**
+     * Setta i parametri dell'oggetto
+     * 
+     * @param string $configFile Inizializzazione dell'oggetto
+     */
     public function __construct($configFile) {
 	if ($configFile == null)
 	    return null;
@@ -39,39 +51,27 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	getIsValid()
-     * \brief	get della property valid
+     * check correttezza array members
+     * 
      * @return
      * @todo
      */
-    public function getIsValid() {
-	return $this->isValid;
+    private function checkBandComponent($componentJSON) {
+	$component = json_decode(json_encode($componentJSON), false);
+	if (!isset($component->name) || is_null($component->name) || !isset($component->instrument) || is_null($component->instrument))
+	    return false;
+	if (strlen($component->name) > 50)
+	    return false;
+	if ($this->checkSpecialChars($component->name))
+	    return false;
+	if (strlen($component->instrument) <= 0)
+	    return false;
+	return true;
     }
 
     /**
-     * \fn	getErrors()
-     * \brief	get della property errors
-     * @return
-     * @todo
-     */
-    public function getErrors() {
-	return $this->errors;
-    }
-
-    /**
-     * \fn	setInvalid($invalidPropertyName)
-     * \brief	set della property valid e errors in caso di utente non valido
-     * @return
-     * @todo
-     */
-    private function setInvalid($invalidPropertyName) {
-	$this->isValid = false;
-	$this->errors[] = $invalidPropertyName;
-    }
-
-    /**
-     * \fn	checkBirthday($birthdayJSON)
-     * \brief	check correttezza birthday
+     * check correttezza birthday
+     * 
      * @return
      * @todo
      */
@@ -86,8 +86,8 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkDescription($description)
-     * \brief	check correttezza description
+     * check correttezza description
+     * 
      * @return
      * @todo
      */
@@ -98,34 +98,48 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkEmail($email)
-     * \brief	check correttezza email
+     * check correttezza firstname
+     * 
      * @return
      * @todo
      */
-    public function checkEmail($email) {
-	if (strlen($email) > 50)
+    private function checkFirstname($firstname) {
+	if (strlen($firstname) > 50)
 	    return false;
-	if (stripos($email, " ") !== false)
-	    return false;
-	if (!(stripos($email, "@") !== false))
-	    return false;
-	if (!(filter_var($email, FILTER_VALIDATE_EMAIL)))
-	    return false;
-	$up = new UserParse();
-	$up->whereEqualTo("email", $email);
-	$res = $up->getCount();
-	if ($res instanceof Error) {
-	    return false;
-	}
-	if ($res != 0)
+	if ($this->checkSpecialChars($firstname))
 	    return false;
 	return true;
     }
 
     /**
-     * \fn	checkLocation($location)
-     * \brief	check correttezza location
+     * check correttezza lastname
+     * 
+     * @return
+     * @todo
+     */
+    private function checkLastname($lastname) {
+	if (strlen($lastname) > 50)
+	    return false;
+	if ($this->checkSpecialChars($lastname))
+	    return false;
+	return true;
+    }
+
+    /**
+     * check correttezza localType
+     * 
+     * @return
+     * @todo
+     */
+    private function checkLocalType($localType) {
+	if (!is_array($localType) || count($localType) <= 0 || count($localType) > $this->config->maxLocalTypeSize)
+	    return false;
+	return true;
+    }
+
+    /**
+     * check correttezza location
+     * 
      * @return
      * @todo
      */
@@ -138,8 +152,8 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkMembers($members)
-     * \brief	check correttezza members
+     * check correttezza members
+     * 
      * @return
      * @todo
      */
@@ -158,8 +172,29 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkNewSpotter($user)
-     * \brief	check utente SPOTTER
+     * check correttezza music
+     * 
+     * @return
+     * @todo
+     */
+    private function checkMusic($music, $type) {
+	$dim = 0;
+	switch ($type) {
+	    case "JAMMER":
+		$dim = $this->config->maxMusicSizeJammer;
+		break;
+	    case "SPOTTER":
+		$dim = $this->config->maxMusicSizeSpotter;
+		break;
+	}
+	if (is_null($music) || !is_array($music) || count($music) <= 0 || count($music) > $dim)
+	    return false;
+	return true;
+    }
+
+    /**
+     * check utente SPOTTER
+     * 
      * @return
      * @todo
      */
@@ -191,8 +226,8 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkNewUser($userJSON)
-     * \brief	check utente property comuni
+     * check utente property comuni
+     * 
      * @return
      * @todo
      */
@@ -212,7 +247,8 @@ class ValidateNewUserService {
 	    $this->setInvalid("password");
 	if (!isset($user->verifyPassword) || is_null($user->verifyPassword) || !$this->checkVerifyPassword($user->password, $user->verifyPassword))
 	    $this->setInvalid("verifyPassword");
-	if (!isset($user->email) || is_null($user->email) || !$this->checkEmail($user->email))
+	$mail = checkEmail($user->email);
+	if (!isset($user->email) || is_null($user->email) || !$mail)
 	    $this->setInvalid("email");
 	if (!isset($user->description) || is_null($user->description) || !$this->checkDescription($user->description))
 	    $this->setInvalid("description");
@@ -241,13 +277,12 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkNewVenue($user)
-     * \brief	check utente VENUE
+     * check utente VENUE
+     * 
      * @return
      * @todo
      */
     private function checkNewVenue($user) {
-
 	if (!isset($user->city) || is_null($user->city))
 	    $this->setInvalid("city");
 	else {
@@ -276,8 +311,8 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkNewJammer($user)
-     * \brief	check utente JAMMER
+     * check utente JAMMER
+     * 
      * @return
      * @todo
      */
@@ -285,7 +320,6 @@ class ValidateNewUserService {
 	if (!isset($user->city) || is_null($user->city))
 	    $this->setInvalid("city");
 	else {
-
 	    $infoLocation = GeocoderService::getCompleteLocationInfo($user->city);
 	    if (!isset($infoLocation["latitude"]) || is_null($infoLocation["latitude"]))
 		$this->setInvalid("latitude");
@@ -307,8 +341,8 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkPassword($password)
-     * \brief	check correttezza password
+     * check correttezza password
+     * 
      * @return
      * @todo
      */
@@ -336,10 +370,64 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkUsername($username)
-     * \brief	check correttezza username
+     * check correttezza sex
+     * 
      * @return
      * @todo
+     */
+    private function checkSex($sex) {
+	switch ($sex) {
+	    case "M" : return true;
+		break;
+	    case "F" : return true;
+		break;
+	    case "ND" : return true;
+		break;
+	    default : return false;
+	}
+    }
+
+    /**
+     * check esistenza caratteri speciali
+     * 
+     * @return
+     * @todo
+     */
+    private function checkSpecialChars($string) {
+	$charList = "!#$%&'()*+,-./:;<=>?[]^_`{|}~àèìòùáéíóúüñ¿¡";
+	$strlen = strlen($charList);
+	for ($i = 0; $i < $strlen; $i++) {
+	    $char = $charList[$i];
+	    if (stripos($string, $char) !== false)
+		return true;
+	}
+	return false;
+    }
+
+    /**
+     * check correttezza url
+     * 
+     * @return
+     * @todo
+     */
+    private function checkUrl($url) {
+	if (strlen($url) > 0) {
+	    if (filter_var($url, FILTER_VALIDATE_URL)) {
+		return true;
+	    }
+	    else
+		return false;
+	}
+	else {
+	    return true;
+	}
+    }
+
+    /**
+     * check correttezza username
+     * 
+     * @return
+     * @todo questa funzione è doppia, perchè viene richiamata anche nel signup, farne solo 1
      */
     public function checkUsername($username) {
 	if (strlen($username) > 50) {
@@ -358,8 +446,8 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkVerifyPassword($verifyPassword, $password)
-     * \brief	check correttezza password e retyper della password
+     * check correttezza password e retyper della password
+     * 
      * @return
      * @todo
      */
@@ -368,8 +456,8 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkJammerType($jammerType)
-     * \brief	check correttezza jammerType
+     * check correttezza jammerType
+     * 
      * @return
      * @todo
      */
@@ -382,138 +470,34 @@ class ValidateNewUserService {
     }
 
     /**
-     * \fn	checkBandComponent($componentJSON)
-     * \brief	check correttezza array members
+     * get della property errors
+     * 
      * @return
      * @todo
      */
-    private function checkBandComponent($componentJSON) {
-	$component = json_decode(json_encode($componentJSON), false);
-	if (!isset($component->name) || is_null($component->name) || !isset($component->instrument) || is_null($component->instrument))
-	    return false;
-	if (strlen($component->name) > 50)
-	    return false;
-	if ($this->checkSpecialChars($component->name))
-	    return false;
-	if (strlen($component->instrument) <= 0)
-	    return false;
-	return true;
+    public function getErrors() {
+	return $this->errors;
     }
 
     /**
-     * \fn	checkFirstname($firstname)
-     * \brief	check correttezza firstname
+     * get della property valid
+     * 
      * @return
      * @todo
      */
-    private function checkFirstname($firstname) {
-	if (strlen($firstname) > 50)
-	    return false;
-	if ($this->checkSpecialChars($firstname))
-	    return false;
-	return true;
+    public function getIsValid() {
+	return $this->isValid;
     }
 
     /**
-     * \fn	checkLastname($lastname)
-     * \brief	check correttezza lastname
+     * set della property valid e errors in caso di utente non valido
+     * 
      * @return
      * @todo
      */
-    private function checkLastname($lastname) {
-	if (strlen($lastname) > 50)
-	    return false;
-	if ($this->checkSpecialChars($lastname))
-	    return false;
-	return true;
-    }
-
-    /**
-     * \fn	checkLocalType($localType)
-     * \brief	check correttezza localType
-     * @return
-     * @todo
-     */
-    private function checkLocalType($localType) {
-	if (!is_array($localType) || count($localType) <= 0 || count($localType) > $this->config->maxLocalTypeSize)
-	    return false;
-	return true;
-    }
-
-    /**
-     * \fn	checkMusic($music, $type)
-     * \brief	check correttezza music
-     * @return
-     * @todo
-     */
-    private function checkMusic($music, $type) {
-	$dim = 0;
-	switch ($type) {
-	    case "JAMMER":
-		$dim = $this->config->maxMusicSizeJammer;
-		break;
-	    case "SPOTTER":
-		$dim = $this->config->maxMusicSizeSpotter;
-		break;
-	}
-	if (is_null($music) || !is_array($music) || count($music) <= 0 || count($music) > $dim)
-	    return false;
-
-	return true;
-    }
-
-    /**
-     * \fn	checkSex($sex)
-     * \brief	check correttezza sex
-     * @return
-     * @todo
-     */
-    private function checkSex($sex) {
-	switch ($sex) {
-	    case "M" : return true;
-		break;
-	    case "F" : return true;
-		break;
-	    case "ND" : return true;
-		break;
-	    default : return false;
-	}
-    }
-
-    /**
-     * \fn	checkSpecialChars($string)
-     * \brief	check esistenza caratteri speciali
-     * @return
-     * @todo
-     */
-    private function checkSpecialChars($string) {
-	$charList = "!#$%&'()*+,-./:;<=>?[]^_`{|}~àèìòùáéíóúüñ¿¡";
-	$strlen = strlen($charList);
-	for ($i = 0; $i < $strlen; $i++) {
-	    $char = $charList[$i];
-	    if (stripos($string, $char) !== false)
-		return true;
-	}
-	return false;
-    }
-
-    /**
-     * \fn	checkSex($sex)
-     * \brief	check correttezza url
-     * @return
-     * @todo
-     */
-    private function checkUrl($url) {
-	if (strlen($url) > 0) {
-	    if (filter_var($url, FILTER_VALIDATE_URL)) {
-		return true;
-	    }
-	    else
-		return false;
-	}
-	else {
-	    return true;
-	}
+    private function setInvalid($invalidPropertyName) {
+	$this->isValid = false;
+	$this->errors[] = $invalidPropertyName;
     }
 
 }

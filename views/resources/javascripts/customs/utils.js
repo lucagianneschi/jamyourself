@@ -48,7 +48,7 @@ function sendRequest(_server, _action, _data, _callback, _async) {
 		error: function(data, status, xhr) {
 		    if (_callback !== undefined && _callback !== null) {
 			//gestione callback per l'errore: per poter ottenere l'oggetto
-			_callback(JSON.parse(data.responseText), "error", xhr);
+			_callback(data, "error", xhr);
 		    }
 		}
 	    });

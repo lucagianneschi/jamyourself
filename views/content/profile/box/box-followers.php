@@ -16,7 +16,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 
 $followersCounter = $_POST['followersCounter'];
 $followersBox = new FollowersBox();
-$followersBox->init($_POST['id']);
+$followersBox->init($_POST['id'],4,0);
 
 if (is_null($followersBox->error)) {
     $followers = $followersBox->followersArray;
@@ -72,4 +72,5 @@ if (is_null($followersBox->error)) {
         </div>
     </div>
     <?php
-}
+} 
+?>

@@ -25,7 +25,8 @@ $eventBox->init($_POST['id']);
 $typeUser = $_POST['typeUser'];
 
 if (is_null($eventBox->error)) {
-    $currentUserId = $_SESSION['id'];
+    if (isset($_SESSION['id']))
+	$currentUserId = $_SESSION['id'];
     $events = $eventBox->eventArray;
     $eventCounter = count($events);
     ?>
@@ -94,7 +95,7 @@ if (is_null($eventBox->error)) {
 			      }
 			      }
 			     */
-			    $event_eventDate = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getEventDate()->getTimestamp()));
+			    $event_eventDate = ucwords(strftime("%A %d %B %Y - %H:%M", strtotime($value->getEventDate())));
 			    $css_location = '';
 			    if (is_null($value->getCity()) || $value->getCity() == '') {
 				if (is_null($value->getAddress()) || $value->getAddress() == '' || $value->getAddress() == ', ') {
@@ -109,14 +110,13 @@ if (is_null($eventBox->error)) {
 				else
 				    $event_location = $value->getCity() . ' - ' . $value->getAddress();
 			    }
-
 			    $event_love = $value->getLovecounter();
 			    $event_comment = $value->getCommentcounter();
 			    $event_review = $value->getReviewcounter();
 			    $event_share = $value->getSharecounter();
 			    $pathCoverEvent = $fileManagerService->getEventPhotoPath($_POST['id'], $event_thumbnail);
 				$connectionService = new ConnectionService();
-			    if (existsRelation($connectionService,'user', $currentUserId, 'event', $event_id, 'loved')) {
+			    if (existsRelation($connectionService,'user', $currentUserId, 'event', $event_id, 'LOVE')) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {

@@ -1,9 +1,9 @@
 <?php
 $username = '';
 $id = '';
-if (isset($_SESSION['id']) && isset($_SESSION['username']) ) {
-    $username = $_SESSION['username'];
+if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
+    $username = $_SESSION['username'];
 }
 ?>
 <footer id="footer" >

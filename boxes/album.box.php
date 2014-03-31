@@ -1,20 +1,5 @@
 <?php
 
-/* ! \par		Info Generali:
- * @author		Luca Gianneschi
- * @version		0.3
- * @since		2013
- * @copyright		Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		box caricamento info album
- * \details		Recupera le informazioni dell'album, le inserisce in un array da passare alla view
- * \par			Commenti:
- * @warning
- * @bug
- * @todo		
- *
- */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -37,17 +22,17 @@ require_once SERVICES_DIR . 'select.service.php';
 class AlbumBox {
 
     /**
-     * @var array Array di album
+     * @property array Array di album
      */
     public $albumArray = array();
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di image
+     * @property array Array di image
      */
     public $imageArray = array();
 

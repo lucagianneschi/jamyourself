@@ -3,7 +3,7 @@
  * box chiamato tramite load con:
  * data: {data,typeCurrentUser}, 
  */
-if(existsRelation('user', $currentUser->getId(), 'event', $event->getId(), 'loved')){
+if(existsRelation('user', $currentUser->getId(), 'event', $event->getId(), 'LOVE')){
     $css_love = '_love orange';
     $text_love = $views['unlove'];
 } else {

@@ -21,12 +21,12 @@ require_once SERVICES_DIR . 'select.service.php';
 class CommentBox {
 
     /**
-     * @var array Array di comment
+     * @property array Array di comment
      */
     public $commentArray = array();
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 

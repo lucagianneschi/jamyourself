@@ -21,12 +21,12 @@ require_once SERVICES_DIR . 'connection.service.php';
 class ActivitySongBox {
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di song
+     * @property array Array di song
      */
     public $songArray = array();
 
@@ -55,12 +55,12 @@ class ActivitySongBox {
 class ActivityEventBox {
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di event
+     * @property array Array di event
      */
     public $eventArray = array();
 

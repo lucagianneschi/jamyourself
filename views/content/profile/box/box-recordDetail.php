@@ -29,12 +29,13 @@ $pathCover = $_POST['pathCover'];
 $userId = $_POST['userId'];
 $fileManagerService = new FileManagerService();
 //debug("", 'debug.txt', json_encode($songs));
-
+if (isset($_SESSION['id']))
+    $currentUserId = $_SESSION['id'];
 $indice = 0;
 if (is_array($songs) && count($songs) > 0) {
     foreach ($songs as $key => $value) {
     $connectionService = new ConnectionService();		
-	if (existsRelation($connectionService,'user', $_SESSION['id'], 'song', $value->getId(), 'loved')) {
+	if (existsRelation($connectionService,'user', $currentUserId, 'song', $value->getId(), 'LOVE')) {
 	    $track_css_love = '_love orange';
 	    $track_text_love = $views['unlove'];
 	} else {

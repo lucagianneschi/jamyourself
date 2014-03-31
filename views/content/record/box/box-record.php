@@ -25,7 +25,8 @@ $userId = $_POST['userId'];
 $recordBox = new RecordBox();
 $recordBox->initForTracklist($_POST['id']);
 $tracklist = $recordBox->tracklist;
-$currentUserId = $_SESSION['id'];
+if (isset($_SESSION['id']))
+    $currentUserId = $_SESSION['id'];
 ?>
 <!----------------------------------------- PLAYER ALBUM ----------------------------------------------->
 <div class="row" id="profile-Record">

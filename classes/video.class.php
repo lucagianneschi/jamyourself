@@ -15,77 +15,77 @@
 class Video {
 
     /**
-     * @var int id istanza
+     * @property int id istanza
      */
     private $id;
 
     /**
-     * @var date data creazione istanza
+     * @property date data creazione istanza
      */
     private $createdat;
 
     /**
-     * @var date data modifica istanza
+     * @property date data modifica istanza
      */
     private $updatedat;
 
     /**
-     * @var int istanza attiva/non attiva
+     * @property int istanza attiva/non attiva
      */
     private $active;
 
     /**
-     * @var string the author of the video (outside jamyourself)
+     * @property string the author of the video (outside jamyourself)
      */
     private $author;
 
     /**
-     * @var int contatore di gradimento
+     * @property int contatore di gradimento
      */
     private $counter;
 
     /**
-     * @var string alla cover del video (in hosting)
+     * @property string alla cover del video (in hosting)
      */
     private $cover;
 
     /**
-     * @var string descrizione del video
+     * @property string descrizione del video
      */
     private $description;
 
     /**
-     * @var int durata in secondi
+     * @property int durata in secondi
      */
     private $duration;
 
     /**
-     * @var int id del formuser
+     * @property int id del formuser
      */
     private $fromuser;
 
     /**
-     * @var int contatore azioni love
+     * @property int contatore azioni love
      */
     private $lovecounter;
 
     /**
-     * @var array di id di tag
+     * @property array di id di tag
      */
     private $tag;
 
     /**
-     * @var string indirizzo del thumb (in hosting)
+     * @property string indirizzo del thumb (in hosting)
      */
     private $thumbnail;
 
     /**
-     * @var string titolo del video
+     * @property string titolo del video
      */
     private $title;
 
     /**
-     * @var string URL video
+     * @property string URL video
      */
     private $URL;
 

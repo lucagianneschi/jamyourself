@@ -23,17 +23,17 @@ require_once SERVICES_DIR . 'log.service.php';
 class CollaboratorsBox {
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di venue
+     * @property array Array di venue
      */
     public $venueArray = array();
 
     /**
-     * @var array Array di jammer
+     * @property array Array di jammer
      */
     public $jammerArray = array();
 
@@ -78,12 +78,12 @@ class CollaboratorsBox {
 class FollowersBox {
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di followers (jammer/venue - spotter)
+     * @property array Array di followers (jammer/venue - spotter)
      */
     public $followersArray = array();
 
@@ -101,6 +101,7 @@ class FollowersBox {
 	    $connection = $connectionService->connect();
 	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FOLLOWING', $skip, $limit);
 	    $users = selectUsers($connection, null, array('id' => $data));
+		if(!is_array($users)) return $followers;
 	    foreach ($users as $user) {
 		array_push($followers, $user);
 	    }
@@ -126,17 +127,17 @@ class FollowersBox {
 class FollowingsBox {
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di venue
+     * @property array Array di venue
      */
     public $venueArray = array();
 
     /**
-     * @var array Array di jammer
+     * @property array Array di jammer
      */
     public $jammerArray = array();
 
@@ -181,12 +182,12 @@ class FollowingsBox {
 class FriendsBox {
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di frinds (spotter - spotter)
+     * @property array Array di frinds (spotter - spotter)
      */
     public $friendsArray = array();
 

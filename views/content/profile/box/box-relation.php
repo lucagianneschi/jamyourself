@@ -18,7 +18,7 @@ $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
 $tot = intval($_POST['tot']);
 $connectionService = new ConnectionService();	
-$arrayRelation = getRelatedNodes($connectionService,'user', $id, 'user', strtoupper($relation));
+$arrayRelation = getRelatedNodes($connectionService,'user', $id, 'user', strtoupper($relation), $skip, $limit);
 
 
 
@@ -84,7 +84,7 @@ if (is_null($arrayRelation) || count($arrayRelation) == 0) {
     $css_prev = 'no-display';
     $css_next = 'no-display';
     if ($skip != 0) {
-	$css_prev = '';
+		$css_prev = '';
     }
     if ($tot > ($limit + $skip)) {
 	$css_next = '';
@@ -95,7 +95,7 @@ if (is_null($arrayRelation) || count($arrayRelation) == 0) {
         <div class="small-6 columns">
     	<div class="row">
     	    <div class="small-12 columns">
-    		<a class="text orange <?php echo $css_prev ?> " style="float: left !important;" onclick="loadBoxRelation('<?php echo $relation ?>', 21,<?php echo ($skip - $limit) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['PREV'] ?></a>	
+    		<a class="text orange <?php echo $css_prev ?> " style="float: left !important;" onclick="loadBoxRelation('<?php echo $_POST['relation'] ?>', 21,<?php echo ($skip - $limit) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['prev'] ?></a>	
     	    </div>
     	</div>
         </div>
@@ -104,7 +104,7 @@ if (is_null($arrayRelation) || count($arrayRelation) == 0) {
         <div class="small-6 columns">
     	<div class="row">
     	    <div class="small-12 columns">
-    		<a class="text orange <?php echo $css_next ?>" onclick="loadBoxRelation('<?php echo $relation ?>', 21,<?php echo ($limit + $skip) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['NEXT'] ?></a>	
+    		<a class="text orange <?php echo $css_next ?>" onclick="loadBoxRelation('<?php echo $_POST['relation'] ?>', 21,<?php echo ($limit + $skip) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['next'] ?></a>	
     	    </div>
     	</div>
         </div>

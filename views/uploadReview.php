@@ -7,10 +7,9 @@ require_once SERVICES_DIR . 'mantainance.service.php';
 require_once SERVICES_DIR . 'session.service.php';
 require_once CONTROLLERS_DIR . 'uploadReview.controller.php';
 
-$currentUser = $_SESSION['currentUser'];
+$currentUserId = $_SESSION['id'];
 $uploadReviewController = new UploadReviewController();
 $uploadReviewController->init();
-
 $title = $uploadReviewController->reviewed->getTitle();
 $tagGenere = "";
 $thumbnail = "";
@@ -29,7 +28,7 @@ $authorObjectId = $uploadReviewController->reviewedFromUser->getId();
 $authorThumbnail = $uploadReviewController->reviewedFromUser->getThumbnail();
 $author = $uploadReviewController->reviewedFromUser->getUsername();
 
-if ($authorObjectId == $currentUser->getId()) {
+if ($authorObjectId == $currentUserId) {
     header('Location: stream.php');
 } else {
     ?>

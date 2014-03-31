@@ -43,16 +43,13 @@ class MessageController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUser = $_SESSION['id'];
 	    $touser = $this->request['toUser'];
-
-
-
 
 	    $this->response(array($controllers['CONVERSATION_DEL']), 200);
 	} catch (Exception $e) {
@@ -62,6 +59,7 @@ class MessageController extends REST {
 
     /**
      * save a message an the related activity
+     * 
      * @todo    testare, possibilità di invio a utenti multipli, controllo della relazione
      */
     public function message() {
@@ -69,7 +67,7 @@ class MessageController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
@@ -78,13 +76,22 @@ class MessageController extends REST {
 	    } elseif (!isset($this->request['message'])) {
 		$this->response(array('status' => $controllers['NOMESSAGE']), 403);
 	    }
-	    $currentUser = $_SESSION['currentUser'];
+	    $currentUserId = $_SESSION['id'];
+	    $currentUserType = $_SESSION['type'];
 	    $toUserId = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
-	    if (!relationChecker($currentUser->getId(), $currentUser->getType(), $toUserId, $toUserType)) {
+	    $text = $this->request['message'];
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($currentUserType == 'VENUE' || $currentUserType == 'VENUE') {
+		$relationType = ($toUserType == 'SPOTTER') ? 'FOLLOWING' : 'COLLABORATION';
+		$relation = existsRelation($connectionService, 'user', $currentUserId, 'user', $toUserId, $relationType);
+	    } else {
+		$relation = existsRelation($connectionService, 'user', $currentUserId, 'user', $toUserId, 'friendship');
+	    }
+	    if (!$relation) {
 		$this->response(array('status' => $controllers['NOSPAM']), 401);
 	    }
-	    $text = $this->request['message'];
 	    if (strlen($text) < $this->config->minMessageSize) {
 		$this->response(array('status' => $controllers['SHORTMESSAGE'] . strlen($text)), 406);
 	    }
@@ -94,7 +101,7 @@ class MessageController extends REST {
 	    $message->setAlbum(null);
 	    $message->setCommentcounter(0);
 	    $message->setEvent(null);
-	    $message->setFromuser($currentUser->getId());
+	    $message->setFromuser($currentUserId);
 	    $message->setImage(null);
 	    $message->setLatitude(null);
 	    $message->setLongitude(null);
@@ -106,18 +113,21 @@ class MessageController extends REST {
 	    $message->setType('M');
 	    $message->setVideo(null);
 	    $message->setVote(null);
-	    $message_id = insertComment($message);
-	    if ($message_id instanceof Error) {
-		$this->response(array('status' => 'NOSAVEMESS'), 503);
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $resMess = insertComment($connection, $message);
+	    $relation = createRelation($connectionService, 'user', $currentUserId, 'comment', $resMess->getId(), 'MESSAGE');
+	    if ($resMess === false || $relation === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
-	    $node = createNode('message', $message->getId());
-	    if (!$node) {
-		$this->response(array('status' => $controllers['NODEERROR']), 503);
-	    }
+	    $connectionService->disconnect($connection);
 	    global $mail_files;
 	    require_once CLASSES_DIR . 'user.class.php';
 	    require_once CONTROLLERS_DIR . 'utils.service.php';
-	    $user = selectUsers($currentUser);
+	    $user = selectUsers($currentUserId);
 	    $address = $user->getEmail();
 	    $subject = $controllers['SBJMESSAGE'];
 	    $html = $mail_files['MESSAGEEMAIL'];
@@ -130,6 +140,7 @@ class MessageController extends REST {
 
     /**
      * update activity for the current read message
+     * 
      * @todo    testare
      */
     public function read() {
@@ -137,7 +148,7 @@ class MessageController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
+	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
@@ -149,8 +160,16 @@ class MessageController extends REST {
 	    if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
-	    $read = update($connection, 'comment', array('updatedat' => date('Y-m-d- H:i:s')), array('read' => 1));
-	    
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $read = update($connection, 'comment', array('updatedat' => date('Y-m-d H:i:s')), array('read' => 1), null, $messageId);
+	    if ($read === false) {
+		$this->response(array('status' => $controllers['COMMENTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
+	    }
+	    $connectionService->disconnect($connection);
 	    $this->response(array($controllers['MESSAGEREAD']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);

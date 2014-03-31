@@ -20,7 +20,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 
 $followingCounter = $_POST['followingCounter'];
 $followingsBox = new FollowingsBox();
-$followingsBox->init($_POST['id']);
+$followingsBox->init($_POST['id'],8,0);
 
 if (is_null($followingsBox->error)) {
     $venuesFollowings = $followingsBox->venueArray;
@@ -28,7 +28,7 @@ if (is_null($followingsBox->error)) {
 
     $venuesFollowingsCounter = count($venuesFollowings);
     $jammersFollowingsCounter = count($jammersFollowings);
-    $followingCounter = $venuesFollowingsCounter + $jammersFollowingsCounter;
+  //  $followingCounter = $venuesFollowingsCounter + $jammersFollowingsCounter;
     $totFollowings = $followingCounter;
     ?>
     <!----------------------------------- FOLLOWING -------------------------------------------------->
@@ -158,3 +158,4 @@ if (is_null($followingsBox->error)) {
     </div>
     <?php
 }
+?>

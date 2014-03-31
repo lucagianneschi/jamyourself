@@ -12,7 +12,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 $connectionService = new ConnectionService();
-if (existsRelation($connectionService,'user', $currentUser->getId(), 'record', $record->getId(), 'loved')) {
+if (existsRelation($connectionService,'user', $currentUser->getId(), 'record', $record->getId(), 'LOVE')) {
     $css_love = '_love orange';
     $text_love = $views['unlove'];
 } else {

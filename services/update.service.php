@@ -55,7 +55,7 @@ function update($connection, $class, $set, $increment = null, $decrement = null,
 	}
 	$sql = substr($sql, 0, strlen($sql) - 1);
     }
-    $sql .= " WHERE 1 = 1 ";
+    $sql .= " WHERE active = 1 ";
 
     if (!is_null($id)) {
 	$sql .= " AND id = " . $id;

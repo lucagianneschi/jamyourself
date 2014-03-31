@@ -9,7 +9,8 @@ var uploader = null;
 $(document).ready(function() {
 
     getAlbums();
-    initFeaturing();
+    //#TODO eliminare la funzione initFeaturing
+ //   initFeaturing();
     //gesione button create new 
     $('#uploadAlbum-new').click(function() {
 	$("#uploadAlbum01").fadeOut(100, function() {
@@ -145,6 +146,8 @@ function initImgUploader() {
 		    imageList.push(elem);
 		    var row = getTableRowImage(elem.id);
 		    $('#photolist').append(row);
+		    getFeaturing('#featuringPhoto_' + elem.id);
+		    /*
 		    $('#featuringPhoto_' + elem.id).select2({
 			multiple: true,
 			minimumInputLength: 1,
@@ -163,7 +166,7 @@ function initImgUploader() {
 				};
 			    }
 			}
-		    });
+		    });*/
 		    if (supportsCanvas()) {
 			var img = new mOxie.Image();
 			startEventsImage(img, '#photo_img_' + elem.id);

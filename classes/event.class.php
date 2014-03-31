@@ -16,132 +16,137 @@
 class Event {
 
     /**
-     * @var int id istanza
+     * @property int id istanza
      */
     private $id;
 
     /**
-     * @var date data creazione istanza
+     * @property date data creazione istanza
      */
     private $createdat;
 
     /**
-     * @var date data modifica istanza
+     * @property date data modifica istanza
      */
     private $updatedat;
 
     /**
-     * @var int istanza attiva/non attiva
+     * @property int istanza attiva/non attiva
      */
     private $active;
 
     /**
-     * @var string di indirizzo della venue
+     * @property string di indirizzo della venue
      */
     private $address;
 
     /**
-     * @var int numero di partecipanti all'event
+     * @property int numero di partecipanti all'event
      */
     private $attendeecounter;
 
     /**
-     * @var int numero di partecipanti cancellati dall'event
+     * @property int numero di partecipanti cancellati dall'event
      */
     private $cancelledcounter;
 
     /**
-     * @var string city for the record
+     * @property string city for the record
      */
     private $city;
 
     /**
-     * @var int numero di commenti
+     * @property int numero di commenti
      */
     private $commentcounter;
 
     /**
-     * @var int indice di gradimento
+     * @property int indice di gradimento
      */
     private $counter;
 
     /**
-     * @var string per l'immagine di copertina
+     * @property string per l'immagine di copertina
      */
     private $cover;
 
     /**
-     * @var string descrizione del video
+     * @property string descrizione del video
      */
     private $description;
 
     /**
-     * @var Datetime data dell'evento
+     * @property Datetime data dell'evento
      */
     private $eventdate;
-
+	
+	/**
+     * @property int id del featuring
+     */
+    private $featuring;
+	
     /**
-     * @var int id del formuser
+     * @property int id del formuser
      */
     private $fromuser;
 
     /**
-     * @var array di id del genere
+     * @property array di id del genere
      */
     private $genre;
 
     /**
-     * @var int numero di invitati all'evento
+     * @property int numero di invitati all'evento
      */
     private $invitedcounter;
 
     /**
-     * @var float latitudine
+     * @property float latitudine
      */
     private $latitude;
 
     /**
-     * @var string per il nome della location
+     * @property string per il nome della location
      */
     private $locationname;
 
     /**
-     * @var float longitudine
+     * @property float longitudine
      */
     private $longitude;
 
     /**
-     * @var int contatore di azioni love
+     * @property int contatore di azioni love
      */
     private $lovecounter;
 
     /**
-     * @var int contatore di azioni review
+     * @property int contatore di azioni review
      */
     private $reviewcounter;
 
     /**
-     * @var int contatore di utenti che hanno rifiutato invito
+     * @property int contatore di utenti che hanno rifiutato invito
      */
     private $refusedcounter;
 
     /**
-     * @var int contatore di azioni share
+     * @property int contatore di azioni share
      */
     private $sharecounter;
 
     /**
-     * @var array di id di tag
+     * @property array di id di tag
      */
     private $tag;
 
     /**
-     * @var string path al thumbnail della cover
+     * @property string path al thumbnail della cover
      */
     private $thumbnail;
 
     /**
-     * @var string titolo album
+     * @property string titolo album
      */
     private $title;
 
@@ -248,7 +253,15 @@ class Event {
     public function getEventdate() {
 	return $this->eventdate;
     }
-
+	
+	/**
+     * Return the id value for the featuring
+     * @return	array
+     */
+    public function getFeaturing() {
+	return $this->featuring;
+    }
+	
     /**
      * Return the id value for the fromUser
      * @return	string
@@ -456,6 +469,14 @@ class Event {
      */
     public function setEventdate($eventdate) {
 	$this->eventdate = $eventdate;
+    }
+	
+	/**
+     * Sets the featuring value
+     * @param	int
+     */
+    public function setFeaturing($featuring) {
+	$this->featuring = $featuring;
     }
 
     /**

@@ -21,12 +21,12 @@ require_once SERVICES_DIR . 'select.service.php';
 class PostBox {
 
     /**
-     * @var string stringa di errore
+     * @property string stringa di errore
      */
     public $error = null;
 
     /**
-     * @var array Array di post
+     * @property array Array di post
      */
     public $postArray = array();
 
@@ -42,7 +42,7 @@ class PostBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$posts = selectPosts($connection, null, array('touser' => $id, 'type' => 'P'), array('createdat' => 'DESC'), $limit, $skip);
+	$posts = selectPosts($connection, null, array('touser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($posts === false) {
 	    $this->error = 'Errore nella connessione';
 	}

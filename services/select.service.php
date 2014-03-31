@@ -1,17 +1,5 @@
 <?php
 
-/**
- * Servizio  DB,Servizio esecuzione principali query
- * 
- * @author Daniele Caldelli
- * @author Luca Gianneschi
- * @version		0.2
- * @since		2014-03-14
- * @copyright		Jamyourself.com 2013	
- * @warning
- * @bug
- * @todo                
- */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -20,13 +8,28 @@ require_once CLASSES_DIR . 'error.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
 
 /**
+ * MessageController class 
+ * invia il messaggio e corrispondente relation;legge il messaggio
+ * 
+ * @author		Luca Gianneschi
+ * @author Daniele Caldelli
+ * @author Maria Laura Fresu
+ * @version		0.2
+ * @since		2014-03-17
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
+ */
+
+/**
  * Check if a relation exist between 2 nodes
- * @param  $connection,
- * @param  $fromNodeId,
- * @param  $toNodeType,
- * @param  $toNodeId, 
- * @param  $relationType
- * @return 
+ * 
+ * @param $fromNodeType,
+ * @param $fromNodeId, 
+ * @param $toNodeType, 
+ * @param $toNodeId, 
+ * @param $relationType
  * @todo
  */
 function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType) {
@@ -53,6 +56,7 @@ function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 
 /**
  * Get list of nodes in relation with the first node
+ * 
  * @param  $connection,
  * @param  $fromNodeType,
  * @param  $fromNodeId
@@ -66,12 +70,14 @@ function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType, $skip = null, $limit = null) {
     $query = '
 	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
-	WHERE n.id = '.$fromNodeId.'
+	WHERE n.id = ' . $fromNodeId . '
 	RETURN m
 	ORDER BY r.createdat DESC
 	';
-	if (!is_null($skip)) $query .= ' SKIP ' . $skip;
-	if (!is_null($limit)) $query .= ' LIMIT ' . $limit;
+    if (!is_null($skip))
+	$query .= ' SKIP ' . $skip;
+    if (!is_null($limit))
+	$query .= ' LIMIT ' . $limit;
     $params = array(
 	'fromNodeId' => $fromNodeId
     );
@@ -99,7 +105,7 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
 
 /**
  * Execute generic query
- * @param   $connection,
+ * 
  * @param   $ql string for query
  * @todo
  */
@@ -112,13 +118,12 @@ function query($connection, $sql) {
 
 /**
  * Select on Album Class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectAlbums($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -234,14 +239,13 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
 
 /**
  * Select on Comment Class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
- * @todo
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
+ * @todo  
  */
 function selectComments($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
     $sql = "SELECT cmt.id id_cmt,
@@ -622,7 +626,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 	$rows_genres_record = array();
 	while ($row_genres_record = mysqli_fetch_array($results_genre_record, MYSQLI_ASSOC))
 	    $rows_genres_record[] = $row_genres_record;
-	foreach ($rows_record_event as $row_genres_record) {
+	foreach ($rows_genres_record as $row_genres_record) {
 	    $genres_record[] = $row_genres_record;
 	}
 	$record->setGenre($genres_record);
@@ -737,13 +741,12 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 
 /**
  * Select on Event Class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectEvents($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -834,15 +837,16 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
 	$event->setCover($row['cover']);
 	$event->setDescription($row['description']);
 	$event->setEventdate($row['eventdate']);
+	require_once CLASSES_DIR . 'user.class.php';
 	$fromuser = new User();
 	$fromuser->setId($row['id_u']);
 	$fromuser->setThumbnail($row['thumbnail_u']);
 	$fromuser->setUsername($row['username']);
 	$fromuser->setType($row['type']);
 	$event->setFromuser($fromuser);
-	$sql = "SELECT genre
+	$sql = "SELECT id_genre
 		  FROM event_genre
-		 WHERE id = " . $row['genre'];
+		 WHERE id_event = " . $row['id_e'];
 	$results_genre_event = mysqli_query($connection, $sql);
 	if (!$results_genre_event) {
 	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
@@ -890,14 +894,13 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
 }
 
 /**
- * Select on Image Class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * Select on Post Class
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectImages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1016,14 +1019,13 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
 }
 
 /**
- * Select on Message,instance of Comment class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * Select on Comment Class, messages
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectMessages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1149,14 +1151,13 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
 }
 
 /**
- * Select on Playlist class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * Select on Playlist Class
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectPlaylists($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1235,14 +1236,14 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
 }
 
 /**
- * Select on Post, instance of Comment class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * 
+ * Select on Post Class
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectPosts($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1265,7 +1266,7 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
                            u.username,
                            u.thumbnail,
                            u.type type_u,
-			   			   fu.id id_fu,
+			   fu.id id_fu,
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu
@@ -1368,14 +1369,13 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
 }
 
 /**
- * Select on Record class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * Select on Record Class
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectRecords($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1502,14 +1502,13 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
 }
 
 /**
- * Select on Review event, instance of Comment class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * Select on Comment Class, Review Event
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectReviewEvent($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1656,8 +1655,9 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
                          WHERE id = " . $row['id_e'];
 	$results_event = mysqli_query($connection, $sql);
 	if (!$results) {
-	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
-	    return false;
+	    $error = new Error();
+	    $error->setErrormessage($results_event->error);
+	    return $error;
 	}
 	while ($row_tag = mysqli_fetch_array($results_event, MYSQLI_ASSOC))
 	    $rows_tag[] = $row_tag;
@@ -1715,14 +1715,13 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 }
 
 /**
- * Select on Review record, instance of Comment class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * Select on Comment Class, Review Record
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectReviewRecord($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -1887,6 +1886,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 	while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	    $rows_tag[] = $row_tag;
 	$tags = array();
+	if (!is_array($rows_tag)) return $tags;
 	foreach ($rows_tag as $row_tag) {
 	    $tags[] = $row_tag;
 	}
@@ -1909,14 +1909,13 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 }
 
 /**
- * Select on Song class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * Select on Song Class
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectSongs($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -2028,14 +2027,13 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
 }
 
 /**
- * Select on Song in a specific playlist
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * Select on Song in Playlist
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) {
@@ -2120,14 +2118,13 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
 }
 
 /**
- * Select on User class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * Select on User Class
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectUsers($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
@@ -2228,7 +2225,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 	$user->setFacebookId($row['facebookid']);
 	$user->setFacebookpage($row['facebookpage']);
 	$user->setFirstname($row['firstname']);
-	$user->setFollowercounter($row['followerscounter']);
+	$user->setFollowercounter($row['followercounter']);
 	$user->setFollowingcounter($row['followingcounter']);
 	$user->setFriendshipcounter($row['friendshipcounter']);
 	$user->setGooglepluspage($row['googlepluspage']);
@@ -2287,17 +2284,17 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 }
 
 /**
- * Select on Video class
- * @param $connection,
- * @param  $id = null,
- * @param   $where = null, 
- * @param   $order = null, 
- * @param   $limit = null, 
- * @param   $skip = null
- * @return Array of Album objects
+ * Select on Video Class
+ * 
+ * @param $id = null, 
+ * @param $where = null, 
+ * @param $order = null, 
+ * @param $limit = null, 
+ * @param $skip = null
  * @todo
  */
 function selectVideos($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+
     $sql = "SELECT          v.id id_v,
 			    v.createdat,
 			    v.updatedat,
@@ -2352,8 +2349,9 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query');
-	return false;
+	$error = new Error();
+	$error->setErrormessage($results->error);
+	return $error;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
