@@ -203,6 +203,16 @@ function getFeaturingArray() {
 }
 
 /**
+ * cripta la password prima di scriverla sul DB,SHA1 hash of the password using 2 salts that the user specifies.
+ * 
+ * @param string $password Password
+ * @todo test
+ */
+function passwordEncryption($password) {
+    return sha1(md5(SALT2 . $password . SALT1));
+}
+
+/**
  * invia mail ad utente
  * 
  * @param   $address, $subject, $html

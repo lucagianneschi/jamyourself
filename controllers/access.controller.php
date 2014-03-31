@@ -27,7 +27,7 @@ class AccessController extends REST {
 
     /**
      * Effettua il login dell'utente, inserendo i dati che servono in sessione
-     * @todo    testare
+     * @todo    testare e attivare la password criptata, riga 50
      */
     public function login() {
 	try {
@@ -47,8 +47,8 @@ class AccessController extends REST {
 	    if ($connection != false) {
 		$name = mysqli_real_escape_string($connection, stripslashes($this->request['usernameOrEmail']));
 		$password = mysqli_real_escape_string($connection, stripslashes($this->request['password']));
+		//$encriptedPassword = passwordEncryption($password);
 		$user = $this->checkEmailOrUsername($connection, $password, $name);
-
 		if (!$user) {
 		    $this->response(array('status' => 'INVALID CREDENTIALS'), 503);
 		}

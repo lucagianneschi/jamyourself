@@ -438,6 +438,17 @@ define('NEO4J_USER', 'jamyourself');
 define('NEO4J_PSW', 'j4my0urs3lf');
 
 /**
+ *  Define the Password salt1
+ */
+define('SALT1', '2345#$%@3e');
+
+/**
+ *  Define the Password salt2
+ */
+define('SALT2', 'taesa%#@2%^#');
+
+
+/**
  *  Set the timezone for server side
  */
 ini_set('date.timezone', 'GMT');

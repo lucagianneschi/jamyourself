@@ -640,15 +640,6 @@ class SignupController extends REST {
     }
 
     /**
-     * cripta la password prima di scriverla sul DB
-     * 
-     * @todo    VEDI ISSUE #78
-     */
-    private function passwordEncryption() {
-	
-    }
-
-    /**
      * setta i valori comuni ai 3 tipi di utenti
      * 
      * @param $user
@@ -669,7 +660,7 @@ class SignupController extends REST {
 	    $user->setGooglePlusPage($decoded->google);
 	$user->setLevel(0);
 	$user->setLevelValue(1);
-	$user->setPassword($decoded->password);
+	$user->setPassword(passwordEncryption($decoded->password));
 	$user->setPremium(0);
 	$user->setSettings($this->defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['picture']));
 	$user->setThumbnail($imgInfo['thumbnail']);
