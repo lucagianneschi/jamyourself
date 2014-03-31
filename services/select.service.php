@@ -1886,6 +1886,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 	while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	    $rows_tag[] = $row_tag;
 	$tags = array();
+	if (!is_array($rows_tag)) return $tags;
 	foreach ($rows_tag as $row_tag) {
 	    $tags[] = $row_tag;
 	}
