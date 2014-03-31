@@ -188,34 +188,18 @@ class UploadAlbumController extends REST {
 	$albumBox = new AlbumBox();
 	$albumBox->init($_SESSION['id'], $limit = 10);
 	$albumList = array();
+	$fileManager = new FileManagerService();
 	if (is_null($albumBox->error) && count($albumBox->albumArray) > 0) {
 	    foreach ($albumBox->albumArray as $album) {
 		$retObj = array();
-		$retObj["thumbnail"] = $this->getAlbumThumbnailURL(sessionChecker(), $album->getThumbnail());
+		$retObj["thumbnail"] = $fileManager->getPhotoPath($_SESSION['id'], $album->getThumbnail());
 		$retObj["title"] = $album->getTitle();
 		$retObj["images"] = $album->getImagecounter();
 		$retObj["albumId"] = $album->getId();
 		$albumList[] = $retObj;
 	    }
 	}
-
 	$this->response(array("status" => $controllers['GETALBUMSSOK'], "albumList" => $albumList, "count" => count($albumList)), 200);
-    }
-
-    private function getAlbumThumbnailURL($userId, $albumCoverThumb) {
-	try {
-	    if (!is_null($albumCoverThumb) && strlen($albumCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
-		$fileManager = new FileManagerService();
-		$path = $fileManager->getPhotoPath($userId, $albumCoverThumb);
-		if (!file_exists($path)) {
-		    return DEFALBUMTHUMB;
-		}
-	    } else {
-		return DEFALBUMTHUMB;
-	    }
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
     }
 
     /**
