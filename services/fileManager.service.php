@@ -64,7 +64,7 @@ class FileManagerService {
      * @return  users/USERID/images/events/ dir
      */
     public function createEventPhotoDir($userId) {
-	return mkdir(USERS_DIR .  DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder, $this->access, true);
+	return mkdir(USERS_DIR . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder, $this->access, true);
     }
 
     /**
@@ -199,14 +199,16 @@ class FileManagerService {
      * 
      * @param int $userId user id
      * @param int $photoId photo id
+     * @param int $thumb|true specify if you need a thumb or a cover
      * @return  path if found
      */
-    public function getRecordPhotoPath($userId, $photoId) {
+    public function getRecordPhotoPath($userId, $photoId, $thumb = true) {
 	$path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
 	if (file_exists($path)) {
 	    return $path;
 	} else {
-	    return "";
+	    $default = ($thumb == true) ? DEFALBUMTHUMB : DEFALBUMCOVER;
+	    return $default;
 	}
     }
 
@@ -300,7 +302,7 @@ class FileManagerService {
 	$src = CACHE_DIR . $photoId;
 	$dest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
 	if (file_exists($src) && $this->checkRecordPhotoDir($userId)) {
-	   return copy($src, $dest);
+	    return copy($src, $dest);
 	}
     }
 
