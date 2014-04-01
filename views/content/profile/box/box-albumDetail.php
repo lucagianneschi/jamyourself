@@ -46,11 +46,9 @@ $fileManagerService = new FileManagerService();
 	$thumbImage = $value->getThumbnail();
 	?>
         <!------------------------------ THUMBNAIL ---------------------------------->
-        <li><a class="photo-colorbox-group" href="#<?php echo $value->getId(); ?>"><img class="photo" src="<?php echo $fileManagerService->getPhotoPath($id, $value->getThumbnail()); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt></a></li>
-
+        <li><a class="photo-colorbox-group" href="#<?php echo $value->getId(); ?>"><img class="photo" src="<?php echo $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail()); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt></a></li>
     <?php } ?>
 </ul>
-
 <div class="row">
     <div class="small-12 columns">
 	<a class="text orange otherObject <?php echo $css_other; ?>" onclick="loadBoxAlbumDetail('<?php echo $id ?>',<?php echo $countImage ?>, 30,<?php echo $limit + $skip ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['other']; ?><span><?php echo $other; ?></span><?php echo $views['PHOTOS']; ?></a>	
@@ -63,20 +61,19 @@ $fileManagerService = new FileManagerService();
     	<p class="grey"><?php echo $views['album']['nodata']; ?></p>
         </div>
     </div>
-
 <?php } ?>
 <!----------------------------------- lightbox ------------------------------------------>
 <div class="row no-display box" id="profile-Image">
     <div class="large-12 columns">
 	<?php
 	foreach ($albumDetail->imageArray as $key => $value) {
-		$connectionService = new ConnectionService();
-	    if (existsRelation($connectionService,'user', $currentUserId, 'image', $value->getId(), 'LOVE')) {
-			$css_love = '_love orange';
-			$text_love = $views['unlove'];
+	    $connectionService = new ConnectionService();
+	    if (existsRelation($connectionService, 'user', $currentUserId, 'image', $value->getId(), 'LOVE')) {
+		$css_love = '_love orange';
+		$text_love = $views['unlove'];
 	    } else {
-			$css_love = '_unlove grey';
-			$text_love = $views['love'];
+		$css_love = '_unlove grey';
+		$text_love = $views['love'];
 	    }
 	    ?>				 	
     	<div id="<?php echo $value->getId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($id, $value->getPath()); ?>">
@@ -141,7 +138,7 @@ $fileManagerService = new FileManagerService();
     			<div class="hover_menu">
     			    <div class="addthis_toolbox addthis_default_style"
     				 addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image&id=&imgPath=<?php echo $value->getPath(); ?>"
-    				 addThis:title="<?php //echo $paramsImage['title'];       ?>"
+    				 addThis:title="<?php //echo $paramsImage['title'];        ?>"
     				 onclick="addShare('<?php echo $objectIdUser; ?>', 'Image', '<?php echo $value->getId(); ?>')">
     				<a class="addthis_button_twitter"></a>
     				<a class="addthis_button_facebook"></a>
@@ -152,10 +149,7 @@ $fileManagerService = new FileManagerService();
     		    <!-- AddThis Button END -->	
     		</div>			
     	    </div>
-
     	</div>
-
 	<?php } ?>
-
     </div>	
 </div>
