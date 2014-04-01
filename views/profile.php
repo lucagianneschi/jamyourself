@@ -12,7 +12,7 @@ require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'userInfo.box.php';
 
-$userObjectId = $_SESSION['id'];
+$userPageId = $_SESSION['id'];
 if (isset($_GET['user'])) {
     $userPageId = $_GET['user'];
 }
