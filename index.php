@@ -24,6 +24,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<link rel="stylesheet" href="views/resources/stylesheets/home.css" type="text/css" media="screen">
 	<!----------------- colorbox ---------------------------->
 	<link rel="stylesheet" href="views/resources/stylesheets/plugins/colorbox/colorbox.css"></link>
+	<link rel="icon" href="<?php echo VIEWS_DIR . "resources/images/icon/favicon.ico"; ?>" sizes="16x16"></link>
 	<!-- <link rel="stylesheet" href="css/style.min.css" type="text/css" media="screen"> -->
 	<!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     </head>
