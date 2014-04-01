@@ -32,6 +32,7 @@ if (is_null($userInfoBox->error)) {
 	<title><?php echo $views['metatag']['profile']['title'] . $user->getUsername() ?></title>
 	<meta name="description" content="<?php echo $views['metatag']['profile']['description'] ?>">
 	<meta name="keywords" content="<?php echo $views['metatag']['profile']['keywords'] ?>">
+	<link rel="icon" href="<?php echo VIEWS_DIR . "resources/images/icon/favicon.ico"; ?>" sizes="16x16"></link>
     	<!-------------------------- METADATI --------------------------->
 	    <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
         </head>

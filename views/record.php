@@ -26,6 +26,7 @@ if (is_null($recordBox->error) && !empty($recordBox->recordArray)) {
 	<title><?php echo $views['metatag']['record']['title'] . $record->getTitle() ?></title>
 	<meta name="description" content="<?php echo $views['metatag']['record']['description'] ?>">
 	<meta name="keywords" content="<?php echo $views['metatag']['record']['keywords'] ?>">
+	<link rel="icon" href="<?php echo VIEWS_DIR . "resources/images/icon/favicon.ico"; ?>" sizes="16x16"></link>
     	<!-------------------------- METADATI --------------------------->
 	    <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
         </head>

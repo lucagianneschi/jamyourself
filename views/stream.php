@@ -18,6 +18,7 @@ $currentUserUsername = $_SESSION['username'];
 	<title><?php echo $views['metatag']['stream']['title'] . $currentUserUsername ?></title>
 	<meta name="description" content="<?php echo $views['metatag']['stream']['description'] ?>">
 	<meta name="keywords" content="<?php echo $views['metatag']['stream']['keywords'] ?>">
+	<link rel="icon" href="<?php echo VIEWS_DIR . "resources/images/icon/favicon.ico"; ?>" sizes="16x16"></link>
         <!-------------------------- METADATI --------------------------->
 	<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
     </head>

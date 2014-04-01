@@ -16,6 +16,7 @@ $params = getShareParameters($classType, $id, $imgPath);
 	<meta property="og:title" content="<?php echo $params['title']; ?>" />
 	<meta property="og:description" content="<?php echo $params['description']; ?>" />
 	<meta property="og:image" content="<?php echo $params['img']; ?>" />
+	<link rel="icon" href="<?php echo VIEWS_DIR . "resources/images/icon/favicon.ico"; ?>" sizes="16x16"></link>
     </head>
     <body>
 	<script type="text/javascript">window.location = "<?php echo $params['url']; ?>"</script>
