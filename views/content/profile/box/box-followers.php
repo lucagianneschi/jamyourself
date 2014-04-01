@@ -31,7 +31,6 @@ if (is_null($followersBox->error)) {
 			if ($followersCounter > 0 && count($followers) > 0) {
 			    $i = 0;
 			    foreach ($followers as $key => $value) {
-
 				if ($i % 2 == 0) {
 				    ?> <div class="row">  <?php
 				}

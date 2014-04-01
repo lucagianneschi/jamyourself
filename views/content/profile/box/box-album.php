@@ -55,7 +55,6 @@ if (is_null($albumBox->error)) {
     	<!-------------------------------------- LIST ALBUM PHOTO -------------------------------->
     	<div class="row">
     	    <div class="large-12 columns ">
-
 		    <?php
 		    if ($albumCounter > 0) {
 			$index = 0;
@@ -214,7 +213,6 @@ if (is_null($albumBox->error)) {
 				    </div>
 				</div>		
 			    </div>			
-
 			    <!---------------------------------------- SHARE ------------------------------------------------->
 			    <?php //		$paramsAlbum = getShareParameters('Album', $album_id, $thumbImage); ?>
 			    <!-- AddThis Button BEGIN -->
@@ -236,7 +234,6 @@ if (is_null($albumBox->error)) {
 			<div class="albumOpinion box-opinion no-display"></div>
 		    </div>				
 		</div>
-
 		<?php } ?>	
         </div>
     </div>
