@@ -288,13 +288,10 @@ class UploadRecordController extends REST {
     private function addSongToRecord(Record $record, Song $song) {
         try {
             global $controllers;
-            //@TODO: aggiorno la relazione record/song
             $resRelationCreation = false;
             if ($resRelationCreation == false) {
                 return false;
             }
-            //@TODO: aggiungere activity per aggiunta song ad un record
-
             $connectionService = new ConnectionService();
             $connection = $connectionService->connect();
             if ($connection === false) {
@@ -302,7 +299,6 @@ class UploadRecordController extends REST {
             }
             $connection->autocommit(false);
             $connectionService->autocommit(false);
-
             $node = createNode($connectionService, 'song', $song->getId());
             $relation = createRelation($connectionService, 'record', $record->getId(), 'song', $song->getId(), 'ADD');
             if ($relation === false || $node === false) {
@@ -424,7 +420,6 @@ class UploadRecordController extends REST {
                     $recordIdList[] = $retObj;
                 }
             }
-
             $this->response(array("status" => $controllers['GETRECORDSOK'], "recordList" => $recordIdList, "count" => count($recordIdList)), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
