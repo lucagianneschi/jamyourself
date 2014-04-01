@@ -46,7 +46,7 @@ $fileManagerService = new FileManagerService();
 	$thumbImage = $value->getThumbnail();
 	?>
         <!------------------------------ THUMBNAIL ---------------------------------->
-        <li><a class="photo-colorbox-group" href="#<?php echo $value->getId(); ?>"><img class="photo" src="<?php echo $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail()); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt></a></li>
+        <li><a class="photo-colorbox-group" href="#<?php echo $value->getId(); ?>"><img class="photo" src="<?php echo $fileManagerService->getPhotoPath($userId, $value->getThumbnail()); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt></a></li>
     <?php } ?>
 </ul>
 <div class="row">
