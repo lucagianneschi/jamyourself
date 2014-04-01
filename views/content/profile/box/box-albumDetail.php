@@ -79,7 +79,7 @@ $fileManagerService = new FileManagerService();
     	<div id="<?php echo $value->getId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($userId, $value->getPath()); ?>">
     	    <div class="row " style="max-width: none;">
     		<div class="large-12 columns lightbox-photo-box">
-    		    <div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="<?php echo $pathImage . $value->getPath(); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt/></div>
+    		    <div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="<?php echo $fileManagerService->getPhotoPath($userId, $value->getPath()); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt/></div>
     		    <div class="row">
     			<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
     		    </div>
