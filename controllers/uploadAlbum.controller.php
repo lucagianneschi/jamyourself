@@ -192,7 +192,7 @@ class UploadAlbumController extends REST {
 	if (is_null($albumBox->error) && count($albumBox->albumArray) > 0) {
 	    foreach ($albumBox->albumArray as $album) {
 		$retObj = array();
-		$retObj["thumbnail"] = $fileManager->getPhotoPath($_SESSION['id'], $album->getThumbnail());
+		$retObj["thumbnail"] = file_exists($fileManager->getPhotoPath($_SESSION['id'], $album->getThumbnail())) ? $fileManager->getPhotoPath($_SESSION['id'], $album->getThumbnail()) : DEFALBUMTHUMB;
 		$retObj["title"] = $album->getTitle();
 		$retObj["images"] = $album->getImagecounter();
 		$retObj["albumId"] = $album->getId();
