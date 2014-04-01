@@ -76,7 +76,7 @@ $fileManagerService = new FileManagerService();
 		$text_love = $views['love'];
 	    }
 	    ?>				 	
-    	<div id="<?php echo $value->getId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($id, $value->getPath()); ?>">
+    	<div id="<?php echo $value->getId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($userId, $value->getPath()); ?>">
     	    <div class="row " style="max-width: none;">
     		<div class="large-12 columns lightbox-photo-box">
     		    <div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="<?php echo $pathImage . $value->getPath(); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt/></div>
