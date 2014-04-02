@@ -176,34 +176,7 @@ class UploadAlbumController extends REST {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
-
-    /**
-     * recupera una lista di cover degli album esistenti per quell'utente
-     */
-    public function getAlbums() {
-	global $controllers;
-	if ($this->get_request_method() != "POST") {
-	    $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
-	} elseif (!isset($_SESSION['id'])) {
-	    $this->response($controllers['USERNOSES'], 402);
-	}
-	require_once BOXES_DIR . "album.box.php";
-	$albumBox = new AlbumBox();
-	$albumBox->init($_SESSION['id'], $limit = 10);
-	$albumList = array();
-	$fileManager = new FileManagerService();
-	if (is_null($albumBox->error) && count($albumBox->albumArray) > 0) {
-	    foreach ($albumBox->albumArray as $album) {
-		$retObj = array();
-		$retObj["thumbnail"] = file_exists($fileManager->getPhotoPath($_SESSION['id'], $album->getThumbnail())) ? $fileManager->getPhotoPath($_SESSION['id'], $album->getThumbnail()) : DEFALBUMTHUMB;
-		$retObj["title"] = $album->getTitle();
-		$retObj["images"] = $album->getImagecounter();
-		$retObj["albumId"] = $album->getId();
-		$albumList[] = $retObj;
-	    }
-	}
-	$this->response(array("status" => $controllers['GETALBUMSSOK'], "albumList" => $albumList, "count" => count($albumList)), 200);
-    }
+  
 
     /**
      * recupera una lista di immagini
