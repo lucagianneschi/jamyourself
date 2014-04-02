@@ -125,7 +125,6 @@ class CommentController extends REST {
 	    }
 	    global $mail_files;
 	    $user = selectUsers($connection, $toUserId);
-	    $connectionService->disconnect($connection);
 	    $address = $user->getEmail();
 	    $subject = $controllers['SBJCOMMENT'];
 	    $html = $mail_files['COMMENTEMAIL'];
