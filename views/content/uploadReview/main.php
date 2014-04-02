@@ -56,7 +56,6 @@ switch ($_GET['type']) {
 		$author = $event->getFromuser()->getUsername();
 		
 		$link = 'event.php?event=' . $_GET["rewiewId"];
-		
 		$fileManagerService = new FileManagerService();
 		$elReviewedThumb = $fileManagerService->getEventPhotoPath($authorObjectId, $thumbnail);
     	$defThumb = DEFEVENTTHUMB;
@@ -105,7 +104,7 @@ switch ($_GET['type']) {
 						<div class="row">
 						    <div class="small-3 columns ">							    						
 							<div class="coverThumb" style="cursor: pointer">
-							    <img src="<?php $elReviewedThumb; ?>" onerror="this.src='<?php echo $defThumb ?>'" alt>
+							    <img src="<?php echo $elReviewedThumb; ?>" onerror="this.src='<?php echo $defThumb ?>'" alt>
 							</div>
 						    </div>						
 						    <div class="small-9 columns ">
