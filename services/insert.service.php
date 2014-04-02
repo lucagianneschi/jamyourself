@@ -6,6 +6,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * Servizio inserimento dei record nel DB
@@ -36,9 +37,11 @@ function createNode($connection, $nodeType, $nodeId) {
 	return false;
     } else {
 	if ($connection->getAutocommit()) {
-	    return $res['data'][0][0];
+	    $num = $res['data'][0][0];
+        return ($num ? $num : false);
 	} else {
-	    return $res['results'][0]['data'][0]['row'][0];
+	    $num = $res['results'][0]['data'][0]['row'][0];
+        return ($num ? $num : false);
 	}
     }
 }
@@ -62,9 +65,11 @@ function createRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 	return false;
     } else {
 	if ($connection->getAutocommit()) {
-	    return $res['data'][0][0];
+	    $num = $res['data'][0][0];
+        return ($num ? $num : false);
 	} else {
-	    return $res['results'][0]['data'][0]['row'][0];
+	    $num = $res['results'][0]['data'][0]['row'][0];
+        return ($num ? $num : false);
 	}
     }
 }
@@ -157,7 +162,7 @@ function insertComment($connection, $comment) {
                                     createdat,
                                     updatedat)
                           VALUES (NULL,
-			  	  '" . (is_null($comment->getActive()) ? 0 : $comment->getActive()) . "',
+                                  '" . (is_null($comment->getActive()) ? 0 : $comment->getActive()) . "',
                                   '" . (is_null($comment->getAlbum()) ? 0 : $comment->getAlbum()) . "',
                                   '" . (is_null($comment->getComment()) ? 0 : $comment->getComment()) . "',  
                                   '" . (is_null($comment->getCommentcounter()) ? 0 : $comment->getCommentcounter()) . "',      
