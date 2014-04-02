@@ -7,28 +7,79 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
-$fileManagerService = new FileManagerService();
 
-if ($_GET["type"] == 'Record') {
-    $link = 'record.php?record=' . $_GET["rewiewId"];
-    $elReviewedThumb = $fileManagerService->getRecordPhotoPath($authorObjectId, $thumbnail);
-    $tags = explode(',', $tagGenere);
-    $defThumb = DEFRECORDTHUMB;
-    foreach ($tags as $key => $value) {
-	if ($key == 0)
-	    $stringGenre = $views['tag']['music'][$value];
-	else
-	    $stringGenre = $stringGenre . ', ' . $views['tag']['music'][$value];
-    }
-} else {
-    $link = 'event.php?event=' . $_GET["rewiewId"];
-    $elReviewedThumb = $fileManagerService->getEventPhotoPath($authorObjectId, $thumbnail);
-    $defThumb = DEFEVENTTHUMB;
-    foreach ($tagGenere as $key => $value) {
-	$stringGenre = $stringGenre . $space . $views['tag']['localType'][$value];
-	$space = ', ';
-    }
+
+switch ($_GET['type']) {
+    case "Record":
+		require_once BOXES_DIR . 'record.box.php';
+		$recordBox = new RecordBox();
+		$recordBox->initForMediaPage($_GET['rewiewId']);
+		$records = $recordBox->recordArray;
+		$record = $records[$_GET['rewiewId']];
+		
+		$title = $record->getTitle();
+		$tagGenere = $record->getGenre();
+		$thumbnail = $record->getThumbnail();
+		$authorObjectId = $record->getFromuser()->getId();
+		$authorThumbnail = $record->getFromuser()->getThumbnail();
+		$author = $record->getFromuser()->getUsername();
+		
+		$link = 'record.php?record=' . $_GET["rewiewId"];
+		
+		$fileManagerService = new FileManagerService();
+		$elReviewedThumb = $fileManagerService->getRecordPhotoPath($authorObjectId, $thumbnail);				
+	    $defThumb = DEFRECORDTHUMB;
+		$css_stringGenre = 'no-display';
+	    foreach ($tagGenere as $key => $tag) {
+	    	foreach ($tag as $key1 => $value) {
+	    		if ($key == 0)
+			    	$stringTag = $views['tag']['music'][$value];
+				else
+			    	$stringTag = $stringTag . ', ' . $views['tag']['music'][$value];
+			}			
+	    }
+		
+	break;
+    case "Event" :
+		require_once BOXES_DIR . 'event.box.php';
+		$eventBox = new EventBox();
+		$eventBox->initForMediaPage($_GET['rewiewId']);
+		$events = $eventBox->eventArray;
+		$event = $events[$_GET['rewiewId']];
+		
+		$title = $event->getTitle();
+		$genre = $event->getGenre();
+		$tag = $event->getTag();
+		$thumbnail = $event->getThumbnail();
+		$authorObjectId = $event->getFromuser()->getId();
+		$authorThumbnail = $event->getFromuser()->getThumbnail();
+		$author = $event->getFromuser()->getUsername();
+		
+		$link = 'event.php?event=' . $_GET["rewiewId"];
+		
+		$fileManagerService = new FileManagerService();
+		$elReviewedThumb = $fileManagerService->getEventPhotoPath($authorObjectId, $thumbnail);
+    	$defThumb = DEFEVENTTHUMB;
+		$css_stringGenre = '';
+	    foreach ($genre as $key => $g) {
+	    	foreach ($g as $key1 => $value) {
+	    		if ($key == 0)
+			    	$stringGenre = $views['tag']['localType'][$value];
+				else
+			    	$stringGenre = $stringGenre . ', ' . $views['tag']['music'][$value];
+			}			
+	    }
+		foreach ($tag as $key => $t) {
+	    	foreach ($t as $key1 => $value) {
+	    		if ($key == 0)
+			    	$stringTag = $views['tag']['music'][$value];
+				else
+			    	$stringTag = $stringTag . ', ' . $views['tag']['music'][$value];
+			}			
+	    }
+	break;
 }
+
 ?>
 <div class="bg-white">
     <div class="row">
@@ -58,12 +109,13 @@ if ($_GET["type"] == 'Record') {
 							</div>
 						    </div>						
 						    <div class="small-9 columns ">
-							<div class="row ">							
-							    <div class="small-12 columns ">
-								<a href="record.php?record=<?php echo $_GET["rewiewId"] ?>"><div class="sottotitle grey-dark"><?php echo $title; ?></div></a>
-								<a class="ico-label _tag inline text grey"><?php echo $stringGenre ?></a>
-							    </div>		
-							</div>	
+								<div class="row ">							
+								    <div class="small-12 columns ">
+										<a href="record.php?record=<?php echo $_GET["rewiewId"] ?>"><div class="sottotitle grey-dark"><?php echo $title; ?></div></a>
+										<a class="ico-label _tag inline text grey <?php echo $css_stringGenre ?>"><?php echo $stringGenre ?></a>
+										<a class="ico-label _note inline text grey"><?php echo $stringTag ?></a>
+								    </div>		
+								</div>							
 						    </div>
 						</div>
 					    </a>
