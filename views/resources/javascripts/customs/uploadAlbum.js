@@ -8,10 +8,7 @@ var imageList = null;
 var uploader = null;
 $(document).ready(function() {
 
-    getAlbums();
-    //#TODO eliminare la funzione initFeaturing
- //   initFeaturing();
-    //gesione button create new 
+    onCarouselReady();
     $('#uploadAlbum-new').click(function() {
 	$("#uploadAlbum01").fadeOut(100, function() {
 	    $("#uploadAlbum02").fadeIn(100);
@@ -36,7 +33,7 @@ $(document).ready(function() {
 	} else {
 	    validation_description = true;
 	}
-//validation title        
+	//validation title        
 	if (!espressione.test($('#albumTitle').val())) {
 	    $('#albumTitle').focus();
 	    //  $('label[for="albumTitle"] small.error').css({'display':'block'});
@@ -65,33 +62,7 @@ $(document).foundation('abide', {
 	description: exp_description
     }
 });
-function initFeaturing() {
-    try {
-	//inizializza le info in sessione
-	sendRequest("uploadAlbum", "getFeaturingJSON", {"force": true}, null, true);
-	$('#featuring').select2({
-	    multiple: true,
-	    minimumInputLength: 1,
-	    width: "100%",
-	    ajax: {
-		url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
-		dataType: 'json',
-		data: function(term) {
-		    return {
-			term: term
-		    };
-		},
-		results: function(data) {
-		    return {
-			results: data
-		    };
-		}
-	    }
-	});
-    } catch (err) {
-	window.console.log("initFeaturing | An error occurred - message : " + err.message);
-    }
-}
+
 function initGeocomplete() {
     try {
 	$("#city").geocomplete()
@@ -108,6 +79,7 @@ function initGeocomplete() {
 	window.console.log("initGeocomplete | An error occurred - message : " + err.message);
     }
 }
+
 function initImgUploader() {
     try {
 //inizializzazione dei parametri
@@ -146,27 +118,7 @@ function initImgUploader() {
 		    imageList.push(elem);
 		    var row = getTableRowImage(elem.id);
 		    $('#photolist').append(row);
-		    getFeaturing('#featuringPhoto_' + elem.id);
-		    /*
-		    $('#featuringPhoto_' + elem.id).select2({
-			multiple: true,
-			minimumInputLength: 1,
-			width: "100%",
-			ajax: {
-			    url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
-			    dataType: 'json',
-			    data: function(term) {
-				return {
-				    term: term
-				};
-			    },
-			    results: function(data) {
-				return {
-				    results: data
-				};
-			    }
-			}
-		    });*/
+		    getFeaturing('#featuringPhoto_' + elem.id);		    
 		    if (supportsCanvas()) {
 			var img = new mOxie.Image();
 			startEventsImage(img, '#photo_img_' + elem.id);
@@ -355,54 +307,6 @@ function getImagesInfo() {
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//
-// Gestione carosello album
-//
-////////////////////////////////////////////////////////////////////////////////
-function getAlbums() {
-
-    try {
-	goSpinner('#albums_spinner');
-	sendRequest("uploadAlbum", "getAlbums", null, getAlbumsCallback, false);
-    } catch (err) {
-	window.console.log("getAlbums | An error occurred - message : " + err.message);
-    }
-}
-function getAlbumsCallback(data, status, xhr) {
-    try {
-	console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
-	if (status === "success" && data.count !== undefined && data.count !== null && data.count > 0) {
-	    for (var i = 0; i < data.count; i++) {
-		$("#albumList").append(getCarouselElementHTML(data.albumList[i]));
-	    }
-	    stopSpinner('#albums_spinner');
-	    onCarouselReady();
-	} else {
-	    stopSpinner('#albums_spinner');
-	    console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
-	}
-
-    } catch (err) {
-	window.console.log("getAlbumsCallback | An error occurred - message : " + err.message);
-    }
-}
-function getCarouselElementHTML(obj) {
-    var html = '<li class="touchcarousel-item">' +
-	    '<div class="item-block uploadAlbum-boxSingleAlbum" id="' + obj.albumId + '">' +
-	    '<div class="row uploadAlbum-rowSingleAlbum">' +
-	    '<div  class="small-6 columns ">' +
-	    '<img class="coverAlbum"  src="' + obj.thumbnail + '"> ' +
-	    '</div>' +
-	    '<div  class="small-6 columns title">' +
-	    '<div class="sottotitle white">' + obj.title + '</div>' +
-	    '<div class="text white">' + obj.images + ' photos</div>' +
-	    '</div>' +
-	    '</div>' +
-	    '</div>' +
-	    '</li>';
-    return html;
-}
 function onCarouselReady() {
 //scorrimento lista album  
     var sliderInstance = $("#uploadAlbum-listAlbumTouch").touchCarousel({
