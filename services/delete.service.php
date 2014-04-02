@@ -13,9 +13,9 @@ require_once SERVICES_DIR . 'log.service.php';
  *
  * @author Daniele Caldelli
  * @author Maria Laura Fresu
- * @version		0.2
- * @since		2014-03-12
- * @copyright		Jamyourself.com 2013
+ * @version 0.2
+ * @since 2014-03-12
+ * @copyright Jamyourself.com 2013
  * @warning
  * @bug
  * @todo
@@ -24,7 +24,8 @@ require_once SERVICES_DIR . 'log.service.php';
 /**
  * Delete node and all it relation on the node4J DB
  * 
- * @param  $nodeType, $nodeId
+ * @param  $nodeType string tipo del nodo
+ * @param  $nodeId int id del nodo
  * @todo
  */
 function deleteNode($connection, $nodeType, $nodeId) {
@@ -44,7 +45,11 @@ function deleteNode($connection, $nodeType, $nodeId) {
 /**
  * Delete relation between nodes on the node4J DB
  * 
- * @param  $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType
+ * @param $fromNodeType string tipo di nodo di partenza 
+ * @param $fromNodeId int id del nodo di partenza 
+ * @param $toNodeType string tipo di nodo di arrivo
+ * @param $toNodeId int id del nodo di arrivo
+ * @param $relType string nome della relazione tra i 2 nodi
  * @todo
  */
 function deleteRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType) {
@@ -63,8 +68,8 @@ function deleteRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 /**
  * Delete an object logically setting active to false
  * 
- * @param  $class   the class to delete
- * @param  $id      the id of the class to delete
+ * @param  $class string  the class to delete
+ * @param  $id int  the id of the class to delete
  * @todo
  */
 function delete($connection, $class, $id) {
@@ -74,10 +79,11 @@ function delete($connection, $class, $id) {
              WHERE id = " . $id;
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-        jamLog(__FILE__, __LINE__, 'Unable to execute delete');
-        return false;
+	jamLog(__FILE__, __LINE__, 'Unable to execute delete');
+	return false;
     } else {
-        return true;
+	return true;
     }
 }
+
 ?>
