@@ -9,6 +9,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'insert.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * PostController class
@@ -44,7 +45,7 @@ class PostController extends REST {
      */
     public function post() {
 	global $controllers;
-	try {
+    try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['id'])) {
@@ -63,9 +64,9 @@ class PostController extends REST {
 	    } elseif (strlen($postTxt) > $this->config->maxPostSize) {
 		$this->response(array('status' => $controllers['LONGPOST'] . strlen($postTxt)), 406);
 	    }
-	    $connectionService = new ConnectionService();
-	    $connection = $connectionService->connect();
-	    if ($connection === false) {
+        $connectionService = new ConnectionService();
+        $connection = $connectionService->connect();
+        if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $post = new Comment();
@@ -84,21 +85,22 @@ class PostController extends REST {
 	    $post->setSharecounter(0);
 	    $post->setSong(null);
 	    $post->setTitle(null);
-	    $post->setText($post);
+	    $post->setText($postTxt);
 	    $post->setTouser($toUserId);
 	    $post->setType('P');
 	    $post->setVideo(null);
 	    $post->setVote(null);
 	    $connection->autocommit(false);
-	    $connectionService->autocommit(false);
-	    $resPost = insertComment($connection, $post);
-	    $relation = createRelation($connectionService, 'user', $fromuserId, 'comment', $resPost->getId(), 'POST');
-	    if ($resPost === false || $relation === false) {
+        $connectionService->autocommit(false);
+        $resPost = insertComment($connection, $post);
+        $node = createNode($connectionService, 'comment', $resPost);
+        $relation = createRelation($connectionService, 'user', $fromuserId, 'comment', $resPost, 'POST');
+        if ($resPost === false || $node === false || $relation === false) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {
 		$connection->commit();
-		$connectionService->commit();
-	    }
+        $connectionService->commit();
+        }
 	    $connectionService->disconnect($connection);
 	    $this->response(array('status' => $controllers['POSTSAVED']), 200);
 	} catch (Exception $e) {
