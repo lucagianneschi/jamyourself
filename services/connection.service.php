@@ -23,11 +23,11 @@ require_once SERVICES_DIR . 'log.service.php';
 
 class ConnectionService {
 	
-	public $commit;
+	public $numberCommit;
 	private $autocommit;
 	
 	function __construct() {
-		$this->commit = array();
+		$this->numberCommit = -1;
 		$this->autocommit = true;
 	}
 
@@ -47,28 +47,26 @@ class ConnectionService {
      * \return	true or errors
      */
     public function commit() {
-		foreach ($this->commit as $url) {
-			$c = curl_init();
-			curl_setopt($c, CURLOPT_URL, $url);
-			curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($c, CURLOPT_HTTPHEADER, array(
-				'Accept: application/json; stream=true',
-				'Content-type: application/json',
-				'X-Stream: true'
-			));
-			curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'POST');
-			curl_setopt($c, CURLOPT_POST, false);
-			curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-			curl_setopt($c, CURLOPT_USERPWD, NEO4J_USER . ':' . NEO4J_PSW);
-			$response = curl_exec($c);
-			if ($response === false) {
-				jamLog(__FILE__, __LINE__, 'Unable to connect to ' . NEO4J_HOST);
-				return false;
-			} else {
-				return true;
-			}
-		}
-		$this->commit = array();
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_URL, 'http://' . NEO4J_HOST . ':' . NEO4J_PORT . '/db/data/transaction/' . $this->numberCommit . '/commit');
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($c, CURLOPT_HTTPHEADER, array(
+            'Accept: application/json; charset=UTF-8',
+            'Content-type: application/json',
+            'X-Stream: true'
+        ));
+        curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($c, CURLOPT_POST, false);
+        curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($c, CURLOPT_USERPWD, NEO4J_USER . ':' . NEO4J_PSW);
+        $response = curl_exec($c);
+        if ($response === false) {
+            jamLog(__FILE__, __LINE__, 'Unable to connect to ' . NEO4J_HOST . ' => ' . json_encode(curl_error($c)));
+            return false;
+        } else {
+            return true;
+        }
+        $this->numberCommit = -1;
     }
 	
 	/**
@@ -106,7 +104,11 @@ class ConnectionService {
 				$dataString = json_encode(array('query' => $query, 'params' => $params));
 			}
 		} else {
-			curl_setopt($c, CURLOPT_URL, 'http://' . NEO4J_HOST . ':' . NEO4J_PORT . '/db/data/transaction');
+            $url = 'http://' . NEO4J_HOST . ':' . NEO4J_PORT . '/db/data/transaction';
+            if ($this->numberCommit > -1) {
+                $url = $url . '/' . $this->numberCommit;
+            }
+			curl_setopt($c, CURLOPT_URL, $url);
 			if (is_null($params)) {
 				$dataString = json_encode(array('statements' => array(array('statement' => $query))));
 			} else {
@@ -132,7 +134,9 @@ class ConnectionService {
 			if (empty($data['errors'])) {
 				$data = json_decode($response, true);
 				if (!$this->autocommit) {
-					$this->commit[] = $data['commit'];
+					$resExploded = explode('/', $data['commit']);
+                    $this->numberCommit = $resExploded[count($resExploded) - 2];
+                    //$this->commit[] = $data['commit'];
 				}
 				return $data;
 			} else {
