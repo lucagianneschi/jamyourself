@@ -7,11 +7,12 @@ var json_album_update = null;
 var imageList = null;
 var uploader = null;
 $(document).ready(function() {
-
-    getAlbums();
+	//#TODO getAlbums() da eliminare 
+//    getAlbums();
     //#TODO eliminare la funzione initFeaturing
  //   initFeaturing();
     //gesione button create new 
+    onCarouselReady();
     $('#uploadAlbum-new').click(function() {
 	$("#uploadAlbum01").fadeOut(100, function() {
 	    $("#uploadAlbum02").fadeIn(100);
@@ -36,7 +37,7 @@ $(document).ready(function() {
 	} else {
 	    validation_description = true;
 	}
-//validation title        
+	//validation title        
 	if (!espressione.test($('#albumTitle').val())) {
 	    $('#albumTitle').focus();
 	    //  $('label[for="albumTitle"] small.error').css({'display':'block'});
@@ -318,11 +319,11 @@ function publishCallback(data, status, xhr) {
 	console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
 	if (status === "success") {
 	    alert(data.status);
-	    redirect("profile.php");
+//	    redirect("profile.php");
 	} else {
 	    alert(data.status);
 	    console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
-	    redirect("profile.php");
+//	    redirect("profile.php");
 	}
 
 	clearList();
