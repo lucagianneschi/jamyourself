@@ -31,6 +31,8 @@ class RelationController extends REST {
 
     /**
      * accept relationship request
+     * fa update della richiesta di relazione e la mette accettata
+     * scrive la relazione sul DB a grafo con il tipo corrispondente
      * 
      * @todo    test
      */
@@ -167,6 +169,8 @@ class RelationController extends REST {
 
     /**
      * decline relationship request
+     * fa update della richiesta di relazione e la mette a declinata
+     * non scrive niente sul DB a grafo
      * 
      * @todo    test
      */
@@ -193,6 +197,8 @@ class RelationController extends REST {
 
     /**
      * remove an existing relationship
+     * fa update della richiesta di relazione e la mette cancellata
+     * cancella la relazione sul DB a grafo con il tipo corrispondente
      * 
      * @todo    test
      */
