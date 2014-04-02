@@ -1266,14 +1266,15 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
                            u.username,
                            u.thumbnail,
                            u.type type_u,
-			   fu.id id_fu,
+                           fu.id id_fu,
                            fu.username username_fu,
                            fu.thumbnail thumbnail_fu,
                            fu.type type_fu
                      FROM comment p, user u, user fu
-                     WHERE p.active = 1
-                       	AND p.fromuser = u.id
-		       	AND p.type = 'P'";
+                    WHERE p.active = 1
+                      AND p.fromuser = fu.id
+                      AND p.touser = u.id
+                      AND p.type = 'P'";
     if (!is_null($id)) {
 	$sql .= " AND p.id = " . $id . "";
     }
