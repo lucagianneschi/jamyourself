@@ -176,10 +176,9 @@ class UploadAlbumController extends REST {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
-  
 
     /**
-     * recupera una lista di immagini
+     * recupera una lista di immagini, recupera ID e src
      */
     public function getImagesList() {
 	try {
@@ -200,8 +199,6 @@ class UploadAlbumController extends REST {
 	    }
 	    $returnInfo = array();
 	    foreach ($imagesList as $image) {
-		// info utili
-		// mi serve: id, src,
 		$returnInfo[] = json_encode(array("id" => $image->getId(), "src" => $image->getPath()));
 	    }
 	    $this->response(array("status" => $controllers['COUNTALBUMOK'], "imageList" => $returnInfo, "count" => count($imagesList)), 200);
@@ -211,12 +208,13 @@ class UploadAlbumController extends REST {
     }
 
     /**
-     * salva un'immagine
+     * sposta il file dalla chace alla corretta cartella di destinazione
+     * reperisco le info sull'immagine, Preparo l'oggetto per l'editing della foto, gestisco immagine
+     * creo thumbnail,cancello il vecchio file dalla cache
      *
      * @param $userId
      * @param $albumId
-     * @param $fileInCache
-     * @return array 
+     * @return $fileInCache
      */
     private function moveFile($userId, $albumId, $fileInCache) {
 	if (file_exists(CACHE_DIR . $fileInCache)) {
@@ -318,7 +316,7 @@ class UploadAlbumController extends REST {
      * @param $albumId
      * @return $fileInCache
      */
-    private function saveImagesList($connection, $connectionService, $imagesList, $albumId, $currentUser) {
+    private function saveImagesList($connection, $connectionService, $imagesList, $albumId) {
 	$errorImages = array();
 	global $controllers;
 	if (!is_null($imagesList) && is_array($imagesList) && count($imagesList) > 0) {
@@ -356,7 +354,7 @@ class UploadAlbumController extends REST {
     }
 
     /**
-     * 
+     * Validazione dell'album in base alle info che sono obbligatorie dal form
      *
      * @param $imageList
      * @return true or false in case of error 
@@ -370,10 +368,6 @@ class UploadAlbumController extends REST {
 		if (!isset($elem["src"]) || is_null($elem["src"]) || !( strlen($elem["src"]) > 0)) {
 		    return false;
 		}
-// featuring non obbligatori
-//                if (!isset($elem["featuring"]) || is_null($elem["featuring"]) || !is_array($elem["featuring"])) {
-//                    return false;
-//                }
 		if (!isset($elem["isCover"]) || is_null($elem["isCover"]) || !(strlen($elem["isCover"]) > 0)) {
 		    return false;
 		}
