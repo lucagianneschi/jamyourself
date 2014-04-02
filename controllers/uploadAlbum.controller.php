@@ -177,6 +177,9 @@ class UploadAlbumController extends REST {
 	}
     }
 
+    /**
+     * recupera una lista di cover degli album esistenti per quell'utente
+     */
     public function getAlbums() {
 	global $controllers;
 	if ($this->get_request_method() != "POST") {
@@ -294,7 +297,6 @@ class UploadAlbumController extends REST {
 		}
 		$connection->autocommit(false);
 		$connectionService->autocommit(false);
-
 		$image = new Image();
 		$image->setActive(1);
 		$image->setAlbum($albumId);
