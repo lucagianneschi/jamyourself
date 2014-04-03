@@ -6,6 +6,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * MessageController class 
@@ -248,493 +249,126 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
  * @todo  
  */
 function selectComments($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
-    $sql = "SELECT cmt.id id_cmt,
-                   cmt.active active_cmt,
-                   cmt.createdat createdat_cmt,
-                   cmt.updatedat updatedat_cmt,
-                   cmt.album album_cmt,
-                   cmt.comment comment_cmt,
-                   cmt.commentcounter commentcounter_cmt,
-                   cmt.counter counter_cmt,
-                   cmt.event event_cmt,
-                   cmt.fromuser fromuser_cmt,
-                   cmt.image image_cmt,
-                   cmt.latitude latitude_cmt,
-                   cmt.longitude longitude_cmt,
-                   cmt.lovecounter lovecounter_cmt,
-                   cmt.record record_cmt,
-                   cmt.sharecounter sharecounter_cmt,
-                   cmt.text text_cmt,
-                   cmt.title title_cmt,
-                   cmt.touser touser_cmt,
-                   cmt.type type_cmt,
-                   cmt.vote vote_cmt,
-                   a.id id_a,
-                   a.createdat createdat_a,
-                   a.updatedat updatedat_a,
-                   a.active active_a,
-                   a.commentcounter commentcounter_a,
-                   a.counter counter_a,
-                   a.cover cover_a,
-                   a.description description_a,
-                   a.fromuser fromuser_a,
-                   a.imagecounter,
-                   a.latitude latitude_a,
-                   a.longitude longitude_a,
-                   a.lovecounter lovecounter_a,
-                   a.sharecounter sharecounter_a,
-                   a.thumbnail thumbnail_a,
-                   a.title title_a,
-                   c.id id_cmt,
-                   c.active active_c,
-                   c.createdat createdat_c,
-                   c.updatedat updatedat_c,
-                   c.album album_c,
-                   c.comment comment_c,
-                   c.commentcounter commentcounter_c,
-                   c.counter counter_c,
-                   c.event event_c,
-                   c.fromuser fromuser_c,
-                   c.image image_c,
-                   c.latitude latitude_c,
-                   c.longitude longitude_c,
-                   c.lovecounter lovecounter_c,
-                   c.record record_c,
-                   c.sharecounter sharecounter_c,
-                   c.text text_c,
-                   c.title title_c,
-                   c.touser touser_c,
+    $sql = "SELECT c.id id_c,
+                   c.active,
+                   c.album,
+                   c.comment,
+                   c.commentcounter,
+                   c.counter,
+                   c.event,
+                   c.fromuser,
+                   c.image,
+                   c.latitude,
+                   c.longitude,
+                   c.lovecounter,
+                   c.record,
+                   c.sharecounter,
+                   c.song,
+                   c.text,
+                   c.title,
+                   c.touser,
                    c.type type_c,
-                   c.vote vote_c,
-                   e.id id_e,
-                   e.createdat createdat_e,
-                   e.updatedat updatedat_e,
-                   e.active active_e,
-                   e.address,
-                   e.attendeecounter,
-                   e.cancelledcounter,
-                   e.city,
-                   e.commentcounter commentcounter_e,
-                   e.counter counter_e,
-                   e.cover cover_e,
-                   e.description description_e,
-                   e.eventdate,
-                   e.fromuser fromuser_e,
-                   e.invitedcounter,
-                   e.latitude latitude_e,
-                   e.longitude longitude_e,
-                   e.locationname,
-                   e.lovecounter lovecounter_e,
-                   e.reviewcounter reviewcounter_e,
-                   e.refusedcounter,
-                   e.sharecounter sharecounter_e,
-                   e.thumbnail thumbnail_e,
-                   e.title title_e,
-                   i.id id_i,
-	           i.createdat createdat_i,
-                   i.updatedat updatedat_i,
-                   i.active active_i,
-                   i.commentcounter commentcounter_i,
-                   i.counter counter_i,
-                   i.fromuser fromuser_i,
-                   i.latitude latitude_i,
-                   i.longitude longitude_i,
-                   i.lovecounter lovecounter_i,
-		   i.path path_i,
-                   i.sharecounter sharecounter_i,
-	           i.thumbnail thumbnail_i,
-                   r.id id_r,
-                   r.createdat createdat_r,
-                   r.updatedat updatedat_r,
-                   r.active active_r,
-                   r.buylink,
-                   r.city,
-                   r.commentcounter commentcounter_r,
-                   r.counter counter_r,
-                   r.cover cover_r,
-                   r.description description_r,
-                   r.duration duration_r,
-                   r.fromuser fromuser_r,
-                   r.label,
-                   r.latitude latitude_r,
-                   r.longitude longitude_r,
-                   r.lovecounter lovecounter_r,
-                   r.reviewCounter reviewCounter_r,
-                   r.sharecounter sharecounter_r,
-                   r.songCounter,
-                   r.thumbnail thumbnail_r,
-                   r.title title_r,
-                   r.year,
-                   s.id id_s,
-		   s.createdat createdat_s,
-		   s.updatedat updatedat_s,
-		   s.active active_s,
-		   s.commentcounter commentcounter_s,
-		   s.counter counter_s,
-		   s.duration duration_s,
-		   s.fromuser fromuser_s,
-		   s.latitude latitude_s,
-		   s.longitude longitude_s,
-		   s.lovecounter lovecounter_s,
-		   s.path path_s,
-		   s.position,
-		   s.record record_s,
-		   s.sharecounter sharecounter_s,
-		   s.title title_s,
-           v.id id_v,
-		   v.createdat createdat_v,
-		   v.updatedat updatedat_v,
-		   v.active active_v,
-		   v.author,
-		   v.counter counter_v,
-	       v.cover cover_v,
-		   v.duration duration_v,
-		   v.fromuser fromuser_v,
-		   v.lovecounter lovecounter_v,
-		   v.thumbnail thumbnail_v,
-		   v.title title_v,
-		   v.URL,       
-                   fu.id id_fu,
-                   fu.username username_fu,
-                   fu.thumbnail thumbnail_fu,
-                   fu.type type_fu,
-                   tu.id id_tu,
-                   tu.username username_tu,
-                   tu.thumbnail thumbnail_tu,
-                   tu.type type_tu
-                   FROM comment cmt
-                   LEFT JOIN album a   ON (a.id = cmt.album)
-                   LEFT JOIN comment c ON (c.id = cmt.comment)
-                   LEFT JOIN event e   ON (e.id = cmt.event)
-                   LEFT JOIN image i   ON (i.id = cmt.image)
-                   LEFT JOIN record r  ON (r.id = cmt.record)		   
-	           	   LEFT JOIN song s  ON (s.id = cmt.song)		   
-                   LEFT JOIN user fu   ON (fu.id = cmt.fromuser)
-                   LEFT JOIN user tu   ON (tu.id = cmt.touser)
-                   LEFT JOIN video v   ON (v.id = cmt.video)		  
-             WHERE cmt.active = 1";
+                   c.video,
+                   c.vote,
+                   c.createdat,
+                   c.updatedat,    
+                   u.id id_u,
+                   u.thumbnail thumbnail_u,
+                   u.type type_u,
+                   u.username username_u                   
+              FROM comment c, user u
+             WHERE c.active = 1
+               AND c.fromuser = u.id";
     if (!is_null($id)) {
-	$sql .= " AND c.id = " . $id . "";
+        $sql .= " AND c.id = " . $id . "";
     }
     if (!is_null($where)) {
-	foreach ($where as $key => $value) {
-	    if (is_array($value)) {
-		$inSql = '';
-		foreach ($value as $val) {
-		    $inSql .= "'" . $val . "',";
-		}
-		$inSql = substr($inSql, 0, strlen($inSql) - 1);
-		$sql .= " AND cmt." . $key . " IN (" . $inSql . ")";
-	    } else {
-		$sql .= " AND cmt." . $key . " = '" . $value . "'";
-	    }
-	}
+        foreach ($where as $key => $value) {
+            if (is_array($value)) {
+                $inSql = '';
+                foreach ($value as $val) {
+                    $inSql .= "'" . $val . "',";
+                }
+                $inSql = substr($inSql, 0, strlen($inSql) - 1);
+                $sql .= " AND c." . $key . " IN (" . $inSql . ")";
+            } else {
+                $sql .= " AND c." . $key . " = '" . $value . "'";
+            }
+        }
     }
     if (!is_null($order)) {
-	$sql .= " ORDER BY ";
-	$last = end($order);
-	foreach ($order as $key => $value) {
-	    if ($last == $value)
-		$sql .= " cmt." . $key . " " . $value;
-	    else
-		$sql .= " cmt." . $key . " " . $value . ",";
-	}
+        $sql .= " ORDER BY ";
+        $last = end($order);
+        foreach ($order as $key => $value) {
+            if ($last == $value)
+                $sql .= " c." . $key . " " . $value;
+            else
+                $sql .= " c." . $key . " " . $value . ",";
+        }
     }
     if (!is_null($skip) && !is_null($limit)) {
-	$sql .= " LIMIT " . $skip . ", " . $limit;
+        $sql .= " LIMIT " . $skip . ", " . $limit;
     } elseif (is_null($skip) && !is_null($limit)) {
-	$sql .= " LIMIT " . $limit;
+        $sql .= " LIMIT " . $limit;
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query');
-	return false;
+        jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+        return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	$rows[] = $row;
-    $comment = array();
+        $rows[] = $row;
+    $comments = array();
     if (!is_array($rows))
-	return $comment;
+        return $comments;
     foreach ($rows as $row) {
-	require_once CLASSES_DIR . 'comment.class.php';
-	require_once CLASSES_DIR . 'user.class.php';
-	$comment = new Comment();
-	$comment->setId($row['id_cmt']);
-	$comment->setActive($row['active_cmt']);
-	require_once CLASSES_DIR . 'album.class.php';
-	$album = new Album();
-	$album->setId($row['id_a']);
-	$album->setActive($row['active_a']);
-	$album->setCommentcounter($row['commentcounter_a']);
-	$album->setCounter($row['counter_a']);
-	$album->setCover($row['cover_a']);
-	$album->setDescription($row['description_a']);
-	$album->setImagecounter($row['imagecounter_a']);
-	$album->setLatitude($row['latitude_a']);
-	$album->setLongitude($row['longitude_a']);
-	$album->setLovecounter($row['lovecounter_a']);
-	$album->setSharecounter($row['sharecounter_a']);
-	$sql = "SELECT tag
-		  FROM album_tag
-		 WHERE id = " . $row['id_a'];
-	$results_album_tag = mysqli_query($connection, $sql);
-	if (!$results_album_tag) {
-	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
-	    return false;
-	}
-	$tags_album = array();
-	$rows_tag = array();
-	while ($row_tag = mysqli_fetch_array($results_album_tag, MYSQLI_ASSOC))
-	    $rows_tag[] = $row_tag;
-	foreach ($rows_tag as $row_tag) {
-	    $tags_album[] = $row_tag;
-	}
-	$album->setTag($tags_album);
-	$album->setThumbnail($row['thumbnail_a']);
-	$album->setTitle($row['title']);
-	$album->setCreatedat($row['createdat_a']);
-	$album->setUpdatedat($row['updatedat_a']);
-	$comment->setAlbum($album);
-	$comment->setComment($comment);
-	$comment->setCommentcounter($row['commentcounter_cmt']);
-	$comment->setCounter($row['counter_cmt']);
-	$comment->setCreatedat($row['createdat_cmt']);
-	require_once CLASSES_DIR . 'event.class.php';
-	$event = new Event();
-	$event->setId($row['id_e']);
-	$event->setCreatedat($row['createdat_e']);
-	$event->setUpdatedat($row['updatedat_e']);
-	$event->setActive($row['active_e']);
-	$event->setAddress($row['address']);
-	$event->setAttendeecounter($row['attendeecounter']);
-	$event->setCancelledcounter($row['cancelledcounter']);
-	$event->setCity($row['city_e']);
-	$event->setCommentcounter($row['commentcounter_e']);
-	$event->setCounter($row['counter_e']);
-	$event->setCover($row['cover_e']);
-	$event->setDescription($row['description_e']);
-	$event->setEventdate($row['eventdate']);
-	$sql = "SELECT genre
-		  FROM event_genre
-		 WHERE id = " . $row['genre_e'];
-	$results_genre_event = mysqli_query($connection, $sql);
-	if (!$results_genre_event) {
-	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
-	    return false;
-	}
-	$genres = array();
-	$rows_genre = array();
-	while ($row_genre = mysqli_fetch_array($results_genre_event, MYSQLI_ASSOC))
-	    $rows_genre[] = $row_genre;
-	foreach ($rows_genre as $row_genre) {
-	    $genres[] = $row_genre;
-	}
-	$event->setGenre($genres);
-	$event->setInvitedCounter($row['invitedCounter']);
-	$event->setLatitude($row['latitude_e']);
-	$event->setLocationname($row['locationname']);
-	$event->setLongitude($row['longitude_e']);
-	$event->setLovecounter($row['lovecounter_e']);
-	$event->setRefusedcounter($row['refusedcounter']);
-	$event->setReviewcounter($row['reviewcounter_e']);
-	$event->setSharecounter($row['sharecounter_e']);
-	$sql = "SELECT tag
-		  FROM event_tag
-		 WHERE id = " . $row['id_e'];
-	$results_tag_event = mysqli_query($connection, $sql);
-	if (!$results_tag_event) {
-	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
-	    return false;
-	}
-	$tags_event = array();
-	$rows_tag_event = array();
-	while ($row_tag_event = mysqli_fetch_array($results_tag_event, MYSQLI_ASSOC))
-	    $rows_tag_event[] = $row_tag_event;
-	foreach ($rows_tag_event as $row_tag_event) {
-	    $tags_event[] = $row_tag_event;
-	}
-	$event->setTag($tags_event);
-	$event->setThumbnail($row['thumbnail_e']);
-	$event->setTitle($row['title_e']);
-	$comment->setEvent($event);
-	$fromuser = new User();
-	$fromuser->setId($row['id_fu']);
-	$fromuser->setThumbnail($row['thumbnail_fu']);
-	$fromuser->setUsername($row['username_fu']);
-	$fromuser->setType($row['type_fu']);
-	$comment->setFromuser($fromuser);
-	require_once CLASSES_DIR . 'album.class.php';
-	require_once CLASSES_DIR . 'image.class.php';
-	$image = new Image();
-	$image->setId($row['id_i']);
-	$image->setCreatedat($row['createdat_i']);
-	$image->setUpdatedat($row['updatedat_i']);
-	$image->setActive($row['active_i']);
-	$albumImage = new Album();
-	$albumImage->setTitle($row['title_ai']);
-	$albumImage->setId($row['id_ai']);
-	$image->setAlbum($albumImage);
-	$image->setCommentcounter($row['commentcounter_i']);
-	$image->setCounter($row['counter_i']);
-	$image->setLatitude($row['latitude_i']);
-	$image->setLongitude($row['longitude_i']);
-	$image->setLovecounter($row['lovecounter_i']);
-	$image->setPath($row['path_i']);
-	$image->setSharecounter($row['sharecounter_i']);
-	$sql = "SELECT tag
-		  FROM image_tag
-		 WHERE id = " . $row['id_ai'];
-	$results_image_tag = mysqli_query($connection, $sql);
-	if (!$results_image_tag) {
-	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
-	    return false;
-	}
-	$tags_image = array();
-	$rows_tag_image = array();
-	while ($row_tag_image = mysqli_fetch_array($results_image_tag, MYSQLI_ASSOC))
-	    $rows_tag_image[] = $row_tag_image;
-	foreach ($rows_tag_image as $row_tag_image) {
-	    $tags_image[] = $row_tag_image;
-	}
-	$image->setTag($tags_image);
-	$image->setThumbnail($row['thumbnail_i']);
-	$comment->setImage($image);
-	$comment->setLatitude($row['latitude_cmt']);
-	$comment->setLovecounter($row['lovecounter_cmt']);
-	require_once CLASSES_DIR . 'record.class.php';
-	$record = new Record();
-	$record->setId($row['id_r']);
-	$record->setCreatedat($row['createdat_r']);
-	$record->setUpdatedat($row['updatedat_r']);
-	$record->setActive($row['active_r']);
-	$record->setBuylink($row['buylink']);
-	$record->setCity($row['city']);
-	$record->setCommentcounter($row['commentcounter_r']);
-	$record->setCounter($row['counter_r']);
-	$record->setCover($row['cover_r']);
-	$record->setDescription($row['description_r']);
-	$record->setDuration($row['duration_r']);
-	$sql = "SELECT genre
-		  FROM record_genre
-		 WHERE id = " . $row['genre_r'];
-	$results_genre_record = mysqli_query($connection, $sql);
-	if (!$results_genre_record) {
-	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
-	    return false;
-	}
-	$genres_record = array();
-	$rows_genres_record = array();
-	while ($row_genres_record = mysqli_fetch_array($results_genre_record, MYSQLI_ASSOC))
-	    $rows_genres_record[] = $row_genres_record;
-	foreach ($rows_genres_record as $row_genres_record) {
-	    $genres_record[] = $row_genres_record;
-	}
-	$record->setGenre($genres_record);
-	$record->setLabel($row['label']);
-	$record->setLatitude($row['latitude_r']);
-	$record->setLongitude($row['longitude_r']);
-	$record->setLovecounter($row['lovecounter_r']);
-	$record->setReviewCounter($row['reviewCounter_r']);
-	$record->setSharecounter($row['sharecounter_r']);
-	$record->setSongCounter($row['songCounter_r']);
-	$record->setThumbnail($row['thumbnail_r']);
-	$record->setTitle($row['title_r']);
-	$record->setYear($row['year_r']);
-	$comment->setRecord($record);
-	$comment->setSharecounter($row['sharecounter_cmt']);
-	require_once CLASSES_DIR . 'record.class.php';
-	require_once CLASSES_DIR . 'song.class.php';
-	$song = new Song();
-	$song->setId($row['id_s']);
-	$song->setActive($row['active_s']);
-	$song->setCommentcounter($row['commentcounter_s']);
-	$song->setCounter($row['counter_s']);
-	$song->setCreatedat($row['createdat_s']);
-	$song->setDuration($row['duration_s']);
-	$song->setGenre($row['genre_s']);
-	$song->setLatitude($row['latitude_s']);
-	$song->setLongitude($row['longitude_s']);
-	$song->getLovecounter($row['lovecounter_s']);
-	$song->setPath($row['path_s']);
-	$song->setPosition($row['position_s']);
-	$song->setSharecounter($row['sharecounter']);
-	$song->setTitle($row['title_s']);
-	$song->setUpdatedat(new DateTime($row['updatedat']));
-	$sql = "SELECT tag
-		  FROM song_tag
-		 WHERE id = " . $row['id_s'];
-	$results_song_tag = mysqli_query($connection, $sql);
-	if (!$results_song_tag) {
-	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
-	    return false;
-	}
-	$tags_song = array();
-	$rows_tag_song = array();
-	while ($row_tag_song = mysqli_fetch_array($results_song_tag, MYSQLI_ASSOC))
-	    $rows_tag_song[] = $row_tag_song;
-	foreach ($rows_tag_song as $row_tag_song) {
-	    $tags_song[] = $row_tag_song;
-	}
-	$comment->setSong($song);
-	$sql = "SELECT tag
-		  FROM comment_tag
-		 WHERE id = " . $row['id_cmt'];
-	$results_comment_tag = mysqli_query($connection, $sql);
-	if (!$results_comment_tag) {
-	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
-	    return false;
-	}
-	$tags_comment = array();
-	$rows_tag_comment = array();
-	while ($row_tag_comment = mysqli_fetch_array($results_comment_tag, MYSQLI_ASSOC))
-	    $rows_tag_comment[] = $row_tag_comment;
-	foreach ($rows_tag_comment as $row_tag_comment) {
-	    $tags_comment[] = $row_tag_comment;
-	}
-	$comment->setTag($tags_comment);
-	$comment->setText($row['text_cmt']);
-	$comment->setTitle($row['title_cmt']);
-	$comment->setUpdatedat($row['updatedat_cmt']);
-	$touser = new User();
-	$touser->setId($row['id_tu']);
-	$touser->setThumbnail($row['thumbnail_tu']);
-	$touser->setUsername($row['username_tu']);
-	$touser->setType($row['type_tu']);
-	$comment->setTouser($touser);
-	require_once CLASSES_DIR . 'video.class.php';
-	$video = new Video();
-	$video->setId($row['id_v']);
-	$video->setActive($row['active']);
-	$video->setAuthor($row['author']);
-	$video->setCounter($row['counter_v']);
-	$video->setCover($row['cover_v']);
-	$video->setCreatedat($row['createdat_v']);
-	$video->setDescription($row['description_v']);
-	$video->setDuration($row['duration_v']);
-	$video->setLovecounter($row['lovecounter_v']);
-	$sql = "SELECT tag
-		  FROM video_tag
-		 WHERE id = " . $row['id_v'];
-	$results_video_tag = mysqli_query($connection, $sql);
-	if (!$results_video_tag) {
-	    jamLog(__FILE__, __LINE__, 'Unable to execute query');
-	    return false;
-	}
-	$tags_video = array();
-	$rows_tag_video = array();
-	while ($row_tag_video = mysqli_fetch_array($results_video_tag, MYSQLI_ASSOC))
-	    $rows_tag_video[] = $row_tag_video;
-	foreach ($rows_tag_video as $row_tag_video) {
-	    $tags_video[] = $row_tag_video;
-	}
-	$video->setTag($tags_video);
-	$video->setThumbnail($row['thumbnail_v']);
-	$video->setTitle($row['title_v']);
-	$video->setURL($row['URL']);
-	$video->setUpdatedat($row['updatedat_v']);
-	$comment->setVideo($video);
-	$comment->setVote($row['vote_cmt']);
-	$comments[$row['id_cmt']] = $comment;
+        require_once CLASSES_DIR . 'comment.class.php';
+        $comment = new Comment();
+        $comment->setId($row['id_c']);
+        $comment->setActive($row['active']);
+        $comment->setAlbum($row['album']);
+        $comment->setComment($row['comment']);
+        $comment->setCommentcounter($row['commentcounter']);
+        $comment->setCounter($row['counter']);
+        $comment->setEvent($row['event']);
+        require_once CLASSES_DIR . 'user.class.php';
+        $fromuser = new User();
+        $fromuser->setId($row['id_u']);
+        $fromuser->setThumbnail($row['thumbnail_u']);
+        $fromuser->setType($row['type_u']);
+        $fromuser->setUsername($row['username_u']);
+        $comment->setFromuser($fromuser);
+        $comment->setImage($row['image']);
+        $comment->setLatitude($row['latitude']);
+        $comment->setLovecounter($row['lovecounter']);
+        $comment->setRecord($row['lovecounter']);
+        $comment->setSharecounter($row['sharecounter']);
+        $comment->setSong($row['song']);
+        $sql = "SELECT tag
+                  FROM comment_tag
+                 WHERE id = " . $row['id_c'];
+        $results_comment_tag = mysqli_query($connection, $sql);
+        if (!$results_comment_tag) {
+            jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+            return false;
+        }
+        $tags_comment = array();
+        $rows_tag_comment = array();
+        while ($row_tag_comment = mysqli_fetch_array($results_comment_tag, MYSQLI_ASSOC))
+            $rows_tag_comment[] = $row_tag_comment;
+        foreach ($rows_tag_comment as $row_tag_comment) {
+            $tags_comment[] = $row_tag_comment;
+        }
+        $comment->setTag($tags_comment);
+        $comment->setText($row['text']);
+        $comment->setTitle($row['title']);
+        $comment->setUpdatedat($row['updatedat']);
+        $comment->setTouser($row['touser']);
+        $comment->setVideo($row['video']);
+        $comment->setVote($row['vote']);
+        $comment->setCreatedat(new DateTime($row['createdat']));
+        $comment->setUpdatedat(new DateTime($row['updatedat']));
+        $comments[$row['id_c']] = $comment;
     }
     return $comments;
 }
