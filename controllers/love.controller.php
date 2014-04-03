@@ -10,6 +10,7 @@ require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
 require_once SERVICES_DIR . 'update.service.php';
+require_once SERVICES_DIR . 'delete.service.php';
 
 /**
  * LoveController class
@@ -42,7 +43,7 @@ class LoveController extends REST {
 	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
-	    $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Video');
+	    $classTypeAdmitted = array('album', 'comment', 'event', 'image', 'record', 'song', 'video');
 	    if (!isset($this->request['classType'])) {
 		$this->response(array('status' => 'NOCLASSTYPE'), 400);
 	    } elseif (!isset($this->request['id'])) {
@@ -83,7 +84,8 @@ class LoveController extends REST {
 
     /**
      * decrements loveCounter property of an istance of a class
-     * @todo    eliminare la relazione tra user e oggetto lovvato
+     * 
+     * @todo testare
      */
     public function decrementLove() {
 	global $controllers;
@@ -93,7 +95,7 @@ class LoveController extends REST {
 	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
-	    $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Video');
+	    $classTypeAdmitted = array('album', 'comment', 'event', 'image', 'record', 'song', 'video');
 	    if (!isset($this->request['classType'])) {
 		$this->response(array('status' => 'NOCLASSTYPE'), 400);
 	    } elseif (!isset($this->request['id'])) {
@@ -117,7 +119,7 @@ class LoveController extends REST {
 	    $connection->autocommit(false);
 	    $connectionService->autocommit(false);
 	    $loveCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), null, array('lovecounter' => 1), $id);
-	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'LOVE');
+	    $relation = deleteRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'LOVE');
 	    if ($loveCounter === false || $relation === false) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {
