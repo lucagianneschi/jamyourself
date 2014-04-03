@@ -7,6 +7,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'comment.box.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 $id = $_POST['id'];
 $touser = $_POST['toUser'];
@@ -17,22 +18,22 @@ $skip = (int) $_POST['skip'];
 $comment = new CommentBox();
 $comment->init($id, $class, $limit, $skip);
 $countComment = count($comment->commentArray);
+/*
 if ($countComment > 0) {
-    /*
-      ?>
-      <script type="text/javascript">
-      objectCmt = $('<?php echo $box; ?>').prev().find("a._comment");
-      $(objectCmt).text(<?php echo current($comment->commentArray)->getComment()->getCommentcounter(); ?>);
-      console.log('Ho girato e ho prodotto: ' + $.parseJSON(parent) + ' | ' + $.parseJSON(objectCmt));
-      </script>
-      <?php
-     */
+    ?>
+    <script type="text/javascript">
+    objectCmt = $('<?php echo $box; ?>').prev().find("a._comment");
+    $(objectCmt).text(<?php echo current($comment->commentArray)->getComment()->getCommentcounter(); ?>);
+    console.log('Ho girato e ho prodotto: ' + $.parseJSON(parent) + ' | ' + $.parseJSON(objectCmt));
+    </script>
+    <?php
 }
+*/
 ?>
 <div class="row">
     <div  class="small-12 columns">
 	<?php
-	if ($countComment > 0) {
+    if ($countComment > 0) {
 	    $comments = array_reverse($comment->commentArray);
 	    foreach ($comments as $key => $value) {
 		$comment_data = $value->getCreatedat()->format('l j F Y - H:i');
@@ -47,7 +48,7 @@ if ($countComment > 0) {
 			$defaultThum = DEFTHUMBSPOTTER;
 			break;
 		}
-		?>		
+        ?>		
 		<div class="box-singole-comment">
 		    <div class='line'>
 			<div class="row">

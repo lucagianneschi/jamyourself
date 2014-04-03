@@ -6,6 +6,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * CommentBox class, box class to pass info to the view,
@@ -43,8 +44,8 @@ class CommentBox {
 	if ($connection === false) {
 	    $this->error = 'Errore nella connessione';
 	}
-	$comments = selectComments($connection, null, array($classname => $id), array('createad' => 'DESC'), $limit, $skip);
-	if ($comments === false) {
+    $comments = selectComments($connection, null, array($classname => $id), array('createdat' => 'DESC'), $limit, $skip);
+    if ($comments === false) {
 	    $this->error = 'Errore nella query';
 	}
 	$this->commentArray = $comments;
