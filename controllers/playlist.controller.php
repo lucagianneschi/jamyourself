@@ -8,6 +8,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'delete.service.php';
 
 /**
  * PlaylistController class 
@@ -82,21 +83,29 @@ class PlaylistController extends REST {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['id'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['songId'])) {
 		$this->response(array('status' => $controllers['NOSONGID']), 403);
 	    }
-	    $playlistId = $_SESSION['playlist']['id'];
+	    $playlistId = $this->request['playlistId'];
 	    $songId = $this->request['songId'];
-	    $currentUserId = $_SESSION['id'];
-	    require_once CLASSES_DIR . 'playlistParse.class.php';
-	    $playlistP = new PlaylistParse();
-	    $playlist = $playlistP->getPlaylist($playlistId);
-	    if ($playlist instanceof Error) {
-		$this->response(array($controllers['NOPLAYLIST']), 503);
-	    } elseif (!in_array($songId, $playlist->getSongsArray())) {
-		$this->response(array('status' => $controllers['ERRORCHECKINGSONGINTRACKLIST']), 503);
+	    $currentUser = $_SESSION['id'];
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
-
+	    $song = false;
+	    $songCounter = update($connection, 'playlist', array('updatedat' => date('Y-m-d H:i:s')), null, array('songcounter' => 1), $playlistId);
+	    $relation = deleteRelation($connection, 'song', $songId, 'playlist', $playlistId, 'ADDTOPLAYLIST');
+	    if ($song === false || $relation === false || $songCounter === false) {
+		$this->response(array('status' => $controllers['PLAYLISTERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
+	    }
+	    $connectionService->disconnect($connection);
 	    $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
