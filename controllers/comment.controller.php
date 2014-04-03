@@ -80,7 +80,7 @@ class CommentController extends REST {
 	    require_once CLASSES_DIR . 'comment.class.php';
 	    $cmt = new Comment();
 	    $cmt->setActive(1);
-	    $cmt->setCommentcounter(0);
+        $cmt->setCommentcounter(0);
 	    $cmt->setCounter(0);
 	    $cmt->setFromuser($fromuserId);
 	    $cmt->setLatitude(null);
@@ -93,23 +93,23 @@ class CommentController extends REST {
 	    $cmt->setTouser($toUserId);
 	    $cmt->setType('C');
 	    $cmt->setVote(null);
-        switch ($classType) {
-		case 'Album':
+        switch (strtolower($classType)) {
+		case 'album':
 		    $cmt->setAlbum($id);
 		    break;
-		case 'Comment':
+		case 'comment':
 		    $cmt->setComment($id);
 		    break;
-		case 'Event':
+		case 'event':
 		    $cmt->setEvent($id);
 		    break;
-		case 'Image':
+		case 'image':
 		    $cmt->setImage($id);
 		    break;
-		case 'Record':
+		case 'record':
 		    $cmt->setRecord($id);
 		    break;
-		case 'Video':
+		case 'video':
 		    $cmt->setVideo($id);
 		    break;
 	    }
