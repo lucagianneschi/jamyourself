@@ -45,7 +45,7 @@ class CommentController extends REST {
      * @todo    testare e prevedere rollback
      */
     public function comment() {
-	global $controllers;
+    global $controllers;
         global $mail_files;
 	try {
 	    if ($this->get_request_method() != "POST") {
@@ -61,7 +61,7 @@ class CommentController extends REST {
 	    } elseif (!isset($this->request['classType'])) {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
 	    }
-	    $fromuserId = $_SESSION['id'];
+        $fromuserId = $_SESSION['id'];
 	    $levelValue = $_SESSION['levelvalue'];
 	    $toUserId = $this->request['toUser'];
 	    $comment = $this->request['comment'];
@@ -73,8 +73,8 @@ class CommentController extends REST {
 		$this->response(array('status' => $controllers['LONGCOMMENT'] . strlen($comment)), 406);
 	    }
 	    $connectionService = new ConnectionService();
-	    $connection = $connectionService->connect();
-	    if ($connection === false) {
+        $connection = $connectionService->connect();
+        if ($connection === false) {
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
@@ -93,7 +93,7 @@ class CommentController extends REST {
 	    $cmt->setTouser($toUserId);
 	    $cmt->setType('C');
 	    $cmt->setVote(null);
-	    switch ($classType) {
+        switch ($classType) {
 		case 'Album':
 		    $cmt->setAlbum($id);
 		    break;
@@ -115,22 +115,22 @@ class CommentController extends REST {
 	    }
 	    $connection->autocommit(false);
 	    $connectionService->autocommit(false);
-	    $resCmt = insertComment($connection, $cmt);
-	    $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), array('commentcounter' => 1, 'counter' => 1 * $levelValue), null, $id);
-	    $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'COMMENT');
-	    $user = selectUsers($connection, $toUserId);
-	    if ($resCmt === false || $commentCounter === false || $relation === false || $user === false) {
+        $resCmt = insertComment($connection, $cmt);
+        $commentCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), array('commentcounter' => 1, 'counter' => 1 * $levelValue), null, $id);
+        $relation = createRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'COMMENT');
+        $users = selectUsers($connection, $toUserId);
+	    if ($resCmt === false || $commentCounter === false || $relation === false || $users === false) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {
 		$connection->commit();
-		$connectionService->commit();
-	    }
-	    $address = $user->getEmail();
-	    $subject = $controllers['SBJCOMMENT'];
+        $connectionService->commit();
+        }
+	    $address = $users[$toUserId]->getEmail();
+        $subject = $controllers['SBJCOMMENT'];
 	    $html = $mail_files['COMMENTEMAIL'];
 	    sendMailForNotification($address, $subject, $html);
-	    $connectionService->disconnect($connection);
-	    $this->response(array('status' => $controllers['COMMENTSAVED']), 200);
+        $connectionService->disconnect($connection);
+        $this->response(array('status' => $controllers['COMMENTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}
