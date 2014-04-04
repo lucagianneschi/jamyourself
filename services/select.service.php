@@ -1213,6 +1213,7 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
  * @todo
  */
 function selectReviewEvent($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $startTimer = microtime();
     $sql = "SELECT	   rw.id id_rw,
                            rw.active active_rw,
                            rw.commentcounter commentcounter_rw,
@@ -1298,14 +1299,18 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $reviewEvents = array();
-    if (!is_array($rows))
+    if (!is_array($rows)) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $reviewEvents;
+    }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'event.class.php';
@@ -1412,6 +1417,8 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 	$reviewEvent->setUpdatedat($row['updatedat_rw']);
 	$reviewEvents[$row['id_rw']] = $reviewEvent;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($reviewEvents) . ' rows returned');
     return $reviewEvents;
 }
 
@@ -1426,6 +1433,7 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
  * @todo
  */
 function selectReviewRecord($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $startTimer = microtime();
     $sql = "SELECT	   rw.id id_rw,
                            rw.active active_rw,
                            rw.commentcounter commentcounter_rw,
@@ -1509,14 +1517,18 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $reviewRecords = array();
-    if (!is_array($rows))
+    if (!is_array($rows)) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $reviewRecords;
+    }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'record.class.php';
@@ -1607,6 +1619,8 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 	$reviewRecord->setUpdatedat($row['updatedat_rw']);
 	$reviewRecords[$row['id_rw']] = $reviewRecord;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($reviewRecords) . ' rows returned');
     return $reviewRecords;
 }
 
