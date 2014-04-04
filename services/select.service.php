@@ -1860,6 +1860,7 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
  * @todo
  */
 function selectUsers($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $startTimer = microtime();
     $sql = "SELECT     id,
 			active,
 			address,
@@ -1933,12 +1934,18 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $users = array();
+    if (!is_array($rows)) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	return $users;
+    }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'user.class.php';
 	$user = new User();
@@ -2012,6 +2019,8 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 	$user->setYoutubechannel($row['youtubechannel']);
 	$users[$row['id']] = $user;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($users) . ' rows returned');
     return $users;
 }
 
