@@ -7,6 +7,7 @@ require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'log.service.php';
+require_once SERVICES_DIR . 'utils.service.php';
 
 /**
  * SelectSerive class 
