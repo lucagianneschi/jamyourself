@@ -128,6 +128,7 @@ function query($connection, $sql) {
  * @todo
  */
 function selectAlbums($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $startTimer = microtime();
     $sql = "SELECT a.id id_a,
                    a.active,
                    a.commentcounter,
@@ -186,12 +187,18 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+        $endTimer = microtime();
+        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows_album[] = $row;
     $albums = array();
+    if (!is_array($rows_album)) {
+        $endTimer = microtime();
+        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+        return $albums;
+    }
     foreach ($rows_album as $row) {
 	require_once CLASSES_DIR . 'album.class.php';
 	$album = new Album();
@@ -235,6 +242,8 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
 	$album->setUpdatedat(new DateTime($row['updatedat']));
 	$albums[$row['id_a']] = $album;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($albums). ' rows returned');
     return $albums;
 }
 
