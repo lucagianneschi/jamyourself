@@ -1482,7 +1482,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
                            u.type type_u
                      FROM comment rw, user u, user fu, record r
                      WHERE rw.active = 1
-                       AND rw.fromuser = fu.id
+                       AND rw.fromuser = fu.id AND rw.touser = u.id
 		       AND rw.type = 'RR'";
     if (!is_null($id)) {
 	$sql .= " AND rw.id = " . $id . "";
