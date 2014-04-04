@@ -6,6 +6,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'log.service.php';
+require_once SERVICES_DIR . 'utils.service.php';
 
 /**
  * Funzioni di update delle istanze delle classi
@@ -139,10 +140,12 @@ function updateAlbum($connection, $album) {
  * @return BOOL true if update OK, false otherwise
  */
 function updateComment($connection, $comment) {
+    $startTimer = microtime();
     $autocommit = 0;
     $result = mysqli_query($connection, "SELECT @@autocommit");
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . 'Unable to define autocommit in updateComment');
 	return false;
     } else {
 	$row = mysqli_fetch_row($result);
@@ -201,10 +204,12 @@ function updateComment($connection, $comment) {
  * @return BOOL true if update OK, false otherwise
  */
 function updateEvent($connection, $event) {
+    $startTimer = microtime();
     $autocommit = 0;
     $result = mysqli_query($connection, "SELECT @@autocommit");
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . 'Unable to define autocommit in updateEvent');
 	return false;
     } else {
 	$row = mysqli_fetch_row($result);
@@ -275,10 +280,12 @@ function updateEvent($connection, $event) {
  * @return BOOL true if update OK, false otherwise
  */
 function updateImage($connection, $image) {
+    $startTimer = microtime();
     $autocommit = 0;
     $result = mysqli_query($connection, "SELECT @@autocommit");
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . 'Unable to define autocommit in updateImage');
 	return false;
     } else {
 	$row = mysqli_fetch_row($result);
@@ -329,10 +336,12 @@ function updateImage($connection, $image) {
  * @return BOOL true if update OK, false otherwise
  */
 function updatePlaylist($connection, $playlist) {
+    $startTimer = microtime();
     $autocommit = 0;
     $result = mysqli_query($connection, "SELECT @@autocommit");
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . 'Unable to define autocommit in updatePlaylist');
 	return false;
     } else {
 	$row = mysqli_fetch_row($result);
@@ -377,10 +386,12 @@ function updatePlaylist($connection, $playlist) {
  * @return BOOL true if update OK, false otherwise
  */
 function updateRecord($connection, $record) {
+    $startTimer = microtime();
     $autocommit = 0;
     $result = mysqli_query($connection, "SELECT @@autocommit");
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . 'Unable to define autocommit in updateRecord');
 	return false;
     } else {
 	$row = mysqli_fetch_row($result);
@@ -452,16 +463,76 @@ function updateRecord($connection, $record) {
 }
 
 /**
+ * updateSong function 
+ * @param   $connection
+ * @param Song $song Song class instance
+ * @return BOOL true if update OK, false otherwise
+ */
+function updateSong($connection, $song) {
+    $startTimer = microtime();
+    $autocommit = 0;
+    $result = mysqli_query($connection, "SELECT @@autocommit");
+    if ($result === false) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . 'Unable to define autocommit in updateSong');
+	return false;
+    } else {
+	$row = mysqli_fetch_row($result);
+	$autocommit = $row[0];
+    }
+    mysqli_autocommit($connection, false);
+    $sql = "UPDATE comment SET ";
+    $sql .= "active = '" . $song->getActive() . "',";
+    $sql .= "commentcounter = '" . $song->getCommentcounter() . "',";
+    $sql .= "counter = '" . $song->getCounter() . "',";
+    $sql .= "duration = '" . $song->getDuration() . "',";
+    $sql .= "fromuser = '" . $song->getFromuser() . "',";
+    $sql .= "genre = '" . $song->getGenre() . "',";
+    $sql .= "latitude = '" . $song->getLatitude() . "',";
+    $sql .= "longitude = '" . $song->getLongitude() . "',";
+    $sql .= "lovecounter = '" . $song->getLovecounter() . "',";
+    $sql .= "path = '" . $song->getPath() . "',";
+    $sql .= "position = '" . $song->getPosition() . "',";
+    $sql .= "record = '" . $song->getRecord() . "',";
+    $sql .= "sharecounter = '" . $song->getSharecounter() . "',";
+    $sql .= "title = '" . $song->getTitle() . "',";
+    $sql .= "updatedat = '" . date('Y-m-d H:i:s') . "'";
+    $sql .= " WHERE id = " . $song->getId();
+    $resultsUpdate = mysqli_query($connection, $sql);
+    $sql = "DELETE FROM video_tag WHERE id = " . $song->getId();
+    $resultsDelete = mysqli_query($connection, $sql);
+    $resultsInsert = true;
+    foreach ($song->getTag() as $tag) {
+	$sql = "INSERT INTO video_tag (id, tag) VALUES (" . $song->getId() . ", '" . $tag . "')";
+	$results = mysqli_query($connection, $sql);
+	if ($results === false) {
+	    $resultsInsert = false;
+	}
+    }
+    if ($resultsUpdate === false || $resultsDelete === false || $resultsInsert === false) {
+	mysqli_rollback($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return false;
+    } else {
+	mysqli_commit($connection);
+	$autocommit ? mysqli_autocommit($connection, true) : mysqli_autocommit($connection, false);
+	return true;
+    }
+}
+
+/**
  * updateUser function 
  * @param   $connection
  * @param User $user User class instance
  * @return BOOL true if update OK, false otherwise
  */
 function updateUser($connection, $user) {
+    $startTimer = microtime();
     $autocommit = 0;
     $result = mysqli_query($connection, "SELECT @@autocommit");
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . 'Unable to define autocommit in updateUser');
 	return false;
     } else {
 	$row = mysqli_fetch_row($result);
@@ -534,10 +605,12 @@ function updateUser($connection, $user) {
  * @return BOOL true if update OK, false otherwise
  */
 function updateVideo($connection, $video) {
+    $startTimer = microtime();
     $autocommit = 0;
     $result = mysqli_query($connection, "SELECT @@autocommit");
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to define autocommit');
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . 'Unable to define autocommit in updateVideo');
 	return false;
     } else {
 	$row = mysqli_fetch_row($result);
