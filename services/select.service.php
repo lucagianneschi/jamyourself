@@ -930,6 +930,7 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
  * @todo
  */
 function selectPosts($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $startTimer = microtime();
     $sql = "SELECT	   p.id id_p,
                            p.active,
                            p.commentcounter,
@@ -992,7 +993,8 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -1000,6 +1002,11 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
     $posts = array();
     if (!is_array($rows))
 	return $posts;
+    if (!is_array($rows)) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	return $posts;
+    }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'user.class.php';
@@ -1048,7 +1055,8 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
 	$post->setUpdatedat(new DateTime($row['updatedat']));
 	$posts[$row['id_p']] = $post;
     }
-
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($posts) . ' rows returned');
     return $posts;
 }
 
