@@ -51,10 +51,12 @@ class CollaboratorsBox {
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'COLLABORATION', $skip, $limit);
-	    $users = selectUsers($connection, null, array('id' => $data));
-	    foreach ($users as $user) {
-		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
-	    }
+		if(count($data) > 0){
+		    $users = selectUsers($connection, null, array('id' => $data));
+		    foreach ($users as $user) {
+			($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
+		    }
+		}
 	    $this->venueArray = $venueArray;
 	    $this->jammerArray = $jammerArray;
 	} catch (Exception $e) {
@@ -100,11 +102,13 @@ class FollowersBox {
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FOLLOWING', $skip, $limit);
-	    $users = selectUsers($connection, null, array('id' => $data));
-		if(!is_array($users)) return $followers;
-	    foreach ($users as $user) {
-		array_push($followers, $user);
-	    }
+		if(count($data) > 0){
+			$users = selectUsers($connection, null, array('id' => $data));
+			if(!is_array($users)) return $followers;
+		    foreach ($users as $user) {
+				array_push($followers, $user);
+		    }
+		}	    
 	    $this->followersArray = $followers;
 	} catch (Exception $e) {
 	    $this->error = $e->getMessage();
@@ -155,10 +159,12 @@ class FollowingsBox {
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FOLLOWING', $skip, $limit);
-	    $users = selectUsers($connection, null, array('id' => $data));
-	    foreach ($users as $user) {
-		($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
-	    }
+		if(count($data) > 0){
+		    $users = selectUsers($connection, null, array('id' => $data));
+		    foreach ($users as $user) {
+			($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
+		    }
+		}
 	    $this->venueArray = $venueArray;
 	    $this->jammerArray = $jammerArray;
 	} catch (Exception $e) {
@@ -204,10 +210,12 @@ class FriendsBox {
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FRIENDSHIP', $skip, $limit);
-	    $users = selectUsers($connection, null, array('id' => $data));
-	    foreach ($users as $user) {
-		array_push($followings, $user);
+		if(count($data) > 0){
+		    $users = selectUsers($connection, null, array('id' => $data));
+		    foreach ($users as $user) {
+			array_push($followings, $user);
 	    }
+		}
 	    $this->followersArray = $followings;
 	} catch (Exception $e) {
 	    $this->error = $e->getMessage();
