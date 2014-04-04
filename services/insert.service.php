@@ -81,6 +81,7 @@ function createRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
  * @todo
  */
 function insertAlbum($connection, $album) {
+    $startTimer = microtime();
     $sql = "INSERT INTO album (id,
 			active,
 			commentcounter,
@@ -115,7 +116,8 @@ function insertAlbum($connection, $album) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertAlbum => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
@@ -128,6 +130,8 @@ function insertAlbum($connection, $album) {
 		mysqli_query($connection, $sql);
 	    }
 	}
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
 	return $insert_id;
     }
 }
