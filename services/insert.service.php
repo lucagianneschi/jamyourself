@@ -527,7 +527,7 @@ function insertRecord($connection, $record) {
     }
     $endTimer = microtime();
     jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
-    return ($insert_id);
+    return $insert_id;
 }
 
 /**
