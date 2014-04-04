@@ -695,6 +695,7 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
  * @todo
  */
 function selectMessages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $startTimer = microtime();
     $sql = "SELECT	   m.id id_m,
                            m.active,
                            m.commentcounter,
@@ -759,12 +760,18 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $messages = array();
+    if (!is_array($rows)) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	return $messages;
+    }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
 	require_once CLASSES_DIR . 'user.class.php';
@@ -813,6 +820,8 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
 	$message->setUpdatedat(new DateTime($row['updatedat']));
 	$messages[$row['id_m']] = $message;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($messages) . ' rows returned');
     return $messages;
 }
 
