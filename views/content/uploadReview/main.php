@@ -289,8 +289,8 @@ switch ($_GET['type']) {
 			    <div class="row">
 				<div class="large-12">
 				    <input type="button" class="buttonNext" id="button_publish" value="<?php echo $views['publish']; ?>">
-				    <input type="hidden" id="record_id" value="<?php echo $uploadReviewController->reviewedId; ?>">
-				    <input type="hidden" id="type" value="<?php echo $uploadReviewController->reviewedClassType; ?>">
+				    <input type="hidden" id="reviewedId" value="<?php echo $_GET['rewiewId']; ?>">
+				    <input type="hidden" id="type" value="<?php echo $_GET['type']; ?>">
 				</div>
 			    </div>
 
