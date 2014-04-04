@@ -187,17 +187,17 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-        $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows_album[] = $row;
     $albums = array();
     if (!is_array($rows_album)) {
-        $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
-        return $albums;
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	return $albums;
     }
     foreach ($rows_album as $row) {
 	require_once CLASSES_DIR . 'album.class.php';
@@ -243,7 +243,7 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
 	$albums[$row['id_a']] = $album;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($albums). ' rows returned');
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($albums) . ' rows returned');
     return $albums;
 }
 
@@ -323,17 +323,17 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-        $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
-        return false;
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $comments = array();
     if (!is_array($rows)) {
-        $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
-        return $comments;
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	return $comments;
     }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'comment.class.php';
@@ -385,7 +385,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 	$comments[$row['id_c']] = $comment;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($comments). ' rows returned');
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($comments) . ' rows returned');
     return $comments;
 }
 
@@ -400,6 +400,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
  * @todo
  */
 function selectEvents($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $startTimer = microtime();
     $sql = "SELECT     e.id id_e,
                            e.active,
                            e.address,
@@ -465,14 +466,18 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $events = array();
-    if (!is_array($rows))
+    if (!is_array($rows)) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $events;
+    }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'event.class.php';
 	$event = new Event();
@@ -540,6 +545,8 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
 	$event->setUpdatedat(new DateTime($row['updatedat']));
 	$events[$row['id_e']] = $event;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($events) . ' rows returned');
     return $events;
 }
 
