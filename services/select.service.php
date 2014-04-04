@@ -1071,6 +1071,7 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
  * @todo
  */
 function selectRecords($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $startTimer = microtime();
     $sql = "SELECT r.id id_r,
                            r.active,
                            r.buylink,
@@ -1134,12 +1135,18 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $records = array();
+    if (!is_array($rows)) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	return $records;
+    }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'record.class.php';
 	$record = new Record();
@@ -1190,6 +1197,8 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
 	$record->setUpdatedat(new DateTime($row['updatedat']));
 	$records[$row['id_r']] = $record;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($records) . ' rows returned');
     return $records;
 }
 
