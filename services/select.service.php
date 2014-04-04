@@ -2035,7 +2035,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
  * @todo
  */
 function selectVideos($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
-
+    $startTimer = microtime();
     $sql = "SELECT          v.id id_v,
 			    v.createdat,
 			    v.updatedat,
@@ -2090,13 +2090,18 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	$error = new Error();
-	$error->setErrormessage($results->error);
-	return $error;
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $videos = array();
+    if (!is_array($rows)) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	return $videos;
+    }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'video.class.php';
 	$video = new Video();
@@ -2136,6 +2141,8 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
 	$video->setUpdatedat(new DateTime($row['updatedat']));
 	$videos[$row['id_v']] = $video;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($videos) . ' rows returned');
     return $videos;
 }
 
