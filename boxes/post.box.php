@@ -48,6 +48,25 @@ class PostBox {
 	}
 	$this->postArray = $posts;
     }
+    
+    /**
+     * Init PostBox instance for Personal Page
+     * @param	$id for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
+     * @param   int $limit, number of album to display
+     * @param   int $skip, number of album to skip
+     */
+    public function initForStream($id, $limit = 1, $skip = 0) {
+        $connectionService = new ConnectionService();
+        $connection = $connectionService->connect();
+        if ($connection === false) {
+            $this->error = 'Errore nella connessione';
+        }
+        $posts = selectPosts($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
+        if ($posts === false) {
+            $this->error = 'Errore nella connessione';
+        }
+        $this->postArray = $posts;
+    }
 
 }
 

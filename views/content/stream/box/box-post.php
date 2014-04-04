@@ -21,7 +21,7 @@ if (session_id() == '')
 
 $currentUserId = $_SESSION['id'];
 $postBox = new PostBox();
-$postBox->initForStream($currentUserId, 1);
+$postBox->initForStream($currentUserId);
 $posts = $postBox->postArray;
 if (count($posts) == 0) {
     ?>
