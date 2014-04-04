@@ -38,7 +38,7 @@ $(document).ready(function() {
     $("#button_publish").click(function() {
 	try {
 	    json_upload_review.review = $("textarea").val();
-	    json_upload_review.reviewedId = $("#record_id").val();
+	    json_upload_review.reviewedId = $("#reviewedId").val();
 	    json_upload_review.type = $("#type").val();
 	    console.log(JSON.stringify(json_upload_review));
 	    sendRequest("uploadReview", "publish", json_upload_review, publihsCallback, true);
