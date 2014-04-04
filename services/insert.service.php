@@ -382,6 +382,7 @@ function insertImage($connection, $image) {
  * @todo
  */
 function insertPlaylist($connection, $playlist) {
+    $startTimer = microtime();
     require_once CLASSES_DIR . 'playlist.class.php';
     $sql = "INSERT INTO playlist ( id,
                                     active,
@@ -400,10 +401,15 @@ function insertPlaylist($connection, $playlist) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertPlaylist');
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertPlaylist => ' . $sql);
 	return false;
+    } else {
+	$insert_id = mysqli_insert_id($connection);
     }
-    return true;
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
+    return $insert_id;
 }
 
 /**
