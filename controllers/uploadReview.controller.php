@@ -8,6 +8,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'insert.service.php';
 
 /**
  * UploadReviewController class
@@ -54,10 +55,11 @@ class UploadReviewController extends REST {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
 	    }
 	    $currentUserId = $_SESSION['id'];
-	    $commentedObjectId = $this->request['id'];
-	    $commentedType = $this->request['rewiewId'];
+	    $commentedObjectId = $this->request['reviewedId'];
+	    $commentedType = $this->request['type'];
 	    $rating = intval($this->request['rating']);
-	    $text = $this->request['rewiew'];
+	    $text = $this->request['review'];
+		
 	    if (!in_array($commentedType, array('Event', 'Record'))) {
 		$this->response(array("status" => $controllers['CLASSTYPEKO']), 406);
 	    }
@@ -90,7 +92,7 @@ class UploadReviewController extends REST {
 	    $review->setVote($rating);
 	    switch ($commentedType) {
 		case 'Event' :
-		    $review->setEvent($commentedObject);
+		    $review->setEvent($commentedObjectId);
 		    $review->setRecord(null);
 		    $review->setType('RE');
 		    $type = "NEWEVENTREVIEW";
@@ -113,7 +115,9 @@ class UploadReviewController extends REST {
 	    }
 	    $connection->autocommit(false);
 	    $connectionService->autocommit(false);
+		
 	    $result = insertComment($connection, $review);
+		
 	    $node = createNode($connectionService, 'comment', $commentedObjectId);
 	    $relation = createRelation($connectionService, 'user', $currentUserId, 'comment', $commentedObjectId, 'ADD');
 	    if ($result === false || $relation === false || $node === false) {
@@ -123,7 +127,7 @@ class UploadReviewController extends REST {
 		$connectionService->commit();
 	    }
 	    require_once SERVICES_DIR . 'utils.service.php';
-	    sendMailForNotification($touser->getEmail(), $subject, $html);
+	    sendMailForNotification($touser->getEmail(), $subject, $html); 
 	    $this->response(array("status" => $controllers['REWSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
@@ -151,8 +155,8 @@ class UploadReviewController extends REST {
 		    $rows = selectRecords($connection, $id);
 		    break;
 	    }
-	    $connectionService->disconnect();
-	    return $rows;
+	    $connectionService->disconnect($connection);
+	    return $rows[$id];
 	}
     }
 
