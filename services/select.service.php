@@ -1760,6 +1760,7 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
  * @todo
  */
 function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) {
+    $startTimer = microtime();
     $sql = "SELECT s.id id_s,
 		       s.createdat,
 		       s.updatedat,
@@ -1798,12 +1799,18 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $songs = array();
+    if (!is_array($rows)) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	return $songs;
+    }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'record.class.php';
 	require_once CLASSES_DIR . 'song.class.php';
@@ -1837,6 +1844,8 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
 	$song->setUpdatedat(new DateTime($row['updatedat']));
 	$songs[$row['id_s']] = $song;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($songs) . ' rows returned');
     return $songs;
 }
 
