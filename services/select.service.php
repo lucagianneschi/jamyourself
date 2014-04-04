@@ -836,6 +836,7 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
  * @todo
  */
 function selectPlaylists($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $startTimer = microtime();
     $sql = "SELECT p.id id_p,
 		           p.createdat,
 		           p.updatedat,
@@ -883,13 +884,18 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	require_once SERVICES_DIR . 'log.service.php';
-	jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $playlists = array();
+    if (!is_array($rows)) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	return $playlists;
+    }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'playlist.class.php';
 	require_once CLASSES_DIR . 'user.class.php';
@@ -907,6 +913,8 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
 	$playlist->setUpdatedat(new DateTime($row['updatedat']));
 	$playlists[$row['id_p']] = $playlist;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($playlists) . ' rows returned');
     return $playlists;
 }
 
