@@ -31,6 +31,7 @@ require_once SERVICES_DIR . 'log.service.php';
  * @return BOOL true if update OK, false otherwise
  */
 function update($connection, $class, $set, $increment = null, $decrement = null, $id = null, $where = null) {
+    $startTimer = microtime();
     $sql = "
 	UPDATE " . $class . "
 	   SET 
@@ -67,9 +68,12 @@ function update($connection, $class, $set, $increment = null, $decrement = null,
     }
     $results = mysqli_query($connection, $sql);
     if ($results === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute update => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute update => ' . $sql);
 	return false;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $id . 'updated');
     return true;
 }
 
