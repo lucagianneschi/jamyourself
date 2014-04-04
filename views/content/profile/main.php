@@ -27,7 +27,7 @@ require_once ROOT_DIR . 'config.php';
 			    type: "POST",
 			    url: "content/profile/box/box-record.php",
 			    data: json_data,
-			    async: true,
+			    
 			    timeout:5000,
 			    beforeSend: function(xhr) {
 					goSpinnerBox('#box-record', 'record');
@@ -48,7 +48,7 @@ require_once ROOT_DIR . 'config.php';
 				code = xhr.status;
 				if(message == 'timeout' && countLoadBoxRecord < 3){
 					countLoadBoxRecord++;
-					loadBoxRecord();
+					window.setTimeout("loadBoxRecord()", Math.floor((Math.random()*2000)+100));					
 				}
 				else 
 				console.log("Error box-record. Code: " + code + " | Message: " + message);		    
@@ -69,7 +69,7 @@ require_once ROOT_DIR . 'config.php';
     			    type: "POST",
     			    url: "content/profile/box/box-event.php",
     			    data: json_data,
-    			    async: true,
+    			    
     			    timeout:5000,
     			    beforeSend: function(xhr) {
     					goSpinnerBox('#box-event', 'event');
@@ -87,7 +87,7 @@ require_once ROOT_DIR . 'config.php';
 					code = xhr.status;
 					if(message == 'timeout' && countLoadBoxEvent < 3){
 						countLoadBoxEvent++;
-						loadBoxEvent();
+						window.setTimeout("loadBoxEvent()", Math.floor((Math.random()*2000)+100));							
 					}
 					else 
 					console.log("Error box-event. Code: " + code + " | Message: " + message);
@@ -112,7 +112,7 @@ require_once ROOT_DIR . 'config.php';
     			    type: "POST",
     			    url: "content/profile/box/box-friends.php",
     			    data: json_data,
-    			    async: true,
+    			    
     			    timeout:5000,
     			    beforeSend: function(xhr) {
     					goSpinnerBox('#box-friends', 'friends');
@@ -126,7 +126,7 @@ require_once ROOT_DIR . 'config.php';
 					code = xhr.status;
 					if(message == 'timeout' && countLoadBoxFriends < 3){
 						countLoadBoxFriends++;
-						loadBoxFriends();
+						window.setTimeout("loadBoxFriends()", Math.floor((Math.random()*2000)+100));	
 					}
 					else 
 					console.log("Error box-friends. Code: " + code + " | Message: " + message);
@@ -145,7 +145,7 @@ require_once ROOT_DIR . 'config.php';
     			    type: "POST",
     			    url: "content/profile/box/box-following.php",
     			    data: json_data,
-    			    async: true,
+    			    
     			    timeout:5000,
     			    beforeSend: function(xhr) {
     					goSpinnerBox('#box-following', 'following');
@@ -159,7 +159,7 @@ require_once ROOT_DIR . 'config.php';
 					code = xhr.status;
 					if(message == 'timeout' && countLoadBoxFollowing < 3){
 						countLoadBoxFollowing++;
-						loadBoxFollowing();
+						window.setTimeout("loadBoxFollowing()", Math.floor((Math.random()*2000)+100));	
 					}
 					else 
 					console.log("Error box-following. Code: " + code + " | Message: " + message);
@@ -180,7 +180,7 @@ require_once ROOT_DIR . 'config.php';
 			    type: "POST",
 			    url: "content/profile/box/box-album.php",
 			    data: json_data,
-			    async: true,
+			    
 			    timeout:5000,
 			    beforeSend: function(xhr) {
 					goSpinnerBox('#box-album', 'album');
@@ -195,7 +195,7 @@ require_once ROOT_DIR . 'config.php';
 					code = xhr.status;
 					if(message == 'timeout' && countLoadBoxAlbum < 3){
 						countLoadBoxAlbum++;
-						loadBoxAlbum();
+						window.setTimeout("loadBoxAlbum()", Math.floor((Math.random()*2000)+100));	
 					}
 					else 
 					console.log("Error box-album. Code: " + code + " | Message: " + message);
@@ -223,7 +223,7 @@ require_once ROOT_DIR . 'config.php';
 			    type: "POST",
 			    url: "content/profile/box/box-recordReview.php",
 			    data: json_data,
-			    async: true,
+			    
 			    timeout:5000,
 			    beforeSend: function(xhr) {
 					goSpinnerBox('#box-recordReview', 'recordReview');
@@ -241,7 +241,7 @@ require_once ROOT_DIR . 'config.php';
 					code = xhr.status;
 					if(message == 'timeout' && countLoadBoxReview < 3){
 						countLoadBoxReview++;
-						loadBoxRecordReview();
+						window.setTimeout("loadBoxRecordReview()", Math.floor((Math.random()*2000)+100));	
 					}
 					else 
 					console.log("Error box-recordReview. Code: " + code + " | Message: " + message);
@@ -260,7 +260,7 @@ require_once ROOT_DIR . 'config.php';
 			    type: "POST",
 			    url: "content/profile/box/box-eventReview.php",
 			    data: json_data,
-			    async: true,
+			    
 			    timeout:5000,
 			    beforeSend: function(xhr) {
 					goSpinnerBox('#box-eventReview', 'EventReview');
@@ -278,7 +278,7 @@ require_once ROOT_DIR . 'config.php';
 					code = xhr.status;
 					if(message == 'timeout' && countLoadBoxEventReview < 3){
 						countLoadBoxEventReview++;
-						loadBoxEventReview();
+						window.setTimeout("loadBoxEventReview()", Math.floor((Math.random()*2000)+100));	
 					}
 					else 
 					console.log("Error box-eventReview. Code: " + code + " | Message: " + message);
@@ -297,7 +297,7 @@ require_once ROOT_DIR . 'config.php';
 			    type: "POST",
 			    url: "content/profile/box/box-activity.php",
 			    data: json_data,
-			    async: true,
+			    
 			    timeout:5000,
 			    beforeSend: function(xhr) {
 					goSpinnerBox('#box-activity', 'activity');
@@ -311,7 +311,7 @@ require_once ROOT_DIR . 'config.php';
 					code = xhr.status;
 					if(message == 'timeout' && countLoadBoxActivity < 3){
 						countLoadBoxActivity++;
-						loadBoxActivity();
+						window.setTimeout("loadBoxActivity()", Math.floor((Math.random()*2000)+100));	
 					}
 					else 
 					console.log("Error box-activity. Code: " + code + " | Message: " + message);
@@ -333,7 +333,7 @@ require_once ROOT_DIR . 'config.php';
     			    type: "POST",
     			    url: "content/profile/box/box-collaboration.php",
     			    data: json_data,
-    			    async: true,
+    			    
     			    timeout:5000,
     			    beforeSend: function(xhr) {
     					goSpinnerBox('#box-collaboration', 'collaboration');
@@ -347,7 +347,7 @@ require_once ROOT_DIR . 'config.php';
 					code = xhr.status;
 					if(message == 'timeout' && countLoadBoxCollaboration < 3){
 						countLoadBoxCollaboration++;
-						loadBoxCollaboration();
+						window.setTimeout("loadBoxCollaboration()", Math.floor((Math.random()*2000)+100));	
 					}
 					else 
 					console.log("Error box-collaboration. Code: " + code + " | Message: " + message);
@@ -367,7 +367,7 @@ require_once ROOT_DIR . 'config.php';
     			    type: "POST",
     			    url: "content/profile/box/box-followers.php",
     			    data: json_data,
-    			    async: true,
+    			    
     			    timeout:5000,
     			    beforeSend: function(xhr) {
     					goSpinnerBox('#box-followers', 'followers');
@@ -381,7 +381,7 @@ require_once ROOT_DIR . 'config.php';
 					code = xhr.status;
 					if(message == 'timeout' && countLoadBoxFollowers < 3){
 						countLoadBoxFollowers++;
-						loadBoxFollowers();
+						window.setTimeout("loadBoxFollowers()", Math.floor((Math.random()*2000)+100));	
 					}
 					else 
 					console.log("Error box-followers. Code: " + code + " | Message: " + message);
@@ -403,7 +403,7 @@ require_once ROOT_DIR . 'config.php';
 			    type: "POST",
 			    url: "content/profile/box/box-post.php",
 			    data: json_data,
-			    async: true,
+			    
 			    timeout:5000,
 			    beforeSend: function(xhr) {
 				goSpinnerBox('#box-post', 'post');
@@ -417,7 +417,7 @@ require_once ROOT_DIR . 'config.php';
 				code = xhr.status;
 				if(message == 'timeout' && countLoadBoxPost < 3){
 						countLoadBoxPost++;
-						loadBoxPost();
+						window.setTimeout("loadBoxPost()", Math.floor((Math.random()*2000)+100));	
 					}
 					else 
 				console.log("Error box-post. Code: " + code + " | Message: " + message);
@@ -439,7 +439,7 @@ require_once ROOT_DIR . 'config.php';
 				type: "POST",
 				url: "content/profile/box/box-opinion.php",
 				data: json_data,
-				async: true,
+				
 				timeout:5000,
 				beforeSend: function(xhr) {								
 				    goSpinnerBox(box, '');
@@ -489,7 +489,7 @@ require_once ROOT_DIR . 'config.php';
 		url: "content/profile/box/box-relation.php",
 		data: json_data,
 		timeout:5000,
-		async: true,
+		
 		beforeSend: function(xhr) {
 		    $('#modalRelation').html('<div id="spinnerRelation"></div>');
 		    goSpinner('#spinnerRelation')
