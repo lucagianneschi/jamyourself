@@ -38,10 +38,10 @@ function createNode($connection, $nodeType, $nodeId) {
     } else {
 	if ($connection->getAutocommit()) {
 	    $num = $res['data'][0][0];
-        return ($num ? $num : false);
+	    return ($num ? $num : false);
 	} else {
 	    $num = $res['results'][0]['data'][0]['row'][0];
-        return ($num ? $num : false);
+	    return ($num ? $num : false);
 	}
     }
 }
@@ -66,10 +66,10 @@ function createRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
     } else {
 	if ($connection->getAutocommit()) {
 	    $num = $res['data'][0][0];
-        return ($num ? $num : false);
+	    return ($num ? $num : false);
 	} else {
 	    $num = $res['results'][0]['data'][0]['row'][0];
-        return ($num ? $num : false);
+	    return ($num ? $num : false);
 	}
     }
 }
@@ -115,7 +115,7 @@ function insertAlbum($connection, $album) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertAlbum');
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertAlbum => ' . $sql);
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
@@ -184,7 +184,7 @@ function insertComment($connection, $comment) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertComment');
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertCommnet => ' . $sql);
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
@@ -243,7 +243,7 @@ function insertEvent($connection, $event) {
                             '" . (is_null($event->getCounter()) ? 0 : $event->getCounter()) . "',
                             '" . $event->getCover() . "',
                             '" . $event->getDescription() . "',
-				  			'" . (is_null($event->getEventdate()) ? 0 : $event->getEventdate()->format('Y-m-d H:i:s')) . "',
+			    '" . (is_null($event->getEventdate()) ? 0 : $event->getEventdate()->format('Y-m-d H:i:s')) . "',
 				  			'" . (is_null($event->getFromuser()) ? 0 : $event->getFromuser()) . "', 
 				  			'" . (is_null($event->getInvitedcounter()) ? 0 : $event->getInvitedcounter()) . "',       
 				  			'" . (is_null($event->getLatitude()) ? 0 : $event->getLatitude()) . "',                                         
@@ -259,21 +259,21 @@ function insertEvent($connection, $event) {
                             NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent - event');
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent => ' . $sql);
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
 	if (is_array($event->getGenre())) {
 	    foreach ($event->getGenre() as $genre) {
-			$sql = "INSERT INTO event_genre (id_event,
+		$sql = "INSERT INTO event_genre (id_event,
 							id_genre)
 							VALUES (" . $insert_id . ",
 								'" . $genre . "')";
-			$result = mysqli_query($connection, $sql);
-		    if ($result === false) {
-				jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent - event_genre');
-				return false;
-			}
+		$result = mysqli_query($connection, $sql);
+		if ($result === false) {
+		    jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent - event_genre => ' . $sql);
+		    return false;
+		}
 	    }
 	}
 	if (is_array($event->getTag())) {
@@ -283,14 +283,14 @@ function insertEvent($connection, $event) {
 						VALUES (" . $insert_id . ",
 							'" . $tag . "')";
 		$result = mysqli_query($connection, $sql);
-		    if ($result === false) {
-				jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent - event_tag');
-				return false;
-			}
+		if ($result === false) {
+		    jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent - event_tag => ' . $sql);
+		    return false;
+		}
 	    }
 	}
     }
-	$event->setId($insert_id);
+    $event->setId($insert_id);
     return ($event);
 }
 
@@ -312,7 +312,7 @@ function insertImage($connection, $image) {
                                     latitude,
                                     longitude,
                                     lovecounter,
-				    				path,
+				    path,
                                     sharecounter,
                                     thumbnail,
                                     createdat,
@@ -334,7 +334,7 @@ function insertImage($connection, $image) {
                             NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertImage ');
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertImage => ' . $sql);
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
@@ -436,7 +436,7 @@ function insertRecord($connection, $record) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertRecord');
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertRecord => ' . $sql);
 	return false;
     } else {
 	$insert_id_genre = mysqli_insert_id($connection);
@@ -507,7 +507,7 @@ function insertSong($connection, $song) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertSong');
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertSong => ' . $sql);
 	return false;
     }
     return true;
@@ -530,7 +530,7 @@ function insertSongInPlayslist($connection, $song, $playlist) {
                                   '" . (is_null($playlist->getId()) ? 0 : $playlist->getId()) . "'";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertsongoIntoPlaylist');
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertsongoIntoPlaylist => ' . $sql);
 	return false;
     }
     return true;
@@ -624,7 +624,7 @@ function insertUser($connection, $user) {
 
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertUser');
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertUser => ' . $sql);
 	return false;
     } else {
 	$insert_id_members = mysqli_insert_id($connection);
@@ -683,7 +683,7 @@ function insertVideo($connection, $video) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertVideo');
+	jamLog(__FILE__, __LINE__, 'Unable to execute insertVideo => ' . $sql);
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
