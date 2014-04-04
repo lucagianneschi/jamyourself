@@ -537,6 +537,7 @@ function insertRecord($connection, $record) {
  * @todo
  */
 function insertSong($connection, $song) {
+    $startTimer = microtime();
     require_once CLASSES_DIR . 'song.class.php';
     $sql = "INSERT INTO song( id,
                                     active,
@@ -574,10 +575,15 @@ function insertSong($connection, $song) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertSong => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertSong => ' . $sql);
 	return false;
+    } else {
+	$insert_id = mysqli_insert_id($connection);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
+	return $insert_id;
     }
-    return true;
 }
 
 /**
@@ -588,6 +594,7 @@ function insertSong($connection, $song) {
  * @todo
  */
 function insertSongInPlayslist($connection, $song, $playlist) {
+    $startTimer = microtime();
     require_once CLASSES_DIR . 'song.class.php';
     require_once CLASSES_DIR . 'playlist.class.php';
     $sql = "INSERT INTO playlist_song ( id,
@@ -598,10 +605,15 @@ function insertSongInPlayslist($connection, $song, $playlist) {
                                   '" . (is_null($playlist->getId()) ? 0 : $playlist->getId()) . "'";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertsongoIntoPlaylist => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertSongInPlaylist => ' . $sql);
 	return false;
+    } else {
+	$insert_id = mysqli_insert_id($connection);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
+	return $insert_id;
     }
-    return true;
 }
 
 /**
@@ -612,6 +624,7 @@ function insertSongInPlayslist($connection, $song, $playlist) {
  * @todo
  */
 function insertUser($connection, $user) {
+    $startTimer = microtime();
     $sql = "INSERT INTO user (id,
                                   username,
                                   password,
@@ -693,31 +706,43 @@ function insertUser($connection, $user) {
 
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertUser => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertSongInPlaylist => ' . $sql);
 	return false;
     } else {
-	$insert_id_members = mysqli_insert_id($connection);
+	$insert_id = mysqli_insert_id($connection);
 	if (is_array($user->getMember())) {
 	    foreach ($user->getMember() as $member) {
 		$sql = "INSERT INTO user_member (id,
 						member)
-						VALUES (" . $insert_id_members . ",
+						VALUES (" . $insert_id . ",
 							'" . $member . "')";
-		mysqli_query($connection, $sql);
+		$result_member = mysqli_query($connection, $sql);
 	    }
 	}
-	$insert_id_setting = mysqli_insert_id($connection);
+	if ($result_member === false) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertUser - member => ' . $sql);
+	    return false;
+	}
 	if (is_array($user->getSetting())) {
 	    foreach ($user->getSetting() as $setting) {
 		$sql = "INSERT INTO user_setting (id,
 						setting)
-						VALUES (" . $insert_id_setting . ",
+						VALUES (" . $insert_id . ",
 							'" . $setting . "')";
-		mysqli_query($connection, $sql);
+		$result_setting = mysqli_query($connection, $sql);
 	    }
 	}
-	return ($insert_id_setting && $insert_id_members);
+	if ($result_setting === false) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertUser - setting => ' . $sql);
+	    return false;
+	}
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
+    return $insert_id;
 }
 
 /**
@@ -728,6 +753,7 @@ function insertUser($connection, $user) {
  * @todo
  */
 function insertVideo($connection, $video) {
+    $startTimer = microtime();
     require_once CLASSES_DIR . 'video.class.php';
     $sql = "INSERT INTO video ( id,
                                     active,
@@ -763,10 +789,17 @@ function insertVideo($connection, $video) {
 						tag)
 						VALUES (" . $insert_id . ",
 							'" . $tag . "')";
-		mysqli_query($connection, $sql);
+		$result_tag = mysqli_query($connection, $sql);
+		if ($result_tag === false) {
+		    $endTimer = microtime();
+		    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertVideo - video_tag => ' . $sql);
+		    return false;
+		}
 	    }
 	}
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
     return $insert_id;
 }
 
