@@ -561,6 +561,7 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
  * @todo
  */
 function selectImages($connection, $id = null, $where = null, $order = null, $limit = null, $skip = null) {
+    $startTimer = microtime();
     $sql = "SELECT	i.id id_i,
 					i.createdat,
 					i.updatedat,
@@ -621,12 +622,18 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
     }
     $results = mysqli_query($connection, $sql);
     if (!$results) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
 	$rows[] = $row;
     $images = array();
+    if (!is_array($rows)) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	return $images;
+    }
     foreach ($rows as $row) {
 	require_once CLASSES_DIR . 'album.class.php';
 	require_once CLASSES_DIR . 'image.class.php';
@@ -672,6 +679,8 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
 	$image->setThumbnail($row['thumbnail_i']);
 	$images[$row['id_i']] = $image;
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($images) . ' rows returned');
     return $images;
 }
 
