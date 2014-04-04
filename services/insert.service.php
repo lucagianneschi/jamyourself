@@ -143,6 +143,7 @@ function insertAlbum($connection, $album) {
  * @todo
  */
 function insertComment($connection, $comment) {
+    $startTimer = microtime();
     require_once CLASSES_DIR . 'comment.class.php';
     $sql = "INSERT INTO comment (id,
                                     active,
@@ -188,7 +189,8 @@ function insertComment($connection, $comment) {
                                   NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertCommnet => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
@@ -201,6 +203,8 @@ function insertComment($connection, $comment) {
 		mysqli_query($connection, $sql);
 	    }
 	}
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
 	return $insert_id;
     }
 }
@@ -212,6 +216,7 @@ function insertComment($connection, $comment) {
  * @todo
  */
 function insertEvent($connection, $event) {
+    $startTimer = microtime();
     require_once CLASSES_DIR . 'event.class.php';
     $sql = "INSERT INTO event ( id,
                                     active,
@@ -239,10 +244,10 @@ function insertEvent($connection, $event) {
                                     updatedat)
                           VALUES (NULL,
 			  	  			'" . (is_null($event->getActive()) ? 0 : $event->getActive()) . "',
-                            '" . $event->getAddress() . "',    
+							'" . $event->getAddress() . "',    
 				  			'" . (is_null($event->getAttendeecounter()) ? 0 : $event->getAttendeecounter()) . "',
 				  			'" . (is_null($event->getCancelledcounter()) ? 0 : $event->getCancelledcounter()) . "',
-                            '" . $event->getCity() . "',   
+						        '" . $event->getCity() . "',   
 				  			'" . (is_null($event->getCommentcounter()) ? 0 : $event->getCommentcounter()) . "',
                             '" . (is_null($event->getCounter()) ? 0 : $event->getCounter()) . "',
                             '" . $event->getCover() . "',
@@ -263,7 +268,8 @@ function insertEvent($connection, $event) {
                             NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertEvent => ' . $sql);
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
@@ -275,7 +281,8 @@ function insertEvent($connection, $event) {
 								'" . $genre . "')";
 		$result = mysqli_query($connection, $sql);
 		if ($result === false) {
-		    jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent - event_genre => ' . $sql);
+		    $endTimer = microtime();
+		    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertEvent - event_genre => ' . $sql);
 		    return false;
 		}
 	    }
@@ -288,12 +295,15 @@ function insertEvent($connection, $event) {
 							'" . $tag . "')";
 		$result = mysqli_query($connection, $sql);
 		if ($result === false) {
-		    jamLog(__FILE__, __LINE__, 'Unable to execute insertEvent - event_tag => ' . $sql);
+		    $endTimer = microtime();
+		    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertEvent - event_tag => ' . $sql);
 		    return false;
 		}
 	    }
 	}
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
     $event->setId($insert_id);
     return ($event);
 }
@@ -305,6 +315,7 @@ function insertEvent($connection, $event) {
  * @todo
  */
 function insertImage($connection, $image) {
+    $startTimer = microtime();
     require_once CLASSES_DIR . 'image.class.php';
     $sql = "INSERT INTO image ( id,
                                     active,
@@ -338,7 +349,8 @@ function insertImage($connection, $image) {
                             NOW())";
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute insertImage => ' . $sql);
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertImage => ' . $sql);
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
@@ -349,9 +361,16 @@ function insertImage($connection, $image) {
 						VALUES (" . $insert_id . ",
 							'" . $tag . "')";
 		mysqli_query($connection, $sql);
+		if ($result === false) {
+		    $endTimer = microtime();
+		    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertImage - image_tag => ' . $sql);
+		    return false;
+		}
 	    }
 	}
     }
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
     $image->setId($insert_id);
     return $image;
 }
