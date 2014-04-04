@@ -1268,9 +1268,9 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 	$event->setCover($row['cover']);
 	$event->setDescription($row['description']);
 	$event->setEventdate($row['eventdate']);
-	$sql = "SELECT genre
+	$sql = "SELECT id_genre
 		  FROM event_genre
-		 WHERE id = " . $row['genre'];
+		 WHERE id_event = " . $row['id_e'];
 	$results_genre_event = mysqli_query($connection, $sql);
 	if (!$results_genre_event) {
 	    jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
