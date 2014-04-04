@@ -371,75 +371,74 @@ if (is_null($userInfoBox->error)) {
         <div id='scroll-social' class='hcento' style="width: 50%;float: right;">
             <div id="social" style="max-width:500px; float:left" class="row">
                 <div class="large-12 columns">
-
                     <div id="box-activity"></div>
                     <script type="text/javascript">
-                function loadBoxActivity() {
-                $.ajax({
-                    type: "POST",
-                    url: "content/stream/box/box-activity.php",
-                    beforeSend: function(xhr) {
-                    console.log('Sono partito box-activity');
-                    //goSpinnerBox('#box-record', 'record');
+                    function loadBoxActivity() {
+                        $.ajax({
+                            type: "POST",
+                            url: "content/stream/box/box-activity.php",
+                            beforeSend: function(xhr) {
+                            console.log('Sono partito box-activity');
+                            //goSpinnerBox('#box-record', 'record');
+                            }
+                        }).done(function(message, status, xhr) {
+                            $("#box-activity").html(message);
+                            //plugin scorrimento box
+                            //rsi_record = slideReview('recordSlide');
+                            code = xhr.status;
+                            console.log("Code: " + code + " | Message: <omitted because too large>");
+                        }).fail(function(xhr) {
+                            console.log("Error: " + $.parseJSON(xhr));
+                        });
                     }
-                }).done(function(message, status, xhr) {
-                    $("#box-activity").html(message);
-                    //plugin scorrimento box
-                    //rsi_record = slideReview('recordSlide');
-                    code = xhr.status;
-                    console.log("Code: " + code + " | Message: <omitted because too large>");
-                }).fail(function(xhr) {
-                    console.log("Error: " + $.parseJSON(xhr));
-                });
-                }
                     </script>
                     <script type="text/javascript">
-                function loadBoxOpinion(id, toUser, classBox, box, limit, skip) {
-                if ($(box).hasClass('no-display')) {
-                    var json_data = {};
-                    json_data.id = id;
-                    json_data.toUser = toUser;
-                    json_data.classBox = classBox;
-                    json_data.box = box;
-                    json_data.limit = limit;
-                    json_data.skip = skip;
-                    $.ajax({
-                    type: "POST",
-                    url: "content/stream/box/box-opinion.php",
-                    data: json_data,
-                    async: true,
-                    beforeSend: function(xhr) {
-                        //spinner.show();											
-                        //goSpinnerBox(box, '');
-                        console.log('Sono partito loadBoxOpinion(' + id + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
-                    }
-                    })
-                        .done(function(message, status, xhr) {
-                    //spinner.hide();
-                    $(box).html(message);
-                    $(box).prev().addClass('box-commentSpace');
-                    $(box).removeClass('no-display');
-                    if (classBox == 'Image') {
-                        $("#cboxLoadedContent").mCustomScrollbar("update");
-                        //	hcento();
-                    }
+                    function loadBoxOpinion(id, toUser, classBox, box, limit, skip) {
+                        if ($(box).hasClass('no-display')) {
+                            var json_data = {};
+                            json_data.id = id;
+                            json_data.toUser = toUser;
+                            json_data.classBox = classBox;
+                            json_data.box = box;
+                            json_data.limit = limit;
+                            json_data.skip = skip;
+                            $.ajax({
+                            type: "POST",
+                            url: "content/stream/box/box-opinion.php",
+                            data: json_data,
+                            async: true,
+                            beforeSend: function(xhr) {
+                                //spinner.show();											
+                                //goSpinnerBox(box, '');
+                                console.log('Sono partito loadBoxOpinion(' + id + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
+                            }
+                            })
+                                .done(function(message, status, xhr) {
+                            //spinner.hide();
+                            $(box).html(message);
+                            $(box).prev().addClass('box-commentSpace');
+                            $(box).removeClass('no-display');
+                            if (classBox == 'Image') {
+                                $("#cboxLoadedContent").mCustomScrollbar("update");
+                                //	hcento();
+                            }
 
-                    code = xhr.status;
-                    //console.log("Code: " + code + " | Message: " + message);
-                    console.log("Code: " + code + " | Message: <omitted because too large>");
-                    })
-                        .fail(function(xhr) {
-                    //spinner.hide();
-                    //console.log('ERRORE=>'+richiesta+' '+stato+' '+errori);
-                    message = $.parseJSON(xhr.responseText).status;
-                    code = xhr.status;
-                    console.log("Code: " + code + " | Message: " + message);
-                    });
-                } else {
-                    $(box).prev().removeClass('box-commentSpace');
-                    $(box).addClass('no-display');
-                }
-                }
+                            code = xhr.status;
+                            //console.log("Code: " + code + " | Message: " + message);
+                            console.log("Code: " + code + " | Message: <omitted because too large>");
+                            })
+                                .fail(function(xhr) {
+                            //spinner.hide();
+                            //console.log('ERRORE=>'+richiesta+' '+stato+' '+errori);
+                            message = $.parseJSON(xhr.responseText).status;
+                            code = xhr.status;
+                            console.log("Code: " + code + " | Message: " + message);
+                            });
+                        } else {
+                            $(box).prev().removeClass('box-commentSpace');
+                            $(box).addClass('no-display');
+                        }
+                    }
                     </script>
                 </div>			
             </div>

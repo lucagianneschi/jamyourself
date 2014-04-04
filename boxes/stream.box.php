@@ -18,6 +18,7 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 
 /**
@@ -44,23 +45,40 @@ class StreamBox {
      * \param	$limit, $skip
      * \todo
      */
-    public function init($limit = DEFAULTQUERY, $skip = null) {
-	$currentUser = $_SESSION['id'];
-	$connectionService = new ConnectionService();
-	$connectionService->connect();
-	if (!$connectionService->active) {
-	    $this->error = $connectionService->error;
-	    return;
-	} else {
-	    $sql = "SELECT * FROM event WHERE user=" . $id . " LIMIT " . $skip . ", " . $limit;
-	    $results = mysqli_query($connectionService->connection, $sql);
-	    $connectionService->disconnect();
-	    if (!$results) {
-		return;
-	    } else {
-		$this->eventArray = $results;
-	    }
-	}
+    public function init($limit = DEFAULTQUERY) {
+        $currentUser = $_SESSION['id'];
+        $connectionService = new ConnectionService();
+        
+        $query = "
+           MATCH (n1:user)-[r1]->(n2:user)-[r2]->(n3)
+           WHERE n1.id = {currentUser}
+             AND TYPE(r2) IN ['ADD', 'CREATE', 'POST']
+             AND TYPE(r1) IN ['COLLABORATION']
+          RETURN LABELS(n3), n3.id
+        ORDER BY r2.createdat DESC
+           LIMIT " . $limit;
+        $params = array(
+            'currentUser' => $currentUser
+        );
+        $res = $connectionService->curl($query, $params);
+        if ($res === false) {
+            $this->error = 'Unable to execute query';
+        } else {
+            $couples = array();
+            $connection = $connectionService->connect();
+            foreach($res['data'] as $couple) {
+                $class = $couple[0][0];
+                $id = $couple[1];
+                switch($class) {
+                    case 'comment':
+                        $comments = selectComments($connection, $id);
+                        $object = $comments[$id];
+                        break;
+                }
+                $couples[] = array('class' => $class, 'id' => $id, 'object' => $object);
+            }
+            $this->activitiesArray = $couples;
+        }
     }
 
     /**
@@ -69,22 +87,23 @@ class StreamBox {
      * \param	$userType
      * \todo
      */
+    /*
     private function createActivityArray($userType) {
-	$sharedActivities = $this->config->sharedActivities;
-	switch ($userType) {
-	    case 'SPOTTER':
-		$specificActivities = $this->config->spotterActivities;
-		break;
-	    case 'VENUE':
-		$specificActivities = $this->config->venueActivities;
-		break;
-	    case 'JAMMER':
-		$specificActivities = $this->config->jammerActivities;
-		break;
-	}
-	$actArray = array_merge($sharedActivities, $specificActivities);
-	return $actArray;
+        $sharedActivities = $this->config->sharedActivities;
+        switch ($userType) {
+            case 'SPOTTER':
+            $specificActivities = $this->config->spotterActivities;
+            break;
+            case 'VENUE':
+            $specificActivities = $this->config->venueActivities;
+            break;
+            case 'JAMMER':
+            $specificActivities = $this->config->jammerActivities;
+            break;
+        }
+        $actArray = array_merge($sharedActivities, $specificActivities);
+        return $actArray;
     }
-
+    */
 }
 ?>

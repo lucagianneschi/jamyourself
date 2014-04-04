@@ -22,7 +22,7 @@ if (session_id() == '')
 
 $currentUserId = $_SESSION['id'];
 $streamBox = new StreamBox();
-$streamBox->init(10, 0);
+$streamBox->init(10);
 if (is_null($streamBox->error)) {
     $activities = $streamBox->activitiesArray;
     $activityCounter = count($activities);
@@ -50,8 +50,8 @@ if (is_null($streamBox->error)) {
     <!---------------- STREAM ----------------->
     <h3 style="margin-top:30px"><?php echo $views['stream']['stream']; ?></h3>
     <?php
-    foreach ($activities as $key => $value) {
-        debug('', 'debug.txt', $value->getType());
+    foreach ($activities as $activity) {
+        $value = $activity['object'];
         ?>
         <div id="<?php echo $value->getId(); ?>">
             <div class="box">
@@ -96,6 +96,7 @@ if (is_null($streamBox->error)) {
                     </div>
                 </a>
                 <?php
+                /*
                 switch ($value->getType()) {
                     case 'ALBUMCREATED':
                         if (is_array($value->getAlbum()->getLovers()) && in_array($currentUser->getId(), $value->getAlbum()->getLovers())) {
@@ -1256,13 +1257,6 @@ if (is_null($streamBox->error)) {
                 </div>
                 <?php
                 break;
-            #TODO
-            /* --> saranno implementate in un secondo momento
-              case 'SHAREDIMAGE':
-              break;
-              case 'SHAREDSONG':
-              break;
-             */
             case 'SONGAADDEDTORECORD':
                 if (is_array($value->getSong()->getLovers()) && in_array($currentUser->getId(), $value->getSong()->getLovers())) {
                     $css_love = '_love orange';
@@ -1385,6 +1379,28 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
         }
+        */
+                #TEMP
+                ?>
+                <div class="row">
+                    <div class="box-propriety">
+                        <div class="small-7 columns ">
+                            <a class="note grey" onclick="">???</a>
+                            <a class="note grey" onclick="">???</a>
+                            <a class="note grey" onclick="">???</a>
+                        </div>
+                        <div class="small-5 columns propriety ">			
+                            <a class="icon-propriety <?php echo $css_love ?>">0</a>
+                            <a class="icon-propriety _comment">0</a>
+                            <a class="icon-propriety _share">0</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!---- COMMENT ---->
+                <div class="box-opinion no-display"></div>
+                </div>
+                <?php
     }
 }
 ?>
