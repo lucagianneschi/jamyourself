@@ -4,7 +4,6 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once CLASSES_DIR . 'error.class.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 
@@ -13,6 +12,7 @@ require_once SERVICES_DIR . 'log.service.php';
  *
  * @author Daniele Caldelli
  * @author Maria Laura Fresu
+ * @author Luca Gianneschi
  * @version		0.2
  * @since		2014-03-12
  * @copyright		Jamyourself.com 2013
