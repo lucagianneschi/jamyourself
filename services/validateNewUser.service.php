@@ -19,6 +19,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'utils.service.php';
+require_once SERVICES_DIR . 'connection.service.php';
 
 class ValidateNewUserService {
 
@@ -228,6 +229,7 @@ class ValidateNewUserService {
     /**
      * check utente property comuni
      * 
+     * @param JASONArray $userJSON Array di dpropery dell'utente
      * @return
      * @todo
      */
@@ -432,17 +434,17 @@ class ValidateNewUserService {
     public function checkUsername($username) {
 	if (strlen($username) > 50) {
 	    return false;
-	}
-	$up = new UserParse();
-	$up->whereEqualTo("username", $username);
-	$res = $up->getCount();
-	if (!($res instanceof Error)) {
-	    if ($res != 0)
+	} else {
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
 		return false;
+	    }
 	}
-	else
-	    return false;
-	return true;
+	$where = array("username" => $username);
+	$user = selectUsers($connection, null, $where);
+	$res = count($user);
+	return ($res != 0) ? false : true;
     }
 
     /**
