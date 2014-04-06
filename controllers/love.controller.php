@@ -43,7 +43,7 @@ class LoveController extends REST {
 	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
-	    $classTypeAdmitted = array('album', 'comment', 'event', 'image', 'record', 'song', 'video');
+	    $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Video');
 	    if (!isset($this->request['classType'])) {
 		$this->response(array('status' => 'NOCLASSTYPE'), 400);
 	    } elseif (!isset($this->request['id'])) {
@@ -95,7 +95,7 @@ class LoveController extends REST {
 	    } elseif (!isset($_SESSION['id'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
-	    $classTypeAdmitted = array('album', 'comment', 'event', 'image', 'record', 'song', 'video');
+	    $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Video');
 	    if (!isset($this->request['classType'])) {
 		$this->response(array('status' => 'NOCLASSTYPE'), 400);
 	    } elseif (!isset($this->request['id'])) {
