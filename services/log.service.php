@@ -1,28 +1,24 @@
 <?php
 
-/* ! \par		Info Generali:
- *  \author		Daniele Caldelli
- *  \version            0.3
- *  \date		2013
- *  \copyright          Jamyourself.com 2013
- *  \par		Info :
- *  \brief		Debub function
- *  \details            Funzione per scrivere su file un bug
- *  \par		Commenti:
- *  \warning
- *  \bug
- *  \todo
- *
+/**
+ * 
+ * Funzione per scrivere su file un bug 
+ * 
+ * @author Daniele Caldelli
+ * @version		0.2
+ * @since		2014-03-17
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 require_once ROOT_DIR . 'config.php';
 
 /**
- * \fn		jamLog($where, $lineError, $error)
- * \brief	log servive
- * \return	connection or false
+ * log servive
+ * 
  */
 function jamLog($where, $lineError, $error) {
     if (LOG) {
@@ -36,9 +32,8 @@ function jamLog($where, $lineError, $error) {
 }
 
 /**
- * \fn		jamDebug($file, $msg)
- * \brief	debug service
- * \return	connection or false
+ * debug service
+ * 
  */
 function jamDebug($file, $msg) {
     if (!is_dir(DEBUG_DIR)) {
