@@ -29,6 +29,7 @@ require_once SERVICES_DIR . 'log.service.php';
  * @todo
  */
 function deleteNode($connection, $nodeType, $nodeId) {
+    $startTimer = microtime();
     $query = '
     MATCH (n:' . $nodeType . ' {id:' . $nodeId . '})
     OPTIONAL MATCH (n)-[r]-()
@@ -36,6 +37,8 @@ function deleteNode($connection, $nodeType, $nodeId) {
 	';
     $res = $connection->curl($query);
     if ($res === false) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute deleteNode between ' . $nodeId . 'query' . $query);
 	return false;
     } else {
 	return true;
@@ -53,12 +56,15 @@ function deleteNode($connection, $nodeType, $nodeId) {
  * @todo
  */
 function deleteRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType) {
+    $startTimer = microtime();
     $query = '
 	MATCH (n:' . $fromNodeType . ' {id:' . $fromNodeId . '})-[r:' . $relType . ']->(m:' . $toNodeType . ' {id:' . $toNodeId . '})
 	DELETE r
 	';
     $res = $connection->curl($query);
     if ($res === false) {
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute deleteRelation between ' . $fromNodeId . 'and' . $toNodeId . 'relazione di tipo' . $relType . 'query' . $query);
 	return false;
     } else {
 	return true;
@@ -68,18 +74,21 @@ function deleteRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 /**
  * Delete an object logically setting active to false
  * 
+ * @param connection $connection Connessione
  * @param  $class string  the class to delete
  * @param  $id int  the id of the class to delete
  * @todo
  */
 function delete($connection, $class, $id) {
+    $startTimer = microtime();
     $sql = "UPDATE " . $class . "
                SET active = 0,
                    updatedat = NOW()
              WHERE id = " . $id;
     $result = mysqli_query($connection, $sql);
     if ($result === false) {
-	jamLog(__FILE__, __LINE__, 'Unable to execute delete');
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute delete of ' . $class . 'instance, SQL query is' . $sql);
 	return false;
     } else {
 	return true;
