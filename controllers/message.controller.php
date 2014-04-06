@@ -162,7 +162,7 @@ class MessageController extends REST {
 	    }
 	    $connection->autocommit(false);
 	    $connectionService->autocommit(false);
-	    $read = update($connection, 'comment', array('updatedat' => date('Y-m-d H:i:s')), array('read' => 1), null, $messageId);
+	    $read = update($connection, 'comment', array('updatedat' => date('Y-m-d H:i:s'), 'read' => 1), null, null, $messageId);
 	    if ($read === false) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {
