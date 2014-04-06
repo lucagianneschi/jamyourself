@@ -21,6 +21,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 /**
  * Controller per invio e ricezione relazioni
@@ -34,7 +35,7 @@ class RelationController extends REST {
      * fa update della richiesta di relazione e la mette accettata
      * scrive la relazione sul DB a grafo con il tipo corrispondente
      * 
-     * @todo    test
+     * @todo    modificare il campo di accettazione della richiesta
      */
     public function acceptRelation() {
 	global $controllers;
@@ -49,117 +50,51 @@ class RelationController extends REST {
 	    } elseif (!isset($this->request['toUserId'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-
 	    $currentUserId = $_SESSION['id'];
+	    $currentUserType = $_SESSION['type'];
 	    $id = $this->request['id'];
 	    $toUserId = $this->request['toUserId'];
-
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $userParse = new UserParse();
-	    $touser = $userParse->getUser($toUserId);
-
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $touser = selectUsers($connection, $toUserId);
 	    if ($currentUserId == $touser->getId()) {
 		$this->response(array('status' => $controllers['SELF']), 503);
 	    }
-	    require_once SERVICES_DIR . 'select.service.php';
-	    //definire il relationType
-	    if (!existsRelation('user', $currentUser->getId(), 'user', $touser->getId(), $relationType)) {
+	    if ($currentUserType == 'SPOTTER' && $touser->getType() == 'SPOTTER') {
+		$relationType = 'FRIENDSHIP';
+	    } elseif ($currentUserType != 'SPOTTER' && $touser->getType() != 'SPOTTER') {
+		$relationType = 'COLLABORATION';
+	    } else {
+		$relationType = 'FOLLOWING';
+	    }
+	    if (!existsRelation('user', $currentUserId, 'user', $touser->getId(), $relationType)) {
 		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
 	    }
-
-
-
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $userParse = new UserParse();
-	    //update relation
+	    // devi fare prima update della richiesta e mandarla ad Accettata
 	    if ($currentUser->getType() == 'SPOTTER' && $touser->getType() == 'SPOTTER') {
-		$resToUserF = $userParse->updateField($touser->getId(), 'friendship', array($currentUser->getId()), true, 'add', '_User');
-		$resFromUserF = $userParse->updateField($currentUser->getId(), 'friendship', array($touser->getId()), true, 'add', '_User');
+		$resToUserF = update($connection, 'user', array('updatedat' => date('Y-m-d H:i:s')), array('friendshipcounter' => 1), null, $toUserId);
+		$resFromUserF = update($connection, 'user', array('updatedat' => date('Y-m-d H:i:s')), array('friendshipcounter' => 1), null, $currentUserId);
+	        $relation = createRelation($connectionService, 'user', $toUserId, 'user', $currentUserId, 'FRIENDSHIP');
 		$HTMLFile = $mail_files['FRIENDSHIPACCEPTEDEMAIL'];
 	    } elseif ($currentUser->getType() != 'SPOTTER' && $touser->getType() != 'SPOTTER') {
-		$resToUserF = $userParse->updateField($touser->getId(), 'collaboration', array($currentUser->getId()), true, 'add', '_User');
-		$resFromUserF = $userParse->updateField($currentUser->getId(), 'collaboration', array($touser->getId()), true, 'add', '_User');
+		$counter = ($touser->getType() == 'VENUE') ? 'venuecounter' : 'jammercounter';
+		$resToUserF = update($connection, 'user', array('updatedat' => date('Y-m-d H:i:s')), array('collaborationcounter' => 1, $counter => 1), null, $toUserId);
+		$resFromUserF = update($connection, 'user', array('updatedat' => date('Y-m-d H:i:s')), array('collaborationcounter' => 1, $counter => 1), null, $currentUserId);
+		$relation = createRelation($connectionService, 'user', $toUserId, 'user', $currentUserId, 'COLLABORATION');
 		$HTMLFile = $mail_files['COLLABORATIONACCEPTEDEMAIL'];
 	    }
-	    if ($resToUserF instanceof Error ||
-		    $resFromUserF instanceof Error) {
-		#TODO
-		require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-		$message1 = rollbackAcceptRelation('rollbackActivityStatus', $id, 'status', 'P', '', '', '', '');
-		$message2 = rollbackAcceptRelation('rollbackActivityRead', $id, 'read', false, '', '', '', '');
-		$message3 = rollbackAcceptRelation('rollbackRelation', '', '', '', $currentUser->getId(), $currentUser->getType(), $touser->getId(), $touser->getType());
-		$message = ($message1 == $controllers['ROLLKO'] ||
-			$message2 == $controllers['ROLLKO'] ||
-			$message3 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
-		$this->response(array('status' => $message), 503);
+	    if ($resToUserF === false || $relation === false || $resFromUserF === false) {
+		$this->response(array('status' => $controllers['ACCEPTRELERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
-
-	    if ($currentUser->getType() == 'SPOTTER') {
-		if ($touser->getType() == 'SPOTTER') {
-		    $resToRelationCounter = null;
-		    $resToUserFC = $userParse->incrementUser($touser->getId(), 'friendshipCounter', 1);
-		} elseif ($touser->getType() == 'VENUE') {
-		    $resToRelationCounter = $userParse->incrementUser($touser->getId(), 'followingCounter', 1);
-		    $resToUserFC = $userParse->incrementUser($touser->getId(), 'venueCounter', 1);
-		} else {
-		    $resToRelationCounter = $userParse->incrementUser($touser->getId(), 'followingCounter', 1);
-		    $resToUserFC = $userParse->incrementUser($touser->getId(), 'jammerCounter', 1);
-		}
-	    } elseif ($currentUser->getType() != 'SPOTTER') {
-		$resToRelationCounter = $userParse->incrementUser($touser->getId(), 'collaborationCounter', 1);
-		if ($touser->getType() == 'VENUE') {
-		    $resToUserFC = $userParse->incrementUser($touser->getId(), 'venueCounter', 1);
-		} else {
-		    $resToUserFC = $userParse->incrementUser($touser->getId(), 'jammerCounter', 1);
-		}
-	    }
-	    if ($resToUserFC instanceof Error || $resToRelationCounter instanceof Error) {
-		#TODO
-		require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-		$message1 = rollbackAcceptRelation('rollbackActivityStatus', $id, 'status', 'P', '', '', '', '');
-		$message2 = rollbackAcceptRelation('rollbackActivityRead', $id, 'read', false, '', '', '', '');
-		$message3 = rollbackAcceptRelation('rollbackRelation', '', '', '', $currentUser->getId(), $currentUser->getType(), $touser->getId(), $touser->getType());
-		$message = ($message1 == $controllers['ROLLKO'] ||
-			$message2 == $controllers['ROLLKO'] ||
-			$message3 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
-		$this->response(array('status' => $message), 503);
-	    }
-
-	    if ($currentUser->getType() == 'SPOTTER') {
-		if ($touser->getType() == 'SPOTTER') {
-		    $resToRelationCounter = null;
-		    $resToUserFC = $userParse->incrementUser($touser->getId(), 'friendshipCounter', 1);
-		} elseif ($touser->getType() == 'VENUE') {
-		    $resToRelationCounter = $userParse->incrementUser($touser->getId(), 'followingCounter', 1);
-		    $resToUserFC = $userParse->incrementUser($touser->getId(), 'venueCounter', 1);
-		} else {
-		    $resToRelationCounter = $userParse->incrementUser($touser->getId(), 'followingCounter', 1);
-		    $resToUserFC = $userParse->incrementUser($touser->getId(), 'jammerCounter', 1);
-		}
-	    } elseif ($currentUser->getType() != 'SPOTTER') {
-		$resToRelationCounter = $userParse->incrementUser($touser->getId(), 'collaborationCounter', 1);
-		if ($touser->getType() == 'VENUE') {
-		    $resToUserFC = $userParse->incrementUser($touser->getId(), 'venueCounter', 1);
-		} else {
-		    $resToUserFC = $userParse->incrementUser($touser->getId(), 'jammerCounter', 1);
-		}
-	    }
-
-	    if ($resFromUserFC instanceof Error || $resToRelationCounter instanceof Error) {
-		#TODO
-		require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-		$message1 = rollbackAcceptRelation('rollbackActivityStatus', $id, 'status', 'P', '', '', '', '');
-		$message2 = rollbackAcceptRelation('rollbackActivityRead', $id, 'read', false, '', '', '', '');
-		$message3 = rollbackAcceptRelation('rollbackRelation', '', '', '', $currentUser->getId(), $currentUser->getType(), $touser->getId(), $touser->getType());
-		$message4 = rollbackAcceptRelation('rollbackIncrementToUser', '', '', '', $currentUser->getId(), $currentUser->getType(), $touser->getId(), $touser->getType());
-		$message = ($message1 == $controllers['ROLLKO'] ||
-			$message2 == $controllers['ROLLKO'] ||
-			$message3 == $controllers['ROLLKO'] ||
-			$message4 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
-		$this->response(array('status' => $message), 503);
-	    }
-
-	    #TODO
+	    $connectionService->disconnect($connection);
 	    sendMailForNotification($touser->getEmail(), $controllers['SBJOK'], file_get_contents(STDHTML_DIR . $HTMLFile)); //devi prima richiamare lo user
 	    $this->response(array($controllers['RELACCEPTED']), 200);
 	} catch (Exception $e) {
