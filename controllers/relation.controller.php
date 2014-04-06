@@ -79,7 +79,7 @@ class RelationController extends REST {
 	    if ($currentUser->getType() == 'SPOTTER' && $touser->getType() == 'SPOTTER') {
 		$resToUserF = update($connection, 'user', array('updatedat' => date('Y-m-d H:i:s')), array('friendshipcounter' => 1), null, $toUserId);
 		$resFromUserF = update($connection, 'user', array('updatedat' => date('Y-m-d H:i:s')), array('friendshipcounter' => 1), null, $currentUserId);
-	        $relation = createRelation($connectionService, 'user', $toUserId, 'user', $currentUserId, 'FRIENDSHIP');
+		$relation = createRelation($connectionService, 'user', $toUserId, 'user', $currentUserId, 'FRIENDSHIP');
 		$HTMLFile = $mail_files['FRIENDSHIPACCEPTEDEMAIL'];
 	    } elseif ($currentUser->getType() != 'SPOTTER' && $touser->getType() != 'SPOTTER') {
 		$counter = ($touser->getType() == 'VENUE') ? 'venuecounter' : 'jammercounter';
@@ -150,104 +150,47 @@ class RelationController extends REST {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
 	    $currentUserId = $_SESSION['id'];
+	    $currentUserType = $_SESSION['type'];
 	    $id = $this->request['id'];
 	    $toUserId = $this->request['toUserId'];
-
-
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    $touser = selectUsers($connection, $toUserId);
+	    if ($currentUserId == $touser->getId()) {
+		$this->response(array('status' => $controllers['SELF']), 503);
+	    }
+	    if ($currentUserType == 'SPOTTER' && $touser->getType() == 'SPOTTER') {
+		$relationType = 'FRIENDSHIP';
+	    } elseif ($currentUserType != 'SPOTTER' && $touser->getType() != 'SPOTTER') {
+		$relationType = 'COLLABORATION';
+	    } else {
+		$relationType = 'FOLLOWING';
+	    }
 	    if (!existsRelation('user', $currentUserId, 'user', $touser->getId(), $relationType)) {
 		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
 	    }
-
-
-
-
-	    //update relation: devo rimuovere anche il following
-	    if ($currentUser->getType() == 'SPOTTER' && $touser->getType() == 'SPOTTER') {
-		$resToUserF = $userParse->updateField($touser->getId(), 'friendship', array($currentUser->getId()), true, 'remove', '_User');
-		$resFromUserF = $userParse->updateField($currentUser->getId(), 'friendship', array($touser->getId()), true, 'remove', '_User');
-	    } elseif ($currentUser->getType() != 'SPOTTER' && $touser->getType() != 'SPOTTER') {
-		$resToUserF = $userParse->updateField($touser->getId(), 'collaboration', array($currentUser->getId()), true, 'remove', '_User');
-		$resFromUserF = $userParse->updateField($currentUser->getId(), 'collaboration', array($touser->getId()), true, 'remove', '_User');
-	    } elseif ($currentUser->getType() == 'SPOTTER' && $touser->getType() != 'SPOTTER') {
-		$resToUserF = $userParse->updateField($touser->getId(), 'following', array($currentUser->getId()), true, 'remove', '_User');
-		$resFromUserF = $userParse->updateField($currentUser->getId(), 'followers', array($touser->getId()), true, 'remove', '_User');
+	    if ($currentUserType == 'SPOTTER' && $touser->getType() == 'SPOTTER') {
+		$resToUserF = update($connection, 'user', array('updatedat' => date('Y-m-d H:i:s')), null, array('friendshipcounter' => 1), $toUserId);
+		$resFromUserF = update($connection, 'user', array('updatedat' => date('Y-m-d H:i:s')), null, array('friendshipcounter' => 1), $currentUserId);
+		$relation = deleteRelation($connectionService, 'user', $toUserId, 'user', $currentUserId, 'FRIENDSHIP');
+	    } elseif ($currentUserType != 'SPOTTER' && $touser->getType() != 'SPOTTER') {
+		$counter = ($touser->getType() == 'VENUE') ? 'venuecounter' : 'jammercounter';
+		$resToUserF = update($connection, 'user', array('updatedat' => date('Y-m-d H:i:s')), null, array('collaborationcounter' => 1, $counter => 1), $toUserId);
+		$resFromUserF = update($connection, 'user', array('updatedat' => date('Y-m-d H:i:s')), null, array('collaborationcounter' => 1, $counter => 1), $currentUserId);
+		$relation = deleteRelation($connectionService, 'user', $toUserId, 'user', $currentUserId, 'COLLABORATION');
 	    }
-	    if ($resToUserF instanceof Error || $resFromUserF instanceof Error) {
-		#TODO
-		require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-		$message1 = rollbackRemoveRelation('rollbackActivityStatus', $id, 'status', 'P', '', '', '', '');
-		$message2 = rollbackRemoveRelation('rollbackActivityRead', $id, 'read', false, '', '', '', '');
-		$message3 = rollbackRemoveRelation('rollbackRelation', '', '', '', $currentUser->getId(), $currentUser->getType(), $touser->getId(), $touser->getType());
-		$message = ($message1 == $controllers['ROLLKO'] ||
-			$message2 == $controllers['ROLLKO'] ||
-			$message3 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
-		$this->response(array('status' => $message), 503);
+	    if ($resToUserF === false || $relation === false || $resFromUserF === false) {
+		$this->response(array('status' => $controllers['DELETERELERR']), 503);
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
-	    //decrement toUser counter
-	    if ($currentUser->getType() == 'SPOTTER') {
-		if ($touser->getType() == 'SPOTTER') {
-		    $resToRelationCounter = null;
-		    $resToUserFC = $userParse->decrementUser($touser->getId(), 'friendshipCounter', 1);
-		} elseif ($touser->getType() == 'VENUE') {
-		    $resToRelationCounter = $userParse->decrementUser($touser->getId(), 'followingCounter', 1);
-		    $resToUserFC = $userParse->decrementUser($touser->getId(), 'venueCounter', 1);
-		} else {
-		    $resToRelationCounter = $userParse->decrementUser($touser->getId(), 'followingCounter', 1);
-		    $resToUserFC = $userParse->decrementUser($touser->getId(), 'jammerCounter', 1);
-		}
-	    } elseif ($currentUser->getType() != 'SPOTTER') {
-		$resToRelationCounter = $userParse->decrementUser($touser->getId(), 'collaborationCounter', 1);
-		if ($touser->getType() == 'VENUE') {
-		    $resToUserFC = $userParse->decrementUser($touser->getId(), 'venueCounter', 1);
-		} else {
-		    $resToUserFC = $userParse->decrementUser($touser->getId(), 'jammerCounter', 1);
-		}
-	    }
-	    if ($resToUserFC instanceof Error || $resToRelationCounter instanceof Error) {
-		#TODO
-		require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-		$message1 = rollbackRemoveRelation('rollbackActivityStatus', $id, 'status', 'P', '', '', '', '');
-		$message2 = rollbackRemoveRelation('rollbackActivityRead', $id, 'read', false, '', '', '', '');
-		$message3 = rollbackRemoveRelation('rollbackRelation', '', '', '', $currentUser->getId(), $currentUser->getType(), $touser->getId(), $touser->getType());
-		$message = ($message1 == $controllers['ROLLKO'] ||
-			$message2 == $controllers['ROLLKO'] ||
-			$message3 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
-		$this->response(array('status' => $message), 503);
-	    }
-	    //increment currentUser counter
-	    if ($currentUser->getType() == 'SPOTTER') {
-		$resToRelationCounter = null;
-		if ($touser->getType() == 'SPOTTER') {
-		    $resFromUserFC = $userParse->decrementUser($currentUser->getId(), 'friendshipCounter', 1);
-		} elseif ($touser->getType() == 'VENUE') {
-		    $resFromUserFC = $userParse->decrementUser($currentUser->getId(), 'venueCounter', 1);
-		} else {
-		    $resToUserFC = $userParse->decrementUser($touser->getId(), 'jammerCounter', 1);
-		}
-	    } elseif ($currentUser->getType() != 'SPOTTER') {
-		if ($touser->getType() == 'SPOTTER') {
-		    $resFromUserFC = $userParse->decrementUser($currentUser->getId(), 'followersCounter', 1);
-		} elseif ($touser->getType() == 'VENUE') {
-		    $resToRelationCounter = $userParse->decrementUser($currentUser->getId(), 'collaborationCounter', 1);
-		    $resToUserFC = $userParse->decrementUser($$currentUser->getId(), 'venueCounter', 1);
-		} else {
-		    $resToRelationCounter = $userParse->decrementUser($currentUser->getId(), 'collaborationCounter', 1);
-		    $resToUserFC = $userParse->decrementUser($currentUser->getId(), 'jammerCounter', 1);
-		}
-	    }
-	    if ($resFromUserFC instanceof Error || $resToRelationCounter instanceof Error) {
-		#TODO
-		require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-		$message1 = rollbackRemoveRelation('rollbackActivityStatus', $id, 'status', 'P', '', '', '', '');
-		$message2 = rollbackRemoveRelation('rollbackActivityRead', $id, 'read', false, '', '', '', '');
-		$message3 = rollbackRemoveRelation('rollbackRelation', '', '', '', $currentUser->getId(), $currentUser->getType(), $touser->getId(), $touser->getType());
-		$message4 = rollbackRemoveRelation('rollbackDecrementToUser', '', '', '', $currentUser->getId(), $currentUser->getType(), $touser->getId(), $touser->getType());
-		$message = ($message1 == $controllers['ROLLKO'] ||
-			$message2 == $controllers['ROLLKO'] ||
-			$message3 == $controllers['ROLLKO'] ||
-			$message4 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
-		$this->response(array('status' => $message), 503);
-	    }
+	    $connectionService->disconnect($connection);
 	    $this->response(array($controllers['RELDELETED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
