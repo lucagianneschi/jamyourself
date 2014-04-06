@@ -52,7 +52,6 @@ class PlaylistController extends REST {
 	    }
 	    $playlistId = $this->request['playlistId'];
 	    $songId = $this->request['songId'];
-	    $currentUser = $_SESSION['id'];
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
@@ -60,7 +59,7 @@ class PlaylistController extends REST {
 	    }
 	    $song = insertSongInPlayslist($connection, $songId, $playlistId);
 	    $songCounter = update($connection, 'playlist', array('updatedat' => date('Y-m-d H:i:s')), array('songcounter' => 1), null, $playlistId);
-	    $relation = createRelation($connectionService, 'user', $currentUser, 'song', $songId, 'ADDTOPLAYLIST');
+	    $relation = createRelation($connectionService, 'song', $songId, 'playlist', $playlistId, 'ADDTOPLAYLIST');
 	    if ($song === false || $relation === false || $songCounter === false) {
 		$this->response(array('status' => $controllers['PLAYLISTERR']), 503);
 	    } else {
@@ -90,7 +89,6 @@ class PlaylistController extends REST {
 	    }
 	    $playlistId = $this->request['playlistId'];
 	    $songId = $this->request['songId'];
-	    $currentUser = $_SESSION['id'];
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
