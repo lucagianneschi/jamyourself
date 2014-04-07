@@ -16,6 +16,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'stream.box.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
+require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 
 if (session_id() == '')
     session_start();
@@ -25,7 +27,6 @@ $streamBox = new StreamBox();
 $streamBox->init(10);
 if (is_null($streamBox->error)) {
     $activities = $streamBox->activitiesArray;
-    $activityCounter = count($activities);
     ?>
     <!---------------- POST ----------------->
     <h3><?php echo $views['stream']['write_post']; ?></h3>
@@ -50,8 +51,55 @@ if (is_null($streamBox->error)) {
     <!---------------- STREAM ----------------->
     <h3 style="margin-top:30px"><?php echo $views['stream']['stream']; ?></h3>
     <?php
+    if (count($activities) == 0) {
+        ?>
+        Nessuna attivit&agrave; da visualizzare
+        <?php
+    }
+    $connectionService = new ConnectionService();
     foreach ($activities as $activity) {
         $value = $activity['object'];
+        $love = $activity['love'];
+        $loveCounter = $value->getLovecounter();
+        $commentCounter = $value->getCommentcounter();
+        $shareCounter = $value->getSharecounter();
+        if ($love > 0) {
+            $css_love = '_love orange';
+            $text_love = $views['UNLOVE'];
+        } else {
+            $css_love = '_unlove grey';
+            $text_love = $views['LOVE'];
+        }
+        
+        /*
+        switch (strtolower(get_class($value))) {
+            case 'album':
+                $loveCounter = $value->getLovecounter();
+                $commentCounter = $value->getCommentcounter();
+                $shareCounter = $value->getSharecounter();
+                break;
+            case 'comment':
+                $comments = selectComments($connection, $id);
+                $object = $comments[$id];
+                break;
+            case 'image':
+                $images = selectImages($connection, $id);
+                $object = $images[$id];
+                break;
+            case 'record':
+                $records = selectRecords($connection, $id);
+                $object = $records[$id];
+                break;
+            case 'song':
+                $songs = selectSongs($connection, $id);
+                $object = $songs[$id];
+                break;
+            case 'video':
+                $videos = selectVideos($connection, $id);
+                $object = $videos[$id];
+                break;
+        }
+        */
         ?>
         <div id="<?php echo $value->getId(); ?>">
             <div class="box">
@@ -1385,14 +1433,14 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="">???</a>
-                            <a class="note grey" onclick="">???</a>
-                            <a class="note grey" onclick="">???</a>
+                            <a class="note grey" onclick=""><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick=""><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick=""><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
-                            <a class="icon-propriety <?php echo $css_love ?>">0</a>
-                            <a class="icon-propriety _comment">0</a>
-                            <a class="icon-propriety _share">0</a>
+                            <a class="icon-propriety <?php echo $css_love ?>"><?php echo $loveCounter; ?></a>
+                            <a class="icon-propriety _comment"><?php echo $commentCounter; ?></a>
+                            <a class="icon-propriety _share"><?php echo $shareCounter; ?></a>
                         </div>
                     </div>
                 </div>
