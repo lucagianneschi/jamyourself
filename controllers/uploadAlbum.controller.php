@@ -291,8 +291,8 @@ class UploadAlbumController extends REST {
 		if ($result === false) {
 		    $this->response(array('status' => $controllers['INSERT_ERROR']), 500);
 		}
-		$node = createNode($connectionService, 'image', $result->getId());
-		$relation = createRelation($connectionService, 'user', $currentUserId, 'image', $result->getId(), 'ADD');
+		$node = createNode($connectionService, 'image', $result);
+		$relation = createRelation($connectionService, 'user', $currentUserId, 'image', $result, 'ADD');
 		if ($result === false || $relation === false || $node === false) {
 		    return false;
 		} else {

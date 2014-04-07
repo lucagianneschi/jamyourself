@@ -112,11 +112,11 @@ class UploadEventController extends REST {
 	    $connection->autocommit(false);
 	    $connectionService->autocommit(false);
 	    $result = insertEvent($connection, $event);
-	    $node = createNode($connectionService, 'event', $result->getId());
-	    $relation = createRelation($connectionService, 'user', $userId, 'event', $result->getId(), 'ADD');
+	    $node = createNode($connectionService, 'event', $result);
+	    $relation = createRelation($connectionService, 'user', $userId, 'event', $result, 'ADD');
 	    $fileManager = new FileManagerService();
-	    $res_thumb = $fileManager->saveEventPhoto($userId, $result->getThumbnail());
-	    $res_image = $fileManager->saveEventPhoto($userId, $result->getCover());
+	    $res_thumb = $fileManager->saveEventPhoto($userId, $event->getThumbnail());
+	    $res_image = $fileManager->saveEventPhoto($userId, $event->getCover());
 	    if ($result === false || $relation === false || $node === false || $res_image === false || $res_thumb === false) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {

@@ -325,8 +325,7 @@ function insertEvent($connection, $event) {
     }
     $endTimer = microtime();
     jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
-    $event->setId($insert_id);
-    return ($event);
+    return $insert_id;
 }
 
 /**
@@ -393,8 +392,7 @@ function insertImage($connection, $image) {
     }
     $endTimer = microtime();
     jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
-    $image->setId($insert_id);
-    return $image;
+    return $insert_id;
 }
 
 /**
