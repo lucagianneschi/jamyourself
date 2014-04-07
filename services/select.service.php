@@ -1366,9 +1366,10 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 	    $error->setErrormessage($results_event->error);
 	    return $error;
 	}
-	while ($row_tag = mysqli_fetch_array($results_event, MYSQLI_ASSOC))
-	    $rows_tag[] = $row_tag;
 	$tags_event = array();
+	$rows_tag = array();
+	while ($row_tag = mysqli_fetch_array($results_event, MYSQLI_ASSOC))
+	    $rows_tag[] = $row_tag;	
 	foreach ($rows_tag as $row_tag) {
 	    $tags_event[] = $row_tag;
 	}
@@ -1597,14 +1598,13 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 	    jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
 	    return false;
 	}
-	while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows_tag[] = $row_tag;
 	$tags = array();
-	if (!is_array($rows_tag))
-	    return $tags;
+	$rows_tag = array();
+	while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
+	    $rows_tag[] = $row_tag;	
 	foreach ($rows_tag as $row_tag) {
 	    $tags[] = $row_tag;
-	}
+	}	 
 	$reviewRecord->setTag($tags);
 	$reviewRecord->setText($row['text_rw']);
 	$reviewRecord->setTitle($row['title_rw']);
@@ -2129,9 +2129,10 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
 	    jamLog(__FILE__, __LINE__, 'Unable to execute query => ' . $sql);
 	    return false;
 	}
+	$tags = array();
+	$rows_tag = array();
 	while ($row_tag = mysqli_fetch_array($results_tag, MYSQLI_ASSOC))
 	    $rows_tag[] = $row_tag;
-	$tags = array();
 	foreach ($rows_tag as $row_tag) {
 	    $tags[] = $row_tag;
 	}
