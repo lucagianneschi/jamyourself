@@ -35,24 +35,31 @@ require_once SERVICES_DIR . 'utils.service.php';
  * @todo
  */
 function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType) {
+    $startTimer = microtime();
     $query = '
 	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
 	WHERE n.id = {fromNodeId} AND m.id = {toNodeId}
 	RETURN count(n)
 	';
     $params = array(
-	'fromNodeId' => $fromNodeId,
-	'toNodeId' => $toNodeId
+        'fromNodeId' => $fromNodeId,
+        'toNodeId' => $toNodeId
     );
     $res = $connection->curl($query, $params);
     if ($res === false) {
-	return false;
+        $endTimer = microtime();
+        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute existsRelation => ' . $query);
+        return false;
     } else {
-	if ($connection->getAutocommit()) {
-	    return $res['data'][0][0];
-	} else {
-	    return $res['results'][0]['data'][0]['row'][0];
-	}
+        if ($connection->getAutocommit()) {
+            $endTimer = microtime();
+            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Quantity Relation => ' . $res['data'][0][0]);
+            return $res['data'][0][0];
+        } else {
+            $endTimer = microtime();
+            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Quantity Relation => ' . $res['results'][0]['data'][0]['row'][0]);
+            return $res['results'][0]['data'][0]['row'][0];
+        }
     }
 }
 
@@ -70,6 +77,7 @@ function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
  * @todo
  */
 function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType, $skip = null, $limit = null) {
+    $startTimer = microtime();
     $query = '
 	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
 	WHERE n.id = ' . $fromNodeId . '
@@ -77,31 +85,35 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
 	ORDER BY r.createdat DESC
 	';
     if (!is_null($skip))
-	$query .= ' SKIP ' . $skip;
+        $query .= ' SKIP ' . $skip;
     if (!is_null($limit))
-	$query .= ' LIMIT ' . $limit;
+        $query .= ' LIMIT ' . $limit;
     $params = array(
-	'fromNodeId' => $fromNodeId
+        'fromNodeId' => $fromNodeId
     );
     $res = $connection->curl($query, $params);
     if ($res === false) {
-	return false;
+        $endTimer = microtime();
+        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute getRelatedNodes => ' . $query);
+        return false;
     } else {
-	$relatedNodes = array();
-	if ($connection->getAutocommit()) {
-	    foreach ($res['data'] as $value) {
-		if ($fromNodeId != $value[0]['data']['id']) {
-		    $relatedNodes[] = $value[0]['data']['id'];
-		}
-	    }
-	} else {
-	    foreach ($res['results'][0]['data'] as $value) {
-		if ($fromNodeId != $value['row'][0]['id']) {
-		    $relatedNodes[] = $value['row'][0]['id'];
-		}
-	    }
-	}
-	return $relatedNodes;
+        $relatedNodes = array();
+        if ($connection->getAutocommit()) {
+            foreach ($res['data'] as $value) {
+                if ($fromNodeId != $value[0]['data']['id']) {
+                    $relatedNodes[] = $value[0]['data']['id'];
+                }
+            }
+        } else {
+            foreach ($res['results'][0]['data'] as $value) {
+                if ($fromNodeId != $value['row'][0]['id']) {
+                    $relatedNodes[] = $value['row'][0]['id'];
+                }
+            }
+        }
+        $endTimer = microtime();
+        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Node related => ' . $relatedNodes);
+        return $relatedNodes;
     }
 }
 
