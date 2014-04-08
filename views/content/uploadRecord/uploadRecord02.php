@@ -5,6 +5,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'utils.service.php';
 ?>
 <div class="row">
     <div  class="large-12 columns formBlack-title">
@@ -75,6 +76,29 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    <label for="urlBuy"><?php echo $views['uploadRecord']['buy']; ?><small class="error"><?php echo $views['uploadRecord']['valid_buy']; ?></small></label>
 	</div>
 	<div>
+		<script>
+			/*
+			 * select2 e' il plugin per le featuring con id featuring
+			 */
+			$(document).ready(function() {				
+	   			getFeaturing('#albumFeaturing');
+			});
+			function getFeaturing(box){
+				$(box).select2({
+				    multiple: true,
+				    minimumInputLength: 1,
+				    width: "100%",
+				    data:[
+				    <?php 
+				    $arrayFeaturing = getFeaturingArray();
+				    foreach ($arrayFeaturing as  $value) {				    	
+				    		echo '{id:'.$value['id'].',text:"'.$value['text'].'"},';										
+					 }  ?>			   
+				    ]
+				});
+
+			}
+		</script>
 	    <input type="text" name="albumFeaturing" id="albumFeaturing">
 	    <label for="albumFeaturing"><?php echo $views['uploadRecord']['feat']; ?></label>
 	</div>

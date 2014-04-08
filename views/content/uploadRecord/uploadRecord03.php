@@ -25,6 +25,14 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		<div id="progressbar" style="left: -44px"></div>										
 	    </div>	
 	</div>
+	<script>
+		/*
+			 * select2 e' il plugin per le featuring con id featuring
+			 */
+			$(document).ready(function() {				
+	   			getFeaturing('#trackFeaturing');
+			});
+	</script>
 	<input type="text" name="trackFeaturing" id="trackFeaturing">
 	<label for="trackFeaturing"><?php echo $views['uploadRecord']['feat']; ?></label>
     </div>
