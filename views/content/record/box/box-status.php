@@ -12,7 +12,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 $connectionService = new ConnectionService();
-if (existsRelation($connectionService,'user', $currentUser->getId(), 'record', $record->getId(), 'LOVE')) {
+if (existsRelation($connectionService,'user', $_SESSION['id'], 'record', $record->getId(), 'LOVE')) {
     $css_love = '_love orange';
     $text_love = $views['unlove'];
 } else {
@@ -49,7 +49,7 @@ if (existsRelation($connectionService,'user', $currentUser->getId(), 'record', $
     <div class="row recordReview-propriety">
 	<div class="box-propriety">
 	    <div class="small-7 columns ">
-		<a class="note grey" onclick="love(this, 'Event', '<?php echo $record->getId(); ?>', '<?php echo $currentUser->getId(); ?>');"><?php echo $text_love; ?></a>
+		<a class="note grey" onclick="love(this, 'Event', '<?php echo $record->getId(); ?>', '<?php echo $_SESSION['id']; ?>');"><?php echo $text_love; ?></a>
 		<a class="note grey" onclick="setCounter()"><?php echo $views['comm']; ?></a>
 		<a class="note grey" onclick="share()"><?php echo $views['share']; ?></a>
 	    </div>
@@ -65,7 +65,7 @@ if (existsRelation($connectionService,'user', $currentUser->getId(), 'record', $
 	<div  class="large-12 columns"><div class="line"></div></div>
     </div>
 </div>
-<?php if ($currentUser->getType() == 'SPOTTER') { ?>
+<?php if ($_SESSION['type'] == 'SPOTTER') { ?>
     <div class="row ">
         <div  class="large-12 columns">
     	<div class="status-button">

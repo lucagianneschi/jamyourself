@@ -21,14 +21,15 @@ $genre = $record->getGenre();
 $fromUserObjectId = $record->getFromuser()->getId();
 $fileManagerService = new FileManagerService();
 $pathCoverRecord = $fileManagerService->getRecordPhotoPath($fromUserObjectId, $record->getCover());
-$arrayGenre = explode(",", $genre);
-$stringGenre = '';
 
-foreach ($arrayGenre as $key => $value) {
-    if ($key == 0)
-	$stringGenre = $views['tag']['music'][$value];
-    else
-	$stringGenre = $stringGenre . ', ' . $views['tag']['music'][$value];
+foreach ($genre as $g) {
+	foreach ($g as $key => $value) {
+		if ($key == 0)
+			$stringGenre = $views['tag']['music'][$value];
+    	else
+			$stringGenre = $stringGenre . ', ' . $views['tag']['music'][$value];
+	}
+    
 }
 //$stringGenre = $views['tag']['music'][$arrayGenre[0]];
 ?>
