@@ -1,9 +1,10 @@
 <?php
 /* box status utente 
- * box chiamato tramite load con:
- * data: {data,typeCurrentUser}, 
+ * 
  */
-if(existsRelation('user', $currentUser->getId(), 'event', $event->getId(), 'LOVE')){
+ 
+$connectionService = new ConnectionService();
+if(existsRelation($connectionService,'user', $_SESSION['id'], 'event', $event->getId(), 'LOVE')){
     $css_love = '_love orange';
     $text_love = $views['unlove'];
 } else {
@@ -35,7 +36,7 @@ if(existsRelation('user', $currentUser->getId(), 'event', $event->getId(), 'LOVE
     <div class="row recordReview-propriety">
 	<div class="box-propriety">
 	    <div class="small-7 columns ">
-		<a class="note grey" onclick="love(this, 'Event', '<?php echo $event->getId(); ?>', '<?php echo $currentUser->getId(); ?>');"><?php echo $text_love; ?></a>
+		<a class="note grey" onclick="love(this, 'Event', '<?php echo $event->getId(); ?>', '<?php echo $_SESSION['id']; ?>');"><?php echo $text_love; ?></a>
 		<a class="note grey" onclick="setCounter()"><?php echo $views['comm']; ?></a>
 		<a class="note grey" onclick="share()"><?php echo $views['share']; ?></a>
 	    </div>
@@ -53,7 +54,7 @@ if(existsRelation('user', $currentUser->getId(), 'event', $event->getId(), 'LOVE
 </div>
 
 <?php
-if (strtoupper($currentUser->getType()) == 'SPOTTER') {
+if (strtoupper($_SESSION['type']) == 'SPOTTER') {
     ?>
     <div class="row ">
         <div  class="large-12 columns">

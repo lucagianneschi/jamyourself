@@ -19,9 +19,15 @@ require_once SERVICES_DIR . 'log.service.php';
 $title = $event->getTitle();
 $genre = '';
 $space = '';
-foreach ($event->getGenre() as $key => $value) {
-    $genre = $genre . $space . $views['tag']['localType'][$value];
-    $space = ', ';
+
+foreach ($event->getGenre() as $g) {
+	foreach ($g as $key => $value) {
+		if ($key == 0)
+			$genre = $views['tag']['localType'][$value];
+    	else
+			$genre = $genre . ', ' . $views['tag']['localType'][$value];
+	}
+    
 }
 $fileManagerService = new FileManagerService();
 $pathImage = $fileManagerService->getEventPhotoPath($event->getFromuser()->getId(), $event->getCover());

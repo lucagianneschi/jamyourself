@@ -59,7 +59,7 @@ if (is_null($commentBox->error) || isset($_SESSION['id'])) {
 		    <?php
 		    $comment_limit_count = $commentcounter > $limit ? $limit : $commentcounter;
 		    $comment_other = $comment_limit_count >= $commentcounter ? 0 : ($commentcounter - $comment_limit_count);
-		    if ($commentcounter > 0) {
+		    if ($commentcounter > 0 && is_array($comments)) {
 			$indice = 1;
 			foreach ($comments as $key => $value) {
 			    $comment_user_objectId = $value->getFromuser()->getId();

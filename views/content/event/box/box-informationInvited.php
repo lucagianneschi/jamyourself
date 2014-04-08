@@ -17,13 +17,12 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
-require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'select.service.php';
 
 $id = $_POST['id'];
 $inviteds = array();
-
-$inviteds = getRelatedNodes('user', $id, 'event', 'invited');
+$connectionService = new ConnectionService();
+$inviteds = getRelatedNodes($connectionService,'user', $id, 'event', 'invited');
 $invitedsCounter = count($inviteds);
 
 if ($invitedsCounter > 0) {
