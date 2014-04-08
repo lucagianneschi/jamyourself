@@ -16,11 +16,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
         <div  id="uploadAlbum-listAlbumTouch" class="touchcarousel grey-blue">
             <div id="albums_spinner"></div>
-            <ul class="touchcarousel-container" id="albumList">
-            	<script>
-            		$(document).ready(function() {
-            		});
-            	</script>
+            <ul class="touchcarousel-container" id="albumList">            
             	<?php 
             	require_once BOXES_DIR . "album.box.php";
 				$albumBox = new AlbumBox();
