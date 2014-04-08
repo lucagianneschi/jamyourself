@@ -20,9 +20,8 @@ var type_user,
 	tumbnail,
 	tumbnail_pane;
 $(document).ready(function() {
-//inizializzazone in sessione dei featuring in maniera asincrona
-    getUserRecords();
-    initFeaturingJSON();
+
+ 	onCarouselReady();
     initGeocomplete();
     validateFields();
     validateUrl('urlBuy');
@@ -32,53 +31,8 @@ $(document).ready(function() {
     step3Ok();
     //gesione button publish 
     $('#uploadRecord03-publish').click(function() {
-	publish();
+		publish();
     });
-    //inizializza il plugin
-    $('#albumFeaturing').select2({
-	multiple: true,
-	minimumInputLength: 1,
-	width: "100%",
-	ajax: {
-	    url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
-	    dataType: 'json',
-	    data: function(term) {
-		return {
-		    term: term
-		};
-	    },
-	    results: function(data) {
-		return {
-		    results: data
-		};
-	    }
-	}
-    });
-    $('#trackFeaturing').select2({
-	multiple: true,
-	minimumInputLength: 1,
-	width: "100%",
-	ajax: {
-	    url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
-	    dataType: 'json',
-	    data: function(term) {
-		return {
-		    term: term
-		};
-	    },
-	    results: function(data) {
-		return {
-		    results: data
-		};
-	    }
-	}
-    });
-//    Per stampare in console l'array del featuring:
-//    
-//        $.getJSON("../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON", function(data) {
-//            console.log("featuring: list : ");
-//            console.log(JSON.stringify(data));
-//    });
 
 });
 /*
@@ -618,10 +572,10 @@ function publishCallback(data, status) {
 	console.log(data);
 	if (status === "success" && data !== undefined && data !== null && data.id !== undefined && data.id !== null) {
 	    alert(data.status);
-	    redirect("record.php?record=" + data.id);
+//	    redirect("record.php?record=" + data.id);
 	} else {
 	    alert(data.status);
-	    location.reload();
+//	    location.reload();
 	}
     } catch (err) {
 	console.log("publishCallback | An error occurred - message : " + err.message);
@@ -665,14 +619,6 @@ function getSongCallback(data, status) {
 	    $('#uploadRecord-detail').removeClass('no-display');
     } catch (err) {
 	console.log("getSongCallback | An error occurred - message : " + err.message);
-    }
-}
-
-function initFeaturingJSON() {
-    try {
-	sendRequest("uploadRecord", "getFeaturingJSON", {}, null, true);
-    } catch (err) {
-	console.log("initFeaturingJSON | An error occurred - message : " + err.message);
     }
 }
 
@@ -750,54 +696,6 @@ function initGeocomplete() {
 
 }
 
-function getUserRecords() {
-    try {
-	goSpinner('#records_spinner');
-	sendRequest("uploadRecord", "getUserRecords", null, getUserRecordsCallback, true);
-    } catch (err) {
-	console.log("getUserRecords | An error occurred - message : " + err.message);
-    }
-
-}
-
-function getUserRecordsCallback(data, status, xhr) {
-    try {
-	if (status === "success" && data !== undefined && data !== null && data.count !== undefined && data.count !== null && data.count > 0) {
-
-	    for (var i = 0; i < data.count; i++) {
-		$("#recordList").append(getCarouselHtmlElement(data.recordList[i]));
-	    }
-	} else {
-	    alert(data.status);
-	}
-	stopSpinner('#records_spinner');
-	onCarouselReady();
-    } catch (err) {
-	console.log("getUserRecords | An error occurred - message : " + err.message);
-    }
-}
-
-function getCarouselHtmlElement(obj) {
-    try {
-	var html = "";
-	html += '<li class="touchcarousel-item">';
-	html += '<div class="item-block uploadRecord-boxSingleRecord" id="' + obj.recordId + '">';
-	html += '<div class="row">';
-	html += '<div  class="small-6 columns ">';
-	html += '<img class="coverRecord"  src="' + obj.thumbnail + '">';
-	html += '</div>';
-	html += '<div  class="small-6 columns title">';
-	html += '<div class="sottotitle white">' + obj.title + '</div>';
-	html += '<div class="text white">' + obj.songs + ' songs</div>';
-	html += '</div>';
-	html += '</div>';
-	html += '</div>';
-	html += '</li>';
-	return html;
-    } catch (err) {
-	console.log("getCarouselHtmlElement | An error occurred - message : " + err.message);
-    }
-}
 
 function onCarouselReady() {
     try {
