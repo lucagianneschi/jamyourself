@@ -10,12 +10,13 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'song.class.php';
+require_once CLASSES_DIR . 'record.class.php';
 require_once BOXES_DIR . 'record.box.php';
 require_once SERVICES_DIR . 'mp3.service.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'select.service.php';
-
+require_once SERVICES_DIR . 'insert.service.php';
 /**
  * UploadRecordController class
  * si collega al form di upload di un record, effettua controlli, scrive su DB
@@ -74,8 +75,10 @@ class UploadRecordController extends REST {
             $record->setCover($imgInfo['picture']);
             $record->setDescription($newRecord->description);
             $record->setDuration(0);
+			/*
             if (isset($newRecord->albumFeaturing) && !is_null($newRecord->albumFeaturing) && count($newRecord->albumFeaturing) > 0)
                 $record->setFeaturing($newRecord->albumFeaturing);
+			 * */
             $record->setFromuser($userId);
             $record->setGenre($this->getTags($newRecord->tags));
             $record->setLabel($newRecord->label);
@@ -96,8 +99,8 @@ class UploadRecordController extends REST {
             $connection->autocommit(false);
             $connectionService->autocommit(false);
             $result = insertRecord($connection, $record);
-            $node = createNode($connectionService, 'record', $result->getId());
-            $relation = createRelation($connectionService, 'user', $userId, 'record', $result->getId(), 'ADD');
+            $node = createNode($connectionService, 'record', $result);
+            $relation = createRelation($connectionService, 'user', $userId, 'record', $result, 'ADD');
             $filemanager = new FileManagerService();
             $res_image = $filemanager->saveRecordPhoto($userId, $record->getCover());
             $res_thumb = $filemanager->saveRecordPhoto($userId, $record->getThumbnail());
@@ -111,7 +114,8 @@ class UploadRecordController extends REST {
                 $connectionService->commit();
             }
             $connectionService->disconnect($connection);
-            $this->response(array('status' => $controllers['RECORDCREATED']), 200);
+			$record->setId($result);
+			return $record;
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -144,7 +148,7 @@ class UploadRecordController extends REST {
             $record = null;
             if (!isset($this->request['recordId']) || is_null($this->request['recordId']) || strlen($this->request['recordId']) == 0) {
                 $record = $this->createRecord($this->request['record']);
-                $recordId = $record->getId();
+				$recordId = $record->getId();
             } elseif (isset($this->request['recordId'])) {
                 $recordId = $this->request['recordId'];
             }
@@ -178,11 +182,12 @@ class UploadRecordController extends REST {
                         $song->setCommentcounter(0);
                         $song->setCounter(0);
                         $song->setDuration($this->getRealLength($cachedFile));
+						/*
                         if (isset($element->featuring) && is_array($element->featuring)) {
                             $song->setFeaturing($element->featuring);
                         } else {
                             $song->setFeaturing(array());
-                        }
+                        }*/
                         $song->setFromuser($currentUserId);
                         $song->setGenre($element->tags);
                         $song->setLatitude($latitude);
@@ -194,15 +199,12 @@ class UploadRecordController extends REST {
                         $song->setRecord($recordId);
                         $song->setSharecounter(0);
                         $song->setTitle($element->title);
+						
                         $result = insertSong($connection, $song);
-                        $node = createNode($connectionService, 'song', $result->getId());
-                        $relation = createRelation($connectionService, 'user', $currentUserId, 'song', $result->getId(), 'ADD');
+                        $node = createNode($connectionService, 'song', $result);
+                        $relation = createRelation($connectionService, 'user', $currentUserId, 'song', $result, 'ADD');
                         $fileManager = new FileManagerService();
-                        $res = $fileManager->saveSong($currentUserId, $result->getId());
-                        if (!$res) {
-                            $songErrorList[] = $element;
-                            $position--;
-                        }
+                        $res = $fileManager->saveSong($currentUserId, $result);                       
                         if ($result === false || $node === false || $relation === false) {
                             $songErrorList[] = $element;
                             $position--;
@@ -213,6 +215,8 @@ class UploadRecordController extends REST {
                     }
                 }
             }
+
+
             $connectionService->disconnect($connection);
             if (count($songErrorList) == 0) {
                 $this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList, "id" => $recordId), 200);
@@ -465,7 +469,7 @@ class UploadRecordController extends REST {
             require_once SERVICES_DIR . 'select.service.php';
             $records = selectRecords($connection, $recordId);
             if (count($records) > 0) {
-                return $records[0];
+                return $records[$recordId];
             }
         }
         return null;
