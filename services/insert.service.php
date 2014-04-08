@@ -466,25 +466,24 @@ function insertRecord($connection, $record) {
                                     createdat,
                                     updatedat)
                           VALUES (NULL,
-			  	  '" . (is_null($record->getActive()) ? 0 : $record->getActive()) . "',
-                                  '" . $record->getActive() . "',
-                                  '" . $record->getBuylink() . "', 
-				  '" . (is_null($record->getCommentcounter()) ? 0 : $record->getCommentcounter()) . "',
-                                  '" . (is_null($record->getCounter()) ? 0 : $record->getCounter()) . "',
-                                  '" . $record->getCover() . "',                                              
-                                  '" . $record->getDescription() . "',
-				  '" . (is_null($record->getDuration()) ? 0 : $record->getDuration()) . "',
-				  '" . (is_null($record->getFromuser()) ? 0 : $record->getFromuser()) . "',                                             
-                                  '" . $record->getLabel() . "',
-				  '" . (is_null($record->getLatitude()) ? 0 : $record->getLatitude()) . "',
-				  '" . (is_null($record->getLongitude()) ? 0 : $record->getLongitude()) . "',
-				  '" . (is_null($record->getLovecounter()) ? 0 : $record->getLovecounter()) . "',
-				  '" . (is_null($record->getReviewcounter()) ? 0 : $record->getReviewcounter()) . "',
-				  '" . (is_null($record->getSharecounter()) ? 0 : $record->getSharecounter()) . "',
-                                  '" . (is_null($record->getSongcounter()) ? 0 : $record->getSongcounter()) . "', 
-                                  '" . $record->getThumbnail() . "',
-                                  '" . $record->getTitle() . "',
-				  '" . (is_null($record->getYear()) ? 0 : $record->getYear()) . "',
+			  	  			'" . (is_null($record->getActive()) ? 0 : $record->getActive()) . "',
+                            '" . $record->getBuylink() . "', 
+				  			'" . (is_null($record->getCommentcounter()) ? 0 : $record->getCommentcounter()) . "',
+                            '" . (is_null($record->getCounter()) ? 0 : $record->getCounter()) . "',
+                            '" . $record->getCover() . "',                                              
+                            '" . $record->getDescription() . "',
+							'" . (is_null($record->getDuration()) ? 0 : $record->getDuration()) . "',
+						    '" . (is_null($record->getFromuser()) ? 0 : $record->getFromuser()) . "',                                             
+                            '" . $record->getLabel() . "',
+						  	'" . (is_null($record->getLatitude()) ? 0 : $record->getLatitude()) . "',
+						  	'" . (is_null($record->getLongitude()) ? 0 : $record->getLongitude()) . "',
+						  	'" . (is_null($record->getLovecounter()) ? 0 : $record->getLovecounter()) . "',
+						  	'" . (is_null($record->getReviewcounter()) ? 0 : $record->getReviewcounter()) . "',
+						  	'" . (is_null($record->getSharecounter()) ? 0 : $record->getSharecounter()) . "',
+                            '" . (is_null($record->getSongcounter()) ? 0 : $record->getSongcounter()) . "', 
+                            '" . $record->getThumbnail() . "',
+                            '" . $record->getTitle() . "',
+				  			'" . (is_null($record->getYear()) ? 0 : $record->getYear()) . "',
                                   NOW(),
                                   NOW())";
     $result = mysqli_query($connection, $sql);
@@ -508,20 +507,7 @@ function insertRecord($connection, $record) {
 		}
 	    }
 	}
-	if (is_array($record->getTag())) {
-	    foreach ($record->getTag() as $tag) {
-		$sql = "INSERT INTO record_tag (id,
-						tag)
-						VALUES (" . $insert_id . ",
-							'" . $tag . "')";
-		$result_tag = mysqli_query($connection, $sql);
-		if ($result_tag === false) {
-		    $endTimer = microtime();
-		    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertRecord - record_tag => ' . $sql);
-		    return false;
-		}
-	    }
-	}
+	
     }
     $endTimer = microtime();
     jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
@@ -555,21 +541,19 @@ function insertSong($connection, $song) {
                                     createdat,
                                     updatedat)
                           VALUES (NULL,  
-				  '" . (is_null($song->getActive()) ? 0 : $song->getActive()) . "',
-				  '" . (is_null($song->getCommentcounter()) ? 0 : $song->getCommentcounter()) . "',
-                                  '" . (is_null($song->getCounter()) ? 0 : $song->getCounter()) . "',
-				  '" . (is_null($song->getDuration()) ? 0 : $song->getDuration()) . "',
-				  '" . (is_null($song->getFromuser()) ? 0 : $song->getFromuser()) . "',                                             
-				  '" . (is_null($song->getLatitude()) ? 0 : $song->getLatitude()) . "',
-				  '" . (is_null($song->getLongitude()) ? 0 : $song->getLongitude()) . "',
-				  '" . (is_null($song->getLovecounter()) ? 0 : $song->getLovecounter()) . "',
-				  '" . $song->getPath() . "', 
-				  '" . (is_null($song->getPosition()) ? 0 : $song->getPosition()) . "',
-				  '" . (is_null($song->getRecord()) ? 0 : $song->getRecord()) . "',  
-				  '" . (is_null($song->getSharecounter()) ? 0 : $song->getSharecounter()) . "', 
-                                  '" . $song->getThumbnail() . "',
-                                  '" . $song->getTitle() . "',
-				  '" . (is_null($song->getYear()) ? 0 : $song->getYear()) . "',
+				  			'" . (is_null($song->getActive()) ? 0 : $song->getActive()) . "',
+				  			'" . (is_null($song->getCommentcounter()) ? 0 : $song->getCommentcounter()) . "',
+                            '" . (is_null($song->getCounter()) ? 0 : $song->getCounter()) . "',
+				  			'" . (is_null($song->getDuration()) ? 0 : $song->getDuration()) . "',
+				  			'" . (is_null($song->getFromuser()) ? 0 : $song->getFromuser()) . "',                                             
+				  			'" . (is_null($song->getLatitude()) ? 0 : $song->getLatitude()) . "',
+				  			'" . (is_null($song->getLongitude()) ? 0 : $song->getLongitude()) . "',
+				  			'" . (is_null($song->getLovecounter()) ? 0 : $song->getLovecounter()) . "',
+				  			'" . $song->getPath() . "', 
+				  			'" . (is_null($song->getPosition()) ? 0 : $song->getPosition()) . "',
+				  			'" . (is_null($song->getRecord()) ? 0 : $song->getRecord()) . "',  
+				  			'" . (is_null($song->getSharecounter()) ? 0 : $song->getSharecounter()) . "', 
+                            '" . $song->getTitle() . "',
                                   NOW(),
                                   NOW())";
     $result = mysqli_query($connection, $sql);
