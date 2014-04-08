@@ -28,7 +28,7 @@ require_once ROOT_DIR . 'config.php';
 			    url: "content/profile/box/box-record.php",
 			    data: json_data,
 			    
-			    timeout:5000,
+			    timeout:10000,
 			    beforeSend: function(xhr) {
 					goSpinnerBox('#box-record', 'record');
 			    }
@@ -42,13 +42,15 @@ require_once ROOT_DIR . 'config.php';
 			    //adatta pagina per scroll
 			    hcento();
 			    code = xhr.status;
+					time = countLoadBoxEvent*1000;
 			    console.log("Code: " + code + " | Message: box-record successfully completed");
 			}).fail(function(xhr) {
 			    message = xhr.statusText;
 				code = xhr.status;
+					time = countLoadBoxRecord*1000;
 				if(message == 'timeout' && countLoadBoxRecord < 3){
 					countLoadBoxRecord++;
-					window.setTimeout("loadBoxRecord()", Math.floor((Math.random()*2000)+100));					
+					window.setTimeout("loadBoxRecord()", time);					
 				}
 				else 
 				console.log("Error box-record. Code: " + code + " | Message: " + message);		    
@@ -70,7 +72,7 @@ require_once ROOT_DIR . 'config.php';
     			    url: "content/profile/box/box-event.php",
     			    data: json_data,
     			    
-    			    timeout:5000,
+    			    timeout:10000,
     			    beforeSend: function(xhr) {
     					goSpinnerBox('#box-event', 'event');
     			    }
@@ -81,13 +83,15 @@ require_once ROOT_DIR . 'config.php';
     			    //adatta pagina per scroll
     			    hcento();
     			    code = xhr.status;
+					time = countLoadBoxEvent*1000;
     			    console.log("Code: " + code + " | Message: box-event successfully completed");
     			}).fail(function(xhr) {
     			    message = xhr.statusText;
 					code = xhr.status;
+					time = countLoadBoxEvent*1000;
 					if(message == 'timeout' && countLoadBoxEvent < 3){
 						countLoadBoxEvent++;
-						window.setTimeout("loadBoxEvent()", Math.floor((Math.random()*2000)+100));							
+						window.setTimeout("loadBoxEvent()", time);												
 					}
 					else 
 					console.log("Error box-event. Code: " + code + " | Message: " + message);
@@ -113,20 +117,22 @@ require_once ROOT_DIR . 'config.php';
     			    url: "content/profile/box/box-friends.php",
     			    data: json_data,
     			    
-    			    timeout:5000,
+    			    timeout:10000,
     			    beforeSend: function(xhr) {
     					goSpinnerBox('#box-friends', 'friends');
     			    }
     			}).done(function(message, status, xhr) {
     			    $("#box-friends").html(message);
     			    code = xhr.status;
+					time = countLoadBoxEvent*1000;
     			    console.log("Code: " + code + " | Message: box-friends successfully completed");
     			}).fail(function(xhr) {
     			    message = xhr.statusText;
 					code = xhr.status;
+					time = countLoadBoxFriends*1000;
 					if(message == 'timeout' && countLoadBoxFriends < 3){
 						countLoadBoxFriends++;
-						window.setTimeout("loadBoxFriends()", Math.floor((Math.random()*2000)+100));	
+						window.setTimeout("loadBoxFriends()", time);	
 					}
 					else 
 					console.log("Error box-friends. Code: " + code + " | Message: " + message);
@@ -146,20 +152,22 @@ require_once ROOT_DIR . 'config.php';
     			    url: "content/profile/box/box-following.php",
     			    data: json_data,
     			    
-    			    timeout:5000,
+    			    timeout:10000,
     			    beforeSend: function(xhr) {
     					goSpinnerBox('#box-following', 'following');
     			    }
     			}).done(function(message, status, xhr) {
     			    $("#box-following").html(message);
     			    code = xhr.status;
+					time = countLoadBoxEvent*1000;
     			    console.log("Code: " + code + " | Message: box-following successfully completed");
     			}).fail(function(xhr) {
     			    message = xhr.statusText;
 					code = xhr.status;
+					time = countLoadBoxFollowing*1000;
 					if(message == 'timeout' && countLoadBoxFollowing < 3){
 						countLoadBoxFollowing++;
-						window.setTimeout("loadBoxFollowing()", Math.floor((Math.random()*2000)+100));	
+						window.setTimeout("loadBoxFollowing()", time);	
 					}
 					else 
 					console.log("Error box-following. Code: " + code + " | Message: " + message);
@@ -174,14 +182,14 @@ require_once ROOT_DIR . 'config.php';
 		<script type="text/javascript">
 		var countLoadBoxAlbum = 0;
 		    function loadBoxAlbum() {
-			var json_data = {objectIdUser: '<?php echo $user->getId() ?>'};
+			var json_data = {};
 			json_data.id = '<?php echo $user->getId(); ?>';
 			$.ajax({
 			    type: "POST",
 			    url: "content/profile/box/box-album.php",
 			    data: json_data,
 			    
-			    timeout:5000,
+			    timeout:10000,
 			    beforeSend: function(xhr) {
 					goSpinnerBox('#box-album', 'album');
 			    }
@@ -189,13 +197,15 @@ require_once ROOT_DIR . 'config.php';
 			    $("#box-album").html(message);
 			    rsi_album = slideReview('albumSlide');
 			    code = xhr.status;
+					time = countLoadBoxEvent*1000;
 			    console.log("Code: " + code + " | Message: box-album successfully completed");
 			}).fail(function(xhr) {
 			    message = xhr.statusText;
 					code = xhr.status;
+					time = countLoadBoxAlbum*1000;
 					if(message == 'timeout' && countLoadBoxAlbum < 3){
 						countLoadBoxAlbum++;
-						window.setTimeout("loadBoxAlbum()", Math.floor((Math.random()*2000)+100));	
+						window.setTimeout("loadBoxAlbum()", time);	
 					}
 					else 
 					console.log("Error box-album. Code: " + code + " | Message: " + message);
@@ -224,7 +234,7 @@ require_once ROOT_DIR . 'config.php';
 			    url: "content/profile/box/box-recordReview.php",
 			    data: json_data,
 			    
-			    timeout:5000,
+			    timeout:10000,
 			    beforeSend: function(xhr) {
 					goSpinnerBox('#box-recordReview', 'recordReview');
 			    }
@@ -235,13 +245,15 @@ require_once ROOT_DIR . 'config.php';
 			    addthis.toolbox(".addthis_toolbox");
 			    hcento();
 			    code = xhr.status;
+					time = countLoadBoxEvent*1000;
 			    console.log("Code: " + code + " | Message: box-recordReview successfully completed");
 			}).fail(function(xhr) {
 			    message = xhr.statusText;
 					code = xhr.status;
+					time = countLoadBoxReview*1000;
 					if(message == 'timeout' && countLoadBoxReview < 3){
 						countLoadBoxReview++;
-						window.setTimeout("loadBoxRecordReview()", Math.floor((Math.random()*2000)+100));	
+						window.setTimeout("loadBoxRecordReview()", time);	
 					}
 					else 
 					console.log("Error box-recordReview. Code: " + code + " | Message: " + message);
@@ -261,7 +273,7 @@ require_once ROOT_DIR . 'config.php';
 			    url: "content/profile/box/box-eventReview.php",
 			    data: json_data,
 			    
-			    timeout:5000,
+			    timeout:10000,
 			    beforeSend: function(xhr) {
 					goSpinnerBox('#box-eventReview', 'EventReview');
 			    }
@@ -272,13 +284,15 @@ require_once ROOT_DIR . 'config.php';
 			    addthis.toolbox(".addthis_toolbox");
 			    hcento();
 			    code = xhr.status;
+					time = countLoadBoxEvent*1000;
 			    console.log("Code: " + code + " | Message: box-eventReview successfully completed");
 			}).fail(function(xhr) {
 			    message = xhr.statusText;
 					code = xhr.status;
+					time = countLoadBoxEventReview*1000;
 					if(message == 'timeout' && countLoadBoxEventReview < 3){
 						countLoadBoxEventReview++;
-						window.setTimeout("loadBoxEventReview()", Math.floor((Math.random()*2000)+100));	
+						window.setTimeout("loadBoxEventReview()", time);	
 					}
 					else 
 					console.log("Error box-eventReview. Code: " + code + " | Message: " + message);
@@ -298,20 +312,22 @@ require_once ROOT_DIR . 'config.php';
 			    url: "content/profile/box/box-activity.php",
 			    data: json_data,
 			    
-			    timeout:5000,
+			    timeout:10000,
 			    beforeSend: function(xhr) {
 					goSpinnerBox('#box-activity', 'activity');
 			    }
 			}).done(function(message, status, xhr) {
 			    $("#box-activity").html(message);
 			    code = xhr.status;
+					time = countLoadBoxEvent*1000;
 			    console.log("Code: " + code + " | Message: box-activity successfully completed");
 			}).fail(function(xhr) {
 			    message = xhr.statusText;
 					code = xhr.status;
+					time = countLoadBoxActivity*1000;
 					if(message == 'timeout' && countLoadBoxActivity < 3){
 						countLoadBoxActivity++;
-						window.setTimeout("loadBoxActivity()", Math.floor((Math.random()*2000)+100));	
+						window.setTimeout("loadBoxActivity()", time);	
 					}
 					else 
 					console.log("Error box-activity. Code: " + code + " | Message: " + message);
@@ -334,20 +350,22 @@ require_once ROOT_DIR . 'config.php';
     			    url: "content/profile/box/box-collaboration.php",
     			    data: json_data,
     			    
-    			    timeout:5000,
+    			    timeout:10000,
     			    beforeSend: function(xhr) {
     					goSpinnerBox('#box-collaboration', 'collaboration');
     			    }
     			}).done(function(message, status, xhr) {
     			    $("#box-collaboration").html(message);
     			    code = xhr.status;
+					time = countLoadBoxEvent*1000;
     			    console.log("Code: " + code + " | Message: box-collaboration successfully completed");
     			}).fail(function(xhr) {
     			    message = xhr.statusText;
 					code = xhr.status;
+					time = countLoadBoxCollaboration*1000;
 					if(message == 'timeout' && countLoadBoxCollaboration < 3){
 						countLoadBoxCollaboration++;
-						window.setTimeout("loadBoxCollaboration()", Math.floor((Math.random()*2000)+100));	
+						window.setTimeout("loadBoxCollaboration()", time);	
 					}
 					else 
 					console.log("Error box-collaboration. Code: " + code + " | Message: " + message);
@@ -368,20 +386,22 @@ require_once ROOT_DIR . 'config.php';
     			    url: "content/profile/box/box-followers.php",
     			    data: json_data,
     			    
-    			    timeout:5000,
+    			    timeout:10000,
     			    beforeSend: function(xhr) {
     					goSpinnerBox('#box-followers', 'followers');
     			    }
     			}).done(function(message, status, xhr) {
     			    $("#box-followers").html(message);
     			    code = xhr.status;
+					time = countLoadBoxEvent*1000;
     			    console.log("Code: " + code + " | Message: box-followers successfully completed");
     			}).fail(function(xhr) {
     			    message = xhr.statusText;
 					code = xhr.status;
+					time = countLoadBoxFollowers*1000;
 					if(message == 'timeout' && countLoadBoxFollowers < 3){
 						countLoadBoxFollowers++;
-						window.setTimeout("loadBoxFollowers()", Math.floor((Math.random()*2000)+100));	
+						window.setTimeout("loadBoxFollowers()", time);	
 					}
 					else 
 					console.log("Error box-followers. Code: " + code + " | Message: " + message);
@@ -404,20 +424,22 @@ require_once ROOT_DIR . 'config.php';
 			    url: "content/profile/box/box-post.php",
 			    data: json_data,
 			    
-			    timeout:5000,
+			    timeout:10000,
 			    beforeSend: function(xhr) {
 				goSpinnerBox('#box-post', 'post');
 			    }
 			}).done(function(message, status, xhr) {
 			    $("#box-post").html(message);
 			    code = xhr.status;
+					time = countLoadBoxEvent*1000;
 			    console.log("Code: " + code + " | Message: box-post successfully completed");
 			}).fail(function(xhr) {
 			    message = xhr.statusText;
 				code = xhr.status;
+				time = countLoadBoxPost*1000;
 				if(message == 'timeout' && countLoadBoxPost < 3){
 						countLoadBoxPost++;
-						window.setTimeout("loadBoxPost()", Math.floor((Math.random()*2000)+100));	
+						window.setTimeout("loadBoxPost()", time);	
 					}
 					else 
 				console.log("Error box-post. Code: " + code + " | Message: " + message);
@@ -440,7 +462,7 @@ require_once ROOT_DIR . 'config.php';
 				url: "content/profile/box/box-opinion.php",
 				data: json_data,
 				
-				timeout:5000,
+				timeout:10000,
 				beforeSend: function(xhr) {								
 				    goSpinnerBox(box, '');
 				    console.log('Sono partito loadBoxOpinion(' + id + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
@@ -456,6 +478,7 @@ require_once ROOT_DIR . 'config.php';
 					}
 	
 					code = xhr.status;
+					time = countLoadBoxEvent*1000;
 					console.log("Code: " + code + " | Message: box-opinion successfully completed");
 			    })
 				.fail(function(xhr) {
@@ -488,7 +511,7 @@ require_once ROOT_DIR . 'config.php';
 		type: "POST",
 		url: "content/profile/box/box-relation.php",
 		data: json_data,
-		timeout:5000,
+		timeout:10000,
 		
 		beforeSend: function(xhr) {
 		    $('#modalRelation').html('<div id="spinnerRelation"></div>');
@@ -499,6 +522,7 @@ require_once ROOT_DIR . 'config.php';
 		stopSpinner('#spinnerRelation');
 		$("#modalRelation").html(message);
 		code = xhr.status;
+					time = countLoadBoxEvent*1000;
 		console.log("Code: " + code + " | Message: box-relation successfully completed");
 	    }).fail(function(xhr) {
 			message = xhr.statusText;

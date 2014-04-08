@@ -45,29 +45,33 @@ if (is_null($userInfoBox->error)) {
 	    <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
     	<!-------------------------- SCRIPT --------------------------->
 	    <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
-    	<script>
-    <?php if ($user->getType() == 'JAMMER') { ?>
-		    loadBoxRecord();
-    <?php } ?>
+    	
+    	
+    	<script>   	
     	    loadBoxAlbum();
     	    loadBoxRecordReview();
     	    loadBoxEventReview();
     	    //loadBoxActivity();
     	    loadBoxPost();
-    <?php
-    if ($user->getType() == 'JAMMER' || $user->getType() == 'VENUE') {
-	?>
-		    loadBoxEvent();
-		    loadBoxCollaboration();
-		    loadBoxFollowers();
-	<?php
-    } elseif ($user->getType() == 'SPOTTER') {
-	?>
-		    loadBoxFriends();
-		    loadBoxFollowing();
-	<?php
-    }
-    ?>
+    		
+    		<?php
+    		
+    		if ($user->getType() == 'JAMMER') { ?>
+    			loadBoxRecord();
+    		<?php } 
+    		if ($user->getType() == 'JAMMER' || $user->getType() == 'VENUE') {
+			?>
+			    loadBoxEvent();
+			    loadBoxCollaboration();
+			    loadBoxFollowers(); 
+			<?php
+    		} elseif ($user->getType() == 'SPOTTER') {
+			?>
+			    loadBoxFriends();
+			    loadBoxFollowing();
+			<?php
+		    } 
+		    ?>
     	</script>
         </body>
     </html>

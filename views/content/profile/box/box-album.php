@@ -21,10 +21,9 @@ require_once SERVICES_DIR . 'connection.service.php';
 
 
 session_start();
-
-$objectIdUser = $_POST['objectIdUser'];
+$userId = $_POST['id'];
 $albumBox = new AlbumBox();
-$albumBox->init($_POST['id']);
+$albumBox->init($userId);
 if (is_null($albumBox->error)) {
     if (isset($_SESSION['id']))
 	$currentUserId = $_SESSION['id'];
@@ -69,7 +68,7 @@ if (is_null($albumBox->error)) {
 				$album_love = $value->getLovecounter();
 				$album_comment = $value->getCommentcounter();
 				$album_share = $value->getSharecounter();
-				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['id'], $album_thumbnail);
+				$pathCoverAlbum = $fileManagerService->getPhotoPath($userId, $album_thumbnail);
 				$connectionService = new ConnectionService();				
 				if (existsRelation($connectionService,'user', $currentUserId, 'album', $album_id, 'LOVE')) {
 				    $css_love = '_love orange';
@@ -85,7 +84,7 @@ if (is_null($albumBox->error)) {
 				    ?>									
 					<div class="row" style="margin-left: 0px; margin-right: 0px;">
 					<?php } ?>	
-	    			    <div class="small-6 columns box-coveralbum <?php echo $album_id; ?>" onclick="loadBoxAlbumDetail('<?php echo $_POST['id'] ?>', '<?php echo $album_id; ?>',<?php echo $album_imageCounter; ?>, 30, 0)">
+	    			    <div class="small-6 columns box-coveralbum <?php echo $album_id; ?>" onclick="loadBoxAlbumDetail('<?php echo $userId ?>', '<?php echo $album_id; ?>',<?php echo $album_imageCounter; ?>, 30, 0)">
 	    				<img class="albumcover" src="<?php echo $pathCoverAlbum; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'" alt="<?php echo $album_title; ?>"/>  
 	    				<div class="text white breakOffTest"><?php echo $album_title; ?></div>
 	    				<div class="row">
