@@ -310,7 +310,8 @@ class UploadRecordController extends REST {
 
             require_once SERVICES_DIR . 'select.service.php';
             $record->setDuration($record->getDuration()+$song->getDuration());
-            $record->setSongcounter($record->getSongcounter()++);
+			$songcounter = $record->getSongcounter() + 1; 	
+            $record->setSongcounter($songcounter);
             updateRecord($connection, $record);
 
             $resUpdate = false;
@@ -394,36 +395,6 @@ class UploadRecordController extends REST {
         }
         else
             return "";
-    }
-
-    /**
-     * funzione per il recupero dei record dell'utente che fa upload record/song
-     */
-    public function getUserRecords() {
-        try {
-            global $controllers;
-            if ($this->get_request_method() != "POST") {
-                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($_SESSION['id'])) {
-                $this->response($controllers['USERNOSES'], 403);
-            }
-            $currentUserId = $_SESSION['id'];
-            $recordIdList = $this->getRecordsByUserId($currentUserId);
-            $fileManager = new FileManagerService();
-            if (!is_null($recordIdList) && count($recordIdList) > 0) {
-                foreach ($recordIdList as $record) {
-                    $retObj = array();
-                    $retObj["thumbnail"] = $fileManager->getRecordPhotoURL($currentUserId, $record->getThumbnail());
-                    $retObj["title"] = $record->getTitle();
-                    $retObj["songs"] = $record->getSongCounter();
-                    $retObj["recordId"] = $record->getId();
-                    $recordIdList[] = $retObj;
-                }
-            }
-            $this->response(array("status" => $controllers['GETRECORDSOK'], "recordList" => $recordIdList, "count" => count($recordIdList)), 200);
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
-        }
     }
 
     /**
@@ -520,25 +491,6 @@ class UploadRecordController extends REST {
         return null;
     }
 
-    /**
-     * funzione privata per il recupero del record dal DB
-     * @param   $recordId
-     */
-    private function getRecordsByUserId($userId) {
-        require_once SERVICES_DIR . 'connection.service.php';
-        $connectionService = new ConnectionService();
-        $connection = $connectionService->connect();
-        if ($connection != false) {
-            require_once SERVICES_DIR . 'select.service.php';
-            $where = array("id_u" => $userId);
-            $orderBy = "createdat";
-            $records = selectRecords($connection, null, $where, $orderBy);
-            if (count($records) > 0) {
-                return $records;
-            }
-        }
-        return null;
-    }
 
 }
 
