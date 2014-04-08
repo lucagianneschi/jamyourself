@@ -24,7 +24,7 @@ if (session_id() == '')
     session_start();
 
 $recordBox = new RecordBox();
-$recordBox->init($_POST['id']);
+$recordBox->init($_POST['id'],9,0);
 
 if (is_null($recordBox->error)) {
     if (isset($_SESSION['id']))
