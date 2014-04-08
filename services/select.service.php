@@ -1276,7 +1276,7 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
                            u.type type_u
                      FROM comment rw, user u, user fu, event e
                      WHERE rw.active = 1
-                       	AND rw.fromuser = fu.id AND rw.touser = u.id
+                       	AND rw.fromuser = fu.id AND rw.touser = u.id AND e.id = rw.event
 		       	AND rw.type = 'RE'";
     if (!is_null($id)) {
 	$sql .= " AND rw.id = " . $id . "";
@@ -1495,7 +1495,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
                            u.type type_u
                      FROM comment rw, user u, user fu, record r
                      WHERE rw.active = 1
-                       AND rw.fromuser = fu.id AND rw.touser = u.id
+                       AND rw.fromuser = fu.id AND rw.touser = u.id AND r.id = rw.record
 		       AND rw.type = 'RR'";
     if (!is_null($id)) {
 	$sql .= " AND rw.id = " . $id . "";
