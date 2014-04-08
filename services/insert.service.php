@@ -483,7 +483,7 @@ function insertRecord($connection, $record) {
                             '" . (is_null($record->getSongcounter()) ? 0 : $record->getSongcounter()) . "', 
                             '" . $record->getThumbnail() . "',
                             '" . $record->getTitle() . "',
-				  			'" . (is_null($record->getYear()) ? 0 : $record->getYear()) . "',
+				  			'" . ((is_null($record->getYear()) || $record->getYear() == '')  ? 0 : $record->getYear()) . "',
                                   NOW(),
                                   NOW())";
     $result = mysqli_query($connection, $sql);
