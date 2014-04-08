@@ -123,7 +123,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
 						<?php
 					    }
 					    ?>
-	    				<a href="event.php?event=<?php echo $eventReview_objectId ?>" >
+	    				<a href="event.php?event=<?php echo $event_objectId ?>" >
 	    				    <div class="row">
 	    					<div  class="small-2 columns ">
 	    					    <div class="coverThumb"><img src="<?php echo $pathEvent; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $eventReview_title; ?>"></div>						
@@ -131,7 +131,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['id'])) {
 	    					<div  class="small-10 columns ">
 	    					    <div class="row ">							
 	    						<div  class="small-12 columns ">
-	    						    <div class="sottotitle grey-dark"><?php echo $eventReview_title ?></div>
+	    						    <div class="sottotitle grey-dark"><?php echo $value->getEvent()->getTitle() ?></div>
 	    						</div>	
 	    					    </div>	
 	    					    <div class="row">						
