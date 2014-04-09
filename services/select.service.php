@@ -1177,6 +1177,7 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
 	$fromuser->setId($row['id_u']);
 	$fromuser->setThumbnail($row['thumbnail_u']);
 	$fromuser->setUsername($row['username']);
+    $fromuser->setType($row['type']);
 	$record->setFromuser($fromuser);
 	$sql = "SELECT g.genre
                           FROM record_genre rg, genre g
