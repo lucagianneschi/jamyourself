@@ -200,7 +200,7 @@ class Song {
      * @return	string
      */
     public function getPath() {
-	return $this->pathath;
+	return $this->path;
     }
 
     /**
