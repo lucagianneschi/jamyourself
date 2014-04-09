@@ -94,7 +94,7 @@ class PostController extends REST {
         $connectionService->autocommit(false);
         $resPost = insertComment($connection, $post);
         $node = createNode($connectionService, 'comment', $resPost);
-        $relation = createRelation($connectionService, 'user', $fromuserId, 'comment', $resPost, 'POST');
+        $relation = createRelation($connectionService, 'user', $fromuserId, 'comment', $resPost, 'ADD');
         if ($resPost === false || $node === false || $relation === false) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {
