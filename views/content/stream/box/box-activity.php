@@ -58,8 +58,15 @@ if (is_null($streamBox->error)) {
     }
     $connectionService = new ConnectionService();
     foreach ($activities as $activity) {
-        $value = $activity['object'];
+        $id = $activity['id'];
+        $class = $activity['class'];
+        $relType = $activity['relationType'];
+        $object = $activity['object'];
+        $type = $activity['type'];
         $love = $activity['love'];
+        
+        print_r($activity);
+        
         $loveCounter = $value->getLovecounter();
         $commentCounter = $value->getCommentcounter();
         $shareCounter = $value->getSharecounter();
@@ -71,35 +78,25 @@ if (is_null($streamBox->error)) {
             $text_love = $views['LOVE'];
         }
         
-        /*
-        switch (strtolower(get_class($value))) {
+        switch ($activity['class']) {
             case 'album':
-                $loveCounter = $value->getLovecounter();
-                $commentCounter = $value->getCommentcounter();
-                $shareCounter = $value->getSharecounter();
                 break;
             case 'comment':
-                $comments = selectComments($connection, $id);
-                $object = $comments[$id];
+                if ($value->getType() == 'P') {
+                    $type = 'POST';
+                } elseif ($value->getType() == 'C') {
+                    $type = 'COMMENT';
+                }
                 break;
             case 'image':
-                $images = selectImages($connection, $id);
-                $object = $images[$id];
                 break;
             case 'record':
-                $records = selectRecords($connection, $id);
-                $object = $records[$id];
                 break;
             case 'song':
-                $songs = selectSongs($connection, $id);
-                $object = $songs[$id];
                 break;
             case 'video':
-                $videos = selectVideos($connection, $id);
-                $object = $videos[$id];
                 break;
         }
-        */
         ?>
         <div id="<?php echo $value->getId(); ?>">
             <div class="box">
@@ -144,6 +141,84 @@ if (is_null($streamBox->error)) {
                     </div>
                 </a>
                 <?php
+                switch ($activity['class']) {
+                    case 'album':
+                        break;
+                    case 'comment':
+                        if ($value->getType() == 'P') {
+                            $type = 'POST';
+                        } elseif ($value->getType() == 'C') {
+                            $type = 'COMMENT';
+                        }
+                        ?>
+                        <div class="row line">
+                            <div class="small-12 columns ">
+                                <div class="row ">
+                                    <?php
+                                    if ($type == 'POST') {
+                                        ?>
+                                        <div class="text orange">Write a Post</div>
+                                        <?php
+                                    } elseif ($type == 'COMMENT') {
+                                        ?>
+                                        <div class="text orange">Write a Post</div>
+                                        <?php
+                                    }
+                                    ?>
+                                    <div class="small-12 columns ">
+                                        <div class="text grey">
+                                            <?php
+                                            echo $value->getText();
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        break;
+                    case 'image':
+                        break;
+                    case 'record':
+                        ?>
+                        <div class="row line">
+                            <div class="small-12 columns ">
+                                <div class="row ">
+                                    <div class="small-12 columns ">
+                                        <div class="row  ">
+                                            <div class="large-12 columns ">
+                                                <div class="text orange"><?php echo $views['stream']['record_created']; ?></div>
+                                                <div class="sottotitle grey-dark"><?php echo $value->getTitle(); ?></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-12 columns">
+                                                <div id="box-albumDetail" style="margin-top: 10px;">
+                                                    <ul class="small-block-grid-3 small-block-grid-2 ">
+                                                        <!-- THUMBNAIL RECORD -->
+                                                        <?php
+                                                        $fileManagerService = new FileManagerService();
+                                                        $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromuser()->getId(), $value->getThumbnail());
+                                                        ?>
+                                                        <li>
+                                                            <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getId(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        break;
+                    case 'song':
+                        break;
+                    case 'video':
+                        break;
+                }
+                
                 /*
                 switch ($value->getType()) {
                     case 'ALBUMCREATED':
