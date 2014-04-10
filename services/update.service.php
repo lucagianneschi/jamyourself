@@ -70,11 +70,11 @@ function update($connection, $class, $set, $increment = null, $decrement = null,
     $results = mysqli_query($connection, $sql);
     if ($results === false) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute update => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute update => ' . $sql);
 	return false;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $id . 'updated');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Class ' . $class . ' updated');
     return true;
 }
 

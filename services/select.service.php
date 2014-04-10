@@ -37,27 +37,22 @@ require_once SERVICES_DIR . 'utils.service.php';
 function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType) {
     $startTimer = microtime();
     $query = '
-	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
-	WHERE n.id = {fromNodeId} AND m.id = {toNodeId}
-	RETURN count(n)
+	MATCH (n:' . $fromNodeType . ' {id:' . $fromNodeId. '})-[r:' . $relationType . ']->(m:' . $toNodeType . ' {id:' . $toNodeId. '})
+	RETURN count(r)
 	';
-    $params = array(
-        'fromNodeId' => $fromNodeId,
-        'toNodeId' => $toNodeId
-    );
-    $res = $connection->curl($query, $params);
+    $res = $connection->curl($query);
     if ($res === false) {
         $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute existsRelation => ' . $query);
+        jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute existsRelation => ' . $query);
         return false;
     } else {
         if ($connection->getAutocommit()) {
             $endTimer = microtime();
-            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Quantity Relation => ' . $res['data'][0][0]);
+            jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Quantity Relation => ' . $res['data'][0][0]);
             return $res['data'][0][0];
         } else {
             $endTimer = microtime();
-            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Quantity Relation => ' . $res['results'][0]['data'][0]['row'][0]);
+            jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Quantity Relation => ' . $res['results'][0]['data'][0]['row'][0]);
             return $res['results'][0]['data'][0]['row'][0];
         }
     }
@@ -79,8 +74,7 @@ function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $relationType, $skip = null, $limit = null) {
     $startTimer = microtime();
     $query = '
-	MATCH (n:' . $fromNodeType . ')-[r:' . $relationType . ']->(m:' . $toNodeType . ')
-	WHERE n.id = ' . $fromNodeId . '
+	MATCH (n:' . $fromNodeType . ' {id:' . $fromNodeId . '})-[r:' . $relationType . ']->(m:' . $toNodeType . ')
 	RETURN m
 	ORDER BY r.createdat DESC
 	';
@@ -94,7 +88,7 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
     $res = $connection->curl($query, $params);
     if ($res === false) {
         $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute getRelatedNodes => ' . $query);
+        jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute getRelatedNodes => ' . $query);
         return false;
     } else {
         $relatedNodes = array();
@@ -112,7 +106,7 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
             }
         }
         $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Node related => ' . $relatedNodes);
+        jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Node related => ' . $relatedNodes);
         return $relatedNodes;
     }
 }
@@ -124,9 +118,12 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
  * @todo
  */
 function query($connection, $sql) {
+    $startTimer = microtime();
     $results = mysqli_query($connection, $sql);
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	$rows[] = $row;
+        $rows[] = $row;
+    $endTimer = microtime();
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Returned ' . count($rows) . ' rows => ' . $sql);
     return $rows;
 }
 
@@ -201,7 +198,7 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -209,7 +206,7 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
     $albums = array();
     if (!is_array($rows_album)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $albums;
     }
     foreach ($rows_album as $row) {
@@ -256,7 +253,7 @@ function selectAlbums($connection, $id = null, $where = null, $order = null, $li
 	$albums[$row['id_a']] = $album;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($albums) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($albums) . ' rows returned');
     return $albums;
 }
 
@@ -337,7 +334,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -345,7 +342,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
     $comments = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $comments;
     }
     foreach ($rows as $row) {
@@ -399,7 +396,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 	$comments[$row['id_c']] = $comment;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($comments) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($comments) . ' rows returned');
     return $comments;
 }
 
@@ -481,7 +478,7 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -489,7 +486,7 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
     $events = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $events;
     }
     foreach ($rows as $row) {
@@ -560,7 +557,7 @@ function selectEvents($connection, $id = null, $where = null, $order = null, $li
 	$events[$row['id_e']] = $event;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($events) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($events) . ' rows returned');
     return $events;
 }
 
@@ -637,7 +634,7 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -645,7 +642,7 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
     $images = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $images;
     }
     foreach ($rows as $row) {
@@ -694,7 +691,7 @@ function selectImages($connection, $id = null, $where = null, $order = null, $li
 	$images[$row['id_i']] = $image;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($images) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($images) . ' rows returned');
     return $images;
 }
 
@@ -775,7 +772,7 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -783,7 +780,7 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
     $messages = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $messages;
     }
     foreach ($rows as $row) {
@@ -835,7 +832,7 @@ function selectMessages($connection, $id = null, $where = null, $order = null, $
 	$messages[$row['id_m']] = $message;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($messages) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($messages) . ' rows returned');
     return $messages;
 }
 
@@ -899,7 +896,7 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -907,7 +904,7 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
     $playlists = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $playlists;
     }
     foreach ($rows as $row) {
@@ -928,7 +925,7 @@ function selectPlaylists($connection, $id = null, $where = null, $order = null, 
 	$playlists[$row['id_p']] = $playlist;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($playlists) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($playlists) . ' rows returned');
     return $playlists;
 }
 
@@ -1008,7 +1005,7 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -1018,7 +1015,7 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
 	return $posts;
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $posts;
     }
     foreach ($rows as $row) {
@@ -1070,7 +1067,7 @@ function selectPosts($connection, $id = null, $where = null, $order = null, $lim
 	$posts[$row['id_p']] = $post;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($posts) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($posts) . ' rows returned');
     return $posts;
 }
 
@@ -1150,7 +1147,7 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -1158,7 +1155,7 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
     $records = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $records;
     }
     foreach ($rows as $row) {
@@ -1213,7 +1210,7 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
 	$records[$row['id_r']] = $record;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($records) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($records) . ' rows returned');
     return $records;
 }
 
@@ -1315,7 +1312,7 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -1323,7 +1320,7 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
     $reviewEvents = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $reviewEvents;
     }
     foreach ($rows as $row) {
@@ -1434,7 +1431,7 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 	$reviewEvents[$row['id_rw']] = $reviewEvent;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($reviewEvents) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($reviewEvents) . ' rows returned');
     return $reviewEvents;
 }
 
@@ -1534,7 +1531,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -1542,7 +1539,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
     $reviewRecords = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $reviewRecords;
     }
     foreach ($rows as $row) {
@@ -1635,7 +1632,7 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 	$reviewRecords[$row['id_rw']] = $reviewRecord;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($reviewRecords) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($reviewRecords) . ' rows returned');
     return $reviewRecords;
 }
 
@@ -1715,7 +1712,7 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -1723,7 +1720,7 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
     $songs = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $songs;
     }
     foreach ($rows as $row) {
@@ -1750,7 +1747,7 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
 	$results_genre = mysqli_query($connection, $sql);
 	if (!$results_genre) {
         $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+        jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
         return false;
 	}
 	$genres = array();
@@ -1777,7 +1774,7 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
 	$songs[$row['id_s']] = $song;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($songs) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($songs) . ' rows returned');
     return $songs;
 }
 
@@ -1832,7 +1829,7 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -1840,7 +1837,7 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
     $songs = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $songs;
     }
     foreach ($rows as $row) {
@@ -1877,7 +1874,7 @@ function selectSongsInPlaylist($connection, $id = null, $limit = 20, $skip = 0) 
 	$songs[$row['id_s']] = $song;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($songs) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($songs) . ' rows returned');
     return $songs;
 }
 
@@ -1967,7 +1964,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -1975,7 +1972,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
     $users = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $users;
     }
     foreach ($rows as $row) {
@@ -2052,7 +2049,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 	$users[$row['id']] = $user;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($users) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($users) . ' rows returned');
     return $users;
 }
 
@@ -2123,7 +2120,7 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
     $results = mysqli_query($connection, $sql);
     if (!$results) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
@@ -2131,7 +2128,7 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
     $videos = array();
     if (!is_array($rows)) {
 	$endTimer = microtime();
-	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $videos;
     }
     foreach ($rows as $row) {
@@ -2175,7 +2172,7 @@ function selectVideos($connection, $id = null, $where = null, $order = null, $li
 	$videos[$row['id_v']] = $video;
     }
     $endTimer = microtime();
-    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($videos) . ' rows returned');
+    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . count($videos) . ' rows returned');
     return $videos;
 }
 
