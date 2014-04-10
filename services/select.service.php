@@ -1743,7 +1743,24 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
 	$fromuser->setType($row['type']);
 	$fromuser->setUsername($row['username']);
 	$song->setFromuser($fromuser);
-	$song->setGenre($row['genre']);
+	$sql = "SELECT g.genre
+              FROM song_genre sg, genre g
+             WHERE sg.id_song = " . $row['id_s'] . "
+               AND g.id = sg.id_genre";
+	$results_genre = mysqli_query($connection, $sql);
+	if (!$results_genre) {
+        $endTimer = microtime();
+        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+        return false;
+	}
+	$genres = array();
+	$rows_genre = array();
+	while ($row_genre = mysqli_fetch_array($results_genre, MYSQLI_ASSOC))
+	    $rows_genre[] = $row_genre;
+	foreach ($rows_genre as $row_genre) {
+	    $genres[] = $row_genre;
+	}
+	$song->setGenre($genres);
 	$song->setLatitude($row['latitude']);
 	$song->setLongitude($row['longitude']);
 	$song->setLovecounter($row['lovecounter']);
