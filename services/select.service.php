@@ -389,6 +389,7 @@ function selectComments($connection, $id = null, $where = null, $order = null, $
 	$comment->setTag($tags_comment);
 	$comment->setText($row['text']);
 	$comment->setTitle($row['title']);
+	$comment->setType($row['type_c']);
 	$comment->setUpdatedat($row['updatedat']);
 	$comment->setTouser($row['touser']);
 	$comment->setVideo($row['video']);
