@@ -18,24 +18,24 @@ function access(usernameOrEmail, password, opType, userId) {
 				$('#login').addClass('comment-btn-loader');
 			}
 		}).done(function(response, status, xhr) {
-			//#TODO
-	//		message = $.parseJSON(xhr.responseText).status;
-	//		code = xhr.status;
-	//		console.log("Code: " + code + " | Message: " + message);
-	console.log(xhr);
+			//TODO
+            //message = $.parseJSON(xhr.responseText).status;
+            //code = xhr.status;
+            //console.log("Code: " + code + " | Message: " + message);
+            console.log(xhr);
 			if (opType === 'login') {
 				location.href = 'views/stream.php';
 			} else if (opType === 'logout') {
-				location.href = 'stream.php';
+				location.href = '../index.php';
 			}
 		}).fail(function(xhr) {
 			$('#login').val('Error');
 			$('#login').removeClass('comment-btn-loader');
 			//#TODO
-		//	message = $.parseJSON(xhr.responseText).status;
-		//	code = xhr.status;
-		//	console.log("Code: " + code + " | Message: " + message);
-		console.log(xhr);
+            //message = $.parseJSON(xhr.responseText).status;
+            //code = xhr.status;
+            //console.log("Code: " + code + " | Message: " + message);
+            console.log(xhr);
 		});
 	} catch(err) {
 		window.console.error("access | An error occurred - message : " + err.message);
