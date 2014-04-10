@@ -63,10 +63,7 @@ class UploadAlbumController extends REST {
 	    $album->setCommentcounter(0);
 	    $album->setCounter(0);
 	    $album->setCover(DEFALBUMCOVER);
-	    $album->setDescription($this->request['description']);
-	    if (isset($this->request['featuring']) && is_array($this->request['featuring']) && count($this->request['featuring']) > 0) {
-		$album->setFeaturing($this->request['featuring']);
-	    }
+	    $album->setDescription($this->request['description']);	    
 	    $album->setFromuser($currentUserId);
 	    $album->setImagecounter(0);
 	    if (isset($this->request['city']) && !is_null($this->request['city'])) {
@@ -94,7 +91,13 @@ class UploadAlbumController extends REST {
 	    $result = insertAlbum($connection, $album);
 	    $albumId = $result;
 	    $node = createNode($connectionService, 'album', $albumId);
-	    $relation = createRelation($connectionService, 'user', $currentUserId, 'album', $albumId, 'ADD');
+	    $relation = createRelation($connectionService, 'user', $currentUserId, 'album', $albumId, 'CREATE');
+	    if (isset($this->request['featuring']) && is_array($this->request['featuring']) && count($this->request['featuring']) > 0) {
+			foreach ($this->request['featuring'] as $userId) {
+				$featuring = createRelation($connectionService, 'user', $userId, 'album', $result, 'FEATURE');
+				if($featuring == false) $this->response(array('status' => $controllers['COMMENTERR']), 503);
+			}
+	    }
 	    if ($result === false || $relation === false || $node === false) {
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {
@@ -273,12 +276,7 @@ class UploadAlbumController extends REST {
 		$image->setAlbum($albumId);
 		$image->setCommentcounter(0);
 		$image->setCounter(0);
-		$image->setDescription($imgInfo['description']);
-		if (isset($imgInfo['featuring']) && is_array($imgInfo['featuring']) && count($imgInfo['featuring']) > 0) {
-		    $image->setFeaturing($imgInfo['featuring']);
-		} else {
-		    $image->setFeaturing(null);
-		}
+		$image->setDescription($imgInfo['description']);		
 		$image->setPath($imgMoved['image']);
 		$image->setFromuser($currentUserId);
 		$image->setLatitude(null);
@@ -293,6 +291,12 @@ class UploadAlbumController extends REST {
 		}
 		$node = createNode($connectionService, 'image', $result);
 		$relation = createRelation($connectionService, 'user', $currentUserId, 'image', $result, 'ADD');
+		if (isset($imgInfo['featuring']) && is_array($imgInfo['featuring']) && count($imgInfo['featuring']) > 0) {
+			foreach ($imgInfo['featuring'] as $userId) {
+				$featuring = createRelation($connectionService, 'user', $userId, 'image', $result, 'FEATURE');
+				if($featuring == false) return false;
+			}
+		}
 		if ($result === false || $relation === false || $node === false) {
 		    return false;
 		} else {
@@ -337,9 +341,10 @@ class UploadAlbumController extends REST {
 			require_once SERVICES_DIR . 'update.service.php';
 			$resUpdateCover = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s'), 'cover' => $resImage->getPath()), null, null, $albumId, null);
 			$resUpdateThumb = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s'), 'thumbnail' => $resImage->getThumbnail()), null, null, $albumId, null);
-			$node = createNode($connectionService, 'image', $resImage->getId());
-			$relation = createRelation($connectionService, 'album', $albumId, 'image', $resImage->getId(), 'ADD');
-			if (!$resUpdateCover || !$resUpdateThumb || !$node || !$relation) {
+		//	$node = createNode($connectionService, 'image', $resImage->getId());
+		//	$relation = createRelation($connectionService, 'album', $albumId, 'image', $resImage->getId(), 'ADD');
+		//	if (!$resUpdateCover || !$resUpdateThumb || !$node || !$relation) {
+			if (!$resUpdateCover || !$resUpdateThumb) {
 			    array_push($errorImages, $image);
 			    continue;
 			} else {

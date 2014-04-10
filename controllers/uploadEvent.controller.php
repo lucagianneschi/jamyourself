@@ -88,10 +88,7 @@ class UploadEventController extends REST {
 		$this->response(array('status' => $controllers['NOEVENTDATE']), 400);
 	    }
 	    $event->setEventdate($eventDate);
-	    $event->setFromuser($userId);
-	    if (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
-		$event->setFeaturing($this->request['jammers']);
-	    }
+	    $event->setFromuser($userId);	    
 	    $event->setGenre($this->request['music']);
 	    $event->setInvitedCounter(0);
 	    $event->setLatitude($infoLocation['latitude']);
@@ -113,7 +110,13 @@ class UploadEventController extends REST {
 	    $connectionService->autocommit(false);
 	    $result = insertEvent($connection, $event);
 	    $node = createNode($connectionService, 'event', $result);
-	    $relation = createRelation($connectionService, 'user', $userId, 'event', $result, 'ADD');
+	    $relation = createRelation($connectionService, 'user', $userId, 'event', $result, 'CREATE');
+		if (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {			
+			foreach ($this->request['jammers'] as $userId) {
+				$featuring = createRelation($connectionService, 'user', $userId, 'event', $result, 'FEATURE');
+				if($featuring == false) $this->response(array('status' => $controllers['COMMENTERR']), 503);
+			}			
+	    }
 	    $fileManager = new FileManagerService();
 	    $res_thumb = $fileManager->saveEventPhoto($userId, $event->getThumbnail());
 	    $res_image = $fileManager->saveEventPhoto($userId, $event->getCover());

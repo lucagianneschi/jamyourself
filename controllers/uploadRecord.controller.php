@@ -68,7 +68,7 @@ class UploadRecordController extends REST {
             $infoLocation = GeocoderService::getCompleteLocationInfo($newRecord->city);
             $record = new Record();
             $record->setActive(true);
-            $record->setBuyLink((strlen($newRecord->urlBuy) ? $newRecord->urlBuy : null));
+            $record->setBuyLink((strlen($newRecord->urlBuy) ? $newRecord->urlBuy : null));			
             $record->setCity($infoLocation['city']);
             $record->setCommentcounter(0);
             $record->setCounter(0);
@@ -100,7 +100,13 @@ class UploadRecordController extends REST {
             $connectionService->autocommit(false);
             $result = insertRecord($connection, $record);
             $node = createNode($connectionService, 'record', $result);
-            $relation = createRelation($connectionService, 'user', $userId, 'record', $result, 'ADD');
+            $relation = createRelation($connectionService, 'user', $userId, 'record', $result, 'CREATE');
+            if (isset($newRecord->albumFeaturing) && !is_null($newRecord->albumFeaturing) && count($newRecord->albumFeaturing) > 0){
+            	foreach ($newRecord->albumFeaturing as $userId) {
+					$featuring = createRelation($connectionService, 'user', $userId, 'record', $result, 'FEATURE');
+					if($featuring == false) $this->response(array('status' => $controllers['RECORDCREATEERROR']), 503);
+				}
+            }
             $filemanager = new FileManagerService();
             $res_image = $filemanager->saveRecordPhoto($userId, $record->getCover());
             $res_thumb = $filemanager->saveRecordPhoto($userId, $record->getThumbnail());
@@ -182,7 +188,7 @@ class UploadRecordController extends REST {
                         $song->setCommentcounter(0);
                         $song->setCounter(0);
                         $song->setDuration($this->getRealLength($cachedFile));
-						/*
+						/* #TODO da aggiungere le featuring su neo4j
                         if (isset($element->featuring) && is_array($element->featuring)) {
                             $song->setFeaturing($element->featuring);
                         } else {
@@ -198,11 +204,16 @@ class UploadRecordController extends REST {
                         $song->setPosition($position);
                         $song->setRecord($recordId);
                         $song->setSharecounter(0);
-                        $song->setTitle($element->title);
-						
+                        $song->setTitle($element->title);						
                         $result = insertSong($connection, $song);
                         $node = createNode($connectionService, 'song', $result);
                         $relation = createRelation($connectionService, 'user', $currentUserId, 'song', $result, 'ADD');
+						 if (isset($element->featuring) && is_array($element->featuring)) {
+							 foreach ($element->featuring as $userId) {
+								$featuring = createRelation($connectionService, 'user', $userId, 'song', $result, 'FEATURE');
+								if($featuring == false) $this->response(array('status' => $controllers['COMMENTERR']), 503);
+							}
+                        }
                         $fileManager = new FileManagerService();
                         $res = $fileManager->saveSong($currentUserId, $result);                       
                         if ($result === false || $node === false || $relation === false) {
@@ -215,8 +226,12 @@ class UploadRecordController extends REST {
                     }
                 }
             }
-
-
+			$songsSaved = count($songList) - count($songErrorList);
+			if ($songsSaved > 0) {
+				require_once SERVICES_DIR . 'update.service.php';
+				$resUpdate = update($connection, 'record', array('updatedat' => date('Y-m-d H:i:s')), array('songcounter' => $songsSaved), null, $recordId, null);
+				if ($resUpdate == false) $this->response(array('status' => $controllers['COMMENTERR']), 503);				
+		    }
             $connectionService->disconnect($connection);
             if (count($songErrorList) == 0) {
                 $this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList, "id" => $recordId), 200);
