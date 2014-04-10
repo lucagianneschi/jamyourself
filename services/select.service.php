@@ -1746,7 +1746,7 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
 	$song->setGenre($row['genre']);
 	$song->setLatitude($row['latitude']);
 	$song->setLongitude($row['longitude']);
-	$song->getLovecounter($row['lovecounter']);
+	$song->setLovecounter($row['lovecounter']);
 	$song->setPath($row['path']);
 	$song->setPosition($row['position']);
 	$record = new Record();
