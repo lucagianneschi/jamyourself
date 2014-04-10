@@ -1996,7 +1996,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 	$user->setFacebookId($row['facebookid']);
 	$user->setFacebookpage($row['facebookpage']);
 	$user->setFirstname($row['firstname']);
-	$user->setFollowercounter($row['followercounter']);
+	$user->setFollowercounter($row['followerscounter']);
 	$user->setFollowingcounter($row['followingcounter']);
 	$user->setFriendshipcounter($row['friendshipcounter']);
 	$user->setGooglepluspage($row['googlepluspage']);
