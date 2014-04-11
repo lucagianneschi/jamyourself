@@ -31,21 +31,28 @@ require_once SERVICES_DIR . 'utils.service.php';
  * @todo
  */
 function createNode($connection, $nodeType, $nodeId) {
+    $startTimer = microtime();
     $query = '
 	MERGE (n:' . $nodeType . ' {id:' . $nodeId . '})
 	RETURN count(n)
 	';
     $res = $connection->curl($query);
     if ($res === false) {
-	return false;
+        $endTimer = microtime();
+        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute createNode => ' . $query);
+        return false;
     } else {
-	if ($connection->getAutocommit()) {
-	    $num = $res['data'][0][0];
-	    return ($num ? $num : false);
-	} else {
-	    $num = $res['results'][0]['data'][0]['row'][0];
-	    return ($num ? $num : false);
-	}
+        if ($connection->getAutocommit()) {
+            $num = $res['data'][0][0];
+            $endTimer = microtime();
+            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createNode execute => ' . $num);
+            return ($num ? $num : false);
+        } else {
+            $num = $res['results'][0]['data'][0]['row'][0];
+            $endTimer = microtime();
+            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createNode execute => ' . $num);
+            return ($num ? $num : false);
+        }
     }
 }
 
@@ -61,6 +68,7 @@ function createNode($connection, $nodeType, $nodeId) {
  * @todo
  */
 function createRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relType) {
+    $startTimer = microtime();
     $query = '
 	MATCH (n:' . $fromNodeType . ' {id:' . $fromNodeId . '}), (m:' . $toNodeType . ' {id:' . $toNodeId . '})
 	MERGE (n)-[r:' . $relType . ']->(m)
@@ -70,15 +78,21 @@ function createRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 	';
     $res = $connection->curl($query);
     if ($res === false) {
-	return false;
+        $endTimer = microtime();
+        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute createRelation => ' . $query);
+        return false;
     } else {
-	if ($connection->getAutocommit()) {
-	    $num = $res['data'][0][0];
-	    return ($num ? $num : false);
-	} else {
-	    $num = $res['results'][0]['data'][0]['row'][0];
-	    return ($num ? $num : false);
-	}
+        if ($connection->getAutocommit()) {
+            $num = $res['data'][0][0];
+            $endTimer = microtime();
+            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createRelation execute => ' . $num);
+            return ($num ? $num : false);
+        } else {
+            $num = $res['results'][0]['data'][0]['row'][0];
+            $endTimer = microtime();
+            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createRelation execute => ' . $num);
+            return ($num ? $num : false);
+        }
     }
 }
 

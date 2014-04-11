@@ -448,11 +448,10 @@ require_once ROOT_DIR . 'config.php';
 		</script>
 
 		<script type="text/javascript">
-		    function loadBoxOpinion(id, toUser, classBox, box, limit, skip) {
+		    function loadBoxOpinion(id, classBox, box, limit, skip) {
 			if ($(box).hasClass('no-display')) {
 			    var json_data = {};
 			    json_data.id = id;
-			    json_data.toUser = toUser;
 			    json_data.classBox = classBox;
 			    json_data.box = box;
 			    json_data.limit = limit;
@@ -465,7 +464,7 @@ require_once ROOT_DIR . 'config.php';
 				timeout:10000,
 				beforeSend: function(xhr) {								
 				    goSpinnerBox(box, '');
-				    console.log('Sono partito loadBoxOpinion(' + id + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
+				    console.log('Sono partito loadBoxOpinion(' + id + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
 				}
 			    })
 				.done(function(message, status, xhr) {

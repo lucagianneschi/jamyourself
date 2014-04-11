@@ -10,7 +10,6 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 
 $id = $_POST['id'];
-$touser = $_POST['toUser'];
 $class = strtolower($_POST['classBox']);
 $box = $_POST['box'];
 $limit = (int) $_POST['limit'];
@@ -100,7 +99,7 @@ if ($countComment > 0) {
 	?>
         <div class="row  ">
             <div  class="large-12 columns ">
-		<form action="" class="box-write" onsubmit="sendOpinion('<?php echo $touser; ?>', $('#comment<?php echo $class . '_' . $id; ?>').val(), '<?php echo $id; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', '10', 0);
+		<form action="" class="box-write" onsubmit="sendOpinion($('#comment<?php echo $class . '_' . $id; ?>').val(), '<?php echo $id; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', '10', 0);
 			  return false;">
                     <div class="">
                         <div class="row  ">
@@ -108,7 +107,7 @@ if ($countComment > 0) {
                                 <input id="comment<?php echo $class . '_' . $id; ?>" type="text" class="post inline" placeholder="<?php echo $views['comment']['write']; ?>" />
                             </div>
                             <div  class="small-3 columns ">
-                                <input type="button" class="comment-button inline comment-btn" value="Comment" onclick="sendOpinion('<?php echo $touser; ?>', $('#comment<?php echo $class . '_' . $id; ?>').val(), '<?php echo $id; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', 10, 0)" />
+                                <input type="button" class="comment-button inline comment-btn" value="Comment" onclick="sendOpinion($('#comment<?php echo $class . '_' . $id; ?>').val(), '<?php echo $id; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', 10, 0)" />
                             </div>
                         </div>
                     </div>
