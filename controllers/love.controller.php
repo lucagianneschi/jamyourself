@@ -61,15 +61,10 @@ class LoveController extends REST {
                 $endTimer = microtime();
                 jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during incrementLove "Class type not admitted"');
                 $this->response(array('status' => 'CLASSTYPEKO'), 400);
-            } elseif (!isset($this->request['idUser'])) {
-                $endTimer = microtime();
-                jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during incrementLove "No User id"');
-                $this->response(array('status' => 'NOUSERID'), 400);
             }
             $fromuserId = $_SESSION['id'];
             $classType = $this->request['classType'];
             $id = $this->request['id'];
-            $toUserObjectId = $this->request['idUser']; //serve per la notifica
             $connectionService = new ConnectionService();
             if (existsRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'LOVE')) {
                 $endTimer = microtime();
@@ -112,7 +107,7 @@ class LoveController extends REST {
      * @todo testare
      */
     public function decrementLove() {
-	$startTimer = microtime();
+        $startTimer = microtime();
         global $controllers;
         try {
             if ($this->get_request_method() != "POST") {
@@ -137,10 +132,6 @@ class LoveController extends REST {
                 $endTimer = microtime();
                 jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during decrementLove "Class type not admitted"');
                 $this->response(array('status' => 'CLASSTYPEKO'), 400);
-            } elseif (!isset($this->request['idUser'])) {
-                $endTimer = microtime();
-                jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during decrementLove "No User id"');
-                $this->response(array('status' => 'NOUSERID'), 400);
             }
             $fromuserId = $_SESSION['id'];
             $classType = $this->request['classType'];
@@ -162,7 +153,7 @@ class LoveController extends REST {
             $updateCounter = update($connection, strtolower($classType), array('updatedat' => date('Y-m-d H:i:s')), null, array('lovecounter' => 1), $id);
             $selectCounter = query($connection, 'SELECT lovecounter FROM ' . strtolower($classType) . ' WHERE id = ' . $id);
             $relation = deleteRelation($connectionService, 'user', $fromuserId, strtolower($classType), $id, 'LOVE');
-            if ($loveCounter === false || $relation === false) {
+            if ($updateCounter === false || $selectCounter=== false || $relation === false) {
                 $endTimer = microtime();
                 jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during decrementLove "Unable to execute query"');
                 $this->response(array('status' => $controllers['COMMENTERR']), 503);

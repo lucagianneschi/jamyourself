@@ -1,4 +1,4 @@
-function love(_this, classType, id, idUser) {
+function love(_this, classType, id) {
     var json_love = {};
     typeOpt = $(_this).text();
     switch (typeOpt) {
@@ -11,7 +11,6 @@ function love(_this, classType, id, idUser) {
     }
     json_love.classType = classType;
     json_love.id = id;
-    json_love.idUser = idUser;
 
     $.ajax({
         type: "POST",

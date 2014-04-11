@@ -122,7 +122,7 @@ if (is_null($postBox->error) || isset($_SESSION['id'])) {
 	    			<div class="row">
 	    			    <div class="box-propriety">
 	    				<div class="small-5 columns ">
-	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>', '<?php echo $post_fromUser_objectId; ?>')"><?php echo $text_love; ?></a>
+	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>')"><?php echo $text_love; ?></a>
 	    				    <a class="note grey" onclick="loadBoxOpinion('<?php echo $post_objectId; ?>', '<?php echo $post_fromUser_objectId; ?>', 'Comment', '#<?php echo $post_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 	    				</div>
 	    				<div class="small-5 columns propriety ">
