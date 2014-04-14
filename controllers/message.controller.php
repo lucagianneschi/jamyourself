@@ -39,20 +39,31 @@ class MessageController extends REST {
      * private function to delete activity class instance
      */
     public function deleteConversation() {
+	$startTimer = microtime();
 	global $controllers;
 	try {
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteConversation "No POST action"');
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['id'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteConversation "No User in session"');
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['toUser'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteConversation "No touser set"');
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
 	    $currentUser = $_SESSION['id'];
 	    $touser = $this->request['toUser'];
 
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] deleteConversation executed');
 	    $this->response(array($controllers['CONVERSATION_DEL']), 200);
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteConversation "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
@@ -64,16 +75,27 @@ class MessageController extends REST {
      */
     public function message() {
 	global $controllers;
+	$startTimer = microtime();
 	try {
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during message "No POST action"');
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['id'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during message "No User in session"');
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['toUser'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during message "No touser set"');
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    } elseif (!isset($this->request['toUserType'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during message "No tousertype set"');
 		$this->response(array('status' => $controllers['NOTOUSERTYPE']), 403);
 	    } elseif (!isset($this->request['message'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during message "No message text set"');
 		$this->response(array('status' => $controllers['NOMESSAGE']), 403);
 	    }
 	    $currentUserId = $_SESSION['id'];
@@ -83,6 +105,11 @@ class MessageController extends REST {
 	    $text = $this->request['message'];
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during message "Unable to connect"');
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
 	    if ($currentUserType == 'VENUE' || $currentUserType == 'VENUE') {
 		$relationType = ($toUserType == 'SPOTTER') ? 'FOLLOWING' : 'COLLABORATION';
 		$relation = existsRelation($connectionService, 'user', $currentUserId, 'user', $toUserId, $relationType);
@@ -90,9 +117,13 @@ class MessageController extends REST {
 		$relation = existsRelation($connectionService, 'user', $currentUserId, 'user', $toUserId, 'friendship');
 	    }
 	    if (!$relation) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during message "someone trying to spam"');
 		$this->response(array('status' => $controllers['NOSPAM']), 401);
 	    }
 	    if (strlen($text) < $this->config->minMessageSize) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during message "message too short"');
 		$this->response(array('status' => $controllers['SHORTMESSAGE'] . strlen($text)), 406);
 	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
@@ -116,8 +147,9 @@ class MessageController extends REST {
 	    $connection->autocommit(false);
 	    $connectionService->autocommit(false);
 	    $resMess = insertComment($connection, $message);
-	    $relation = createRelation($connectionService, 'user', $currentUserId, 'comment', $resMess->getId(), 'MESSAGE');
-	    if ($resMess === false || $relation === false) {
+	    if ($resMess === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during message "unable to perform insertComment"');
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {
 		$connection->commit();
@@ -132,8 +164,12 @@ class MessageController extends REST {
 	    $subject = $controllers['SBJMESSAGE'];
 	    $html = $mail_files['MESSAGEEMAIL'];
 	    sendMailForNotification($address, $subject, $html);
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] message executed');
 	    $this->response(array($controllers['MESSAGESAVED']), 200);
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during message "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
@@ -144,13 +180,20 @@ class MessageController extends REST {
      * @todo    testare
      */
     public function read() {
+	$startTimer = microtime();
 	global $controllers;
 	try {
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during read "No POST action"');
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['id'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during read "No User in session"');
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['id'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during read "No message id set"');
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    }
 	    $userId = $this->request['id'];
@@ -158,20 +201,28 @@ class MessageController extends REST {
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during read "Unable to connect"');
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $connection->autocommit(false);
 	    $connectionService->autocommit(false);
 	    $read = update($connection, 'comment', array('updatedat' => date('Y-m-d H:i:s'), 'read' => 1), null, null, $messageId);
 	    if ($read === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during read "Unable to update"');
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {
 		$connection->commit();
 		$connectionService->commit();
 	    }
 	    $connectionService->disconnect($connection);
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] read executed');
 	    $this->response(array($controllers['MESSAGEREAD']), 200);
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during read "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
