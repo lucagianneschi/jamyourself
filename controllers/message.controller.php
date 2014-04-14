@@ -10,6 +10,7 @@ require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
 require_once SERVICES_DIR . 'connection.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * MessageController class 

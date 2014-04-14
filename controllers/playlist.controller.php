@@ -9,6 +9,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'delete.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * PlaylistController class 

@@ -11,6 +11,7 @@ require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
 require_once SERVICES_DIR . 'update.service.php';
 require_once SERVICES_DIR . 'delete.service.php';
+require_once SERVICES_DIR . 'utils.service.php';
 
 /**
  * LoveController class
