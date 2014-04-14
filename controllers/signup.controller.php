@@ -63,11 +63,16 @@ class SignupController extends REST {
      * verifica esistenza della mail
      */
     public function checkEmailExists() {
+	$startTimer = microtime();
 	global $controllers;
 	try {
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during checkEmailExists "No POST action"');
 		$this->response(array('status' => $controllers["NOPOSTREQUEST"]), 406);
 	    } elseif (!isset($this->request['email'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during checkEmailExists "No email set"');
 		$this->response(array('status' => $controllers['NOMAILSPECIFIED']), 403);
 	    }
 	    $email = $this->request['email'];
@@ -75,19 +80,29 @@ class SignupController extends REST {
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during checkEmailExists "Unable to connect"');
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $res = selectUsers($connection, null, $where);
 	    if ($res === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during checkEmailExists "Unable to excute selectUser"');
 		$this->response(array("status" => $controllers["MAILCHECKERROR"]), 403);
 	    }
 	    $connectionService->disconnect($connection);
 	    if (count($res) === 0) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] checkEmailExists executed');
 		$this->response(array("status" => $controllers["VALIDMAIL"]), 200);
 	    } else {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] checkEmailExists executed, mail error');
 		$this->response(array("status" => $controllers["MAILERROREXISTS"]), 403);
 	    }
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during checkEmailExists "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}
     }
@@ -96,11 +111,16 @@ class SignupController extends REST {
      * verifica esistenza dello userName
      */
     public function checkUsernameExists() {
+	$startTimer = microtime();
 	global $controllers;
 	try {
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during checkUsernameExists "No POST action"');
 		$this->response(array('status' => $controllers["NOPOSTREQUEST"]), 406);
 	    } elseif (!isset($this->request['username'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during checkEmailExists "No username set"');
 		$this->response(array('status' => $controllers["NOUSERNAMESPECIFIED"]), 400);
 	    }
 	    $username = $this->request['username'];
@@ -108,19 +128,29 @@ class SignupController extends REST {
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during checkUsernameExists "Unable to connect"');
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $res = selectUsers($connection, null, $where);
 	    if ($res === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during checkUsernameExists "Unable to excute selectUser"');
 		$this->response(array("status" => $controllers["USERNAMECHECKERROR"]), 403);
 	    }
 	    $connectionService->disconnect($connection);
 	    if (count($res) === 0) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] checkUsernameExists executed');
 		$this->response(array("status" => $controllers["VALIDUSERNAME"]), 200);
 	    } else {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] checkUsernameExists executed: error in username o email');
 		$this->response(array("status" => $controllers["USERNAMEERROREXISTS"]), 403);
 	    }
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during checkUsernameExists "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}
     }
@@ -131,11 +161,16 @@ class SignupController extends REST {
      * @todo    ancora da implementare
      */
     public function recaptcha() {
+	$startTimer = microtime();
 	global $controllers;
 	try {
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during recaptcha "No POST action"');
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 406);
 	    } elseif (!isset($this->request['challengeField']) || !isset($this->request['responseField'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during recaptcha "challengefield/responde error"');
 		$this->response(array('status' => $controllers["NOCAPTCHA"]), 403);
 	    }
 	    $challengeField = $this->request['challengeField'];
@@ -143,13 +178,19 @@ class SignupController extends REST {
 	    //da implementare
 	    $resp = recaptcha_check_answer(CAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $challengeField, $responseField);
 	    if ($resp->is_valid) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] recaptcha executed');
 		$_SESSION['SignupCaptchaValidation'] = true;
 		$this->response(array("status" => $controllers["CORRECTCAPTCHA"]), 200);
 	    } else {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] recaptcha executed: error recaptcha');
 		$_SESSION['SignupCaptchaValidation'] = false;
 		$this->response(array("status" => $controllers["WRONGRECAPTCHA"]), 403);
 	    }
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during recaptcha "Exception" => ' . $e->getMessage());
 	    unset($_SESSION['SignupCaptchaValidation']);
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}
@@ -162,12 +203,17 @@ class SignupController extends REST {
      * @todo
      */
     public function signup() {
+	$startTimer = microtime();
 	global $controllers;
 	try {
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during signup "No POST action"');
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    }
 	    if (!isset($_SESSION['SignupCaptchaValidation']) || is_null($_SESSION['SignupCaptchaValidation']) || $_SESSION['SignupCaptchaValidation'] == false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during signup "recaptcha Error"');
 		$this->response(array('status' => $controllers['NOCAPTCHAVALIDATION']), 401);
 	    } else {
 		unset($_SESSION['SignupCaptchaValidation']);
@@ -193,6 +239,8 @@ class SignupController extends REST {
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during signup "Unable to connect"');
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $connection->autocommit(false);
@@ -200,6 +248,8 @@ class SignupController extends REST {
 	    $user = insertUser($connection, $newUser);
 	    $node = createNode($connection, 'user', $user->getId());
 	    if (!$user || !$node) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during signup "Unable to excute insertUser or createNode"');
 		$this->response(array('status' => $controllers['NEWUSERCREATIONFAILED']), 503);
 	    } else {
 		$connection->commit();
@@ -233,8 +283,12 @@ class SignupController extends REST {
 	    }
 	    unset($_SESSION['captchaPublicKey']);
 	    unset($_SESSION['config']);
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] signup executed');
 	    $this->response(array("status" => $controllers['USERCREATED']), 200);
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during signup "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}
     }
@@ -357,6 +411,8 @@ class SignupController extends REST {
 		}
 	    }
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createFileSystemStructure "Exception" => ' . $e->getMessage());
 	    return false;
 	}
     }
