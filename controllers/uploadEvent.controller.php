@@ -42,31 +42,56 @@ class UploadEventController extends REST {
      * funzione per pubblicazione dell'event
      */
     public function createEvent() {
+	$startTimer = microtime();
 	try {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "No POST action"');
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 400);
 	    } elseif (!isset($_SESSION['id'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "No User in session"');
 		$this->response(array('status' => $controllers['USERNOSES']), 400);
 	    } elseif (!isset($this->request['title']) || is_null($this->request['title']) || !(strlen($this->request['title']) > 0)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "No title set"');
 		$this->response(array('status' => $controllers['NOEVENTTITLE']), 400);
 	    } elseif (!isset($this->request['description']) || is_null($this->request['description']) || !(strlen($this->request['description']) > 0)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "No description set"');
 		$this->response(array('status' => $controllers['NOEVENTDESCRIPTION']), 400);
 	    } elseif (!isset($this->request['date']) || is_null($this->request['date'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "No date set"');
 		$this->response(array('status' => $controllers['NOEVENTDATE']), 400);
 	    } elseif (!isset($this->request['hours']) || is_null($this->request['hours'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "No hours set"');
 		$this->response(array('status' => $controllers['NOEVENTHOURS']), 400);
 	    } elseif (!isset($this->request['music']) || is_null($this->request['music']) || !is_array($this->request['music']) || !(count($this->request['music']) > 0)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "No music set"');
 		$this->response(array('status' => $controllers['NOEVENTMUSIC']), 400);
 	    } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags']) > 0)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "No tag set"');
 		$this->response(array('status' => $controllers['NOEVENTTAGS']), 400);
 	    } elseif (!isset($this->request['venue']) || is_null($this->request['venue']) || !(strlen($this->request['venue']) > 0)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "No venue set"');
 		$this->response(array('status' => $controllers['NOEVENTVENUE']), 400);
 	    } elseif (!isset($this->request['image']) || is_null($this->request['image'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "No image set"');
 		$this->response(array('status' => $controllers['NOEVENTIMAGE']), 400);
 	    } elseif (!isset($this->request['crop']) || is_null($this->request['crop'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "Nothumb set"');
 		$this->response(array('status' => $controllers['NOEVENTTHUMB']), 400);
 	    } elseif (!isset($this->request['city']) || is_null($this->request['city'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "No city set"');
 		$this->response(array('status' => $controllers['NOEVENTADDRESS']), 400);
 	    }
 	    $userId = $_SESSION['id'];
@@ -88,7 +113,7 @@ class UploadEventController extends REST {
 		$this->response(array('status' => $controllers['NOEVENTDATE']), 400);
 	    }
 	    $event->setEventdate($eventDate);
-	    $event->setFromuser($userId);	    
+	    $event->setFromuser($userId);
 	    $event->setGenre($this->request['music']);
 	    $event->setInvitedCounter(0);
 	    $event->setLatitude($infoLocation['latitude']);
@@ -104,6 +129,8 @@ class UploadEventController extends REST {
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "Unable to connect"');
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $connection->autocommit(false);
@@ -111,11 +138,12 @@ class UploadEventController extends REST {
 	    $result = insertEvent($connection, $event);
 	    $node = createNode($connectionService, 'event', $result);
 	    $relation = createRelation($connectionService, 'user', $userId, 'event', $result, 'CREATE');
-		if (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {			
-			foreach ($this->request['jammers'] as $userId) {
-				$featuring = createRelation($connectionService, 'user', $userId, 'event', $result, 'FEATURE');
-				if($featuring == false) $this->response(array('status' => $controllers['COMMENTERR']), 503);
-			}			
+	    if (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
+		foreach ($this->request['jammers'] as $userId) {
+		    $featuring = createRelation($connectionService, 'user', $userId, 'event', $result, 'FEATURE');
+		    if ($featuring == false)
+			$this->response(array('status' => $controllers['COMMENTERR']), 503);
+		}
 	    }
 	    $fileManager = new FileManagerService();
 	    $res_thumb = $fileManager->saveEventPhoto($userId, $event->getThumbnail());
@@ -127,8 +155,12 @@ class UploadEventController extends REST {
 		$connectionService->commit();
 	    }
 	    $connectionService->disconnect($connection);
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] createEvent executed');
 	    $this->response(array('status' => $controllers['EVENTCREATED']), 200);
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createEvent "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
@@ -141,6 +173,7 @@ class UploadEventController extends REST {
      * @todo    check su utilizzo funzioni della utilsClass
      */
     private function getDate($day, $hours) {
+	$startTimer = microtime();
 	try {
 	    if (!isset($day) || is_null($day) || !(strlen($day) > 0)) {
 		return null;
@@ -150,6 +183,8 @@ class UploadEventController extends REST {
 		return DateTime::createFromFormat("d/m/Y H:i", $day . " " . $hours);
 	    }
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during getDate "Exception" => ' . $e->getMessage());
 	    return false;
 	}
     }
