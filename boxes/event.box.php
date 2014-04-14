@@ -6,6 +6,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * EventBox class, box class to pass info to the view
@@ -38,14 +39,19 @@ class EventBox {
      * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	$events = selectEvents($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($events === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectEvents"');
+	    $this->error = 'Unable to perform selectEvents';
 	}
 	$this->eventArray = $events;
     }
@@ -55,14 +61,19 @@ class EventBox {
      * @param	int $id for event
      */
     public function initForMediaPage($id) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	$events = selectEvents($connection, $id);
 	if ($events === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectEvents"');
+	    $this->error = 'Unable to perform selectEvents';
 	}
 	$this->eventArray = $events;
     }
