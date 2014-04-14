@@ -4,6 +4,7 @@ require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'cropImage.service.php';
 require_once SERVICES_DIR . 'mp3.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * UploadController class
@@ -39,6 +40,7 @@ class UploadController extends REST {
      * 
      */
     public function uploadImage() {
+	$startTimer = microtime();
 	try {
 	    $this->setHeader();
 	    if ($this->config->timeLimit > 0) {
@@ -101,7 +103,8 @@ class UploadController extends REST {
 		die('{"jsonrpc" : "2.0"}');
 	    }
 	} catch (Exception $e) {
-	    
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during uploadImage "Exception" => ' . $e->getMessage());
 	}
     }
 
@@ -115,6 +118,7 @@ class UploadController extends REST {
      * 
      */
     public function uploadMp3() {
+	$startTimer = microtime();
 	try {
 	    $this->setHeader();
 	    if ($this->config->timeLimit > 0) {
@@ -182,7 +186,8 @@ class UploadController extends REST {
 		die('{"jsonrpc" : "2.0"}');
 	    }
 	} catch (Exception $e) {
-	    
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during uploadMp3 "Exception" => ' . $e->getMessage());
 	}
     }
 
@@ -195,6 +200,7 @@ class UploadController extends REST {
      * @return array(0,0) in case of error, array(width,height) otherwise
      */
     private function calculateNewProperties($width, $height) {
+	$startTimer = microtime();
 	try {
 	    $MAX_IMG_WIDTH = $this->config->maxImgWidth;
 	    $MAX_IMG_HEIGHT = $this->config->maxImgHeight;
@@ -212,6 +218,8 @@ class UploadController extends REST {
 		}
 	    }
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during calculateNewProperties "Exception" => ' . $e->getMessage());
 	    return array(0, 0);
 	}
     }
@@ -225,6 +233,7 @@ class UploadController extends REST {
      * @return array(0,0) in case of error, array(width,height) otherwise
      */
     private function cleanUpTargetDir($targetDir, $filePath) {
+	$startTimer = microtime();
 	try {
 	    $maxFileAge = $this->config->maxFileAge; // Temp file age in seconds
 	    if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
@@ -243,6 +252,8 @@ class UploadController extends REST {
 	    closedir($dir);
 	    return true;
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during cleanUpTargetDir "Exception" => ' . $e->getMessage());
 	    return false;
 	}
     }
