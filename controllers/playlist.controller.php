@@ -36,18 +36,28 @@ class PlaylistController extends REST {
 
     /**
      * add song to playlist
+     * 
      * @todo    prevedere rollback e testare
      */
     public function addSong() {
+	$startTimer = microtime();
+	global $controllers;
 	try {
-	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during addSong "No POST action"');
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['id'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during addSong "No User in session"');
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['songId'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during addSong "No SONG id"');
 		$this->response(array('status' => $controllers['NOSONGID']), 403);
 	    } elseif (!isset($this->request['playlistId'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during addSong "No PLAYLIST id"');
 		$this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
 	    }
 	    $playlistId = $this->request['playlistId'];
@@ -55,57 +65,85 @@ class PlaylistController extends REST {
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during addSong "Unable to connect"');
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $song = insertSongInPlayslist($connection, $songId, $playlistId);
 	    $songCounter = update($connection, 'playlist', array('updatedat' => date('Y-m-d H:i:s')), array('songcounter' => 1), null, $playlistId);
 	    $relation = createRelation($connectionService, 'song', $songId, 'playlist', $playlistId, 'ADDTOPLAYLIST');
 	    if ($song === false || $relation === false || $songCounter === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during addSong "Unable to execute query"');
 		$this->response(array('status' => $controllers['PLAYLISTERR']), 503);
 	    } else {
 		$connection->commit();
 		$connectionService->commit();
 	    }
 	    $connectionService->disconnect($connection);
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] addSong executed');
 	    $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during addSong  "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
     /**
      * remove song to playlist 
-     * @todo   
+     * 
+     * @todo test
      */
     public function removeSong() {
+	$startTimer = microtime();
+	global $controllers;
 	try {
-	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during removeSong "No POST action"');
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['id'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during removeSong "No User in session"');
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['songId'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during removeSong "No SONG id"');
 		$this->response(array('status' => $controllers['NOSONGID']), 403);
+	    } elseif (!isset($this->request['playlistId'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during removeSong "No PLAYLIST id"');
+		$this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
 	    }
 	    $playlistId = $this->request['playlistId'];
 	    $songId = $this->request['songId'];
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during removeSong "Unable to connect"');
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $song = false;
 	    $songCounter = update($connection, 'playlist', array('updatedat' => date('Y-m-d H:i:s')), null, array('songcounter' => 1), $playlistId);
 	    $relation = deleteRelation($connection, 'song', $songId, 'playlist', $playlistId, 'ADDTOPLAYLIST');
 	    if ($song === false || $relation === false || $songCounter === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during removeSong "Unable to execute delete"');
 		$this->response(array('status' => $controllers['PLAYLISTERR']), 503);
 	    } else {
 		$connection->commit();
 		$connectionService->commit();
 	    }
 	    $connectionService->disconnect($connection);
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] removeSong executed');
 	    $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during removeSong  "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
