@@ -1,25 +1,31 @@
 <?php
 
-/* ! \par		Info Generali:
- * \author		Daniele Caldelli
- * \version		1.0
- * \date		2013
- * \copyright	Jamyourself.com 2013
- * \par			Info Classe:
- * \brief		estensione della classe PHPMailer 
- * \details		contiene i parametri standard di invio mail di Jam
- * \par			Commenti:
- * \warning
- * \bug
- * \todo
- *
+/**
+ * 
+ * contiene i parametri standard di invio mail di Jam
+ * 
+ * @author Daniele Caldelli
+ * @version		0.2
+ * @since		2014-03-17
+ * @copyright		Jamyourself.com 2013	
+ * @warning
+ * @bug
+ * @todo                
  */
+
+
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'mail/class.phpmailer.php';
 
+/**
+ * 
+ * contiene i parametri standard di invio mail di Jam
+ * 
+ * @return \PHPMailer
+ */
 function mailService() {
     $mail = new PHPMailer;
     $mail->isSMTP();
