@@ -6,6 +6,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * UserInfoBox class, box class to pass info to the view
@@ -35,14 +36,19 @@ class UserInfoBox {
      * @param	int $id for user that owns the page
      */
     public function init($id) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	$user = selectUsers($connection, $id);
 	if ($user === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectUsers"');
+	    $this->error = 'Unable to perform selectUsers';
 	}
 	$this->user = $user;
     }

@@ -6,6 +6,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * ReviewEventBox class, box class to pass info to the view,
@@ -37,14 +38,19 @@ class ReviewEventBox {
      * @param   int $skip, number of album to skip    
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during initForMediaPage "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	$reviews = selectComments($connection, null, array('event' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($reviews === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during initForMediaPage "Unable to perform selectComments"');
+	    $this->error = 'Unable to perform selectComments';
 	}
 	$this->reviewArray = $reviews;
     }
@@ -57,10 +63,13 @@ class ReviewEventBox {
      * @param   int $skip, number of album to skip    
      */
     function init($id, $type, $limit = 3, $skip = 0) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	if ($type == 'SPOTTER') {
 	    $reviews = selectReviewEvent($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
@@ -68,7 +77,9 @@ class ReviewEventBox {
 	    $reviews = selectReviewEvent($connection, null, array('touser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	}
 	if ($reviews === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectReviewEvent"');
+	    $this->error = 'Unable to perform selectReviewEvent';
 	}
 	$this->reviewArray = $reviews;
     }
@@ -105,14 +116,19 @@ class ReviewRecordBox {
      * @param   int $skip, number of album to skip    
      */
     public function initForMediaPage($id, $limit = 3, $skip = 0) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during initForMediaPage "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	$reviews = selectComments($connection, null, array('record' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($reviews === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectComments"');
+	    $this->error = 'Unable to perform selectComments';
 	}
 	$this->reviewArray = $reviews;
     }
@@ -125,10 +141,13 @@ class ReviewRecordBox {
      * @param   int $skip, number of album to skip    
      */
     function initForPersonalPage($id, $type, $limit = 3, $skip = 0) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during initForPersonalPage "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	if ($type == 'SPOTTER') {
 	    $reviews = selectReviewRecord($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
@@ -136,7 +155,9 @@ class ReviewRecordBox {
 	    $reviews = selectReviewRecord($connection, null, array('touser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	}
 	if ($reviews === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectReviewRecord"');
+	    $this->error = 'Unable to perform selectReviewRecord';
 	}
 	$this->reviewArray = $reviews;
     }

@@ -6,6 +6,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * RecordBox class, box class to pass info to the view
@@ -42,14 +43,19 @@ class RecordBox {
      * @param   int $skip, number of album to skip
      */
     public function init($id, $limit = 3, $skip = 0) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	$records = selectRecords($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($records === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectRecords"');
+	    $this->error = 'Unable to perform selectRecords';
 	}
 	$this->recordArray = $records;
     }
@@ -59,14 +65,19 @@ class RecordBox {
      * @param	int $id of the record to display in Media Page
      */
     public function initForMediaPage($id) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during initForMediaPage "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	$records = selectRecords($connection, $id);
 	if ($records === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectRecords"');
+	    $this->error = 'Unable to perform selectRecords';
 	}
 	$this->recordArray = $records;
     }
@@ -96,14 +107,19 @@ class RecordBox {
      * @param	$id of the record to display
      */
     public function initForTracklist($id) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during initForMediaPage "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	$tracklist = selectSongs($connection, null, array('record' => $id), array('position' => 'ASC'));
 	if ($tracklist === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectSongs"');
+	    $this->error = 'Unable to perform selectSongs';
 	}
 	$this->tracklist = $tracklist;
     }

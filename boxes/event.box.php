@@ -66,13 +66,13 @@ class EventBox {
 	$connection = $connectionService->connect();
 	if ($connection === false) {
 	    $endTimer = microtime();
-	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to connect"');
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during initForMediaPage "Unable to connect"');
 	    $this->error = 'Unable to connect';
 	}
 	$events = selectEvents($connection, $id);
 	if ($events === false) {
 	    $endTimer = microtime();
-	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectEvents"');
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during initForMediaPage "Unable to perform selectEvents"');
 	    $this->error = 'Unable to perform selectEvents';
 	}
 	$this->eventArray = $events;

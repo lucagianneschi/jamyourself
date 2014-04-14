@@ -45,21 +45,24 @@ class CollaboratorsBox {
      * @todo    
      */
     public function init($id, $limit = 100, $skip = 0) {
+	$startTimer = microtime();
 	try {
 	    $venueArray = array();
 	    $jammerArray = array();
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'COLLABORATION', $skip, $limit);
-		if(count($data) > 0){
-		    $users = selectUsers($connection, null, array('id' => $data));
-		    foreach ($users as $user) {
-			($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
-		    }
+	    if (count($data) > 0) {
+		$users = selectUsers($connection, null, array('id' => $data));
+		foreach ($users as $user) {
+		    ($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
 		}
+	    }
 	    $this->venueArray = $venueArray;
 	    $this->jammerArray = $jammerArray;
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error init "Exception" => ' . $e->getMessage());
 	    $this->error = $e->getMessage();
 	}
     }
@@ -97,20 +100,24 @@ class FollowersBox {
      * @todo 
      */
     public function init($id, $limit = 4, $skip = 0) {
+	$startTimer = microtime();
 	try {
 	    $followers = array();
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FOLLOWING', $skip, $limit);
-		if(count($data) > 0){
-			$users = selectUsers($connection, null, array('id' => $data));
-			if(!is_array($users)) return $followers;
-		    foreach ($users as $user) {
-				array_push($followers, $user);
-		    }
-		}	    
+	    if (count($data) > 0) {
+		$users = selectUsers($connection, null, array('id' => $data));
+		if (!is_array($users))
+		    return $followers;
+		foreach ($users as $user) {
+		    array_push($followers, $user);
+		}
+	    }
 	    $this->followersArray = $followers;
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error init "Exception" => ' . $e->getMessage());
 	    $this->error = $e->getMessage();
 	}
     }
@@ -153,21 +160,24 @@ class FollowingsBox {
      * @todo   
      */
     public function init($id, $limit = 100, $skip = 0) {
+	$startTimer = microtime();
 	try {
 	    $venueArray = array();
 	    $jammerArray = array();
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FOLLOWING', $skip, $limit);
-		if(count($data) > 0){
-		    $users = selectUsers($connection, null, array('id' => $data));
-		    foreach ($users as $user) {
-			($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
-		    }
+	    if (count($data) > 0) {
+		$users = selectUsers($connection, null, array('id' => $data));
+		foreach ($users as $user) {
+		    ($user->getType() == 'VENUE') ? array_push($venueArray, $user) : array_push($jammerArray, $user);
 		}
+	    }
 	    $this->venueArray = $venueArray;
 	    $this->jammerArray = $jammerArray;
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error init "Exception" => ' . $e->getMessage());
 	    $this->error = $e->getMessage();
 	}
     }
@@ -205,19 +215,22 @@ class FriendsBox {
      * @todo   
      */
     public function init($id, $limit = 4, $skip = 0) {
+	$startTimer = microtime();
 	try {
 	    $followings = array();
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    $data = getRelatedNodes($connectionService, 'user', $id, 'user', 'FRIENDSHIP', $skip, $limit);
-		if(count($data) > 0){
-		    $users = selectUsers($connection, null, array('id' => $data));
-		    foreach ($users as $user) {
-			array_push($followings, $user);
-	    }
+	    if (count($data) > 0) {
+		$users = selectUsers($connection, null, array('id' => $data));
+		foreach ($users as $user) {
+		    array_push($followings, $user);
 		}
+	    }
 	    $this->followersArray = $followings;
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error init "Exception" => ' . $e->getMessage());
 	    $this->error = $e->getMessage();
 	}
     }
