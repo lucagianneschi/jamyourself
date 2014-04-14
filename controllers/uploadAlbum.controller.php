@@ -44,17 +44,28 @@ class UploadAlbumController extends REST {
      * funzione per pubblicazione dell'album
      */
     public function createAlbum() {
+	$startTimer = microtime();
+	global $controllers;
 	try {
-	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createAlbum "No POST action"');
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 400);
 	    } elseif (!isset($_SESSION['id'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createAlbum "No User in session"');
 		$this->response($controllers['USERNOSES'], 400);
 	    } elseif (!isset($this->request['albumTitle']) || is_null($this->request['albumTitle']) || !(strlen($this->request['albumTitle']) > 0)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createAlbum "No album title set"');
 		$this->response(array('status' => $controllers['NOALBUMTITLE']), 400);
 	    } elseif (!isset($this->request['description']) || is_null($this->request['description']) || !(strlen($this->request['description']) > 0)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createAlbum "No description title set"');
 		$this->response(array('status' => $controllers['NOALBUMDESCRIPTION']), 400);
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createAlbum "Images Error"');
 		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 400);
 	    }
 	    $currentUserId = $_SESSION['id'];
@@ -63,7 +74,7 @@ class UploadAlbumController extends REST {
 	    $album->setCommentcounter(0);
 	    $album->setCounter(0);
 	    $album->setCover(DEFALBUMCOVER);
-	    $album->setDescription($this->request['description']);	    
+	    $album->setDescription($this->request['description']);
 	    $album->setFromuser($currentUserId);
 	    $album->setImagecounter(0);
 	    if (isset($this->request['city']) && !is_null($this->request['city'])) {
@@ -84,6 +95,8 @@ class UploadAlbumController extends REST {
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createAlbum "Unable to connect"');
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $connection->autocommit(false);
@@ -93,12 +106,15 @@ class UploadAlbumController extends REST {
 	    $node = createNode($connectionService, 'album', $albumId);
 	    $relation = createRelation($connectionService, 'user', $currentUserId, 'album', $albumId, 'CREATE');
 	    if (isset($this->request['featuring']) && is_array($this->request['featuring']) && count($this->request['featuring']) > 0) {
-			foreach ($this->request['featuring'] as $userId) {
-				$featuring = createRelation($connectionService, 'user', $userId, 'album', $result, 'FEATURE');
-				if($featuring == false) $this->response(array('status' => $controllers['COMMENTERR']), 503);
-			}
+		foreach ($this->request['featuring'] as $userId) {
+		    $featuring = createRelation($connectionService, 'user', $userId, 'album', $result, 'FEATURE');
+		    if ($featuring == false)
+			$this->response(array('status' => $controllers['COMMENTERR']), 503);
+		}
 	    }
 	    if ($result === false || $relation === false || $node === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createAlbum "Unable to commit"');
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
 	    } else {
 		$connection->commit();
@@ -117,13 +133,21 @@ class UploadAlbumController extends REST {
 	    }
 	    $connectionService->disconnect($connection);
 	    if (count($errorImages) == count($this->request['images'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] createAlbum  not executed');
 		$this->response(array("status" => $controllers['ALBUMSAVENOIMGSAVED'], "id" => $albumId), 200);
 	    } elseif (count($errorImages) > 0) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] createAlbum executed partially');
 		$this->response(array("status" => $controllers['ALBUMSAVEDWITHERRORS'], "id" => $albumId), 200);
 	    } else {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] createAlbum executed');
 		$this->response(array("status" => $controllers['ALBUMSAVED'], "id" => $albumId), 200);
 	    }
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during createAlbum "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
@@ -132,20 +156,31 @@ class UploadAlbumController extends REST {
      * aggiorna l'album
      */
     public function updateAlbum() {
+	$startTimer = microtime();
+	global $controllers;
 	try {
-	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during updateAlbum "No POST action"');
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 400);
 	    } elseif (!isset($_SESSION['id'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during updateAlbum "No User in session"');
 		$this->response($controllers['USERNOSES'], 400);
 	    } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during updateAlbum "No album id"');
 		$this->response(array('status' => $controllers['NOALBUMID']), 400);
 	    } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during updateAlbum "Images error"');
 		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 400);
 	    }
 	    $connectionService = new ConnectionService();
 	    $connection = $connectionService->connect();
 	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during updateAlbum "Unable to connect"');
 		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
 	    $connection->autocommit(false);
@@ -154,6 +189,8 @@ class UploadAlbumController extends REST {
 	    $albumId = $this->request['albumId'];
 	    $album = selectAlbums($connection, $albumId);
 	    if ($album == false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during updateAlbum "Unable to excecute selectAlbums"');
 		$this->response(array('status' => $controllers['NOALBUMFOUNDED']), 405);
 	    }
 	    $errorImages = $this->saveImagesList($connection, $connectionService, $this->request['images'], $albumId, $currentUserId);
@@ -169,13 +206,21 @@ class UploadAlbumController extends REST {
 	    }
 	    $connectionService->disconnect($connection);
 	    if (count($errorImages) == count($this->request['images'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] updateAlbum  not executed');
 		$this->response(array("status" => $controllers['NOIMAGESAVED'], "id" => $albumId), 200);
 	    } elseif (count($errorImages) > 0) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] updateAlbum executed partially');
 		$this->response(array("status" => $controllers['IMAGESSAVEDWITHERRORS'], "id" => $albumId), 200);
 	    } else {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] updateAlbum executed');
 		$this->response(array("status" => $controllers['IMAGESSAVED'], "id" => $albumId), 200);
 	    }
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during updateAlbum "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
@@ -184,28 +229,43 @@ class UploadAlbumController extends REST {
      * recupera una lista di immagini, recupera ID e src
      */
     public function getImagesList() {
+	$startTimer = microtime();
+	global $controllers;
 	try {
-	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during getImagesList "No POST action"');
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['id'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during getImagesList "No user in session"');
 		$this->response($controllers['USERNOSES'], 403);
 	    } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during getImagesList "No album id selected"');
 		$this->response(array("status" => $controllers['NOOBJECTID']), 403);
 	    }
 	    $albumId = $this->request['albumId'];
 	    $imagesList = $this->getImagesByAlbumId($albumId);
 	    if ($imagesList == null) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during getImagesList "unable to execute getImagesByAlbumId"');
 		$this->response(array("status" => $controllers['nodata']), 200);
 	    } elseif (is_null($imagesList) || count($imagesList) == 0) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during getImagesList "getImagesByAlbumId gave no images"');
 		$this->response(array("status" => $controllers['NOIMAGEFORALBUM'], "imageList" => null, "count" => 0), 200);
 	    }
 	    $returnInfo = array();
 	    foreach ($imagesList as $image) {
 		$returnInfo[] = json_encode(array("id" => $image->getId(), "src" => $image->getPath()));
 	    }
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] getImagesList executed');
 	    $this->response(array("status" => $controllers['COUNTALBUMOK'], "imageList" => $returnInfo, "count" => count($imagesList)), 200);
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during getImagesList "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
@@ -256,8 +316,9 @@ class UploadAlbumController extends REST {
      * @return $imageId or
      */
     private function saveImage($imgInfo, $albumId) {
+	$startTimer = microtime();
+	global $controllers;
 	try {
-	    global $controllers;
 	    $currentUserId = $_SESSION['id'];
 	    $cachedFile = CACHE_DIR . $imgInfo['src'];
 	    if (!file_exists($cachedFile)) {
@@ -267,6 +328,8 @@ class UploadAlbumController extends REST {
 		$connectionService = new ConnectionService();
 		$connection = $connectionService->connect();
 		if ($connection === false) {
+		    $endTimer = microtime();
+		    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during saveImage "Unable to connect"');
 		    $this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 		}
 		$connection->autocommit(false);
@@ -276,7 +339,7 @@ class UploadAlbumController extends REST {
 		$image->setAlbum($albumId);
 		$image->setCommentcounter(0);
 		$image->setCounter(0);
-		$image->setDescription($imgInfo['description']);		
+		$image->setDescription($imgInfo['description']);
 		$image->setPath($imgMoved['image']);
 		$image->setFromuser($currentUserId);
 		$image->setLatitude(null);
@@ -287,26 +350,35 @@ class UploadAlbumController extends REST {
 		$image->setThumbnail($imgMoved['thumbnail']);
 		$result = insertImage($connection, $image);
 		if ($result === false) {
+		    $endTimer = microtime();
+		    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during saveImage "Unable to execute insertImage"');
 		    $this->response(array('status' => $controllers['INSERT_ERROR']), 500);
 		}
 		$node = createNode($connectionService, 'image', $result);
 		$relation = createRelation($connectionService, 'user', $currentUserId, 'image', $result, 'ADD');
 		if (isset($imgInfo['featuring']) && is_array($imgInfo['featuring']) && count($imgInfo['featuring']) > 0) {
-			foreach ($imgInfo['featuring'] as $userId) {
-				$featuring = createRelation($connectionService, 'user', $userId, 'image', $result, 'FEATURE');
-				if($featuring == false) return false;
-			}
+		    foreach ($imgInfo['featuring'] as $userId) {
+			$featuring = createRelation($connectionService, 'user', $userId, 'image', $result, 'FEATURE');
+			if ($featuring == false)
+			    return false;
+		    }
 		}
 		if ($result === false || $relation === false || $node === false) {
+		    $endTimer = microtime();
+		    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during saveImage "Unable to execute graph database operations"');
 		    return false;
 		} else {
 		    $connection->commit();
 		    $connectionService->commit();
 		}
 		$connectionService->disconnect($connection);
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] saveImage executed');
 		return $result;
 	    }
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during saveImage "Exception" => ' . $e->getMessage());
 	    return false;
 	}
     }
@@ -334,6 +406,8 @@ class UploadAlbumController extends REST {
 			$connectionService = new ConnectionService();
 			$connection = $connectionService->connect();
 			if ($connection === false) {
+			    $endTimer = microtime();
+			    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during saveImagesList "Unable to connect"');
 			    $this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 			}
 			$connection->autocommit(false);
@@ -341,9 +415,9 @@ class UploadAlbumController extends REST {
 			require_once SERVICES_DIR . 'update.service.php';
 			$resUpdateCover = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s'), 'cover' => $resImage->getPath()), null, null, $albumId, null);
 			$resUpdateThumb = update($connection, 'album', array('updatedat' => date('Y-m-d H:i:s'), 'thumbnail' => $resImage->getThumbnail()), null, null, $albumId, null);
-		//	$node = createNode($connectionService, 'image', $resImage->getId());
-		//	$relation = createRelation($connectionService, 'album', $albumId, 'image', $resImage->getId(), 'ADD');
-		//	if (!$resUpdateCover || !$resUpdateThumb || !$node || !$relation) {
+			//	$node = createNode($connectionService, 'image', $resImage->getId());
+			//	$relation = createRelation($connectionService, 'album', $albumId, 'image', $resImage->getId(), 'ADD');
+			//	if (!$resUpdateCover || !$resUpdateThumb || !$node || !$relation) {
 			if (!$resUpdateCover || !$resUpdateThumb) {
 			    array_push($errorImages, $image);
 			    continue;
