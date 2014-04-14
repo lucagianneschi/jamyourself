@@ -252,7 +252,7 @@ class UploadRecordController extends REST {
 			}
 			$fileManager = new FileManagerService();
 			$res = $fileManager->saveSong($currentUserId, $result);
-			if ($result === false || $node === false || $relation === false) {
+			if ($result === false || $node === false || $relation === false || $res = false) {
 			    $songErrorList[] = $element;
 			    $position--;
 			    unlink(CACHE_DIR . $element->src);
@@ -277,12 +277,18 @@ class UploadRecordController extends REST {
 		    $this->deleteMp3FromCache($toRemove->src);
 		}
 		if (count($songSavedList) == 0) {
+		    $endTimer = microtime();
+		    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] publish but non song saved');
 		    $this->response(array("status" => $controllers['NOSONGSAVED'], "id" => $recordId), 200);
 		} else {
+		    $endTimer = microtime();
+		    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] publish executed');
 		    $this->response(array("status" => $controllers['SONGSAVEDWITHERROR'], "errorList" => $songErrorList, "savedList" => $songSavedList, "id" => $recordId), 200);
 		}
 	    }
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during publish "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 200);
 	}
     }
@@ -291,9 +297,12 @@ class UploadRecordController extends REST {
      * funzione per cancellazione di song
      */
     public function deleteSong() {
+	global $controllers;
+	$startTimer = microtime();
 	try {
-	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during publish "No POST action"');
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
 	    } elseif (!isset($_SESSION['id'])) {
 		$this->response($controllers['USERNOSES'], 402);
@@ -342,8 +351,9 @@ class UploadRecordController extends REST {
      * @param   $songId
      */
     private function addSongToRecord(Record $record, Song $song) {
+	global $controllers;
+	$startTimer = microtime();
 	try {
-	    global $controllers;
 	    $resRelationCreation = false;
 	    if ($resRelationCreation == false) {
 		return false;
@@ -408,9 +418,12 @@ class UploadRecordController extends REST {
      * funzione per il recupero delle immagini della lista canzoni
      */
     public function getSongsList() {
+	global $controllers;
+	$startTimer = microtime();
 	try {
-	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during publish "No POST action"');
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['id'])) {
 		$this->response($controllers['USERNOSES'], 403);
@@ -438,6 +451,8 @@ class UploadRecordController extends REST {
 	    }
 	    $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo, "count" => count($songsList)), 200);
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during getSongsList "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
@@ -459,9 +474,10 @@ class UploadRecordController extends REST {
      * @param   $songId
      */
     private function removeSongFromRecord($record, $song) {
+	$startTimer = microtime();
 	try {
 	    $currentUser = $_SESSION['id'];
-	    require_once CLASSES_DIR . 'recordParse.class.php';
+	    require_once CLASSES_DIR . 'record.class.php';
 	    $recordId = $record->getId();
 
 	    //@todo: update del recordo per settarlo non attivo
@@ -487,6 +503,8 @@ class UploadRecordController extends REST {
 	    }
 	    return true;
 	} catch (Exception $e) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during removeSongFromRecord "Exception" => ' . $e->getMessage());
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
