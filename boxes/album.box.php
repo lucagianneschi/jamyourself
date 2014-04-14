@@ -6,6 +6,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'select.service.php';
+require_once SERVICES_DIR . 'log.service.php';
 
 /**
  * AlbumBox  class 
@@ -44,14 +45,19 @@ class AlbumBox {
      * @todo    
      */
     public function init($id, $limit = 3, $skip = 0) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	$albums = selectAlbums($connection, null, array('fromuser' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($albums === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectAlbums"');
+	    $this->error = 'Unable to perform selectAlbums';
 	}
 	$this->albumArray = $albums;
     }
@@ -64,14 +70,19 @@ class AlbumBox {
      * @todo    
      */
     public function initForDetail($id, $limit = 15, $skip = 0) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during initForDetail "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
 	$images = selectImages($connection, null, array('album' => $id), array('createdat' => 'DESC'), $limit, $skip);
 	if ($images === false) {
-	    $this->error = 'Errore nella query';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during initForDetail "Unable to perform selectImages"');
+	    $this->error = 'Unable to perform selectImages';
 	}
 	$this->imageArray = $images;
     }

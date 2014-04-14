@@ -36,17 +36,22 @@ class CommentBox {
      * @param   int $id for object that has been commented
      * @param	$className for the instance of the class that has been commented
      * @param   int $limit, number of album to display
-     * @param   int $skip, number of album to skip
+     * @param   int $skip, number of comments to skip
      */
     public function init($id, $classname, $limit = DEFAULTQUERY, $skip = 0) {
+	$startTimer = microtime();
 	$connectionService = new ConnectionService();
 	$connection = $connectionService->connect();
 	if ($connection === false) {
-	    $this->error = 'Errore nella connessione';
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to connect"');
+	    $this->error = 'Unable to connect';
 	}
-    $comments = selectComments($connection, null, array($classname => $id), array('createdat' => 'DESC'), $limit, $skip);
-    if ($comments === false) {
-	    $this->error = 'Errore nella query';
+	$comments = selectComments($connection, null, array($classname => $id), array('createdat' => 'DESC'), $limit, $skip);
+	if ($comments === false) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during init "Unable to perform selectComments"');
+	    $this->error = 'Unable to perform selectComments';
 	}
 	$this->commentArray = $comments;
     }
