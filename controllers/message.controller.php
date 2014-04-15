@@ -100,7 +100,7 @@ class MessageController extends REST {
     /**
      * save a message an the related activity
      * 
-     * @todo    testare, possibilità di invio a utenti multipli, controllo della relazione
+     * @todo    testare, possibilità di invio a utenti multipli, controllo della relazione, notifica
      */
     public function message() {
 	global $controllers;
@@ -205,7 +205,6 @@ class MessageController extends REST {
 	    $connectionService->disconnect($connection);
 	    global $mail_files;
 	    require_once CLASSES_DIR . 'user.class.php';
-	    require_once CONTROLLERS_DIR . 'utils.service.php';
 	    $user = selectUsers($currentUserId);
 	    $address = $user->getEmail();
 	    $subject = $controllers['SBJMESSAGE'];
@@ -224,7 +223,7 @@ class MessageController extends REST {
     /**
      * update activity for the current read message
      * 
-     * @todo    testare
+     * @todo    testare e settare la notifica
      */
     public function read() {
 	$startTimer = microtime();
