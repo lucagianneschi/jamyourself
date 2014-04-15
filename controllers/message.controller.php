@@ -9,6 +9,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'utils.service.php';
 require_once SERVICES_DIR . 'insert.service.php';
+require_once SERVICES_DIR . 'select.service.php';
 require_once SERVICES_DIR . 'connection.service.php';
 require_once SERVICES_DIR . 'log.service.php';
 
@@ -38,6 +39,8 @@ class MessageController extends REST {
 
     /**
      * private function to delete activity class instance
+     * 
+     * @todo gestione di caso di errore di cancellazione parziale
      */
     public function deleteConversation() {
 	$startTimer = microtime();
@@ -56,12 +59,37 @@ class MessageController extends REST {
 		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteConversation "No touser set"');
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-	    $currentUser = $_SESSION['id'];
-	    $touser = $this->request['toUser'];
-
-	    $endTimer = microtime();
-	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] deleteConversation executed');
-	    $this->response(array($controllers['CONVERSATION_DEL']), 200);
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteConversation "Unable to connect"');
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
+	    }
+	    $where = array("touser" => $this->request['toUser'], "fromuser" => $_SESSION['id']);
+	    $messages = selectMessages($connection, null, $where);
+	    if (!$messages) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteConversation "Unable to perform selectMessages"');
+		$this->response(array('status' => $controllers['NOSPAM']), 401);
+	    } elseif (count($messages) > 0) {
+		$errors = array();
+		foreach ($messages as $messages) {
+		    $resDelete = delete($connection, 'comment', $messages->getId());
+		    if ($resDelete == false) {
+			array_push($errors, $messages->getId());
+		    }
+		}
+	    }
+	    if (count($errors) == 0) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] deleteConversation executed');
+		$this->response(array($controllers['CONVERSATION_DEL']), 200);
+	    } else {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] deleteConversation error');
+		$this->response(array($controllers['CONVERSATION_DEL']), 200);
+	    }
 	} catch (Exception $e) {
 	    $endTimer = microtime();
 	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteConversation "Exception" => ' . $e->getMessage());
@@ -145,10 +173,28 @@ class MessageController extends REST {
 	    $message->setType('M');
 	    $message->setVideo(null);
 	    $message->setVote(null);
+	    $resMess = insertComment($connection, $message);
+	    $message1 = new Comment();
+	    $message1->setActive(1);
+	    $message1->setAlbum(null);
+	    $message1->setCommentcounter(0);
+	    $message1->setEvent(null);
+	    $message1->setFromuser($toUserId);
+	    $message1->setImage(null);
+	    $message1->setLatitude(null);
+	    $message1->setLongitude(null);
+	    $message1->setLovecounter(0);
+	    $message1->setSharecounter(0);
+	    $message1->setText($text);
+	    $message1->setTitle(null);
+	    $message1->setTouser($currentUserId);
+	    $message1->setType('M');
+	    $message1->setVideo(null);
+	    $message1->setVote(null);
 	    $connection->autocommit(false);
 	    $connectionService->autocommit(false);
-	    $resMess = insertComment($connection, $message);
-	    if ($resMess === false) {
+	    $resMess1 = insertComment($connection, $message);
+	    if ($resMess === false || $resMess1 === false) {
 		$endTimer = microtime();
 		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during message "unable to perform insertComment"');
 		$this->response(array('status' => $controllers['COMMENTERR']), 503);
