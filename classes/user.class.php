@@ -151,6 +151,11 @@ class User {
     private $levelvalue;
 
     /**
+     * @property array  of strings
+     */
+    private $localType;
+
+    /**
      * @property float longitudine
      */
     private $longitude;
@@ -164,7 +169,7 @@ class User {
      * @property array di string
      */
     private $music;
-    
+
     /**
      * @property int 1 = PREMIUM, 0 = STANDARD
      */
@@ -225,7 +230,7 @@ class User {
      * @return	string
      */
     public function getId() {
-	return $this->id;
+        return $this->id;
     }
 
     /**
@@ -233,7 +238,7 @@ class User {
      * @return	DateTime
      */
     public function getCreatedat() {
-	return $this->createdat;
+        return $this->createdat;
     }
 
     /**
@@ -241,7 +246,7 @@ class User {
      * @return	DateTime
      */
     public function getUpdatedat() {
-	return $this->updatedat;
+        return $this->updatedat;
     }
 
     /**
@@ -249,7 +254,7 @@ class User {
      * @return	boolean
      */
     public function getActive() {
-	return $this->active;
+        return $this->active;
     }
 
     /**
@@ -257,7 +262,7 @@ class User {
      * @return	string
      */
     public function getAddress() {
-	return $this->address;
+        return $this->address;
     }
 
     /**
@@ -265,7 +270,7 @@ class User {
      * @return	string
      */
     public function getAvatar() {
-	return $this->avatar;
+        return $this->avatar;
     }
 
     /**
@@ -273,7 +278,7 @@ class User {
      * @return	string
      */
     public function getBackground() {
-	return $this->background;
+        return $this->background;
     }
 
     /**
@@ -281,7 +286,7 @@ class User {
      * @return	string
      */
     public function getBirthday() {
-	return $this->birthday;
+        return $this->birthday;
     }
 
     /**
@@ -289,7 +294,7 @@ class User {
      * @return	string
      */
     public function getCity() {
-	return $this->city;
+        return $this->city;
     }
 
     /**
@@ -297,7 +302,7 @@ class User {
      * @return	number
      */
     public function getCollaborationcounter() {
-	return $this->collaborationcounter;
+        return $this->collaborationcounter;
     }
 
     /**
@@ -305,7 +310,7 @@ class User {
      * @return	string
      */
     public function getCountry() {
-	return $this->country;
+        return $this->country;
     }
 
     /**
@@ -313,7 +318,7 @@ class User {
      * @return	string
      */
     public function getDescription() {
-	return $this->description;
+        return $this->description;
     }
 
     /**
@@ -321,7 +326,7 @@ class User {
      * @return	string
      */
     public function getEmail() {
-	return $this->email;
+        return $this->email;
     }
 
     /**
@@ -329,7 +334,7 @@ class User {
      * @return	string
      */
     public function getFacebookid() {
-	return $this->facebookid;
+        return $this->facebookid;
     }
 
     /**
@@ -337,7 +342,7 @@ class User {
      * @return	string
      */
     public function getFacebookpage() {
-	return $this->facebookpage;
+        return $this->facebookpage;
     }
 
     /**
@@ -345,7 +350,7 @@ class User {
      * @return	string
      */
     public function getFirstname() {
-	return $this->firstname;
+        return $this->firstname;
     }
 
     /**
@@ -353,7 +358,7 @@ class User {
      * @return	number
      */
     public function getFollowerscounter() {
-	return $this->followercounter;
+        return $this->followercounter;
     }
 
     /**
@@ -361,7 +366,7 @@ class User {
      * @return	number
      */
     public function getFollowingcounter() {
-	return $this->followingcounter;
+        return $this->followingcounter;
     }
 
     /**
@@ -369,7 +374,7 @@ class User {
      * @return	number
      */
     public function getFriendshipcounter() {
-	return $this->friendshipcounter;
+        return $this->friendshipcounter;
     }
 
     /**
@@ -377,7 +382,7 @@ class User {
      * @return	string
      */
     public function getGooglepluspage() {
-	return $this->googlepluspage;
+        return $this->googlepluspage;
     }
 
     /**
@@ -385,7 +390,7 @@ class User {
      * @return	number
      */
     public function getJammercounter() {
-	return $this->jammercounter;
+        return $this->jammercounter;
     }
 
     /**
@@ -393,7 +398,7 @@ class User {
      * @return	string
      */
     public function getJammertype() {
-	return $this->jammertype;
+        return $this->jammertype;
     }
 
     /**
@@ -401,7 +406,7 @@ class User {
      * @return	string
      */
     public function getLastname() {
-	return $this->lastname;
+        return $this->lastname;
     }
 
     /**
@@ -409,7 +414,7 @@ class User {
      * @return	latitude
      */
     public function getLatitude() {
-	return $this->latitude;
+        return $this->latitude;
     }
 
     /**
@@ -417,7 +422,7 @@ class User {
      * @return	number
      */
     public function getLevel() {
-	return $this->level;
+        return $this->level;
     }
 
     /**
@@ -425,7 +430,15 @@ class User {
      * @return	number
      */
     public function getLevelvalue() {
-	return $this->levelvalue;
+        return $this->levelvalue;
+    }
+
+    /**
+     * Return the localType value
+     * @return	array
+     */
+    public function getLocalType() {
+        return $this->longitude;
     }
 
     /**
@@ -433,7 +446,7 @@ class User {
      * @return	long
      */
     public function getLongitude() {
-	return $this->longitude;
+        return $this->longitude;
     }
 
     /**
@@ -441,15 +454,15 @@ class User {
      * @return	member
      */
     public function getMember() {
-	return $this->member;
+        return $this->member;
     }
-    
+
     /**
      * Return the music value
      * @return	music
      */
     public function getMusic() {
-	return $this->music;
+        return $this->music;
     }
 
     /**
@@ -457,7 +470,7 @@ class User {
      * @return	string
      */
     public function getPassword() {
-	return $this->password;
+        return $this->password;
     }
 
     /**
@@ -465,7 +478,7 @@ class User {
      * @return	boolean
      */
     public function getPremium() {
-	return $this->premium;
+        return $this->premium;
     }
 
     /**
@@ -473,7 +486,7 @@ class User {
      * @return	DateTime
      */
     public function getPremiumexpirationdate() {
-	return $this->premiumexpirationdate;
+        return $this->premiumexpirationdate;
     }
 
     /**
@@ -481,7 +494,7 @@ class User {
      * @return	string
      */
     public function getThumbnail() {
-	return $this->thumbnail;
+        return $this->thumbnail;
     }
 
     /**
@@ -489,7 +502,7 @@ class User {
      * @return	array
      */
     public function getSettings() {
-	return $this->settings;
+        return $this->settings;
     }
 
     /**
@@ -497,7 +510,7 @@ class User {
      * @return	string
      */
     public function getSex() {
-	return $this->sex;
+        return $this->sex;
     }
 
     /**
@@ -505,7 +518,7 @@ class User {
      * @return	string
      */
     public function getTwitterpage() {
-	return $this->twitterpage;
+        return $this->twitterpage;
     }
 
     /**
@@ -513,7 +526,7 @@ class User {
      * @return	string
      */
     public function getType() {
-	return $this->type;
+        return $this->type;
     }
 
     /**
@@ -521,7 +534,7 @@ class User {
      * @return	string
      */
     public function getUsername() {
-	return $this->username;
+        return $this->username;
     }
 
     /**
@@ -529,7 +542,7 @@ class User {
      * @return	number
      */
     public function getVenuecounter() {
-	return $this->venuecounter;
+        return $this->venuecounter;
     }
 
     /**
@@ -537,7 +550,7 @@ class User {
      * @return	string
      */
     public function getWebsite() {
-	return $this->website;
+        return $this->website;
     }
 
     /**
@@ -545,7 +558,7 @@ class User {
      * @return	string
      */
     public function getYoutubechannel() {
-	return $this->youtubechannel;
+        return $this->youtubechannel;
     }
 
     /**
@@ -553,7 +566,7 @@ class User {
      * @param	string
      */
     public function setId($id) {
-	$this->id = $id;
+        $this->id = $id;
     }
 
     /**
@@ -561,7 +574,7 @@ class User {
      * @param	DateTime
      */
     public function setUpdatedat(DateTime $updatedat) {
-	$this->updatedat = $updatedat;
+        $this->updatedat = $updatedat;
     }
 
     /**
@@ -569,7 +582,7 @@ class User {
      * @param	DateTime
      */
     public function setCreatedat(DateTime $createdat) {
-	$this->createdat = $createdat;
+        $this->createdat = $createdat;
     }
 
     /**
@@ -577,7 +590,7 @@ class User {
      * @param	boolean
      */
     public function setActive($active) {
-	$this->active = $active;
+        $this->active = $active;
     }
 
     /**
@@ -585,7 +598,7 @@ class User {
      * @param	string
      */
     public function setAddress($address) {
-	$this->address = $address;
+        $this->address = $address;
     }
 
     /**
@@ -593,7 +606,7 @@ class User {
      * @param	string
      */
     public function setAvatar($avatar) {
-	$this->avatar = $avatar;
+        $this->avatar = $avatar;
     }
 
     /**
@@ -601,7 +614,7 @@ class User {
      * @param	string
      */
     public function setBackground($background) {
-	$this->background = $background;
+        $this->background = $background;
     }
 
     /**
@@ -609,7 +622,7 @@ class User {
      * @param	string
      */
     public function setBirthday($birthday) {
-	$this->birthday = $birthday;
+        $this->birthday = $birthday;
     }
 
     /**
@@ -617,7 +630,7 @@ class User {
      * @param	string
      */
     public function setCity($city) {
-	$this->city = $city;
+        $this->city = $city;
     }
 
     /**
@@ -625,7 +638,7 @@ class User {
      * @param	number
      */
     public function setCollaborationcounter($collaborationcounter) {
-	$this->collaborationcounter = $collaborationcounter;
+        $this->collaborationcounter = $collaborationcounter;
     }
 
     /**
@@ -633,7 +646,7 @@ class User {
      * @param	string
      */
     public function setCountry($country) {
-	$this->country = $country;
+        $this->country = $country;
     }
 
     /**
@@ -641,7 +654,7 @@ class User {
      * @param	string
      */
     public function setDescription($description) {
-	$this->description = $description;
+        $this->description = $description;
     }
 
     /**
@@ -649,7 +662,7 @@ class User {
      * @param	string
      */
     public function setEmail($email) {
-	$this->email = $email;
+        $this->email = $email;
     }
 
     /**
@@ -657,7 +670,7 @@ class User {
      * @param	string
      */
     public function setFacebookid($facebookid) {
-	$this->facebookid = $facebookid;
+        $this->facebookid = $facebookid;
     }
 
     /**
@@ -665,7 +678,7 @@ class User {
      * @param	string
      */
     public function setFacebookpage($facebookpage) {
-	$this->facebookpage = $facebookpage;
+        $this->facebookpage = $facebookpage;
     }
 
     /**
@@ -673,7 +686,7 @@ class User {
      * @param	string
      */
     public function setFirstname($firstname) {
-	$this->firstname = $firstname;
+        $this->firstname = $firstname;
     }
 
     /**
@@ -681,7 +694,7 @@ class User {
      * @param	number
      */
     public function setFollowercounter($followercounter) {
-	$this->followercounter = $followercounter;
+        $this->followercounter = $followercounter;
     }
 
     /**
@@ -689,7 +702,7 @@ class User {
      * @param	number
      */
     public function setFollowingcounter($followingcounter) {
-	$this->followingcounter = $followingcounter;
+        $this->followingcounter = $followingcounter;
     }
 
     /**
@@ -697,7 +710,7 @@ class User {
      * @param	number
      */
     public function setFriendshipcounter($friendshipcounter) {
-	$this->friendshipcounter = $friendshipcounter;
+        $this->friendshipcounter = $friendshipcounter;
     }
 
     /**
@@ -705,7 +718,7 @@ class User {
      * @param	string
      */
     public function setGooglepluspage($googlepluspage) {
-	$this->googlepluspage = $googlepluspage;
+        $this->googlepluspage = $googlepluspage;
     }
 
     /**
@@ -713,7 +726,7 @@ class User {
      * @param	number
      */
     public function setJammercounter($jammercounter) {
-	$this->jammercounter = $jammercounter;
+        $this->jammercounter = $jammercounter;
     }
 
     /**
@@ -721,7 +734,7 @@ class User {
      * @param	string
      */
     public function setJammertype($jammertype) {
-	$this->jammertype = $jammertype;
+        $this->jammertype = $jammertype;
     }
 
     /**
@@ -729,7 +742,7 @@ class User {
      * @param	string
      */
     public function setLastname($lastname) {
-	$this->lastname = $lastname;
+        $this->lastname = $lastname;
     }
 
     /**
@@ -737,7 +750,7 @@ class User {
      * @param	$longitude
      */
     public function setLatitude($latitude) {
-	$this->latitude = $latitude;
+        $this->latitude = $latitude;
     }
 
     /**
@@ -745,7 +758,7 @@ class User {
      * @param	number
      */
     public function setLevel($level) {
-	$this->level = $level;
+        $this->level = $level;
     }
 
     /**
@@ -753,15 +766,23 @@ class User {
      * @param	number
      */
     public function setLevelvalue($levelvalue) {
-	$this->view = $levelvalue;
+        $this->view = $levelvalue;
     }
 
+    /**
+     * Sets the localType value
+     * @param	$localType
+     */
+    public function setLocalType($localType) {
+        $this->localType = $localType;
+    }
+    
     /**
      * Sets the longitude value
      * @param	$longitude
      */
     public function setLongitude($longitude) {
-	$this->longitude = $longitude;
+        $this->longitude = $longitude;
     }
 
     /**
@@ -769,15 +790,15 @@ class User {
      * @param	array
      */
     public function setMember($member) {
-	$this->members = $member;
+        $this->members = $member;
     }
-    
+
     /**
      * Sets an array of strings of the User musical tag
      * @param	array
      */
     public function setMusic($music) {
-	$this->music = $music;
+        $this->music = $music;
     }
 
     /**
@@ -785,7 +806,7 @@ class User {
      * @param	string
      */
     public function setPassword($password) {
-	$this->password = $password;
+        $this->password = $password;
     }
 
     /**
@@ -793,7 +814,7 @@ class User {
      * @param	boolean
      */
     public function setPremium($premium) {
-	$this->premium = $premium;
+        $this->premium = $premium;
     }
 
     /**
@@ -801,7 +822,7 @@ class User {
      * @param	DateTime
      */
     public function setPremiumexpirationdate($premiumexpirationdate) {
-	$this->premiumexpirationdate = $premiumexpirationdate;
+        $this->premiumexpirationdate = $premiumexpirationdate;
     }
 
     /**
@@ -809,7 +830,7 @@ class User {
      * @param	string
      */
     public function setThumbnail($thumbnail) {
-	$this->thumbnail = $thumbnail;
+        $this->thumbnail = $thumbnail;
     }
 
     /**
@@ -817,7 +838,7 @@ class User {
      * @param	array
      */
     public function setSettings($settings) {
-	$this->settings = $settings;
+        $this->settings = $settings;
     }
 
     /**
@@ -825,7 +846,7 @@ class User {
      * @param	string
      */
     public function setSex($sex) {
-	$this->sex = $sex;
+        $this->sex = $sex;
     }
 
     /**
@@ -833,7 +854,7 @@ class User {
      * @param	string
      */
     public function setTwitterpage($twitterpage) {
-	$this->twitterpage = $twitterpage;
+        $this->twitterpage = $twitterpage;
     }
 
     /**
@@ -841,7 +862,7 @@ class User {
      * @param	string
      */
     public function setType($type) {
-	$this->type = $type;
+        $this->type = $type;
     }
 
     /**
@@ -849,7 +870,7 @@ class User {
      * @param	string
      */
     public function setUsername($username) {
-	$this->username = $username;
+        $this->username = $username;
     }
 
     /**
@@ -857,7 +878,7 @@ class User {
      * @param	number
      */
     public function setVenuecounter($venuecounter) {
-	$this->venuecounter = $venuecounter;
+        $this->venuecounter = $venuecounter;
     }
 
     /**
@@ -865,7 +886,7 @@ class User {
      * @param	string
      */
     public function setWebsite($website) {
-	$this->website = $website;
+        $this->website = $website;
     }
 
     /**
@@ -873,7 +894,7 @@ class User {
      * @param	string
      */
     public function setYoutubechannel($youtubechannel) {
-	$this->youtubechannel = $youtubechannel;
+        $this->youtubechannel = $youtubechannel;
     }
 
     /**
@@ -881,57 +902,65 @@ class User {
      * @return	string
      */
     public function __toString() {
-	$string = '';
-	$string .= '[id] => ' . $this->getId() . '<br />';
-	$createdat = new DateTime($this->getCreatedat());
-	$string .= '[createdat] => ' . $createdat->format('d-m-Y H:i:s') . '<br />';
-	$updatedat = new DateTime($this->getUpdatedat());
-	$string .= '[updatedat] => ' . $updatedat->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[active] => ' . $this->getActive() . '<br />';
-	$string .= '[address] => ' . $this->getAddress() . '<br />';
-	$string .= '[avatar] => ' . $this->getAvatar() . '<br />';
-	$string .= '[background] => ' . $this->getBackground() . '<br />';
-	$string .= '[birthday] => ' . $this->getBirthday() . '<br />';
-	$string .= '[city] => ' . $this->getCity() . '<br />';
-	$string .= '[collaborationcounter] => ' . $this->getCollaborationcounter() . '<br />';
-	$string .= '[country] => ' . $this->getCountry() . '<br />';
-	$string .= '[description] => ' . $this->getDescription() . '<br />';
-	$string .= '[email] => ' . $this->getEmail() . '<br />';
-	$string .= '[facebookid] => ' . $this->getFacebookid() . '<br />';
-	$string .= '[facebookpage] => ' . $this->getFacebookpage() . '<br />';
-	$string .= '[firstname] => ' . $this->getFirstname() . '<br />';
-	$string .= '[followercounter] => ' . $this->getFollowerscounter() . '<br />';
-	$string .= '[followingcounter] => ' . $this->getFollowingcounter() . '<br />';
-	$string .= '[friendshipcounter] => ' . $this->getFriendshipcounter() . '<br />';
-	$string .= '[googlepluspage] => ' . $this->getGooglepluspage() . '<br />';
-	$string .= '[jammercounter] => ' . $this->getJammercounter() . '<br />';
-	$string .= '[jammertype] => ' . $this->getJammertype() . '<br />';
-	$string .= '[lastname] => ' . $this->getLastname() . '<br />';
-	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
-	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
-	$string .= '[level] => ' . $this->getLevel() . '<br />';
-	$string .= '[levelvalue] => ' . $this->getLevelvalue() . '<br />';
-	foreach ($this->getMember() as $member) {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[member] => ' . $member . '<br />';
-	}
-	$string .= '[password] => ' . $this->getPassword() . '<br />';
-	$string .= '[premium] => ' . $this->getPremium() . '<br />';
-	$premiumexpirationdate = new DateTime($this->getPremiumexpirationdate());
-	$string .= '[premiumexpirationdate] => ' . $premiumexpirationdate->format('d-m-Y H:i:s') . '<br />';
-	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
-	foreach ($this->getSettings() as $settings) {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[settings] => ' . $settings . '<br />';
-	}
-	$string .= '[sex] => ' . $this->getSex() . '<br />';
-	$string .= '[twitterpage] => ' . $this->getTwitterpage() . '<br />';
-	$string .= '[type] => ' . $this->getType() . '<br />';
-	$string .= '[username] => ' . $this->getUsername() . '<br />';
-	$string .= '[venuecounter] => ' . $this->getVenuecounter() . '<br />';
-	$string .= '[website] => ' . $this->getWebsite() . '<br />';
-	$string .= '[youtubechannel] => ' . $this->getYoutubechannel() . '<br />';
-	return $string;
+        $string = '';
+        $string .= '[id] => ' . $this->getId() . '<br />';
+        $createdat = new DateTime($this->getCreatedat());
+        $string .= '[createdat] => ' . $createdat->format('d-m-Y H:i:s') . '<br />';
+        $updatedat = new DateTime($this->getUpdatedat());
+        $string .= '[updatedat] => ' . $updatedat->format('d-m-Y H:i:s') . '<br />';
+        $string .= '[active] => ' . $this->getActive() . '<br />';
+        $string .= '[address] => ' . $this->getAddress() . '<br />';
+        $string .= '[avatar] => ' . $this->getAvatar() . '<br />';
+        $string .= '[background] => ' . $this->getBackground() . '<br />';
+        $string .= '[birthday] => ' . $this->getBirthday() . '<br />';
+        $string .= '[city] => ' . $this->getCity() . '<br />';
+        $string .= '[collaborationcounter] => ' . $this->getCollaborationcounter() . '<br />';
+        $string .= '[country] => ' . $this->getCountry() . '<br />';
+        $string .= '[description] => ' . $this->getDescription() . '<br />';
+        $string .= '[email] => ' . $this->getEmail() . '<br />';
+        $string .= '[facebookid] => ' . $this->getFacebookid() . '<br />';
+        $string .= '[facebookpage] => ' . $this->getFacebookpage() . '<br />';
+        $string .= '[firstname] => ' . $this->getFirstname() . '<br />';
+        $string .= '[followercounter] => ' . $this->getFollowerscounter() . '<br />';
+        $string .= '[followingcounter] => ' . $this->getFollowingcounter() . '<br />';
+        $string .= '[friendshipcounter] => ' . $this->getFriendshipcounter() . '<br />';
+        $string .= '[googlepluspage] => ' . $this->getGooglepluspage() . '<br />';
+        $string .= '[jammercounter] => ' . $this->getJammercounter() . '<br />';
+        $string .= '[jammertype] => ' . $this->getJammertype() . '<br />';
+        $string .= '[lastname] => ' . $this->getLastname() . '<br />';
+        $string .= '[latitude] => ' . $this->getLatitude() . '<br />';
+        $string .= '[longitude] => ' . $this->getLongitude() . '<br />';
+        $string .= '[level] => ' . $this->getLevel() . '<br />';
+        $string .= '[levelvalue] => ' . $this->getLevelvalue() . '<br />';
+        foreach ($this->getLocalType() as $localType) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[localType] => ' . $localType . '<br />';
+        }
+        foreach ($this->getMember() as $member) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[member] => ' . $member . '<br />';
+        }
+        foreach ($this->getMusic() as $music) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[music] => ' . $music . '<br />';
+        }
+        $string .= '[password] => ' . $this->getPassword() . '<br />';
+        $string .= '[premium] => ' . $this->getPremium() . '<br />';
+        $premiumexpirationdate = new DateTime($this->getPremiumexpirationdate());
+        $string .= '[premiumexpirationdate] => ' . $premiumexpirationdate->format('d-m-Y H:i:s') . '<br />';
+        $string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
+        foreach ($this->getSettings() as $settings) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[settings] => ' . $settings . '<br />';
+        }
+        $string .= '[sex] => ' . $this->getSex() . '<br />';
+        $string .= '[twitterpage] => ' . $this->getTwitterpage() . '<br />';
+        $string .= '[type] => ' . $this->getType() . '<br />';
+        $string .= '[username] => ' . $this->getUsername() . '<br />';
+        $string .= '[venuecounter] => ' . $this->getVenuecounter() . '<br />';
+        $string .= '[website] => ' . $this->getWebsite() . '<br />';
+        $string .= '[youtubechannel] => ' . $this->getYoutubechannel() . '<br />';
+        return $string;
     }
 
 }
