@@ -11,7 +11,7 @@ function access(usernameOrEmail, password, opType, userId) {
 
 		$.ajax({
 			type : "POST",
-			url : "../../../controllers/request/accessRequest.php",
+			url : "./controllers/request/accessRequest.php",
 			data : json_access,
 			beforeSend : function() {
 				$('#login').val('');
@@ -26,7 +26,7 @@ function access(usernameOrEmail, password, opType, userId) {
 			if (opType === 'login') {
 				location.href = 'views/stream.php';
 			} else if (opType === 'logout') {
-				location.href = '../index.php';
+				location.href = './index.php';
 			}
 		}).fail(function(xhr) {
 			$('#login').val('Error');
