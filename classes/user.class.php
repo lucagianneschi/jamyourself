@@ -161,6 +161,11 @@ class User {
     private $member;
 
     /**
+     * @property array di string
+     */
+    private $music;
+    
+    /**
      * @property int 1 = PREMIUM, 0 = STANDARD
      */
     private $premium;
@@ -437,6 +442,14 @@ class User {
      */
     public function getMember() {
 	return $this->member;
+    }
+    
+    /**
+     * Return the music value
+     * @return	music
+     */
+    public function getMusic() {
+	return $this->music;
     }
 
     /**
@@ -757,6 +770,14 @@ class User {
      */
     public function setMember($member) {
 	$this->members = $member;
+    }
+    
+    /**
+     * Sets an array of strings of the User musical tag
+     * @param	array
+     */
+    public function setMusic($music) {
+	$this->music = $music;
     }
 
     /**
