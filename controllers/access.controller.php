@@ -34,7 +34,7 @@ class AccessController extends REST {
 	$startTimer = microtime();
 	try {
 	    global $controllers;
-	    if ($_SESSION['id'] && $_SESSION['username']) {
+	    if (isset($_SESSION['id']) && isset($_SESSION['username']) && $_SESSION['id'] && $_SESSION['username']) {
 		#TODO
 		//$endTimer = microtime();
 		//jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during access "User already in session"');
