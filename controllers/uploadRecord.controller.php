@@ -315,36 +315,39 @@ class UploadRecordController extends REST {
 	    }
 	    $songId = $this->request['songId'];
 	    $recordId = $this->request['recordId'];
-	    $record = $this->getRecord($recordId);
-	    if ($record instanceof Error) {
-		$this->response(array('status' => $controllers['NORECORD']), 406);
+	    require_once SERVICES_DIR . 'connection.service.php';
+	    $connectionService = new ConnectionService();
+	    $connection = $connectionService->connect();
+	    if ($connection === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteSong "Unable to connect"');
+		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
 	    }
-
-	    #TODO: mancano le funzioni di rimozione
-	    //cancello la canzone
-	    $song = $this->getSong($songId);
-	    if (is_null($song)) {
-		$this->response(array('status' => $controllers['NOSONG']), 406);
+	    $connection->autocommit(false);
+	    $connectionService->autocommit(false);
+	    require_once SERVICES_DIR . 'delete.service.php';
+	    $deleteSong = delete($connection, 'song', $songId);
+	    $deleteNode = deleteNode($connection, 'song', $songId);
+	    $deleteRelation = deleteRelation($connection, 'user', $_SESSION['id'], 'song', $songId, 'ADD');
+	    $updateRecord = update($connection, 'record', array('updatedat' => date('Y-m-d H:i:s')), null, array('songcounter' => 1), $recordId, null);
+	    if ($deleteSong === false || $deleteNode === false || $deleteRelation === false || $updateRecord === false) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteSong "Unable to execute delete operations"');
+		return false;
+	    } else {
+		$connection->commit();
+		$connectionService->commit();
 	    }
-
-
-	    //@TODO: $resDelete = risultato cancellazione song;
-	    $resDelete = false;
-	    if ($resDelete == false) {
-		$this->response(array("status" => $controllers['NOSONGFORDELETE']), 407);
-	    }
-	    //rimuovo la relazione tra song e record
-	    //@TODO: rimuovere relazione tra record e song
-	    $resRemoveRelation = false;
-	    if ($resRemoveRelation == false) {
-		$this->response(array("status" => $controllers['NOREMOVERELATIONFROMRECORD']), 408);
-	    }
+	    $connectionService->disconnect($connection);
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] deleteSong executed');
 	    $this->response(array("status" => $controllers['SONGREMOVEDFROMRECORD'], "id" => $songId), 200);
 	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 500);
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteSong "Exception" => ' . $e->getMessage());
+	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
-   
 
     /**
      * funzione per cancellazione mp3 dalla cache
@@ -423,7 +426,6 @@ class UploadRecordController extends REST {
 	else
 	    return "";
     }
-    
 
     /**
      * funzione privata per il recupero della song dal DB
