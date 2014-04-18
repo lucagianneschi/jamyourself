@@ -13,29 +13,7 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
  //   $type = $_POST['type'];
     ?>    
     <div id="newMsg">
-    	<script>
-			/*
-			 * select2 e' il plugin per le featuring con id featuring
-			 */
-			$(document).ready(function() {				
-	   			getFeaturing('#to');
-			});
-			function getFeaturing(box){
-				$(box).select2({
-				    multiple: false,
-				    minimumInputLength: 1,
-				    width: "100%",
-				    data:[
-				    <?php 
-				    $arrayFeaturing = getFeaturingArray();
-				    foreach ($arrayFeaturing as  $value) {				    	
-				    		echo '{id:'.$value['id'].',text:"'.$value['text'].'"},';										
-					 }  ?>			   
-				    ]
-				});
-
-			}
-		</script>
+    	
         <h5><?php echo $views['message']['write_message']; ?></h5>
         <label for="to"><small class="error"><?php echo $views['message']['valid_user']; ?></small></label>
         <input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" required>

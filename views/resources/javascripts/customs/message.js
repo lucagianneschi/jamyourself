@@ -71,10 +71,8 @@ function loadBoxMessages(user, limit, skip) {
 		$('.otherMessage').addClass('no-display');
 		$(message).prependTo("#msgUser");
 	    }
+	    getFeaturing('#to');
 	    console.log('SUCCESS: box-message ' + user);
-	    if (user == 'newmessage') {
-	//	autoComplete();
-	    }
 
 	}).fail(function(xhr) {
 	    console.log("Error: " + $.parseJSON(xhr));

@@ -6,6 +6,7 @@ require_once ROOT_DIR . 'config.php';
 require_once BOXES_DIR . 'message.box.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'utils.service.php';
 
 define('LIMITMSG', 5);
 define('SKIPMSG', 0);
@@ -20,7 +21,26 @@ if (isset($user)) {
 
 if ($messageBox->error != ONLYIFLOGGEDIN) {
     ?>
-
+<script>
+			/*
+			 * select2 e' il plugin per le featuring con id featuring
+			 */
+					
+			function getFeaturing(box){
+				$(box).select2({
+				    multiple: false,
+				    minimumInputLength: 1,
+				    width: "100%",
+				    data:[				    	
+					    <?php 
+					    $arrayFeaturing = getFeaturingArray();						
+					    foreach ($arrayFeaturing as $value) {	    	
+							echo '{id:'.$value['id'].',text:"'.$value['text'].'"},';										
+						}  ?>			   
+				    ]
+				}); 
+			} 
+		</script>
     <form class="formWhite" data-abide >
         <div class="row bg-white" style="padding-top: 3%;">
     	<div class="box-message large-12 columns">
