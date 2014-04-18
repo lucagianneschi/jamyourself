@@ -375,6 +375,7 @@ class UploadRecordController extends REST {
 
     /**
      * funzione per il recupero delle immagini della lista canzoni
+     * informazioni utili: titolo, durata, lista generi, id
      */
     public function getSongsList() {
 	global $controllers;
@@ -394,12 +395,12 @@ class UploadRecordController extends REST {
 	    $recordId = $this->request['recordId'];
 	    $songsList = $this->getSongsByRecordId($recordId);
 	    if (is_null($songsList)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during getSongList "No song for this record"');
 		$this->response(array("status" => $controllers['NOSONGFORRECORD'], "songList" => null, "count" => 0), 200);
 	    }
 	    $returnInfo = array();
 	    foreach ($songsList as $song) {
-		// info utili
-		// mi serve: titolo, durata, lista generi, id
 		$seconds = $song->getDuration();
 		$hours = floor($seconds / 3600);
 		$mins = floor(($seconds - ($hours * 3600)) / 60);
