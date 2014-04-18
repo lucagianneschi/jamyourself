@@ -344,51 +344,7 @@ class UploadRecordController extends REST {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
     }
-
-    /**
-     * funzione per aggiunta song a record esistente
-     * @param   $record, instance of record.class
-     * @param   $songId
-     */
-    private function addSongToRecord(Record $record, Song $song) {
-	global $controllers;
-	$startTimer = microtime();
-	try {
-	    $resRelationCreation = false;
-	    if ($resRelationCreation == false) {
-		return false;
-	    }
-	    $connectionService = new ConnectionService();
-	    $connection = $connectionService->connect();
-	    if ($connection === false) {
-		$this->response(array('status' => $controllers['CONNECTION ERROR']), 403);
-	    }
-	    $connection->autocommit(false);
-	    $connectionService->autocommit(false);
-	    $node = createNode($connectionService, 'song', $song->getId());
-	    $relation = createRelation($connectionService, 'record', $record->getId(), 'song', $song->getId(), 'ADD');
-	    if ($relation === false || $node === false) {
-		return true;
-	    } else {
-		$connection->commit();
-		$connectionService->commit();
-	    }
-
-	    require_once SERVICES_DIR . 'select.service.php';
-	    $record->setDuration($record->getDuration() + $song->getDuration());
-	    $songcounter = $record->getSongcounter() + 1;
-	    $record->setSongcounter($songcounter);
-	    updateRecord($connection, $record);
-
-	    $resUpdate = false;
-	    if ($resUpdate == false) {
-		return false;
-	    }
-	    return true;
-	} catch (Exception $e) {
-	    return $e;
-	}
-    }
+   
 
     /**
      * funzione per cancellazione mp3 dalla cache
@@ -467,47 +423,7 @@ class UploadRecordController extends REST {
 	else
 	    return "";
     }
-
-    /**
-     * funzione per la rimozione di una song da un record
-     * @param   $record, 
-     * @param   $songId
-     */
-    private function removeSongFromRecord($record, $song) {
-	$startTimer = microtime();
-	try {
-	    $currentUser = $_SESSION['id'];
-	    require_once CLASSES_DIR . 'record.class.php';
-	    $recordId = $record->getId();
-
-	    //@todo: update del recordo per settarlo non attivo
-	    $resUpdateInactive = false;
-	    if ($resUpdateInactive == false) {
-		return false;
-	    }
-
-	    //@TODO: sostituzione activity SONGREMOVEDFROMRECORD
-	    //aggiorno il contatore del record
-	    //@TODO: update per decrementare il numero di record dell'album
-
-	    $resUpdateTrackNum = false;
-	    if ($resUpdateTrackNum == false) {
-		return false;
-	    }
-	    //aggiorno la durata del record
-	    //@TODO: update per decrementare il numero di record dell'album
-
-	    $resUpdateDuration = false;
-	    if ($resUpdateDuration == false) {
-		return false;
-	    }
-	    return true;
-	} catch (Exception $e) {
-	    $endTimer = microtime();
-	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during removeSongFromRecord "Exception" => ' . $e->getMessage());
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
-    }
+    
 
     /**
      * funzione privata per il recupero della song dal DB
