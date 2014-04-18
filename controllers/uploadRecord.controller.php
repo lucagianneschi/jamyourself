@@ -428,24 +428,6 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * funzione privata per il recupero della song dal DB
-     * @param   $songId
-     */
-    private function getSong($songId) {
-	require_once SERVICES_DIR . 'connection.service.php';
-	$connectionService = new ConnectionService();
-	$connection = $connectionService->connect();
-	if ($connection != false) {
-	    require_once SERVICES_DIR . 'select.service.php';
-	    $songs = selectSongs($connection, $songId);
-	    if (count($songs) > 0) {
-		return $songs[0];
-	    }
-	}
-	return null;
-    }
-
-    /**
      * funzione privata per il recupero del record dal DB
      * @param   $recordId
      */
