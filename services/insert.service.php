@@ -38,21 +38,21 @@ function createNode($connection, $nodeType, $nodeId) {
 	';
     $res = $connection->curl($query);
     if ($res === false) {
-        $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute createNode => ' . $query);
-        return false;
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute createNode => ' . $query);
+	return false;
     } else {
-        if ($connection->getAutocommit()) {
-            $num = $res['data'][0][0];
-            $endTimer = microtime();
-            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createNode execute => ' . $num);
-            return ($num ? $num : false);
-        } else {
-            $num = $res['results'][0]['data'][0]['row'][0];
-            $endTimer = microtime();
-            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createNode execute => ' . $num);
-            return ($num ? $num : false);
-        }
+	if ($connection->getAutocommit()) {
+	    $num = $res['data'][0][0];
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createNode execute => ' . $num);
+	    return ($num ? $num : false);
+	} else {
+	    $num = $res['results'][0]['data'][0]['row'][0];
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createNode execute => ' . $num);
+	    return ($num ? $num : false);
+	}
     }
 }
 
@@ -78,21 +78,21 @@ function createRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $t
 	';
     $res = $connection->curl($query);
     if ($res === false) {
-        $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute createRelation => ' . $query);
-        return false;
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute createRelation => ' . $query);
+	return false;
     } else {
-        if ($connection->getAutocommit()) {
-            $num = $res['data'][0][0];
-            $endTimer = microtime();
-            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createRelation execute => ' . $num);
-            return ($num ? $num : false);
-        } else {
-            $num = $res['results'][0]['data'][0]['row'][0];
-            $endTimer = microtime();
-            jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createRelation execute => ' . $num);
-            return ($num ? $num : false);
-        }
+	if ($connection->getAutocommit()) {
+	    $num = $res['data'][0][0];
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createRelation execute => ' . $num);
+	    return ($num ? $num : false);
+	} else {
+	    $num = $res['results'][0]['data'][0]['row'][0];
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] createRelation execute => ' . $num);
+	    return ($num ? $num : false);
+	}
     }
 }
 
@@ -499,7 +499,7 @@ function insertRecord($connection, $record) {
                             '" . (is_null($record->getSongcounter()) ? 0 : $record->getSongcounter()) . "', 
                             '" . $record->getThumbnail() . "',
                             '" . $record->getTitle() . "',
-				  			'" . ((is_null($record->getYear()) || $record->getYear() == '')  ? 0 : $record->getYear()) . "',
+				  			'" . ((is_null($record->getYear()) || $record->getYear() == '') ? 0 : $record->getYear()) . "',
                                   NOW(),
                                   NOW())";
     $result = mysqli_query($connection, $sql);
@@ -523,7 +523,6 @@ function insertRecord($connection, $record) {
 		}
 	    }
 	}
-	
     }
     $endTimer = microtime();
     jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] ' . $insert_id . 'ID returned');
@@ -689,6 +688,7 @@ function insertUser($connection, $user) {
                                   '" . (is_null(getLevel()) ? 0 : getLevel()) . "',   
                                   '" . (is_null(getLevelvalue()) ? 0 : getLevelvalue()) . "', 
                                   '" . (is_null($user->getLatitude()) ? 0 : $user->getLatitude()) . "',
+				  '" . $user->getLocaltype() . "',
 				  '" . (is_null($user->getLongitude()) ? 0 : $user->getLongitude()) . "',    
 				  '" . (is_null($user->getPremium()) ? 0 : $user->getPremium()) . "', 
 				  '" . (is_null($user->getPremiumexpirationdate()) ? 0 : $user->getPremiumexpirationdate()) . "', 
@@ -710,6 +710,20 @@ function insertUser($connection, $user) {
 	return false;
     } else {
 	$insert_id = mysqli_insert_id($connection);
+	if (is_array($user->getBadge())) {
+	    foreach ($user->getBadge() as $badge) {
+		$sql = "INSERT INTO user_badge (id,
+						badge)
+						VALUES (" . $insert_id . ",
+							'" . $badge . "')";
+		$result_badge = mysqli_query($connection, $sql);
+	    }
+	}
+	if ($result_badge === false) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertUser - badge => ' . $sql);
+	    return false;
+	}
 	if (is_array($user->getMember())) {
 	    foreach ($user->getMember() as $member) {
 		$sql = "INSERT INTO user_member (id,
@@ -722,6 +736,20 @@ function insertUser($connection, $user) {
 	if ($result_member === false) {
 	    $endTimer = microtime();
 	    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertUser - member => ' . $sql);
+	    return false;
+	}
+	if (is_array($user->getMusic())) {
+	    foreach ($user->getMusic() as $music) {
+		$sql = "INSERT INTO user_music (id,
+						music)
+						VALUES (" . $insert_id . ",
+							'" . $music . "')";
+		$result_music = mysqli_query($connection, $sql);
+	    }
+	}
+	if ($result_music === false) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, ' [Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute insertUser - music => ' . $sql);
 	    return false;
 	}
 	if (is_array($user->getSetting())) {
