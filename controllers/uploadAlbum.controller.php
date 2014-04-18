@@ -393,6 +393,7 @@ class UploadAlbumController extends REST {
      * @return $fileInCache
      */
     private function saveImagesList($connection, $connectionService, $imagesList, $albumId) {
+	$startTimer = microtime();
 	$errorImages = array();
 	global $controllers;
 	if (!is_null($imagesList) && is_array($imagesList) && count($imagesList) > 0) {
