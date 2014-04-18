@@ -37,24 +37,24 @@ require_once SERVICES_DIR . 'utils.service.php';
 function existsRelation($connection, $fromNodeType, $fromNodeId, $toNodeType, $toNodeId, $relationType) {
     $startTimer = microtime();
     $query = '
-	MATCH (n:' . $fromNodeType . ' {id:' . $fromNodeId. '})-[r:' . $relationType . ']->(m:' . $toNodeType . ' {id:' . $toNodeId. '})
+	MATCH (n:' . $fromNodeType . ' {id:' . $fromNodeId . '})-[r:' . $relationType . ']->(m:' . $toNodeType . ' {id:' . $toNodeId . '})
 	RETURN count(r)
 	';
     $res = $connection->curl($query);
     if ($res === false) {
-        $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute existsRelation => ' . $query);
-        return false;
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute existsRelation => ' . $query);
+	return false;
     } else {
-        if ($connection->getAutocommit()) {
-            $endTimer = microtime();
-            jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Quantity Relation => ' . $res['data'][0][0]);
-            return $res['data'][0][0];
-        } else {
-            $endTimer = microtime();
-            jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Quantity Relation => ' . $res['results'][0]['data'][0]['row'][0]);
-            return $res['results'][0]['data'][0]['row'][0];
-        }
+	if ($connection->getAutocommit()) {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Quantity Relation => ' . $res['data'][0][0]);
+	    return $res['data'][0][0];
+	} else {
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Quantity Relation => ' . $res['results'][0]['data'][0]['row'][0]);
+	    return $res['results'][0]['data'][0]['row'][0];
+	}
     }
 }
 
@@ -79,35 +79,35 @@ function getRelatedNodes($connection, $fromNodeType, $fromNodeId, $toNodeType, $
 	ORDER BY r.createdat DESC
 	';
     if (!is_null($skip))
-        $query .= ' SKIP ' . $skip;
+	$query .= ' SKIP ' . $skip;
     if (!is_null($limit))
-        $query .= ' LIMIT ' . $limit;
+	$query .= ' LIMIT ' . $limit;
     $params = array(
-        'fromNodeId' => $fromNodeId
+	'fromNodeId' => $fromNodeId
     );
     $res = $connection->curl($query, $params);
     if ($res === false) {
-        $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute getRelatedNodes => ' . $query);
-        return false;
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute getRelatedNodes => ' . $query);
+	return false;
     } else {
-        $relatedNodes = array();
-        if ($connection->getAutocommit()) {
-            foreach ($res['data'] as $value) {
-                if ($fromNodeId != $value[0]['data']['id']) {
-                    $relatedNodes[] = $value[0]['data']['id'];
-                }
-            }
-        } else {
-            foreach ($res['results'][0]['data'] as $value) {
-                if ($fromNodeId != $value['row'][0]['id']) {
-                    $relatedNodes[] = $value['row'][0]['id'];
-                }
-            }
-        }
-        $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Node related => ' . $relatedNodes);
-        return $relatedNodes;
+	$relatedNodes = array();
+	if ($connection->getAutocommit()) {
+	    foreach ($res['data'] as $value) {
+		if ($fromNodeId != $value[0]['data']['id']) {
+		    $relatedNodes[] = $value[0]['data']['id'];
+		}
+	    }
+	} else {
+	    foreach ($res['results'][0]['data'] as $value) {
+		if ($fromNodeId != $value['row'][0]['id']) {
+		    $relatedNodes[] = $value['row'][0]['id'];
+		}
+	    }
+	}
+	$endTimer = microtime();
+	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Node related => ' . $relatedNodes);
+	return $relatedNodes;
     }
 }
 
@@ -121,7 +121,7 @@ function query($connection, $sql) {
     $startTimer = microtime();
     $results = mysqli_query($connection, $sql);
     while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-        $rows[] = $row;
+	$rows[] = $row;
     $endTimer = microtime();
     jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Returned ' . count($rows) . ' rows => ' . $sql);
     return $rows;
@@ -1175,7 +1175,7 @@ function selectRecords($connection, $id = null, $where = null, $order = null, $l
 	$fromuser->setId($row['id_u']);
 	$fromuser->setThumbnail($row['thumbnail_u']);
 	$fromuser->setUsername($row['username']);
-    $fromuser->setType($row['type']);
+	$fromuser->setType($row['type']);
 	$record->setFromuser($fromuser);
 	$sql = "SELECT g.genre
                           FROM record_genre rg, genre g
@@ -1380,7 +1380,7 @@ function selectReviewEvent($connection, $id = null, $where = null, $order = null
 	$tags_event = array();
 	$rows_tag = array();
 	while ($row_tag = mysqli_fetch_array($results_event, MYSQLI_ASSOC))
-	    $rows_tag[] = $row_tag;	
+	    $rows_tag[] = $row_tag;
 	foreach ($rows_tag as $row_tag) {
 	    $tags_event[] = $row_tag;
 	}
@@ -1612,10 +1612,10 @@ function selectReviewRecord($connection, $id = null, $where = null, $order = nul
 	$tags = array();
 	$rows_tag = array();
 	while ($row_tag = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	    $rows_tag[] = $row_tag;	
+	    $rows_tag[] = $row_tag;
 	foreach ($rows_tag as $row_tag) {
 	    $tags[] = $row_tag;
-	}	 
+	}
 	$reviewRecord->setTag($tags);
 	$reviewRecord->setText($row['text_rw']);
 	$reviewRecord->setTitle($row['title_rw']);
@@ -1746,9 +1746,9 @@ function selectSongs($connection, $id = null, $where = null, $order = null, $lim
                AND g.id = sg.id_genre";
 	$results_genre = mysqli_query($connection, $sql);
 	if (!$results_genre) {
-        $endTimer = microtime();
-        jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
-        return false;
+	    $endTimer = microtime();
+	    jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
+	    return false;
 	}
 	$genres = array();
 	$rows_genre = array();
@@ -2003,6 +2003,7 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 	$user->setLevel($row['level']);
 	$user->setLevelvalue($row['levelvalue']);
 	$user->setLatitude($row['latitude']);
+	//$user->setLocaltype($row['localtype']);
 	$user->setLongitude($row['longitude']);
 //	    $sql = "SELECT members
 //                          FROM user_members
@@ -2020,10 +2021,26 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 //		$members[] = $row_members;
 //	    }
 //	    $user->setMembers($members);
+	//	    $sql = "SELECT members
+//                          FROM user_members
+//                         WHERE id = " . $row['id'];
+//	    $results_members = mysqli_query($connectionService->getConnection(), $sql);
+//	    if (!$results_members) {
+//		$error = new Error();
+//		$error->setErrormessage($results_members->error);
+//		return $error;
+//	    }
+//	    while ($row_members = mysqli_fetch_array($results_members, MYSQLI_ASSOC))
+//		$rows_members[] = $row_members;
+//	    $members = array();
+//	    foreach ($rows_members as $row_members) {
+//		$members[] = $row_members;
+//	    }
+//	    $user->setMembers($members);
 	$user->setPremium($row['premium']);
 	$user->setPremiumexpirationdate($row['premiumexpirationdate']);
-//	    $sql = "SELECT setting
-//                          FROM user_setting
+//	    $sql = "SELECT music
+//                          FROM user_music
 //                         WHERE id = " . $row['id'];
 //	    $results = mysqli_query($connectionService->getConnection(), $sql);
 //	    if (!$results) {
@@ -2031,12 +2048,12 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 //	return false;
 //	    }
 //	    while ($row_setting = mysqli_fetch_array($results, MYSQLI_ASSOC))
-//		$rows_setting[] = $row_setting;
-//	    $settings = array();
-//	    foreach ($rows_setting as $row_setting) {
-//		$settings[] = $row_setting;
+//		$rows_musics[] = $row_music;
+//	    $music = array();
+//	    foreach ($rows_musics as music) {
+//		$musics[] = $music;
 //	    }
-//	    $user->setSettings($settings);
+//	    $user->setMusic($musics);
 	$user->setSex($row['sex']);
 	$user->setThumbnail($row['thumbnail']);
 	$user->setType($row['type']);
