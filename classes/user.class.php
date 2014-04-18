@@ -56,6 +56,11 @@ class User {
     private $background;
 
     /**
+     * @property array di int dei badge
+     */
+    private $badge;
+
+    /**
      * @property string data nascita user
      */
     private $birthday;
@@ -151,6 +156,11 @@ class User {
     private $levelvalue;
 
     /**
+     * @property intlocaltype
+     */
+    private $localtype;
+
+    /**
      * @property float longitudine
      */
     private $longitude;
@@ -159,6 +169,11 @@ class User {
      * @property array di string
      */
     private $member;
+
+    /**
+     * @property array di int
+     */
+    private $music;
 
     /**
      * @property int 1 = PREMIUM, 0 = STANDARD
@@ -269,6 +284,14 @@ class User {
      */
     public function getBackground() {
 	return $this->background;
+    }
+
+    /**
+     * Return the badge array of int of badge
+     * @return	string
+     */
+    public function getBadge() {
+	return $this->badge;
     }
 
     /**
@@ -424,6 +447,14 @@ class User {
     }
 
     /**
+     * Return the localtype value
+     * @return	long
+     */
+    public function getLocaltype() {
+	return $this->localtype;
+    }
+
+    /**
      * Return the longitude value
      * @return	long
      */
@@ -437,6 +468,14 @@ class User {
      */
     public function getMember() {
 	return $this->member;
+    }
+
+    /**
+     * Return the music value
+     * @return	music
+     */
+    public function getMusic() {
+	return $this->music;
     }
 
     /**
@@ -592,6 +631,14 @@ class User {
     }
 
     /**
+     * Sets the badge array of the user
+     * @param	string
+     */
+    public function setBadge($badge) {
+	$this->badge = $badge;
+    }
+
+    /**
      * Sets the birthday of the User represented by a string with format YYYY-MM-DD
      * @param	string
      */
@@ -744,6 +791,14 @@ class User {
     }
 
     /**
+     * Sets the localtype value
+     * @param	$localtype
+     */
+    public function setLocaltype($localtype) {
+	$this->localtype = $localtype;
+    }
+
+    /**
      * Sets the longitude value
      * @param	$longitude
      */
@@ -757,6 +812,14 @@ class User {
      */
     public function setMember($member) {
 	$this->members = $member;
+    }
+
+    /**
+     * Sets an array of id of the music related to User
+     * @param	array
+     */
+    public function setMusic($music) {
+	$this->music = $music;
     }
 
     /**
@@ -870,6 +933,10 @@ class User {
 	$string .= '[address] => ' . $this->getAddress() . '<br />';
 	$string .= '[avatar] => ' . $this->getAvatar() . '<br />';
 	$string .= '[background] => ' . $this->getBackground() . '<br />';
+	foreach ($this->getBadge() as $badge) {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[badge] => ' . $badge . '<br />';
+	}
 	$string .= '[birthday] => ' . $this->getBirthday() . '<br />';
 	$string .= '[city] => ' . $this->getCity() . '<br />';
 	$string .= '[collaborationcounter] => ' . $this->getCollaborationcounter() . '<br />';
@@ -887,12 +954,17 @@ class User {
 	$string .= '[jammertype] => ' . $this->getJammertype() . '<br />';
 	$string .= '[lastname] => ' . $this->getLastname() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
+	$string .= '[localtype] => ' . $this->getLocaltype() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[level] => ' . $this->getLevel() . '<br />';
 	$string .= '[levelvalue] => ' . $this->getLevelvalue() . '<br />';
 	foreach ($this->getMember() as $member) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 	    $string .= '[member] => ' . $member . '<br />';
+	}
+	foreach ($this->getMusic() as $music) {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[music] => ' . $music . '<br />';
 	}
 	$string .= '[password] => ' . $this->getPassword() . '<br />';
 	$string .= '[premium] => ' . $this->getPremium() . '<br />';
