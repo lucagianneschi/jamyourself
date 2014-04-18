@@ -73,7 +73,7 @@ function loadBoxMessages(user, limit, skip) {
 	    }
 	    console.log('SUCCESS: box-message ' + user);
 	    if (user == 'newmessage') {
-		autoComplete();
+	//	autoComplete();
 	    }
 
 	}).fail(function(xhr) {
@@ -189,37 +189,6 @@ function errorMesseage(num) {
     $('.' + num).addClass('newMsgError');
     var time = $('.' + num + ' .date-mine small').html();
     $('.' + num + ' .date-mine small').html('ERROR - ' + time);
-}
-
-/*
- * autocomplete per l'imput test To:
- */
-function autoComplete() {
-    try {
-	//inizializza le info in sessione
-	sendRequest("uploadAlbum", "getFeaturingJSON", {"force": true}, null, true);
-	$('#newMsg #to').select2({
-	    multiple: false,
-	    minimumInputLength: 1,
-	    width: "100%",
-	    ajax: {
-		url: "../controllers/request/messageRequest.php?request=getFeaturingJSON",
-		dataType: 'json',
-		data: function(term) {
-		    return {
-			term: term
-		    };
-		},
-		results: function(data) {
-		    return {
-			results: data
-		    };
-		}
-	    }
-	});
-    } catch (err) {
-	window.console.log("initFeaturing | An error occurred - message : " + err.message);
-    }
 }
 
 /*
