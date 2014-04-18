@@ -51,7 +51,6 @@ class SignupController extends REST {
      * mette in sessione le informazioni per corretta visualizzazione
      */
     public function init() {
-	session_start();
 	$_SESSION['captchaPublicKey'] = CAPTCHA_PUBLIC_KEY;
 	if (isset($_SESSION['SignupCaptchaValidation'])) {
 	    unset($_SESSION['SignupCaptchaValidation']);
@@ -177,7 +176,11 @@ class SignupController extends REST {
 	    $responseField = $this->request['responseField'];
 	    //da implementare
 	    $resp = recaptcha_check_answer(CAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $challengeField, $responseField);
-	    if ($resp->is_valid) {
+	    
+            //@todo da levare!!!
+            $resp->is_valid = true;
+            
+            if ($resp->is_valid) {
 		$endTimer = microtime();
 		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] recaptcha executed');
 		$_SESSION['SignupCaptchaValidation'] = true;
@@ -437,7 +440,7 @@ class SignupController extends REST {
 	    $this->setCommonValues($user, $userJSON);
 	    $user->setCollaborationCounter(-1);
 	    $user->setFirstname($userJSON->firstname);
-	    $user->setFollowerscounter(-1);
+	    $user->setFollowercounter(-1);
 	    $user->setFollowingcounter(0);
 	    $user->setFriendshipCounter(0);
 	    $user->setLastname($userJSON->lastname);
@@ -468,7 +471,7 @@ class SignupController extends REST {
 	    $user->setCountry($infoLocation['country']);
 	    $this->setCommonValues($user, $userJSON);
 	    $user->setCollaborationcounter(0);
-	    $user->setFollowerscounter(0);
+	    $user->setFollowercounter(0);
 	    $user->setFollowingcounter(-1);
 	    $user->setFriendshipcounter(-1);
 	    $user->setLatitude($latitude);
@@ -496,7 +499,7 @@ class SignupController extends REST {
 	    $user->setCountry($infoLocation['country']);
 	    $this->setCommonValues($user, $userJSON);
 	    $user->setCollaborationcounter(0);
-	    $user->setFollowerscounter(0);
+	    $user->setFollowercounter(0);
 	    $user->setFollowingcounter(-1);
 	    $user->setFriendshipCounter(-1);
 	    $user->setJammercounter(0);
@@ -508,6 +511,7 @@ class SignupController extends REST {
 		$user->setMembers($this->getMembersArray($userJSON->members));
 	    }
 	    $user->setMusic($this->getMusicArray($userJSON->genre));
+             
 	    return $user;
 	}
 	return null;
@@ -707,7 +711,6 @@ class SignupController extends REST {
 	$user->setActive(true);
 	$user->setAvatar($imgInfo['picture']);
 	$user->setBackground(DEFBGD);
-	$user->setBadge(array());
 	$user->setDescription($decoded->description);
 	$user->setEmail($decoded->email);
 	if (strlen($decoded->facebook))

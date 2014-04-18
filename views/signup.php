@@ -8,6 +8,8 @@ require_once SERVICES_DIR . 'session.service.php';
 require_once CONTROLLERS_DIR . 'signup.controller.php';
 require_once SERVICES_DIR . 'recaptcha.service.php';
 
+global $views;
+
 $sc = new SignupController();
 $sc->init();
 

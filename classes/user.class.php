@@ -156,7 +156,7 @@ class User {
     private $levelvalue;
 
     /**
-     * @property intlocaltype
+     * @property int localtype
      */
     private $localtype;
 
@@ -815,7 +815,7 @@ class User {
     }
 
     /**
-     * Sets an array of id of the music related to User
+     * Sets an array of int of the User musical tag
      * @param	array
      */
     public function setMusic($music) {
