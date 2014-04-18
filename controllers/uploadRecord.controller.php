@@ -302,15 +302,23 @@ class UploadRecordController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$endTimer = microtime();
-		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during publish "No POST action"');
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteSong "No POST action"');
 		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
 	    } elseif (!isset($_SESSION['id'])) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteSong "No User in session"');
 		$this->response($controllers['USERNOSES'], 402);
 	    } elseif ($_SESSION['type'] != "JAMMER") {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteSong "Invalid user type"');
 		$this->response(array("status" => $controllers['CLASSTYPEKO']), 403);
 	    } elseif (!isset($this->request['recordId']) || is_null($this->request['recordId']) || !(strlen($this->request['recordId']) > 0)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteSong "Invalid record"');
 		$this->response(array("status" => $controllers['NORECORDID']), 404);
 	    } elseif (!isset($this->request['songId']) || is_null($this->request['songId']) || !(strlen($this->request['songId']) > 0)) {
+		$endTimer = microtime();
+		jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Error during deleteSong "Invalid song"');
 		$this->response(array("status" => $controllers['NOSONGID']), 405);
 	    }
 	    $songId = $this->request['songId'];
