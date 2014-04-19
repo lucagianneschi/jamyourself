@@ -14,9 +14,13 @@ define('SKIPMSG', 0);
 $messageBox = new MessageBox();
 $messageBox->initForUserList();
 
-$cssNewMessage = "no-display";
+
 if (isset($user)) {
     $cssNewMessage = "";
+}
+else{
+	$cssNewMessage = "no-display";
+	$user = 'newmessage';
 }
 
 if ($messageBox->error != ONLYIFLOGGEDIN) {
@@ -85,25 +89,20 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
     		    </div>
     		    <!------------------------------------ BOX PER INVIO MESSAGGI ------------------------------->
     		    <div class="large-8 columns">
-    			<div id="box-messageSingle">						
-    			    <div class="row">
-    				<div class="large-12 columns">
-    				    <div id="spinner"></div>
-
-					<?php
-					if (!isset($user))
-					    $user = 'newmessage';
-					?>
-    				    <!--- messaggi utente ---->
-    				    <div id="msgUser">
-    					<input type="hidden" id="user" value="<?php echo $user ?>"/>										
-    					<input type="hidden" id="limit" value="<?php echo LIMITMSG ?>"/>
-    					<input type="hidden" id="skip" value="<?php echo SKIPMSG ?>"/>
-    				    </div>										
-
-    				</div>
-    			    </div>	
-    			</div>    					                                           
+	    			<div id="box-messageSingle">						
+	    			    <div class="row">
+		    				<div class="large-12 columns">
+		    				    <div id="spinner"></div>							
+		    				    <!--- messaggi utente ---->
+		    				    <div id="msgUser">
+			    					<input type="hidden" id="user" value="<?php echo $user ?>"/>										
+			    					<input type="hidden" id="limit" value="<?php echo LIMITMSG ?>"/>
+			    					<input type="hidden" id="skip" value="<?php echo SKIPMSG ?>"/>
+		    				    </div>										
+		
+		    				</div>
+	    			    </div>	
+	    			</div>    					                                           
     		    </div>
     		    <!---------------------------------- FINE BOX INVIO MESSAGGGI ------------------------------>
     		</div>

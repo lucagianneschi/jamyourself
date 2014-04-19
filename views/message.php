@@ -10,11 +10,11 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 $currentUser = $_SESSION['id'];
 
-$userId = $_GET['user'];
-if(isset($userId)){
+$user = $_GET['user'];
+if(isset($user)){
 	require_once BOXES_DIR . 'userInfo.box.php';
 	$userInfo = new UserInfoBox();
-	$userInfo->init($userId);	
+	$userInfo->init($user);	
 	$username = $userInfo->username;
 }
 

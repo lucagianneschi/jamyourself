@@ -12,8 +12,7 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
     $user = $_POST['user'];
  //   $type = $_POST['type'];
     ?>    
-    <div id="newMsg">
-    	
+    <div id="newMsg">    	
         <h5><?php echo $views['message']['write_message']; ?></h5>
         <label for="to"><small class="error"><?php echo $views['message']['valid_user']; ?></small></label>
         <input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" required>
