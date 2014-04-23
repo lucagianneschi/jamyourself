@@ -1236,6 +1236,7 @@ function signupCallback(data, status, xhr) {
 	$('#signup-ok').show('slide', {direction: "right"}, "slow");
 	alert(data.status);
     } else {
+        data = JSON.parse(data.responseText)
 	alert(data.status);
     }
 }

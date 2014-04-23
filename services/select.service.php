@@ -1967,10 +1967,12 @@ function selectUsers($connection, $id = null, $where = null, $order = null, $lim
 	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] Unable to execute query => ' . $sql);
 	return false;
     }
-    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC))
-	$rows[] = $row;
+    $rows = array();
+    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC)){
+	$rows[] = $row;        
+    }
     $users = array();
-    if (!is_array($rows)) {
+    if (!is_array($rows) || count($rows) == 0) {
 	$endTimer = microtime();
 	jamLog(__FILE__, __LINE__, '[Execution time: ' . executionTime($startTimer, $endTimer) . '] No rows returned');
 	return $users;
